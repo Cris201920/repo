@@ -1,0 +1,26 @@
+# Segredos e dados locais — nunca versionar
+.env
+.env.*
+!.env.example
+*.key
+secret.key
+tokens*.json
+data/
+*.db
+*.db-wal
+*.db-shm
+backups/
+logs/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# Build
+build/
+dist/
+*.spec.bak

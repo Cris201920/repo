@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jarmes"
+version = "0.1.0"
+description = "JARMES — assistente pessoal de estudos jurídicos e rotina para desktop"
+requires-python = ">=3.10,<3.14"
+dependencies = [
+  "PySide6>=6.7,<7",
+  "pypdf>=4.0",
+  "python-docx>=1.1",
+  "pypdfium2>=4.30",
+  "cryptography>=42",
+]
+
+[project.optional-dependencies]
+ocr = ["pytesseract>=0.3.10", "Pillow>=10"]
+keyring = ["keyring>=25"]
+vosk = ["vosk>=0.3.45"]
+dev = ["pytest>=8", "pyinstaller>=6.6"]
+
+[project.scripts]
+jarmes = "jarmes.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+jarmes = ["assets/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

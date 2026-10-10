@@ -1,0 +1,10 @@
+# OCR de imagens/PDF escaneado (exige também o programa Tesseract instalado no Windows,
+# com o pacote de idioma "por"): https://github.com/UB-Mannheim/tesseract/wiki
+pytesseract>=0.3.10
+Pillow>=10
+
+# Guardar o segredo mestre no Gerenciador de Credenciais do Windows
+keyring>=25
+
+# Reconhecimento de voz 100% local (offline). Exige baixar um modelo pt-BR do Vosk.
+vosk>=0.3.45
