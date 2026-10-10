@@ -1,0 +1,444 @@
+1
+00:00:00,300 --> 00:00:06,561
+Olá! Nesta aula você vai compreender, e não apenas decorar, os principais pontos sobre Direitos Humanos.
+
+2
+00:00:06,741 --> 00:00:10,470
+Do conceito às consequências de uma sociedade pautada na sua defesa,
+
+3
+00:00:10,466 --> 00:00:13,270
+e, no final, cinco perguntas de revisão.
+
+4
+00:00:14,140 --> 00:00:18,586
+Direitos Humanos são o conjunto de direitos considerados indispensáveis para uma vida humana,
+
+5
+00:00:18,606 --> 00:00:19,923
+pautada na liberdade,
+
+6
+00:00:19,903 --> 00:00:20,964
+na igualdade
+
+7
+00:00:20,944 --> 00:00:22,104
+e na dignidade.
+
+8
+00:00:22,324 --> 00:00:25,997
+A fórmula: liberdade, mais igualdade, mais dignidade.
+
+9
+00:00:26,217 --> 00:00:31,779
+Esses direitos buscam proteger as pessoas e assegurar condições fundamentais para uma existência digna.
+
+10
+00:00:31,999 --> 00:00:35,117
+No cotidiano, eles aparecem na liberdade de expressão,
+
+11
+00:00:35,097 --> 00:00:36,829
+na igualdade perante a lei
+
+12
+00:00:36,809 --> 00:00:39,430
+e na proteção contra tratamentos desumanos.
+
+13
+00:00:40,540 --> 00:00:44,620
+Um mesmo direito pode ser compreendido por quatro estruturas diferentes.
+
+14
+00:00:44,760 --> 00:00:47,923
+Não as confunda: cada uma mostra um modo de ver o direito.
+
+15
+00:00:48,953 --> 00:00:54,708
+Primeiro, o direito-pretensão: a possibilidade de exigir de alguém uma determinada conduta ou prestação.
+
+16
+00:00:55,008 --> 00:00:58,893
+Exemplo ilustrativo: a pretensão de receber uma prestação de saúde,
+
+17
+00:00:58,873 --> 00:01:02,125
+quando presentes os requisitos jurídicos aplicáveis.
+
+18
+00:01:03,475 --> 00:01:07,575
+Segundo, o direito-liberdade: protege uma esfera de autonomia da pessoa,
+
+19
+00:01:07,555 --> 00:01:10,116
+que pode agir sem interferências indevidas.
+
+20
+00:01:10,416 --> 00:01:14,528
+Exemplo: manifestar uma opinião, dentro dos limites jurídicos.
+
+21
+00:01:15,878 --> 00:01:20,135
+Terceiro, o direito-poder: a possibilidade de exercer uma competência
+
+22
+00:01:20,115 --> 00:01:24,159
+ou de produzir efeitos jurídicos por meio de um ato reconhecido pelo Direito.
+
+23
+00:01:24,459 --> 00:01:28,679
+Exemplo: exercer o direito de voto, observados os requisitos legais.
+
+24
+00:01:30,029 --> 00:01:35,447
+Quarto, o direito-imunidade: protege a pessoa contra determinadas formas de interferência
+
+25
+00:01:35,427 --> 00:01:38,259
+ou de sujeição ao poder de outra pessoa ou autoridade.
+
+26
+00:01:38,559 --> 00:01:42,939
+Exemplo ilustrativo: o poder de reformar a Constituição não pode ser usado
+
+27
+00:01:42,919 --> 00:01:47,196
+para abolir os direitos e garantias individuais, que são cláusulas pétreas.
+
+28
+00:01:48,546 --> 00:01:51,252
+Pretensão, liberdade, poder e imunidade:
+
+29
+00:01:51,272 --> 00:01:53,319
+quatro estruturas diferentes,
+
+30
+00:01:53,339 --> 00:01:55,567
+e não quatro nomes para a mesma coisa.
+
+31
+00:01:57,077 --> 00:01:59,762
+Quanto ao cumprimento, há dois pontos de vista.
+
+32
+00:01:59,862 --> 00:02:05,665
+No subjetivo, perguntamos: quem tem a incumbência de respeitar, proteger ou concretizar o direito?
+
+33
+00:02:05,845 --> 00:02:09,586
+Pode ser incumbência do Estado, de um particular, ou de ambos.
+
+34
+00:02:09,766 --> 00:02:13,787
+Ao Estado cabe, por exemplo, oferecer saúde e educação públicas;
+
+35
+00:02:13,767 --> 00:02:17,523
+ao empregador particular, respeitar a dignidade de quem trabalha;
+
+36
+00:02:17,503 --> 00:02:21,250
+e defender o meio ambiente é dever do Poder Público e da coletividade.
+
+37
+00:02:21,430 --> 00:02:26,033
+Ou seja: proteger Direitos Humanos não é responsabilidade exclusiva do Estado.
+
+38
+00:02:27,143 --> 00:02:31,064
+No ponto de vista objetivo, perguntamos: qual conduta é exigida?
+
+39
+00:02:31,284 --> 00:02:36,919
+Conduta ativa: exige uma ação, uma prestação ou alguma medida para proteger ou efetivar o direito.
+
+40
+00:02:37,139 --> 00:02:42,798
+Conduta passiva: exige abstenção, isto é, que alguém deixe de praticar uma interferência indevida.
+
+41
+00:02:43,988 --> 00:02:45,146
+Para fixar:
+
+42
+00:02:45,206 --> 00:02:47,153
+subjetivo é quem tem a incumbência;
+
+43
+00:02:47,253 --> 00:02:49,394
+objetivo é qual conduta é exigida.
+
+44
+00:02:49,614 --> 00:02:54,809
+Esta é uma síntese didática da classificação, e preserva o sentido jurídico dos conceitos.
+
+45
+00:02:55,999 --> 00:02:58,846
+O conteúdo dos Direitos Humanos são valores essenciais,
+
+46
+00:02:58,866 --> 00:03:03,795
+retratados expressa ou implicitamente nas Constituições e nos tratados internacionais.
+
+47
+00:03:04,015 --> 00:03:08,395
+Valores como dignidade, liberdade, igualdade e proteção da pessoa humana.
+
+48
+00:03:08,615 --> 00:03:13,507
+Essa proteção pode estar escrita no texto jurídico, ou decorrer da sua interpretação.
+
+49
+00:03:14,697 --> 00:03:17,040
+Este é um dos pontos mais importantes da aula:
+
+50
+00:03:17,060 --> 00:03:19,758
+a fundamentalidade pode ser formal ou material.
+
+51
+00:03:19,978 --> 00:03:25,661
+Fundamentalidade formal relaciona-se à inscrição, ou ao reconhecimento, do direito em um instrumento jurídico,
+
+52
+00:03:25,641 --> 00:03:30,712
+como a Constituição ou um tratado internacional, conforme o contexto jurídico considerado.
+
+53
+00:03:30,692 --> 00:03:34,297
+Aqui, o foco é a dimensão formal do reconhecimento normativo.
+
+54
+00:03:34,597 --> 00:03:37,797
+Fundamentalidade material relaciona-se ao conteúdo do direito:
+
+55
+00:03:37,777 --> 00:03:40,691
+ele é indispensável para a promoção da dignidade humana?
+
+56
+00:03:41,071 --> 00:03:42,265
+Para memorizar:
+
+57
+00:03:42,325 --> 00:03:44,583
+formal, reconhecimento jurídico;
+
+58
+00:03:44,643 --> 00:03:47,909
+material, importância do conteúdo para a dignidade humana.
+
+59
+00:03:48,049 --> 00:03:51,281
+São atalhos de memória, e não definições exaustivas.
+
+60
+00:03:52,551 --> 00:03:54,905
+Primeira marca: universalidade.
+
+61
+00:03:54,965 --> 00:03:58,756
+Os Direitos Humanos são reconhecidos como direitos de todas as pessoas,
+
+62
+00:03:58,736 --> 00:04:01,873
+sem que a sua proteção dependa de privilégios pessoais.
+
+63
+00:04:02,903 --> 00:04:05,097
+Segunda marca: essencialidade.
+
+64
+00:04:05,157 --> 00:04:09,354
+Representam valores indispensáveis à pessoa humana, que devem ser protegidos.
+
+65
+00:04:10,464 --> 00:04:15,395
+Terceira marca: superioridade normativa, também chamada de preferenciabilidade.
+
+66
+00:04:15,535 --> 00:04:20,632
+É a ideia de especial importância normativa atribuída aos Direitos Humanos em relação às demais normas,
+
+67
+00:04:20,612 --> 00:04:23,723
+respeitado o contexto constitucional e internacional.
+
+68
+00:04:23,943 --> 00:04:30,182
+Atenção: isso não significa que toda norma de Direitos Humanos prevalece automaticamente sobre qualquer outra.
+
+69
+00:04:30,402 --> 00:04:34,828
+Havendo conflito entre normas, é preciso fazer uma análise jurídica adequada.
+
+70
+00:04:35,938 --> 00:04:38,329
+Quarta marca: reciprocidade.
+
+71
+00:04:38,389 --> 00:04:43,113
+Os Direitos Humanos envolvem direitos de todas as pessoas e deveres de respeito e proteção
+
+72
+00:04:43,093 --> 00:04:45,120
+que não se limitam à atuação do Estado:
+
+73
+00:04:45,180 --> 00:04:49,197
+a coletividade e os particulares também podem ter responsabilidades.
+
+74
+00:04:50,227 --> 00:04:54,726
+Universalidade, essencialidade, superioridade normativa e reciprocidade:
+
+75
+00:04:54,866 --> 00:04:58,566
+estas são as quatro marcas distintivas dos Direitos Humanos.
+
+76
+00:04:59,916 --> 00:05:04,645
+Uma sociedade pautada na defesa dos Direitos Humanos tem duas consequências centrais.
+
+77
+00:05:04,865 --> 00:05:08,092
+A primeira: o reconhecimento do direito a ter direitos.
+
+78
+00:05:08,312 --> 00:05:12,966
+Cada pessoa deve ser reconhecida como sujeito de direitos e titular de proteção jurídica,
+
+79
+00:05:12,986 --> 00:05:17,131
+e a dignidade humana não depende de riqueza, posição social ou privilégios.
+
+80
+00:05:18,321 --> 00:05:21,204
+A segunda: a convivência e a colisão de direitos.
+
+81
+00:05:21,344 --> 00:05:24,644
+Os direitos de uma pessoa convivem com os direitos das demais.
+
+82
+00:05:24,784 --> 00:05:27,253
+Às vezes, dois direitos entram em tensão.
+
+83
+00:05:27,353 --> 00:05:34,276
+Então o Direito estabelece limites, pondera interesses e identifica qual proteção deve prevalecer nas circunstâncias concretas,
+
+84
+00:05:34,256 --> 00:05:37,233
+conforme os critérios jurídicos aplicáveis.
+
+85
+00:05:37,453 --> 00:05:42,715
+Exemplo didático: a liberdade de expressão em conflito com a honra ou a privacidade de outra pessoa.
+
+86
+00:05:42,935 --> 00:05:46,472
+O conflito não significa que um dos direitos deixa de existir.
+
+87
+00:05:46,772 --> 00:05:50,187
+Os direitos devem conviver com os direitos das outras pessoas.
+
+88
+00:05:51,697 --> 00:05:52,939
+Revisão rápida.
+
+89
+00:05:52,999 --> 00:05:56,032
+Conceito: liberdade, igualdade e dignidade.
+
+90
+00:05:56,052 --> 00:05:59,661
+Estrutura: pretensão, liberdade, poder e imunidade.
+
+91
+00:05:59,681 --> 00:06:03,195
+Cumprimento subjetivo: Estado, particular ou ambos;
+
+92
+00:06:03,175 --> 00:06:05,675
+objetivo: conduta ativa ou passiva.
+
+93
+00:06:05,695 --> 00:06:09,255
+Conteúdo: valores essenciais reconhecidos juridicamente.
+
+94
+00:06:09,275 --> 00:06:12,365
+Fundamentalidade formal: reconhecimento formal;
+
+95
+00:06:12,345 --> 00:06:15,058
+material: conteúdo essencial à dignidade.
+
+96
+00:06:15,078 --> 00:06:20,441
+Marcas: universalidade, essencialidade, superioridade normativa e reciprocidade.
+
+97
+00:06:20,461 --> 00:06:24,451
+Consequências: direito a ter direitos e convivência entre direitos.
+
+98
+00:06:25,641 --> 00:06:29,425
+Quais são os três valores centrais do conceito de Direitos Humanos?
+
+99
+00:06:32,005 --> 00:06:34,317
+Liberdade, igualdade e dignidade.
+
+100
+00:06:35,537 --> 00:06:38,802
+Quais são as quatro estruturas dos Direitos Humanos?
+
+101
+00:06:41,382 --> 00:06:45,532
+Direito-pretensão, direito-liberdade, direito-poder e direito-imunidade.
+
+102
+00:06:46,752 --> 00:06:51,194
+Qual é a diferença entre o ponto de vista subjetivo e o objetivo quanto ao cumprimento?
+
+103
+00:06:53,774 --> 00:06:58,276
+Subjetivo: quem tem a incumbência. Objetivo: qual conduta é exigida.
+
+104
+00:06:59,496 --> 00:07:02,720
+Qual é a diferença entre fundamentalidade formal e material?
+
+105
+00:07:05,300 --> 00:07:10,987
+Formal: reconhecimento jurídico. Material: importância do conteúdo para a dignidade humana.
+
+106
+00:07:12,207 --> 00:07:15,952
+Quais são as quatro marcas distintivas dos Direitos Humanos?
+
+107
+00:07:18,532 --> 00:07:23,121
+Universalidade, essencialidade, superioridade normativa e reciprocidade.
+
+108
+00:07:24,341 --> 00:07:28,667
+Mais importante do que decorar os termos é compreender a lógica dos Direitos Humanos:
+
+109
+00:07:28,727 --> 00:07:30,116
+proteger a dignidade,
+
+110
+00:07:30,136 --> 00:07:33,111
+reconhecer cada pessoa como titular de direitos
+
+111
+00:07:33,131 --> 00:07:35,963
+e permitir a convivência respeitosa entre todos.
+
