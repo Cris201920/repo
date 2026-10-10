@@ -1,0 +1,82 @@
+[
+ {
+  "id": "abertura",
+  "inicio": 0.0,
+  "duracao": 15.93
+ },
+ {
+  "id": "conceito",
+  "inicio": 15.93,
+  "duracao": 24.26
+ },
+ {
+  "id": "estrutura1",
+  "inicio": 40.19,
+  "duracao": 30.01
+ },
+ {
+  "id": "estrutura2",
+  "inicio": 70.21,
+  "duracao": 28.47
+ },
+ {
+  "id": "cumprimento1",
+  "inicio": 98.68,
+  "duracao": 32.05
+ },
+ {
+  "id": "cumprimento2",
+  "inicio": 130.73,
+  "duracao": 26.39
+ },
+ {
+  "id": "conteudo",
+  "inicio": 157.12,
+  "duracao": 20.87
+ },
+ {
+  "id": "fundamentalidade",
+  "inicio": 177.99,
+  "duracao": 35.43
+ },
+ {
+  "id": "marcas1",
+  "inicio": 213.43,
+  "duracao": 19.96
+ },
+ {
+  "id": "marcas2",
+  "inicio": 233.38,
+  "duracao": 23.07
+ },
+ {
+  "id": "marcas3",
+  "inicio": 256.45,
+  "duracao": 18.55
+ },
+ {
+  "id": "consequencias1",
+  "inicio": 275.0,
+  "duracao": 19.0
+ },
+ {
+  "id": "consequencias2",
+  "inicio": 294.0,
+  "duracao": 32.11
+ },
+ {
+  "id": "quadro",
+  "inicio": 326.12,
+  "duracao": 34.12
+ },
+ {
+  "id": "quiz",
+  "inicio": 360.24,
+  "duracao": 53.83
+ },
+ {
+  "id": "final",
+  "inicio": 414.06,
+  "duracao": 15.12
+ }
+]
