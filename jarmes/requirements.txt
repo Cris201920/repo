@@ -1,0 +1,12 @@
+# Interface desktop (inclui Multimídia e Text-to-Speech do Qt)
+PySide6>=6.7,<7
+
+# Documentos
+pypdf>=4.0
+python-docx>=1.1
+pypdfium2>=4.30        # renderiza páginas de PDF escaneado para OCR
+
+# Segurança (criptografia dos tokens em repouso)
+cryptography>=42
+
+# Opcionais — instale conforme o recurso desejado (ver requirements-optional.txt)
