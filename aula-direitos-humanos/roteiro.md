@@ -4,22 +4,22 @@ Formato 16:9, 1920×1080, 30 fps · paleta azul-marinho / branco / dourado / cin
 
 | # | Cena | Início | Duração (voz provisória) |
 |---|---|---|---|
-| 1 | `abertura` — ABERTURA | — | — s |
-| 2 | `conceito` — BLOCO 1 · CONCEITO | — | — s |
-| 3 | `estrutura1` — BLOCO 2 · ESTRUTURA | — | — s |
-| 4 | `estrutura2` — BLOCO 2 · ESTRUTURA | — | — s |
-| 5 | `cumprimento1` — BLOCO 3 · CUMPRIMENTO | — | — s |
-| 6 | `cumprimento2` — BLOCO 3 · CUMPRIMENTO | — | — s |
-| 7 | `conteudo` — BLOCO 4 · CONTEÚDO | — | — s |
-| 8 | `fundamentalidade` — BLOCO 5 · FUNDAMENTALIDADE | — | — s |
-| 9 | `marcas1` — BLOCO 6 · MARCAS DISTINTIVAS | — | — s |
-| 10 | `marcas2` — BLOCO 6 · MARCAS DISTINTIVAS | — | — s |
-| 11 | `marcas3` — BLOCO 6 · MARCAS DISTINTIVAS | — | — s |
-| 12 | `consequencias1` — BLOCO 7 · CONSEQUÊNCIAS | — | — s |
-| 13 | `consequencias2` — BLOCO 7 · CONSEQUÊNCIAS | — | — s |
-| 14 | `quadro` — REVISÃO FINAL | — | — s |
-| 15 | `quiz` — REVISÃO ATIVA | — | — s |
-| 16 | `final` — ENCERRAMENTO | — | — s |
+| 1 | `abertura` — ABERTURA | 0:00 | 15.93 s |
+| 2 | `conceito` — BLOCO 1 · CONCEITO | 0:15 | 24.26 s |
+| 3 | `estrutura1` — BLOCO 2 · ESTRUTURA | 0:40 | 30.01 s |
+| 4 | `estrutura2` — BLOCO 2 · ESTRUTURA | 1:10 | 28.47 s |
+| 5 | `cumprimento1` — BLOCO 3 · CUMPRIMENTO | 1:38 | 32.05 s |
+| 6 | `cumprimento2` — BLOCO 3 · CUMPRIMENTO | 2:10 | 26.39 s |
+| 7 | `conteudo` — BLOCO 4 · CONTEÚDO | 2:37 | 20.87 s |
+| 8 | `fundamentalidade` — BLOCO 5 · FUNDAMENTALIDADE | 2:57 | 35.43 s |
+| 9 | `marcas1` — BLOCO 6 · MARCAS DISTINTIVAS | 3:33 | 19.96 s |
+| 10 | `marcas2` — BLOCO 6 · MARCAS DISTINTIVAS | 3:53 | 23.07 s |
+| 11 | `marcas3` — BLOCO 6 · MARCAS DISTINTIVAS | 4:16 | 18.55 s |
+| 12 | `consequencias1` — BLOCO 7 · CONSEQUÊNCIAS | 4:35 | 19.0 s |
+| 13 | `consequencias2` — BLOCO 7 · CONSEQUÊNCIAS | 4:54 | 32.11 s |
+| 14 | `quadro` — REVISÃO FINAL | 5:26 | 34.12 s |
+| 15 | `quiz` — REVISÃO ATIVA | 6:00 | 53.83 s |
+| 16 | `final` — ENCERRAMENTO | 6:54 | 15.12 s |
 
 As durações com a **sua voz** serão as da sua gravação (+1,5 s por cena de respiro).
 
