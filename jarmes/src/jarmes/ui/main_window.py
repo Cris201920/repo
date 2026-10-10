@@ -304,6 +304,7 @@ class MainWindow(QMainWindow):
         if self._quitting or not (self.ctx.settings.get("close_to_tray") and self.tray is not None):
             self._finish()
             e.accept()
+            QApplication.quit()          # quitOnLastWindowClosed está desligado (bandeja); encerra explicitamente
             return
         e.ignore()
         self.hide()
