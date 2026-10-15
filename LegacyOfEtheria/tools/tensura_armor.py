@@ -93,12 +93,15 @@ if __name__ == "__main__" and sys.argv[1] == "preview":
     sheet.save(out); print(names)
 
 # ------------------------------------------------------------------ aplicação nos conjuntos do addon
-MAP = {   # conjunto do addon -> (modelo do Tensura, recolorir para a cor do conjunto?)
-  "iron_reinforced": ("low_magisteel_armor", False), "knight": ("high_magisteel_armor", False), "arcane": ("pure_magisteel_armor", True),
+MAP = {   # 6.41: IDÊNTICO AO MOD — cada conjunto usa uma armadura do Tensura com as cores e a textura originais (sem recolorir, sem suavizar)
+  "iron_reinforced": ("low_magisteel_armor", False), "knight": ("high_magisteel_armor", False), "arcane": ("pure_magisteel_armor", False),
   "celestial": ("holy_armaments_armor", False), "archevoker": ("orichalcum_armor", False), "plagued": ("armoursaurus_armor", False),
-  "void": ("hihiirokane_armor", False), "shadow": ("adamantite_armor", True), "cultist": ("adamantite_armor", True),
-  "pyromancer": ("charybdis_scalemail", True), "shadowwalker": ("mithril_armor", True), "rimuru_outfit": ("dark_set", False),
+  "void": ("hihiirokane_armor", False), "shadow": ("adamantite_armor", False), "rimuru_outfit": ("dark_set", False),
+  # armaduras de CAMADA do mod (modelo padrão de armadura do jogo + textura layer_1/layer_2 do mod)
+  "pyromancer": ("layer:ant_carapace", False), "cultist": ("layer:knight_spider_carapace", False), "shadowwalker": ("layer:serpent_scalemail", False),
 }
+IDENTICAL = True   # True = textura e ícone exatamente como no mod (pixel a pixel)
+VANILLA_GEO = {"helmet": "geometry.humanoid.armor.helmet", "chest": "geometry.humanoid.armor.chestplate", "legs": "geometry.humanoid.armor.leggings", "boots": "geometry.humanoid.armor.boots"}
 # peças que o modelo do conjunto não tem (ex.: Holy Armaments não tem capacete) usam a peça de outro modelo, com textura própria
 PART_OVERRIDE = {("celestial", "helmet"): "pure_magisteel_armor"}
 ICON = {"helmet": "helmet", "chest": "chestplate", "legs": "leggings", "boots": "boots"}
@@ -135,10 +138,30 @@ def apply(TA):
     hide = "!(c.owning_entity->q.property('etheria:lform') == 'true' || c.owning_entity->q.property('etheria:lform') == 'draconic')"
     done = []
     for sid, (model, rec) in MAP.items():
+        if model.startswith("layer:"):
+            base = model[6:]
+            for part in ("helmet", "chest", "legs", "boots"):
+                att = os.path.join(RP, f"attachables/{sid}_{part}.attachable.json")
+                if not os.path.exists(att): continue
+                layer = "2" if part == "legs" else "1"
+                src = os.path.join(TA, f"textures/models/armor/{base}_layer_{layer}.png")
+                texrel = f"textures/models/armor/etheria_t_{sid}_{layer}"
+                Image.open(src).convert("RGBA").save(os.path.join(RP, texrel + ".png"))
+                a = json.load(open(att)); desc = a["minecraft:attachable"]["description"]
+                desc["geometry"] = {"default": VANILLA_GEO[part]}; desc["textures"]["default"] = texrel
+                desc["materials"] = {"default": "armor", "enchanted": "armor_enchanted"}; desc["scripts"] = {"parent_setup": f"variable.{VIS[part]} = 0.0;"}
+                desc["render_controllers"] = [{"controller.render.armor": hide}]; desc.pop("animations", None)
+                json.dump(a, open(att, "w"), indent=1)
+                ip = os.path.join(TA, "textures/item", f"{base}_{ICON[part]}.png")
+                icon_p = os.path.join(RP, f"textures/items/etheria_{sid}_{part}.png")
+                if os.path.exists(ip): ic = Image.open(ip).convert("RGBA"); ic.crop((0, 0, ic.width, ic.width)).resize((ic.width * 4, ic.width * 4), Image.NEAREST).save(icon_p)
+                itx["texture_data"][f"etheria_{sid}_{part}"] = {"textures": f"textures/items/etheria_{sid}_{part}"}
+                done.append(f"{sid}_{part}")
+            continue
         d = load(os.path.join(TA, "geo/armor", model + ".geo.json"))
         tex = texture_of(TA, model); col = ASETS[sid][0] if sid in ASETS else None
         if rec and col: tex = recolor(tex, col, trim=ASETS[sid][2])
-        tex = smooth(tex, 4)   # 6.36: alta resolução (sem aspecto de pixel); a geometria continua com o tamanho declarado
+        if not IDENTICAL: tex = smooth(tex, 4)
         tex.save(os.path.join(RP, f"textures/models/armor/etheria_t_{sid}.png"))
         for part in ("helmet", "chest", "legs", "boots"):
             att = os.path.join(RP, f"attachables/{sid}_{part}.attachable.json")
@@ -147,7 +170,7 @@ def apply(TA):
             dpart, texrel = d, f"textures/models/armor/etheria_t_{sid}"
             if (sid, part) in PART_OVERRIDE:
                 om = PART_OVERRIDE[(sid, part)]; dpart = load(os.path.join(TA, "geo/armor", om + ".geo.json"))
-                ot = texture_of(TA, om); ot = smooth(ot, 4); texrel = f"textures/models/armor/etheria_t_{sid}_{part}"; ot.save(os.path.join(RP, texrel + ".png"))
+                ot = texture_of(TA, om); ot = ot if IDENTICAL else smooth(ot, 4); texrel = f"textures/models/armor/etheria_t_{sid}_{part}"; ot.save(os.path.join(RP, texrel + ".png"))
             g = piece_geo(dpart, gid, part)
             if not any(b.get("cubes") for b in g["minecraft:geometry"][0]["bones"]): continue
             json.dump(g, open(os.path.join(RP, f"models/entity/etheria_t_{sid}_{part}.geo.json"), "w"), indent=1)
@@ -163,7 +186,7 @@ def apply(TA):
             if os.path.exists(src):
                 ic = Image.open(src).convert("RGBA"); ic = ic.crop((0, 0, ic.width, ic.width))
                 if rec and col: ic = recolor(ic, col, trim=ASETS[sid][2])
-                smooth(ic.resize((16, 16), Image.NEAREST), 6).save(icon_p)
+                (ic.resize((ic.width * 4, ic.width * 4), Image.NEAREST) if IDENTICAL else smooth(ic.resize((16, 16), Image.NEAREST), 6)).save(icon_p)
             else:
                 render_icon(model_of(d, PIECE[part]), tex, size=96, view=(200, 12, 0)).save(icon_p)
             itx["texture_data"][f"etheria_{sid}_{part}"] = {"textures": f"textures/items/etheria_{sid}_{part}"}

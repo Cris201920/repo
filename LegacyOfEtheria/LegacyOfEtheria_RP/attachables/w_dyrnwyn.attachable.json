@@ -4,7 +4,7 @@
   "description": {
    "identifier": "etheria:dyrnwyn",
    "materials": {
-    "default": "entity_emissive_alpha",
+    "default": "entity_alphatest",
     "enchanted": "entity_alphatest_glint"
    },
    "textures": {

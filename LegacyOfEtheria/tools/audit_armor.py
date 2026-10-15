@@ -22,6 +22,11 @@ for iid, slot in sorted(wear.items()):
     if not att: problems.append((iid, "sem attachable (usa armadura vanilla?)")); continue
     gid = att["geometry"]["default"]; tex = att["textures"]["default"]
     g = GEO.get(gid)
+    if not g and gid.startswith("geometry.humanoid.armor."):   # modelo padrão de armadura do jogo (textura de camada 64x32)
+        tp = os.path.join(RP, tex + ".png")
+        if not os.path.exists(tp): problems.append((iid, f"textura ausente {tex}"))
+        else: ok += 1
+        continue
     if not g: problems.append((iid, f"geometria ausente {gid}")); continue
     tp = os.path.join(RP, tex + ".png")
     if not os.path.exists(tp): problems.append((iid, f"textura ausente {tex}")); continue

@@ -687,6 +687,8 @@ CONVERTED = {   # item -> (modelo, textura)
 }
 def main():
     W = [w for w in load_weapons() if w.get("wtype") in ("sword", "dagger")]
+    mw = os.path.join(os.path.dirname(__file__), "mod_weapons.json")   # 6.41: armas idênticas ao mod (tools/mod_weapons.py) não são sobrescritas
+    if os.path.exists(mw): skip = set(json.load(open(mw))); W = [w for w in W if w["id"].split(":")[1] not in skip]
     os.makedirs(os.path.join(RP, "textures/attachable"), exist_ok=True)
     report = []
     for w in W:

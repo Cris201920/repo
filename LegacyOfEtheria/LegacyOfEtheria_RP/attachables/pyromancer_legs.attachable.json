@@ -8,11 +8,11 @@
     "enchanted": "armor_enchanted"
    },
    "textures": {
-    "default": "textures/models/armor/etheria_t_pyromancer",
+    "default": "textures/models/armor/etheria_t_pyromancer_2",
     "enchanted": "textures/misc/enchanted_item_glint"
    },
    "geometry": {
-    "default": "geometry.etheria_t_pyromancer_legs"
+    "default": "geometry.humanoid.armor.leggings"
    },
    "scripts": {
     "parent_setup": "variable.leg_layer_visible = 0.0;"

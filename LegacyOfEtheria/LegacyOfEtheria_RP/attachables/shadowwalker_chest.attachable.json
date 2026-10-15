@@ -8,11 +8,11 @@
     "enchanted": "armor_enchanted"
    },
    "textures": {
-    "default": "textures/models/armor/etheria_t_shadowwalker",
+    "default": "textures/models/armor/etheria_t_shadowwalker_1",
     "enchanted": "textures/misc/enchanted_item_glint"
    },
    "geometry": {
-    "default": "geometry.etheria_t_shadowwalker_chest"
+    "default": "geometry.humanoid.armor.chestplate"
    },
    "scripts": {
     "parent_setup": "variable.chest_layer_visible = 0.0;"
