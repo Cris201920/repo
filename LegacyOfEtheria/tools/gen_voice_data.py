@@ -3,9 +3,10 @@
 #   CUES[cerim] = instantes (ms) em que cada frase começa (detecção de fala por volume a cada 50 ms), para sincronizar as legendas.
 import os, json, subprocess, array, math, glob
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SND = os.path.join(ROOT, "LegacyOfEtheria_RP/sounds/etheria/sage")
+ROOTS = [os.path.join(ROOT, p, "sounds/etheria/sage") for p in ("LegacyOfEtheria_RP", "LegacyOfEtheria_Voz")]
 dur, cues = {}, {}
-for f in sorted(glob.glob(SND + "/*/*.ogg")):
+for f in sorted(x for r in ROOTS for x in glob.glob(r + "/**/*.ogg", recursive=True)):
+    SND = next(r for r in ROOTS if f.startswith(r))
     rel = os.path.relpath(f, SND)[:-4].replace(os.sep, ".")       # ex.: voice.tsuzukete, tier.unique, ceremony.true_demon_lord
     d = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", f]).decode().strip())
     dur[rel] = int(round(d * 1000))

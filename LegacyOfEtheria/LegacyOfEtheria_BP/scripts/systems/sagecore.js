@@ -5,7 +5,7 @@
 // Visual evolui por estágio: Sábio (octaedro) · Grande Sábio (icosaedro) · Raphael (icosaedro duplo) · Ciel (dodecaedro orgânico).
 // Nas cenas principais (habilidade obtida, evolução, descoberta nova, All of Creation) também surge o ANEL DE GLIFOS: uma única partícula com a imagem
 // do Grande Sábio (sageRing, textura em tools/sagering.py), com fade, giro lento e ~2,6 s de vida, no máximo 1 a cada 8 s por jogador.
-import { announceSkill, announceEvolution, announceCeremony, announceLordAwakening, announcing } from "./sageannounce.js";
+import { announceSkill, announceEvolution, announceCeremony, announceLordAwakening, announcing, raceKey } from "./sageannounce.js";
 import { RACES } from "../data/races.js";
 import { system, world } from "@minecraft/server";
 import { getData, markDirty } from "../core/db.js";
@@ -342,11 +342,11 @@ export function evolutionScene(p, stage) {
   if (!alive(p) || !enabled(p)) return;
   const id = stage?.id ?? "", big = /_(3[ab]|4)$/.test(id) || /_ld$/.test(id), tdl = TDL(id), name = (stage?.name ?? "EVOLUÇÃO").toUpperCase();
   { // anúncio (sistema de referência): Lorde Demônio = Festival da Colheita + Verdadeiro Lorde Demônio; Herói = Ovo de Herói; Campeão = Verdadeiro Herói
-    const from = RACES[stage?.race]?.stages?.[stage?.from]?.name ?? "?", evo = { from, to: stage?.name ?? "?" };
+    const from = RACES[stage?.race]?.stages?.[stage?.from]?.name ?? "?", evo = { from, to: stage?.name ?? "?", fromKey: raceKey(stage?.from, from), toKey: raceKey(stage?.id, stage?.name) };
     if (tdl) announceLordAwakening(p, evo);
     else if (id === "human_2a") announceCeremony(p, "hero_egg", evo);
     else if (id === "human_3a") announceCeremony(p, "true_hero", evo);
-    else announceEvolution(p, evo.from, evo.to);
+    else announceEvolution(p, evo.from, evo.to, stage?.from, stage?.id);
   }
   play(p, 5, (end, ok) => {
     const s = stageOf(p), x = ctx(p, 2.5), at = () => ({ x: p.location.x, y: p.location.y + 1.2, z: p.location.z });

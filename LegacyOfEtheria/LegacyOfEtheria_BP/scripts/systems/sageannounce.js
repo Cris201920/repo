@@ -19,6 +19,7 @@
 //   digitadas (420 ms por linha) e "impacto" a cada nome (onda de choque + clarão, recriando o título), legendas sincronizadas, paginação.
 import { world, system } from "@minecraft/server";
 import { DUR, CUES } from "../data/sagevoice.gen.js";
+import { SKILL_CLIP, RACE_CLIP, SAGE_CLIP } from "../data/sagevoicemap.js";
 import { getData, markDirty } from "../core/db.js";
 import { nextStages, isLordStage } from "../data/races.js";
 import { titleGuard } from "../core/utils.js";
@@ -67,8 +68,11 @@ const enabled = (p) => { try { return getData(p)?.settings?.cinematic !== false;
 const ok = (p) => { try { return p.isValid; } catch { return false; } };
 
 /** emit: igual à referência — com áudio, agenda o passo e avança duração + 30 ms; sem áudio, avança o tempo reserva */
-function emit(steps, key, at, fallback) { const d = dur(key); if (d <= 0) return at + fallback; steps.push({ key, at }); return at + d + 30; }
+function emit(steps, key, at, fallback) { const d = key ? dur(key) : 0; if (d <= 0) return at + fallback; steps.push({ key, at }); return at + d + 30; }
 
+/** áudio que fala o nome: habilidade (mesmo id ou mapa), raça (id do estágio) ou etapa do Sábio */
+export const skillKey = (id) => { const k = SKILL_CLIP[id] ?? id; return DUR[`skill.${k}`] ? `skill.${k}` : ""; };
+export const raceKey = (stageId, name) => { const k = RACE_CLIP[stageId] ?? SAGE_CLIP[name]; return k && DUR[`race.${k}`] ? `race.${k}` : k && DUR[`skill.${k}`] ? `skill.${k}` : ""; };
 /** monta o anúncio. o = { ceremony?, evolution?: {from, to}, analysis?: {name}, entries: [{id, name, tier}], notice } */
 export function build(o, L) {
   const steps = [], lines = [], sub = []; let c = 0;
@@ -80,9 +84,9 @@ export function build(o, L) {
     cueSubtitles(sub, T.sub[o.ceremony], CUES[o.ceremony] ?? [], start);
     if (o.evolution) {
       c = emit(steps, "voice.tsuzukete", c, 0);
-      lines.push({ type: "RACE_FROM", text: o.evolution.from, at: c }); c += NAME_MS;
+      lines.push({ type: "RACE_FROM", text: o.evolution.from, at: c }); c = emit(steps, o.evolution.fromKey, c, NAME_MS);
       c = emit(steps, "voice.yori", c, 0);
-      lines.push({ type: "RACE_TO", text: o.evolution.to, at: c }); c += NAME_MS;
+      lines.push({ type: "RACE_TO", text: o.evolution.to, at: c }); c = emit(steps, o.evolution.toKey, c, NAME_MS);
       c = emit(steps, "voice.e_no_shinka", c, 0);
     }
   } else if (o.evolution) {
@@ -90,13 +94,13 @@ export function build(o, L) {
     if (o.notice) { sub.push({ text: S[0], at: c }); c = emit(steps, "voice.koku", c, 0); sub.push({ text: S[1], at: c }); c = emit(steps, "voice.shinka_jouken", c, CER_MS); }
     c += 2600;
     sub.push({ text: S[2], at: c }); c = emit(steps, "voice.shounin", c, 700);
-    lines.push({ type: "RACE_FROM", text: o.evolution.from, at: c }); c += NAME_MS;
+    lines.push({ type: "RACE_FROM", text: o.evolution.from, at: c }); c = emit(steps, o.evolution.fromKey, c, NAME_MS);
     c = emit(steps, "voice.yori", c, 0);
-    lines.push({ type: "RACE_TO", text: o.evolution.to, at: c }); c += NAME_MS;
+    lines.push({ type: "RACE_TO", text: o.evolution.to, at: c }); c = emit(steps, o.evolution.toKey, c, NAME_MS);
     sub.push({ text: S[3], at: c }); c = emit(steps, "voice.e_no_shinka", c, 0);
   } else if (o.analysis) {
     if (o.notice) c = emit(steps, "voice.koku", c, 0);
-    lines.push({ type: "ANALYSED", text: o.analysis.name, at: c }); c += NAME_MS;
+    lines.push({ type: "ANALYSED", text: o.analysis.name, at: c }); c = emit(steps, o.analysis.key, c, NAME_MS);
     sub.push({ text: T.sub.analysis, at: c }); c = emit(steps, "voice.kaiseki_kanryou", c, 0);
   } else if (o.notice) c = emit(steps, "voice.koku", c, 0);
   // categorias, na ordem configurada; o que não estiver na ordem vai ao fim
@@ -108,7 +112,7 @@ export function build(o, L) {
     if (before) c = emit(steps, "voice.tsuzukete", c, 0);
     before = true;
     lines.push({ type: "TIER", text: T.tier[t], tier: t, at: c }); c = emit(steps, `tier.${t}`, c, TIER_MS);
-    for (const e of g) { lines.push({ type: "SKILL", text: e.name, tier: t, at: c }); c += NAME_MS; }
+    for (const e of g) { lines.push({ type: "SKILL", text: e.name, tier: t, at: c }); c = emit(steps, skillKey(e.id), c, NAME_MS); }
   }
   if (o.notice && (o.entries ?? []).length && !o.ceremony && !o.evolution) { c = emit(steps, "voice.no_kakutoku", c, 0); c = emit(steps, "voice.seiko_shimashita", c, 0); }
   for (const l of lines) if (l.type === "SKILL" || l.type === "ANALYSED") steps.push({ key: "sfx.skill", at: l.at });
@@ -177,11 +181,11 @@ export function announceLordAwakening(p, evolution) {
   submitAnn(p, { ceremony: "harvest_festival", entries: [], notice: false });
   submitAnn(p, { ceremony: "true_demon_lord", evolution, entries: s.pending.splice(0), notice: false });
 }
-export function announceEvolution(p, from, to) {
+export function announceEvolution(p, from, to, fromId, toId) {
   if (!ok(p)) return;
   if (!enabled(p)) { try { p.sendMessage(`§6${from} §7» §6${to}`); } catch { /* ignore */ } return; }
   const s = st(p); if (s.pendTimer) { system.clearRun(s.pendTimer); s.pendTimer = 0; }
-  submitAnn(p, { evolution: { from, to }, entries: s.pending.splice(0), notice: true });
+  submitAnn(p, { evolution: { from, to, fromKey: raceKey(fromId, from), toKey: raceKey(toId, to) }, entries: s.pending.splice(0), notice: true });
 }
 export function announceAnalysis(p, name) { if (ok(p) && enabled(p)) submitAnn(p, { analysis: { name }, entries: [], notice: true }); }
 
