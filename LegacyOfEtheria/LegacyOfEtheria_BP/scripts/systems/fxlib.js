@@ -347,3 +347,14 @@ export function vbolt(c, a, b, o = {}) {
     prev = cur;
   }
 }
+/** Partículas com as texturas do mod Tensura (RP/particles/tx_*.json, flipbook). name: black_lightning | purple_lightning | red_lightning | lightning |
+ *  fire | black_fire | plasma | gust | heat | bubble_pop | hell_flare | lightning_ball | fire_bolt | magic_circle */
+export function tx(c, name, pos, o = {}) {
+  if (!canSpawn(c)) return;
+  const d = o.dir ?? [0, 1, 0], k = col(o.col ?? "white");
+  setv("dx", d[0]); setv("dy", d[1]); setv("dz", d[2]); setv("spd", o.spd ?? 0);
+  setv("ax", o.acc?.[0] ?? 0); setv("ay", o.acc?.[1] ?? 0); setv("az", o.acc?.[2] ?? 0); setv("drag", o.drag ?? 0.6);
+  setv("r", k[0]); setv("g", k[1]); setv("b", k[2]); setv("a", o.a ?? 1);
+  setv("size", o.size ?? 0.6); setv("life", o.life ?? 0.5); setv("grow", o.grow ?? 0); setv("rot", o.rot ?? 40); setv("flat", o.flat ? 1 : 0);
+  try { c.dim.spawnParticle(`etheria:tx_${name}`, pos, MAP); } catch { /* ignore */ }
+}

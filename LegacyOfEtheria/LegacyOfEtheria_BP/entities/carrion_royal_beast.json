@@ -20,8 +20,8 @@
     "height": 3.4
    },
    "minecraft:health": {
-    "value": 1980,
-    "max": 1980
+    "value": 13000,
+    "max": 13000
    },
    "minecraft:movement": {
     "value": 0.34
@@ -42,7 +42,7 @@
     "is_pushable_by_piston": true
    },
    "minecraft:attack": {
-    "damage": 42
+    "damage": 85
    },
    "minecraft:nameable": {},
    "minecraft:loot": {
@@ -84,7 +84,7 @@
    },
    "minecraft:persistent": {},
    "minecraft:knockback_resistance": {
-    "value": 0.9
+    "value": 1.0
    },
    "minecraft:variant": {
     "value": 0
@@ -97,6 +97,18 @@
    "minecraft:follow_range": {
     "value": 56,
     "max": 80
+   },
+   "minecraft:damage_sensor": {
+    "triggers": [
+     {
+      "cause": "entity_attack",
+      "damage_multiplier": 0.7
+     },
+     {
+      "cause": "projectile",
+      "damage_multiplier": 0.7
+     }
+    ]
    }
   }
  }

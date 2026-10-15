@@ -19,8 +19,8 @@
     "height": 2.8
    },
    "minecraft:health": {
-    "value": 40,
-    "max": 40
+    "value": 1000,
+    "max": 1000
    },
    "minecraft:movement": {
     "value": 0.22
@@ -41,7 +41,7 @@
     "is_pushable_by_piston": true
    },
    "minecraft:attack": {
-    "damage": 9
+    "damage": 20
    },
    "minecraft:nameable": {},
    "minecraft:loot": {
@@ -89,6 +89,9 @@
    "minecraft:follow_range": {
     "value": 24,
     "max": 32
+   },
+   "minecraft:knockback_resistance": {
+    "value": 1.0
    }
   },
   "component_groups": {

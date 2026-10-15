@@ -41,7 +41,7 @@
     "is_pushable_by_piston": true
    },
    "minecraft:attack": {
-    "damage": 17
+    "damage": 10
    },
    "minecraft:nameable": {},
    "minecraft:loot": {
@@ -89,6 +89,21 @@
    "minecraft:follow_range": {
     "value": 24,
     "max": 32
+   },
+   "minecraft:knockback_resistance": {
+    "value": 0.2
+   },
+   "minecraft:damage_sensor": {
+    "triggers": [
+     {
+      "cause": "entity_attack",
+      "damage_multiplier": 0.94
+     },
+     {
+      "cause": "projectile",
+      "damage_multiplier": 0.94
+     }
+    ]
    }
   },
   "component_groups": {

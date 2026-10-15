@@ -949,10 +949,10 @@ export const MOBS = {
    90,
    225
   ],
-  "hp": 1144,
+  "hp": 15000,
   "role": "demon",
   "rar": "special",
-  "dmg": 29,
+  "dmg": 90,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -987,10 +987,10 @@ export const MOBS = {
    120,
    300
   ],
-  "hp": 1408,
+  "hp": 20000,
   "role": "holy",
   "rar": "special",
-  "dmg": 34,
+  "dmg": 105,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -1031,10 +1031,10 @@ export const MOBS = {
    180,
    450
   ],
-  "hp": 3000,
+  "hp": 30000,
   "role": "holy",
   "rar": "boss",
-  "dmg": 46,
+  "dmg": 120,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -1075,10 +1075,10 @@ export const MOBS = {
    240,
    600
   ],
-  "hp": 3000,
+  "hp": 15000,
   "role": "demon",
   "rar": "boss",
-  "dmg": 46,
+  "dmg": 85,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -1113,10 +1113,10 @@ export const MOBS = {
    80,
    200
   ],
-  "hp": 6000,
+  "hp": 40000,
   "role": "storm",
   "rar": "boss",
-  "dmg": 56,
+  "dmg": 150,
   "drops": [
    [
     "etheria:dragon_essence",
@@ -1175,10 +1175,10 @@ export const MOBS = {
    70,
    180
   ],
-  "hp": 5200,
+  "hp": 38000,
   "role": "frost",
   "rar": "boss",
-  "dmg": 52,
+  "dmg": 145,
   "drops": [
    [
     "etheria:dragon_essence",
@@ -1231,10 +1231,10 @@ export const MOBS = {
    75,
    190
   ],
-  "hp": 5600,
+  "hp": 38000,
   "role": "flame",
   "rar": "boss",
-  "dmg": 54,
+  "dmg": 145,
   "drops": [
    [
     "etheria:dragon_essence",
@@ -1287,10 +1287,10 @@ export const MOBS = {
    160,
    420
   ],
-  "hp": 9500,
+  "hp": 60000,
   "role": "arcane",
   "rar": "boss",
-  "dmg": 72,
+  "dmg": 180,
   "drops": [
    [
     "etheria:dragon_essence",
@@ -1349,10 +1349,10 @@ export const MOBS = {
    40,
    120
   ],
-  "hp": 1540,
+  "hp": 10000,
   "role": "beast_king",
   "rar": "special",
-  "dmg": 34,
+  "dmg": 70,
   "drops": [
    [
     "etheria:wolf_fang",
@@ -1411,10 +1411,10 @@ export const MOBS = {
    60,
    160
   ],
-  "hp": 1980,
+  "hp": 13000,
   "role": "beast_king",
   "rar": "special",
-  "dmg": 42,
+  "dmg": 85,
   "drops": [
    [
     "etheria:wolf_fang",
@@ -1473,10 +1473,10 @@ export const MOBS = {
    30,
    90
   ],
-  "hp": 1080,
+  "hp": 6000,
   "role": "golem",
   "rar": "special",
-  "dmg": 34,
+  "dmg": 50,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -1523,10 +1523,10 @@ export const MOBS = {
    300,
    750
   ],
-  "hp": 3000,
+  "hp": 20000,
   "role": "boss_char",
   "rar": "boss",
-  "dmg": 46,
+  "dmg": 100,
   "drops": [
    [
     "etheria:hp_potion_l",
@@ -1573,10 +1573,10 @@ export const MOBS = {
    200,
    500
   ],
-  "hp": 1800,
+  "hp": 2500,
   "role": "boss_char",
   "rar": "boss",
-  "dmg": 34,
+  "dmg": 30,
   "drops": [
    [
     "etheria:hp_potion_l",
@@ -2823,10 +2823,10 @@ export const MOBS = {
    160,
    420
   ],
-  "hp": 5500,
+  "hp": 30000,
   "role": "arcane",
   "rar": "boss",
-  "dmg": 56,
+  "dmg": 120,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -2879,10 +2879,10 @@ export const MOBS = {
    150,
    400
   ],
-  "hp": 4200,
+  "hp": 26000,
   "role": "shadow",
   "rar": "boss",
-  "dmg": 52,
+  "dmg": 115,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -2929,10 +2929,10 @@ export const MOBS = {
    135,
    360
   ],
-  "hp": 3800,
+  "hp": 20000,
   "role": "flame",
   "rar": "boss",
-  "dmg": 48,
+  "dmg": 100,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -2991,10 +2991,10 @@ export const MOBS = {
    130,
    346
   ],
-  "hp": 3800,
+  "hp": 20000,
   "role": "arcane",
   "rar": "boss",
-  "dmg": 48,
+  "dmg": 100,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -3053,10 +3053,10 @@ export const MOBS = {
    125,
    333
   ],
-  "hp": 3600,
+  "hp": 20000,
   "role": "wind",
   "rar": "boss",
-  "dmg": 46,
+  "dmg": 100,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -3109,10 +3109,10 @@ export const MOBS = {
    200,
    533
   ],
-  "hp": 6200,
+  "hp": 34000,
   "role": "slime",
   "rar": "boss",
-  "dmg": 60,
+  "dmg": 140,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -3171,10 +3171,10 @@ export const MOBS = {
    60,
    160
   ],
-  "hp": 1540,
+  "hp": 8000,
   "role": "slime",
   "rar": "special",
-  "dmg": 31,
+  "dmg": 60,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -3227,10 +3227,10 @@ export const MOBS = {
    55,
    146
   ],
-  "hp": 1364,
+  "hp": 9000,
   "role": "flame",
   "rar": "special",
-  "dmg": 34,
+  "dmg": 70,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -3283,10 +3283,10 @@ export const MOBS = {
    55,
    146
   ],
-  "hp": 1408,
+  "hp": 9000,
   "role": "brute",
   "rar": "special",
-  "dmg": 35,
+  "dmg": 75,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -3409,10 +3409,10 @@ export const MOBS = {
    80,
    213
   ],
-  "hp": 1980,
+  "hp": 9000,
   "role": "shadow",
   "rar": "legendary",
-  "dmg": 39,
+  "dmg": 70,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -3611,10 +3611,10 @@ export const MOBS = {
    130,
    346
   ],
-  "hp": 3600,
+  "hp": 20000,
   "role": "slime",
   "rar": "boss",
-  "dmg": 46,
+  "dmg": 100,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -3673,10 +3673,10 @@ export const MOBS = {
    225,
    600
   ],
-  "hp": 7500,
+  "hp": 36000,
   "role": "flame",
   "rar": "boss",
-  "dmg": 68,
+  "dmg": 150,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -3735,10 +3735,10 @@ export const MOBS = {
    212,
    566
   ],
-  "hp": 7000,
+  "hp": 36000,
   "role": "shadow",
   "rar": "boss",
-  "dmg": 66,
+  "dmg": 140,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -3817,10 +3817,10 @@ export const MOBS = {
    55,
    146
   ],
-  "hp": 1364,
+  "hp": 12000,
   "role": "holy",
   "rar": "special",
-  "dmg": 34,
+  "dmg": 80,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -3873,10 +3873,10 @@ export const MOBS = {
    57,
    153
   ],
-  "hp": 1408,
+  "hp": 10000,
   "role": "holy",
   "rar": "special",
-  "dmg": 35,
+  "dmg": 75,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -4075,10 +4075,10 @@ export const MOBS = {
    150,
    400
   ],
-  "hp": 1400,
+  "hp": 12000,
   "role": "arcane",
   "rar": "boss",
-  "dmg": 34,
+  "dmg": 80,
   "drops": [
    [
     "etheria:demonite_shard",
@@ -4233,10 +4233,10 @@ export const MOBS = {
    100,
    333
   ],
-  "hp": 3200,
+  "hp": 15000,
   "role": "slime",
   "rar": "boss",
-  "dmg": 56,
+  "dmg": 100,
   "drops": [
    [
     "etheria:wolf_fang",
@@ -4589,10 +4589,10 @@ export const MOBS = {
    5,
    16
   ],
-  "hp": 50,
+  "hp": 250,
   "role": "flame",
   "rar": "uncommon",
-  "dmg": 18,
+  "dmg": 10,
   "drops": [
    [
     "etheria:wolf_fang",
@@ -4627,10 +4627,10 @@ export const MOBS = {
    25,
    83
   ],
-  "hp": 450,
+  "hp": 2000,
   "role": "flame",
   "rar": "legendary",
-  "dmg": 24,
+  "dmg": 40,
   "drops": [
    [
     "etheria:wolf_fang",
@@ -4867,10 +4867,10 @@ export const MOBS = {
    40,
    133
   ],
-  "hp": 720,
+  "hp": 3000,
   "role": "golem",
   "rar": "legendary",
-  "dmg": 48,
+  "dmg": 50,
   "drops": [
    [
     "etheria:wolf_fang",
@@ -5101,10 +5101,10 @@ export const MOBS = {
    300,
    700
   ],
-  "hp": 3600,
+  "hp": 3500,
   "role": "brute",
   "rar": "boss",
-  "dmg": 34,
+  "dmg": 50,
   "drops": [
    [
     "etheria:orc_tusk",
@@ -5151,10 +5151,10 @@ export const MOBS = {
    4,
    13
   ],
-  "hp": 40,
+  "hp": 1000,
   "role": "brute",
   "rar": "uncommon",
-  "dmg": 9,
+  "dmg": 20,
   "drops": [
    [
     "etheria:wolf_fang",
@@ -6124,10 +6124,10 @@ export const MOBS = {
    32,
    108
   ],
-  "hp": 715,
+  "hp": 5000,
   "role": "holy",
   "rar": "special",
-  "dmg": 26,
+  "dmg": 20,
   "drops": [
    [
     "etheria:tt_dead_end_rainbow",
@@ -6177,7 +6177,7 @@ export const MOBS = {
   "hp": 300,
   "role": "flame",
   "rar": "special",
-  "dmg": 17,
+  "dmg": 10,
   "drops": [
    [
     "etheria:tt_shizue_sword",

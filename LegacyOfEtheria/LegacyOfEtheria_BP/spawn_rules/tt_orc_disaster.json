@@ -8,7 +8,7 @@
   "conditions": [
    {
     "minecraft:weight": {
-     "default": 4
+     "default": 1
     },
     "minecraft:herd": {
      "min_size": 1,
@@ -22,7 +22,7 @@
      "min": 60,
      "max": 120,
      "identifier": "etheria:tt_orc_disaster",
-     "spawn_chance": 30
+     "spawn_chance": 15
     },
     "minecraft:difficulty_filter": {
      "min": "easy",
@@ -31,11 +31,25 @@
     "minecraft:spawns_on_surface": {},
     "minecraft:density_limit": {
      "surface": 1
+    },
+    "minecraft:biome_filter": {
+     "any_of": [
+      {
+       "test": "has_biome_tag",
+       "operator": "==",
+       "value": "desert"
+      },
+      {
+       "test": "has_biome_tag",
+       "operator": "==",
+       "value": "mesa"
+      }
+     ]
     }
    },
    {
     "minecraft:weight": {
-     "default": 4
+     "default": 1
     },
     "minecraft:herd": {
      "min_size": 1,
@@ -49,7 +63,7 @@
      "min": 60,
      "max": 120,
      "identifier": "etheria:tt_orc_disaster",
-     "spawn_chance": 30
+     "spawn_chance": 15
     },
     "minecraft:difficulty_filter": {
      "min": "easy",
@@ -57,7 +71,21 @@
     },
     "minecraft:spawns_underground": {},
     "minecraft:density_limit": {
-     "underground": 1
+     "surface": 1
+    },
+    "minecraft:biome_filter": {
+     "any_of": [
+      {
+       "test": "has_biome_tag",
+       "operator": "==",
+       "value": "desert"
+      },
+      {
+       "test": "has_biome_tag",
+       "operator": "==",
+       "value": "mesa"
+      }
+     ]
     }
    }
   ]

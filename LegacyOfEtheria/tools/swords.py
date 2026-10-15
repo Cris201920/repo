@@ -145,6 +145,125 @@ def paint(theme, rank, seed, arch):
             x, y = rnd.randrange(w), rnd.randrange(h); px[x0 + x, y0 + y] = (255, 255, 240, 255)
     return im
 
+# ------------------------------------------------------------------ 6.36: pintura em ALTA RESOLUÇÃO (sem aspecto de pixel)
+# Mesmo layout de REG (coordenadas do atlas 128), mas desenhado em 128*HD px: o modelo continua declarando 128x128 e o jogo
+# usa a imagem maior (UV normalizado), então cada pixel do modelo vira HDxHD texels lisos.
+HD = 4
+def paint_hd(theme, rank, seed, arch):
+    import numpy as np
+    from PIL import ImageFilter
+    T = THEMES[theme]; rnd = np.random.default_rng(abs(hash(seed)) % (2 ** 32)); S = HD
+    W = AT * S; img = np.zeros((W, W, 4), np.float32); img[..., 3] = 255
+    A = lambda c: np.array(c, np.float32)
+    def region(name):
+        x, y, w, h = REG[name]; return slice(y * S, (y + h) * S), slice(x * S, (x + w) * S), w * S, h * S
+    def grid(w, h): yy, xx = np.mgrid[0:h, 0:w].astype(np.float32); return xx, yy
+    def noise(h, w, sc=6.0, amp=1.0):
+        n = rnd.standard_normal((max(2, int(h / sc)), max(2, int(w / sc)))).astype(np.float32)
+        im = Image.fromarray(((n - n.min()) / (np.ptp(n) + 1e-6) * 255).astype(np.uint8)).resize((w, h), Image.BICUBIC)
+        return (np.asarray(im, np.float32) / 255 - 0.5) * 2 * amp
+    # --- lâmina: chanfro do gume, espinha, sulco com gravação, polimento longitudinal e reflexo
+    ys, xs, w, h = region("flat"); xx, yy = grid(w, h)
+    t = np.abs(xx - (w - 1) / 2) / ((w - 1) / 2)                       # 0 centro .. 1 gume
+    base = A(T["blade"]); edge = A(T["edge"])
+    shade = 0.72 + 0.28 * np.clip(t * 1.4, 0, 1)
+    col = base[None, None, :] * shade[..., None]
+    bev = np.clip((t - 0.66) / 0.34, 0, 1)[..., None]
+    col = col * (1 - bev) + edge[None, None, :] * bev * (0.9 + 0.1 * np.cos(yy / h * 9)[..., None])
+    brushed = noise(h, w, sc=1.2, amp=0.035) + noise(h, w, sc=24, amp=0.05)
+    col *= (1 + brushed + 0.08 * np.sin(yy / (h / 7.0)))[..., None]
+    spec = np.exp(-((xx - w * 0.36) / (w * 0.05)) ** 2) * 0.35        # reflexo especular
+    col += 255 * spec[..., None]
+    if arch != "katana":
+        ful = np.exp(-((xx - (w - 1) / 2) / (w * 0.06)) ** 2) * ((yy > h * 0.08) & (yy < h * 0.92))
+        col *= (1 - 0.42 * ful)[..., None]
+    else:   # hamon ondulado (linha temperada) perto do gume
+        wave = 0.62 + 0.06 * np.sin(yy / (h / 26.0)) + 0.025 * np.sin(yy / (h / 71.0))
+        hm = np.clip(1 - np.abs(t - wave) / 0.05, 0, 1) ** 1.5
+        hcol = A(T["glow"] if T["glow"] else (245, 248, 255))
+        col = col * (1 - 0.75 * hm[..., None]) + hcol[None, None, :] * 0.75 * hm[..., None]
+        col[t > wave] = col[t > wave] * 0.75 + A((236, 240, 248)) * 0.25 if not T["glow"] else col[t > wave] * 0.8 + hcol * 0.2
+    img[ys, xs, :3] = col
+    # gravação (runas finas e filigrana) ao longo do sulco
+    if rank >= 2:
+        im = Image.fromarray(np.clip(img[ys, xs, :3], 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im)
+        rc = tuple(int(v) for v in (T["rune"] or T["accent"]))
+        cx = w / 2
+        for k in range(int(h * 0.12), int(h * 0.82), int(S * 7)):
+            g = rnd.integers(0, 5); sz = S * 1.6
+            if g == 0: d.ellipse([cx - sz, k - sz, cx + sz, k + sz], outline=rc, width=max(1, S // 2))
+            elif g == 1: d.line([(cx - sz, k + sz), (cx, k - sz), (cx + sz, k + sz)], fill=rc, width=max(1, S // 2))
+            elif g == 2: d.line([(cx, k - sz), (cx, k + sz)], fill=rc, width=max(1, S // 2)); d.line([(cx - sz, k), (cx + sz, k)], fill=rc, width=max(1, S // 3))
+            elif g == 3: d.arc([cx - sz, k - sz, cx + sz, k + sz], 200, 340, fill=rc, width=max(1, S // 2))
+            else: d.polygon([(cx, k - sz), (cx + sz * 0.7, k), (cx, k + sz), (cx - sz * 0.7, k)], outline=rc)
+        for side in (-1, 1):   # filetes paralelos
+            xline = cx + side * w * 0.2
+            d.line([(xline, h * 0.06), (xline, h * 0.9)], fill=tuple(int(v * 0.8) for v in rc), width=max(1, S // 3))
+        img[ys, xs, :3] = np.asarray(im.filter(ImageFilter.GaussianBlur(0.4)), np.float32)
+    if theme in ("cosmic", "prism"):
+        for _ in range(140):
+            x0, y0 = rnd.integers(0, w), rnd.integers(0, h); r = rnd.uniform(0.5, 1.6) * S / 2
+            yy0, xx0 = np.ogrid[0:h, 0:w]
+    # --- gume (fio): degradê fino com brilho
+    ys, xs, w, h = region("edge"); xx, yy = grid(w, h)
+    g = 0.82 + 0.25 * (xx / w) + noise(h, w, sc=1.5, amp=0.03)
+    img[ys, xs, :3] = A(T["edge"])[None, None, :] * g[..., None]
+    # --- metais (guarda, acento, pomo): metal escovado + filigrana curva + borda chanfrada
+    for name, basec in (("guard", T["guard"]), ("accent", T["accent"]), ("pommel", T["guard"])):
+        ys, xs, w, h = region(name); xx, yy = grid(w, h)
+        v = 0.7 + 0.5 * (1 - yy / h) + noise(h, w, sc=1.3, amp=0.04)
+        col = A(basec)[None, None, :] * v[..., None]
+        fil = (np.sin(xx / (S * 1.6) + np.sin(yy / (S * 2.2)) * 2) > 0.92) | (np.sin(yy / (S * 1.6) + np.cos(xx / (S * 2.2)) * 2) > 0.94)
+        col[fil] *= 1.3
+        border = np.minimum(np.minimum(xx, w - 1 - xx), np.minimum(yy, h - 1 - yy)) / (S * 1.2)
+        col *= np.clip(0.55 + 0.45 * border, 0.55, 1.12)[..., None]
+        img[ys, xs, :3] = col
+    # --- cabo: trama em losango com sombra (tsuka-ito na katana) e pele por baixo
+    ys, xs, w, h = region("grip"); xx, yy = grid(w, h)
+    per = S * 6
+    u = ((xx + yy) % per) / per; v2 = ((xx - yy) % per) / per
+    band = np.minimum(np.abs(u - 0.5), np.abs(v2 - 0.5)) * 2
+    wrap = np.clip(1 - band * 1.6, 0, 1)
+    under = A(T["accent"] if arch == "katana" else T["grip"]) * 0.75
+    col = under[None, None, :] * (1 - wrap[..., None]) + A(T["grip"])[None, None, :] * (0.65 + 0.6 * wrap)[..., None]
+    col *= (1 + noise(h, w, sc=1.3, amp=0.05))[..., None]
+    img[ys, xs, :3] = col
+    # --- gemas lapidadas: facetas radiais, núcleo luminoso e brilho especular
+    for name, basec in (("gem", T["gem"]), ("gem2", T["accent"])):
+        ys, xs, w, h = region(name); xx, yy = grid(w, h)
+        dx, dy = (xx - w / 2) / (w / 2), (yy - h / 2) / (h / 2); r = np.sqrt(dx ** 2 + dy ** 2); ang = np.arctan2(dy, dx)
+        facet = 0.85 + 0.25 * np.cos(np.round(ang / (np.pi / 4)) * (np.pi / 4) * 3)
+        col = A(basec)[None, None, :] * ((1.6 - r) * facet)[..., None]
+        hl = np.exp(-(((xx - w * 0.33) / (w * 0.1)) ** 2 + ((yy - h * 0.3) / (h * 0.1)) ** 2))
+        col += 255 * hl[..., None]
+        img[ys, xs, :3] = col
+        if rank >= 4: img[ys, xs, 3] = 60
+    ys, xs, w, h = region("dark"); xx, yy = grid(w, h)
+    img[ys, xs, :3] = A(T["guard"])[None, None, :] * (0.42 + noise(h, w, sc=2, amp=0.05))[..., None]
+    ys, xs, w, h = region("glow"); xx, yy = grid(w, h)
+    gl = A(T["glow"] or T["edge"]); r = np.sqrt((xx - w / 2) ** 2 + (yy - h / 2) ** 2) / (w / 2)
+    img[ys, xs, :3] = (A((255, 255, 255))[None, None, :] * (1 - np.clip(r, 0, 1))[..., None] + gl[None, None, :] * np.clip(r, 0, 1)[..., None])
+    img[ys, xs, 3] = 0 if T["glow"] else 255
+    ys, xs, w, h = region("scale"); xx, yy = grid(w, h)
+    sx_ = S * 4; row = (yy // sx_).astype(int); off = (row % 2) * sx_ / 2
+    lx = ((xx + off) % sx_) / sx_; ly = (yy % sx_) / sx_
+    sc_ = np.clip(1 - np.sqrt((lx - 0.5) ** 2 + (ly - 0.15) ** 2) * 1.4, 0, 1)
+    img[ys, xs, :3] = A(T["accent"] if theme == "dragon" else T["guard"])[None, None, :] * (0.45 + 0.75 * sc_)[..., None]
+    out = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8), "RGBA")
+    if theme in ("cosmic", "prism"):
+        d = ImageDraw.Draw(out); x0, y0, w0, h0 = [v * S for v in REG["flat"]]
+        for _ in range(120):
+            x, y, r = x0 + rnd.uniform(0, w0), y0 + rnd.uniform(0, h0), rnd.uniform(0.4, 1.4) * S / 2
+            d.ellipse([x - r, y - r, x + r, y + r], fill=(255, 255, 240, 255))
+    return out
+
+def smooth_up(tex, k=4):
+    """amplia texturas de pixel art (modelos convertidos) sem serrilhado: vizinho mais próximo + suavização + nitidez"""
+    from PIL import ImageFilter
+    big = tex.resize((tex.width * k, tex.height * k), Image.NEAREST)
+    rgb = big.convert("RGB").filter(ImageFilter.GaussianBlur(k * 0.35)).filter(ImageFilter.UnsharpMask(radius=k, percent=80, threshold=2))
+    out = rgb.convert("RGBA"); out.putalpha(big.split()[3]); return out
+
 # ------------------------------------------------------------------ montagem procedural (lâmina ao longo de +Y, largura em Z, espessura em X)
 class Model:
     def __init__(s, tw=AT, th=AT): s.cubes, s.tw, s.th = [], tw, th
@@ -523,15 +642,15 @@ def render_icon(m, tex, size=64, view=(-78, 14, -45)):
     texrgb = tex.convert("RGBA")
     for z, q, uv, fn in sorted(polys, key=lambda t: t[0]):
         dst = [((p[0] - cx) * sc + W / 2, W / 2 - (p[1] - cy) * sc) for p in q]
-        u0, v0 = uv["uv"]; uw, vh = uv["uv_size"]
+        k_ = texrgb.width / m.tw; u0, v0 = [q * k_ for q in uv["uv"]]; uw, vh = [q * k_ for q in uv["uv_size"]]
         src = [(u0, v0), (u0 + uw, v0), (u0 + uw, v0 + vh), (u0, v0 + vh)]
         try:
             coeffs = persp(dst, src)
-            warped = texrgb.transform((W, W), Image.PERSPECTIVE, coeffs, Image.NEAREST)
+            warped = texrgb.transform((W, W), Image.PERSPECTIVE, coeffs, Image.BILINEAR if texrgb.width > m.tw else Image.NEAREST)
         except Exception: continue
         mask = Image.new("L", (W, W), 0); ImageDraw.Draw(mask).polygon(dst, fill=255)
         r, g, b, a = warped.split(); a = a.point(lambda v: 255)     # ícone opaco (o alfa da textura é brilho, não transparência)
-        if texrgb.mode == "RGBA" and m.tw != AT: a = warped.split()[3].point(lambda v: 255 if v > 20 else 0)
+        if texrgb.mode == "RGBA" and m.tw != AT and not getattr(m, "opaque", False): a = warped.split()[3].point(lambda v: 255 if v > 20 else 0)
         f = light.get(fn, 0.8)
         shaded = Image.merge("RGBA", (r.point(lambda v: int(v * f)), g.point(lambda v: int(v * f)), b.point(lambda v: int(v * f)), a))
         m2 = Image.composite(mask, Image.new("L", (W, W), 0), a)
@@ -576,14 +695,15 @@ def main():
             emissive = False
         else:
             th, ar = theme_of(w), arch_of(w)
-            tex = paint(th, rank, sid, ar); m = build_procedural(th, ar, rank, sid); src = f"procedural {ar}/{th}"
+            tex = paint_hd(th, rank, sid, ar); m = build_procedural(th, ar, rank, sid); src = f"procedural {ar}/{th} HD"
             emissive = rank >= 4 and THEMES[th]["glow"] is not None
             if not emissive: tex.putalpha(255)
-        tex.save(os.path.join(RP, texrel + ".png"))
+        if tex.width <= AT: tex = smooth_up(tex, max(1, (AT * HD) // tex.width) if tex.width < AT * HD else 1)
+        tex.quantize(256, method=Image.Quantize.FASTOCTREE).save(os.path.join(RP, texrel + ".png"), optimize=True)
         json.dump(geo_json(gid, m), open(os.path.join(RP, f"models/entity/etheria_w_{sid}.geo.json"), "w"), indent=1)
         json.dump(attachable_json(iid, gid, texrel, emissive), open(os.path.join(RP, f"attachables/w_{sid}.attachable.json"), "w"), indent=1)
         it = tex.copy(); it.putalpha(255) if emissive else None
-        icon = render_icon(m, it, view=view); icon.save(os.path.join(RP, f"textures/items/etheria_{sid}.png"))
+        icon = render_icon(m, it, size=128, view=view); icon.save(os.path.join(RP, f"textures/items/etheria_{sid}.png"))
         report.append((sid, src, len(m.cubes)))
     for r in report: print(*r)
     print(len(report), "armas")

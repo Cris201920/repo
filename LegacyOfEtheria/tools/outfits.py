@@ -173,7 +173,9 @@ def upsert(text, anchor_line, key, obj):
     i = text.index(anchor_line); return text[:i] + blk + text[i:]
 
 def main():
-    tex = paint(); tex.save(os.path.join(RP, "textures/models/armor/etheria_tensura_outfits.png"))
+    tex = paint()
+    from tensura_armor import smooth
+    hd = smooth(tex, 4); hd.save(os.path.join(RP, "textures/models/armor/etheria_tensura_outfits.png"))   # 6.36: alta resolução
     texrel = "textures/models/armor/etheria_tensura_outfits"
     itx = json.load(open(os.path.join(RP, "textures/item_texture.json")))
     items_f = os.path.join(BP, "scripts/data/items.gen.js"); items = open(items_f).read()
@@ -192,7 +194,7 @@ def main():
             for c in cubes:   # pernas/botas levemente separadas no ícone (leitura no inventário)
                 dx = -0.8 if "Right" in c[0] and part in ("legs", "boots") else 0.8 if "Left" in c[0] and part in ("legs", "boots") else 0
                 m.box([c[1][0] + dx, c[1][1], c[1][2]], c[2], F(c[3]), c[4], [c[5][0] + dx, c[5][1], c[5][2]] if c[5] else None)
-            ic = render_icon(m, tex, size=32, view=(205, 30 if part == "boots" else 14, 0))
+            ic = render_icon(m, hd, size=96, view=(205, 30 if part == "boots" else 14, 0))
             if not tens: ic.save(os.path.join(RP, f"textures/items/etheria_{short}.png"))
             itx["texture_data"][f"etheria_{short}"] = {"textures": f"textures/items/etheria_{short}"}
             item = {"format_version": "1.21.60", "minecraft:item": {"description": {"identifier": iid, "menu_category": {"category": "equipment"}},

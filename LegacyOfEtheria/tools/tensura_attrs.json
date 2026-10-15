@@ -1,0 +1,585 @@
+{
+"OrcDisasterEntity": {
+"armor": 20.0,
+"attack": 50.0,
+"hp": 700.0,
+"speed": 0.2,
+"follow": 64.0,
+"kbres": 1.0,
+"swim": 3.0,
+"range": 4.0
+},
+"GiantCodEntity": {
+"hp": 15.0,
+"attack": 4.0,
+"kb": 1.0,
+"armor": 1.0,
+"kbres": 0.5,
+"follow": 64.0,
+"speed": 1.0
+},
+"MetalSlimeEntity": {
+"hp": 20.0,
+"attack": 1.0,
+"kbres": 1.0,
+"armor": 10.0,
+"follow": 64.0,
+"f_22288_": 1.2,
+"speed": 2.0
+},
+"OrcLordEntity": {
+"attack": 20.0,
+"hp": 200.0,
+"speed": 0.15,
+"follow": 64.0,
+"kbres": 1.0,
+"swim": 3.0,
+"range": 3.0
+},
+"OrcEntity": {
+"attack": 1.5,
+"hp": 28.0,
+"speed": 0.2,
+"follow": 32.0,
+"kbres": 0.5,
+"swim": 2.0,
+"range": 1.0
+},
+"HellMothEntity": {
+"hp": 40.0,
+"fly": 0.6,
+"attack": 6.0,
+"follow": 20.0,
+"speed": 0.25,
+"kbres": 0.3
+},
+"LeechLizardEntity": {
+"attack": 8.0,
+"hp": 35.0,
+"speed": 0.3,
+"follow": 32.0,
+"kbres": 0.1
+},
+"GiantSalmonEntity": {
+"hp": 15.0,
+"attack": 4.0,
+"kb": 1.0,
+"armor": 1.0,
+"kbres": 0.5,
+"speed": 1.0
+},
+"HornedBearEntity": {
+"attack": 10.0,
+"hp": 48.0,
+"speed": 0.2,
+"follow": 32.0,
+"armor": 2.0,
+"kbres": 0.1,
+"f_22288_": 0.7
+},
+"HornedRabbitEntity": {
+"attack": 10.0,
+"hp": 20.0,
+"speed": 0.4,
+"follow": 32.0
+},
+"MegalodonEntity": {
+"hp": 70.0,
+"attack": 20.0,
+"armor": 10.0,
+"follow": 48.0,
+"speed": 0.4,
+"fly": 0.5,
+"kbres": 1.0,
+"swim": 5.0
+},
+"LandfishEntity": {
+"attack": 6.0,
+"hp": 16.0,
+"speed": 0.2,
+"follow": 32.0,
+"kbres": 0.01
+},
+"GoblinEntity": {
+"attack": 1.0,
+"hp": 12.0,
+"speed": 0.15,
+"follow": 32.0,
+"kbres": 0.0,
+"swim": 1.0,
+"range": 1.0
+},
+"GiantBatEntity": {
+"hp": 45.0,
+"attack": 8.0,
+"follow": 32.0,
+"speed": 0.3,
+"kbres": 0.8
+},
+"ArmoursaurusEntity": {
+"armor": 20.0,
+"hp": 80.0,
+"follow": 24.0,
+"attack": 16.0,
+"speed": 0.25,
+"kbres": 0.7,
+"f_22288_": 0.5,
+"swim": 4.0
+},
+"IfritEntity": {
+"armor": 5.0,
+"attack": 40.0,
+"hp": 400.0,
+"speed": 0.2,
+"follow": 64.0,
+"kbres": 1.0,
+"range": 3.0
+},
+"WarGnomeEntity": {
+"armor": 20.0,
+"attack": 40.0,
+"hp": 400.0,
+"speed": 0.2,
+"follow": 64.0,
+"kbres": 1.0,
+"range": 3.0,
+"swim": 3.0
+},
+"DirewolfEntity": {
+"attack": 6.0,
+"hp": 35.0,
+"speed": 0.2,
+"follow": 32.0,
+"armor": 0.0,
+"kbres": 0.2,
+"f_22288_": 1.0,
+"swim": 3.0
+},
+"HolyCowEntity": {
+"hp": 20.0,
+"speed": 0.2
+},
+"HoverLizardEntity": {
+"f_22288_": 1.0,
+"hp": 30.0,
+"attack": 5.0,
+"armor": 2.0,
+"speed": 0.3,
+"kbres": 0.01,
+"follow": 32.0,
+"swim": 3.0
+},
+"UnicornEntity": {
+"f_22288_": 1.0,
+"hp": 40.0,
+"speed": 0.38,
+"kbres": 0.01,
+"follow": 32.0
+},
+"HellCaterpillarEntity": {
+"hp": 8.0,
+"follow": 32.0,
+"attack": 1.0,
+"speed": 0.15,
+"kbres": 0.2
+},
+"AquaFrogEntity": {
+"armor": 5.0,
+"hp": 50.0,
+"attack": 15.0,
+"follow": 32.0,
+"f_22288_": 1.5,
+"kbres": 0.3,
+"speed": 0.35,
+"swim": 5.0
+},
+"DragonPeacockEntity": {
+"hp": 16.0,
+"attack": 3.0,
+"follow": 32.0,
+"speed": 0.3
+},
+"SpearToroEntity": {
+"attack": 18.0,
+"hp": 50.0,
+"speed": 0.15,
+"follow": 32.0,
+"armor": 4.0,
+"kbres": 0.5,
+"f_22288_": 2.0
+},
+"KnightSpiderEntity": {
+"armor": 8.0,
+"hp": 90.0,
+"follow": 32.0,
+"attack": 22.0,
+"speed": 0.35,
+"kbres": 0.9,
+"f_22288_": 2.0,
+"swim": 2.0
+},
+"GiantBearEntity": {
+"attack": 18.0,
+"hp": 40.0,
+"speed": 0.2,
+"follow": 32.0,
+"armor": 8.0,
+"kbres": 0.4,
+"f_22288_": 1.0,
+"swim": 2.0
+},
+"CharybdisEntity": {
+"hp": 3000.0,
+"attack": 100.0,
+"armor": 20.0,
+"follow": 256.0,
+"speed": 0.3,
+"fly": 0.01,
+"kbres": 1.0,
+"swim": 7.0
+},
+"ElementalColossusEntity": {
+"armor": 40.0,
+"hp": 600.0,
+"follow": 64.0,
+"attack": 50.0,
+"kb": 2.0,
+"speed": 0.25,
+"kbres": 1.0,
+"f_22288_": 2.5,
+"swim": 1.0,
+"range": 2.0
+},
+"FeatheredSerpentEntity": {
+"hp": 60.0,
+"attack": 20.0,
+"armor": 10.0,
+"follow": 32.0,
+"speed": 0.3,
+"fly": 0.3,
+"kbres": 0.5
+},
+"SupermassiveSlimeEntity": {
+"hp": 200.0,
+"armor": 2.0,
+"attack": 20.0,
+"kbres": 1.0,
+"follow": 32.0,
+"f_22288_": 3.0,
+"speed": 2.3,
+"swim": 4.0
+},
+"GiantAntEntity": {
+"armor": 4.0,
+"hp": 45.0,
+"follow": 32.0,
+"attack": 8.0,
+"speed": 0.32,
+"kbres": 0.8,
+"swim": 2.0
+},
+"BladeTigerEntity": {
+"attack": 20.0,
+"hp": 100.0,
+"speed": 0.2,
+"follow": 32.0,
+"armor": 10.0,
+"kbres": 0.6,
+"f_22288_": 1.5
+},
+"UndineEntity": {
+"armor": 5.0,
+"attack": 40.0,
+"hp": 400.0,
+"speed": 0.25,
+"follow": 64.0,
+"kbres": 1.0,
+"range": 3.0,
+"swim": 3.0
+},
+"BeastGnomeEntity": {
+"attack": 28.0,
+"hp": 80.0,
+"speed": 0.3,
+"follow": 32.0,
+"armor": 10.0,
+"kbres": 1.0,
+"f_22288_": 2.0,
+"swim": 2.0
+},
+"WingedCatEntity": {
+"hp": 50.0,
+"attack": 20.0,
+"armor": 5.0,
+"follow": 32.0,
+"speed": 0.3,
+"fly": 0.3,
+"kbres": 0.2
+},
+"LizardmanEntity": {
+"attack": 2.0,
+"hp": 24.0,
+"speed": 0.2,
+"follow": 32.0,
+"kbres": 0.2,
+"swim": 4.0,
+"range": 1.0
+},
+"HoundDogEntity": {
+"attack": 6.0,
+"hp": 30.0,
+"speed": 0.2,
+"follow": 32.0,
+"kbres": 0.1
+},
+"SissieEntity": {
+"attack": 24.0,
+"hp": 80.0,
+"speed": 0.2,
+"follow": 64.0,
+"armor": 5.0,
+"kbres": 0.4,
+"f_22288_": 2.0
+},
+"SylphideEntity": {
+"armor": 5.0,
+"attack": 40.0,
+"hp": 400.0,
+"speed": 0.25,
+"follow": 64.0,
+"kbres": 1.0,
+"range": 3.0,
+"swim": 3.0
+},
+"AkashEntity": {
+"armor": 5.0,
+"attack": 20.0,
+"hp": 240.0,
+"speed": 0.25,
+"follow": 64.0,
+"kbres": 1.0,
+"range": 3.0,
+"swim": 3.0
+},
+"SalamanderEntity": {
+"attack": 6.0,
+"hp": 30.0,
+"speed": 0.2,
+"follow": 32.0,
+"kbres": 0.2,
+"range": 1.0
+},
+"ArmyWaspEntity": {
+"hp": 60.0,
+"attack": 8.0,
+"armor": 4.0,
+"follow": 32.0,
+"speed": 0.3,
+"fly": 0.3,
+"kbres": 0.1
+},
+"SlimeEntity": {
+"hp": 5.0,
+"attack": 0.5,
+"follow": 32.0,
+"f_22288_": 0.3,
+"kbres": 1.0,
+"speed": 0.45,
+"swim": 4.0
+},
+"BarghestEntity": {
+"attack": 6.0,
+"hp": 40.0,
+"speed": 0.2,
+"follow": 32.0,
+"kbres": 0.2
+},
+"IfritCloneEntity": {
+"armor": 5.0,
+"attack": 10.0,
+"hp": 50.0,
+"speed": 0.2,
+"follow": 64.0,
+"kbres": 1.0,
+"range": 3.0
+},
+"BlackSpiderEntity": {
+"armor": 6.0,
+"hp": 65.0,
+"follow": 32.0,
+"attack": 10.0,
+"speed": 0.25,
+"kbres": 0.6,
+"f_22288_": 1.5,
+"swim": 2.0
+},
+"BulldeerEntity": {
+"hp": 30.0,
+"attack": 5.0,
+"speed": 0.25,
+"kbres": 0.01,
+"follow": 16.0
+},
+"OneEyedOwlEntity": {
+"hp": 10.0,
+"attack": 1.0,
+"kbres": 0.01,
+"follow": 64.0,
+"speed": 0.15
+},
+"KiraraMizutaniEntity": {
+"armor": 0.0,
+"attack": 10.0,
+"hp": 150.0,
+"speed": 0.25,
+"follow": 32.0,
+"swim": 1.0,
+"range": 2.0
+},
+"MaiFurukiEntity": {
+"armor": 10.0,
+"attack": 30.0,
+"kb": 2.0,
+"hp": 300.0,
+"speed": 0.3,
+"follow": 32.0,
+"kbres": 0.5,
+"swim": 1.0,
+"range": 2.0
+},
+"KyoyaTachibanaEntity": {
+"armor": 5.0,
+"attack": 5.0,
+"hp": 200.0,
+"speed": 0.25,
+"follow": 32.0,
+"swim": 1.0,
+"range": 2.0
+},
+"FalmuthKnightEntity": {
+"armor": 20.0,
+"attack": 10.0,
+"kb": 1.0,
+"hp": 50.0,
+"speed": 0.25,
+"follow": 32.0,
+"kbres": 0.5,
+"swim": 1.0,
+"range": 2.0,
+"f_22287_": 0.1
+},
+"ShogoTaguchiEntity": {
+"armor": 0.0,
+"attack": 20.0,
+"kb": 5.0,
+"hp": 200.0,
+"speed": 0.2,
+"follow": 32.0,
+"kbres": 0.0,
+"swim": 1.0,
+"range": 2.0
+},
+"ShinRyuseiEntity": {
+"armor": 5.0,
+"attack": 20.0,
+"kb": 1.0,
+"hp": 400.0,
+"speed": 0.25,
+"follow": 32.0,
+"kbres": 0.5,
+"swim": 1.0,
+"range": 2.0
+},
+"ShizuEntity": {
+"armor": 5.0,
+"attack": 10.0,
+"hp": 60.0,
+"speed": 0.25,
+"follow": 32.0,
+"kbres": 0.2,
+"swim": 1.0,
+"range": 2.0
+},
+"CloneEntity": {
+"attack": 1.0,
+"armor": 0.0,
+"toughness": 0.0,
+"hp": 20.0,
+"speed": 0.2,
+"follow": 32.0,
+"kbres": 0.0,
+"swim": 2.0,
+"range": 1.0,
+"NAMETAG_DISTANCE": 64.0,
+"BARRIER": 0.0,
+"SIZE": 0.0,
+"MAX_SPIRITUAL_HEALTH": 20.0,
+"CRIT_CHANCE": 0.0,
+"CRIT_MULTIPLIER": 0.0,
+"SWEEP_CHANCE": 0.0,
+"JUMP_POWER": 0.42
+},
+"HinataSakaguchiEntity": {
+"armor": 50.0,
+"attack": 20.0,
+"hp": 1000.0,
+"speed": 0.35,
+"follow": 64.0,
+"kbres": 0.8,
+"swim": 3.0,
+"range": 3.0
+},
+"MarkLaurenEntity": {
+"armor": 15.0,
+"attack": 10.0,
+"hp": 500.0,
+"speed": 0.2,
+"follow": 32.0,
+"swim": 1.0,
+"range": 2.0
+},
+"FolgenEntity": {
+"armor": 30.0,
+"attack": 20.0,
+"kb": 2.0,
+"hp": 500.0,
+"speed": 0.3,
+"follow": 32.0,
+"kbres": 0.75,
+"swim": 1.0,
+"range": 2.0,
+"f_22287_": 0.2
+},
+"ShinjiTanimuraEntity": {
+"armor": 10.0,
+"attack": 10.0,
+"hp": 400.0,
+"speed": 0.2,
+"follow": 32.0,
+"swim": 1.0,
+"range": 2.0
+},
+"MadOgreOrbsEntity": {
+"hp": 1.0
+},
+"TempestSerpentEntity": {
+"armor": 10.0,
+"hp": 70.0,
+"attack": 20.0,
+"follow": 32.0,
+"f_22288_": 1.0,
+"kbres": 0.25,
+"speed": 0.4,
+"swim": 2.0
+},
+"EvilCentipedeEntity": {
+"armor": 5.0,
+"hp": 60.0,
+"attack": 10.0,
+"follow": 32.0,
+"f_22288_": 1.0,
+"kbres": 0.5,
+"speed": 0.3,
+"swim": 1.25
+}
+}

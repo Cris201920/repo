@@ -46,8 +46,8 @@
     ]
    },
    "minecraft:health": {
-    "value": 6000,
-    "max": 6000
+    "value": 40000,
+    "max": 40000
    },
    "minecraft:navigation.walk": {
     "can_path_over_water": false,
@@ -123,11 +123,22 @@
      {
       "cause": "fall",
       "deals_damage": "no"
+     },
+     {
+      "cause": "entity_attack",
+      "damage_multiplier": 0.58
+     },
+     {
+      "cause": "projectile",
+      "damage_multiplier": 0.58
      }
     ]
    },
    "minecraft:underwater_movement": {
     "value": 0.3
+   },
+   "minecraft:attack": {
+    "damage": 150
    }
   },
   "component_groups": {

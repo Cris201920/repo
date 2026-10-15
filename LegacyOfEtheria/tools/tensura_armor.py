@@ -90,6 +90,11 @@ MAP = {   # conjunto do addon -> (modelo do Tensura, recolorir para a cor do con
 }
 ICON = {"helmet": "helmet", "chest": "chestplate", "legs": "leggings", "boots": "boots"}
 import colorsys
+from PIL import ImageFilter
+def smooth(im, k):
+    big = im.resize((im.width * k, im.height * k), Image.NEAREST)
+    rgb = big.convert("RGB").filter(ImageFilter.GaussianBlur(k * 0.32)).filter(ImageFilter.UnsharpMask(radius=k, percent=90, threshold=2))
+    out = rgb.convert("RGBA"); out.putalpha(big.split()[3]); return out
 def recolor(im, rgb, sat_min=0.12):
     th, ts, tv = colorsys.rgb_to_hsv(*[x / 255 for x in rgb]); out = im.copy(); px = out.load()
     for y in range(im.height):
@@ -115,6 +120,7 @@ def apply(TA):
         d = load(os.path.join(TA, "geo/armor", model + ".geo.json"))
         tex = texture_of(TA, model); col = ASETS[sid][0] if sid in ASETS else None
         if rec and col: tex = recolor(tex, col)
+        tex = smooth(tex, 4)   # 6.36: alta resolução (sem aspecto de pixel); a geometria continua com o tamanho declarado
         tex.save(os.path.join(RP, f"textures/models/armor/etheria_t_{sid}.png"))
         for part in ("helmet", "chest", "legs", "boots"):
             att = os.path.join(RP, f"attachables/{sid}_{part}.attachable.json")
@@ -134,9 +140,9 @@ def apply(TA):
             if os.path.exists(src):
                 ic = Image.open(src).convert("RGBA"); ic = ic.crop((0, 0, ic.width, ic.width))
                 if rec and col: ic = recolor(ic, col)
-                ic.resize((32, 32), Image.NEAREST).save(icon_p)
+                smooth(ic.resize((16, 16), Image.NEAREST), 6).save(icon_p)
             else:
-                render_icon(model_of(d, PIECE[part]), tex, size=32, view=(200, 12, 0)).save(icon_p)
+                render_icon(model_of(d, PIECE[part]), tex, size=96, view=(200, 12, 0)).save(icon_p)
             itx["texture_data"][f"etheria_{sid}_{part}"] = {"textures": f"textures/items/etheria_{sid}_{part}"}
             done.append(f"{sid}_{part}")
     json.dump(itx, open(os.path.join(RP, "textures/item_texture.json"), "w"), indent=1, ensure_ascii=False)
