@@ -58,15 +58,34 @@ os.makedirs(os.path.join(RP, "ui"), exist_ok=True)
 json.dump(sf, open(os.path.join(RP, "ui/server_form.json"), "w", encoding="utf8"), ensure_ascii=False, indent=1)
 
 hud = {"namespace": "hud"}
+CER = "§3§7"   # cerimônia: preto total; sem ele, véu escuro (o mundo aparece ao fundo, como nos anúncios de habilidade)
 hud["root_panel"] = {"modifications": [{"array_name": "controls", "operation": "insert_back", "value": [{"eth_world_voice@hud.eth_world_voice": {}}]}]}
+# o título é recriado a cada "impacto": efeitos de um disparo só vivem dentro dele (abertura do núcleo e onda de choque de cada nome)
+hud["hud_title_text"] = {"modifications": [{"array_name": "controls", "operation": "insert_back", "value": [{"eth_title_fx@hud.eth_title_fx": {}}]}]}
 hud["eth_fx_anim"] = flip
+hud["eth_ring_open_size"] = {"anim_type": "size", "easing": "out_expo", "from": [24, 24], "to": [560, 560], "duration": 0.9}
+hud["eth_ring_open_alpha"] = {"anim_type": "alpha", "easing": "linear", "from": 1.0, "to": 0.0, "duration": 0.9}
+hud["eth_flash_open_size"] = {"anim_type": "size", "easing": "out_expo", "from": [40, 40], "to": [760, 760], "duration": 0.9}
+hud["eth_flash_open_alpha"] = {"anim_type": "alpha", "easing": "in_quad", "from": 1.0, "to": 0.0, "duration": 0.9}
+hud["eth_ring_slam_size"] = {"anim_type": "size", "easing": "out_expo", "from": [16, 16], "to": [300, 300], "duration": 0.5}
+hud["eth_ring_slam_alpha"] = {"anim_type": "alpha", "easing": "linear", "from": 0.95, "to": 0.0, "duration": 0.5}
+hud["eth_flash_slam_size"] = {"anim_type": "size", "easing": "out_expo", "from": [60, 60], "to": [260, 260], "duration": 0.3}
+hud["eth_flash_slam_alpha"] = {"anim_type": "alpha", "easing": "linear", "from": 0.8, "to": 0.0, "duration": 0.3}
+img = lambda tex, sa, aa, layer: {"type": "image", "texture": f"textures/ui/etheria/{tex}", "anchor_from": "center", "anchor_to": "center", "size": [1, 1], "layer": layer, "anims": [f"@hud.{sa}", f"@hud.{aa}"], "disable_anim_fast_forward": True}
+hud["eth_title_fx"] = {"type": "panel", "size": [0, 0], "layer": 150, "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", HUDMARK), True), "controls": [
+    {"open": {"type": "panel", "size": [0, 0], "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", "§1§9"), True), "controls": [
+        {"flash": img("fx_flash", "eth_flash_open_size", "eth_flash_open_alpha", 1)}, {"ring": img("fx_ring", "eth_ring_open_size", "eth_ring_open_alpha", 2)}]}},
+    {"slam": {"type": "panel", "size": [0, 0], "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", "§2§8"), True), "controls": [
+        {"flash": img("fx_flash", "eth_flash_slam_size", "eth_flash_slam_alpha", 1)}, {"ring": img("fx_ring", "eth_ring_slam_size", "eth_ring_slam_alpha", 2)}]}},
+]}
 hud["eth_world_voice"] = {"type": "panel", "size": ["100%", "100%"], "layer": 60, "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", HUDMARK), True), "controls": [
-    {"black": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "layer": 60}},
+    {"black": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "layer": 60, "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", CER), True)}},
+    {"veil": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "alpha": 0.72, "layer": 60, "bindings": vis("#hud_title_text_string", lacks("#hud_title_text_string", CER), True)}},
 ] + [{f"fx_{th}": {"type": "image", "texture": f"textures/ui/etheria/fx_{th}", "size": ["100%", "100%"], "uv_size": [320, 170], "uv": "@hud.eth_fx_anim", "disable_anim_fast_forward": True, "layer": 61,
         "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", code), True)}} for th, code in THEMES.items()] + [
-    {"title": {"type": "label", "text": "#text", "localize": False, "font_size": "extra_large", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "22%"], "size": ["90%", "default"], "layer": 63,
+    {"title": {"type": "label", "text": "#text", "localize": False, "font_size": "extra_large", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "24%"], "size": ["90%", "default"], "layer": 63,
         "bindings": [{"binding_name": "#hud_title_text_string", "binding_name_override": "#text", "binding_type": "global"}]}},
-    {"lines": {"type": "label", "text": "#text", "localize": False, "font_size": "normal", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "36%"], "size": ["80%", "default"], "layer": 63,
+    {"lines": {"type": "label", "text": "#text", "localize": False, "font_size": "normal", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "38%"], "size": ["80%", "default"], "layer": 63,
         "bindings": [{"binding_name": "#hud_subtitle_text_string", "binding_name_override": "#text", "binding_type": "global"}]}},
 ]}
 json.dump(hud, open(os.path.join(RP, "ui/hud_screen.json"), "w", encoding="utf8"), ensure_ascii=False, indent=1)

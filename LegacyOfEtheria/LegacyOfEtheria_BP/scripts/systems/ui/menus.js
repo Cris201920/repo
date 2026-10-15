@@ -422,10 +422,11 @@ export function openSettings(player) {
     .toggle("Habilidade na mão lança em vez de abrir baús (agache para abrir)", sb.blockInteract)
     .toggle("Magias em fases (formação, trajeto e impacto)", sb.staged !== false)
     .toggle("Interface temática animada (desligue para a interface clássica)", st.classicUi !== true)
-    .toggle("Cerimônias em tela cheia (Voz do Mundo)", st.cinematic !== false);
+    .toggle("Cerimônias em tela cheia (Voz do Mundo)", st.cinematic !== false)
+    .toggle("Textos da Voz do Mundo em inglês (como no anime)", st.voiceLang === "en");
   show(player, f, (r) => {
-    const [hud, compact, tracker, fx, announce, selSound, selInfo, strip, blockInteract, staged, themedUi, cine] = r.formValues;
-    st.classicUi = themedUi === false; st.cinematic = cine !== false;
+    const [hud, compact, tracker, fx, announce, selSound, selInfo, strip, blockInteract, staged, themedUi, cine, en] = r.formValues;
+    st.classicUi = themedUi === false; st.cinematic = cine !== false; st.voiceLang = en ? "en" : "pt";
     st.hud = !!hud; st.compact = !!compact; st.tracker = !!tracker; st.fx = FX_LEVELS[fx] ?? "high";
     sb.announce = !!announce; sb.selectSound = !!selSound; sb.selectInfo = !!selInfo; sb.strip = !!strip; sb.blockInteract = !!blockInteract; sb.staged = staged !== false;
     markDirty(player); saveNow(player); say(player, "§aConfigurações salvas.");

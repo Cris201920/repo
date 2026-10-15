@@ -36,7 +36,7 @@ import { startWorldWar } from "./systems/worldwar.js";
 import { startBossSpawn } from "./systems/bossspawn.js";
 import { startArenas } from "./systems/arenas.js";
 import { startPlacer } from "./systems/placer.js";
-import { startWorldVoice } from "./systems/worldvoice.js";
+import { startAnnouncements } from "./systems/sageannounce.js";
 import { startAgility } from "./systems/agility.js";
 import { startWorldgen } from "./systems/worldgen.js";
 import { startOctagrama } from "./systems/octagrama.js";
@@ -132,7 +132,7 @@ system.run(() => {
   startTempest(); startSettlements(); startTravelWatch(); startFactions(); startWorldWar();
   startBossSpawn();
   startPlacer();
-  startWorldVoice();
+  startAnnouncements();
   startAgility();
   startArenas();
   startWorldgen();
