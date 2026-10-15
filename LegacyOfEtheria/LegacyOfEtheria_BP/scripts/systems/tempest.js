@@ -5,7 +5,7 @@
 import { world, system } from "@minecraft/server";
 import { TEMPEST } from "../data/tempest.gen.js";
 import { say } from "../core/utils.js";
-import { canBuild } from "../core/perm.js";
+import { canBuild, canSpawnStructures, CREATIVE_ONLY } from "../core/perm.js";
 import { enqueue, enqueueFirst, holdRegion, placeFile, clampOrigin } from "./placer.js";
 
 const KEY = "etheria:tempest";
@@ -202,7 +202,7 @@ export function tempestCmd(p, args) {
     });
   }
   if (a === "aqui" || a === "refazer" || a === "gerar") {
-    if (!canBuild(p)) return say(p, "§cSem permissão (precisa ser operador/administrador ou estar sozinho no mundo).");
+    if (!canSpawnStructures(p)) return say(p, CREATIVE_ONLY);
     if (busy || searching) return say(p, "§7[Tempest] A cidade já está sendo construída. Aguarde.");
     return buildTempestAt(p);
   }

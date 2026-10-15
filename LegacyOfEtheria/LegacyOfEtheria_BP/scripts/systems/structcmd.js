@@ -2,10 +2,10 @@
 // !gerar                -> menu (celular) com todas as estruturas por categoria
 // !gerar <nome> [forcar] -> coloca na hora, à frente do jogador, apoiada no chão real (nada dentro do solo ou flutuando)
 //   ex.: !gerar tempest | !gerar guy (Domínio de Guy Crimson) | !gerar arena guy_crimson | !gerar milim_reino | !gerar octagrama
-// Também por /scriptevent etheria:cmd gerar <nome>. Permissão: core/perm.js (admin, operador ou mundo solo).
+// Também por /scriptevent etheria:cmd gerar <nome>. Permissão: core/perm.js (6.40: só no modo criativo).
 import { system } from "@minecraft/server";
 import { say } from "../core/utils.js";
-import { canBuild } from "../core/perm.js";
+import { canBuild, canSpawnStructures, CREATIVE_ONLY } from "../core/perm.js";
 import { WGEN, wgKeys, placeWgen, groundAt, findWgen } from "./worldgen.js";
 import { ARENAS, arenaKeys, placeArena } from "./arenas.js";
 import { WORLD } from "../data/arenas.gen.js";
@@ -85,6 +85,7 @@ export function generate(p, entry, force = false) {
 }
 
 function openMenu(p, kind) {
+  if (!canSpawnStructures(p)) return say(p, CREATIVE_ONLY);
   const all = allStructures();
   if (!kind) {
     const kinds = [...new Set(all.map((e) => e.kind))];
@@ -97,7 +98,7 @@ export const openStructMenu = (p) => openMenu(p);
 
 /** !gerar [nome] [forcar] */
 export function structCmd(p, args, trusted = false) {
-  if (!trusted && !canBuild(p)) return say(p, "§cSem permissão para gerar estruturas: precisa ser operador/administrador (/tag @s add etheria_admin) ou jogar sozinho.");
+  if (!canSpawnStructures(p)) return say(p, CREATIVE_ONLY);   // 6.40: só no criativo, por qualquer rota
   if (!args.length || norm(args[0]) === "lista" || norm(args[0]) === "menu") return openMenu(p);
   const force = args.some((a) => ["forcar", "force"].includes(norm(a)));
   const r = resolve(args);

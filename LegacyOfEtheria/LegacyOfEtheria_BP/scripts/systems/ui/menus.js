@@ -33,7 +33,7 @@ import { fx, ring } from "../fx.js";
 import { LINEAGE_LIST, LINEAGES, LINEAGE_FORMS, LINEAGE_RACE, lineageLock, tierState, formLock, lineageOf, formOfPlayer, raceDepth } from "../../data/lineages.js";
 import { chooseLineage, setForm, endForm } from "../lineage.js";
 import { openWorld } from "../worldnpc.js";
-import { canBuild } from "../../core/perm.js";
+import { canBuild, canSpawnStructures } from "../../core/perm.js";
 import { openRaceV2, openRacePickV2, openLevelV2, openLordV2 } from "./racemenus.js";
 import { openStructMenu } from "../structcmd.js";
 
@@ -56,7 +56,7 @@ export function openMain(player) {
     { text: "§lConquistas e Títulos", icon: "menu_ranking", run: () => openAchievements(player) },
     { text: "§lRanking", icon: "menu_ranking", run: () => openRanking(player) },
     { text: "§lConfigurações", icon: "menu_settings", run: () => openSettings(player) },
-    ...(canBuild(player) ? [{ text: "§lGerar Estrutura\n§r§7Tempest, Guy Crimson, reinos, arenas", icon: "menu_ranking", run: () => openStructMenu(player) }] : []),
+    ...(canSpawnStructures(player) ? [{ text: "§lGerar Estrutura\n§r§7Tempest, Guy Crimson, reinos, arenas", icon: "menu_ranking", run: () => openStructMenu(player) }] : []),
   ]);
 }
 

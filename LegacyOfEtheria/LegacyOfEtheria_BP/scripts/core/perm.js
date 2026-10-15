@@ -10,3 +10,11 @@ export function canBuild(p) {
   try { if (typeof p.isOp === "function" && p.isOp()) return true; } catch { /* ignore */ }
   return false;
 }
+
+/** o jogador está no modo criativo? */
+export function isCreative(p) {
+  try { return String(p.getGameMode?.() ?? "").toLowerCase() === "creative"; } catch { return false; }
+}
+/** 6.40: gerar estruturas na hora (menu "Gerar Estrutura", !gerar, !arena, !tempest aqui) só no CRIATIVO; no sobrevivência nem aparece. */
+export const canSpawnStructures = (p) => isCreative(p);
+export const CREATIVE_ONLY = "§cGerar estruturas só está disponível no modo criativo.";

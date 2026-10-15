@@ -33,7 +33,7 @@ import { toggleForm, FORMS } from "./truedragon.js";
 import { placeArena, anchorFromPlayer, keyOfBoss, arenaKeys, verifyAll, ARENAS, results as arenaResults } from "./arenas.js";
 import { pvpOn, setPvp, teamOf, setTeam } from "./combat.js";
 import { structCmd } from "./structcmd.js";
-import { canBuild } from "../core/perm.js";
+import { canBuild, canSpawnStructures, CREATIVE_ONLY } from "../core/perm.js";
 
 export function registerCommands() {
   // O evento de chat só existe em beta no @minecraft/server 1.17.0: detectar antes de assinar.
@@ -87,7 +87,7 @@ function run(p, cmd, args, trusted = false) {
       return say(p, `§6[Etheria] §7PvP: ${pvpOn() ? "§cligado" : "§adesligado"}§7. Sua equipe: §f${teamOf(p) ?? "nenhuma"}§7. Admin: §f!pvp on|off§7. Equipes: §f!time <nome>§7 / §f!time sair§7.`);
     }
     case "arena": {   // !arena lista | !arena verificar | !arena <boss>  (coloca a arena exclusiva do boss na hora, na sua frente)
-      if (!trusted && !canBuild(p)) return say(p, "§cSem permissão: operador/administrador (/tag @s add etheria_admin) ou mundo solo.");
+      if (!canSpawnStructures(p)) return say(p, CREATIVE_ONLY);   // 6.40: só no criativo
       const q = (args[0] ?? "lista").toLowerCase();
       if (q === "lista") return say(p, "§6[Etheria] §7Arenas (boss -> estrutura): §f" + arenaKeys().map((k) => `${k} -> ${ARENAS[k].id}`).join("§7, §f"));
       if (q === "verificar") { const r = verifyAll(), bad = r.filter((x) => !x.ok); return say(p, `§6[Etheria] §7Estruturas: §a${r.length - bad.length} OK§7, ${bad.length ? "§c" + bad.length + " com problema: §f" + bad.map((b) => b.id).join(", ") : "§a0 com problema"}§7.`); }
