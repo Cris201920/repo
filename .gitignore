@@ -1,0 +1,7 @@
+# 6.36: derivados dos jars do Tensura / Tensura-Blade (uso pessoal; regerar com tools/tensura_armor.py e tools/swords.py)
+LegacyOfEtheria/LegacyOfEtheria_RP/textures/models/armor/etheria_t_*.png
+LegacyOfEtheria/LegacyOfEtheria_RP/models/entity/etheria_t_*.geo.json
+LegacyOfEtheria/LegacyOfEtheria_RP/models/entity/etheria_w_reid_dragon_sword.geo.json
+LegacyOfEtheria/LegacyOfEtheria_RP/textures/attachable/w_reid_dragon_sword.png
+LegacyOfEtheria/LegacyOfEtheria_RP/textures/items/etheria_reid_dragon_sword.png
+LegacyOfEtheria/LegacyOfEtheria_RP/textures/items/etheria_rimuru_outfit_*.png

@@ -165,8 +165,12 @@ def icon(name, S, part):
 
 GEO = {"helmet": ("geometry.humanoid.armor.helmet", "_1", "variable.helmet_layer_visible = 0.0;"), "chest": ("geometry.humanoid.armor.chestplate", "_1", "variable.chest_layer_visible = 0.0;"),
        "legs": ("geometry.humanoid.armor.leggings", "_2", "variable.leg_layer_visible = 0.0;"), "boots": ("geometry.humanoid.armor.boots", "_1", "variable.boot_layer_visible = 0.0;")}
+# 6.36: o jogador pediu para manter estes conjuntos com o modelo ORIGINAL (geometry.etheria_a_*, textura etheria_a_*): o gerador não toca neles
+KEEP_ORIGINAL = ("priest", "cryomancer", "electromancer", "dragotite")
 def main():
     for name, S in SETS.items():
+        if name.startswith(KEEP_ORIGINAL): continue
+        if os.path.exists(os.path.join(RP, f"textures/models/armor/etheria_t_{name}.png")): continue   # modelo detalhado do Tensura (tools/tensura_armor.py)
         l1, l2 = paint_set(name, S)
         l1.save(os.path.join(RP, f"textures/models/armor/etheria_{name}_1.png")); l2.save(os.path.join(RP, f"textures/models/armor/etheria_{name}_2.png"))
         for part, (geo, layer, setup) in GEO.items():

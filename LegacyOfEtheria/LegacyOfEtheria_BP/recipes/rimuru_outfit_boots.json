@@ -1,0 +1,32 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:rimuru_outfit_boots_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "C C",
+   "M M"
+  ],
+  "key": {
+   "M": {
+    "item": "etheria:mana_crystal"
+   },
+   "C": {
+    "item": "etheria:celestial_crystal"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:celestial_crystal"
+   }
+  ],
+  "result": {
+   "item": "etheria:rimuru_outfit_boots",
+   "count": 1
+  }
+ }
+}

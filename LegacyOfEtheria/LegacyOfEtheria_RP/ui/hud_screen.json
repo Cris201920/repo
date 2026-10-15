@@ -162,6 +162,366 @@
   "duration": 1.6,
   "next": "@hud.eth_wire1_a"
  },
+ "eth_circ0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_circ0_in"
+ },
+ "eth_circ0_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@hud.eth_circ0_out"
+ },
+ "eth_circ0_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@hud.eth_circ0_wait"
+ },
+ "eth_circ0_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@hud.eth_circ0_in"
+ },
+ "eth_circ1_start": {
+  "anim_type": "wait",
+  "duration": 0.201,
+  "next": "@hud.eth_circ1_in"
+ },
+ "eth_circ1_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@hud.eth_circ1_out"
+ },
+ "eth_circ1_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@hud.eth_circ1_wait"
+ },
+ "eth_circ1_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@hud.eth_circ1_in"
+ },
+ "eth_circ2_start": {
+  "anim_type": "wait",
+  "duration": 0.401,
+  "next": "@hud.eth_circ2_in"
+ },
+ "eth_circ2_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@hud.eth_circ2_out"
+ },
+ "eth_circ2_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@hud.eth_circ2_wait"
+ },
+ "eth_circ2_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@hud.eth_circ2_in"
+ },
+ "eth_circ3_start": {
+  "anim_type": "wait",
+  "duration": 0.6010000000000001,
+  "next": "@hud.eth_circ3_in"
+ },
+ "eth_circ3_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@hud.eth_circ3_out"
+ },
+ "eth_circ3_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@hud.eth_circ3_wait"
+ },
+ "eth_circ3_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@hud.eth_circ3_in"
+ },
+ "eth_circ4_start": {
+  "anim_type": "wait",
+  "duration": 0.801,
+  "next": "@hud.eth_circ4_in"
+ },
+ "eth_circ4_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@hud.eth_circ4_out"
+ },
+ "eth_circ4_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@hud.eth_circ4_wait"
+ },
+ "eth_circ4_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@hud.eth_circ4_in"
+ },
+ "eth_circ5_start": {
+  "anim_type": "wait",
+  "duration": 1.001,
+  "next": "@hud.eth_circ5_in"
+ },
+ "eth_circ5_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@hud.eth_circ5_out"
+ },
+ "eth_circ5_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@hud.eth_circ5_wait"
+ },
+ "eth_circ5_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@hud.eth_circ5_in"
+ },
+ "eth_scan": {
+  "anim_type": "offset",
+  "easing": "in_out_sine",
+  "from": [
+   0,
+   -12
+  ],
+  "to": [
+   0,
+   340
+  ],
+  "duration": 2.6,
+  "next": "@hud.eth_scan_back"
+ },
+ "eth_scan_back": {
+  "anim_type": "offset",
+  "easing": "in_out_sine",
+  "from": [
+   0,
+   340
+  ],
+  "to": [
+   0,
+   -12
+  ],
+  "duration": 2.6,
+  "next": "@hud.eth_scan"
+ },
+ "eth_mote0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mote0_up"
+ },
+ "eth_mote0_up": {
+  "anim_type": "offset",
+  "easing": "linear",
+  "from": [
+   0,
+   24
+  ],
+  "to": [
+   0,
+   -24
+  ],
+  "duration": 3.0,
+  "next": "@hud.eth_mote0_up"
+ },
+ "eth_motea0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_motea0_in"
+ },
+ "eth_motea0_in": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 0.85,
+  "duration": 1.5,
+  "next": "@hud.eth_motea0_out"
+ },
+ "eth_motea0_out": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.85,
+  "to": 0.0,
+  "duration": 1.5,
+  "next": "@hud.eth_motea0_in"
+ },
+ "eth_mote1_start": {
+  "anim_type": "wait",
+  "duration": 1.501,
+  "next": "@hud.eth_mote1_up"
+ },
+ "eth_mote1_up": {
+  "anim_type": "offset",
+  "easing": "linear",
+  "from": [
+   0,
+   24
+  ],
+  "to": [
+   0,
+   -24
+  ],
+  "duration": 3.0,
+  "next": "@hud.eth_mote1_up"
+ },
+ "eth_motea1_start": {
+  "anim_type": "wait",
+  "duration": 1.501,
+  "next": "@hud.eth_motea1_in"
+ },
+ "eth_motea1_in": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 0.85,
+  "duration": 1.5,
+  "next": "@hud.eth_motea1_out"
+ },
+ "eth_motea1_out": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.85,
+  "to": 0.0,
+  "duration": 1.5,
+  "next": "@hud.eth_motea1_in"
+ },
+ "eth_hex_a": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.2,
+  "to": 0.6,
+  "duration": 1.2,
+  "next": "@hud.eth_hex_b"
+ },
+ "eth_hex_b": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.6,
+  "to": 0.2,
+  "duration": 1.2,
+  "next": "@hud.eth_hex_a"
+ },
+ "eth_brk_a": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.45,
+  "to": 1.0,
+  "duration": 0.8,
+  "next": "@hud.eth_brk_b"
+ },
+ "eth_brk_b": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.45,
+  "duration": 0.8,
+  "next": "@hud.eth_brk_a"
+ },
+ "eth_pulse0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_pulse0_s"
+ },
+ "eth_pulse0_s": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   40,
+   40
+  ],
+  "to": [
+   380,
+   380
+  ],
+  "duration": 1.8,
+  "next": "@hud.eth_pulse0_s"
+ },
+ "eth_pulsea0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_pulsea0_a"
+ },
+ "eth_pulsea0_a": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.55,
+  "to": 0.0,
+  "duration": 1.8,
+  "next": "@hud.eth_pulsea0_a"
+ },
+ "eth_pulse1_start": {
+  "anim_type": "wait",
+  "duration": 0.901,
+  "next": "@hud.eth_pulse1_s"
+ },
+ "eth_pulse1_s": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   40,
+   40
+  ],
+  "to": [
+   380,
+   380
+  ],
+  "duration": 1.8,
+  "next": "@hud.eth_pulse1_s"
+ },
+ "eth_pulsea1_start": {
+  "anim_type": "wait",
+  "duration": 0.901,
+  "next": "@hud.eth_pulsea1_a"
+ },
+ "eth_pulsea1_a": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.55,
+  "to": 0.0,
+  "duration": 1.8,
+  "next": "@hud.eth_pulsea1_a"
+ },
  "eth_core_a": {
   "anim_type": "size",
   "easing": "in_out_sine",
@@ -652,6 +1012,484 @@
        }
       },
       {
+       "hex": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_hex",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.3,
+        "layer": 62,
+        "anims": [
+         "@hud.eth_hex_a"
+        ]
+       }
+      },
+      {
+       "circ_o0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_i0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_o1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_i1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_o2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_i2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_o3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_i3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_o4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_i4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_o5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "circ_i5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "pulse0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_pulse0_start",
+         "@hud.eth_pulsea0_start"
+        ]
+       }
+      },
+      {
+       "motes0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_mote0_start",
+         "@hud.eth_motea0_start"
+        ]
+       }
+      },
+      {
+       "pulse1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_pulse1_start",
+         "@hud.eth_pulsea1_start"
+        ]
+       }
+      },
+      {
+       "motes1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_mote1_start",
+         "@hud.eth_motea1_start"
+        ]
+       }
+      },
+      {
+       "scan": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_scan",
+        "size": [
+         "100%",
+         8
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.7,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_scan"
+        ]
+       }
+      },
+      {
+       "brackets": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_brackets",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "layer": 66,
+        "anims": [
+         "@hud.eth_brk_a"
+        ]
+       }
+      },
+      {
        "core": {
         "type": "image",
         "texture": "textures/ui/etheria/ov_core",
@@ -843,6 +1681,484 @@
         "layer": 64,
         "anims": [
          "@hud.eth_wire1_a"
+        ]
+       }
+      },
+      {
+       "hex": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_hex",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.3,
+        "layer": 62,
+        "anims": [
+         "@hud.eth_hex_a"
+        ]
+       }
+      },
+      {
+       "circ_o0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_i0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_o1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_i1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_o2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_i2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_o3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_i3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_o4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_i4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_o5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "circ_i5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "pulse0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_pulse0_start",
+         "@hud.eth_pulsea0_start"
+        ]
+       }
+      },
+      {
+       "motes0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_mote0_start",
+         "@hud.eth_motea0_start"
+        ]
+       }
+      },
+      {
+       "pulse1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_pulse1_start",
+         "@hud.eth_pulsea1_start"
+        ]
+       }
+      },
+      {
+       "motes1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_mote1_start",
+         "@hud.eth_motea1_start"
+        ]
+       }
+      },
+      {
+       "scan": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_scan",
+        "size": [
+         "100%",
+         8
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.7,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_scan"
+        ]
+       }
+      },
+      {
+       "brackets": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_brackets",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "layer": 66,
+        "anims": [
+         "@hud.eth_brk_a"
         ]
        }
       },
@@ -1042,6 +2358,484 @@
        }
       },
       {
+       "hex": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_hex",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.3,
+        "layer": 62,
+        "anims": [
+         "@hud.eth_hex_a"
+        ]
+       }
+      },
+      {
+       "circ_o0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_i0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_o1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_i1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_o2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_i2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_o3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_i3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_o4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_i4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_o5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "circ_i5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "pulse0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_pulse0_start",
+         "@hud.eth_pulsea0_start"
+        ]
+       }
+      },
+      {
+       "motes0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_mote0_start",
+         "@hud.eth_motea0_start"
+        ]
+       }
+      },
+      {
+       "pulse1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_pulse1_start",
+         "@hud.eth_pulsea1_start"
+        ]
+       }
+      },
+      {
+       "motes1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_mote1_start",
+         "@hud.eth_motea1_start"
+        ]
+       }
+      },
+      {
+       "scan": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_scan",
+        "size": [
+         "100%",
+         8
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.7,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_scan"
+        ]
+       }
+      },
+      {
+       "brackets": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_brackets",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "layer": 66,
+        "anims": [
+         "@hud.eth_brk_a"
+        ]
+       }
+      },
+      {
        "core": {
         "type": "image",
         "texture": "textures/ui/etheria/ov_core",
@@ -1237,6 +3031,484 @@
        }
       },
       {
+       "hex": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_hex",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.3,
+        "layer": 62,
+        "anims": [
+         "@hud.eth_hex_a"
+        ]
+       }
+      },
+      {
+       "circ_o0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_i0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_o1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_i1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_o2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_i2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_o3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_i3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_o4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_i4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_o5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "circ_i5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "pulse0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_pulse0_start",
+         "@hud.eth_pulsea0_start"
+        ]
+       }
+      },
+      {
+       "motes0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_mote0_start",
+         "@hud.eth_motea0_start"
+        ]
+       }
+      },
+      {
+       "pulse1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_pulse1_start",
+         "@hud.eth_pulsea1_start"
+        ]
+       }
+      },
+      {
+       "motes1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_mote1_start",
+         "@hud.eth_motea1_start"
+        ]
+       }
+      },
+      {
+       "scan": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_scan",
+        "size": [
+         "100%",
+         8
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.7,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_scan"
+        ]
+       }
+      },
+      {
+       "brackets": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_brackets",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "layer": 66,
+        "anims": [
+         "@hud.eth_brk_a"
+        ]
+       }
+      },
+      {
        "core": {
         "type": "image",
         "texture": "textures/ui/etheria/ov_core",
@@ -1428,6 +3700,484 @@
         "layer": 64,
         "anims": [
          "@hud.eth_wire1_a"
+        ]
+       }
+      },
+      {
+       "hex": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_hex",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.3,
+        "layer": 62,
+        "anims": [
+         "@hud.eth_hex_a"
+        ]
+       }
+      },
+      {
+       "circ_o0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_i0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_o1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_i1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_o2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_i2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_o3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_i3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_o4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_i4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_o5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "circ_i5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "pulse0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_pulse0_start",
+         "@hud.eth_pulsea0_start"
+        ]
+       }
+      },
+      {
+       "motes0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_mote0_start",
+         "@hud.eth_motea0_start"
+        ]
+       }
+      },
+      {
+       "pulse1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 64,
+        "anims": [
+         "@hud.eth_pulse1_start",
+         "@hud.eth_pulsea1_start"
+        ]
+       }
+      },
+      {
+       "motes1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_mote1_start",
+         "@hud.eth_motea1_start"
+        ]
+       }
+      },
+      {
+       "scan": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_scan",
+        "size": [
+         "100%",
+         8
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.7,
+        "layer": 65,
+        "anims": [
+         "@hud.eth_scan"
+        ]
+       }
+      },
+      {
+       "brackets": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_brackets",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "layer": 66,
+        "anims": [
+         "@hud.eth_brk_a"
         ]
        }
       },

@@ -52,6 +52,8 @@ let running = false;
 export const placerBusy = () => running || queue.length > 0;
 /** job(done): executa e chama done() quando terminar. Roda na hora se a fila estiver livre. */
 export function enqueue(job) { queue.push(job); pump(); }
+/** trabalho prioritário (nascimento em Tempest): passa à frente da fila de arenas/estruturas do mundo */
+export function enqueueFirst(job) { queue.unshift(job); pump(); }
 function pump() {
   if (running) return;
   const job = queue.shift(); if (!job) return;
@@ -131,6 +133,7 @@ export function placeQueued(dim, id, origin, size, cb, timeout) {
 /** limpeza de tickingareas deixados por versões antigas (que podiam esgotar o limite de 10 do mundo) */
 export function startPlacer() {
   system.runTimeout(() => {
-    try { const d = world.getDimension("minecraft:overworld"); for (const n of LEGACY) cmd(d, `tickingarea remove ${n}`); freeSlots(d); } catch { /* ignore */ }
-  }, 40);
+    // 6.36: os slots só são limpos se nenhum trabalho estiver usando (antes, isto apagava as áreas do nascimento em Tempest no meio do carregamento)
+    try { const d = world.getDimension("minecraft:overworld"); for (const n of LEGACY) cmd(d, `tickingarea remove ${n}`); if (!running) freeSlots(d); } catch { /* ignore */ }
+  }, 2);
 }

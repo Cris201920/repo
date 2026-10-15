@@ -1267,6 +1267,30 @@
   },
   "etheria_sk_agi_dwarf_3": {
    "textures": "textures/items/etheria_sk_agi_dwarf_3"
+  },
+  "etheria_reid_dragon_sword": {
+   "textures": "textures/items/etheria_reid_dragon_sword"
+  },
+  "etheria_rimuru_outfit_chest": {
+   "textures": "textures/items/etheria_rimuru_outfit_chest"
+  },
+  "etheria_rimuru_outfit_legs": {
+   "textures": "textures/items/etheria_rimuru_outfit_legs"
+  },
+  "etheria_rimuru_outfit_boots": {
+   "textures": "textures/items/etheria_rimuru_outfit_boots"
+  },
+  "etheria_milim_berserker_helmet": {
+   "textures": "textures/items/etheria_milim_berserker_helmet"
+  },
+  "etheria_milim_berserker_chest": {
+   "textures": "textures/items/etheria_milim_berserker_chest"
+  },
+  "etheria_milim_berserker_legs": {
+   "textures": "textures/items/etheria_milim_berserker_legs"
+  },
+  "etheria_milim_berserker_boots": {
+   "textures": "textures/items/etheria_milim_berserker_boots"
   }
  }
 }

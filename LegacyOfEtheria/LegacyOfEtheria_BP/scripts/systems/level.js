@@ -5,6 +5,7 @@ import { heal, say, playSound, toast } from "../core/utils.js";
 import { applyDerivedStats, getStats } from "./stats.js";
 import { fx } from "./fx.js";
 import { refreshName, notifyEvolution } from "./race.js";
+import { announceLevel } from "./sageannounce.js";
 import { checkAchievements } from "./achievements.js";
 import { updateRanking } from "./ranking.js";
 import { onLevelQuest } from "./quests.js";
@@ -33,9 +34,9 @@ function onLevelUp(player, d, n) {
   d.mana = Math.min(s.maxMana, d.mana + s.maxMana * 0.5);
   d.stamina = Math.min(s.maxStamina, d.stamina + s.maxStamina * 0.5);
   try { const h = player.getComponent("minecraft:health"); heal(player, h.effectiveMax * 0.5); } catch { /* ignore */ }
-  say(player, `§6§l[Etheria]§r §eNível §f${d.level}§e! §7+${ATTR_POINTS_PER_LEVEL * n} pontos de atributo${d.level % SKILL_POINT_EVERY === 0 || n > 1 ? ", +pontos de habilidade" : ""}.`);
-  toast(player, `§6§lNÍVEL ${d.level}`, "§7Use o Relógio para distribuir seus pontos");
-  playSound(player, SOUNDS.levelup); sysSay(player, "main", "levelup", { cd: 100 });
+  // 6.36: o nível aparece só na cena da Voz do Mundo (sem chat, sem título vanilla, sem fala do sistema por cima)
+  announceLevel(player, d.level, { attr: ATTR_POINTS_PER_LEVEL * n, skillPt: d.level % SKILL_POINT_EVERY === 0 || n > 1 });
+  playSound(player, SOUNDS.levelup);
   fx(player.dimension, player.location, "levelup", player, 2);
   refreshName(player);
   checkAchievements(player);

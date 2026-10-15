@@ -8,11 +8,11 @@
     "enchanted": "armor_enchanted"
    },
    "textures": {
-    "default": "textures/models/armor/etheria_electromancer_2",
+    "default": "textures/models/armor/etheria_a_electromancer",
     "enchanted": "textures/misc/enchanted_item_glint"
    },
    "geometry": {
-    "default": "geometry.humanoid.armor.leggings"
+    "default": "geometry.etheria_a_electromancer_legs"
    },
    "scripts": {
     "parent_setup": "variable.leg_layer_visible = 0.0;"

@@ -2222,6 +2222,145 @@ export const ITEMS = {
   "price": 22000,
   "sell": 5500
  },
+ "etheria:reid_dragon_sword": {
+  "id": "etheria:reid_dragon_sword",
+  "name": "Espada do Dragão [Reid]",
+  "rarity": "mythic",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 27,
+   "strength": 12,
+   "crit": 14,
+   "agility": 8
+  },
+  "onHit": {
+   "kind": "bleed",
+   "sec": 4,
+   "chance": 0.25,
+   "name": "Corte do Santo da Espada"
+  },
+  "price": 24000,
+  "sell": 6000
+ },
+ "etheria:rimuru_outfit_chest": {
+  "id": "etheria:rimuru_outfit_chest",
+  "name": "Casaco de Rimuru Tempest",
+  "rarity": "legendary",
+  "kind": "armor",
+  "stats": {
+   "vitality": 10,
+   "intelligence": 10,
+   "manaRegen": 14,
+   "defense": 5
+  },
+  "set": "rimuru_outfit",
+  "slot": "Chest",
+  "price": 6200,
+  "sell": 1240,
+  "protection": 8,
+  "durability": 620
+ },
+ "etheria:rimuru_outfit_legs": {
+  "id": "etheria:rimuru_outfit_legs",
+  "name": "Calça de Rimuru Tempest",
+  "rarity": "legendary",
+  "kind": "armor",
+  "stats": {
+   "vitality": 7,
+   "agility": 8,
+   "defense": 4
+  },
+  "set": "rimuru_outfit",
+  "slot": "Legs",
+  "price": 5200,
+  "sell": 1040,
+  "protection": 6,
+  "durability": 520
+ },
+ "etheria:rimuru_outfit_boots": {
+  "id": "etheria:rimuru_outfit_boots",
+  "name": "Botas de Rimuru Tempest",
+  "rarity": "legendary",
+  "kind": "armor",
+  "stats": {
+   "agility": 8,
+   "defense": 2
+  },
+  "set": "rimuru_outfit",
+  "slot": "Feet",
+  "price": 4400,
+  "sell": 880,
+  "protection": 3,
+  "durability": 440
+ },
+ "etheria:milim_berserker_helmet": {
+  "id": "etheria:milim_berserker_helmet",
+  "name": "Tiara Berserker de Milim",
+  "rarity": "mythic",
+  "kind": "armor",
+  "stats": {
+   "strength": 8,
+   "crit": 6,
+   "defense": 3
+  },
+  "set": "milim_berserker",
+  "slot": "Head",
+  "price": 5200,
+  "sell": 1040,
+  "protection": 4,
+  "durability": 520
+ },
+ "etheria:milim_berserker_chest": {
+  "id": "etheria:milim_berserker_chest",
+  "name": "Peitoral Berserker de Milim",
+  "rarity": "mythic",
+  "kind": "armor",
+  "stats": {
+   "strength": 14,
+   "vitality": 10,
+   "defense": 6
+  },
+  "set": "milim_berserker",
+  "slot": "Chest",
+  "price": 7600,
+  "sell": 1520,
+  "protection": 9,
+  "durability": 760
+ },
+ "etheria:milim_berserker_legs": {
+  "id": "etheria:milim_berserker_legs",
+  "name": "Grevas Berserker de Milim",
+  "rarity": "mythic",
+  "kind": "armor",
+  "stats": {
+   "strength": 9,
+   "agility": 6,
+   "defense": 5
+  },
+  "set": "milim_berserker",
+  "slot": "Legs",
+  "price": 6600,
+  "sell": 1320,
+  "protection": 7,
+  "durability": 660
+ },
+ "etheria:milim_berserker_boots": {
+  "id": "etheria:milim_berserker_boots",
+  "name": "Botas Berserker de Milim",
+  "rarity": "mythic",
+  "kind": "armor",
+  "stats": {
+   "agility": 9,
+   "defense": 3
+  },
+  "set": "milim_berserker",
+  "slot": "Feet",
+  "price": 5600,
+  "sell": 1120,
+  "protection": 4,
+  "durability": 560
+ },
  "etheria:dragotite_ingot": {
   "id": "etheria:dragotite_ingot",
   "name": "Lingote de Dragotita",

@@ -2,6 +2,7 @@
 import { ITEMS } from "../data/items.gen.js";
 import { RARITY, STAT_LABELS, COMBAT } from "../config.js";
 import { SET_DEFS } from "../data/armor.gen.js";
+import { infusionOf, infusionLore } from "./infusion.js";
 
 export function info(typeId) { return ITEMS[typeId]; }
 export function nameOf(typeId) { const i = ITEMS[typeId]; return i ? `${RARITY[i.rarity].color}${i.name}§r` : typeId; }
@@ -35,7 +36,7 @@ export function buildLore(inf, forge = 0) {
   if (inf.caster) lines.push("§bUse para lançar a habilidade equipada");
   if (inf.ranged) lines.push("§bUse para disparar");
   if (inf.use) lines.push("§eUse para consumir");
-  if (inf.set) { const sd = SET_DEFS[inf.set]; lines.push(`§dConjunto: ${sd?.name ?? inf.set}`); if (sd) { for (const n of [2, 3, 4]) lines.push(`§8(${n}) ${sd.b[n].text}`); if (sd.ptext) lines.push(`§6${sd.ptext}`); } }
+  if (inf.set) { const sd = SET_DEFS[inf.set]; lines.push(`§dConjunto: ${sd?.name ?? inf.set}`); if (sd) { for (const n of [2, 3, 4]) if (sd.b[n]) lines.push(`§8(${n}) ${sd.b[n].text}`); if (sd.ptext) lines.push(`§6${sd.ptext}`); } }
   if (inf.kind === "weapon" || inf.kind === "armor" || inf.kind === "accessory") lines.push(`§8Forja +${forge}`);
   return lines;
 }
@@ -44,7 +45,7 @@ export function ensureLore(item) {
   const inf = ITEMS[item.typeId]; if (!inf) return false;
   let cur = []; try { cur = item.getLore() ?? []; } catch { /* ignore */ }
   const forge = forgeOf(item);
-  const want = buildLore(inf, forge);
+  const want = [...buildLore(inf, forge), ...infusionLore(infusionOf(item))];
   if (cur.length === want.length && cur.every((l, i) => l === want[i])) return false;
   item.setLore(want);
   return true;

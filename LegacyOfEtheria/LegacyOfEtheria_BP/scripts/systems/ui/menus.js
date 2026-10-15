@@ -1,3 +1,4 @@
+import { openInfusion } from "../infusion.js";
 import { system } from "@minecraft/server";
 // systems/ui/menus.js - Menus principais do jogador (celular: botões grandes, textos curtos, sempre com "Voltar")
 import { ModalFormData } from "@minecraft/server-ui";
@@ -107,6 +108,7 @@ export function openSkills(player) {
     { text: "Passivas e raciais", icon: "skill_regeneration", run: () => openPassives(player) },
     { text: "§l§5Árvore de Poderes\n§r§7evoluções, requisitos e efeitos", icon: "menu_skills", run: () => openPowers(player, () => openSkills(player)) },
     { text: "§l§bAgilidades Supremas\n§r§7a linha de mobilidade da sua raça", icon: "menu_skills", run: () => openAgility(player, () => openSkills(player)) },
+    { text: "§l§5Infusão da Espada\n§r§7grave uma habilidade na espada da mão", icon: "menu_skills", run: () => openInfusion(player, () => openSkills(player)) },
     back(() => openMain(player)),
   ]);
 }

@@ -15,6 +15,8 @@ from PIL import Image, ImageDraw, ImageFilter
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BP, RP = os.path.join(ROOT, "LegacyOfEtheria_BP"), os.path.join(ROOT, "LegacyOfEtheria_RP")
 SRC_MODELS, SRC_CIT = (sys.argv[1], sys.argv[2]) if len(sys.argv) > 2 else (None, None)
+TB_DIR = sys.argv[3] if len(sys.argv) > 3 else None   # assets/tensura_blade do Tensura-Blade (uso pessoal)
+OBJ_MODELS = {"reid_dragon_sword": ("models/item/training_blade_drawn.obj", "textures/item/dragon_sword.png", "textures/item/dragon_sword_glow.png")}
 HAND = (-6.0, 11.5, 0.0)        # ponto da empunhadura no espaço do modelo do jogador (braço direito em repouso)
 HOLD_ROT = [55.0, 0.0, 0.0]     # lâmina para a frente e para cima (~35° acima da horizontal)
 AT = 128                        # resolução do atlas procedural
@@ -40,10 +42,14 @@ THEMES = {   # lâmina, gume, guarda, acento, cabo, gema, brilho (energia), runa
   "amethyst": dict(blade=(150, 100, 200), edge=(230, 200, 255), guard=(90, 60, 120), accent=(210, 170, 250), grip=(60, 40, 80), gem=(200, 130, 255), glow=(210, 160, 255), rune=None),
   "obsidian": dict(blade=(30, 24, 44), edge=(150, 110, 210), guard=(20, 16, 30), accent=(110, 70, 170), grip=(26, 20, 34), gem=(150, 80, 230), glow=None, rune=None),
   "prism":    dict(blade=(230, 236, 250), edge=(255, 255, 255), guard=(200, 200, 220), accent=(255, 200, 230), grip=(220, 220, 236), gem=(255, 120, 200), glow=(255, 255, 255), rune=(255, 160, 220)),
+  "nightblue": dict(blade=(22, 24, 34), edge=(120, 200, 255), guard=(28, 30, 42), accent=(214, 178, 92), grip=(16, 22, 44), gem=(70, 170, 255), glow=(90, 190, 255), rune=(150, 220, 255)),
+  "knight":   dict(blade=(214, 218, 228), edge=(250, 252, 255), guard=(176, 150, 92), accent=(232, 206, 120), grip=(46, 52, 92), gem=(90, 140, 230), glow=None, rune=None),
   "sakura":   dict(blade=(200, 206, 214), edge=(250, 250, 255), guard=(60, 40, 40), accent=(240, 150, 180), grip=(130, 30, 50), gem=(255, 150, 190), glow=None, rune=None),
 }
 def theme_of(w):
     i = w["id"]
+    if i.endswith("rimuru_katana") or i.endswith("obsidian_katana"): return "nightblue"
+    if i.endswith("knight_sword") or i.endswith("iron_blade") or i.endswith("infused_iron_sword"): return "knight"
     for keys, th in [(("flame", "scorch", "ember", "fiery", "shizue"), "fire"), (("frost", "ice", "boreal"), "ice"), (("storm", "tempest"), "storm"),
                      (("earth", "geb"), "earth"), (("abyss", "void", "dread", "dead_mans"), "abyss"), (("crimson", "reaper", "shadow"), "demon"),
                      (("star", "celestial", "spatial"), "cosmic"), (("rainbow",), "prism"), (("sky", "dyrnwyn"), "holy"), (("dragon", "wyrm", "kusanagi"), "dragon"),
@@ -160,10 +166,95 @@ ARCH = {   # comprimento da lâmina, largura máx., espessura do núcleo, cabo, 
   "short":  dict(L=15, W=2.6, T=1.0, grip=5, guard=6.0, curve=0),
   "sword":  dict(L=20, W=3.0, T=1.0, grip=5.5, guard=7.0, curve=0),
   "long":   dict(L=25, W=3.0, T=1.0, grip=7, guard=8.0, curve=0),
-  "katana": dict(L=24, W=2.2, T=0.9, grip=8, guard=3.6, curve=2.2),
-  "great":  dict(L=30, W=5.0, T=1.4, grip=9, guard=11.0, curve=0),
+  "katana": dict(L=25, W=2.3, T=0.9, grip=8.5, guard=4.0, curve=1.8),
+  "great":  dict(L=31, W=5.4, T=1.5, grip=9.5, guard=12.0, curve=0),
 }
+def build_katana(theme, rank, iid):
+    """v3 (6.36): katana da referência — sori contínuo (segmentos girados pela tangente), kissaki em diagonal do lado do gume,
+    hamon brilhante, habaki dourado, tsuba oval vazada com aro, tsuka com ito em losango, kashira e fita (sageo) curta."""
+    A = ARCH["katana"]; m = Model(); L, W, Tk, C = A["L"], A["W"], A["T"], A["curve"]
+    T = THEMES[theme]; hamon = "glow" if T["glow"] else "edge"
+    gy = 0.0; yb = gy + 1.0
+    zc = lambda f: C * f * f                       # curva (para +Z = lado das costas)
+    slope = lambda f: 2 * C * f / L
+    tip = 3.2; y = 0.0
+    while y < L - 0.01:
+        st = 1.0 if L - y > tip + 0.01 else 0.5
+        f = y / L; rest = L - y
+        w = W if rest > tip else max(0.25, W * rest / tip)
+        z0 = zc(f) + (W - w) / 2                    # a ponta corta o lado do GUME (-Z): as costas seguem retas até a ponta
+        ang = -math.degrees(math.atan(slope(f + st / (2 * L))))
+        pv = [0, yb + y, zc(f)]
+        v0, v1 = max(0, 1 - (y + st) / L), 1 - y / L
+        fa = faces_all("flat", (0.5 - 0.5 * w / W, v0, 0.5 + 0.5 * w / W, v1))
+        fe = {"uv": rect("edge", (0, v0, 1, v1))[:2], "uv_size": rect("edge", (0, v0, 1, v1))[2:]}
+        fa["north"] = fa["south"] = fe
+        m.box([-Tk * 0.4, yb + y, z0 - w / 2], [Tk * 0.8, st + 0.06, w], fa, rot=[ang, 0, 0], pivot=pv)                  # corpo (shinogi-ji)
+        m.box([-Tk * 0.55, yb + y, z0 + w * 0.05], [Tk * 1.1, st + 0.06, w * 0.42], faces_all("dark" if theme == "nightblue" else "flat", (0, v0, 1, v1) if theme != "nightblue" else None), rot=[ang, 0, 0], pivot=pv)   # costas grossas (mune)
+        if rest > tip * 0.6:
+            m.box([-Tk * 0.46, yb + y, z0 - w / 2 - 0.05], [Tk * 0.92, st + 0.06, 0.75 if theme == "nightblue" else 0.42], faces_all(hamon), rot=[ang, 0, 0], pivot=pv)          # hamon / gume brilhante
+        y += st
+    # habaki (colar dourado) e tsuba oval com aro e furos
+    m.box([-0.75, yb - 0.2, -1.35], [1.5, 1.5, 2.7], faces_all("accent"))
+    for r in (0, 30, 60):
+        m.box([-0.32, gy, -2.0], [0.64, 1.0, 4.0] if r == 0 else [0.64, 1.0, 4.0], faces_all("guard"), rot=[0, r, 0], pivot=[0, gy, 0])
+        m.box([-0.32, gy, -2.0], [0.64, 1.0, 4.0], faces_all("guard"), rot=[0, -r, 0], pivot=[0, gy, 0])
+    m.box([-2.15, gy + 0.25, -2.15], [4.3, 0.5, 4.3], faces_all("accent"), rot=[0, 45, 0], pivot=[0, gy, 0])           # aro
+    for sz in (-1, 1): m.box([-0.4, gy - 0.02, sz * 1.3 - 0.35], [0.8, 1.04, 0.7], faces_all("dark"))                    # furos (udenuki-ana)
+    # tsuka: núcleo + ito cruzado + menuki + kashira + sageo
+    gl = A["grip"]
+    m.box([-0.62, gy - gl, -0.72], [1.24, gl, 1.44], faces_all("grip"))
+    for k in range(int(gl * 2)):
+        yy = gy - gl + 0.5 * k + 0.1
+        m.box([-0.7, yy, -0.8], [1.4, 0.32, 1.6], faces_all("accent" if theme != "nightblue" else "glow" if k % 4 == 0 and rank >= 4 else "grip"), rot=[0, 0, 22 if k % 2 else -22], pivot=[0, yy + 0.16, 0])
+    m.box([-0.78, gy - gl * 0.5 - 0.6, -0.4], [1.56, 1.2, 0.8], faces_all("accent"))                                          # menuki
+    m.box([-0.82, gy - gl - 0.9, -0.92], [1.64, 0.95, 1.84], faces_all("accent"))                                              # kashira
+    m.box([-0.2, gy - gl - 3.2, -0.25], [0.4, 2.4, 0.5], faces_all("gem"), rot=[18, 0, 0], pivot=[0, gy - gl - 0.9, 0])         # sageo (fita)
+    if rank >= 4 and T["glow"]:
+        m.box([-0.3, gy - gl - 3.6, -0.3], [0.6, 0.6, 0.6], faces_all("glow"), rot=[45, 0, 45], pivot=[0, gy - gl - 3.3, 0])   # pingente de energia
+    return m
+
+def build_great(theme, rank, iid):
+    """v3 (6.36): montante da referência roxa — lâmina larga com veio central brilhante, serrilha na base, ponta em losango,
+    guarda larga com chifres virados para a lâmina e cabo longo de duas mãos."""
+    A = ARCH["great"]; m = Model(); L, W, Tk = A["L"], A["W"], A["T"]
+    T = THEMES[theme]; vein = "glow" if T["glow"] else "accent"
+    gy = 0.0; gh = 1.8; yb = gy + gh; tip = 6.0; y = 0.0
+    while y < L - 0.01:
+        st = 1.0 if L - y > tip + 0.01 else 0.5
+        rest = L - y; f = y / L
+        w = W * (1 - 0.12 * f) if rest > tip else max(0.3, W * (1 - 0.12 * (1 - tip / L)) * rest / tip)
+        v0, v1 = max(0, 1 - (y + st) / L), 1 - y / L
+        fa = faces_all("flat", (0.5 - 0.5 * min(1, w / W), v0, 0.5 + 0.5 * min(1, w / W), v1))
+        fa["north"] = fa["south"] = {"uv": rect("edge", (0, v0, 1, v1))[:2], "uv_size": rect("edge", (0, v0, 1, v1))[2:]}
+        m.box([-Tk * 0.3, yb + y, -w / 2], [Tk * 0.6, st, w], fa)                         # gume largo
+        m.box([-Tk * 0.5, yb + y, -w * 0.36], [Tk, st, w * 0.72], faces_all("flat", (0.2, v0, 0.8, v1)))   # corpo
+        if 1.0 < y < L - tip - 1:
+            m.box([-Tk * 0.62, yb + y, -w * 0.12], [Tk * 1.24, st, w * 0.24], faces_all(vein))   # veio central (brilha nos temas com energia)
+        y += st
+    for i in range(3):   # serrilha da base
+        for sz in (-1, 1):
+            yy = yb + 1.2 + i * 1.6
+            m.box([-Tk * 0.25, yy, sz * W / 2 - 0.5], [Tk * 0.5, 1.1, 1.0], faces_all("edge"), rot=[sz * 40, 0, 0], pivot=[0, yy, sz * W / 2])
+    # guarda
+    G = A["guard"]
+    m.box([-1.2, gy, -G / 2], [2.4, gh, G], faces_all("guard"))
+    m.box([-1.35, gy + 0.35, -G / 2 + 0.8], [2.7, gh - 0.7, G - 1.6], faces_all("accent"))
+    m.box([-1.5, gy + 0.2, -1.4], [3.0, gh + 0.4, 2.8], faces_all("gem" if rank >= 2 else "accent"))
+    for sz in (-1, 1):
+        zt = sz * G / 2
+        m.box([-0.7, gy, zt - 0.7], [1.4, 3.2, 1.4], faces_all("dark"), rot=[-sz * 28, 0, 0], pivot=[0, gy, zt])
+        m.box([-0.5, gy + 2.8, zt - 0.5], [1.0, 2.0, 1.0], faces_all("accent"), rot=[-sz * 52, 0, 0], pivot=[0, gy + 2.8, zt])
+    gl = A["grip"]
+    m.box([-0.7, gy - gl, -0.7], [1.4, gl, 1.4], faces_all("grip"))
+    for k in range(1, int(gl), 2): m.box([-0.82, gy - k - 0.3, -0.82], [1.64, 0.5, 1.64], faces_all("accent"))
+    m.box([-1.2, gy - gl - 1.8, -1.2], [2.4, 1.8, 2.4], faces_all("pommel"))
+    m.box([-0.7, gy - gl - 2.7, -0.7], [1.4, 1.0, 1.4], faces_all("gem"), rot=[0, 45, 0], pivot=[0, gy - gl - 2.2, 0])
+    return m
+
 def build_procedural(theme, arch, rank, iid):
+    if arch == "katana": return build_katana(theme, rank, iid)
+    if arch == "great": return build_great(theme, rank, iid)
     """v2 (6.35): seção em losango (gume fino, corpo, espinha), ponta em passos de 0,5 px, ornamentos 3D por tema"""
     A = ARCH[arch]; m = Model(); L, W, Tk = A["L"], A["W"], A["T"]
     rnd = random.Random(iid)
@@ -188,6 +279,9 @@ def build_procedural(theme, arch, rank, iid):
         layer(y, step, w, Tk * 0.45, zoff, v0, v1)                       # gume (fino e largo)
         layer(y, step, w * 0.68, Tk * 0.85, zoff, v0, v1)                 # corpo
         if arch != "katana": layer(y, step, max(0.25, w * 0.22), Tk * 1.15, zoff, v0, v1)   # espinha central
+        if arch not in ("katana", "rapier") and w > 0.6:   # 6.36 (estilo Tensura-Blade): núcleo em losango, cubo girado 45° — chanfro real do gume
+            q = min(w * 0.62, W * 0.55) / 1.4142
+            m.box([-q / 2, y, -q / 2 + zoff], [q, step, q], faces_all("flat", (0.3, v0, 0.7, v1)), rot=[0, 45, 0], pivot=[0, y, zoff])
         y += step
     blade_top = yb + L
     # --- ornamentos por tema (ao longo da lâmina)
@@ -314,15 +408,64 @@ def java_model(path, texw=None, texh=None, ident=None):
         m.box(o, sz, fs, rot, pivot)
     return m
 
+# ------------------------------------------------------------------ modelos .obj de cubos (Tensura-Blade, uso pessoal): o brilho é "assado" na textura
+def obj_model(objp, texp, glowp, scale=0.62):
+    from obj2cubes import cubes as obj_cubes
+    base = Image.open(texp).convert("RGBA"); glow = Image.open(glowp).convert("RGBA")
+    tw, th = base.size
+    cs, _ = obj_cubes(objp, tw, th)
+    B = [c for c in cs if c["mat"] != "dragon_glow"]; G = [c for c in cs if c["mat"] == "dragon_glow"]
+    out = base.copy(); px = out.load(); gp = glow.load()
+    for c in out.getdata(): pass
+    # cada cubo de brilho cobre um cubo base: copia os pixels acesos para a face equivalente e marca alfa 0 (= emissivo no entity_emissive_alpha)
+    def key(c): return tuple(round(v, 1) for v in c["origin"] + c["size"])
+    lit = 0
+    for g in G:
+        b = min(B, key=lambda c: sum(abs(x - y) for x, y in zip(c["origin"] + c["size"], g["origin"] + g["size"])))
+        for fn, uv in g["uv"].items():
+            bu = b["uv"].get(fn)
+            if not bu: continue
+            gx, gy = uv["uv"]; gw, gh = uv["uv_size"]; bx, by = bu["uv"]; bw, bh = bu["uv_size"]
+            n = max(1, int(round(max(abs(bw), abs(bh)))))
+            for i in range(int(abs(bw)) or 1):
+                for j in range(int(abs(bh)) or 1):
+                    fu, fv = (i + 0.5) / max(1, abs(bw)), (j + 0.5) / max(1, abs(bh))
+                    sx = int(gx + fu * gw) if gw >= 0 else int(gx + fu * gw - 1e-6)
+                    sy = int(gy + fv * gh) if gh >= 0 else int(gy + fv * gh - 1e-6)
+                    tx = int(bx + fu * bw) if bw >= 0 else int(bx + fu * bw - 1e-6)
+                    ty = int(by + fv * bh) if bh >= 0 else int(by + fv * bh - 1e-6)
+                    if 0 <= sx < tw and 0 <= sy < th and 0 <= tx < tw and 0 <= ty < th and gp[sx, sy][3] > 40:
+                        r, g2, b2, _ = gp[sx, sy]; px[tx, ty] = (r, g2, b2, 0); lit += 1
+    # pixels opacos do resto = 255 (o alfa 0 fica só no brilho)
+    for y in range(th):
+        for x in range(tw):
+            r, g2, b2, a = px[x, y]
+            if a not in (0,) and a < 255: px[x, y] = (r, g2, b2, 255)
+    m = Model(tw, th)
+    ys = [c["origin"][1] for c in B] + [c["origin"][1] + c["size"][1] for c in B]
+    # empunhadura: centro do cabo = ponto mais baixo + 9% do comprimento (lâmina para +Y)
+    y0 = min(ys) + (max(ys) - min(ys)) * 0.13
+    xs = [c["origin"][0] + c["size"][0] / 2 for c in B]; zs = [c["origin"][2] + c["size"][2] / 2 for c in B]
+    cx, cz = sum(xs) / len(xs), sum(zs) / len(zs)
+    T = lambda p: [(p[0] - cx) * scale, (p[1] - y0) * scale, (p[2] - cz) * scale]
+    for c in B:
+        o = T(c["origin"]); sz = [v * scale for v in c["size"]]
+        m.box(o, sz, c["uv"], c.get("rotation"), T(c["pivot"]) if "pivot" in c else None)
+    m.yaw = 90
+    return m, out, lit
+
 # ------------------------------------------------------------------ exportação
 def geo_json(gid, m):
     bones = [{"name": "rightArm", "pivot": [-5, 22, 0]}, {"name": "rightItem", "parent": "rightArm", "pivot": [-6, 15, 1]},
              {"name": "eth_weapon", "parent": "rightItem", "pivot": list(HAND), "rotation": HOLD_ROT, "cubes": []}]
+    if getattr(m, "yaw", 0):
+        bones.append({"name": "eth_model", "parent": "eth_weapon", "pivot": list(HAND), "rotation": [0, m.yaw, 0], "cubes": []})
+    tgt = bones[-1]
     for c in m.cubes:
         c2 = json.loads(json.dumps(c))
         c2["origin"] = [round(c["origin"][k] + HAND[k], 4) for k in range(3)]
         if "pivot" in c: c2["pivot"] = [round(c["pivot"][k] + HAND[k], 4) for k in range(3)]
-        bones[2]["cubes"].append(c2)
+        tgt["cubes"].append(c2)
     return {"format_version": "1.16.0", "minecraft:geometry": [{"description": {"identifier": gid, "texture_width": m.tw, "texture_height": m.th,
             "visible_bounds_width": 4, "visible_bounds_height": 4.5, "visible_bounds_offset": [0, 1.25, 0]}, "bones": bones}]}
 def attachable_json(iid, gid, tex, emissive):
@@ -408,7 +551,8 @@ def persp(dst, src):
 
 # ------------------------------------------------------------------ principal
 CONVERTED = {   # item -> (modelo, textura)
-  "rimuru_katana": ("SlimeThroneExtras/assets/stextras/models/item/rimuru_katana.json", "SlimeThroneExtras/assets/stextras/textures/item/rimuru_katana.png"),
+  # "rimuru_katana": substituída pela katana v3 (referência preta/azul)
+  "_rimuru_katana_old": ("SlimeThroneExtras/assets/stextras/models/item/rimuru_katana.json", "SlimeThroneExtras/assets/stextras/textures/item/rimuru_katana.png"),
   "uraku_katana": ("tensura_minesura/assets/tensura_minesura/models/item/uraku_katana.json", "tensura_minesura/assets/tensura_minesura/textures/item/uraku_katana.png"),
   "green_dragon_blade": ("tensura_minesura/assets/tensura_minesura/models/item/green_dragon_blade.json", "tensura_minesura/assets/tensura_minesura/textures/item/green_dragon_blade_0.png"),
   "soul_serpent_blade": ("tensura_minesura/assets/tensura_minesura/models/item/soul_serpent_blade.json", "tensura_minesura/assets/tensura_minesura/textures/item/soul_serpent_blade.png"),
@@ -422,7 +566,11 @@ def main():
     for w in W:
         iid = w["id"]; sid = iid.split(":")[1]; rank = RARITY_RANK.get(w.get("rarity"), 1)
         gid = f"geometry.etheria_w_{sid}"; texrel = f"textures/attachable/w_{sid}"
-        if sid in CONVERTED and SRC_MODELS:
+        view = (-78, 14, -45)
+        if sid in OBJ_MODELS and TB_DIR:
+            o, t, g = [os.path.join(TB_DIR, p) for p in OBJ_MODELS[sid]]
+            m, tex, _ = obj_model(o, t, g); src = "convertido (obj Tensura-Blade)"; emissive = True; view = (12, 14, -45)
+        elif sid in CONVERTED and SRC_MODELS:
             mp_, tp_ = [p.replace("@CIT", SRC_CIT) if p.startswith("@CIT") else os.path.join(SRC_MODELS, p) for p in CONVERTED[sid]]
             tex = Image.open(tp_).convert("RGBA"); m = java_model(mp_, tex.size[0], tex.size[1]); src = "convertido"
             emissive = False
@@ -434,7 +582,8 @@ def main():
         tex.save(os.path.join(RP, texrel + ".png"))
         json.dump(geo_json(gid, m), open(os.path.join(RP, f"models/entity/etheria_w_{sid}.geo.json"), "w"), indent=1)
         json.dump(attachable_json(iid, gid, texrel, emissive), open(os.path.join(RP, f"attachables/w_{sid}.attachable.json"), "w"), indent=1)
-        icon = render_icon(m, tex); icon.save(os.path.join(RP, f"textures/items/etheria_{sid}.png"))
+        it = tex.copy(); it.putalpha(255) if emissive else None
+        icon = render_icon(m, it, view=view); icon.save(os.path.join(RP, f"textures/items/etheria_{sid}.png"))
         report.append((sid, src, len(m.cubes)))
     for r in report: print(*r)
     print(len(report), "armas")

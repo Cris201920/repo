@@ -98,7 +98,8 @@ function scan() {
   const cands = Object.values(WAR_EVENTS).filter((ev) => (ev.need <= -99 || relation(ev.faction, ev.foe) <= ev.need) && centerOf(ev.place));
   if (!cands.length) return;
   const ev = cands[randInt(0, cands.length - 1)], c = centerOf(ev.place);
-  if (near(c, 60).length === 0) return;
+  // 6.36: o jogador agora NASCE em Tempest — invasões só com alguém de nível 8+ por perto (não no primeiro minuto de jogo)
+  if (!near(c, 60).some((p) => (getData(p).level ?? 1) >= 8)) return;
   startEvent(ev, c);
 }
 

@@ -7,7 +7,7 @@ import { say, playSound } from "../core/utils.js";
 import { ORIGIN_ROOM as R, SPAWN_ORIGINS, ORIGIN_LIST, REGION_CITIES } from "../data/origins.js";
 import { fx, ring } from "./fx.js";
 import { __test as settle, ensureSettlement } from "./settlements.js";
-import { ensureTempest } from "./tempest.js";
+import { ensureTempest, ensureTempestCore, setTempestWorldSpawn, tempestBackground, tempestHasSite } from "./tempest.js";
 import { locationOfPlace, markVisited, announceLocation } from "./travel.js";
 import { SETTLEMENT_LIST } from "../data/factions.js";
 import { menu } from "./ui/forms.js";
@@ -180,6 +180,40 @@ function enterRoom(p) {
     system.runTimeout(() => { if (p.isValid) sage(p, "Por favor, selecione sua origem."); }, 40);
   });
 }
+// ------------------------------------------------------------ 6.36: nascimento direto em Tempest (sem sala, sem NPC, sem botão, sem comando)
+/** Jogador novo: a cidade é colocada em volta dele (núcleo primeiro), ele é levado ao ponto seguro e o spawn do mundo passa a ser a entrada. */
+export function birthInTempest(p, tries = 0) {
+  if (!p?.isValid || getData(p).origin) return;
+  const pid = p.id;
+  try {
+    p.addEffect("resistance", 400, { amplifier: 4, showParticles: false });
+    p.addEffect("slow_falling", 400, { amplifier: 0, showParticles: false });
+    if (tries === 0) p.runCommand("camera @s fade time 0.2 1.6 0.8 color 6 10 22");
+  } catch { /* ignore */ }
+  ensureTempestCore(p, (sp) => {
+    const q = world.getAllPlayers().find((x) => x.id === pid);
+    if (!q || getData(q).origin) return;
+    if (!sp) {
+      if (tries < 6) return void system.runTimeout(() => birthInTempest(q, tries + 1), 60);
+      console.warn("[Etheria] nascimento em Tempest: o núcleo da cidade não ficou pronto");
+      return;
+    }
+    try { q.teleport({ x: sp.x, y: sp.y, z: sp.z }, { dimension: dim(), rotation: { x: 0, y: sp.yaw ?? 0 }, keepVelocity: false }); }
+    catch (e) { console.warn(`[Etheria] teleporte de nascimento: ${e}`); if (tries < 6) system.runTimeout(() => birthInTempest(q, tries + 1), 40); return; }
+    setTempestWorldSpawn(sp);
+    try { q.setSpawnPoint({ x: Math.floor(sp.x), y: Math.floor(sp.y), z: Math.floor(sp.z), dimension: dim() }); } catch { /* ignore */ }
+    const cur = getData(q); cur.origin = "tempest"; markDirty(q); saveNow(q);
+    try { q.removeEffect("slow_falling"); } catch { /* ignore */ }
+    system.runTimeout(() => {
+      if (!q.isValid) return;
+      try { q.removeEffect("resistance"); } catch { /* ignore */ }
+      try { markVisited(q, "tempest"); announceLocation(q, "tempest"); } catch { /* ignore */ }
+    }, 30);
+    if (!getData(q).raceChosen) system.runTimeout(() => { if (q.isValid && !getData(q).raceChosen) openRacePick(q); }, 140);
+    // o restante da cidade (55 ladrilhos) sai em segundo plano, sem mensagens
+    system.runTimeout(() => tempestBackground(), 100);
+  });
+}
 export function startOrigin() {
   world.afterEvents.playerSpawn.subscribe((ev) => {
     if (!ev.initialSpawn) return;
@@ -188,11 +222,11 @@ export function startOrigin() {
       try {
         if (!p.isValid) return;
         const d = getData(p);
-        if (d.origin) return;
-        // jogadores antigos (já têm raça ou progresso) não são levados à sala: a origem deles fica registrada como "legacy"
-        if (d.raceChosen || d.level > 1) { d.origin = "legacy"; markDirty(p); return; }
-        beginBirth(p, SPAWN_ORIGINS.tempest, true);   // nascimento direto em Tempest: sem sala de escolha
-      } catch (e) { console.warn(`[Etheria] sala de origem: ${e}`); }
+        if (d.origin) return;   // já nasceu: reentrar/morrer não reconstrói nem teleporta
+        // jogadores antigos (já têm raça ou progresso) ficam onde estão: origem "legacy"; Tempest é gerada longe da base deles
+        if (d.raceChosen || d.level > 1) { d.origin = "legacy"; markDirty(p); if (!tempestHasSite()) tempestBackground(); return; }
+        birthInTempest(p);
+      } catch (e) { console.warn(`[Etheria] nascimento: ${e}`); }
     }, 20);
   });
   // NPCs de sistema: o dano é desfeito (não morrem) e a sala é mantida com todos os NPCs

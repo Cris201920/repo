@@ -319,3 +319,31 @@ export function partChoreo(ch, sk) {
   if (ch.holdFx) w.holdFx = (c, f, k, total) => { ch.holdFx(c, f, k, total); skillPart(c, sk, "hold", { pos: f.feet, at: f.feet, tier: 1 }); };
   return w;
 }
+
+// --------------------------------------------------------------- 6.36: partículas próprias das camadas (RP/particles/vfx_*.json, atlas etheria_vfx)
+/** kind: bolt | ember | shard | blade | wave | smoke | glow. o: {dir,spd,col,a,size,life,grow,acc,drag,tile,sx,sy} — mesmo orçamento por tick de mote(). */
+export function vfx(c, kind, pos, o = {}) {
+  if (!canSpawn(c)) return;
+  const d = o.dir ?? [0, 1, 0], k = col(o.col ?? "white");
+  setv("dx", d[0]); setv("dy", d[1]); setv("dz", d[2]); setv("spd", o.spd ?? 0);
+  setv("ax", o.acc?.[0] ?? 0); setv("ay", o.acc?.[1] ?? 0); setv("az", o.acc?.[2] ?? 0); setv("drag", o.drag ?? 0.6);
+  setv("r", k[0]); setv("g", k[1]); setv("b", k[2]); setv("a", o.a ?? 1);
+  setv("size", o.size ?? 0.4); setv("life", o.life ?? 0.6); setv("grow", o.grow ?? 0); setv("tile", o.tile ?? 0);
+  setv("sx", o.sx ?? 0.5); setv("sy", o.sy ?? 1); setv("seed", Math.floor(Math.random() * 4));
+  try { c.dim.spawnParticle(`etheria:vfx_${kind}`, pos, MAP); } catch { /* ignore */ }
+}
+/** Raio ramificado (preto com contorno claro por padrão): segmentos tremeluzentes entre a e b + ramos curtos. */
+export function vbolt(c, a, b, o = {}) {
+  const segs = Math.max(2, Math.min(o.segs ?? 7, nn(c, o.segs ?? 7) + 1)), jit = o.jitter ?? 0.5;
+  let prev = a;
+  for (let i = 1; i <= segs; i++) {
+    const t = i / segs, cur = i === segs ? b : { x: a.x + (b.x - a.x) * t + rand(-jit, jit), y: a.y + (b.y - a.y) * t + rand(-jit, jit) * 0.6, z: a.z + (b.z - a.z) * t + rand(-jit, jit) };
+    const v = sub(cur, prev), len = Math.hypot(v.x, v.y, v.z) || 0.01;
+    vfx(c, "bolt", { x: (prev.x + cur.x) / 2, y: (prev.y + cur.y) / 2, z: (prev.z + cur.z) / 2 }, { dir: [v.x / len, v.y / len, v.z / len], sx: o.w ?? 0.55, sy: len * 1.15, life: o.life ?? 0.22, col: o.col ?? "white", a: o.a ?? 1 });
+    if (o.branch && Math.random() < o.branch && i < segs) {
+      const e = { x: cur.x + rand(-1.4, 1.4), y: cur.y + rand(-0.8, 0.6), z: cur.z + rand(-1.4, 1.4) }, w = sub(e, cur), l2 = Math.hypot(w.x, w.y, w.z) || 0.01;
+      vfx(c, "bolt", { x: (cur.x + e.x) / 2, y: (cur.y + e.y) / 2, z: (cur.z + e.z) / 2 }, { dir: [w.x / l2, w.y / l2, w.z / l2], sx: (o.w ?? 0.55) * 0.6, sy: l2, life: (o.life ?? 0.22) * 0.8, col: o.col ?? "white" });
+    }
+    prev = cur;
+  }
+}

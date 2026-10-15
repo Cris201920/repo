@@ -26,6 +26,7 @@ import { startMobSkills } from "./systems/mobskills.js";
 import { applyRaceLook, cleanLegacyRaceItems, startAngelGlide } from "./systems/raceparts.js";
 import { startLineage } from "./systems/lineage.js";
 import { startOrigin } from "./systems/origin.js";
+import { startInfusion } from "./systems/infusion.js";
 import { startStructures } from "./systems/structures.js";
 import { startTempest } from "./systems/tempest.js";
 import { startSettlements } from "./systems/settlements.js";
@@ -144,7 +145,7 @@ system.run(() => {
   startCreator();
   startCinematic();
   startChronoa();
-  startAngelGlide(); startLineage(); startOrigin();
+  startAngelGlide(); startLineage(); startOrigin(); startInfusion();
   startPredator();
   startMobSkills();
   startSage();

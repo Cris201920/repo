@@ -41,7 +41,9 @@ const TXT = {
       true_demon_lord: ["Aviso.", "O Festival da Colheita foi concluído.", "O indivíduo designado, o hospedeiro, despertou como Verdadeiro Lorde Demônio.", "Confirmados o aumento de todos os valores de habilidade e a evolução dos subordinados.", "Em seguida, relatarei as habilidades adquiridas."],
       evolution: ["Aviso.", "O hospedeiro cumpre as condições de evolução da espécie. Evolução solicitada à Voz do Mundo.", "...... Aprovação confirmada. O indivíduo designado, o hospedeiro,", "evoluiu com sucesso. Aumento do valor de existência e reestruturação das habilidades inatas confirmados."],
       analysis: "Análise concluída.",
+      level: "Aviso. O valor de existência do hospedeiro aumentou.",
     },
+    levelup: "SUBIU DE NÍVEL", level: "NÍVEL", attr: (n) => `+${n} pontos de atributo`, skillpt: "+1 ponto de habilidade", evo: "Condições de evolução cumpridas",
   },
   en: {
     tier: { extra: "EXTRA SKILL", unique: "UNIQUE SKILL", ultimate: "ULTIMATE SKILL", intrinsic: "INTRINSIC SKILL", common: "COMMON SKILL", resistance: "RESISTANCE" },
@@ -54,7 +56,9 @@ const TXT = {
       true_demon_lord: ["Notice.", "The Harvest Festival is over.", "The designated individual, the host, has awakened as a True Demon Lord.", "Every ability value has risen, and the subordinates have evolved.", "Next, I will report the skills acquired."],
       evolution: ["Notice.", "The host meets the conditions for species evolution. Evolution is requested of the Voice of the World.", "...... Approval confirmed. The designated individual, the host,", "has evolved. Existence value rises and innate skills are restructured."],
       analysis: "Analysis complete.",
+      level: "Notice. The host's existence value has increased.",
     },
+    levelup: "LEVEL UP", level: "LEVEL", attr: (n) => `+${n} attribute points`, skillpt: "+1 skill point", evo: "Evolution conditions met",
   },
 };
 const CEREMONY_THEME = { hero_egg: "raphael", demon_lord_seed: "world", harvest_festival: "world", true_hero: "raphael", true_demon_lord: "world" };
@@ -102,11 +106,21 @@ export function build(o, L) {
     if (o.notice) c = emit(steps, "voice.koku", c, 0);
     lines.push({ type: "ANALYSED", text: o.analysis.name, at: c }); c = emit(steps, o.analysis.key, c, NAME_MS);
     sub.push({ text: T.sub.analysis, at: c }); c = emit(steps, "voice.kaiseki_kanryou", c, 0);
+  } else if (o.info) {
+    c = emit(steps, "voice.koku", c, 0);
+    lines.push({ type: "TIER", tier: o.info.tier ?? "intrinsic", text: o.info.header, at: c }); c += 700;
+    lines.push({ type: "SKILL", text: `§a§l${o.info.name}`, at: c }); c += NAME_MS + 200;
+    if (o.info.hint) { lines.push({ type: "RACE_FROM", text: o.info.hint, at: c }); c += 600; }
+  } else if (o.level) {
+    sub.push({ text: T.sub.level, at: c }); c = emit(steps, "voice.koku", c, 0);
+    lines.push({ type: "TIER", tier: "extra", text: T.levelup, at: c }); c += 700;
+    lines.push({ type: "SKILL", text: `§e§l${T.level} ${o.level.to}`, at: c }); c += NAME_MS + 200;
+    for (const x of [T.attr(o.level.attr), o.level.skillPt ? T.skillpt : "", o.level.evo ? `${T.evo}: §a${o.level.evo}` : ""]) if (x) { lines.push({ type: "RACE_FROM", text: x, at: c }); c += 520; }
   } else if (o.notice) c = emit(steps, "voice.koku", c, 0);
   // categorias, na ordem configurada; o que não estiver na ordem vai ao fim
   const groups = new Map();
   for (const e of o.entries ?? []) { const t = TIER_ORDER.includes(e.tier) ? e.tier : "common"; if (!groups.has(t)) groups.set(t, []); groups.get(t).push(e); }
-  let before = !!(o.ceremony || o.evolution || o.analysis);
+  let before = !!(o.ceremony || o.evolution || o.analysis || o.level);
   for (const t of TIER_ORDER) {
     const g = groups.get(t); if (!g) continue;
     if (before) c = emit(steps, "voice.tsuzukete", c, 0);
@@ -188,6 +202,24 @@ export function announceEvolution(p, from, to, fromId, toId) {
   if (!enabled(p)) { try { p.sendMessage(`§6${from} §7» §6${to}`); } catch { /* ignore */ } return; }
   const s = st(p); if (s.pendTimer) { system.clearRun(s.pendTimer); s.pendTimer = 0; }
   submitAnn(p, { evolution: { from, to, fromKey: raceKey(fromId, from), toKey: raceKey(toId, to) }, entries: s.pending.splice(0), notice: true });
+}
+/** subiu de nível: mostrado na cena da Voz do Mundo (6.36) em vez de chat + título + barra. info = { attr, skillPt, evo } */
+export function announceLevel(p, to, info = {}) {
+  if (!ok(p)) return;
+  if (!enabled(p)) { try { p.sendMessage(`§6§l[Etheria]§r §eNível §f${to}§e!`); } catch { /* ignore */ } return; }
+  const s = st(p), c = s.cur;
+  // vários níveis seguidos: atualiza o anúncio que ainda está na fila em vez de empilhar cenas
+  const q = s.queue.find((x) => x.level); if (q) { q.level = { ...q.level, ...info, to, attr: (q.level.attr ?? 0) + (info.attr ?? 0) }; return; }
+  if (c?.o.level && nowMs(s) < 600) { c.o.level = { ...c.o.level, ...info, to, attr: (c.o.level.attr ?? 0) + (info.attr ?? 0) }; rebuild(p); return; }
+  submitAnn(p, { level: { to, ...info }, entries: [], theme: "sage" });
+}
+/** aviso curto na cena (ex.: evolução disponível). Se houver um anúncio de nível na fila/tela, vira uma linha dele. */
+export function announceInfo(p, header, name, hint = "", tier = "intrinsic") {
+  if (!ok(p)) return;
+  if (!enabled(p)) { try { p.sendMessage(`§a§l${header}§r §f${name}`); } catch { /* ignore */ } return; }
+  const s = st(p), q = s.queue.find((x) => x.level) ?? (s.cur?.o.level ? s.cur.o : null);
+  if (q && tier === "intrinsic") { q.level.evo = name; if (q === s.cur?.o) rebuild(p); return; }
+  submitAnn(p, { info: { header, name, hint, tier }, entries: [], theme: "sage" });
 }
 export function announceAnalysis(p, name) { if (ok(p) && enabled(p)) submitAnn(p, { analysis: { name }, entries: [], notice: true }); }
 

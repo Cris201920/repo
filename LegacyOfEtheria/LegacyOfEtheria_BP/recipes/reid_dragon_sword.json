@@ -1,0 +1,36 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:reid_dragon_sword_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " C ",
+   "GCG",
+   " N "
+  ],
+  "key": {
+   "C": {
+    "item": "etheria:celestial_crystal"
+   },
+   "G": {
+    "item": "minecraft:gold_block"
+   },
+   "N": {
+    "item": "minecraft:netherite_ingot"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:celestial_crystal"
+   }
+  ],
+  "result": {
+   "item": "etheria:reid_dragon_sword",
+   "count": 1
+  }
+ }
+}

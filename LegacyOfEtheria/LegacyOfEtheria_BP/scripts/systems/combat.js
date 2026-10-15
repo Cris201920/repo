@@ -9,6 +9,7 @@ import { getStats } from "./stats.js";
 import { addBuff } from "./effects.js";
 import { fx } from "./fx.js";
 import { BOSS_BY_TYPE } from "../data/bosses.js";
+import { infusedHit } from "./infusion.js";
 
 const lastCombat = new Map(); // playerId -> tick
 export function markCombat(player) { if (!inCombat(player)) { try { sysSay(player, "combat", "start"); } catch { /* ignore */ } } lastCombat.set(player.id, Date.now()); }
@@ -86,6 +87,8 @@ function onHit(ev) {
   if (dmg > 0) dealDamage(a, t, dmg);
   if (s.lifesteal > 0 && dmg > 0) heal(a, dmg * s.lifesteal / 100);
   if (s.weapon?.onHit) applyOnHit(a, t, s.weapon.onHit, dmg);
+  // 6.36: infusão gravada na espada da mão (systems/infusion.js)
+  if (s.weapon && dmg > 0) { try { const it = a.getComponent("minecraft:inventory")?.container?.getItem(a.selectedSlotIndex); if (it) dmg += infusedHit(a, t, dmg, it, dealDamage, isValidTarget); } catch { /* ignore */ } }
   if (crit) { sysSay(a, "combat", "crit", { cd: 2400 }); fx(t.dimension, { x: t.location.x, y: t.location.y + 1, z: t.location.z }, "physical", a); playSound(a, SOUNDS.crit, 0.6, 1.4); }
   try { a.onScreenDisplay.setActionBar(`${crit ? "§6§lCRÍTICO! " : "§c"}-${Math.round(dmg + 1)}`); } catch { /* ignore */ }
   markDirty(a);

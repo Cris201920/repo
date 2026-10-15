@@ -1,63 +1,63 @@
 {
- "format_version": 2,
- "header": {
-  "name": "§6Legacy of Etheria §7BP",
-  "description": "RPG original: níveis, raças, classes, habilidades, bosses, missões, guilda e UI mobile.",
-  "uuid": "bf94e56a-2154-4d35-abd2-9259947fea9d",
-  "version": [
-   6,
-   35,
-   0
+  "format_version": 2,
+  "header": {
+    "name": "§6Legacy of Etheria §7BP",
+    "description": "RPG original: níveis, raças, classes, habilidades, bosses, missões, guilda e UI mobile.",
+    "uuid": "bf94e56a-2154-4d35-abd2-9259947fea9d",
+    "version": [
+      6,
+      36,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      80
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "2f7af6f7-e8fb-489c-8266-db2829a72451",
+      "version": [
+        6,
+        36,
+        0
+      ]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "15aa614b-588b-4a80-b4a6-a918b2e40cf4",
+      "version": [
+        6,
+        36,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
   ],
-  "min_engine_version": [
-   1,
-   21,
-   80
-  ]
- },
- "modules": [
-  {
-   "type": "data",
-   "uuid": "2f7af6f7-e8fb-489c-8266-db2829a72451",
-   "version": [
-    6,
-    35,
-    0
-   ]
-  },
-  {
-   "type": "script",
-   "language": "javascript",
-   "uuid": "15aa614b-588b-4a80-b4a6-a918b2e40cf4",
-   "version": [
-    6,
-    35,
-    0
-   ],
-   "entry": "scripts/main.js"
+  "dependencies": [
+    {
+      "uuid": "938ea54d-19fd-4e27-a8e9-5e473dfaa00d",
+      "version": [
+        6,
+        36,
+        0
+      ]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "1.17.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "1.3.0"
+    }
+  ],
+  "metadata": {
+    "authors": [
+      "Legacy of Etheria"
+    ]
   }
- ],
- "dependencies": [
-  {
-   "uuid": "938ea54d-19fd-4e27-a8e9-5e473dfaa00d",
-   "version": [
-    6,
-    35,
-    0
-   ]
-  },
-  {
-   "module_name": "@minecraft/server",
-   "version": "1.17.0"
-  },
-  {
-   "module_name": "@minecraft/server-ui",
-   "version": "1.3.0"
-  }
- ],
- "metadata": {
-  "authors": [
-   "Legacy of Etheria"
-  ]
- }
 }

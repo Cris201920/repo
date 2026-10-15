@@ -6,7 +6,7 @@ import { world, system } from "@minecraft/server";
 import { TEMPEST } from "../data/tempest.gen.js";
 import { say } from "../core/utils.js";
 import { canBuild } from "../core/perm.js";
-import { enqueue, holdRegion, placeFile, clampOrigin } from "./placer.js";
+import { enqueue, enqueueFirst, holdRegion, placeFile, clampOrigin } from "./placer.js";
 
 const KEY = "etheria:tempest";
 const AREA = "etheria_tc";
@@ -153,7 +153,8 @@ function autoGenerate() {
   autoRun = true;
   const players = () => world.getAllPlayers();
   const tell = (m) => { for (const p of players()) say(p, m); };
-  if (!(load() && complete())) tell("§6[Tempest] §7Gerando a Cidade de Tempest...");
+  const quiet = !!(load() && S.home);   // cidade natal (o jogador já está nela): o restante é colocado em silêncio
+  if (!quiet && !(load() && complete())) tell("§6[Tempest] §7Gerando a Cidade de Tempest...");
   ensureTempest((sp) => {
     autoRun = false;
     if (S && complete() && sp) {
@@ -169,14 +170,16 @@ function autoGenerate() {
   });
 }
 
+export { autoGenerate as tempestBackground };
 export function startTempest() {
-  // geração automática imediata: ao entrar o primeiro jogador (ou, se o script iniciar com jogadores já no mundo, logo em seguida)
-  world.afterEvents.playerSpawn.subscribe((ev) => { if (ev.initialSpawn) system.runTimeout(autoGenerate, 10); });
-  system.runTimeout(() => { if (world.getAllPlayers().length) autoGenerate(); }, 20);
+  // 6.36: o LOCAL da cidade é decidido por systems/origin.js no primeiro spawn (mundo novo -> em volta do jogador, ensureTempestCore;
+  // mundo antigo sem Tempest -> terreno distante, autoGenerate). Aqui só se CONTINUA uma cidade que já tem posição salva.
+  world.afterEvents.playerSpawn.subscribe((ev) => { if (ev.initialSpawn && load()) system.runTimeout(autoGenerate, 60); });
+  system.runTimeout(() => { if (world.getAllPlayers().length && load()) autoGenerate(); }, 80);
   system.runInterval(() => {
     if (busy || searching || world.getAllPlayers().length === 0) return;
     tick++;
-    if (!load()) { if (tick > 2) { busy = true; findSite((s) => { busy = false; if (s) { S = { x: s.x, y: s.y, z: s.z, done: {}, npcs: {}, ann: 0 }; save(); } }); } return; }
+    if (!load()) return;
     const t = nearestPending(); if (!t) return;
     busy = true; placeTile(t, () => { busy = false; });
     const p = world.getAllPlayers()[0]; if (p) announce(p);
@@ -282,4 +285,97 @@ export function buildTempestAt(p, done) {
     else say(p, `§c[Tempest] Construída ${i?.done ?? 0}/${i?.total ?? 64}. ${S?.lastErr ? "Motivo: " + S.lastErr : "Entrada ainda não verificada."} Use §e!tempest aqui§c de novo para completar.`);
     done?.(sp);
   }, 0, (n, total) => { if (n >= 0 && n - last >= 16) { last = n; say(p, `§7[Tempest] ${n}/${total} ladrilhos colocados...`); } });
+}
+
+// ------------------------------------------------------------ 6.36: NASCIMENTO INSTANTÂNEO EM TEMPEST (mundo novo)
+// Por que a cidade não aparecia: o local era procurado a 700–1300 blocos do spawn (até 24 terrenos carregados por tickingarea, ~8 s cada) e o jogador
+// só era levado depois que os 64 ladrilhos (4 quadrantes de 256x256 em terreno ainda NÃO GERADO) ficassem prontos. No celular isso estourava os
+// tempos de espera (45 s por quadrante), o retorno era null e, depois de 4 tentativas, o nascimento era abandonado (o jogador ficava no spawn vanilla).
+// Agora: a cidade é colocada EM VOLTA do jogador (o ponto de entrada de Tempest cai exatamente onde ele apareceu, terreno já carregado),
+// o núcleo de 3x3 ladrilhos (192x192) é colocado primeiro, o jogador é levado ao ponto seguro e o restante sai em segundo plano.
+const SOFT = /leaves|log|wood|vine|grass$|tall_grass|fern|flower|snow_layer|azalea|mushroom|bush|sapling/;
+function groundAt(dim, x, z) {
+  const hs = [];
+  for (const [dx, dz] of [[0, 0], [6, 0], [-6, 0], [0, 6], [0, -6], [12, 12], [-12, -12], [12, -12], [-12, 12]]) {
+    let b; try { b = dim.getTopmostBlock({ x: x + dx, z: z + dz }); } catch { b = undefined; }
+    if (!b) continue;
+    let y = b.location.y, id = b.typeId;
+    // desce por folhas/troncos/plantas até o chão de verdade
+    for (let k = 0; k < 24 && SOFT.test(id); k++) { y--; try { id = dim.getBlock({ x: x + dx, y, z: z + dz })?.typeId ?? ""; } catch { break; } }
+    hs.push(y);
+  }
+  if (!hs.length) return null;
+  hs.sort((a, b) => a - b);
+  return hs[Math.floor(hs.length / 2)];
+}
+/** posição da cidade tal que o ponto de entrada (TEMPEST.spawn) fique onde o jogador está */
+export function siteAround(p) {
+  const dim = ow(), l = p.location, sp = TEMPEST.spawn ?? { x: 0, z: 0 };
+  const y = groundAt(dim, Math.floor(l.x), Math.floor(l.z));
+  if (y === null) return null;
+  const h = heightRange(dim);
+  return { x: Math.floor(l.x) - sp.x, y: Math.max(h.min + 8, Math.min(y, h.max - 48)), z: Math.floor(l.z) - sp.z };
+}
+function heightRange(dim) { try { const r = dim.heightRange; if (r) return r; } catch { /* ignore */ } return { min: -64, max: 320 }; }
+/** ladrilhos do núcleo: o do ponto de entrada e os 8 vizinhos */
+export function coreTiles() {
+  const sp = TEMPEST.spawn ?? { x: 0, z: 0 }, st = tileOf(sp.x, sp.z);
+  if (!st) return TEMPEST.tiles.slice(0, 1);
+  return TEMPEST.tiles.filter((t) => Math.abs(t.ox - st.ox) <= 64 && Math.abs(t.oz - st.oz) <= 64);
+}
+export const tempestHasSite = () => !!load();
+/**
+ * Garante o NÚCLEO da cidade e devolve cb(pontoSeguro | null). Se a cidade ainda não tem posição, ela é criada em volta de p (uma única vez:
+ * a posição fica salva; chamadas seguintes reaproveitam). Nada é colocado duas vezes (S.done).
+ */
+export function ensureTempestCore(p, cb, tries = 0) {
+  if (busy || searching) { if (tries > 200) return cb(null); return system.runTimeout(() => ensureTempestCore(p, cb, tries + 1), 10); }
+  const dim = ow();
+  if (!load()) {
+    const s = p?.isValid ? siteAround(p) : null;
+    if (!s) { if (tries > 60) return cb(null); return system.runTimeout(() => ensureTempestCore(p, cb, tries + 1), 10); }
+    S = { x: s.x, y: s.y, z: s.z, done: {}, npcs: {}, ann: 1, home: 1 }; save();
+  }
+  const core = coreTiles(), todo = core.filter((t) => !S.done[t.id]);
+  const x0 = Math.min(...core.map((t) => t.ox)), z0 = Math.min(...core.map((t) => t.oz));
+  const x1 = Math.max(...core.map((t) => t.ox + t.sx)), z1 = Math.max(...core.map((t) => t.oz + t.sz));
+  busy = true;
+  enqueueFirst((next) => holdRegion(dim, S.x + x0, S.z + z0, x1 - x0, z1 - z0, (ok, why, release) => {
+    const end = (sp) => { release(); next(); busy = false; save(); cb(sp); };
+    if (!ok) { S.lastErr = `núcleo: ${why}`; return end(null); }
+    let i = 0;
+    const step = () => {
+      try { for (let n = 0; n < 3 && i < todo.length; n++, i++) { const t = todo[i]; if (placeOne(dim, t)) { S.done[t.id] = 1; spawnNpcs(t); } } }
+      catch (e) { console.warn(`[Etheria] Tempest núcleo: ${e}`); }
+      if (i < todo.length) return system.runTimeout(step, 1);
+      // o ponto de entrada só é devolvido se for seguro (chão sólido + 2 blocos de ar); senão procura um vizinho seguro
+      if (spawnValid(dim)) return end(tempestSpawn());
+      const sp = tempestSpawn(), alt = safeNear(dim, sp);
+      end(alt);
+    };
+    step();
+  }, 600));
+}
+/** procura, em volta de sp, a primeira coluna com chão sólido e 2 de ar (até 6 blocos de lado e 8 de altura) */
+function safeNear(dim, sp) {
+  if (!sp) return null;
+  const bx = Math.floor(sp.x), by = Math.floor(sp.y), bz = Math.floor(sp.z);
+  for (let r = 0; r <= 6; r++) for (let dx = -r; dx <= r; dx++) for (let dz = -r; dz <= r; dz++) {
+    if (Math.max(Math.abs(dx), Math.abs(dz)) !== r) continue;
+    for (let dy = -2; dy <= 8; dy++) {
+      const g = blockAt(dim, bx + dx, by + dy - 1, bz + dz), f = blockAt(dim, bx + dx, by + dy, bz + dz), h = blockAt(dim, bx + dx, by + dy + 1, bz + dz);
+      if (g && !g.isAir && !g.isLiquid && f?.isAir && h?.isAir) return { x: bx + dx + 0.5, y: by + dy, z: bz + dz + 0.5, yaw: sp.yaw ?? 0 };
+    }
+  }
+  // último recurso: o topo da coluna do ponto de entrada (telhado/chão mais alto), se tiver 2 blocos de ar acima
+  try { const t = dim.getTopmostBlock({ x: bx, z: bz }); if (t && !t.isLiquid) return { x: bx + 0.5, y: t.location.y + 1, z: bz + 0.5, yaw: sp.yaw ?? 0 }; } catch { /* ignore */ }
+  return null;
+}
+/** define o spawn do mundo (morte/reentrada) na entrada de Tempest — uma vez só */
+export function setTempestWorldSpawn(sp) {
+  if (!S || !sp || S.spawnSet) return;
+  S.spawnSet = 1; save();
+  const dim = ow();
+  try { world.setDefaultSpawnLocation({ x: Math.floor(sp.x), y: Math.floor(sp.y), z: Math.floor(sp.z) }); } catch (e) { console.warn(`[Etheria] spawn do mundo: ${e}`); }
+  cmd(dim, "gamerule spawnradius 0");
 }

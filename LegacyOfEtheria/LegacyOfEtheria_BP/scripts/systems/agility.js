@@ -1,3 +1,4 @@
+import { announceInfo } from "./sageannounce.js";
 // systems/agility.js - AGILIDADES SUPREMAS (6.29): executor exec.kind "agility" + esquiva automática + progressão por raça.
 // Dados: data/agility.js. Cada movimento tem efeito real (deslocamento, dano no trajeto, invisibilidade, aceleração), animação corporal
 // (RP animations/etheria_agility.animation.json via playAnimation), partículas com direção e som. Custos/recargas vêm do pipeline normal de habilidades.
@@ -236,7 +237,7 @@ function scanReady() {
       L.stages.forEach((sk, i) => {
         if (hasSkill(d, sk.id)) return;
         const key = `${p.id}:${sk.id}`; if (told.get(key)) return;
-        if (agilityReq(p, d.race, i).every((r) => r.ok)) { told.set(key, 1); toast(p, "§b§lAGILIDADE SUPREMA", `§f${sk.name} §7pode despertar`); say(p, `§b[Agilidades Supremas] §f${sk.name}§7 está pronta para despertar: Relógio > Habilidades > Árvore de Poderes > Agilidades Supremas.`); }
+        if (agilityReq(p, d.race, i).every((r) => r.ok)) { told.set(key, 1); announceInfo(p, "AGILIDADE SUPREMA", sk.name, "Pronta para despertar · Árvore de Poderes", "unique"); }
       });
     } catch { /* ignore */ }
   }

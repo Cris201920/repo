@@ -8,17 +8,19 @@
     "enchanted": "armor_enchanted"
    },
    "textures": {
-    "default": "textures/models/armor/etheria_iron_reinforced_2",
+    "default": "textures/models/armor/etheria_t_iron_reinforced",
     "enchanted": "textures/misc/enchanted_item_glint"
    },
    "geometry": {
-    "default": "geometry.humanoid.armor.leggings"
+    "default": "geometry.etheria_t_iron_reinforced_legs"
    },
    "scripts": {
     "parent_setup": "variable.leg_layer_visible = 0.0;"
    },
    "render_controllers": [
-    "controller.render.armor"
+    {
+     "controller.render.armor": "!(c.owning_entity->q.property('etheria:lform') == 'true' || c.owning_entity->q.property('etheria:lform') == 'draconic')"
+    }
    ]
   }
  }

@@ -1,0 +1,32 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:milim_berserker_helmet_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "CMC",
+   "M M"
+  ],
+  "key": {
+   "M": {
+    "item": "etheria:dragon_essence"
+   },
+   "C": {
+    "item": "etheria:demonite_shard"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:demonite_shard"
+   }
+  ],
+  "result": {
+   "item": "etheria:milim_berserker_helmet",
+   "count": 1
+  }
+ }
+}

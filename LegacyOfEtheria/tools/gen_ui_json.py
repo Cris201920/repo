@@ -22,6 +22,28 @@ def anim_defs(ns):
     for k in range(2):   # wireframe alterna duas rotações
         A[f"eth_wire{k}_a"] = {"anim_type": "alpha", "easing": "in_out_sine", "from": 1.0 - k, "to": float(k), "duration": 1.6, "next": f"@{ns}.eth_wire{k}_b"}
         A[f"eth_wire{k}_b"] = {"anim_type": "alpha", "easing": "in_out_sine", "from": float(k), "to": 1.0 - k, "duration": 1.6, "next": f"@{ns}.eth_wire{k}_a"}
+    for k in range(6):   # 6.36: círculo mágico (6 quadros de 5°, troca suave = rotação contínua)
+        A[f"eth_circ{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * 0.2, "next": f"@{ns}.eth_circ{k}_in"}
+        A[f"eth_circ{k}_in"] = {"anim_type": "alpha", "easing": "linear", "from": 0.0, "to": 0.9, "duration": 0.2, "next": f"@{ns}.eth_circ{k}_out"}
+        A[f"eth_circ{k}_out"] = {"anim_type": "alpha", "easing": "linear", "from": 0.9, "to": 0.0, "duration": 0.2, "next": f"@{ns}.eth_circ{k}_wait"}
+        A[f"eth_circ{k}_wait"] = {"anim_type": "wait", "duration": 0.8, "next": f"@{ns}.eth_circ{k}_in"}
+    A["eth_scan"] = {"anim_type": "offset", "easing": "in_out_sine", "from": [0, -12], "to": [0, 340], "duration": 2.6, "next": f"@{ns}.eth_scan_back"}
+    A["eth_scan_back"] = {"anim_type": "offset", "easing": "in_out_sine", "from": [0, 340], "to": [0, -12], "duration": 2.6, "next": f"@{ns}.eth_scan"}
+    for k in range(2):   # partículas sobem e somem; 2 camadas defasadas
+        A[f"eth_mote{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * 1.5, "next": f"@{ns}.eth_mote{k}_up"}
+        A[f"eth_mote{k}_up"] = {"anim_type": "offset", "easing": "linear", "from": [0, 24], "to": [0, -24], "duration": 3.0, "next": f"@{ns}.eth_mote{k}_up"}
+        A[f"eth_motea{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * 1.5, "next": f"@{ns}.eth_motea{k}_in"}
+        A[f"eth_motea{k}_in"] = {"anim_type": "alpha", "easing": "in_out_sine", "from": 0.0, "to": 0.85, "duration": 1.5, "next": f"@{ns}.eth_motea{k}_out"}
+        A[f"eth_motea{k}_out"] = {"anim_type": "alpha", "easing": "in_out_sine", "from": 0.85, "to": 0.0, "duration": 1.5, "next": f"@{ns}.eth_motea{k}_in"}
+    A["eth_hex_a"] = {"anim_type": "alpha", "easing": "in_out_sine", "from": 0.2, "to": 0.6, "duration": 1.2, "next": f"@{ns}.eth_hex_b"}
+    A["eth_hex_b"] = {"anim_type": "alpha", "easing": "in_out_sine", "from": 0.6, "to": 0.2, "duration": 1.2, "next": f"@{ns}.eth_hex_a"}
+    A["eth_brk_a"] = {"anim_type": "alpha", "easing": "in_out_sine", "from": 0.45, "to": 1.0, "duration": 0.8, "next": f"@{ns}.eth_brk_b"}
+    A["eth_brk_b"] = {"anim_type": "alpha", "easing": "in_out_sine", "from": 1.0, "to": 0.45, "duration": 0.8, "next": f"@{ns}.eth_brk_a"}
+    for k in range(2):   # pulsos contínuos saindo do núcleo
+        A[f"eth_pulse{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * 0.9, "next": f"@{ns}.eth_pulse{k}_s"}
+        A[f"eth_pulse{k}_s"] = {"anim_type": "size", "easing": "out_quad", "from": [40, 40], "to": [380, 380], "duration": 1.8, "next": f"@{ns}.eth_pulse{k}_s"}
+        A[f"eth_pulsea{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * 0.9, "next": f"@{ns}.eth_pulsea{k}_a"}
+        A[f"eth_pulsea{k}_a"] = {"anim_type": "alpha", "easing": "linear", "from": 0.55, "to": 0.0, "duration": 1.8, "next": f"@{ns}.eth_pulsea{k}_a"}
     A["eth_core_a"] = {"anim_type": "size", "easing": "in_out_sine", "from": [56, 56], "to": [84, 84], "duration": 0.9, "next": f"@{ns}.eth_core_b"}
     A["eth_core_b"] = {"anim_type": "size", "easing": "in_out_sine", "from": [84, 84], "to": [56, 56], "duration": 0.9, "next": f"@{ns}.eth_core_a"}
     return A
@@ -37,6 +59,16 @@ def fx_layers(ns, var, glob, base_layer):
         ctrls = [{"nebula": full("ov_nebula", color=c, layer=base_layer + 1)}]
         for k in range(4): ctrls.append({f"rays{k}": full(f"ov_rays_{k}", color=c, alpha=0.0, layer=base_layer + 2, anims=[f"@{ns}.eth_ray{k}_start"])})
         for k in range(2): ctrls.append({f"wire{k}": full(f"ov_wire_{k}", color=light(c), layer=base_layer + 3, anims=[f"@{ns}.eth_wire{k}_a"])})
+        ctrls.append({"hex": full("ov_hex", color=c, alpha=0.3, layer=base_layer + 1, anims=[f"@{ns}.eth_hex_a"])})
+        ctr = lambda tex, sz, **kw: {"type": "image", "texture": f"textures/ui/etheria/{tex}", "size": sz, "anchor_from": "center", "anchor_to": "center", "offset": [0, "-3%"], **kw}
+        for k in range(6):
+            ctrls.append({f"circ_o{k}": ctr(f"ov_circle_{k}", [230, 230], color=light(c), alpha=0.0, layer=base_layer + 3, anims=[f"@{ns}.eth_circ{k}_start"])})
+            ctrls.append({f"circ_i{k}": ctr(f"ov_circle_{5 - k}", [120, 120], color=c, alpha=0.0, layer=base_layer + 3, anims=[f"@{ns}.eth_circ{k}_start"])})
+        for k in range(2):
+            ctrls.append({f"pulse{k}": ctr("fx_ring", [40, 40], color=light(c), alpha=0.0, layer=base_layer + 3, anims=[f"@{ns}.eth_pulse{k}_start", f"@{ns}.eth_pulsea{k}_start"])})
+            ctrls.append({f"motes{k}": full(f"ov_motes_{k}", color=light(c), alpha=0.0, layer=base_layer + 4, anims=[f"@{ns}.eth_mote{k}_start", f"@{ns}.eth_motea{k}_start"])})
+        ctrls.append({"scan": {"type": "image", "texture": "textures/ui/etheria/ov_scan", "size": ["100%", 8], "keep_ratio": False, "anchor_from": "top_middle", "anchor_to": "top_middle", "color": light(c), "alpha": 0.7, "layer": base_layer + 4, "anims": [f"@{ns}.eth_scan"]}})
+        ctrls.append({"brackets": full("ov_brackets", color=light(c), layer=base_layer + 5, anims=[f"@{ns}.eth_brk_a"])})
         ctrls.append({"core": {"type": "image", "texture": "textures/ui/etheria/ov_core", "size": [70, 70], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-3%"], "color": light(c), "layer": base_layer + 4, "anims": [f"@{ns}.eth_core_a"]}})
         out.append({f"theme_{th}": {"type": "panel", "size": ["100%", "100%"], "bindings": vb(has(var, code)), "controls": ctrls}})
     return out

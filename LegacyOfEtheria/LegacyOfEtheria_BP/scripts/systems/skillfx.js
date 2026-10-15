@@ -2,6 +2,7 @@
 import { system } from "@minecraft/server";
 import { ctx, after, skillPart } from "./fxlib.js";
 import { recipeFor } from "../data/fxrecipes.js";
+import { ELEMENT_VFX, familyOf } from "../data/elementvfx.js";
 import { masteryLevel } from "./mastery.js";
 import { getData } from "../core/db.js";
 import { norm } from "../core/utils.js";
@@ -14,8 +15,10 @@ export function playSkillFx(player, sk, geo) {
   const run = (fn) => { try { fn?.(c, v); } catch { /* efeitos nunca derrubam a habilidade */ } };
   // partículas portadas dos mods de referência (flipbooks de RP/particles/fx_*.json) somam-se ao visual de cada fase
   const part = (ph) => run((cx, vv) => skillPart(cx, sk, ph, vv));
-  run(r.cast); part("cast");
+  // 6.36: camadas do elemento (preparação -> ativação -> trajetória -> impacto -> resíduo) somadas à coreografia própria
+  const E = ELEMENT_VFX[familyOf(sk)] ?? null;
+  run(r.cast); part("cast"); if (E) { run(E.prep); after(1, () => run(E.act)); }
   const d = Math.hypot(v.to.x - v.from.x, v.to.y - v.from.y, v.to.z - v.from.z);
-  after(2, () => { run(r.travel); part("travel"); });
-  after(2 + Math.min(10, Math.ceil(d / 3)), () => { run(r.impact); part("impact"); });
+  after(2, () => { run(r.travel); part("travel"); if (E) run(E.trail); });
+  after(2 + Math.min(10, Math.ceil(d / 3)), () => { run(r.impact); part("impact"); if (E) { run(E.impact); run(E.residue); } });
 }

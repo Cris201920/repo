@@ -1,0 +1,22 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:attachable": {
+  "description": {
+   "identifier": "etheria:reid_dragon_sword",
+   "materials": {
+    "default": "entity_emissive_alpha",
+    "enchanted": "entity_alphatest_glint"
+   },
+   "textures": {
+    "default": "textures/attachable/w_reid_dragon_sword",
+    "enchanted": "textures/misc/enchanted_item_glint"
+   },
+   "geometry": {
+    "default": "geometry.etheria_w_reid_dragon_sword"
+   },
+   "render_controllers": [
+    "controller.render.item_default"
+   ]
+  }
+ }
+}

@@ -518,6 +518,72 @@ export const SET_DEFS = {
    "etheria:dragotite_star_boots"
   ]
  },
+ "rimuru_outfit": {
+  "name": "de Rimuru Tempest",
+  "tier": 4,
+  "el": "water",
+  "aura": "ice",
+  "passive": "arcane_ward",
+  "ptext": "Proteção Arcana: Absorção II renovada.",
+  "b": {
+   "2": {
+    "stats": {
+     "intelligence": 4,
+     "manaRegen": 6
+    },
+    "text": "+4 Inteligência, +6 Regeneração de Mana"
+   },
+   "3": {
+    "stats": {
+     "maxMana": 80,
+     "defense": 4
+    },
+    "text": "+80 Mana, +4 Defesa"
+   }
+  },
+  "pieces": [
+   "etheria:rimuru_outfit_chest",
+   "etheria:rimuru_outfit_legs",
+   "etheria:rimuru_outfit_boots"
+  ]
+ },
+ "milim_berserker": {
+  "name": "Berserker de Milim",
+  "tier": 5,
+  "el": "fire",
+  "aura": "blood",
+  "passive": "blood_pact",
+  "ptext": "Pacto de Sangue: Força I quando a vida está abaixo de 50%.",
+  "b": {
+   "2": {
+    "stats": {
+     "strength": 6,
+     "crit": 4
+    },
+    "text": "+6 Força, +4 Crítico"
+   },
+   "3": {
+    "stats": {
+     "hp": 30,
+     "defense": 4
+    },
+    "text": "+30 Vida, +4 Defesa"
+   },
+   "4": {
+    "stats": {
+     "strength": 10,
+     "agility": 6
+    },
+    "text": "+10 Força, +6 Agilidade"
+   }
+  },
+  "pieces": [
+   "etheria:milim_berserker_helmet",
+   "etheria:milim_berserker_chest",
+   "etheria:milim_berserker_legs",
+   "etheria:milim_berserker_boots"
+  ]
+ },
  "priest": {
   "name": "do Sacerdote",
   "tier": 3,
@@ -2912,6 +2978,146 @@ export const FORGE = [
    "lvl": 30,
    "boss": 1
   }
+ },
+ {
+  "id": "rimuru_outfit_chest",
+  "station": "magic_forge",
+  "result": "etheria:rimuru_outfit_chest",
+  "kind": "craft",
+  "count": 1,
+  "mats": [
+   [
+    "etheria:mana_crystal",
+    5
+   ],
+   [
+    "etheria:celestial_crystal",
+    2
+   ]
+  ],
+  "unlock": {
+   "lvl": 30
+  }
+ },
+ {
+  "id": "rimuru_outfit_legs",
+  "station": "magic_forge",
+  "result": "etheria:rimuru_outfit_legs",
+  "kind": "craft",
+  "count": 1,
+  "mats": [
+   [
+    "etheria:mana_crystal",
+    5
+   ],
+   [
+    "etheria:celestial_crystal",
+    2
+   ]
+  ],
+  "unlock": {
+   "lvl": 30
+  }
+ },
+ {
+  "id": "rimuru_outfit_boots",
+  "station": "magic_forge",
+  "result": "etheria:rimuru_outfit_boots",
+  "kind": "craft",
+  "count": 1,
+  "mats": [
+   [
+    "etheria:mana_crystal",
+    5
+   ],
+   [
+    "etheria:celestial_crystal",
+    2
+   ]
+  ],
+  "unlock": {
+   "lvl": 30
+  }
+ },
+ {
+  "id": "milim_berserker_helmet",
+  "station": "divine_forge",
+  "result": "etheria:milim_berserker_helmet",
+  "kind": "craft",
+  "count": 1,
+  "mats": [
+   [
+    "etheria:dragon_essence",
+    5
+   ],
+   [
+    "etheria:demonite_shard",
+    2
+   ]
+  ],
+  "unlock": {
+   "lvl": 45
+  }
+ },
+ {
+  "id": "milim_berserker_chest",
+  "station": "divine_forge",
+  "result": "etheria:milim_berserker_chest",
+  "kind": "craft",
+  "count": 1,
+  "mats": [
+   [
+    "etheria:dragon_essence",
+    5
+   ],
+   [
+    "etheria:demonite_shard",
+    2
+   ]
+  ],
+  "unlock": {
+   "lvl": 45
+  }
+ },
+ {
+  "id": "milim_berserker_legs",
+  "station": "divine_forge",
+  "result": "etheria:milim_berserker_legs",
+  "kind": "craft",
+  "count": 1,
+  "mats": [
+   [
+    "etheria:dragon_essence",
+    5
+   ],
+   [
+    "etheria:demonite_shard",
+    2
+   ]
+  ],
+  "unlock": {
+   "lvl": 45
+  }
+ },
+ {
+  "id": "milim_berserker_boots",
+  "station": "divine_forge",
+  "result": "etheria:milim_berserker_boots",
+  "kind": "craft",
+  "count": 1,
+  "mats": [
+   [
+    "etheria:dragon_essence",
+    5
+   ],
+   [
+    "etheria:demonite_shard",
+    2
+   ]
+  ],
+  "unlock": {
+   "lvl": 45
+  }
  }
 ];
 export const STATIONS = {"magic_forge": "Forja Mágica", "demon_forge": "Forja Demoníaca", "divine_forge": "Forja Divina"};
@@ -2930,4 +3136,4 @@ export const PASSIVES = {
  "shadow_veil": "Véu Sombrio: invisível ao agachar e mais veloz.",
  "guard": "Postura de Guarda: Resistência quando a vida está abaixo de 35%."
 };
-export const REPAIR_MAT = {"dragotite": "etheria:dragotite_ingot", "dragotite_abyss": "etheria:dragotite_abyss_ingot", "dragotite_earth": "etheria:dragotite_earth_ingot", "dragotite_frost": "etheria:dragotite_frost_ingot", "dragotite_scorch": "etheria:dragotite_scorch_ingot", "dragotite_storm": "etheria:dragotite_storm_ingot", "dragotite_star": "etheria:dragotite_star_ingot", "priest": "etheria:arcane_ingot", "plagued": "etheria:taratect_silk", "pyromancer": "etheria:dragon_essence", "cryomancer": "etheria:frost_core", "electromancer": "etheria:storm_core", "cultist": "etheria:demonite_shard", "archevoker": "etheria:void_fragment", "shadowwalker": "etheria:demonite_shard", "iron_reinforced": "minecraft:iron_ingot", "knight": "etheria:arcane_ingot", "arcane": "etheria:mana_crystal", "shadow": "etheria:demonite_shard", "dragon": "etheria:dragon_essence", "celestial": "etheria:celestial_crystal", "void": "etheria:void_fragment"};
+export const REPAIR_MAT = {"milim_berserker": "etheria:dragon_essence", "rimuru_outfit": "etheria:mana_crystal", "dragotite": "etheria:dragotite_ingot", "dragotite_abyss": "etheria:dragotite_abyss_ingot", "dragotite_earth": "etheria:dragotite_earth_ingot", "dragotite_frost": "etheria:dragotite_frost_ingot", "dragotite_scorch": "etheria:dragotite_scorch_ingot", "dragotite_storm": "etheria:dragotite_storm_ingot", "dragotite_star": "etheria:dragotite_star_ingot", "priest": "etheria:arcane_ingot", "plagued": "etheria:taratect_silk", "pyromancer": "etheria:dragon_essence", "cryomancer": "etheria:frost_core", "electromancer": "etheria:storm_core", "cultist": "etheria:demonite_shard", "archevoker": "etheria:void_fragment", "shadowwalker": "etheria:demonite_shard", "iron_reinforced": "minecraft:iron_ingot", "knight": "etheria:arcane_ingot", "arcane": "etheria:mana_crystal", "shadow": "etheria:demonite_shard", "dragon": "etheria:dragon_essence", "celestial": "etheria:celestial_crystal", "void": "etheria:void_fragment"};

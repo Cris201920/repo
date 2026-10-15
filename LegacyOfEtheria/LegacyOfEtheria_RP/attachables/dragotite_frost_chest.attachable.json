@@ -8,11 +8,11 @@
     "enchanted": "armor_enchanted"
    },
    "textures": {
-    "default": "textures/models/armor/etheria_dragotite_frost_1",
+    "default": "textures/models/armor/etheria_a_dragotite_frost",
     "enchanted": "textures/misc/enchanted_item_glint"
    },
    "geometry": {
-    "default": "geometry.humanoid.armor.chestplate"
+    "default": "geometry.etheria_a_dragotite_frost_chest"
    },
    "scripts": {
     "parent_setup": "variable.chest_layer_visible = 0.0;"

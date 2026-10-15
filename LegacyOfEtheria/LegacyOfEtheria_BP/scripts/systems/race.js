@@ -1,5 +1,5 @@
 // systems/race.js - Raça, classe, evolução/transformação e título no nome
-import { sceneOn } from "./sageannounce.js";
+import { sceneOn , announceInfo } from "./sageannounce.js";
 import { system } from "@minecraft/server";
 import { evolutionScene } from "./sagecore.js";
 import { getData, saveNow } from "../core/db.js";
@@ -51,8 +51,8 @@ export function notifyEvolution(player) {
     for (const n of nextStages(d)) {
       const key = player.id + n.id; if (notified.has(key) || evolveCheck(player, n)) continue;
       notified.add(key);
-      toast(player, "§a§lEVOLUÇÃO DISPONÍVEL", `§7${n.name}: abra o Relógio > Raça`); say(player, `§a§l[Raça] §r§aEvolução disponível: §f${n.name}§a! Relógio > Raça.`);
-      fx(player.dimension, player.location, "transform", player, 1); playSound(player, SOUNDS.levelup);
+      announceInfo(player, "EVOLUÇÃO DISPONÍVEL", n.name, "Relógio > Raça");   // 6.36: na cena da Voz do Mundo
+      fx(player.dimension, player.location, "transform", player, 1);
     }
   } catch { /* ignore */ }
 }

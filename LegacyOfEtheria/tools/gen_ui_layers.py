@@ -48,3 +48,52 @@ for k, ang in enumerate((0.0, 0.6)):
 C = Image.new("L", (128, 128), 0); cd = ImageDraw.Draw(C)
 for r in range(64, 0, -1): cd.ellipse([64 - r, 64 - r, 64 + r, 64 + r], fill=int(255 * (1 - r / 64) ** 1.8))
 c = Image.new("RGBA", (128, 128), (255, 255, 255, 0)); c.putalpha(C); save(c, "ov_core.png")
+
+# ------------------------------------------------------------------ 6.36: mais animação (como no vídeo de referência)
+# círculo mágico: 6 quadros de 5° (simetria de 30°) trocados em sequência = rotação contínua
+S2 = 256; cx2 = cy2 = S2 / 2
+def magic_circle(rot):
+    L = Image.new("L", (S2 * 2, S2 * 2), 0); d = ImageDraw.Draw(L); c = S2
+    for r, wdt in ((246, 4), (232, 2), (170, 3), (156, 2)): d.ellipse([c - r, c - r, c + r, c + r], outline=230, width=wdt)
+    a0 = math.radians(rot)
+    for k in range(12):   # hexagrama duplo + runas
+        a = a0 + k * math.pi / 6
+        d.line([(c + math.cos(a) * 232, c + math.sin(a) * 232), (c + math.cos(a + 2 * math.pi / 3) * 232, c + math.sin(a + 2 * math.pi / 3) * 232)], fill=150, width=2)
+        x, y = c + math.cos(a + 0.26) * 200, c + math.sin(a + 0.26) * 200
+        d.rectangle([x - 7, y - 7, x + 7, y + 7], outline=255, width=2); d.line([(x - 7, y), (x + 7, y)], fill=255, width=2)
+        x, y = c + math.cos(a) * 163, c + math.sin(a) * 163; d.ellipse([x - 5, y - 5, x + 5, y + 5], fill=255)
+    for k in range(72):   # marcações finas
+        a = a0 + k * math.pi / 36; r0 = 236 if k % 3 else 226
+        d.line([(c + math.cos(a) * r0, c + math.sin(a) * r0), (c + math.cos(a) * 246, c + math.sin(a) * 246)], fill=200, width=2)
+    L = L.resize((S2, S2), Image.LANCZOS)
+    im = Image.new("RGBA", (S2, S2), (255, 255, 255, 0)); im.putalpha(L); return im
+for k in range(6): save(magic_circle(k * 5), f"ov_circle_{k}.png")
+# linha de varredura (horizontal, some nas pontas)
+sc = Image.new("L", (256, 16), 0); sd = ImageDraw.Draw(sc)
+for x in range(256):
+    f = math.sin(math.pi * x / 255) ** 1.5
+    for y in range(16): sc.putpixel((x, y), int(255 * f * math.exp(-((y - 8) / 2.6) ** 2)))
+im = Image.new("RGBA", (256, 16), (255, 255, 255, 0)); im.putalpha(sc); save(im, "ov_scan.png")
+# partículas (motes) que sobem: duas camadas defasadas
+for k in range(2):
+    L = Image.new("L", (W, H), 0); d = ImageDraw.Draw(L); rnd = random.Random(40 + k)
+    for _ in range(70):
+        x, y, r = rnd.uniform(0, W), rnd.uniform(0, H), rnd.choice((1.0, 1.0, 1.5, 2.2))
+        d.ellipse([x - r, y - r, x + r, y + r], fill=rnd.randint(150, 255))
+    save(white_alpha(L.filter(ImageFilter.GaussianBlur(0.6))), f"ov_motes_{k}.png")
+# grade hexagonal fraca
+L = Image.new("L", (W, H), 0); d = ImageDraw.Draw(L); R6 = 14
+for row in range(-1, int(H / (R6 * 1.5)) + 2):
+    for col in range(-1, int(W / (R6 * 1.732)) + 2):
+        x = col * R6 * 1.732 + (row % 2) * R6 * 0.866; y = row * R6 * 1.5
+        pts = [(x + R6 * math.cos(math.pi / 6 + i * math.pi / 3), y + R6 * math.sin(math.pi / 6 + i * math.pi / 3)) for i in range(6)]
+        d.polygon(pts, outline=70)
+vig2 = Image.new("L", (W, H), 0); ImageDraw.Draw(vig2).ellipse([W * 0.1, H * 0.05, W * 0.9, H * 0.95], fill=255)
+save(white_alpha(ImageChops.multiply(L, vig2.filter(ImageFilter.GaussianBlur(40)))), "ov_hex.png")
+# cantos (colchetes) de enquadramento
+L = Image.new("L", (W, H), 0); d = ImageDraw.Draw(L); m, ln = 14, 46
+for sx, sy in ((0, 0), (1, 0), (0, 1), (1, 1)):
+    x0 = m if sx == 0 else W - m; y0 = m if sy == 0 else H - m; dx = 1 if sx == 0 else -1; dy = 1 if sy == 0 else -1
+    d.line([(x0, y0), (x0 + dx * ln, y0)], fill=255, width=3); d.line([(x0, y0), (x0, y0 + dy * ln * 0.7)], fill=255, width=3)
+    d.line([(x0 + dx * 6, y0 + dy * 6), (x0 + dx * ln * 0.6, y0 + dy * 6)], fill=150, width=1)
+save(white_alpha(L), "ov_brackets.png")

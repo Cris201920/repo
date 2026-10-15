@@ -8,11 +8,11 @@
     "enchanted": "armor_enchanted"
    },
    "textures": {
-    "default": "textures/models/armor/etheria_priest_1",
+    "default": "textures/models/armor/etheria_a_priest",
     "enchanted": "textures/misc/enchanted_item_glint"
    },
    "geometry": {
-    "default": "geometry.humanoid.armor.boots"
+    "default": "geometry.etheria_a_priest_boots"
    },
    "scripts": {
     "parent_setup": "variable.boot_layer_visible = 0.0;"
