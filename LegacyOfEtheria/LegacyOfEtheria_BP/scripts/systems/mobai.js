@@ -116,7 +116,7 @@ const ROLES = {
 };
 const BY_ID = { tt_hinata: ["holy_ray", "blink", "leap", "slam", "heal_self"], tt_shizue: ["fire_wave", "breath", "blink", "heal_self"], tt_shizue_ifrit: ["fire_wave", "breath", "slam", "heal_self"], tt_charybdis: ["tide", "slam", "water_blade", "roar"], tt_orc_disaster: ["slam", "charge", "roar", "quake"], luminous_valentine: ["holy_ray", "blood_bind", "blink", "heal_self"], rimuru_ogre_fight: ["water_blade", "tide", "blink", "heal_self"], beretta: ["quake", "iron_skin", "charge", "heal_self"],
   rain: ["tide", "water_blade", "arcane_burst", "blink", "heal_self"], milim_nava: ["breath", "slam", "charge", "fire_wave", "roar", "heal_self"], guy_crimson: ["shadow_bind", "fire_wave", "blink", "gravity", "heal_self"],
-  feldway: ["holy_ray", "blink", "gravity", "dark_bolt", "heal_self"],
+  feldway: ["holy_ray", "blink", "gravity", "dark_bolt", "heal_self"], garasha: ["charge", "slam", "blink", "holy_ray", "heal_self"],
   diablo: ["shadow_bind", "blink", "dark_bolt", "gravity", "heal_self"], testarossa: ["fire_wave", "blink", "breath", "heal_self"], ultima: ["arcane_burst", "gravity", "blink", "heal_self"],
   carrera: ["gale", "blink", "leap", "heal_self"], rimuru_senhor_demonio: ["tide", "water_blade", "gravity", "blink", "heal_self"], benimaru: ["fire_wave", "blink", "slam"], shion: ["slam", "charge", "heal_self"],
   carrion_royal_beast: ["stampede", "pounce", "roar", "halberd_sweep", "heal_self"], veldora: ["storm", "roar", "breath", "slam", "heal_self"] };

@@ -934,3 +934,5 @@ entity.etheria:shuna.name=Shuna
 item.spawn_egg.entity.etheria:shuna.name=Ovo de Shuna
 entity.etheria:npc_lm_knight.name=Cavaleiro Sagrado
 item.spawn_egg.entity.etheria:npc_lm_knight.name=Ovo de Cavaleiro Sagrado
+entity.etheria:garasha.name=Garasha, a Anjo Espadachim
+item.spawn_egg.entity.etheria:garasha.name=Ovo de Garasha

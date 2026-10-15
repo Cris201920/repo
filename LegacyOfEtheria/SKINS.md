@@ -32,12 +32,13 @@
 | dark_elf | etheria_tt_elf | humanoid.custom | 64x64 | ok |
 | demon_lord_returner | etheria_demon_lord_returner | humanoid.custom | 64x64 | ok |
 | diablo | etheria_diablo | etheria_diablo_skin | 64x64 | ok |
-| dino | etheria_dino | etheria_dino_skin | 64x64 | ok |
+| dino | etheria_dino | etheria_dino_skin | 128x128 | 6.45: skin original + asas claras/escuras, cabelo espetado, casaco e espada 3D (tools/angels.py) |
 | drake_whelp | etheria_drake_whelp | etheria_drake_whelp | 32x128 | ok |
 | dungeon_crawler | etheria_dungeon_crawler | etheria_dungeon_crawler | 32x64 | ok |
 | espadachim_loira | etheria_espadachim_loira | etheria_espadachim_loira_skin | 64x80 | ok |
 | feldway | etheria_feldway | humanoid.custom | 64x64 | ok |
 | feldway_angel | etheria_feldway_angel | etheria_feldway_angel_skin | 64x96 | ok |
+| garasha | etheria_garasha | etheria_garasha_skin | 128x128 | 6.45: personagem nova, skin desenhada pela referência enviada + asas/armadura/espada 3D (tools/angels.py) |
 | goblin | etheria_tt_goblin | humanoid.custom | 64x64 | ok |
 | gracia | etheria_gracia | etheria_gracia_skin | 64x80 | ok |
 | guy_crimson | etheria_guy_crimson | etheria_guy_crimson_skin | 64x80 | ok |
@@ -67,6 +68,7 @@
 | npc_gc_soldier | etheria_npc_gc_soldier | etheria_npc_gc_soldier | 32x128 | ok |
 | npc_guild | etheria_npc_guild | etheria_npc_guild | 32x128 | ok |
 | npc_hm_sage | etheria_npc_hm_sage | etheria_npc_hm_sage | 32x128 | ok |
+| npc_lm_knight | etheria_npc_lm_knight | etheria_npc_lm_knight | 64x64 | ok |
 | npc_master | etheria_npc_master | etheria_npc_master | 64x64 | ok |
 | npc_merchant | etheria_npc_merchant | etheria_npc_merchant | 32x128 | ok |
 | npc_orc_commander | etheria_npc_orc_commander | etheria_npc_orc_commander | 64x128 | ok |
@@ -91,10 +93,10 @@
 | npc_tp_spear_master | etheria_npc_tp_spear_master | etheria_npc_tp_spear_master | 32x128 | ok |
 | npc_tp_sword_master | etheria_npc_tp_sword_master | etheria_npc_tp_sword_master | 32x128 | ok |
 | npc_trainer | etheria_npc_trainer | etheria_npc_trainer | 32x128 | ok |
-| obera | etheria_obera | etheria_obera_skin | 64x80 | ok |
+| obera | etheria_obera | etheria_obera_skin | 128x128 | 6.45: skin original + cabelo longo, ombreiras, grevas e capa 3D (tools/angels.py) |
 | ogre | etheria_ogre | etheria_ogre | 32x128 | ok |
 | orc | etheria_tt_orc | etheria_tt_orc | 128x128 | ok |
-| pico | etheria_pico | etheria_pico_skin | 64x64 | ok |
+| pico | etheria_pico | etheria_pico_skin | 128x128 | 6.45: skin original + asas articuladas, rabos-de-cavalo e lança 3D (tools/angels.py) |
 | rain | etheria_rain | etheria_rain_skin | 64x80 | ok |
 | rimuru_ogre_fight | etheria_rimuru_ogre_fight | humanoid.custom | 64x64 | ok |
 | rimuru_senhor_demonio | etheria_rimuru_senhor_demonio | etheria_rimuru_senhor_demonio_skin | 64x96 | ok |
@@ -239,7 +241,7 @@
 | velgrynd | etheria_velgrynd | etheria_velgrynd | 512x512 | ok |
 | velzard | etheria_velzard | etheria_velzard | 512x512 | ok |
 | yuuki_kagurazaka | etheria_yuuki_kagurazaka | etheria_yuuki_kagurazaka_skin | 64x64 | ok |
-| zalario | etheria_zalario | etheria_zalario_skin | 64x80 | ok |
+| zalario | etheria_zalario | etheria_zalario_skin | 128x128 | 6.45: skin original + asas brancas articuladas, ombreiras roxas/douradas e faixa 3D (tools/angels.py) |
 
 ## Problemas encontrados
 

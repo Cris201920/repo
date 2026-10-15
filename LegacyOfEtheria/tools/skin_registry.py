@@ -13,6 +13,11 @@ APPLIED = {    # 6.43: skins enviadas pelo jogador (identificadas pela aparênci
   "ultima": "skin da Ultima enviada (cabelo rosa, vestido roxo) — antes usava a da Shion",
   "benimaru": "skin do Benimaru enviada (versão nova)",
   "cavaleiro_negro": "skin do Cavaleiro Negro enviada (versão nova)",
+  "garasha": "6.45: personagem nova, skin desenhada pela referência enviada + asas/armadura/espada 3D (tools/angels.py)",
+  "pico": "6.45: skin original + asas articuladas, rabos-de-cavalo e lança 3D (tools/angels.py)",
+  "obera": "6.45: skin original + cabelo longo, ombreiras, grevas e capa 3D (tools/angels.py)",
+  "zalario": "6.45: skin original + asas brancas articuladas, ombreiras roxas/douradas e faixa 3D (tools/angels.py)",
+  "dino": "6.45: skin original + asas claras/escuras, cabelo espetado, casaco e espada 3D (tools/angels.py)",
 }
 GEO = {}
 for f in glob.glob(os.path.join(RP, "models/entity/**/*.json"), recursive=True):

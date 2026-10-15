@@ -4015,7 +4015,44 @@ export const MOBS = {
    ]
   ]
  },
- "etheria:pico": {
+ "etheria:garasha": {
+  "name": "Garasha, a Anjo Espadachim",
+  "xp": 1100,
+  "coins": [
+   27,
+   73
+  ],
+  "hp": 460,
+  "role": "holy",
+  "rar": "rare",
+  "dmg": 23,
+  "drops": [
+   [
+    "etheria:hp_potion_l",
+    1,
+    2,
+    0.5
+   ],
+   [
+    "etheria:mana_crystal",
+    1,
+    3,
+    0.6
+   ],
+   [
+    "etheria:skill_scroll",
+    1,
+    1,
+    0.2
+   ],
+   [
+    "etheria:storm_core",
+    1,
+    1,
+    0.06
+   ]
+  ]
+ }, "etheria:pico": {
   "name": "Pico, a Anjo Lançadora",
   "xp": 1100,
   "coins": [
