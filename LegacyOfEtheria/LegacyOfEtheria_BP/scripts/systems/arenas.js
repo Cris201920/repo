@@ -6,11 +6,11 @@
 import { world, system } from "@minecraft/server";
 import { ARENAS, WORLD } from "../data/arenas.gen.js";
 import { say } from "../core/utils.js";
+import { loadRegion, placeFile, enqueue, clampOrigin } from "./placer.js";
 
 const KEY = "etheria:arenas", REUSE_R = 96, MAX_REC = 120;
 export const results = new Map();            // chave -> {ok, reused?, at, err?, tick}   (relatório / testes)
 const busy = new Set();
-let tickN = 0;
 
 export const arenaKeys = () => Object.keys(ARENAS);
 /** chave da arena a partir do tipo da entidade ("etheria:guy_crimson", "etheria:boss_void_lord") ou da própria chave */
@@ -21,27 +21,13 @@ export function keyOfBoss(idOrType) {
 }
 const read = () => { try { const r = JSON.parse(world.getDynamicProperty(KEY) ?? "[]"); return Array.isArray(r) ? r : []; } catch { return []; } };
 const write = (r) => { try { world.setDynamicProperty(KEY, JSON.stringify(r.slice(-MAX_REC))); } catch { /* ignore */ } };
-const cmd = (dim, c) => { try { dim.runCommand(c); return true; } catch { return false; } };
 const blockAt = (dim, x, y, z) => { try { return dim.getBlock({ x, y, z }); } catch { return undefined; } };
 
-/** chama cb(true) assim que a área está carregada: na hora, se já estiver; senão usa uma tickingarea temporária (limite de ~8 s). */
+/** chama cb(true) assim que TODOS os chunks da pegada estão carregados (na hora, se já estiverem; senão com tickingareas do núcleo placer.js). */
 export function withLoaded(dim, x0, z0, size, cb) {
-  const pts = [[x0, z0], [x0 + size[0] - 1, z0], [x0, z0 + size[2] - 1], [x0 + size[0] - 1, z0 + size[2] - 1], [x0 + (size[0] >> 1), z0 + (size[2] >> 1)]];
-  const ok = () => pts.every(([x, z]) => blockAt(dim, x, 64, z) !== undefined);
-  if (ok()) { cb(true); return; }
-  const name = `etheria_ar${++tickN}`, cx = x0 + (size[0] >> 1), cz = z0 + (size[2] >> 1), rad = Math.min(4, Math.ceil(Math.max(size[0], size[2]) / 32) + 1);
-  cmd(dim, `tickingarea add circle ${cx} 64 ${cz} ${rad} ${name}`);
-  let t = 0;
-  const h = system.runInterval(() => {
-    t += 5;
-    if (ok() || t >= 160) { system.clearRun(h); const r = ok(); try { cb(r); } finally { cmd(dim, `tickingarea remove ${name}`); } }
-  }, 5);
+  enqueue((next) => loadRegion(dim, x0, z0, size[0], size[2], (ok) => { try { cb(ok); } finally { next(); } }));
 }
-function put(dim, id, at) {
-  try { world.structureManager.place(id, dim, at, { includeEntities: false, includeBlocks: true }); return null; } catch (e) { var err = String(e); }
-  if (cmd(dim, `structure load ${id} ${at.x} ${at.y} ${at.z}`)) return null;      // mesmo conteúdo por outro caminho
-  return err;
-}
+function put(dim, id, at) { return placeFile(dim, id, at); }
 const warnPlayers = (dim, anchor, msg) => { try { for (const p of dim.getPlayers({ location: anchor, maxDistance: 96 })) say(p, msg); } catch { /* ignore */ } console.warn(`[Etheria] ${msg.replace(/§./g, "")}`); };
 
 /**
@@ -62,21 +48,24 @@ export function placeArena(dim, key, anchor, cb) {
     write(recs.filter((r) => r !== old));            // a arena foi destruída/descarregada: gera de novo
   }
   const bk = `${key}@${dim.id}`; if (busy.has(bk)) return done({ ok: false, err: "geração já em andamento" });
-  const o = { x: ax - (sx >> 1), y: ay - reg.floor, z: az - (sz >> 1) };
-  if (o.y < -60) o.y = -60;
   busy.add(bk);
-  withLoaded(dim, o.x, o.z, reg.size, (loaded) => {
-    busy.delete(bk);
-    if (!loaded) { warnPlayers(dim, anchor, `§c[Etheria] Arena de ${reg.name} (${reg.id}): chunks não carregaram a tempo; o boss nasce sem a estrutura.`); return done({ ok: false, err: "chunks não carregados" }); }
-    const err = put(dim, reg.id, o);
-    const f = err ? undefined : blockAt(dim, o.x + reg.spawn[0], o.y + reg.floor, o.z + reg.spawn[2]);
-    if (err || !f || f.typeId === "minecraft:air") {
-      const why = err ?? "piso não encontrado após a colocação";
-      warnPlayers(dim, anchor, `§c[Etheria] Falha ao gerar a estrutura §f${reg.id}§c (${reg.name}, boss ${reg.entity}): ${why}`);
-      return done({ ok: false, err: why });
-    }
-    const rr = read(); rr.push({ k: key, d: dim.id, x: o.x, y: o.y, z: o.z }); write(rr);
-    done({ ok: true, reused: false, spawn: spawnOf(o), center: { x: o.x + (sx >> 1), y: ay, z: o.z + (sz >> 1) }, at: o });
+  enqueue((next) => {
+    const o = clampOrigin(dim, { x: ax - (sx >> 1), y: ay - reg.floor, z: az - (sz >> 1) }, reg.size);
+    loadRegion(dim, o.x, o.z, sx, sz, (loaded, why) => {
+      busy.delete(bk);
+      try {
+        if (!loaded) { warnPlayers(dim, anchor, `§c[Etheria] Arena de ${reg.name}: ${why}; o boss nasce sem a estrutura.`); return done({ ok: false, err: `chunks não carregados: ${why}` }); }
+        const err = put(dim, reg.id, o);
+        const f = err ? undefined : blockAt(dim, o.x + reg.spawn[0], o.y + reg.floor, o.z + reg.spawn[2]);
+        if (err || !f || f.typeId === "minecraft:air") {
+          const why2 = err ?? "piso não encontrado após a colocação";
+          warnPlayers(dim, anchor, `§c[Etheria] Falha ao gerar a estrutura §f${reg.id}§c (${reg.name}, boss ${reg.entity}): ${why2}`);
+          return done({ ok: false, err: why2 });
+        }
+        const rr = read(); rr.push({ k: key, d: dim.id, x: o.x, y: o.y, z: o.z }); write(rr);
+        done({ ok: true, reused: false, spawn: spawnOf(o), center: { x: o.x + (sx >> 1), y: o.y + reg.floor, z: o.z + (sz >> 1) }, at: o });
+      } finally { next(); }
+    });
   });
 }
 

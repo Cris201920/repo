@@ -6,7 +6,8 @@
 import { world, system, ItemStack } from "@minecraft/server";
 import { WGEN } from "../data/wgen.gen.js";
 import { SETTLEMENT_LIST } from "../data/factions.js";
-import { withLoaded, isProtectedPos } from "./arenas.js";
+import { isProtectedPos } from "./arenas.js";
+import { loadRegion, placeFile, enqueue, clampOrigin } from "./placer.js";
 import { settlementInfo } from "./settlements.js";
 import { tempestInfo } from "./tempest.js";
 import { say, toast } from "../core/utils.js";
@@ -51,20 +52,29 @@ export function placeWgen(dim, key, anchor, cb, opts = {}) {
   const def = WGEN[key];
   const done = (res) => { results.set(key, { ...res, tick: system.currentTick }); try { cb?.(res); } catch (e) { console.warn(`[Etheria] wgen ${key} cb: ${e}`); } };
   if (!def) return done({ ok: false, err: `estrutura "${key}" não registrada` });
-  const [sx, , sz] = def.size, o = { x: Math.floor(anchor.x) - (sx >> 1), y: Math.floor(anchor.y) - def.floor, z: Math.floor(anchor.z) - (sz >> 1) };
-  if (o.y < -60) o.y = -60;
-  withLoaded(dim, o.x, o.z, def.size, (loaded) => {
-    if (!loaded) return done({ ok: false, err: "chunks não carregados" });
-    let err = null;
-    try { world.structureManager.place(def.id, dim, o, { includeEntities: false, includeBlocks: true }); } catch (e) { err = String(e); }
-    if (err) { try { dim.runCommand(`structure load ${def.id} ${o.x} ${o.y} ${o.z}`); err = null; } catch { /* mantém o erro original */ } }
-    if (err) { console.warn(`[Etheria] FALHA estrutura ${key} (${def.id}): ${err}`); return done({ ok: false, err }); }
-    const f = blockAt(dim, o.x + (sx >> 1), o.y + def.floor, o.z + (sz >> 1));
-    if (!f || f.typeId === "minecraft:air") { console.warn(`[Etheria] estrutura ${key}: piso não encontrado após colocar`); return done({ ok: false, err: "piso não encontrado após a colocação" }); }
-    const rec = records(); rec.push({ k: key, d: dim.id, x: o.x + (sx >> 1), z: o.z + (sz >> 1), y: o.y, sep: def.sep, sx, sz }); wr(REC, rec.slice(-MAX_REC));
-    const loot = fillChests(dim, key, o), mobs = (opts.noMobs || def.manual) ? 0 : spawnMobs(dim, key, o);
-    done({ ok: true, at: o, center: { x: o.x + (sx >> 1), y: anchor.y, z: o.z + (sz >> 1) }, entry: { x: o.x + def.entry[0] + 0.5, y: o.y + def.entry[1], z: o.z + def.entry[2] + 0.5 }, chests: loot.ok, chestsFailed: loot.bad, mobs });
+  const [sx, , sz] = def.size;
+  enqueue((next) => {
+    const o = clampOrigin(dim, { x: Math.floor(anchor.x) - (sx >> 1), y: Math.floor(anchor.y) - def.floor, z: Math.floor(anchor.z) - (sz >> 1) }, def.size);
+    loadRegion(dim, o.x, o.z, sx, sz, (loaded, why) => {
+      try {
+        if (!loaded) return done({ ok: false, err: `chunks não carregados: ${why}` });
+        const err = placeFile(dim, def.id, o);
+        if (err) { console.warn(`[Etheria] FALHA estrutura ${key} (${def.id}): ${err}`); return done({ ok: false, err }); }
+        const f = blockAt(dim, o.x + (sx >> 1), o.y + def.floor, o.z + (sz >> 1));
+        if (!f || f.typeId === "minecraft:air") { console.warn(`[Etheria] estrutura ${key}: piso não encontrado após colocar`); return done({ ok: false, err: "piso não encontrado após a colocação" }); }
+        const rec = records(); rec.push({ k: key, d: dim.id, x: o.x + (sx >> 1), z: o.z + (sz >> 1), y: o.y, sep: def.sep, sx, sz }); wr(REC, rec.slice(-MAX_REC));
+        const loot = fillChests(dim, key, o), mobs = (opts.noMobs || def.manual) ? 0 : spawnMobs(dim, key, o);
+        done({ ok: true, at: o, center: { x: o.x + (sx >> 1), y: o.y + def.floor, z: o.z + (sz >> 1) }, entry: { x: o.x + def.entry[0] + 0.5, y: o.y + def.entry[1], z: o.z + def.entry[2] + 0.5 }, chests: loot.ok, chestsFailed: loot.bad, mobs });
+      } finally { next(); }
+    });
   });
+}
+
+/** estrutura deste tipo já colocada perto de (x, z)? (anti-duplicação dos comandos manuais) */
+export function findWgen(dim, key, x, z, r = 0) {
+  const def = WGEN[key]; if (!def) return undefined;
+  const R = r || Math.max(def.size[0], def.size[2]);
+  return records().find((q) => q.k === key && q.d === dim.id && Math.hypot(q.x - x, q.z - z) < R);
 }
 
 // ---------------------------------------------------------------- regras de posicionamento

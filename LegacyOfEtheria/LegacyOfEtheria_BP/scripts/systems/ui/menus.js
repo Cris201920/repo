@@ -32,6 +32,8 @@ import { fx, ring } from "../fx.js";
 import { LINEAGE_LIST, LINEAGES, LINEAGE_FORMS, LINEAGE_RACE, lineageLock, tierState, formLock, lineageOf, formOfPlayer, raceDepth } from "../../data/lineages.js";
 import { chooseLineage, setForm, endForm } from "../lineage.js";
 import { openWorld } from "../worldnpc.js";
+import { canBuild } from "../../core/perm.js";
+import { openStructMenu } from "../structcmd.js";
 
 const R = (k) => RARITY[k];
 const back = (fn) => ({ text: "§7« Voltar", icon: "back", run: fn });
@@ -52,6 +54,7 @@ export function openMain(player) {
     { text: "§lConquistas e Títulos", icon: "menu_ranking", run: () => openAchievements(player) },
     { text: "§lRanking", icon: "menu_ranking", run: () => openRanking(player) },
     { text: "§lConfigurações", icon: "menu_settings", run: () => openSettings(player) },
+    ...(canBuild(player) ? [{ text: "§lGerar Estrutura\n§r§7Tempest, Guy Crimson, reinos, arenas", icon: "menu_ranking", run: () => openStructMenu(player) }] : []),
   ]);
 }
 

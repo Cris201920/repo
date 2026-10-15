@@ -5,6 +5,7 @@ import { STRUCTURES } from "../data/structures.gen.js";
 import { say, pick, chance, toast } from "../core/utils.js";
 import { WORLD } from "../data/arenas.gen.js";
 import { withLoaded } from "./arenas.js";
+import { placeFile, clampOrigin } from "./placer.js";
 
 const PER_TICK = 450;
 const permCache = new Map();
@@ -25,17 +26,18 @@ const busy = new Set();
 
 /** 6.24: colocação INSTANTÂNEA (structureManager.place do .mcstructure world_<id>); se o arquivo falhar, cai no método antigo bloco a bloco e registra o erro */
 export function placeStructure(dim, origin, id, done) {
-  const s = STRUCTURES[id], w = WORLD[id], tag = id + origin.x + origin.z;
-  if (!s || busy.has(tag)) return false;
+  const s = STRUCTURES[id], w = WORLD[id];
+  if (!s) return false;
   if (!w) return placeProgressive(dim, origin, id, done);
+  const o = clampOrigin(dim, origin, w.size ?? s.size), tag = id + o.x + o.z;
+  if (busy.has(tag)) return false;
   busy.add(tag);
-  withLoaded(dim, origin.x, origin.z, s.size, (loaded) => {
+  withLoaded(dim, o.x, o.z, w.size ?? s.size, (loaded) => {
     busy.delete(tag);
-    let err = loaded ? null : "chunks não carregados";
-    if (loaded) { try { world.structureManager.place(w.id, dim, origin, { includeEntities: false, includeBlocks: true }); } catch (e) { err = String(e); } }
-    if (!err) { finish(dim, origin, s); done?.(); return; }
+    const err = loaded ? placeFile(dim, w.id, o) : "chunks não carregados";
+    if (!err) { finish(dim, o, s); done?.(); return; }
     console.warn(`[Etheria] estrutura ${w.id} (${s.name}): ${err}; usando a colocação bloco a bloco.`);
-    placeProgressive(dim, origin, id, done);
+    placeProgressive(dim, o, id, done);
   });
   return true;
 }

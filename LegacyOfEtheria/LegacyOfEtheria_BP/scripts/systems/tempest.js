@@ -5,7 +5,8 @@
 import { world, system } from "@minecraft/server";
 import { TEMPEST } from "../data/tempest.gen.js";
 import { say } from "../core/utils.js";
-import { ADMIN_TAG } from "../config.js";
+import { canBuild } from "../core/perm.js";
+import { enqueue, holdRegion, placeFile, clampOrigin } from "./placer.js";
 
 const KEY = "etheria:tempest";
 const AREA = "etheria_tc";
@@ -17,7 +18,13 @@ const half = TEMPEST.size / 2;
 let S = null;   // {x,y,z, done:{id:1}, npcs:{i:1}, ann:0}
 let busy = false, searching = false, tick = 0;
 
-function load() { if (S) return S; try { S = JSON.parse(world.getDynamicProperty(KEY) ?? "null"); } catch { S = null; } return S; }
+function load() {
+  if (S) return S;
+  try { S = JSON.parse(world.getDynamicProperty(KEY) ?? "null"); } catch { S = null; }
+  // versões antigas marcavam ladrilhos que FALHARAM como "feitos" (valor 2) e a cidade ficava incompleta para sempre: volta a tentar
+  if (S?.done) for (const k of Object.keys(S.done)) if (S.done[k] !== 1) delete S.done[k];
+  return S;
+}
 function save() { try { world.setDynamicProperty(KEY, JSON.stringify(S)); } catch { /* ignore */ } }
 const ow = () => world.getDimension("minecraft:overworld");
 function cmd(dim, c) { try { dim.runCommand(c); return true; } catch { return false; } }
@@ -94,12 +101,12 @@ function spawnNpcs(t) {
     try { dim.spawnEntity(`etheria:npc_${NPC_ROLE[i % NPC_ROLE.length]}`, { x: S.x + n[0] + 0.5, y: S.y + 1, z: S.z + n[1] + 0.5 }); S.npcs[i] = 1; } catch { /* tenta no próximo ciclo */ }
   });
 }
-/** Coloca um ladrilho. Tenta a API (structureManager) e, se falhar, o comando "structure load" (mesma estrutura, outro caminho). */
+/** Coloca um ladrilho (área já carregada). Núcleo placer.js: API structureManager e, se falhar, "structure load" (mesmo arquivo). */
 function placeOne(dim, t) {
-  const at = { x: S.x + t.ox, y: S.y + t.dy, z: S.z + t.oz };
-  try { world.structureManager.place(t.id, dim, at, { includeEntities: false, includeBlocks: true }); return true; } catch (e) { console.warn(`[Etheria] Tempest ${t.id} (API): ${e}`); }
-  if (cmd(dim, `structure load ${t.id} ${at.x} ${at.y} ${at.z}`)) return true;
-  S.err = (S.err ?? 0) + 1; return false;
+  const at = clampOrigin(dim, { x: S.x + t.ox, y: S.y + t.dy, z: S.z + t.oz }, [t.sx, t.sy, t.sz]);
+  const err = placeFile(dim, t.id, at);
+  if (!err) return true;
+  S.err = (S.err ?? 0) + 1; S.lastErr = `${t.id}: ${err}`; console.warn(`[Etheria] Tempest ${t.id}: ${err}`); return false;
 }
 function placeTile(t, after) {
   const dim = ow(), c = tileCenter(t);
@@ -107,7 +114,7 @@ function placeTile(t, after) {
     let res = false;
     if (ok) {
       if (placeOne(dim, t)) { S.done[t.id] = 1; res = true; system.runTimeout(() => { spawnNpcs(t); save(); }, 20); }
-      else { S.fail = (S.fail ?? 0) + 1; if (S.fail > 40) S.done[t.id] = 2; }
+      else { S.fail = (S.fail ?? 0) + 1; }
     }
     freeArea(dim); save(); after(res);
   });
@@ -178,7 +185,7 @@ export function startTempest() {
 
 // ------------------------------------------------------------ comando: !tempest [tp | aqui | refazer]
 export function tempestCmd(p, args) {
-  const a = (args[0] ?? "").toLowerCase(), admin = p.hasTag(ADMIN_TAG);
+  const a = (args[0] ?? "").toLowerCase();
   // !tempest ir | tp  (QUALQUER jogador): garante que a cidade existe (coloca o que faltar) e leva à entrada segura
   if (a === "ir" || a === "tp" || a === "go") {
     say(p, "§6[Tempest] §7Preparando a viagem...");
@@ -187,15 +194,15 @@ export function tempestCmd(p, args) {
       try { p.teleport({ x: sp.x, y: sp.y, z: sp.z }, { dimension: ow(), rotation: { x: 0, y: sp.yaw ?? 0 }, keepVelocity: false }); say(p, "§aTeleportado à entrada de Tempest."); } catch (e) { say(p, `§cNão consegui teleportar: ${e}`); }
     });
   }
-  if (a === "aqui" || a === "refazer") {
-    if (!admin) return say(p, "§cSem permissão.");
-    const l = p.location; S = { x: Math.floor(l.x), y: Math.floor(l.y) - 1, z: Math.floor(l.z), done: {}, npcs: {}, ann: 1 }; save();
-    return say(p, `§aCidade de Tempest será construída aqui (centro ${S.x}, ${S.y}, ${S.z}). Fique por perto: ela é colocada aos poucos. Estruturas antigas não são apagadas.`);
+  if (a === "aqui" || a === "refazer" || a === "gerar") {
+    if (!canBuild(p)) return say(p, "§cSem permissão (precisa ser operador/administrador ou estar sozinho no mundo).");
+    if (busy || searching) return say(p, "§7[Tempest] A cidade já está sendo construída. Aguarde.");
+    return buildTempestAt(p);
   }
   const i = load() && tempestInfo();
-  if (!i) return say(p, "§7A Cidade de Tempest ainda está sendo localizada. Aguarde alguns segundos.");
+  if (!i) return say(p, "§7A Cidade de Tempest ainda está sendo localizada. Aguarde alguns segundos ou use §e!tempest aqui§7.");
   const l = p.location, dx = Math.round(i.x - l.x), dz = Math.round(i.z - l.z);
-  say(p, `§6[Tempest] §fCentro: §e${i.x}, ${i.y}, ${i.z}§f · distância §e${Math.round(Math.hypot(dx, dz))}§f blocos · construída: §e${i.done}/${i.total}§f ladrilhos${S.err ? `§c (${S.err} falhas de colocação)` : ""}.`);
+  say(p, `§6[Tempest] §fCentro: §e${i.x}, ${i.y}, ${i.z}§f · distância §e${Math.round(Math.hypot(dx, dz))}§f blocos · construída: §e${i.done}/${i.total}§f ladrilhos${S.lastErr && i.done < i.total ? `§c (último erro: ${S.lastErr})` : ""}.`);
 }
 
 // ------------------------------------------------------------ garantia para a sala de origem (21.1–21.10): a cidade EXISTE antes do teleporte.
@@ -206,37 +213,44 @@ export function ensureTempest(cb, tries = 0, progress = null) {
   const dim = ow();
   const begin = () => {
     busy = true;
-    // Colocação em LOTES de 8 ladrilhos, sem esperar um a um: cada ladrilho do lote tem a sua área carregada (tickingarea com nome próprio),
-    // ~3 ticks por lote. A cidade inteira fica pronta em ~1 s, em vez de um ladrilho a cada vários segundos.
-    const BATCH = 8, PASSES = 2;
-    const slot = (k) => `${AREA}_${k}`;
+    const total = TEMPEST.tiles.length, PASSES = 2, PER_TICK = 4;
+    const doneCount = () => TEMPEST.tiles.filter((t) => S.done[t.id]).length;
     const finish = () => {
-      for (let k = 0; k < BATCH; k++) cmd(dim, `tickingarea remove ${slot(k)}`);
       const sp = TEMPEST.spawn ?? { x: 0, z: 0 }, st = tileOf(sp.x, sp.z);
-      loadArea(dim, S.x + sp.x, S.z + sp.z, (ok) => {
-        // só devolve o ponto se o ladrilho do spawn foi colocado E o ponto é seguro (chão sólido + 2 blocos de ar); senão o jogador não é levado para o vazio
+      enqueue((next) => holdRegion(dim, Math.floor(S.x + sp.x) - 8, Math.floor(S.z + sp.z) - 8, 16, 16, (ok, _why, release) => {
+        // só devolve o ponto se o ladrilho do spawn foi colocado E o ponto é seguro (chão sólido + 2 blocos de ar)
         const valid = ok && (!st || !!S.done[st.id]) && spawnValid(dim);
-        freeArea(dim); busy = false; save();
+        release(); next(); busy = false; save();
         cb(valid ? tempestSpawn() : null);
-      }, 60);
+      }, 300));
     };
+    // Ondas: cada quadrante (4x4 ladrilhos = 256x256 blocos) é carregado INTEIRO de uma vez (4 tickingareas de 10x10 chunks),
+    // os 16 ladrilhos são colocados (4 por tick, para não travar o celular) e só então a área é liberada.
     const runPass = (pass) => {
       const todo = TEMPEST.tiles.filter((t) => !S.done[t.id]);
       if (todo.length === 0 || pass >= PASSES) return finish();
-      const batch = (i) => {
-        if (i >= todo.length) return runPass(pass + 1);
-        const group = todo.slice(i, i + BATCH);
-        group.forEach((t, k) => { const c = tileCenter(t); cmd(dim, `tickingarea add circle ${Math.round(c.x)} 64 ${Math.round(c.z)} 4 ${slot(k)}`); });
-        if (progress) progress(i, todo.length);
-        system.runTimeout(() => {
-          group.forEach((t, k) => {
-            if (placeOne(dim, t)) { S.done[t.id] = 1; system.runTimeout(() => spawnNpcs(t), 10); }
-            cmd(dim, `tickingarea remove ${slot(k)}`);
-          });
-          batch(i + BATCH);
-        }, 3);
+      const groups = new Map();
+      for (const t of todo) { const k = `${Math.floor((t.ox + half) / 256)},${Math.floor((t.oz + half) / 256)}`; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(t); }
+      const list = [...groups.values()];
+      const wave = (gi) => {
+        if (gi >= list.length) return runPass(pass + 1);
+        const g = list[gi], x0 = Math.min(...g.map((t) => t.ox)), z0 = Math.min(...g.map((t) => t.oz));
+        const x1 = Math.max(...g.map((t) => t.ox + t.sx)), z1 = Math.max(...g.map((t) => t.oz + t.sz));
+        enqueue((next) => holdRegion(dim, S.x + x0, S.z + z0, x1 - x0, z1 - z0, (ok, why, release) => {
+          if (!ok) { S.lastErr = `quadrante ${gi + 1}: ${why}`; release(); next(); save(); return wave(gi + 1); }
+          let i = 0;
+          const step = () => {
+            try {
+              for (let n = 0; n < PER_TICK && i < g.length; n++, i++) { const t = g[i]; if (placeOne(dim, t)) { S.done[t.id] = 1; spawnNpcs(t); } }
+            } catch (e) { console.warn(`[Etheria] Tempest: ${e}`); }
+            if (progress) { try { progress(doneCount(), total); } catch { /* ignore */ } }
+            if (i < g.length) return system.runTimeout(step, 1);
+            save(); release(); next(); wave(gi + 1);
+          };
+          step();
+        }, 900));
       };
-      batch(0);
+      wave(0);
     };
     runPass(0);
   };
@@ -250,4 +264,22 @@ export function ensureTempest(cb, tries = 0, progress = null) {
     return;
   }
   begin();
+}
+
+/** Constrói a cidade inteira AGORA, com o centro à frente do jogador (a borda começa ~16 blocos à frente). Estruturas antigas não são apagadas. */
+export function buildTempestAt(p, done) {
+  const l = p.location; let d = { x: 0, z: 1 };
+  try { const v = p.getViewDirection(); const n = Math.hypot(v.x, v.z) || 1; d = { x: v.x / n, z: v.z / n }; } catch { /* ignore */ }
+  const cx = Math.floor(l.x + d.x * (half + 16)), cz = Math.floor(l.z + d.z * (half + 16));
+  let y = Math.floor(l.y) - 1;
+  try { const b = ow().getTopmostBlock({ x: Math.floor(l.x), z: Math.floor(l.z) }); if (b && !b.isLiquid) y = b.location.y; } catch { /* ignore */ }
+  S = { x: cx, y, z: cz, done: {}, npcs: {}, ann: 1, spawnSet: 1 }; save();
+  say(p, `§6[Tempest] §fConstruindo a §eCidade de Tempest§f agora (centro ${cx}, ${y}, ${cz})...`);
+  let last = -1;
+  ensureTempest((sp) => {
+    const i = tempestInfo();
+    if (sp) say(p, `§a[Tempest] Cidade completa: ${i.done}/${i.total} ladrilhos. Use §e!tempest ir§a para ir à entrada.`);
+    else say(p, `§c[Tempest] Construída ${i?.done ?? 0}/${i?.total ?? 64}. ${S?.lastErr ? "Motivo: " + S.lastErr : "Entrada ainda não verificada."} Use §e!tempest aqui§c de novo para completar.`);
+    done?.(sp);
+  }, 0, (n, total) => { if (n >= 0 && n - last >= 16) { last = n; say(p, `§7[Tempest] ${n}/${total} ladrilhos colocados...`); } });
 }

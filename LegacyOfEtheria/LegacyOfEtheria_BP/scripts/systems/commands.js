@@ -32,6 +32,8 @@ import { bossCmd } from "./bossspawn.js";
 import { toggleForm, FORMS } from "./truedragon.js";
 import { placeArena, anchorFromPlayer, keyOfBoss, arenaKeys, verifyAll, ARENAS, results as arenaResults } from "./arenas.js";
 import { pvpOn, setPvp, teamOf, setTeam } from "./combat.js";
+import { structCmd } from "./structcmd.js";
+import { canBuild } from "../core/perm.js";
 
 export function registerCommands() {
   // O evento de chat só existe em beta no @minecraft/server 1.17.0: detectar antes de assinar.
@@ -52,12 +54,12 @@ export function registerCommands() {
       if (ev.id !== "etheria:cmd") return;
       const p = ev.sourceEntity; if (!p || p.typeId !== "minecraft:player") return;
       const [cmd, ...args] = (ev.message ?? "").trim().replace(/^!/, "").split(/\s+/);
-      if (cmd) run(p, cmd.toLowerCase(), args);
+      if (cmd) run(p, cmd.toLowerCase(), args, true);
     });
   } catch (e) { console.warn(`[Etheria] scriptevent indisponível: ${e}`); }
 }
 
-function run(p, cmd, args) {
+function run(p, cmd, args, trusted = false) {
   switch (cmd) {
     case "poderes": case "powers": case "arvore": return openPowers(p, () => openSkills(p));
     case "criar": case "criador": case "creator": return openCreator(p, () => openSkills(p));
@@ -84,8 +86,8 @@ function run(p, cmd, args) {
       if (a === "on" || a === "off") { if (!p.hasTag(ADMIN_TAG)) return say(p, "§cSó administradores ligam/desligam o PvP."); setPvp(a === "on"); for (const q of world.getAllPlayers()) say(q, `§6[Etheria] §7PvP ${a === "on" ? "§cLIGADO§7: habilidades e golpes atingem outros jogadores" : "§aDESLIGADO"}.`); return; }
       return say(p, `§6[Etheria] §7PvP: ${pvpOn() ? "§cligado" : "§adesligado"}§7. Sua equipe: §f${teamOf(p) ?? "nenhuma"}§7. Admin: §f!pvp on|off§7. Equipes: §f!time <nome>§7 / §f!time sair§7.`);
     }
-    case "arena": {   // admin: !arena lista | !arena verificar | !arena <boss>  (coloca a arena exclusiva do boss na hora, na sua frente)
-      if (!p.hasTag(ADMIN_TAG)) return say(p, "§cSem permissão.");
+    case "arena": {   // !arena lista | !arena verificar | !arena <boss>  (coloca a arena exclusiva do boss na hora, na sua frente)
+      if (!trusted && !canBuild(p)) return say(p, "§cSem permissão: operador/administrador (/tag @s add etheria_admin) ou mundo solo.");
       const q = (args[0] ?? "lista").toLowerCase();
       if (q === "lista") return say(p, "§6[Etheria] §7Arenas (boss -> estrutura): §f" + arenaKeys().map((k) => `${k} -> ${ARENAS[k].id}`).join("§7, §f"));
       if (q === "verificar") { const r = verifyAll(), bad = r.filter((x) => !x.ok); return say(p, `§6[Etheria] §7Estruturas: §a${r.length - bad.length} OK§7, ${bad.length ? "§c" + bad.length + " com problema: §f" + bad.map((b) => b.id).join(", ") : "§a0 com problema"}§7.`); }
@@ -113,18 +115,12 @@ function run(p, cmd, args) {
       const r = toggleForm(es[0]); return say(p, r === "busy" ? "§7O dragão já está se transformando." : `§6[Etheria] §7${FORMS[es[0].typeId].name}: forma §f${r === "dragon" ? "Dragão Verdadeiro (estágio 2)" : "humanoide (estágio 1)"}§7.`);
     }
     case "time": case "equipe": { const n = args[0]; if (!n || n === "sair") { setTeam(p, undefined); return say(p, "§7Você saiu da equipe."); } setTeam(p, n); return say(p, `§aEquipe: §f${teamOf(p)}§7. Aliados da mesma equipe não se atingem.`); }
-    case "estrutura": {   // admin: !estrutura lista | verificar | <id> (antigas e novas 6.25: reinos, vilas, acampamentos, ruínas, cavernas, domínios)
-      if (!p.hasTag(ADMIN_TAG)) return say(p, "§cSem permissão.");
-      const id = args[0];
-      if (id === "verificar") { const r = verifyWgen(), bad = r.filter((x) => !x.ok); return say(p, `§6[Etheria] §7Estruturas novas: §a${r.length - bad.length} OK§7, ${bad.length ? "§c" + bad.length + " com problema: §f" + bad.map((b) => `${b.id} (${b.why})`).join(", ") : "§a0 com problema"}§7.`); }
-      if (WGEN[id]) {
-        const f = anchorFromPlayer(p, Math.max(WGEN[id].size[0], WGEN[id].size[2]) / 2 + 6);
-        return placeWgen(p.dimension, id, { x: f.x, y: f.y, z: f.z }, (res) => say(p, res.ok ? `§a[Etheria] ${WGEN[id].name} colocada instantaneamente (baús: ${res.chests}, mobs: ${res.mobs}).` : `§c[Etheria] Falhou: ${id}: ${res.err}`));
-      }
-      if (!STRUCT_IDS.includes(id)) return say(p, "§7Estruturas: " + STRUCT_IDS.join(", ") + "§7 | novas: §f" + wgKeys().join(", "));
-      return say(p, spawnNear(p, id) ? "§aGerando..." : "§cLocal inválido (água/descarregado), tente de novo.");
+    case "estrutura": case "estruturas": case "gerar": case "spawnar": {   // !gerar [nome] [forcar]: QUALQUER estrutura do addon, colocada na hora (systems/structcmd.js)
+      const q = (args[0] ?? "").toLowerCase();
+      if (q === "verificar") { const r = verifyWgen(), bad = r.filter((x) => !x.ok), a2 = verifyAll(), bad2 = a2.filter((x) => !x.ok); return say(p, `§6[Etheria] §7Estruturas: §a${r.length + a2.length - bad.length - bad2.length} OK§7, ${bad.length + bad2.length ? "§c" + (bad.length + bad2.length) + " com problema: §f" + [...bad.map((b) => `${b.id} (${b.why})`), ...bad2.map((b) => b.id)].join(", ") : "§a0 com problema"}§7.`); }
+      return structCmd(p, args, trusted);
     }
-    case "help": case "ajuda": return say(p, "§6[Etheria] §7Use o §fRelógio§7 para abrir o menu. Comandos: §f!menu !status !lord !arena !octagrama !inferno !ceu !espiritos !voltar !voo !poderes !criar !skills !hotbar !cast N !quests !tempest !mundo !aldeia !guerra !boss !pvp !time§7. Suas habilidades são §fitens na hotbar§7: selecione o slot e use. Sem chat de comandos? Use §f/scriptevent etheria:cmd menu§7.");
+    case "help": case "ajuda": return say(p, "§6[Etheria] §7Use o §fRelógio§7 para abrir o menu. Comandos: §f!menu !status !lord !arena !octagrama !inferno !ceu !espiritos !voltar !voo !poderes !criar !skills !hotbar !cast N !quests !tempest !gerar !mundo !aldeia !guerra !boss !pvp !time§7. Suas habilidades são §fitens na hotbar§7: selecione o slot e use. Sem chat de comandos? Use §f/scriptevent etheria:cmd menu§7.");
   }
   if (!p.hasTag(ADMIN_TAG)) return say(p, `§cSem permissão para !${cmd}. Admin: /tag @s add ${ADMIN_TAG}`);
   const d = getData(p);

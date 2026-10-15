@@ -35,6 +35,7 @@ import { startBossFight } from "./systems/bossfight.js";
 import { startWorldWar } from "./systems/worldwar.js";
 import { startBossSpawn } from "./systems/bossspawn.js";
 import { startArenas } from "./systems/arenas.js";
+import { startPlacer } from "./systems/placer.js";
 import { startWorldgen } from "./systems/worldgen.js";
 import { startOctagrama } from "./systems/octagrama.js";
 import { startRealms } from "./systems/realms.js";
@@ -128,6 +129,7 @@ system.run(() => {
   startStructures();
   startTempest(); startSettlements(); startTravelWatch(); startFactions(); startWorldWar();
   startBossSpawn();
+  startPlacer();
   startArenas();
   startWorldgen();
   startOctagrama();
