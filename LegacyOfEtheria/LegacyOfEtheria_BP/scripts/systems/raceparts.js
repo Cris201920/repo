@@ -1,3 +1,4 @@
+import { sageText } from "./voice.js";
 // systems/raceparts.js - TRAÇOS RACIAIS NO CORPO (asas, chifres, cauda): sem item. O jogador "já nasce" com eles.
 // O Behavior Pack sobrescreve minecraft:player com a propriedade "etheria:race" (enum, client_sync) e o Resource Pack desenha a geometria da raça
 // só em 3ª pessoa / para os outros jogadores (tools/racepart.py). Aqui só definimos o valor da propriedade: a raça escolhida, ou "none".
@@ -94,7 +95,7 @@ export function applyRaceLook(player, announce = false) {
   let look = null;
   try { look = d.raceChosen ? applyTensuraLook(player, d, lineageActive) : applyTensuraLook(player, { raceStage: null, race: null }, false); } catch { /* ignore */ }
   if (announce && d.raceChosen && (body !== "none" || (look && Object.keys(look).length))) {
-    try { player.sendMessage(`§b[Grande Sábio] §fSeus traços raciais fazem parte do seu corpo e aparecem em 3ª pessoa.`); } catch { /* ignore */ }
+    try { sageText(player, `§fSeus traços raciais fazem parte do seu corpo e aparecem em 3ª pessoa.`); } catch { /* ignore */ }
   }
   return look;
 }
@@ -111,7 +112,7 @@ export function cleanLegacyRaceItems(player) {
     try { const it = eq.getEquipment(slot); if (it && it.typeId.startsWith(LEGACY_PREFIX)) { eq.setEquipment(slot, undefined); n++; } } catch { /* ignore */ }
   }
   try { const d = getData(player); if (d.racePartsGiven !== undefined) { delete d.racePartsGiven; markDirty(player); } } catch { /* ignore */ }
-  if (n > 0) { try { player.sendMessage("§b[Grande Sábio] §7Item de traços de outra raça removido."); } catch { /* ignore */ } }
+  if (n > 0) { try { sageText(player, "§7Item de traços de outra raça removido."); } catch { /* ignore */ } }
   return n;
 }
 

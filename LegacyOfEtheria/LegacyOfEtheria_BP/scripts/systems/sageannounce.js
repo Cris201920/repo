@@ -23,6 +23,8 @@ import { SKILL_CLIP, RACE_CLIP, SAGE_CLIP } from "../data/sagevoicemap.js";
 import { getData, markDirty } from "../core/db.js";
 import { nextStages, isLordStage } from "../data/races.js";
 import { titleGuard } from "../core/utils.js";
+import { VOICE } from "../data/voice.gen.js";
+import { sageCfg, sageStage } from "./voice.js";
 
 export const VOICE_MARK = "§w§v§x";
 const THEME = { world: "§t§w", sage: "§t§s", raphael: "§t§r", ciel: "§t§c", tree: "§t§p" };
@@ -65,14 +67,23 @@ const CEREMONY_THEME = { hero_egg: "raphael", demon_lord_seed: "world", harvest_
 const LISTS_SKILLS = { hero_egg: false, demon_lord_seed: false, harvest_festival: false, true_hero: true, true_demon_lord: true };
 const HOLD_MS = 2000, TYPE_MS = 420, PAGE = 9, NAME_MS = 620, TIER_MS = 520, CER_MS = 1600;
 
-const SND = (k) => `etheria.sage.${k}`;
-const dur = (k) => DUR[k] ?? 0;
+// 6.38: VOZ EM PORTUGUÊS (padrão). "pt:<fala>" = clipe etheria.voice.sage.<fala><estágio>; "sys:<sistema>.<fala>" = etheria.voice.sys.*.
+// Os clipes japoneses do pacote Voz só tocam se o jogador escolher "Japonês" nas configurações do Grande Sábio.
+let SFX = "";   // sufixo do estágio do Sábio (""/_b/_r/_c) da cena sendo montada
+const SND = (k) => k.startsWith("pt:") ? `etheria.voice.sage.${k.slice(3)}${SFX}` : k.startsWith("sys:") ? `etheria.voice.sys.${k.slice(4)}` : `etheria.sage.${k}`;
+const ptDur = (k) => { const ln = VOICE.lines[k]; if (!ln) return 0; return ({ "": ln.d, _b: ln.db, _r: ln.dr, _c: ln.dc }[SFX] ?? ln.d) * 50; };
+const dur = (k) => !k ? 0 : k.startsWith("pt:") ? ptDur(k.slice(3)) : k.startsWith("sys:") ? ((() => { const [a, b] = k.slice(4).split("."); return (VOICE.sys?.[a]?.[b]?.d ?? 0) * 50; })()) : (DUR[k] ?? 0);
+const PT = { "voice.koku": "pt:dg_attention", "voice.shinka_jouken": "pt:evo_ready", "voice.shounin": "pt:evo_proc", "voice.e_no_shinka": "pt:evo_done", "voice.kaiseki_kanryou": "pt:an_done", "voice.no_kakutoku": "pt:skill_acquired" };
+let PTMODE = false;
+/** traduz a chave de áudio da cena para o clipe em português (ou nenhum: nomes/categorias em japonês não têm equivalente falado) */
+const tr = (k) => { if (!PTMODE || !k || k.startsWith("sfx.") || k.startsWith("pt:") || k.startsWith("sys:")) return k; if (PT[k]) return PT[k]; if (k.startsWith("ceremony.")) return "pt:awk_start"; return ""; };
+const voiceMode = (p) => { try { const d = getData(p); PTMODE = sageCfg(d).style !== "mod"; const st = sageStage(d); SFX = st >= 4 ? "_c" : st === 3 ? "_r" : st === 2 ? "_b" : ""; } catch { PTMODE = true; SFX = ""; } };
 const lang = (p) => { try { return getData(p)?.settings?.voiceLang === "en" ? "en" : "pt"; } catch { return "pt"; } };
 const enabled = (p) => { try { return getData(p)?.settings?.cinematic !== false; } catch { return true; } };
 const ok = (p) => { try { return p.isValid; } catch { return false; } };
 
 /** emit: igual à referência — com áudio, agenda o passo e avança duração + 30 ms; sem áudio, avança o tempo reserva */
-function emit(steps, key, at, fallback) { const d = key ? dur(key) : 0; if (d <= 0) return at + fallback; steps.push({ key, at }); return at + d + 30; }
+function emit(steps, key, at, fallback) { key = tr(key); const d = key ? dur(key) : 0; if (d <= 0) return at + fallback; steps.push({ key, at }); return at + d + 30; }
 
 /** áudio que fala o nome: habilidade (mesmo id ou mapa), raça (id do estágio) ou etapa do Sábio */
 export const skillKey = (id) => { const k = SKILL_CLIP[id] ?? id; return DUR[`skill.${k}`] ? `skill.${k}` : ""; };
@@ -112,7 +123,7 @@ export function build(o, L) {
     lines.push({ type: "SKILL", text: `§a§l${o.info.name}`, at: c }); c += NAME_MS + 200;
     if (o.info.hint) { lines.push({ type: "RACE_FROM", text: o.info.hint, at: c }); c += 600; }
   } else if (o.level) {
-    sub.push({ text: T.sub.level, at: c }); c = emit(steps, "voice.koku", c, 0);
+    sub.push({ text: T.sub.level, at: c }); c = emit(steps, "voice.koku", c, 0); if (PTMODE) c = emit(steps, "sys:main.levelup", c, 0);
     lines.push({ type: "TIER", tier: "extra", text: T.levelup, at: c }); c += 700;
     lines.push({ type: "SKILL", text: `§e§l${T.level} ${o.level.to}`, at: c }); c += NAME_MS + 200;
     for (const x of [T.attr(o.level.attr), o.level.skillPt ? T.skillpt : "", o.level.evo ? `${T.evo}: §a${o.level.evo}` : ""]) if (x) { lines.push({ type: "RACE_FROM", text: x, at: c }); c += 520; }
@@ -128,7 +139,10 @@ export function build(o, L) {
     lines.push({ type: "TIER", text: T.tier[t], tier: t, at: c }); c = emit(steps, `tier.${t}`, c, TIER_MS);
     for (const e of g) { lines.push({ type: "SKILL", text: e.name, tier: t, at: c }); c = emit(steps, skillKey(e.id), c, NAME_MS); }
   }
-  if (o.notice && (o.entries ?? []).length && !o.ceremony && !o.evolution) { c = emit(steps, "voice.no_kakutoku", c, 0); c = emit(steps, "voice.seiko_shimashita", c, 0); }
+  if (o.notice && (o.entries ?? []).length && !o.ceremony && !o.evolution) {
+    if (PTMODE) c = emit(steps, (o.entries ?? []).some((e) => e.tier === "unique" || e.tier === "ultimate") ? "pt:unique_acquired" : "pt:skill_acquired", c, 0);
+    else { c = emit(steps, "voice.no_kakutoku", c, 0); c = emit(steps, "voice.seiko_shimashita", c, 0); }
+  }
   for (const l of lines) if (l.type === "SKILL" || l.type === "ANALYSED") steps.push({ key: "sfx.skill", at: l.at });
   steps.sort((a, b) => a.at - b.at);
   const durationMs = Math.max(c + 550 + (o.ceremony ? HOLD_MS : 0), 1700);
@@ -161,11 +175,11 @@ function nowMs(s) { return (system.currentTick - s.cur.t0) * 50; }
 function canAbsorb(s) { const c = s.cur; return !!c && c.open && nowMs(s) < c.A.durationMs; }
 
 function startNow(p, o) {
-  const s = st(p), L = lang(p), A = build(o, L);
+  voiceMode(p); const s = st(p), L = lang(p), A = build(o, L);
   s.cur = { o, A, L, t0: system.currentTick, nextStep: 0, shown: -1, page: 0, fxCount: 0, open: o.ceremony ? LISTS_SKILLS[o.ceremony] : true, lastSub: null };
   renderFrame(p, true);
 }
-function rebuild(p) { const s = st(p), c = s.cur; const A = build(c.o, c.L); c.A = A; c.nextStep = A.steps.findIndex((x) => x.at > nowMs(s)); if (c.nextStep < 0) c.nextStep = A.steps.length; }
+function rebuild(p) { voiceMode(p); const s = st(p), c = s.cur; const A = build(c.o, c.L); c.A = A; c.nextStep = A.steps.findIndex((x) => x.at > nowMs(s)); if (c.nextStep < 0) c.nextStep = A.steps.length; }
 
 /** enfileira um anúncio (ou começa já) */
 function submitAnn(p, o) { const s = st(p); if (!s.cur) startNow(p, o); else s.queue.push(o); }
@@ -236,7 +250,11 @@ function renderFrame(p, first = false) {
   const s = st(p), c = s.cur; if (!c) return;
   const t = nowMs(s), A = c.A;
   // sons no instante certo
-  while (c.nextStep < A.steps.length && A.steps[c.nextStep].at <= t) { const k = A.steps[c.nextStep++].key; try { p.playSound(SND(k), { volume: 1, pitch: 1 }); } catch { /* ignore */ } }
+  while (c.nextStep < A.steps.length && A.steps[c.nextStep].at <= t) {
+    const k = A.steps[c.nextStep++].key; voiceMode(p);
+    let vol = 1; try { const sg = sageCfg(getData(p)); vol = k.startsWith("sfx.") ? 1 : sg.voice === false ? 0 : Math.max(0.05, (sg.volume ?? 80) / 100); } catch { /* ignore */ }
+    if (vol > 0) { try { p.playSound(SND(k), { volume: vol, pitch: 1 }); } catch { /* ignore */ } }
+  }
   const vis = A.lines.filter((l) => l.at <= t);
   const cer = A.lines.find((l) => l.type === "CEREMONY" && l.at <= t);
   const list = vis.filter((l) => l.type !== "CEREMONY");

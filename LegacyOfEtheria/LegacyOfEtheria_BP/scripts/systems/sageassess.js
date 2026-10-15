@@ -14,7 +14,7 @@
 import { system } from "@minecraft/server";
 import { getData } from "../core/db.js";
 import { isValid, healthComp, say } from "../core/utils.js";
-import { sageCfg, sageStage, sageSay, subtitleActive } from "./voice.js";
+import { sageCfg, sageStage, sageSay, subtitleActive, sageText } from "./voice.js";
 import { SAGE_BASE } from "../config.js";
 import { ctx, ringFlat, column, mote, T } from "./fxlib.js";
 import { coreOn, coreState, coreOff, corePulse, typingActive } from "./sagecore.js";
@@ -78,7 +78,7 @@ export function relationOf(e, p) {
 const recs = new Map();   // playerId -> { p, state, since, t0, dim, nv, aim, scanUntil, count, hudAt }
 export const assessState = (p) => recs.get(p.id)?.state ?? A.OFF;
 export const assessActive = (p) => recs.has(p.id);
-const sayS = (p, t) => { try { say(p, `§b[Sábio] §f${t}`); } catch { /* ignore */ } };
+const sayS = (p, t) => { try { sageText(p, `§f${t}`); } catch { /* ignore */ } };
 const stageOf = (p) => sageStage(getData(p));
 
 function applyFilter(p, rec, force = false) {

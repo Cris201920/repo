@@ -1,3 +1,4 @@
+import { sageText } from "./voice.js";
 // systems/armorfx.js - Conjuntos de armadura: contagem de peças, mensagens de equipar/remover, aura (conjunto completo) e passivas.
 // Roda a cada 20 ticks só nos jogadores; partículas respeitam o nível de detalhe (fxlib). Sem entidades auxiliares.
 import { world, system } from "@minecraft/server";
@@ -46,8 +47,8 @@ function announce(p, id, before, now) {
   const name = def.name;
   if (now > before) {
     try { p.playSound(now >= 4 ? "random.levelup" : "armor.equip_iron", { volume: 0.7, pitch: now >= 4 ? 1.3 : 1 }); } catch { /* ignore */ }
-    if (now >= 2 && now <= 4 && def.b[now]) say(p, `§d[Conjunto ${name}] §f${now}/4 peças — bônus: §a${def.b[now].text}`);
-    else say(p, `§7[Conjunto ${name}] §f${now}/4 peças equipadas.`);
+    // 6.38: sem chat — o bônus ativado vira uma fala curta do Sábio; contagem parcial sem bônus fica só na descrição do item
+    if (now >= 2 && now <= 4 && def.b[now]) sageText(p, `Conjunto ${name}: ${now} peças — bônus ${def.b[now].text}.`, { pri: 6, key: "set." + name + now });
     if (now >= 4) {
       try { p.onScreenDisplay.setActionBar(`§6✦ §e${name} §6— conjunto completo!${def.passive ? " §7" + (PASSIVES[def.passive] ?? "").split(":")[0] : ""}`); } catch { /* ignore */ }
       if (def.ptext) say(p, `§6[Passiva] §f${def.ptext}`);

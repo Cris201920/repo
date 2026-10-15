@@ -28,7 +28,9 @@ const st = new Map();                         // playerId -> { q: [], cur, t0, c
 
 export function sageCfg(d) {
   const sg = (d.sage ??= { archive: {}, voice: true, raphael: false, analyses: 0 });
-  sg.volume ??= 80; sg.sfx ??= true; sg.subs ??= true; sg.style ??= "mod"; sg.seen ??= {};
+  sg.volume ??= 80; sg.sfx ??= true; sg.subs ??= true; sg.seen ??= {};
+  // 6.38: voz em PORTUGUÊS é o padrão (clipes etheria.voice.sage.*); o japonês do pacote Voz continua opcional nas configurações
+  if ((sg.styleV ?? 0) < 2) { sg.style = "pt"; sg.styleV = 2; }
   if (sg.gs === undefined) sg.gs = !!sg.raphael || sg.analyses >= 20 || d.level >= 35;   // migração: quem já era Grande Sábio continua
   sg.ciel ??= false; sg.mods ??= {}; sg.auto ??= 1; sg.exp ??= 0; sg.bond ??= 0; sg.tasks ??= 0;
   // configurações do Sábio (voz, volume, efeitos, partículas, animações, cinematográfico, dicas, análise, interface, desempenho, frequência, debug)
@@ -48,12 +50,24 @@ let hook = null;
 export const setVoiceHook = (fn) => { hook = fn; };
 const S = (p) => { let x = st.get(p.id); if (!x) { x = { q: [], cur: null, t0: 0, cds: new Map() }; st.set(p.id, x); } return x; };
 export const subtitleActive = (p) => !!st.get(p.id)?.cur;
+/** o Sábio está falando/mostrando legenda agora? (a HUD de status não deve sobrescrever) */
+export const sageSpeaking = (p) => !!st.get(p.id)?.cur;
+/** marcador invisível no começo da barra de ação: acende o indicador circular do Sábio no canto (RP/ui/hud_screen.json) */
+export const SAGE_MARK = "§s§g§x";
+/** Fala SÓ DE TEXTO do Sábio (sem clipe de voz): avisos, resultados de análise, dicas. opts: { pri, cd, key } */
+export function sageText(player, text, opts = {}) {
+  const t = String(text ?? "").replace(/§./g, "").trim(); if (!t) return false;
+  const d = getData(player), stage = sageStage(d), sg = sageCfg(d);
+  if (sg.subs === false) return false;
+  const dur = Math.min(140, 30 + Math.round(t.length * 1.1));
+  return enqueue(player, { key: opts.key ?? ("txt." + t.slice(0, 40)), who: ["SÁBIO", "SÁBIO", "GRANDE SÁBIO", "RAPHAEL", "CIEL"][stage] ?? "SÁBIO", sound: null, text: t, dur, pri: opts.pri ?? 5, cd: opts.cd ?? 200, at: system.currentTick, tone: ["§b", "§b", "§3", "§d", "§e"][stage] ?? "§b", sage: true, stage, textOnly: true });
+}
 /** Estado da fila de voz (modo debug): tamanho da fila, fala atual e última fala. */
 export function voiceInfo(p) { const x = st.get(p.id); return { queue: x?.q.length ?? 0, current: x?.cur?.key ?? null, last: x?.last ?? null, lastAt: x?.lastAt ?? 0 }; }
 export function dropVoice(id) { st.delete(id); }
 
 function enqueue(player, item) {
-  const d = getData(player), sg = sageCfg(d); if (sg.voice === false) return false;
+  const d = getData(player), sg = sageCfg(d);   // 6.38: "voz desligada" silencia o áudio, mas o Sábio continua com legenda e indicador
   if (announcing(player)) return false;   // 6.35: durante a Voz do Mundo só a cena nova fala e aparece (sem a legenda "SÁBIO »")
   const x = S(player), now = system.currentTick;
   if (item.cd > 0) { if ((x.cds.get(item.key) ?? 0) > now) return false; x.cds.set(item.key, now + item.cd); }
@@ -64,7 +78,7 @@ function enqueue(player, item) {
   return true;
 }
 function stopCurrent(player, x) {
-  if (x.cur?.sound) { try { player.runCommand(`stopsound @s ${x.cur.sound}`); } catch { /* ignore */ } }
+  if (x.cur?.sound) { try { player.runCommand(`stopsound @s ${x.cur.sound}`); } catch { /* ignore */ } }   // sem falas sobrepostas
   x.cur = null; x.until = 0;
 }
 
@@ -102,7 +116,10 @@ function subtitle(player, x, now) {
   const sg = sageCfg(getData(player)), c = x.cur; if (!sg.subs) return;
   const el = now - x.t0, total = PRE + c.dur + 10;
   const glow = Math.floor(el / 8) % 2 ? "§3" : c.tone;
-  const icon = `${glow}${c.sage ? "◈" : "✦"} §l${c.who}§r`;
+  // 6.38: indicador circular do Sábio (glifo animado RP/font/glyph_E2.png: anel girando enquanto fala; em espera no começo/fim)
+  const talking = el >= PRE && el < total - FADE;
+  const dot = c.sage ? `§r${String.fromCharCode(talking ? 0xE200 + (Math.floor(el / 2) % 8) : 0xE208)} ` : "";
+  const icon = `${dot}${glow}${c.sage ? "" : "✦ "}§l${c.who}§r`;
   let body;
   if (el < PRE) body = "§8· · ·";                                   // indicador de processamento
   else {
@@ -110,7 +127,7 @@ function subtitle(player, x, now) {
     const k = Math.min(fi, fo), col = k > 0.75 ? "§f" : k > 0.4 ? "§7" : "§8";
     body = `${col}"${c.text}"`;
   }
-  try { player.onScreenDisplay.setActionBar(`${icon} §8» ${body}`); } catch { /* ignore */ }
+  try { player.onScreenDisplay.setActionBar(`${SAGE_MARK}${icon} §8» ${body}`); } catch { /* ignore */ }
 }
 
 function tickPlayer(player, now) {
@@ -118,20 +135,29 @@ function tickPlayer(player, now) {
   const d = getData(player), sg = sageCfg(d);
   if (x.cur) {
     const c = x.cur, el = now - x.t0;
-    if (!x.voiced && el >= PRE) { x.voiced = true; try { hook?.(player, { dur: c.dur, sage: c.sage, stage: c.stage }); } catch { /* ignore */ } try { if (sg.volume > 0) player.playSound(c.sound, { volume: Math.max(0.05, sg.volume / 100), pitch: 1 }); } catch { /* ignore */ } }
+    if (!x.voiced && el >= PRE) { x.voiced = true; try { hook?.(player, { dur: c.dur, sage: c.sage, stage: c.stage }); } catch { /* ignore */ } try { if (c.sound && sg.voice !== false && sg.volume > 0) player.playSound(c.sound, { volume: Math.max(0.05, sg.volume / 100), pitch: 1 }); } catch { /* ignore */ } }
     subtitle(player, x, now);
     if (el >= PRE + c.dur) {
-      if (sg.sfx !== false && sg.volume > 0) { try { player.playSound("etheria.voice.sfx.off", { volume: 0.35 * sg.volume / 100 }); } catch { /* ignore */ } }
+      if (c.sound && sg.sfx !== false && sg.volume > 0) { try { player.playSound("etheria.voice.sfx.off", { volume: 0.35 * sg.volume / 100 }); } catch { /* ignore */ } }
       x.cur = null; x.gapUntil = now + GAP;
+      try { player.onScreenDisplay.setActionBar(" "); } catch { /* ignore */ }   // o indicador apaga junto com a fala
     }
     return;
   }
   if (x.gapUntil > now || !x.q.length) return;
   const c = x.q.shift(); x.cur = c; x.t0 = now; x.voiced = false; x.last = c.key; x.lastAt = now;
-  if (sg.sfx !== false && sg.volume > 0) { try { player.playSound("etheria.voice.sfx.on", { volume: 0.35 * sg.volume / 100 }); } catch { /* ignore */ } }
+  if (c.sound && sg.sfx !== false && sg.volume > 0) { try { player.playSound("etheria.voice.sfx.on", { volume: 0.35 * sg.volume / 100 }); } catch { /* ignore */ } }
 }
 
 export function startVoice() {
+  // 6.38: o Grande Sábio se apresenta sozinho ao entrar no mundo (sem comando), depois que a cena de nascimento/escolhas assentarem
+  try {
+    world.afterEvents.playerSpawn.subscribe((ev) => {
+      if (!ev.initialSpawn) return;
+      const p = ev.player;
+      system.runTimeout(() => { try { if (p.isValid && !announcing(p)) sageSay(p, "boot", { cd: 0 }); } catch { /* ignore */ } }, 200);
+    });
+  } catch { /* ignore */ }
   system.runInterval(() => {
     const now = system.currentTick;
     for (const p of world.getAllPlayers()) { try { tickPlayer(p, now); } catch { /* ignore */ } }

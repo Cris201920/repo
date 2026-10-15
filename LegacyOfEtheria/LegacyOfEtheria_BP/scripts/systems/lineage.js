@@ -112,7 +112,7 @@ export function startLineage() {
 // ---------------------------------------------------------------- Transformação Dracônica (habilidade "dragon_transform")
 // Habilidade real na barra de skills: liga/desliga a forma de Dragão da linhagem (Forma Dracônica; Dragão Verdadeiro no nível 90).
 // Concedida pelas formas finais da linha Dragonoide (data/races.js: dragonoid_3a / dragonoid_3b). A raça original não muda.
-const greet = (player, msg, delay) => system.runTimeout(() => { try { say(player, msg); } catch { /* ignore */ } }, delay);
+const greet = (player, msg, delay) => system.runTimeout(() => { try { sageText(player, msg, { pri: 4 }); } catch { /* ignore */ } }, delay);   // 6.38: fala do Sábio (fila + indicador)
 registerExec("dracform", (player, sk, s, d) => {
   const L = lineageOf(d);
   if (!L) return "Escolha sua linhagem dracônica primeiro (Relógio > Raça).";
@@ -123,9 +123,9 @@ registerExec("dracform", (player, sk, s, d) => {
   // rugido e falas do Grande Sábio na ativação (sequência cinematográfica curta)
   try { playSound(player, "mob.enderdragon.growl", 1, form === "true" ? 0.7 : 0.9); } catch { /* ignore */ }
   if (form === "true") {
-    greet(player, "§b§l[Grande Sábio] §r§fTransformação detectada.", 10);
-    greet(player, "§b§l[Grande Sábio] §r§fForma superior ativada.", 40);
-  } else greet(player, "§b§l[Grande Sábio] §r§fTransformação detectada.", 10);
+    greet(player, "§fTransformação detectada.", 10);
+    greet(player, "§fForma superior ativada.", 40);
+  } else greet(player, "§fTransformação detectada.", 10);
   return true;
 });
 

@@ -21,7 +21,7 @@ import { masteryLevel, masteryXp, masteryNeed, MASTERY_MAX } from "./mastery.js"
 import { applyDerivedStats, dropStats } from "./stats.js";
 import { STOMACH_EVOLVE, BEELZEBUTH_EVOLVE } from "./predator.js";
 import { coreBegin, coreResult, coreFail, resistsAnalysis, sceneChant, sageEvolveScene, openCoreSettings, corePulse, coreActive } from "./sagecore.js";
-import { sageSay, sageStage, sageCfg, setVoiceOpt, sysSay, setVoiceHook } from "./voice.js";
+import { sageSay, sageStage, sageCfg, setVoiceOpt, sysSay, setVoiceHook, sageText } from "./voice.js";
 import { conditions, combine, COMBOS, awakened } from "./discovery.js";
 import { inCombat } from "./combat.js";
 import { CATS, kb, kcount, learn, remember, addBond, addExp, evoReq, evoReady, learnBonus, prog, stageName, setSpellHook } from "./sageknow.js";
@@ -119,14 +119,14 @@ let evolving = new Set();
 export function analyze(player, target, opts = {}) {
   if (opts === true) opts = { silent: true };
   const silent = !!opts.silent, d = getData(player), sg = sageData(d), s = st(player);
-  if (!target || !isValid(target)) return silent ? undefined : say(player, "§c[Sábio] Nenhum alvo na mira.");
-  if (!modEnabled(player, "analysis")) return say(player, "§c[Sábio] O módulo de Análise está desligado.");
+  if (!target || !isValid(target)) return silent ? undefined : sageText(player, "Nenhum alvo na mira.");
+  if (!modEnabled(player, "analysis")) return sageText(player, "O módulo de Análise está desligado.");
   if (analyzing.has(player.id) || evolving.has(player.id)) return;
   const typeId = target.typeId, known = !!sg.archive[typeId], lb = learnBonus(d);
   const cost = known || silent ? 0 : SAGE_BASE.mana;
   let dd = Infinity; try { dd = Math.hypot(target.location.x - player.location.x, target.location.y - player.location.y, target.location.z - player.location.z); } catch { /* ignore */ }
-  if (dd > lb.range + 4) return silent ? undefined : say(player, `§c[Sábio] Alvo fora do alcance (${lb.range} blocos).`);
-  if (d.mana < cost) return say(player, "§c[Sábio] Mana insuficiente para análise.");
+  if (dd > lb.range + 4) return silent ? undefined : sageText(player, `Alvo fora do alcance (${lb.range} blocos).`);
+  if (d.mana < cost) return sageText(player, "Mana insuficiente para análise.");
   d.mana -= cost; analyzing.add(player.id);
   const aTick = system.currentTick, aMs = Date.now();
   try { emit(EV.SAGE_ANALYSIS_START, { player, target, silent }); } catch { /* ignore */ }
@@ -239,7 +239,7 @@ function itemLines(player, it) {
 }
 export function analyzeItem(player) {
   const d = getData(player), s = st(player);
-  if (!modEnabled(player, "analysis")) return say(player, "§c[Sábio] O módulo de Análise está desligado.");
+  if (!modEnabled(player, "analysis")) return sageText(player, "O módulo de Análise está desligado.");
   const it = heldItem(player);
   if (!it) { try { const b = player.getBlockFromViewDirection({ maxDistance: 8 })?.block; if (b) return analyzeBlock(player, b); } catch { /* ignore */ } return sayS(player, "Segure um item ou mire em um bloco para analisar."); }
   { const sid = skillIdOfItem(it.typeId); if (sid !== null && SKILLS[sid]) return analyzeSkill(player, sid); }   // item de habilidade da hotbar: analisa a HABILIDADE
@@ -284,7 +284,7 @@ export function skillLines(player, id) {
 }
 export function analyzeSkill(player, id) {
   const s = st(player), sk = SKILLS[id]; if (!sk) return;
-  if (!modEnabled(player, "analysis")) return say(player, "§c[Sábio] O módulo de Análise está desligado.");
+  if (!modEnabled(player, "analysis")) return sageText(player, "O módulo de Análise está desligado.");
   if (analyzing.has(player.id)) return; analyzing.add(player.id); sageSay(player, "sk_start", { cd: 0 }); coreBegin(player, "PROCESSANDO ESTRUTURA...", "PROCESSING", "HABILIDADE DETECTADA.");
   skillCircle(player, sk.element ?? "sage", { dur: 52, onDone: () => {
     analyzing.delete(player.id); const r = learn(player, sk.cat === "Magia" ? "magic" : "skills", id, sk.name, {}, true); sg0(player).analyses++; addExp(player, 2); markDirty(player);
@@ -643,7 +643,7 @@ export function startSage() {
       if (ev.id !== "etheria:sabio" && ev.id !== "etheria:sage") return;
       const p = ev.sourceEntity; if (!p || p.typeId !== "minecraft:player") return;
       const txt = (ev.message ?? "").trim(); if (!txt) return;
-      try { if (!handleChat(p, /^(grande sabio|raphael|rafael|ciel|sabio)\b/i.test(norm(txt)) ? txt : "sabio " + txt)) say(p, "§7[Sábio] Não entendi."); } catch (e) { console.warn(`[Etheria] scriptevent sábio: ${e}`); }
+      try { if (!handleChat(p, /^(grande sabio|raphael|rafael|ciel|sabio)\b/i.test(norm(txt)) ? txt : "sabio " + txt)) sageText(p, "Não entendi."); } catch (e) { console.warn(`[Etheria] scriptevent sábio: ${e}`); }
     });
   } catch (e) { console.warn(`[Etheria] scriptevent indisponível: ${e}`); }
   world.afterEvents.entityDie.subscribe((ev) => {

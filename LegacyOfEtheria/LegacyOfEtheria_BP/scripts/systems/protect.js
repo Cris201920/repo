@@ -1,3 +1,4 @@
+import { sageText } from "./voice.js";
 // systems/protect.js - PROTEÇÃO DE ITENS IMPORTANTES: o que o jogador não pode perder ao morrer.
 //
 // Usa a proteção NATIVA do Bedrock (ItemStack/ContainerSlot.keepOnDeath): o item sobrevive à morte e volta no inventário, sem script no momento da morte.
@@ -74,7 +75,7 @@ export function restoreEssentials(player) {
       given.push(name); stats.restored++;
     } catch (e) { stats.errors++; Log.error(`restaurar ${id}: ${e}`, "Proteção"); }
   }
-  if (given.length) { try { player.sendMessage(`§b[Sábio] §7Itens essenciais devolvidos: §f${given.join(", ")}§7.`); } catch { /* ignore */ } }
+  if (given.length) { try { sageText(player, `§7Itens essenciais devolvidos: §f${given.join(", ")}§7.`); } catch { /* ignore */ } }
   return given;
 }
 

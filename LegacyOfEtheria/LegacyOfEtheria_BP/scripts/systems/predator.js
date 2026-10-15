@@ -61,17 +61,17 @@ function evolveSkill(player, from, to, title, sub, msg) {
     const r = EquippedSkillManager.replace(player, from, to);
     if (!r.ok) { EquippedSkillManager.unequip(player, from); EquippedSkillManager.equip(player, to, { silent: true }); }
   } else if (d.equippedSkills.length < AUTO_EQUIP) EquippedSkillManager.equip(player, to, { silent: true });
-  toast(player, title, sub); sageVoice(player, "evolve");
-  say(player, msg);
+  sageVoice(player, "evolve");
+  sageText(player, msg, { pri: 3 });   // 6.38: a evolução aparece na cena (grantSkill) e na fala do Sábio, sem título/chat soltos
   try { emit(EV.SAGE_SKILL_REMOVED, { player, id: from, reason: "evolved", to }); emit(EV.SAGE_SKILL_EVOLVED, { player, id: to, from: [from] }); } catch { /* ignore */ }   // skill_removed + skill_evolved (o Sábio registra)
   saveNow(player);
 }
 function evolveGluttony(player) {
-  evolveSkill(player, "predator", "gluttony", "§5§lGULA", "§7Predador evoluiu", "§5§l[Great Sage] §r§fPredador evoluiu para §5Gula§f. Alcance e capacidade de devoração ampliados.");
+  evolveSkill(player, "predator", "gluttony", "§5§lGULA", "§7Predador evoluiu", "§fPredador evoluiu para §5Gula§f. Alcance e capacidade de devoração ampliados.");
 }
 function evolveBeelzebuth(player) {
   evolveSkill(player, "gluttony", "beelzebuth", "§5§lBEELZEBUTH", "§7Glutonaria evoluiu para Habilidade Suprema",
-    "§5§l[Great Sage] §r§fGlutonaria evoluiu para §5Beelzebuth, Senhor da Gula§f. Devora até 8 alvos feridos num raio de 10 blocos.");
+    "§fGlutonaria evoluiu para §5Beelzebuth, Senhor da Gula§f. Devora até 8 alvos feridos num raio de 10 blocos.");
 }
 
 // ---------------------------------------------------------------- DEVORAR BLOCOS (remoção real, com limites e proteções)

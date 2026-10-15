@@ -10,7 +10,7 @@ import { say } from "../core/utils.js";
 import { on, off, emit, EV } from "../core/bus.js";
 import { GreatSageLogger as Log } from "../core/logger.js";
 import { addHudLine } from "./hudhooks.js";
-import { sageCfg, sageStage, sageSay, dropVoice } from "./voice.js";
+import { sageCfg, sageStage, sageSay, dropVoice, sageText } from "./voice.js";
 import { addExp, remember } from "./sageknow.js";
 import { analyze, startEvolution, spellLines } from "./sage.js";
 import { startSageSave, saveGreatSageState, loadGreatSageState } from "./sagesave.js";
@@ -48,7 +48,7 @@ function onMagicLearned({ player, id, sk }) {
   if ((sg.obs[key] ?? 0) >= 2) return;
   sg.obs[key] = 2; sg.analyses = (sg.analyses ?? 0) + 1; addExp(player, 4); remember(player, "magic", `Magia analisada: ${sk.name}`); markDirty(player);
   sageSay(player, "sp_done", { cd: 600 });
-  say(player, `§b[Sábio] §fMagia detectada: §d${sk.name}§f.\n${spellLines(player, id, player).join("\n")}\n§bANÁLISE CONCLUÍDA.`);
+  sageText(player, `§fMagia detectada: §d${sk.name}§f.\n${spellLines(player, id, player).join("\n")}\n§bANÁLISE CONCLUÍDA.`);
 }
 
 let ready = false;

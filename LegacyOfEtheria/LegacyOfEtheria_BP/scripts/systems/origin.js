@@ -1,3 +1,4 @@
+import { sageText } from "./voice.js";
 // systems/origin.js - SALA DE ORIGEM: o primeiro spawn de um jogador novo leva-o a uma sala fechada (construída uma vez, com fill em pequenos lotes),
 // onde um NPC de cada região oferece o ponto de partida. A escolha teleporta o jogador, registra a origem e segue para a escolha de raça.
 // Configuração: data/origins.js (SPAWN_ORIGINS). Não substitui a raça, a classe nem as viagens: só define onde a jornada começa.
@@ -16,7 +17,7 @@ import { openRacePick } from "./ui/menus.js";
 const PER_TICK = 8;
 const dim = () => world.getDimension("minecraft:overworld");
 const runC = (D, c) => { try { const r = D.runCommand(c); return (r?.successCount ?? 1) > 0; } catch { return false; } };
-const sage = (p, m) => { try { p.sendMessage(`§b§l[Grande Sábio] §r§f${m}`); } catch { /* ignore */ } };
+const sage = (p, m) => { try { sageText(p, `§f${m}`); } catch { /* ignore */ } };
 let building = false;
 
 // ------------------------------------------------------------ sala (puro: testável sem o jogo)

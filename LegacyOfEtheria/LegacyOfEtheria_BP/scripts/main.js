@@ -50,7 +50,7 @@ import { startCreator } from "./systems/creator.js";
 import { startChronoa } from "./systems/chronoa.js";
 import { updateRanking } from "./systems/ranking.js";
 import "./systems/skillkinds.js";
-import { startVoice, sageSay, dropVoice, sageCfg } from "./systems/voice.js";
+import { startVoice, sageSay, dropVoice, sageCfg, sageText } from "./systems/voice.js";
 import { startDiscovery, grantStarter } from "./systems/discovery.js";
 import { startArmorFx } from "./systems/armorfx.js";
 import { startSageCore, dropCore } from "./systems/sagecore.js";
@@ -86,7 +86,7 @@ function giveStarterKit(player, d) {
 function giveSage(player, d) {
   if (d.sageGiven) return;
   d.sageGiven = true; placeAt(player, new ItemStack("etheria:sage_book", 1), KIT_SLOT.sage);
-  player.sendMessage("§b[Great Sage] §7Você recebeu o §fLivro do Great Sage§7. Use para abrir; agache e use para analisar o alvo.");
+  sageText(player, "§7Você recebeu o §fLivro do Great Sage§7. Use para abrir; agache e use para analisar o alvo.");
 }
 
 import { startCinematic } from "./systems/cinematic.js";

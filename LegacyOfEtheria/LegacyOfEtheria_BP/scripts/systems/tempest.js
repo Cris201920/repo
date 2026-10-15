@@ -13,7 +13,11 @@ const AREA = "etheria_tc";
 const NEAR = 110;            // distância (blocos) do jogador até o ladrilho para começar a colocá-lo
 const SEARCH_R = [700, 1000, 1300];
 const NPC_ROLE = ["guild", "merchant", "smith", "trainer", "quest", "master", "merchant", "smith", "guild", "quest"];
-const half = TEMPEST.size / 2;
+// 6.38: cidade REDUZIDA a pedido do jogador: só o centro de 4x4 ladrilhos (256x256 blocos, 1/4 da área original),
+// que contém o centro da cidade, a entrada (TEMPEST.spawn) e o núcleo do nascimento. Mundos que já têm o mapa inteiro não perdem nada.
+const RADIUS = 128;
+const TILES = TEMPEST.tiles.filter((t) => t.ox >= -RADIUS && t.ox + 64 <= RADIUS && t.oz >= -RADIUS && t.oz + 64 <= RADIUS);
+const half = RADIUS;
 
 let S = null;   // {x,y,z, done:{id:1}, npcs:{i:1}, ann:0}
 let busy = false, searching = false, tick = 0;
@@ -86,7 +90,7 @@ function nearestPending() {
   for (const p of world.getAllPlayers()) {
     if (p.dimension.id !== "minecraft:overworld") continue;
     const l = p.location;
-    for (const t of TEMPEST.tiles) {
+    for (const t of TILES) {
       if (S.done[t.id]) continue;
       const c = tileCenter(t), dx = Math.max(0, Math.abs(l.x - c.x) - 32), dz = Math.max(0, Math.abs(l.z - c.z) - 32), d = dx * dx + dz * dz;
       if (d < bd) { bd = d; best = t; }
@@ -138,11 +142,11 @@ function spawnValid(dim) {
   const g = blockAt(dim, bx, by - 1, bz), f = blockAt(dim, bx, by, bz), h = blockAt(dim, bx, by + 1, bz);
   return !!(g && !g.isAir && !g.isLiquid && f && f.isAir && h && h.isAir);
 }
-function tileOf(rx, rz) { return TEMPEST.tiles.find((t) => rx >= t.ox && rx < t.ox + 64 && rz >= t.oz && rz < t.oz + 64); }
+function tileOf(rx, rz) { return TILES.find((t) => rx >= t.ox && rx < t.ox + 64 && rz >= t.oz && rz < t.oz + 64); }
 
-export function tempestInfo() { return S ? { x: S.x, y: S.y, z: S.z, done: Object.keys(S.done).length, total: TEMPEST.tiles.length } : null; }
+export function tempestInfo() { return S ? { x: S.x, y: S.y, z: S.z, done: Object.keys(S.done).length, total: TILES.length } : null; }
 
-const complete = () => !!S && TEMPEST.tiles.every((t) => S.done[t.id]);
+const complete = () => !!S && TILES.every((t) => S.done[t.id]);
 export const tempestReady = () => load() && complete();
 let autoRun = false, autoTries = 0;
 /** GERAÇÃO AUTOMÁTICA no carregamento do mundo: assim que existe um jogador (a API só acessa a dimensão com o mundo ativo), localiza o terreno e coloca
@@ -216,8 +220,8 @@ export function ensureTempest(cb, tries = 0, progress = null) {
   const dim = ow();
   const begin = () => {
     busy = true;
-    const total = TEMPEST.tiles.length, PASSES = 2, PER_TICK = 4;
-    const doneCount = () => TEMPEST.tiles.filter((t) => S.done[t.id]).length;
+    const total = TILES.length, PASSES = 2, PER_TICK = 4;
+    const doneCount = () => TILES.filter((t) => S.done[t.id]).length;
     const finish = () => {
       const sp = TEMPEST.spawn ?? { x: 0, z: 0 }, st = tileOf(sp.x, sp.z);
       enqueue((next) => holdRegion(dim, Math.floor(S.x + sp.x) - 8, Math.floor(S.z + sp.z) - 8, 16, 16, (ok, _why, release) => {
@@ -230,7 +234,7 @@ export function ensureTempest(cb, tries = 0, progress = null) {
     // Ondas: cada quadrante (4x4 ladrilhos = 256x256 blocos) é carregado INTEIRO de uma vez (4 tickingareas de 10x10 chunks),
     // os 16 ladrilhos são colocados (4 por tick, para não travar o celular) e só então a área é liberada.
     const runPass = (pass) => {
-      const todo = TEMPEST.tiles.filter((t) => !S.done[t.id]);
+      const todo = TILES.filter((t) => !S.done[t.id]);
       if (todo.length === 0 || pass >= PASSES) return finish();
       const groups = new Map();
       for (const t of todo) { const k = `${Math.floor((t.ox + half) / 256)},${Math.floor((t.oz + half) / 256)}`; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(t); }
@@ -320,8 +324,8 @@ function heightRange(dim) { try { const r = dim.heightRange; if (r) return r; } 
 /** ladrilhos do núcleo: o do ponto de entrada e os 8 vizinhos */
 export function coreTiles() {
   const sp = TEMPEST.spawn ?? { x: 0, z: 0 }, st = tileOf(sp.x, sp.z);
-  if (!st) return TEMPEST.tiles.slice(0, 1);
-  return TEMPEST.tiles.filter((t) => Math.abs(t.ox - st.ox) <= 64 && Math.abs(t.oz - st.oz) <= 64);
+  if (!st) return TILES.slice(0, 1);
+  return TILES.filter((t) => Math.abs(t.ox - st.ox) <= 64 && Math.abs(t.oz - st.oz) <= 64);
 }
 export const tempestHasSite = () => !!load();
 /**

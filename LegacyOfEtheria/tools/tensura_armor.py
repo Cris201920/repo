@@ -99,6 +99,8 @@ MAP = {   # conjunto do addon -> (modelo do Tensura, recolorir para a cor do con
   "void": ("hihiirokane_armor", False), "shadow": ("adamantite_armor", True), "cultist": ("adamantite_armor", True),
   "pyromancer": ("charybdis_scalemail", True), "shadowwalker": ("mithril_armor", True), "rimuru_outfit": ("dark_set", False),
 }
+# peças que o modelo do conjunto não tem (ex.: Holy Armaments não tem capacete) usam a peça de outro modelo, com textura própria
+PART_OVERRIDE = {("celestial", "helmet"): "pure_magisteel_armor"}
 ICON = {"helmet": "helmet", "chest": "chestplate", "legs": "leggings", "boots": "boots"}
 import colorsys
 from PIL import ImageFilter
@@ -106,15 +108,20 @@ def smooth(im, k):
     big = im.resize((im.width * k, im.height * k), Image.NEAREST)
     rgb = big.convert("RGB").filter(ImageFilter.GaussianBlur(k * 0.32)).filter(ImageFilter.UnsharpMask(radius=k, percent=90, threshold=2))
     out = rgb.convert("RGBA"); out.putalpha(big.split()[3]); return out
-def recolor(im, rgb, sat_min=0.12):
+def recolor(im, rgb, sat_min=0.12, trim=None):
+    if trim is not None and colorsys.rgb_to_hsv(*[x / 255 for x in rgb])[1] < 0.25:   # base quase cinza: matiz vem do detalhe do conjunto
+        th_, ts_, _ = colorsys.rgb_to_hsv(*[x / 255 for x in trim]); _, _, tv_ = colorsys.rgb_to_hsv(*[x / 255 for x in rgb])
+        R, G, B = colorsys.hsv_to_rgb(th_, ts_ * 0.45, tv_); rgb = (int(R * 255), int(G * 255), int(B * 255))
     th, ts, tv = colorsys.rgb_to_hsv(*[x / 255 for x in rgb]); out = im.copy(); px = out.load()
+    vs = [colorsys.rgb_to_hsv(*(c / 255 for c in px[x, y][:3]))[2] for y in range(im.height) for x in range(im.width) if px[x, y][3] > 20]
+    gain = max(0.3, min(1.6, (tv * 1.15) / max(0.05, sum(vs) / max(1, len(vs)))))   # brilho médio do modelo -> brilho da cor do conjunto
     for y in range(im.height):
         for x in range(im.width):
             r, g, b, a = px[x, y]
             if a == 0: continue
             h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
-            if s < sat_min and v > 0.75: continue            # brilhos/realces brancos ficam
-            s2 = max(s, ts * 0.85); v2 = v * (0.55 + 0.6 * tv)
+            if s < sat_min and v > 0.92 and tv > 0.55: continue   # só em conjuntos claros os brilhos fortes ficam brancos
+            s2 = max(s, ts * 0.85); v2 = v * gain
             R, G, B = colorsys.hsv_to_rgb(th, min(1, s2), min(1, v2)); px[x, y] = (int(R * 255), int(G * 255), int(B * 255), a)
     return out
 def texture_of(TA, model):
@@ -130,27 +137,32 @@ def apply(TA):
     for sid, (model, rec) in MAP.items():
         d = load(os.path.join(TA, "geo/armor", model + ".geo.json"))
         tex = texture_of(TA, model); col = ASETS[sid][0] if sid in ASETS else None
-        if rec and col: tex = recolor(tex, col)
+        if rec and col: tex = recolor(tex, col, trim=ASETS[sid][2])
         tex = smooth(tex, 4)   # 6.36: alta resolução (sem aspecto de pixel); a geometria continua com o tamanho declarado
         tex.save(os.path.join(RP, f"textures/models/armor/etheria_t_{sid}.png"))
         for part in ("helmet", "chest", "legs", "boots"):
             att = os.path.join(RP, f"attachables/{sid}_{part}.attachable.json")
             if not os.path.exists(att): continue
             gid = f"geometry.etheria_t_{sid}_{part}"
-            g = piece_geo(d, gid, part)
+            dpart, texrel = d, f"textures/models/armor/etheria_t_{sid}"
+            if (sid, part) in PART_OVERRIDE:
+                om = PART_OVERRIDE[(sid, part)]; dpart = load(os.path.join(TA, "geo/armor", om + ".geo.json"))
+                ot = texture_of(TA, om); ot = smooth(ot, 4); texrel = f"textures/models/armor/etheria_t_{sid}_{part}"; ot.save(os.path.join(RP, texrel + ".png"))
+            g = piece_geo(dpart, gid, part)
             if not any(b.get("cubes") for b in g["minecraft:geometry"][0]["bones"]): continue
             json.dump(g, open(os.path.join(RP, f"models/entity/etheria_t_{sid}_{part}.geo.json"), "w"), indent=1)
             a = json.load(open(att)); desc = a["minecraft:attachable"]["description"]
-            desc["geometry"] = {"default": gid}; desc["textures"]["default"] = f"textures/models/armor/etheria_t_{sid}"
+            desc["geometry"] = {"default": gid}; desc["textures"]["default"] = texrel
             desc["materials"] = {"default": "armor", "enchanted": "armor_enchanted"}; desc["scripts"] = {"parent_setup": f"variable.{VIS[part]} = 0.0;"}
             desc["render_controllers"] = [{"controller.render.armor": hide}]; desc.pop("animations", None)
             json.dump(a, open(att, "w"), indent=1)
             # ícone: o pixel art do próprio mod (recolorido junto) ou, se não houver, o modelo renderizado
-            src = os.path.join(TA, "textures/item", f"{model.replace('_armor', '').replace('_set', '').replace('_scalemail', '_scalemail')}_{ICON[part]}.png")
+            mdl = PART_OVERRIDE.get((sid, part), model)
+            src = os.path.join(TA, "textures/item", f"{mdl.replace('_armor', '').replace('_set', '').replace('_scalemail', '_scalemail')}_{ICON[part]}.png")
             icon_p = os.path.join(RP, f"textures/items/etheria_{sid}_{part}.png")
             if os.path.exists(src):
                 ic = Image.open(src).convert("RGBA"); ic = ic.crop((0, 0, ic.width, ic.width))
-                if rec and col: ic = recolor(ic, col)
+                if rec and col: ic = recolor(ic, col, trim=ASETS[sid][2])
                 smooth(ic.resize((16, 16), Image.NEAREST), 6).save(icon_p)
             else:
                 render_icon(model_of(d, PIECE[part]), tex, size=96, view=(200, 12, 0)).save(icon_p)

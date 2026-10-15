@@ -9,7 +9,7 @@ import { getData } from "../core/db.js";
 import { isValid, healthComp, say } from "../core/utils.js";
 import { MOBS } from "../data/mobs.gen.js";
 import { BOSSES } from "../data/bosses.js";
-import { sageStage } from "./voice.js";
+import { sageStage, sageText } from "./voice.js";
 import { learnBonus } from "./sageknow.js";
 import { runAnalyzer } from "./sageproc.js";
 import { addHudLine } from "./hudhooks.js";
@@ -23,7 +23,7 @@ export const RELEASE_REASON = Object.freeze({ MANUAL: "manual", DEAD: "dead", GO
 
 const locks = new Map();              // playerId -> { p, e, name, since, outSince, pct, dist }
 const pretty = (id) => id.split(":").pop().replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-const sayS = (p, t) => { try { say(p, `§b[Sábio] §f${t}`); } catch { /* ignore */ } };
+const sayS = (p, t) => { try { sageText(p, `§f${t}`); } catch { /* ignore */ } };
 const dist3 = (a, b) => Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
 
 export function targetName(e) {

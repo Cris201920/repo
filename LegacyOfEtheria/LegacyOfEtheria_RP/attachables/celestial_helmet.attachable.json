@@ -8,7 +8,7 @@
     "enchanted": "armor_enchanted"
    },
    "textures": {
-    "default": "textures/models/armor/etheria_t_celestial",
+    "default": "textures/models/armor/etheria_t_celestial_helmet",
     "enchanted": "textures/misc/enchanted_item_glint"
    },
    "geometry": {

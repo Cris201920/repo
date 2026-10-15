@@ -7,7 +7,7 @@ import { VOICE } from "../data/voice.gen.js";
 import { grantSkill, hasSkill } from "./skills.js";
 import { masteryLevel, MASTERY_MAX } from "./mastery.js";
 import { applyDerivedStats } from "./stats.js";
-import { sageSay, skillSay, sageCfg, sysSay } from "./voice.js";
+import { sageSay, skillSay, sageCfg, sysSay, sageText } from "./voice.js";
 import { ctx, disc, helix, column, burst, ringFlat, CIRCLE, T, after } from "./fxlib.js";
 import { toast, say, playSound } from "../core/utils.js";
 import { nextStages } from "../data/races.js";
@@ -85,7 +85,7 @@ function tickPlayer(p) {
   // combinação disponível
   for (const cb of COMBOS) {
     if (hasSkill(d, cb.id) || sg.seen["cmb_" + cb.id]) continue;
-    if (cb.from.every((k) => hasSkill(d, k) && masteryLevel(p, k) >= cb.mastery)) { sg.seen["cmb_" + cb.id] = true; sageSay(p, "cmb_compat"); sageSay(p, "cmb_possible"); say(p, `§b[Grande Sábio] §fCombinação disponível: §d${SKILLS[cb.id].name}§f. Abra o livro do Sábio → Combinar habilidades.`); markDirty(p); }
+    if (cb.from.every((k) => hasSkill(d, k) && masteryLevel(p, k) >= cb.mastery)) { sg.seen["cmb_" + cb.id] = true; sageSay(p, "cmb_compat"); sageSay(p, "cmb_possible"); sageText(p, `§fCombinação disponível: §d${SKILLS[cb.id].name}§f. Abra o livro do Sábio → Combinar habilidades.`); markDirty(p); }
   }
   // evolução racial disponível
   try {

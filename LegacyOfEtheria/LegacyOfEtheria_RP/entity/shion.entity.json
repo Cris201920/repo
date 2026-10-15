@@ -7,10 +7,10 @@
         "default": "entity_alphatest"
       },
       "textures": {
-        "default": "textures/entity/etheria_ultima"
+        "default": "textures/entity/etheria_shion"
       },
       "geometry": {
-        "default": "geometry.etheria_ultima_skin"
+        "default": "geometry.etheria_shion_skin"
       },
       "spawn_egg": {
         "base_color": "#f0a0c0",

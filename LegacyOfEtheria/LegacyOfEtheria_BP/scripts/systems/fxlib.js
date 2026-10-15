@@ -1,7 +1,7 @@
 // systems/fxlib.js - Biblioteca de efeitos: emissores parametrizados por Molang (mote / streak / disc) e padrões compostos.
 // Todo efeito visual de habilidade é montado a partir destes blocos + simulação de projéteis feita em script.
 // Orçamento por tick e 3 níveis de detalhe (alto/reduzido/desligado) protegem o desempenho no celular.
-import { MolangVariableMap, system } from "@minecraft/server";
+import { MolangVariableMap, system, world } from "@minecraft/server";
 import { getData } from "../core/db.js";
 import { isValid, add, norm, sub, dist, rand } from "../core/utils.js";
 import { PART_FX, PART_COL, PART_INFO } from "../data/partmap.gen.js";   // gerado por tools/partports.py (partículas portadas dos mods de referência)
@@ -43,10 +43,19 @@ function canSpawn(c) {
   used++; totalUsed++; return true;
 }
 function setv(n, v) { MAP.setFloat("variable." + n, v); }
+// 6.38: partícula grande nascendo DENTRO da câmera vira um borrão gigante na tela -> não é criada (cabeças cacheadas por tick)
+let eyeTick = -1, eyes = [];
+function nearEye(pos, size) {
+  if (!(size >= 0.45)) return false;
+  if (system.currentTick !== eyeTick) { eyeTick = system.currentTick; eyes = []; try { for (const p of world.getAllPlayers()) { try { eyes.push(p.getHeadLocation()); } catch { /* ignore */ } } } catch { /* ignore */ } }
+  const r = Math.max(1.1, size * 1.4);
+  for (const e of eyes) { const dx = e.x - pos.x, dy = e.y - pos.y, dz = e.z - pos.z; if (dx * dx + dy * dy + dz * dz < r * r) return true; }
+  return false;
+}
 
 /** Partícula pontual. o: {dir,spd,col,a,size,life,tile,acc,drag,grow,fade} */
 export function mote(c, pos, o = {}) {
-  if (!canSpawn(c)) return;
+  if (nearEye(pos, o.size ?? 0.25) || !canSpawn(c)) return;
   const d = o.dir ?? [0, 1, 0], k = col(o.col ?? "white");
   setv("dx", d[0]); setv("dy", d[1]); setv("dz", d[2]); setv("spd", o.spd ?? 0);
   setv("ax", o.acc?.[0] ?? 0); setv("ay", o.acc?.[1] ?? 0); setv("az", o.acc?.[2] ?? 0); setv("drag", o.drag ?? 0.5);
@@ -323,7 +332,7 @@ export function partChoreo(ch, sk) {
 // --------------------------------------------------------------- 6.36: partículas próprias das camadas (RP/particles/vfx_*.json, atlas etheria_vfx)
 /** kind: bolt | ember | shard | blade | wave | smoke | glow. o: {dir,spd,col,a,size,life,grow,acc,drag,tile,sx,sy} — mesmo orçamento por tick de mote(). */
 export function vfx(c, kind, pos, o = {}) {
-  if (!canSpawn(c)) return;
+  if (nearEye(pos, kind === "bolt" ? 0 : o.size ?? 0.4) || !canSpawn(c)) return;
   const d = o.dir ?? [0, 1, 0], k = col(o.col ?? "white");
   setv("dx", d[0]); setv("dy", d[1]); setv("dz", d[2]); setv("spd", o.spd ?? 0);
   setv("ax", o.acc?.[0] ?? 0); setv("ay", o.acc?.[1] ?? 0); setv("az", o.acc?.[2] ?? 0); setv("drag", o.drag ?? 0.6);
@@ -350,7 +359,7 @@ export function vbolt(c, a, b, o = {}) {
 /** Partículas com as texturas do mod Tensura (RP/particles/tx_*.json, flipbook). name: black_lightning | purple_lightning | red_lightning | lightning |
  *  fire | black_fire | plasma | gust | heat | bubble_pop | hell_flare | lightning_ball | fire_bolt | magic_circle */
 export function tx(c, name, pos, o = {}) {
-  if (!canSpawn(c)) return;
+  if ((name !== "magic_circle" && nearEye(pos, o.size ?? 0.6)) || !canSpawn(c)) return;
   const d = o.dir ?? [0, 1, 0], k = col(o.col ?? "white");
   setv("dx", d[0]); setv("dy", d[1]); setv("dz", d[2]); setv("spd", o.spd ?? 0);
   setv("ax", o.acc?.[0] ?? 0); setv("ay", o.acc?.[1] ?? 0); setv("az", o.acc?.[2] ?? 0); setv("drag", o.drag ?? 0.6);

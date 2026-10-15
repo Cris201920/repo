@@ -9,7 +9,7 @@ import { isValid, say, healthComp } from "../core/utils.js";
 import { SKILLS } from "../data/skills.js";
 import { BOSSES } from "../data/bosses.js";
 import { MOBS } from "../data/mobs.gen.js";
-import { sageSay, sageStage, sageCfg } from "./voice.js";
+import { sageSay, sageStage, sageCfg, sageText } from "./voice.js";
 import { evoReady, learn, remember, addBond, stageName } from "./sageknow.js";
 import { activeBosses } from "./bosses.js";
 import { inCombat } from "./combat.js";
@@ -96,10 +96,9 @@ function cd(s, key, ticks, now) { if ((s.cds.get(key) ?? 0) > now) return false;
 export function alert(p, key, voiceKey, msg, ticks, o = {}) {
   const base = o.pri ?? priorityOf(key), pri = o.urgent ? Math.min(base, TIP_PRI.HIGH) : base;
   if (tipGate(p, "al." + key, pri, ticks) !== 2) return false;
-  if (voiceKey) sageSay(p, voiceKey, { cd: 0 });
-  sageSnd(p, "mini", 0.5, 0.8);
-  if (!o.soft) { try { coreAlert(p, pri <= TIP_PRI.HIGH || /perigo|superior|emboscada|poderoso|cr[ií]tica/i.test(msg ?? "") ? "danger" : "info"); } catch { /* ignore */ } }
-  if (msg) { try { p.onScreenDisplay.setActionBar(`${pri <= TIP_PRI.CRITICAL ? "§c⚠" : pri === TIP_PRI.HIGH ? "§6⚠" : "§b✦"} §f${msg}`); } catch { /* ignore */ } }
+  // 6.38: tudo pela fila do Sábio (voz em português + legenda + indicador no canto); sem escrever direto na barra de ação
+  const spoke = voiceKey ? sageSay(p, voiceKey, { cd: 0 }) : false;
+  if (!spoke && msg) sageText(p, msg, { pri: pri <= TIP_PRI.HIGH ? 1 : 5, key: "al." + key });
   try { emit(EV.SAGE_TIP, { player: p, key, pri, text: msg }); if (pri <= TIP_PRI.HIGH) emit(EV.SAGE_DANGER, { player: p, key, pri, text: msg }); } catch { /* ignore */ }   // danger_detected
   return true;
 }
@@ -114,8 +113,8 @@ export function suggest(p, key, text, o = {}) {
   if (gate < 2) return true;                                   // registrada na lista de sugestões; o anúncio espera o silêncio acabar
   const mode = sg.auto ?? 1, st = sageStage(getData(p));
   if (mode >= 1) {
-    if (o.voice) sageSay(p, o.voice);
-    if (!o.quiet) { try { p.onScreenDisplay.setActionBar(`${pri <= TIP_PRI.CRITICAL ? "§c⚠" : "§b✦"} §f${text}`); } catch { /* ignore */ } }
+    const spoke = o.voice ? sageSay(p, o.voice) : false;
+    if (!o.quiet && !spoke) sageText(p, text, { pri: pri <= TIP_PRI.CRITICAL ? 1 : 6, key: "sg." + key });
   }
   try { emit(EV.SAGE_TIP, { player: p, key, pri, text }); } catch { /* ignore */ }
   if (mode >= 3 && st >= 3 && o.action?.type === "cast" && now - s.lastAsk > 600) askAuthorize(p, o.action, text);
@@ -128,7 +127,7 @@ function askAuthorize(p, action, text) {
   f.show(p).then((r) => {
     const sg = sageCfg(getData(p)); sg.dec ??= [];
     if (r.canceled || r.selection !== 0) { sg.dec.unshift({ t: Date.now(), ok: false, text: `Recusado: ${sk.name}` }); }
-    else { const res = castSkill(p, action.id); sg.dec.unshift({ t: Date.now(), ok: !!res.ok, text: `Executado com autorização: ${sk.name}` }); if (res.ok) addBond(p, 1); else say(p, `§c[Sábio] ${res.msg}`); }
+    else { const res = castSkill(p, action.id); sg.dec.unshift({ t: Date.now(), ok: !!res.ok, text: `Executado com autorização: ${sk.name}` }); if (res.ok) addBond(p, 1); else sageText(p, `${res.msg}`); }
     while (sg.dec.length > 12) sg.dec.pop(); markDirty(p);
   }).catch(() => { /* ignore */ });
 }

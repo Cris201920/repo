@@ -1,3 +1,4 @@
+import { sageText } from "./voice.js";
 // systems/mobskills.js - APRENDER HABILIDADES DE MOBS e CONSEGUIR O PREDADOR por chance ao derrotar monstros.
 //
 // · Ao matar um mob, há uma chance de absorver uma habilidade ligada à família dele (aranha → Tiro Perfurante, lobo → Instinto Selvagem...).
@@ -67,7 +68,7 @@ export function rollMobKill(player, typeId, rnd = Math.random) {
       d.mobPity.p = 0; grantSkill(player, "predator"); got.predator = true;
       try { sageVoice(player, "learn"); } catch { /* ignore */ }
       toast(player, "§5§lPREDADOR", "§7Habilidade Única obtida");
-      if (!sceneOn(player)) say(player, "§5§l[Grande Sábio] §r§fVocê obteve a habilidade Única §5Predador§f. Use-a em alvos feridos para devorá-los e absorver habilidades.");
+      if (!sceneOn(player)) sageText(player, "§fVocê obteve a habilidade Única §5Predador§f. Use-a em alvos feridos para devorá-los e absorver habilidades.");
     } else d.mobPity.p += PRED_PITY_STEP;
   }
   const { short, list } = familyOf(typeId);
@@ -77,7 +78,7 @@ export function rollMobKill(player, typeId, rnd = Math.random) {
       const id = open[Math.min(open.length - 1, Math.floor(rnd() * open.length))];
       d.mobPity.s = 0; grantSkill(player, id); got.skill = id;
       try { sageVoice(player, "learn"); } catch { /* ignore */ }
-      say(player, `§b[Grande Sábio] §fHabilidade absorvida de §e${MOBS[typeId]?.name ?? short}§f: §d${SKILLS[id].name}§f.`);
+      sageText(player, `§fHabilidade absorvida de §e${MOBS[typeId]?.name ?? short}§f: §d${SKILLS[id].name}§f.`);
     } else d.mobPity.s += PITY_STEP;
   }
   markDirty(player);

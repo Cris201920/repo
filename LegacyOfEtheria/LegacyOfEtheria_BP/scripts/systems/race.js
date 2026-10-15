@@ -12,7 +12,7 @@ import { fx, ring } from "./fx.js";
 import { checkAchievements } from "./achievements.js";
 import { updateRanking } from "./ranking.js";
 import { SOUNDS } from "../config.js";
-import { sageSay, sysSay } from "./voice.js";
+import { sageSay, sysSay, sageText } from "./voice.js";
 import { emit, EV } from "../core/bus.js";
 import { applyRaceLook, playTransform } from "./raceparts.js";
 import { playCinematic, tierOfStage } from "./cinematic.js";
@@ -68,7 +68,7 @@ export function evolveCheck(player, stage) {
 /** Grande Sábio narra a evolução para Lord Demônio (sequência com tempos, como no processamento). */
 function lordDemonSage(player) {
   const L = [[0, "Analisando..."], [30, "Requisitos confirmados."], [60, "Processo evolutivo iniciado."], [150, "Evolução concluída."], [190, "§dLord Demônio§b registrado."]];
-  for (const [t, m] of L) system.runTimeout(() => { try { say(player, `§5§l[Grande Sábio] §r§f${m}`); } catch { /* ignore */ } }, t);
+  for (const [t, m] of L) system.runTimeout(() => { try { sageText(player, `§f${m}`); } catch { /* ignore */ } }, t);
 }
 export function evolve(player, stageId) {
   const d = getData(player);
