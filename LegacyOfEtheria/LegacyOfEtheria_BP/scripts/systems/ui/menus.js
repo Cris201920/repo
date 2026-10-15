@@ -21,7 +21,7 @@ import { getRanking } from "../ranking.js";
 import { listBuffs } from "../effects.js";
 import { nameOf } from "../items.js";
 import { menu, show } from "./forms.js";
-import { openPowers } from "../powers.js";
+import { openPowers, openAgility } from "../powers.js";
 import { FLIGHT } from "../../config.js";
 import { flightOn, setFlightOn, flightRequirements } from "../flight.js";
 import { ITEMS } from "../../data/items.gen.js";
@@ -104,6 +104,7 @@ export function openSkills(player) {
     { text: "§lEquipar / guardar", icon: "menu_class", run: () => openEquip(player) },
     { text: "Passivas e raciais", icon: "skill_regeneration", run: () => openPassives(player) },
     { text: "§l§5Árvore de Poderes\n§r§7evoluções, requisitos e efeitos", icon: "menu_skills", run: () => openPowers(player, () => openSkills(player)) },
+    { text: "§l§bAgilidades Supremas\n§r§7a linha de mobilidade da sua raça", icon: "menu_skills", run: () => openAgility(player, () => openSkills(player)) },
     back(() => openMain(player)),
   ]);
 }
@@ -419,9 +420,12 @@ export function openSettings(player) {
     .toggle("Habilidades: anunciar o uso por voz", sb.announce).toggle("Habilidades: som ao selecionar o slot", sb.selectSound)
     .toggle("Habilidades: mostrar custo ao selecionar", sb.selectInfo).toggle("Habilidades: faixa na HUD", sb.strip)
     .toggle("Habilidade na mão lança em vez de abrir baús (agache para abrir)", sb.blockInteract)
-    .toggle("Magias em fases (formação, trajeto e impacto)", sb.staged !== false);
+    .toggle("Magias em fases (formação, trajeto e impacto)", sb.staged !== false)
+    .toggle("Interface temática animada (desligue para a interface clássica)", st.classicUi !== true)
+    .toggle("Cerimônias em tela cheia (Voz do Mundo)", st.cinematic !== false);
   show(player, f, (r) => {
-    const [hud, compact, tracker, fx, announce, selSound, selInfo, strip, blockInteract, staged] = r.formValues;
+    const [hud, compact, tracker, fx, announce, selSound, selInfo, strip, blockInteract, staged, themedUi, cine] = r.formValues;
+    st.classicUi = themedUi === false; st.cinematic = cine !== false;
     st.hud = !!hud; st.compact = !!compact; st.tracker = !!tracker; st.fx = FX_LEVELS[fx] ?? "high";
     sb.announce = !!announce; sb.selectSound = !!selSound; sb.selectInfo = !!selInfo; sb.strip = !!strip; sb.blockInteract = !!blockInteract; sb.staged = staged !== false;
     markDirty(player); saveNow(player); say(player, "§aConfigurações salvas.");

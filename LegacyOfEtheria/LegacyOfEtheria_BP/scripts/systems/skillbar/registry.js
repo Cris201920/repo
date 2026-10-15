@@ -34,7 +34,7 @@ export const isSpecial = (id) => { const s = SKILLS[id]; return !!s && (SPECIAL.
 /** Rótulo de categoria exibido no item/menu (as categorias do jogo + as futuras entram automaticamente). */
 export const CATEGORY_LABEL = {
   "Intrínseca": "Habilidade Intrínseca", "Extra": "Habilidade Extra", "Única": "Habilidade Única", "Ultimate": "Habilidade Suprema",
-  "Manas": "Habilidade Manas", "Magia": "Magia", "Combate": "Técnica de Combate", "Mobilidade": "Mobilidade", "Suporte": "Suporte",
+  "Manas": "Habilidade Manas", "Magia": "Magia", "Combate": "Técnica de Combate", "Mobilidade": "Mobilidade", "Agilidade Suprema": "Agilidade Suprema", "Suporte": "Suporte",
   "Invocação": "Invocação", "Racial": "Habilidade Racial", "Classe": "Habilidade de Classe",
 };
 export const categoryLabel = (id) => { const s = SKILLS[id]; return s ? (CATEGORY_LABEL[s.cat] ?? s.cat ?? "Habilidade") : "Habilidade"; };

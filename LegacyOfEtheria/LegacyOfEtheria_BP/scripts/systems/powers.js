@@ -19,8 +19,13 @@ import { flightEligible, flightRequirements } from "./flight.js";
 import { FLIGHT } from "../config.js";
 import { BOSS_BY_TYPE } from "../data/bosses.js";
 const BOSS_RARITIES = ["boss", "legendary", "special"];
-import { menu } from "./ui/forms.js";
-import { say, toast, isValid } from "../core/utils.js";
+import { menu, sageThemeOf } from "./ui/forms.js";
+import { AGILITY_LINES, AGI_GATES } from "../data/agility.js";
+import { agilityReq, agilityAwaken } from "./agility.js";
+import { RACES } from "../data/races.js";
+import { openRace as openRaceMenu } from "./ui/menus.js";
+import { openSage as openSageBook } from "./sage.js";
+import { say, toast, isValid, bar } from "../core/utils.js";
 
 const CLS_COL = { common: "§7", unique: "§d", supreme: "§6" };
 const CLASS_TXT = { [CLASS.NEGATABLE]: "§aAnulável", [CLASS.PARTIAL]: "§eParcialmente resistida", [CLASS.IMMUNE]: "§cImune" };
@@ -101,28 +106,119 @@ export function skillFacts(id) {
   if (sk.req?.length) L.push(`§7Compatível/requer: §f${sk.req.map((r) => SKILLS[r]?.name ?? r).join(", ")}`);
   return L;
 }
-const mark = (s) => (s.owned ? "§a[x]" : s.next ? (s.ready ? "§e[!]" : "§7[>]") : "§8[ ]");
+// ---------------------------------------------------------------- UI (6.29): painel de detalhes à esquerda, cartões à direita (ui/server_form.json)
+const ST = { owned: "§a✔ DESBLOQUEADA", ready: "§e★ DISPONÍVEL", next: "§6● PRÓXIMA", locked: "§8○ BLOQUEADA" };
+const stateOf = (s) => (s.owned ? "owned" : s.ready ? "ready" : s.next ? "next" : "locked");
+const CARD_COL = { owned: "§a", ready: "§e", next: "§6", locked: "§8" };
+const reqBar = (req) => { const ok = req.filter((r) => r.ok).length; return `${bar(ok, Math.max(1, req.length), 10, ok === req.length ? "§a" : "§e")} §7${ok}/${req.length}`; };
+const SEP = "§8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬";
+const themeOfLine = (player, id) => (id === "sage" ? sageThemeOf(sageStage(getData(player))) : id === "yuuki" ? "world" : "tree");
+/** trilha visual da linha: estágios ligados verticalmente com o estado de cada um */
+function trail(stages) {
+  const L = [];
+  stages.forEach((s, i) => {
+    const k = stateOf(s), c = CARD_COL[k];
+    L.push(`${c}${s.owned ? "●" : "○"} §l${s.name}§r ${CLS_COL[s.cls] ?? "§7"}[${POWER_CLASS[s.cls] ?? s.cls}]${s.owned && !stages[i + 1]?.owned ? " §a« ATUAL" : ""}${s.next && !s.owned ? " §6« PRÓXIMA" : ""}`);
+    if (!s.owned && s.req?.length) L.push(`${c}│ §r${reqBar(s.req)}`);
+    if (i < stages.length - 1) L.push(`${c}│`);
+  });
+  return L.join("\n");
+}
+function cardOf(s, icon, run) {
+  const k = stateOf(s);
+  return { text: `${CARD_COL[k]}§l${s.name}\n§r${ST[k]}${!s.owned && s.req?.length ? ` §8· ${s.req.filter((r) => r.ok).length}/${s.req.length}` : ""}`, icon, run };
+}
 export function openStage(player, lineId, stageId, back) {
-  const S = lineState(player, lineId), st = S.stages.find((x) => x.id === stageId);
-  const L = [`${CLS_COL[st.cls]}§l${st.name} §r§7(${POWER_CLASS[st.cls]})`, st.owned ? "§aDesbloqueado" : st.ready ? "§eProntos os requisitos — veja como evoluir" : "§cBloqueado", ""];
-  if (st.skill) L.push(...skillFacts(st.skill), "");
-  L.push("§lEfeitos reais:", ...st.feats.map((f) => `§7• §f${f}`));
-  if (!st.owned) L.push("", "§lRequisitos:", ...st.req.map((r) => `${r.ok ? "§a✔" : "§c✘"} §f${r.text}`));
-  if (st.evolvesTo) L.push("", `§7Evolui para: §b${st.evolvesTo}`);
-  if (S.line.rules) L.push("", "§lRegras de proteção:", ...S.line.rules.map((r) => `§7• ${r}`));
-  menu(player, `§l${st.name}`, L.join("\n"), [...(st.id === "creator" && st.owned ? [{ text: "§l§5Abrir a forja do Criador", icon: "skill_creator", run: () => openCreator(player, () => openStage(player, lineId, stageId, back)) }] : []), { text: "Voltar", run: () => openLine(player, lineId, back) }]);
+  const S = lineState(player, lineId), st = S.stages.find((x) => x.id === stageId), k = stateOf(st);
+  const L = [`${CLS_COL[st.cls]}§l${st.name}`, `§7${POWER_CLASS[st.cls]} · ${S.line.name.split(" → ")[0]}`, ST[k], SEP];
+  if (st.skill) L.push(...skillFacts(st.skill), SEP);
+  L.push("§l§fEFEITOS REAIS", ...st.feats.map((f) => `§7• §f${f}`));
+  if (!st.owned) L.push(SEP, `§l§fREQUISITOS  ${reqBar(st.req)}`, ...st.req.map((r) => `${r.ok ? "§a✔" : "§c✘"} ${r.ok ? "§7" : "§f"}${r.text}`));
+  if (st.evolvesTo) L.push(SEP, `§7Próximo estágio: §b${st.evolvesTo}`);
+  if (S.line.rules) L.push(SEP, "§l§fREGRAS", ...S.line.rules.map((r) => `§7• ${r}`));
+  menu(player, `§l${CLS_COL[st.cls]}${st.name.toUpperCase()}`, L.join("\n"), [...(st.id === "creator" && st.owned ? [{ text: "§l§5Abrir a forja do Criador", icon: "skill_creator", run: () => openCreator(player, () => openStage(player, lineId, stageId, back)) }] : []),
+    ...(lineId === "sage" ? [{ text: "§l§bLivro do Sábio\n§r§7evolução e requisitos completos", icon: "menu_skills", run: () => openSageBook(player) }] : []),
+    { text: "§7« Voltar à linha", icon: "back", run: () => openLine(player, lineId, back) }], themeOfLine(player, lineId));
 }
 export function openLine(player, lineId, back) {
   const S = lineState(player, lineId), l = S.line;
-  const body = [`§l${l.name}`, `§7${l.who} · classe ${CLS_COL[l.cls]}${POWER_CLASS[l.cls]}`, "", `§f${l.about}`, "", ...S.stages.map((s) => `${mark(s)} ${CLS_COL[s.cls]}${s.name}${s.owned ? " §a(ativa)" : s.next && s.req.length ? ` §7(${s.req.filter((r) => r.ok).length}/${s.req.length} requisitos)` : ""}`)].join("\n");
-  menu(player, "§l§5ÁRVORE DE PODERES", body, [...S.stages.map((s) => ({ text: `${mark(s)} ${s.name}\n§r§7${s.owned ? "desbloqueado" : s.ready ? "pronto" : "bloqueado"}`, icon: s.skill ? "skill_" + s.skill : "menu_skills", run: () => openStage(player, lineId, s.id, back) })), { text: "Voltar", run: () => openPowers(player, back) }]);
+  const body = [`§l${CLS_COL[l.cls]}${l.name}`, `§7${l.who} · ${POWER_CLASS[l.cls]}`, SEP, `§f${l.about}`, SEP,
+    `§7Atual: ${S.current ? `§a${S.current.name}` : "§8nenhum estágio"}`, `§7Próxima: ${S.upcoming ? `§f${S.upcoming.name}${S.upcoming.ready ? " §e(pronta)" : ""}` : "§6linha completa"}`, SEP, trail(S.stages)].join("\n");
+  menu(player, `§l${CLS_COL[l.cls]}${l.name.split(" → ")[0].toUpperCase()}`, body, [...S.stages.map((s) => cardOf(s, s.skill ? "skill_" + s.skill : "menu_skills", () => openStage(player, lineId, s.id, back))),
+    { text: "§7« Linhas de Poder", icon: "back", run: () => openLines(player, back) }], themeOfLine(player, lineId));
 }
+function openLines(player, back) {
+  const rows = LINES.map((l) => ({ l, S: lineState(player, l.id) }));
+  const body = ["§l§dLINHAS DE PODER", "§7Habilidades Únicas e Supremas e suas evoluções.", SEP,
+    ...rows.map(({ l, S }) => `${CLS_COL[l.cls]}§l${l.name.split(" → ")[0]}§r\n§7  ${S.current ? `§a${S.current.name}` : "§8bloqueada"}${S.upcoming ? ` §8» §f${S.upcoming.name}${S.upcoming.ready ? " §e★" : ""}` : " §6(máximo)"}`)].join("\n");
+  menu(player, "§l§5LINHAS DE PODER", body, [...rows.map(({ l, S }) => ({ text: `${CLS_COL[l.cls]}§l${l.name.split(" → ")[0]}\n§r§7${S.stages.filter((x) => x.owned).length}/${S.stages.length} · ${S.upcoming ? (S.upcoming.ready ? "§e★ evolução disponível" : `próx.: ${S.upcoming.name}`) : "§6completa"}`,
+    icon: S.stages[0].skill ? "skill_" + S.stages[0].skill : "menu_skills", run: () => openLine(player, l.id, back) })), { text: "§7« Árvore de Poderes", icon: "back", run: () => openPowers(player, back) }]);
+}
+
+// ---------------------------------------------------------------- Agilidades Supremas
+function agiStages(player, race) {
+  const d = getData(player), L = AGILITY_LINES[race]; let nextSeen = false;
+  return L.stages.map((sk, i) => {
+    const owned = hasSkill(d, sk.id), req = owned ? [] : agilityReq(player, race, i), next = !owned && !nextSeen; if (next) nextSeen = true;
+    return { id: sk.id, name: sk.name, skill: sk.id, cls: AGI_GATES[i].cls, owned, req, next, ready: !owned && req.every((r) => r.ok), sk };
+  });
+}
+function openAgiStage(player, race, id, back) {
+  const st = agiStages(player, race).find((x) => x.id === id), k = stateOf(st), L = AGILITY_LINES[race], sk = st.sk;
+  const body = [`${CLS_COL[st.cls]}§l${sk.name}`, `§7${POWER_CLASS[st.cls]} · ${L.name}`, ST[k], SEP, ...skillFacts(id), SEP, "§l§fO QUE FAZ", `§f${sk.desc}`,
+    ...(sk.dodge ? [`§7Esquiva: §f${Math.round(sk.dodge.chance * 100)}%§7 · recarga §f${sk.dodge.cd}s§7 (Agilidade alta aumenta a chance)`] : []),
+    ...(st.owned ? [] : [SEP, `§l§fREQUISITOS  ${reqBar(st.req)}`, ...st.req.map((r) => `${r.ok ? "§a✔" : "§c✘"} ${r.ok ? "§7" : "§f"}${r.text}`)])].join("\n");
+  const B = [];
+  if (st.ready) B.push({ text: "§l§eDESPERTAR AGORA\n§r§7conceder a habilidade", icon: "skill_" + id, run: () => { const r = agilityAwaken(player, id); say(player, `${r.ok ? "§a" : "§c"}${r.msg}`); if (!r.ok) openAgiStage(player, race, id, back); } });
+  B.push({ text: "§7« Voltar à linha", icon: "back", run: () => openAgiLine(player, race, back) });
+  menu(player, `§l${CLS_COL[st.cls]}${sk.name.toUpperCase()}`, body, B);
+}
+function openAgiLine(player, race, back) {
+  const L = AGILITY_LINES[race], stages = agiStages(player, race), d = getData(player), mine = d.race === race;
+  const body = [`§l${L.col}${L.name}`, `§7Agilidades Supremas · ${RACES[race]?.name ?? race}${mine ? " §a(sua raça)" : " §8(outra raça: só consulta)"}`, SEP,
+    "§7Comum (Nv.10) → Única (Nv.35, raça evoluída) → Suprema (Nv.70, 3º estágio da raça, 2 chefes).", SEP, trail(stages)].join("\n");
+  menu(player, `§l${L.col}${L.name.toUpperCase()}`, body, [...stages.map((s) => cardOf(s, "skill_" + s.id, () => openAgiStage(player, race, s.id, back))), { text: "§7« Agilidades Supremas", icon: "back", run: () => openAgility(player, back) }]);
+}
+export function openAgility(player, back) {
+  const d = getData(player), races = Object.keys(AGILITY_LINES).sort((a, b) => (a === d.race ? -1 : b === d.race ? 1 : 0));
+  const mine = AGILITY_LINES[d.race], ms = mine ? agiStages(player, d.race) : [];
+  const body = ["§l§bAGILIDADES SUPREMAS", "§7Cada raça tem a sua linha de mobilidade: investidas, passos dimensionais, esquiva automática, arranques aéreos e aceleração sobrenatural.", SEP,
+    mine ? `§fSua linha: ${mine.col}§l${mine.name}§r\n${ms.map((s) => `${CARD_COL[stateOf(s)]}${s.owned ? "●" : "○"} ${s.name}`).join("\n")}` : "§7Escolha uma raça para liberar a sua linha."].join("\n");
+  menu(player, "§l§bAGILIDADES SUPREMAS", body, [...races.map((r) => { const L = AGILITY_LINES[r], st = agiStages(player, r), n = st.filter((x) => x.owned).length;
+    return { text: `${L.col}§l${L.name}${r === d.race ? " §a●" : ""}\n§r§7${RACES[r]?.name ?? r} · ${n}/3${st.some((x) => x.ready) ? " §e★ pronta" : ""}`, icon: "skill_" + L.stages[0].id, run: () => openAgiLine(player, r, back) }; }),
+    { text: "§7« Árvore de Poderes", icon: "back", run: () => openPowers(player, back) }]);
+}
+
+// ---------------------------------------------------------------- Linhagens dracônicas (consulta dos tiers reais)
+function openLineages(player, back) {
+  const d = getData(player), mine = LINEAGES[d.lineage];
+  const body = ["§l§6LINHAGENS DRACÔNICAS", "§7Só para Dragonoides. Cada tier é concedido sozinho ao cumprir nível, estágio da raça e chefes.", SEP,
+    ...Object.values(LINEAGES).map((L) => { const ts = tierState(d, L), own = ts.filter((t) => hasSkill(d, t.skill)).length; return `${L.color}§l${L.name}§r §7${L.title}${mine?.id === L.id ? " §a(sua)" : ""}\n§7  ${own}/${ts.length} tiers`; })].join("\n");
+  menu(player, "§l§6LINHAGENS DRACÔNICAS", body, [...Object.values(LINEAGES).map((L) => ({ text: `${L.color}§l${L.name}\n§r§7${L.title}`, icon: "menu_race", run: () => {
+    const ts = tierState(d, L);
+    const B = ["§l" + L.color + L.name + " §7— " + L.title, `§f${L.desc}`, SEP, ...ts.map((t) => { const has = hasSkill(d, t.skill); return `${has ? "§a●" : t.ok ? "§e★" : "§8○"} §f${SKILLS[t.skill]?.name ?? t.skill}${t.stage ? ` §7(${t.stage})` : ""}\n§7  Nv.${t.lvl} · estágio ${t.depth}${t.bosses ? ` · ${t.bosses} chefes` : ""}${has ? " §a✔" : ""}`; })].join("\n");
+    menu(player, `§l${L.color}${L.name.toUpperCase()}`, B, [{ text: "§7« Linhagens", icon: "back", run: () => openLineages(player, back) }]);
+  } })), { text: "§7« Árvore de Poderes", icon: "back", run: () => openPowers(player, back) }]);
+}
+
+/** ÁRVORE DE PODERES: painel do jogador + categorias */
 export function openPowers(player, back) {
-  const rows = LINES.map((l) => { const S = lineState(player, l.id); return { l, S }; });
-  const body = ["§7Consulte as linhas de poder, o que cada estágio faz de verdade e o que falta para evoluir.", "", ...rows.map(({ l, S }) => `${CLS_COL[l.cls]}${l.name}§r §7→ ${S.current ? `§a${S.current.name}` : "§8nenhum estágio"}${S.upcoming ? ` §7· próximo: §f${S.upcoming.name}${S.upcoming.ready ? " §e(pronto)" : ""}` : " §6(máximo)"}`)].join("\n");
-  const b = rows.map(({ l, S }) => ({ text: `${CLS_COL[l.cls]}§l${l.who.split(" ")[0]}: ${l.name.split(" → ")[0]}...\n§r§7${S.current ? S.current.name : "bloqueado"}${S.upcoming ? ` → ${S.upcoming.name}` : ""}`, icon: S.stages[0].skill ? "skill_" + S.stages[0].skill : "menu_skills", run: () => openLine(player, l.id, back) }));
-  b.push({ text: "Voltar", run: () => back?.() });
-  menu(player, "§l§5ÁRVORE DE PODERES", body, b);
+  const d = getData(player), rows = LINES.map((l) => lineState(player, l.id));
+  const owned = rows.reduce((a, S) => a + S.stages.filter((x) => x.owned).length, 0), total = rows.reduce((a, S) => a + S.stages.length, 0);
+  const ready = rows.filter((S) => S.upcoming?.ready).length;
+  const ag = AGILITY_LINES[d.race] ? agiStages(player, d.race) : [], agOwn = ag.filter((x) => x.owned).length;
+  const body = ["§l§dÁRVORE DE PODERES", SEP,
+    `§7Raça: §f${RACES[d.race]?.name ?? "—"} §7· Nível §f${d.level}`, `§7Grande Sábio: §b${stageName(sageStage(d))}`, `§7Chefes derrotados: §f${Object.values(d.bossKills ?? {}).reduce((a, b) => a + b, 0)} §7· Devorados: §f${d.devoured ?? 0}`, SEP,
+    `§fLinhas de Poder  ${bar(owned, Math.max(1, total), 10, "§d")} §7${owned}/${total}`, `§fAgilidades Supremas  ${bar(agOwn, 3, 10, "§b")} §7${agOwn}/3`, ...(ready ? [`§e★ ${ready} evolução(ões) pronta(s)`] : []), SEP,
+    "§a● desbloqueada  §e★ disponível  §6○ próxima  §8○ bloqueada"].join("\n");
+  menu(player, "§l§5ÁRVORE DE PODERES", body, [
+    { text: `§l§dLinhas de Poder\n§r§7Sábio, Predador, Veldora, Anti-Skill, Voo · ${owned}/${total}`, icon: "skill_beelzebuth", run: () => openLines(player, back) },
+    { text: `§l§bAgilidades Supremas\n§r§7uma linha por raça · sua: ${agOwn}/3`, icon: AGILITY_LINES[d.race] ? "skill_" + AGILITY_LINES[d.race].stages[0].id : "menu_skills", run: () => openAgility(player, back) },
+    { text: "§l§6Linhagens Dracônicas\n§r§7Veldora, Velzard, Velgrynd, Veldanava", icon: "menu_race", run: () => openLineages(player, back) },
+    { text: "§l§fEvolução da Raça\n§r§7estágios, requisitos e Lord Demônio", icon: "menu_race", run: () => openRaceMenu(player) },
+    { text: "§l§bGrande Sábio\n§r§7análise, conhecimento e evolução", icon: "menu_skills", run: () => openSageBook(player) },
+    { text: "§7« Voltar", icon: "back", run: () => back?.() },
+  ]);
 }
 
 export function startPowers() {

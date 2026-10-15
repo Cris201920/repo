@@ -132,6 +132,8 @@ def(A("berserk_rage", { name: "Fúria Berserker", cat: "Classe", element: "blood
 
 import { PACK } from "./skillpack.gen.js";
 for (const s of PACK) def(s);
+import { AGILITY_SKILLS } from "./agility.js";
+for (const s of AGILITY_SKILLS) def(s);   // Agilidades Supremas (uma linha por raça)
 
 export const SKILL_LIST = Object.values(SKILLS);
 export function learnable() { return SKILL_LIST.filter((s) => s.sp > 0); }

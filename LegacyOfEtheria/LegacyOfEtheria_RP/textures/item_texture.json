@@ -1165,6 +1165,108 @@
   },
   "etheria_sk_legend_resolve": {
    "textures": "textures/items/etheria_sk_legend_resolve"
+  },
+  "etheria_sk_agi_human_1": {
+   "textures": "textures/items/etheria_sk_agi_human_1"
+  },
+  "etheria_sk_agi_human_3": {
+   "textures": "textures/items/etheria_sk_agi_human_3"
+  },
+  "etheria_sk_agi_slime_1": {
+   "textures": "textures/items/etheria_sk_agi_slime_1"
+  },
+  "etheria_sk_agi_slime_2": {
+   "textures": "textures/items/etheria_sk_agi_slime_2"
+  },
+  "etheria_sk_agi_slime_3": {
+   "textures": "textures/items/etheria_sk_agi_slime_3"
+  },
+  "etheria_sk_agi_goblin_1": {
+   "textures": "textures/items/etheria_sk_agi_goblin_1"
+  },
+  "etheria_sk_agi_goblin_2": {
+   "textures": "textures/items/etheria_sk_agi_goblin_2"
+  },
+  "etheria_sk_agi_goblin_3": {
+   "textures": "textures/items/etheria_sk_agi_goblin_3"
+  },
+  "etheria_sk_agi_demon_1": {
+   "textures": "textures/items/etheria_sk_agi_demon_1"
+  },
+  "etheria_sk_agi_demon_2": {
+   "textures": "textures/items/etheria_sk_agi_demon_2"
+  },
+  "etheria_sk_agi_demon_3": {
+   "textures": "textures/items/etheria_sk_agi_demon_3"
+  },
+  "etheria_sk_agi_elf_1": {
+   "textures": "textures/items/etheria_sk_agi_elf_1"
+  },
+  "etheria_sk_agi_elf_3": {
+   "textures": "textures/items/etheria_sk_agi_elf_3"
+  },
+  "etheria_sk_agi_angel_1": {
+   "textures": "textures/items/etheria_sk_agi_angel_1"
+  },
+  "etheria_sk_agi_angel_2": {
+   "textures": "textures/items/etheria_sk_agi_angel_2"
+  },
+  "etheria_sk_agi_angel_3": {
+   "textures": "textures/items/etheria_sk_agi_angel_3"
+  },
+  "etheria_sk_agi_dragonoid_1": {
+   "textures": "textures/items/etheria_sk_agi_dragonoid_1"
+  },
+  "etheria_sk_agi_dragonoid_2": {
+   "textures": "textures/items/etheria_sk_agi_dragonoid_2"
+  },
+  "etheria_sk_agi_dragonoid_3": {
+   "textures": "textures/items/etheria_sk_agi_dragonoid_3"
+  },
+  "etheria_sk_agi_beastkin_1": {
+   "textures": "textures/items/etheria_sk_agi_beastkin_1"
+  },
+  "etheria_sk_agi_beastkin_3": {
+   "textures": "textures/items/etheria_sk_agi_beastkin_3"
+  },
+  "etheria_sk_agi_undead_1": {
+   "textures": "textures/items/etheria_sk_agi_undead_1"
+  },
+  "etheria_sk_agi_undead_2": {
+   "textures": "textures/items/etheria_sk_agi_undead_2"
+  },
+  "etheria_sk_agi_undead_3": {
+   "textures": "textures/items/etheria_sk_agi_undead_3"
+  },
+  "etheria_sk_agi_ogre_1": {
+   "textures": "textures/items/etheria_sk_agi_ogre_1"
+  },
+  "etheria_sk_agi_ogre_2": {
+   "textures": "textures/items/etheria_sk_agi_ogre_2"
+  },
+  "etheria_sk_agi_ogre_3": {
+   "textures": "textures/items/etheria_sk_agi_ogre_3"
+  },
+  "etheria_sk_agi_lizardman_1": {
+   "textures": "textures/items/etheria_sk_agi_lizardman_1"
+  },
+  "etheria_sk_agi_lizardman_3": {
+   "textures": "textures/items/etheria_sk_agi_lizardman_3"
+  },
+  "etheria_sk_agi_vampire_1": {
+   "textures": "textures/items/etheria_sk_agi_vampire_1"
+  },
+  "etheria_sk_agi_vampire_2": {
+   "textures": "textures/items/etheria_sk_agi_vampire_2"
+  },
+  "etheria_sk_agi_vampire_3": {
+   "textures": "textures/items/etheria_sk_agi_vampire_3"
+  },
+  "etheria_sk_agi_dwarf_1": {
+   "textures": "textures/items/etheria_sk_agi_dwarf_1"
+  },
+  "etheria_sk_agi_dwarf_3": {
+   "textures": "textures/items/etheria_sk_agi_dwarf_3"
   }
  }
 }
