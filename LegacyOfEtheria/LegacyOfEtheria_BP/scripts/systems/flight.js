@@ -16,6 +16,7 @@ import { hasSkill, grantSkill } from "./skills.js";
 import { say } from "../core/utils.js";
 import { RACES } from "../data/races.js";
 import { formOfPlayer } from "../data/lineages.js";
+import { wingedStage } from "./raceparts.js";
 
 const st = new Map();   // playerId -> { air, held, ground, last }
 export const flightOn = (d) => d.flight?.on !== false;                  // padrão: ligada ao desbloquear
@@ -80,6 +81,7 @@ export function stepFlight(p) {
 export function flightEligible(d) {
   try {
     if (d.raceChosen && FLIGHT.stages.includes(d.raceStage)) return true;
+    if (d.raceChosen && wingedStage(d.raceStage)) return true;                         // 6.48: toda raça com asas no corpo voa
     if (FLIGHT.trueDragonForm && ["true", "draconic"].includes(formOfPlayer(d))) return true;
   } catch { /* ignore */ }
   return false;
@@ -92,7 +94,8 @@ export function flightProgress(p) {
 }
 /** descrição dos requisitos (menu). */
 export function flightRequirements() {
-  const names = FLIGHT.stages.map((id) => { for (const r of Object.values(RACES)) if (r.stages[id]) return r.stages[id].name; return id; });
+  const all = new Set(FLIGHT.stages); for (const r of Object.values(RACES)) for (const id of Object.keys(r.stages)) if (wingedStage(id)) all.add(id);
+  const names = [...all].map((id) => { for (const r of Object.values(RACES)) if (r.stages[id]) return r.stages[id].name; return id; });
   return [...new Set(names)].join(", ");
 }
 

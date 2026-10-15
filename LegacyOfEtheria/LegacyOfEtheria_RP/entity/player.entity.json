@@ -849,6 +849,30 @@
      "controller.render.etheria_race_fallen_lord": "(query.property('etheria:race') == 'fallen_lord') && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
     },
     {
+     "controller.render.etheria_race_demon": "(query.property('etheria:race') == 'demon') && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
+    },
+    {
+     "controller.render.etheria_race_vampire": "(query.property('etheria:race') == 'vampire') && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
+    },
+    {
+     "controller.render.etheria_race_dragonoid": "(query.property('etheria:race') == 'dragonoid') && query.property('etheria:lin') == 'none' && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
+    },
+    {
+     "controller.render.etheria_race_angel": "(query.property('etheria:race') == 'angel') && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
+    },
+    {
+     "controller.render.etheria_race_angel_arch": "(query.property('etheria:race') == 'angel_arch') && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
+    },
+    {
+     "controller.render.etheria_race_fallen": "(query.property('etheria:race') == 'fallen') && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
+    },
+    {
+     "controller.render.etheria_race_elf": "(query.property('etheria:race') == 'elf') && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
+    },
+    {
+     "controller.render.etheria_race_ogre": "(query.property('etheria:race') == 'ogre') && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
+    },
+    {
      "controller.render.tensura.race_wings": "query.property('tensura:wings') > 0 && !variable.is_first_person && !variable.map_face_icon"
     },
     {

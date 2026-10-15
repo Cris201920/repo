@@ -55,6 +55,23 @@ export const STAGE_LOOK_MAP = {
 };
 // estágios cujo corpo vem do Etheria (etheria:race): 4 e 6 asas
 export const ETHERIA_BODY = { angel_4: "angel_cherub", angel_5: "angel_seraph", angel_f4: "fallen_lord", angel_f5: "fallen_lord", fall_4: "fallen_lord", fall_5: "fallen_lord" };
+// 6.48: as peças DETALHADAS do Etheria (asas de penas/membrana articuladas, chifres de kijin, asas de fada) substituem as placas simples do
+// Tensura em todo estágio que as tem. A peça equivalente do Tensura é escondida para não duplicar (HIDE).
+export const BODY_BY_LOOK = { lesser_daemon: "demon", greater_daemon: "demon", arch_daemon: "demon", daemon_lord: "demon", devil_lord: "demon",
+  vampire: "vampire", vampire_lord: "vampire", divine_vampire: "vampire", true_dragonewt: "dragonoid", divine_dragon: "dragonoid",
+  angel: "angel", angel_guardian: "angel", archangel: "angel_arch", fallen_angel: "fallen", divine_elf: "elf", ogre: "ogre", mystic_oni: "ogre", kijin: "ogre" };
+export const HIDE = { demon: ["wings", "horns", "tail"], vampire: ["wings"], dragonoid: ["wings", "horns", "tail"], angel: ["wings"], angel_arch: ["wings", "halo"],
+  fallen: ["wings"], elf: ["wings"], ogre: ["horns"] };
+export const WINGED_BODY = new Set(["demon", "vampire", "dragonoid", "angel", "angel_arch", "angel_cherub", "angel_seraph", "fallen", "fallen_lord", "elf"]);
+/** corpo do Etheria do estágio ("none" se o estágio usa só as peças do Tensura) */
+export function bodyOfStage(stage) {
+  if (!stage) return "none";
+  if (ETHERIA_BODY[stage]) return ETHERIA_BODY[stage];
+  const k = STAGE_LOOK_MAP[mapKey(stage)];
+  return (typeof k === "string" && BODY_BY_LOOK[k]) || "none";
+}
+/** o estágio tem asas visíveis (Etheria ou Tensura)? -> pode voar (systems/flight.js) */
+export function wingedStage(stage) { return WINGED_BODY.has(bodyOfStage(stage)) || (lookOfStage(stage).wings ?? 0) > 0; }
 /** Traços {parte: valor} de um estágio (vazio se não houver). */
 const mapKey = (id) => (Object.prototype.hasOwnProperty.call(STAGE_LOOK_MAP, id) ? id : (isLordStage(id) ? "demon_4" : id));   // Lord Demônio de qualquer raça (<estágio>_ld) usa a aparência de Lord Demônio
 export function lookOfStage(stage) {
@@ -67,6 +84,8 @@ let warnedT = false;
 function applyTensuraLook(player, d, lineageActive) {
   let look = lineageActive ? (d.race === "dragonoid" ? { body: 3 } : {}) : lookOfStage(d.raceStage);
   if (!lineageActive && !Object.prototype.hasOwnProperty.call(STAGE_LOOK_MAP, mapKey(d.raceStage))) look = {};
+  const hide = lineageActive ? [] : (HIDE[bodyOfStage(d.raceStage)] ?? []);
+  if (hide.length) { look = { ...look }; for (const k of hide) look[k] = 0; }
   for (const part of TPARTS) {
     const v = look[part] ?? 0;
     try { if (player.getProperty(`tensura:${part}`) !== v) player.setProperty(`tensura:${part}`, v); }
@@ -78,7 +97,8 @@ function applyTensuraLook(player, d, lineageActive) {
 /** Aplica a aparência da raça atual do jogador (no corpo, pelas propriedades). Com announce, avisa (pt-BR) quando a raça tem traços. Devolve os traços aplicados ou null se falhou. */
 export function applyRaceLook(player, announce = false) {
   let d; try { d = getData(player); } catch { return null; }
-  const body = d.raceChosen ? (ETHERIA_BODY[d.raceStage] ?? "none") : "none";   // 4/6 asas: corpo multi-asa do Etheria; senão "none"
+  let body = d.raceChosen ? bodyOfStage(d.raceStage) : "none";   // 6.48: corpo detalhado do Etheria quando o estágio tem asas/chifres
+  try { if (body === "dragonoid" && d.raceChosen && lineageOf(d)) body = "none"; } catch { /* ignore */ }
   try {
     if (player.getProperty(RACE_PROP) !== body) player.setProperty(RACE_PROP, body);
   } catch (e) {

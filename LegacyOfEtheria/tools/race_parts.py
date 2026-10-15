@@ -10,7 +10,7 @@ from race_wings import wing_anim
 RP = A.RP
 hx = A.hexc
 
-def p_membrane(c0, c1, vein, scallop=3, depth=0.22):
+def p_membrane(c0, c1, vein, scallop=3, depth=0.22, wedge=False):
     """membrana 16x64 (u = ao longo do dedo, v = afastando do dedo): degradê, veias finas paralelas ao dedo, rugas diagonais,
     borda livre recortada em arcos (alfa) e leve translucidez"""
     def f(img, x, y, w, h):
@@ -18,14 +18,19 @@ def p_membrane(c0, c1, vein, scallop=3, depth=0.22):
         for j in range(h):
             for i in range(w):
                 u, v = i / (w - 1), j / (h - 1)
-                arc = 1 - depth * (1 - abs(math.sin((v * scallop) * math.pi)))     # recorte na borda (lado oposto ao osso)
-                if u > arc: px[x + i, y + j] = (0, 0, 0, 0); continue
+                if wedge:                                                             # cunha: u = ao longo do dedo, v = em direção ao próximo dedo
+                    if v > 0.06 + 1.02 * u or u > 1 - depth * math.sin(math.pi * v): px[x + i, y + j] = (0, 0, 0, 0); continue
+                    arc = 1.0
+                else:
+                    arc = 1 - depth * (1 - abs(math.sin((v * scallop) * math.pi)))   # recorte na borda (lado oposto ao osso)
+                    if u > arc: px[x + i, y + j] = (0, 0, 0, 0); continue
                 c = A.mix(c0, c1, u / arc)
                 if j % 7 == 0: c = A.mix(c, vein, 0.45)                               # veias paralelas ao dedo
                 if (i * 3 + j) % 13 == 0: c = A.shade(c, 0.85)                        # rugas
                 if u > arc - 0.08: c = A.shade(c, 0.65)                               # borda escura
                 if u < 0.06: c = A.shade(c, 1.2)                                      # junto ao osso
                 px[x + i, y + j] = c[:3] + (225,)
+        px[x + w - 1, y] = (0, 0, 0, 0); px[x, y + h - 1] = (0, 0, 0, 0)                 # pixels transparentes para as laterais finas
     return f
 def p_fairy(c0, c1, vein):
     """asa de fada 16x64: oval translúcida com nervuras"""
@@ -49,16 +54,19 @@ class Tiles:
             x, y = s.at.free_f.pop(0); painter(s.at.img, x, y, 16, 64); s.at.slots[name] = (x, y, 16, 64)
         return s.at.slots[name]
 
-def faces_mem(t, size):
-    """membrana: a textura gira 90° (u ao longo do comprimento do dedo = eixo X da placa)"""
+def faces_mem(t, size, clear=None):
+    """membrana: u ao longo do dedo (eixo X da placa). As laterais finas usam um pixel TRANSPARENTE da textura (sem linhas no contorno)."""
     x, y, w, h = t
-    f = {"uv": [x, y], "uv_size": [w, h]}; edge = {"uv": [x, y], "uv_size": [1, 1]}
+    cx, cy = clear if clear else (x + w - 1, y)
+    f = {"uv": [x, y], "uv_size": [w, h]}; edge = {"uv": [cx, cy], "uv_size": [1, 1]}
     return {"north": f, "south": {"uv": [x + w, y], "uv_size": [-w, h]}, "east": edge, "west": edge, "up": edge, "down": edge}
 
 def membrane_wings(g, at, C, span=1.0, pre="wing"):
     bone_t = at.tile("mbone", A.p_metal(hx(C["bone"]))); claw_t = at.tile("claw", A.p_metal(hx(C["claw"])))
     scale_t = at.tile("scale", A.p_metal(hx(C.get("scale", C["bone"])), hx(C["bone"]), 2))
     mem = at.feather("membrane", p_membrane(hx(C["m0"]), hx(C["m1"]), hx(C["vein"]), C.get("scallop", 3), C.get("depth", 0.22)))
+    wmem = at.feather("membrane_w", p_membrane(hx(C["m0"]), hx(C["m1"]), hx(C["vein"]), C.get("scallop", 3), C.get("depth", 0.22), wedge=True))
+    knot = at.tile("knot", A.p_metal(A.shade(hx(C["bone"]), 1.5)))
     T, NF = 0.18, C.get("fingers", 4)
     for side, sg in (("l", 1), ("r", -1)):
         X = lambda v: v * sg
@@ -67,14 +75,21 @@ def membrane_wings(g, at, C, span=1.0, pre="wing"):
         L1, L2 = 6.5 * span, 7.5 * span
         g.bone(f"{pre}_{side}", [X(1.5), 21.5, 2.3], "body", [-6, X(-32), X(34)])
         a = g.bone(f"{pre}A_{side}", [X(1.5), 21.5, 2.6], f"{pre}_{side}")["name"]
-        box(a, 1.5, 20.8, 2.15, L1, 1.4, 1.3, A.faces_tile(bone_t, [L1, 1.4, 1.3]))
+        box(a, 1.5, 20.6, 2.0, L1 * 0.55, 1.8, 1.6, A.faces_tile(bone_t, [L1 * 0.55, 1.8, 1.6]))                         # braço: grosso no ombro
+        box(a, 1.5 + L1 * 0.5, 20.8, 2.15, L1 * 0.5, 1.4, 1.3, A.faces_tile(bone_t, [L1 * 0.5, 1.4, 1.3]))                # e afinando
+        box(a, 1.5 + L1 - 0.9, 20.55, 1.95, 1.8, 1.9, 1.7, A.faces_tile(knot, [1.8, 1.9, 1.7]))                            # nó do cotovelo
+        if C.get("spikes"):
+            for k in range(3): box(a, 2.2 + k * 2, 22.1, 2.45, 0.7, 1.3 - k * 0.2, 0.7, A.faces_tile(claw_t, [0.7, 1.3, 0.7]), rot=[0, 0, -30], piv=[2.5 + k * 2, 22.1, 2.8])
         box(a, 1.5 + L1 - 1, 21.6, 2.2, 1, 1.6, 1, A.faces_tile(claw_t, [1, 1.6, 1]), rot=[0, 0, -25], piv=[1.5 + L1 - 0.5, 21.6, 2.6])   # espinho do cotovelo
         if C.get("scale"):
             for k in range(int(L1 // 1.4)): box(a, 1.8 + k * 1.4, 21.9, 2.1, 1.3, 0.6, 1.4, A.faces_tile(scale_t, [1.3, 0.6, 1.4]))
         box(a, 1.6, 21 - 6 * span, 2.55, L1 - 0.2, 6 * span, T, faces_mem(mem, [L1, 6, T]), rot=[0, 0, 90], piv=[1.6, 21, 2.55])   # membrana braço-corpo
         x1 = 1.5 + L1
         b = g.bone(f"{pre}B_{side}", [X(x1), 21.5, 2.6], a, [0, 0, X(-38)])["name"]
-        box(b, x1, 20.9, 2.25, L2, 1.1, 1.0, A.faces_tile(bone_t, [L2, 1.1, 1.0]))
+        box(b, x1, 20.85, 2.2, L2, 1.2, 1.1, A.faces_tile(bone_t, [L2, 1.2, 1.1]))
+        box(b, x1 + L2 - 0.8, 20.65, 2.05, 1.6, 1.6, 1.4, A.faces_tile(knot, [1.6, 1.6, 1.4]))                                # nó do pulso
+        if C.get("spikes"):
+            for k in range(3): box(b, x1 + 1 + k * 2.2, 22.0, 2.45, 0.6, 1.1 - k * 0.2, 0.6, A.faces_tile(claw_t, [0.6, 1.1, 0.6]), rot=[0, 0, -30], piv=[x1 + 1.3 + k * 2.2, 22.0, 2.75])
         if C.get("scale"):
             for k in range(int(L2 // 1.4)): box(b, x1 + 0.3 + k * 1.4, 21.85, 2.2, 1.2, 0.55, 1.2, A.faces_tile(scale_t, [1.2, 0.55, 1.2]))
         x2 = x1 + L2
@@ -86,8 +101,9 @@ def membrane_wings(g, at, C, span=1.0, pre="wing"):
             f = g.bone(f"{pre}F{k}_{side}", [X(x2), 21.5, 2.6], c, [0, 0, X(ang)])["name"]
             box(f, x2, 21.15, 2.3, ln, 0.75, 0.75, A.faces_tile(bone_t, [ln, 0.75, 0.75]))
             box(f, x2 + ln - 0.3, 21.0, 2.25, 1.1, 0.9, 0.9, A.faces_tile(claw_t, [1.1, 0.9, 0.9]), rot=[0, 0, 30], piv=[x2 + ln, 21.4, 2.6])   # garrinha na ponta
-            gap = 2 * ln * math.sin(math.radians((100 / max(1, NF - 1)) / 2)) + 0.8 if k < NF - 1 else ln * 0.45
-            box(f, x2 + 0.2, 21.2 - gap, 2.45 + 0.012 * k, ln - 0.3, gap, T, faces_mem(mem, [ln, gap, T]))     # membrana até o próximo dedo
+            step = 100 / max(1, NF - 1)
+            gap = (ln * math.tan(math.radians(step)) + 0.6) if k < NF - 1 else ln * 0.5
+            box(f, x2 + 0.15, 21.2 - gap, 2.45 + 0.012 * k, ln - 0.2, gap, T, faces_mem(wmem if k < NF - 1 else mem, [ln, gap, T], (wmem[0], wmem[1] + wmem[3] - 1) if k < NF - 1 else None))   # cunha até o próximo dedo
 def fairy_wings(g, at, C):
     t = at.feather("fairy", p_fairy(hx(C["m0"]), hx(C["m1"]), hx(C["vein"])))
     for side, sg in (("l", 1), ("r", -1)):
@@ -111,9 +127,9 @@ def kijin_horns(g, at, C):
         for k, (w, h) in enumerate([(1.3, 1.5), (1.0, 1.4), (0.7, 1.2), (0.4, 1.0)]):
             g.cube(tb["name"], [X(2.3) - w / 2, y, -2.6 - w / 2], [w, h, w], A.faces_tile(tip if k > 1 else t, [w, h, w])); y += h
 RACES = {
-  "demon":     dict(kind="membrane", m0="#7a1420", m1="#2a0508", vein="#b0303c", bone="#1c1416", claw="#d8c8a0", span=0.95, fingers=4),
+  "demon":     dict(kind="membrane", m0="#7a1420", m1="#2a0508", vein="#b0303c", bone="#1c1416", claw="#d8c8a0", span=1.0, fingers=4, spikes=True),
   "vampire":   dict(kind="membrane", m0="#3a0c1c", m1="#100408", vein="#8a1430", bone="#100a0e", claw="#c8c0c8", span=0.82, scallop=5, depth=0.32, fingers=4),
-  "dragonoid": dict(kind="membrane", m0="#e0702c", m1="#7a2a10", vein="#f4b04a", bone="#5a3418", claw="#efe2c0", scale="#a0441c", span=1.12, fingers=5),
+  "dragonoid": dict(kind="membrane", m0="#e8782e", m1="#8a2010", vein="#ffc060", bone="#5a3418", claw="#efe2c0", scale="#b04a1e", span=1.3, fingers=5, spikes=True, depth=0.16),
   "ogre":      dict(kind="horns", horn="#efe6d0", tip="#c8b48a"),
   "elf":       dict(kind="fairy", m0="#e8fff4", m1="#a8e8ff", vein="#ffffff"),
 }
