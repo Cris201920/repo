@@ -617,7 +617,7 @@ FACEPTS = {  # cantos (ordem: topo-esq, topo-dir, baixo-dir, baixo-esq na textur
   "east": [(1, 1, 1), (1, 1, 0), (1, 0, 0), (1, 0, 1)], "west": [(0, 1, 0), (0, 1, 1), (0, 0, 1), (0, 0, 0)],
   "up": [(0, 1, 0), (1, 1, 0), (1, 1, 1), (0, 1, 1)], "down": [(0, 0, 1), (1, 0, 1), (1, 0, 0), (0, 0, 0)],
 }
-def render_icon(m, tex, size=64, view=(-78, 14, -45)):
+def render_icon(m, tex, size=64, view=(-78, 14, -45), fill=0.86, outline=5):
     S = 4; W = size * S
     yaw, pitch, roll = [math.radians(a) for a in view]
     def V(p):
@@ -636,7 +636,7 @@ def render_icon(m, tex, size=64, view=(-78, 14, -45)):
             polys.append((sum(p[2] for p in q) / 4, q, uv, fn))
     if not polys: return Image.new("RGBA", (size, size))
     xs = [p[0] for _, q, _, _ in polys for p in q]; ys = [p[1] for _, q, _, _ in polys for p in q]
-    sc = (W * 0.86) / max(max(xs) - min(xs), max(ys) - min(ys)); cx, cy = (max(xs) + min(xs)) / 2, (max(ys) + min(ys)) / 2
+    sc = (W * fill) / max(max(xs) - min(xs), max(ys) - min(ys)); cx, cy = (max(xs) + min(xs)) / 2, (max(ys) + min(ys)) / 2
     out = Image.new("RGBA", (W, W), (0, 0, 0, 0))
     light = {"up": 1.0, "north": 0.82, "south": 0.82, "east": 0.68, "west": 0.95, "down": 0.5}
     texrgb = tex.convert("RGBA")
@@ -644,21 +644,28 @@ def render_icon(m, tex, size=64, view=(-78, 14, -45)):
         dst = [((p[0] - cx) * sc + W / 2, W / 2 - (p[1] - cy) * sc) for p in q]
         k_ = texrgb.width / m.tw; u0, v0 = [q * k_ for q in uv["uv"]]; uw, vh = [q * k_ for q in uv["uv_size"]]
         src = [(u0, v0), (u0 + uw, v0), (u0 + uw, v0 + vh), (u0, v0 + vh)]
+        # só a caixa da face é transformada (muito mais rápido que a tela inteira)
+        bx0 = max(0, int(math.floor(min(p[0] for p in dst))) - 1); by0 = max(0, int(math.floor(min(p[1] for p in dst))) - 1)
+        bx1 = min(W, int(math.ceil(max(p[0] for p in dst))) + 2); by1 = min(W, int(math.ceil(max(p[1] for p in dst))) + 2)
+        if bx1 - bx0 < 1 or by1 - by0 < 1: continue
+        dl = [(p[0] - bx0, p[1] - by0) for p in dst]
         try:
-            coeffs = persp(dst, src)
-            warped = texrgb.transform((W, W), Image.PERSPECTIVE, coeffs, Image.BILINEAR if texrgb.width > m.tw else Image.NEAREST)
+            coeffs = persp(dl, src)
+            warped = texrgb.transform((bx1 - bx0, by1 - by0), Image.PERSPECTIVE, coeffs, Image.BILINEAR if texrgb.width > m.tw else Image.NEAREST)
         except Exception: continue
-        mask = Image.new("L", (W, W), 0); ImageDraw.Draw(mask).polygon(dst, fill=255)
+        mask = Image.new("L", (bx1 - bx0, by1 - by0), 0); ImageDraw.Draw(mask).polygon(dl, fill=255)
         r, g, b, a = warped.split(); a = a.point(lambda v: 255)     # ícone opaco (o alfa da textura é brilho, não transparência)
         if texrgb.mode == "RGBA" and m.tw != AT and not getattr(m, "opaque", False): a = warped.split()[3].point(lambda v: 255 if v > 20 else 0)
         f = light.get(fn, 0.8)
         shaded = Image.merge("RGBA", (r.point(lambda v: int(v * f)), g.point(lambda v: int(v * f)), b.point(lambda v: int(v * f)), a))
-        m2 = Image.composite(mask, Image.new("L", (W, W), 0), a)
-        out.paste(shaded, (0, 0), m2)
+        m2 = Image.composite(mask, Image.new("L", mask.size, 0), a)
+        out.paste(shaded, (bx0, by0), m2)
     # contorno escuro (leitura no inventário) + redução
-    alpha = out.split()[3]; edge = alpha.filter(ImageFilter.MaxFilter(5))
+    alpha = out.split()[3]; edge = alpha.filter(ImageFilter.MaxFilter(outline))
     outline = Image.new("RGBA", (W, W), (12, 10, 18, 255)); base = Image.new("RGBA", (W, W), (0, 0, 0, 0)); base.paste(outline, (0, 0), edge); base.alpha_composite(out)
-    return base.resize((size, size), Image.LANCZOS)
+    small = base.resize((size, size), Image.LANCZOS)
+    if size >= 96: small = Image.merge("RGBA", (*small.convert("RGB").filter(ImageFilter.UnsharpMask(radius=1.2, percent=90, threshold=1)).split(), small.split()[3]))
+    return small
 def persp(dst, src):
     # coeficientes PIL: mapeia ponto de SAÍDA (dst) -> ENTRADA (src)
     import numpy as np
@@ -703,7 +710,7 @@ def main():
         json.dump(geo_json(gid, m), open(os.path.join(RP, f"models/entity/etheria_w_{sid}.geo.json"), "w"), indent=1)
         json.dump(attachable_json(iid, gid, texrel, emissive), open(os.path.join(RP, f"attachables/w_{sid}.attachable.json"), "w"), indent=1)
         it = tex.copy(); it.putalpha(255) if emissive else None
-        icon = render_icon(m, it, size=128, view=view); icon.save(os.path.join(RP, f"textures/items/etheria_{sid}.png"))
+        icon = render_icon(m, it, size=160, view=view, fill=0.97, outline=9); icon.quantize(256, method=Image.Quantize.FASTOCTREE).save(os.path.join(RP, f"textures/items/etheria_{sid}.png"))
         report.append((sid, src, len(m.cubes)))
     for r in report: print(*r)
     print(len(report), "armas")

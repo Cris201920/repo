@@ -1,3 +1,4 @@
+import { playBossAnim, kindFor } from "./bossanim.js";
 // systems/mobai.js - IA individual dos mobs de Tensura: cada papel (e alguns mobs) tem ataques, alcance, recarga, telegrafia e som próprios.
 // Roda a cada 10 ticks só ao redor dos jogadores (máx. N mobs por varredura); sem entidades auxiliares permanentes.
 import { world, system } from "@minecraft/server";
@@ -171,6 +172,7 @@ function think(e, tick) {
     s.busy = true; s.used = tick; s.cds[id] = tick + a.cd * 20; s.gcd = tick + ((GCD[m.rar] ?? 5) * 20 + Math.floor(rand(0, 30))) * (e.hasTag("chr_accel") ? 0.45 : 1) * gcdMul(e);
     if (a.act && FORMS[e.typeId]) setAct(e, formOf(e) === "dragon" ? a.act : "cast", a.wind + 14);
     else if (a.act && e.typeId === CHR) setAct(e, a.act, a.wind + 16);
+    else playBossAnim(e, kindFor(id), a.wind + 10);   // 6.37: animação de combate do chefe, sincronizada com a preparação
     try { a.tele(e, t, c); } catch { /* ignore */ }
     after(a.wind, () => { s.busy = false; try { if (isValid(e) && isValid(t)) a.run(e, t, ctx(t, 1)); } catch { /* ignore */ } });
     return;

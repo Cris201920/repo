@@ -45,7 +45,18 @@ def subtree(bones, keep):
     for b in out:
         b["name"] = REN.get(b["name"], b["name"])
         if b.get("parent"): b["parent"] = REN.get(b["parent"], b["parent"])
-    return out
+    # 6.37: os ossos do jogador (head/body/braços/pernas) ficam na RAIZ. No GeckoLib eles vinham dentro de grupos ("Arms", "Legs"),
+    # e o Bedrock só acompanha o osso com o nome do jogador quando ele não está pendurado num grupo próprio -> a armadura
+    # ficava parada/deslocada enquanto o personagem andava. Grupos vazios (sem cubos) somem.
+    SKEL = set(REN.values()); names = {b["name"] for b in out}
+    groups = {b["name"] for b in out if b["name"] not in SKEL and not b.get("cubes") and any(c.get("parent") == b["name"] and c["name"] in SKEL for c in out)}
+    res = []
+    for b in out:
+        if b["name"] in groups: continue
+        if b["name"] in SKEL: b.pop("parent", None); b.pop("rotation", None)
+        elif b.get("parent") in groups: b["parent"] = None
+        res.append(b)
+    return res
 
 def piece_geo(d, gid, part):
     bones = subtree(d["bones"], PIECE[part])

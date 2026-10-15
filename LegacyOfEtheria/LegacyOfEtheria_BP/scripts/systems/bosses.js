@@ -1,3 +1,4 @@
+import { playBossAnim, kindFor } from "./bossanim.js";
 // systems/bosses.js - IA de bosses: fases, habilidades especiais, invocação por sigilo
 // A barra de vida é nativa (componente minecraft:boss na entidade).
 import { world, system } from "@minecraft/server";
@@ -179,6 +180,7 @@ function tick() {
     for (const [name, cd, params] of b.def.phases[b.phase].abilities) {
       const key = `${b.phase}:${name}`;
       if ((b.cds.get(key) ?? 0) > now) continue;
+      playBossAnim(b.e, kindFor(name), 24);   // 6.37: animação de combate
       try { AB[name](b, target, params); } catch (e) { console.warn(`[Etheria] boss ${b.def.key} ${name}: ${e}`); }
       b.cds.set(key, now + cd * 20); b.gcd = now + 50;
       break;

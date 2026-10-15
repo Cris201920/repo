@@ -73,7 +73,11 @@ function basis(p) {
 const P3 = (o, B, a, b, d) => ({ x: o.x + B.r.x * a + B.u.x * b + B.v.x * d, y: o.y + B.r.y * a + B.u.y * b + B.v.y * d, z: o.z + B.r.z * a + B.u.z * b + B.v.z * d });
 
 /** Liga/atualiza o núcleo. o: { stage, ticks, side, ray, size, accel, ring } (ring: true também projeta o anel de glifos; ver sageRing) */
+// 6.37: o núcleo de partículas (a "bola" azul/vermelha na frente da câmera) foi DESLIGADO a pedido do jogador.
+// Falas, legendas, sons e análises continuam; só a esfera visual não é mais criada.
+const CORE_VISUAL = false;
 export function coreOn(p, state = "IDLE", o = {}) {
+  if (!CORE_VISUAL) return null;
   if (announcing(p)) return null;   // durante a Voz do Mundo só a cena nova aparece (sem o núcleo de partículas azul)
   if (!alive(p) || !animOn(p)) return null;
   const now = system.currentTick, ex = cores.get(p.id);
