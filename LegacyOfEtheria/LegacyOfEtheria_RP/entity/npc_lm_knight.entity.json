@@ -1,0 +1,39 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:npc_lm_knight",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_npc_lm_knight"
+   },
+   "geometry": {
+    "default": "geometry.etheria_npc_lm_knight"
+   },
+   "spawn_egg": {
+    "base_color": "#e8e8f0",
+    "overlay_color": "#d4af37"
+   },
+   "scripts": {
+    "scale": "1.0",
+    "animate": [
+     "look",
+     "walk",
+     "attack",
+     "breathe"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.biped_walk",
+    "attack": "animation.etheria.attack_biped"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

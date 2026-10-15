@@ -23,7 +23,7 @@
     "max": 40
    },
    "minecraft:movement": {
-    "value": 0.0
+    "value": 0.2
    },
    "minecraft:physics": {},
    "minecraft:navigation.walk": {},
@@ -68,6 +68,15 @@
       "interact_text": "Falar"
      }
     ]
+   },
+   "minecraft:home": {
+    "restriction_radius": 10
+   },
+   "minecraft:behavior.random_stroll": {
+    "priority": 6,
+    "speed_multiplier": 0.55,
+    "xz_dist": 5,
+    "interval": 160
    }
   },
   "events": {

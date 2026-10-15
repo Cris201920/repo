@@ -1,7 +1,8 @@
 // data/characters.js - 6.43: DIÁLOGOS DOS PERSONAGENS IMPORTANTES (interface em systems/characters.js).
 // Cada personagem usa SÓ sistemas que já existem: missões (data/quests.js), aulas (data/teachers.js via role de um mestre),
 // lojas das nações (data/worldnpcs.js), reputação/flags (systems/factions.js) e conquistas (data/misc.js).
-//  where : "council" = Conselho de Tempest (calmo, duelo até render-se) | "octagrama" = trono do Octagrama (desafio = luta real de chefe)
+//  where : "council" = Conselho de Tempest | "luminus" = Reino Sagrado (morador de estrutura, systems/residents.js) — ambos calmos, duelo até render-se
+//          "octagrama" = trono do Octagrama (desafio = luta real de chefe)
 //  greet : falas de saudação (primeira vez / normal / discípulo / depois de perder para você)
 //  talk  : assuntos de conversa [título, fala]
 //  quests: missões existentes que este personagem oferece (e a prova de discípulo, se houver)
@@ -86,6 +87,25 @@ export const CHARACTERS = {
     duel: { lvl: 25, ask: "Um duelo? Eu prefiro não lutar... mas se insiste, aceito. Pronto?", start: "Com licença.", win: "Eu me rendo. Você venceu de forma justa.", lose: "Descanse um pouco. Lutar cansado é perigoso.",
       reward: { xp: 3000, coins: 1200, rep: 25 } },
     shop: "tp_alchemist",
+  },
+  tt_hinata: {
+    name: "Hinata Sakaguchi", color: "§f", faction: "luminus", where: "luminus", title: "Capitã dos Cavaleiros Sagrados",
+    greet: {
+      first: ["Sou Hinata Sakaguchi, capitã dos Cavaleiros Sagrados. Enquanto estiver no Reino, respeite as regras da Igreja."],
+      normal: ["Os cavaleiros relatam mortos-vivos perto das muralhas. Se quiser ser útil, fale com eles.", "Seja objetivo. Tenho muito a fazer."],
+      disciple: ["Postura. Respiração. Cada golpe deve ter um propósito.", "Pronto para o treino de hoje?"],
+      rival: ["Você me venceu em duelo. Não vou esquecer isso — nem subestimá-lo de novo."],
+    },
+    talk: [
+      ["Sobre a Igreja", "A Igreja Ocidental protege os fiéis dos monstros que os ameaçam. Pelo menos é isso que ela ensina."],
+      ["Sobre técnicas de espada", "Velocidade sem precisão é desperdício. Defenda, observe, e só então contra-ataque."],
+      ["Sobre Tempest", "Uma nação de monstros que vive em paz... ainda estou avaliando o que isso significa."],
+    ],
+    quests: ["lm_patrol", "lm_investigation", "ch_hinata_trial"],
+    disciple: { lvl: 35, rep: { luminus: 150 }, quest: "lm_patrol", trial: "ch_hinata_trial", role: "lm_knight", lessons: ["barrier", "evasion_step", "counter_strike", "holy_light"],
+      ask: "Quer treinar sob o meu comando? Meus cavaleiros treinam até cair. Está disposto?", yes: "Muito bem. O juramento do cavaleiro está no seu diário. Cumpra-o.", no: "Volte quando estiver certo da sua decisão." },
+    duel: { lvl: 50, ask: "Um duelo? Aceito. Mas não espere misericórdia. Pronto?", start: "Em guarda.", win: "...Reconheço a derrota. Você é forte.", lose: "Previsível. Treine mais.",
+      reward: { xp: 7000, coins: 3000, rep: 50 } },
   },
   guy_crimson: {
     name: "Guy Crimson", color: "§4", faction: "guy", where: "octagrama", title: "O Lorde Demônio Mais Antigo",

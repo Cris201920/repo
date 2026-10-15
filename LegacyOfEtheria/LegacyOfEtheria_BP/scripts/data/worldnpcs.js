@@ -38,6 +38,15 @@ export const GREET = {
     ally: ["§bIrmão da Horda! Come com a gente!", "§bO chefe disse: este é dos nossos."],
     champion: ["§e§lCampeão da Horda! §r§eFúria e glória!", "§eO Orc do Desastre sorri para você."],
   },
+  luminus: {
+    enemy: ["§cHerege! Em nome da Igreja, renda-se!", "§cO Reino Sagrado não tolera inimigos da fé."],
+    hostile: ["§cSeus pecados contra o Reino são conhecidos. Afaste-se.", "§cNão há bênção para você aqui."],
+    wary: ["§6A Igreja observa os forasteiros. Comporte-se.", "§6Fé se prova com atos, não com palavras."],
+    neutral: ["§fIdentifique-se, viajante. O que procura no Reino Sagrado?", "§fBem-vindo ao Reino de Luminus. Respeite os templos."],
+    friendly: ["§aA luz o acompanha, amigo do Reino.", "§aOs cavaleiros falam bem de você."],
+    ally: ["§bAliado do Reino Sagrado! A Igreja agradece a sua ajuda.", "§bVocê luta pelos fiéis. Seja bem-vindo."],
+    champion: ["§e§lCampeão da Luz! §r§eAté a Rainha da Noite conhece o seu nome.", "§eHinata pediu que o tratássemos como um dos nossos."],
+  },
   hermit: {
     enemy: ["§cVá embora."], hostile: ["§cNão há lição para você."], wary: ["§6Ainda não é digno."],
     neutral: ["§dVocê veio longe... Só ensino a quem provar o valor.", "§dO caminho é longo, viajante."],
@@ -61,6 +70,7 @@ export const KIND_LINES = {
   master: ["A técnica é fruto de disciplina.", "Não se aprende com pressa."],
   miner: ["O fundo da mina guarda cada pedra rara!", "Cuidado com o escuro: nem tudo lá é pedra."],
   engineer: ["Tudo é engrenagem, até a política.", "Precisão: a alma da engenharia."],
+  knight: ["Identifique-se. O que procura nesta região?", "Os mortos-vivos não descansam, e nós também não.", "A ordem dos cavaleiros protege os fiéis dia e noite."],
 };
 
 const E = "etheria:";
@@ -98,6 +108,7 @@ export const NPC_DEF = {
   gc_servant: { quests: ["gc_servant_errand"] },
   orc_commander: { oath: true, teaches: ["orc_hide", "orc_fury", "devour_flesh"], quests: ["orc_trial"], lines: ["§2A Horda não tem reis: tem fome. E o Desastre tem a maior de todas."] },
   orc_warrior: {},
+  lm_knight: { escort: true, news: true, quests: ["lm_patrol", "lm_relics"], lines: ["§fA Capitã Hinata treina os melhores cavaleiros do continente."] },
   orc_trader: { shop: { kinds: ["consumable", "weapon"], maxRarity: "rare", gate: { rare: 80 } } },
   hm_sage: { teaches: ["legend_resolve"], quests: ["hm_legend_trial"], lines: ["§dO verdadeiro poder não se compra: conquista-se."] },
 };

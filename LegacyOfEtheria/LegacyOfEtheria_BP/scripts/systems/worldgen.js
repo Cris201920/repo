@@ -20,6 +20,8 @@ export const results = new Map();   // chave -> {ok, at, err, tick, chests, mobs
 const rd = (k, d) => { try { const r = JSON.parse(world.getDynamicProperty(k) ?? ""); return r ?? d; } catch { return d; } };
 const wr = (k, v) => { try { world.setDynamicProperty(k, JSON.stringify(v)); } catch { /* ignore */ } };
 const records = () => { const r = rd(REC, []); return Array.isArray(r) ? r : []; };
+/** 6.44: registro das estruturas geradas (usado por systems/residents.js para povoar reinos/domínios) */
+export const wgRecords = () => records();
 const blockAt = (dim, x, y, z) => { try { return dim.getBlock({ x, y, z }); } catch { return undefined; } };
 
 const LOOT = {

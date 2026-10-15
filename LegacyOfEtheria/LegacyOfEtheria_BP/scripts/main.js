@@ -44,6 +44,8 @@ import { startWorldgen } from "./systems/worldgen.js";
 import { startOctagrama } from "./systems/octagrama.js";
 import { startRealms } from "./systems/realms.js";
 import { startCharacters } from "./systems/characters.js";
+import { startResidents } from "./systems/residents.js";
+import { startNpcGreetings } from "./systems/worldnpc.js";
 import { startFlight, dropFlight } from "./systems/flight.js";
 import { startAntiSkill } from "./systems/antiskill.js";
 import { startPowers } from "./systems/powers.js";
@@ -142,6 +144,8 @@ system.run(() => {
   startOctagrama();
   startRealms();
   startCharacters();
+  startResidents();
+  startNpcGreetings();
   startFlight();
   startAntiSkill();
   startPowers();

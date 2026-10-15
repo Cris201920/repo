@@ -932,3 +932,5 @@ item.etheria:sk_agi_dwarf_1=Rolamento Blindado
 item.etheria:sk_agi_dwarf_3=Avalanche de Pedra
 entity.etheria:shuna.name=Shuna
 item.spawn_egg.entity.etheria:shuna.name=Ovo de Shuna
+entity.etheria:npc_lm_knight.name=Cavaleiro Sagrado
+item.spawn_egg.entity.etheria:npc_lm_knight.name=Ovo de Cavaleiro Sagrado

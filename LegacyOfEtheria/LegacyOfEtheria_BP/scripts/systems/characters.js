@@ -34,7 +34,7 @@ const ok = (p, r) => say(p, `${r.ok ? "§a" : "§c"}${r.msg}`);
 export function canTalk(e) {
   const C = charOf(e); if (!C) return false;
   if (e.hasTag(DUEL)) return false;
-  return C.where === "council" ? e.hasTag(CALM) : e.hasTag(IDLE);
+  return C.where === "octagrama" ? e.hasTag(IDLE) : e.hasTag(CALM);
 }
 
 // ------------------------------------------------------------------ tela principal
@@ -146,7 +146,7 @@ function openChallenge(player, e) {
   const id = idOf(e), C = CHARACTERS[id], X = C.duel, d = getData(player);
   menu(player, `${C.color}§l${C.name}`, quoted(C, X.ask), [
     { text: "§c§lIniciar desafio", run: () => startChallenge(player, e) },
-    { text: "§lVerificar meu nível", run: () => menu(player, "§lSeu nível", `§fSeu nível: §e${d.level}\n§fNível exigido: ${d.level >= X.lvl ? "§a" : "§c"}${X.lvl}\n${C.where === "council" ? "§7Duelo: o personagem se rende com 15% de vida. Se você cair ou fugir, perde." : "§7Luta real contra um Lorde do Octagrama: só termina com a derrota de um dos dois."}`, [back(() => openChallenge(player, e))]) },
+    { text: "§lVerificar meu nível", run: () => menu(player, "§lSeu nível", `§fSeu nível: §e${d.level}\n§fNível exigido: ${d.level >= X.lvl ? "§a" : "§c"}${X.lvl}\n${C.where !== "octagrama" ? "§7Duelo: o personagem se rende com 15% de vida. Se você cair ou fugir, perde." : "§7Luta real contra um Lorde do Octagrama: só termina com a derrota de um dos dois."}`, [back(() => openChallenge(player, e))]) },
     { text: "Desistir", run: () => say(player, quoted(C, "Sábia escolha.")) },
   ]);
 }
@@ -163,7 +163,7 @@ function startChallenge(player, e) {
     try { e.applyDamage(1, { cause: "entityAttack", damagingEntity: player }); } catch { try { e.removeTag(IDLE); } catch { /* ignore */ } }
     return;
   }
-  duels.set(e.id, { pid: player.id, id, start: now, home: residentHome("council", id) ?? { ...e.location }, ent: e });
+  duels.set(e.id, { pid: player.id, id, where: C.where, start: now, home: (C.where === "council" ? residentHome("council", id) : null) ?? { ...e.location }, ent: e });
   try { e.removeTag(CALM); e.removeTag(IDLE); e.addTag(DUEL); e.removeEffect("slowness"); e.triggerEvent("etheria:provoke"); } catch { /* ignore */ }
   let n = 3;
   const h = system.runInterval(() => {
@@ -176,8 +176,8 @@ function endDuel(eid, result) {
   const C = CHARACTERS[X.id], e = X.ent, player = world.getAllPlayers().find((p) => p.id === X.pid);
   if (e && isValid(e)) {
     try { e.getComponent("minecraft:health")?.resetToMaxValue(); } catch { /* ignore */ }
-    try { e.triggerEvent("etheria:calm"); e.removeTag(DUEL); e.addTag(CALM); e.addTag(IDLE); if (X.home) e.teleport(X.home); } catch { /* ignore */ }
-  } else system.runTimeout(() => reviveResident("council", X.id), 5);   // caiu de vez: volta a existir no próximo ciclo do Conselho (depois do registro de morte)
+    try { e.triggerEvent("etheria:calm"); e.removeTag(DUEL); e.addTag(CALM); if (X.where === "council") e.addTag(IDLE); if (X.home) e.teleport(X.home); } catch { /* ignore */ }
+  } else if (X.where === "council") system.runTimeout(() => reviveResident("council", X.id), 5);   // caiu de vez: volta a existir no próximo ciclo do Conselho (depois do registro de morte)
   if (!player) return;
   const d = getData(player), r = rel(d, X.id);
   if (result === "win") {

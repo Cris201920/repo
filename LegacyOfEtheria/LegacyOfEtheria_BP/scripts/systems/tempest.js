@@ -15,8 +15,12 @@ const SEARCH_R = [700, 1000, 1300];
 const NPC_ROLE = ["guild", "merchant", "smith", "trainer", "quest", "master", "merchant", "smith", "guild", "quest"];
 // 6.38: cidade REDUZIDA a pedido do jogador: só o centro de 4x4 ladrilhos (256x256 blocos, 1/4 da área original),
 // que contém o centro da cidade, a entrada (TEMPEST.spawn) e o núcleo do nascimento. Mundos que já têm o mapa inteiro não perdem nada.
+// 6.44: MAIS COMPACTA (a pedido): 3x3 ladrilhos = 192x192 blocos (era 4x4 = 256x256). Janela escolhida pela contagem de blocos
+// construídos (tools: contagem nos .mcstructure): a de maior densidade (oeste/norte), que contém o centro, a entrada (TEMPEST.spawn),
+// todos os pontos de NPC e o Conselho. Mundos que já têm a cidade maior não perdem nada (nada é apagado).
 const RADIUS = 128;
-const TILES = TEMPEST.tiles.filter((t) => t.ox >= -RADIUS && t.ox + 64 <= RADIUS && t.oz >= -RADIUS && t.oz + 64 <= RADIUS);
+const WIN = { x0: -128, x1: 64, z0: -128, z1: 64 };
+const TILES = TEMPEST.tiles.filter((t) => t.ox >= WIN.x0 && t.ox + 64 <= WIN.x1 && t.oz >= WIN.z0 && t.oz + 64 <= WIN.z1);
 const half = RADIUS;
 
 let S = null;   // {x,y,z, done:{id:1}, npcs:{i:1}, ann:0}

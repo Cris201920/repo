@@ -13,12 +13,15 @@ export const FACTIONS = {
   orc: { id: "orc", name: "Horda do Orc do Desastre", short: "Orcs", color: "§2", capital: "Acampamento da Horda",
     desc: "Orcs liderados pelo temido Orc do Desastre: um exército faminto que devora o que derrota e cresce com isso.",
     culture: "Paliçadas de madeira bruta, fardos de feno e espinhos, estandartes verdes.", ally: "Fúria, absorção e resistência.", enemies: "Tempest e Anões." },
+  luminus: { id: "luminus", name: "Reino Sagrado de Luminus", short: "Luminus", color: "§f", capital: "Reino Sagrado de Luminus",
+    desc: "Reino governado em segredo por Luminus Valentine. A Igreja Ocidental e seus cavaleiros sagrados, liderados por Hinata Sakaguchi, caçam mortos-vivos e demônios.",
+    culture: "Catedrais brancas, vitrais e estandartes dourados; ordem, fé e disciplina.", ally: "Magia sagrada, cura e técnicas de cavaleiro.", enemies: "Mortos-vivos e demônios que ameaçam os fiéis." },
   hermit: { id: "hermit", name: "Mestres Errantes", short: "Mestres", color: "§d", capital: "Santuário Escondido",
     desc: "Mestres lendários que vivem longe das nações e só ensinam a quem provar valor.",
     culture: "Santuários isolados e silenciosos.", ally: "Habilidades lendárias.", enemies: "Ninguém." },
 };
 export const FACTION_LIST = Object.values(FACTIONS);
-export const PLAYER_FACTIONS = ["tempest", "dwarf", "guy", "orc"];   // as que têm reputação do jogador
+export const PLAYER_FACTIONS = ["tempest", "dwarf", "guy", "orc", "luminus"];   // as que têm reputação do jogador
 
 // faixas de reputação (rep de -1000 a 1000)
 export const TIERS = [
@@ -40,6 +43,7 @@ export const DIPLOMACY_BASE = [
   ["tempest", "dwarf", 1], ["tempest", "guy", 0], ["tempest", "orc", -3], ["tempest", "hermit", 1],
   ["dwarf", "guy", -1], ["dwarf", "orc", -2], ["dwarf", "hermit", 0],
   ["guy", "orc", -1], ["guy", "hermit", 0], ["orc", "hermit", -1],
+  ["tempest", "luminus", 0], ["dwarf", "luminus", 0], ["guy", "luminus", -1], ["orc", "luminus", -2], ["luminus", "hermit", 0],
 ];
 // o jogador não pode ser aliado de duas facções que estão em guerra/hostis entre si
 export const INCOMPATIBLE_AT = -2;
@@ -48,7 +52,7 @@ export const INCOMPATIBLE_AT = -2;
 const E = "etheria:";
 export const REP_KILL = {
   [E + "orc"]: { tempest: 2, dwarf: 1, orc: -5 }, [E + "tt_orc_lord"]: { tempest: 6, dwarf: 3, orc: -10 }, [E + "tt_orc_disaster"]: { tempest: 10, dwarf: 4, orc: -20 }, [E + "goblin"]: { tempest: 1 }, [E + "hobgoblin"]: { tempest: 2 },
-  [E + "skeleton_knight"]: { tempest: 1, dwarf: 1 }, [E + "dungeon_crawler"]: { dwarf: 2 }, [E + "drake_whelp"]: { tempest: 1, dwarf: 1 },
+  [E + "skeleton_knight"]: { tempest: 1, dwarf: 1, luminus: 2 }, [E + "imp"]: { luminus: 2 }, [E + "dungeon_crawler"]: { dwarf: 2 }, [E + "drake_whelp"]: { tempest: 1, dwarf: 1 },
 };
 // dano em NPCs: facção do NPC -> penalidade (acerto, morte); aliados da facção também se incomodam (metade)
 export const CRIME = { hit: -4, kill: -60, ally_share: 0.4 };

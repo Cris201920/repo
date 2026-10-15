@@ -155,6 +155,15 @@ Object.assign(QUESTS, {
     objectives: [{ type: "kill", target: E + "skeleton_knight", n: 20, label: "Cavaleiros Esqueletos" }, { type: "deliver", item: E + "orc_tusk", n: 10, npc: "rimuru_tempest", label: "Presas de Orc (entregar ao Rimuru)" }], reward: { xp: 9000, coins: 3000, frep: { tempest: 60 }, flagSet: "disc_rimuru_tempest" } },
   ch_guy_trial: { id: "ch_guy_trial", name: "O Teste do Soberano Carmesim", giver: "char_guy_crimson", minLevel: 70, desc: "Guy Crimson só aceita discípulos que derrotam o Senhor do Vazio e trazem fragmentos demoníacos.",
     objectives: [{ type: "boss", target: "void_lord", n: 1, label: "Senhor do Vazio" }, { type: "deliver", item: E + "demonite_shard", n: 10, npc: "guy_crimson", label: "Fragmentos Demoníacos (entregar ao Guy)" }], reward: { xp: 20000, coins: 8000, frep: { guy: 80 }, flagSet: "disc_guy_crimson" } },
+  // 6.44: REINO SAGRADO DE LUMINUS (cavaleiros e Hinata)
+  lm_patrol: { id: "lm_patrol", name: "Ronda Sagrada", giver: "lm_knight", minLevel: 15, desc: "Os cavaleiros pedem ajuda para conter os mortos-vivos que rondam o Reino Sagrado.",
+    objectives: [{ type: "kill", target: E + "skeleton_knight", n: 12, label: "Cavaleiros Esqueletos" }], reward: { xp: 1800, coins: 700, frep: { luminus: 40 } } },
+  lm_relics: { id: "lm_relics", name: "Relíquias Profanadas", giver: "lm_knight", minLevel: 22, req: ["lm_patrol"], desc: "Diabretes roubaram relíquias da catedral. Elimine-os e entregue fragmentos demoníacos como prova.",
+    objectives: [{ type: "kill", target: E + "imp", n: 10, label: "Diabretes" }, { type: "deliver", item: E + "demonite_shard", n: 4, npc: "lm_knight", label: "Fragmentos Demoníacos (entregar a um cavaleiro)" }], reward: { xp: 3200, coins: 1200, frep: { luminus: 60 } } },
+  lm_investigation: { id: "lm_investigation", name: "Investigação da Igreja", giver: "char_tt_hinata", minLevel: 28, req: ["lm_patrol"], desc: "Hinata quer saber o que Tempest pensa da Igreja. Fale com o mensageiro de Tempest e elimine elfos sombrios que espionam a estrada.",
+    objectives: [{ type: "talk", npc: "tp_messenger", label: "Falar com o Mensageiro de Tempest" }, { type: "kill", target: E + "dark_elf", n: 8, label: "Elfos Sombrios" }], reward: { xp: 5000, coins: 2000, frep: { luminus: 80, tempest: 20 } } },
+  ch_hinata_trial: { id: "ch_hinata_trial", name: "O Juramento do Cavaleiro", giver: "char_tt_hinata", minLevel: 35, desc: "Para treinar com Hinata: limpe o caminho dos mortos-vivos e entregue cristais de mana para a bênção da espada.",
+    objectives: [{ type: "kill", target: E + "skeleton_knight", n: 25, label: "Cavaleiros Esqueletos" }, { type: "deliver", item: E + "mana_crystal", n: 8, npc: "tt_hinata", label: "Cristais de Mana (entregar à Hinata)" }], reward: { xp: 8000, coins: 3000, frep: { luminus: 80 }, flagSet: "disc_tt_hinata" } },
 });
 
 export const QUEST_LIST = Object.values(QUESTS);

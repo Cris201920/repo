@@ -1,5 +1,13 @@
 // GERADO por tools/build.py a partir de tools/content.py - não edite à mão.
 export const WORLD_NPCS = {
+ "lm_knight": {
+  "id": "lm_knight",
+  "name": "Cavaleiro Sagrado",
+  "faction": "luminus",
+  "kind": "knight",
+  "guard": true,
+  "scale": 1.0
+ },
  "tp_leader": {
   "id": "tp_leader",
   "name": "Líder de Tempest",

@@ -11,7 +11,7 @@ import { QUESTS } from "../data/quests.js";
 import { LESSONS, DWARF_RECIPES } from "../data/teachers.js";
 import { GREET, KIND_LINES, NPC_DEF } from "../data/worldnpcs.js";
 import { WORLD_NPCS } from "../data/worldnpcs.gen.js";
-import { FACTIONS, FACTION_LIST, PLAYER_FACTIONS, ALLY_AT, TIERS, tierOf, SETTLEMENTS } from "../data/factions.js";
+import { FACTIONS, FACTION_LIST, PLAYER_FACTIONS, ALLY_AT, TIERS, tierOf, SETTLEMENTS, TEMPEST_EXTRA } from "../data/factions.js";
 import { repOf, tierFor, isAlly, hasFlag, relation, relationName, priceMult, refused, swearOath, breakOath, oathCheck, wd, addFactionRep, setFlag } from "./factions.js";
 import { acceptQuest, abandonQuest, canAccept, describe, isDone, onTalk, deliverAt } from "./quests.js";
 import { grantSkill } from "./skills.js";
@@ -19,6 +19,8 @@ import { ensureLore, nameOf } from "./items.js";
 import { forgeInfo, forgeUpgrade } from "./shop.js";
 import { applyDerivedStats, getStats, getHealth } from "./stats.js";
 import { tempestInfo } from "./tempest.js";
+import { wgRecords } from "./worldgen.js";
+import { RESIDENTS } from "./residents.js";
 import { settlementInfo } from "./settlements.js";
 import { LOCATION_LIST, travelTo, visitedOf } from "./travel.js";
 import { bossTotal, raceDepth } from "../data/lineages.js";
@@ -56,7 +58,7 @@ export function openWorldNpc(player, role) {
   const body = `${head}\n${greeting(d, role)}`;
   if (refused(d, meta.faction)) return menu(player, `${F.color}§l${meta.name}`, `${body}\n\n§cEste NPC se recusa a atendê-lo. Melhore a reputação com ${F.short} (missões, abater inimigos da nação).`, [
     { text: "§lReputação e relações", run: () => openWorld(player) }, { text: "Fechar" }]);
-  const b = [];
+  const b = [{ text: "§l§fConversar\n§r§7Informações, a cidade e quem tem trabalho", icon: "menu_skills", run: () => openChat(player, role) }];
   if (def.quests?.length) b.push({ text: "§l§eMissões\n§r§7Pedidos desta pessoa", icon: "menu_quests", run: () => openNpcQuests(player, role) });
   if (def.teaches?.length) b.push({ text: "§l§bAprender técnicas\n§r§7Ensina habilidades (com requisitos)", icon: "menu_skills", run: () => openTeacher(player, role) });
   if (def.shop) b.push({ text: "§l§6Loja\n§r§7Itens e preços da nação", icon: "menu_inventory", run: () => openFacShop(player, role, 0) });
@@ -70,6 +72,50 @@ export function openWorldNpc(player, role) {
   b.push({ text: "§l§7Mundo, reputação e história", icon: "menu_race", run: () => openWorld(player) });
   b.push({ text: "Fechar" });
   menu(player, `${F.color}§l${meta.name}`, body, b);
+}
+
+// ---------------------------------------------------------------- 6.44: conversa (informações reais da cidade, da nação e de quem tem missões)
+const DIR = (dx, dz) => { const ns = dz < -4 ? "norte" : dz > 4 ? "sul" : "", ew = dx > 4 ? "leste" : dx < -4 ? "oeste" : ""; return ns && ew ? `${ns}-${ew}` : ns || ew || "centro"; };
+const SERVICE = (def) => [def.shop ? "loja" : "", def.teaches?.length ? "aulas" : "", def.heal ? "cura" : "", def.cook ? "refeições" : "", def.forge ? "forja" : "", def.recipes ? "encomendas" : "", def.oath ? "aliança" : "", def.quests?.length ? "missões" : ""].filter(Boolean).join(", ");
+function cityRoles(faction) {
+  if (faction === "tempest") return TEMPEST_EXTRA;
+  if (faction === "luminus") return RESIDENTS.luminus_reino.map(([t, dx, dz]) => [t.includes(":npc_") ? t.replace("etheria:npc_", "") : "char:" + t.slice(8), dx, dz]);
+  const s = Object.values(SETTLEMENTS).find((x) => x.faction === faction); return s?.npcs ?? [];
+}
+function openChat(player, role) {
+  const meta = WORLD_NPCS[role], F = FACTIONS[meta.faction], kind = meta.kind;
+  const opener = kind === "guard" || kind === "knight" ? "Identifique-se. O que procura nesta região?" : kind === "merchant" ? "Bem-vindo! Posso ajudar com alguma coisa?" : "Sim? Em que posso ajudar?";
+  menu(player, `${F.color}§l${meta.name}`, `§f"${opener}"`, [
+    { text: "§lPedir informações\n§r§7Onde encontrar cada serviço", run: () => openInfo(player, role) },
+    { text: `§lPerguntar sobre ${F.short}\n§r§7A nação e seus vizinhos`, run: () => openAbout(player, role) },
+    { text: "§lQuem tem trabalho aqui?\n§r§7Missões disponíveis na cidade", run: () => openWork(player, role) },
+    back(() => openWorldNpc(player, role)),
+  ]);
+}
+function openInfo(player, role) {
+  const meta = WORLD_NPCS[role], F = FACTIONS[meta.faction], seen = new Set(), lines = [];
+  for (const [r, dx, dz] of cityRoles(meta.faction)) {
+    if (seen.has(r) || r === role) continue; seen.add(r);
+    if (r.startsWith("char:")) { const C = CHARACTERS[r.slice(5)]; if (C) lines.push(`${C.color}${C.name}§7 (${C.title}): ${DIR(dx, dz)} da praça §8(conversa, missões, discípulos, desafios)`); continue; }
+    const m = WORLD_NPCS[r], sv = SERVICE(NPC_DEF[r] ?? {}); if (!m) continue;
+    lines.push(`§e${m.name}§7: ${DIR(dx, dz)} da praça${sv ? ` §8(${sv})` : ""}`);
+  }
+  const body = lines.length ? `§f"Claro. Veja onde fica cada um:"\n\n${lines.join("\n")}\n\n§7Norte = -Z, leste = +X (use as coordenadas da tela).` : `§f"Aqui sou eu quem cuida de tudo."`;
+  menu(player, `${F.color}§l${meta.name}`, body, [back(() => openChat(player, role))]);
+}
+function openAbout(player, role) {
+  const meta = WORLD_NPCS[role], F = FACTIONS[meta.faction], d = getData(player);
+  const rel = FACTION_LIST.filter((g) => g.id !== F.id).map((g) => `${g.color}${g.short}§7: ${relationName(relation(F.id, g.id))}`);
+  menu(player, `${F.color}§l${F.name}`, [`§f"${F.desc}"`, "", `§bComo é: §f${F.culture}`, `§aQuem nos ajuda aprende: §f${F.ally}`, `§cNossos inimigos: §f${F.enemies}`, "", `§7Sua reputação: ${tierFor(d, F.id).color}${tierFor(d, F.id).name} §8(${repOf(d, F.id)})`, "", "§7Relações:", ...rel].join("\n"), [back(() => openChat(player, role))]);
+}
+function openWork(player, role) {
+  const meta = WORLD_NPCS[role], F = FACTIONS[meta.faction], d = getData(player), out = [];
+  for (const [r, def] of Object.entries(NPC_DEF)) {
+    if (WORLD_NPCS[r]?.faction !== meta.faction || !def.quests?.length) continue;
+    const qs = def.quests.map((id) => QUESTS[id]).filter(Boolean), open = qs.filter((q) => !d.quests.active[q.id] && !isDone(d, q.id) && !canAccept(d, q)).length, act = qs.filter((q) => d.quests.active[q.id]).length;
+    out.push(`§e${WORLD_NPCS[r].name}§7: ${open ? `§a${open} disponível(is)` : "§8nada novo"}${act ? ` §e· ${act} em andamento` : ""}`);
+  }
+  menu(player, `${F.color}§l${meta.name}`, out.length ? `§f"Quem tem trabalho por aqui:"\n\n${out.join("\n")}` : `§f"Ninguém está precisando de ajuda agora."`, [back(() => openChat(player, role))]);
 }
 
 // ---------------------------------------------------------------- missões
@@ -246,7 +292,7 @@ const escortAt = new Map();
 export function callEscort(player, f) {
   const d = getData(player); if (!isAlly(d, f)) return { ok: false, msg: "Só aliados podem chamar escolta." };
   const now = Date.now(); if ((escortAt.get(player.id) ?? 0) > now) return { ok: false, msg: `Escolta indisponível por mais ${Math.ceil((escortAt.get(player.id) - now) / 1000)}s.` };
-  const type = { tempest: "etheria:npc_tp_guard", dwarf: "etheria:npc_dw_guard", guy: "etheria:npc_gc_soldier", orc: "etheria:npc_orc_warrior" }[f]; if (!type) return { ok: false, msg: "Sem escolta." };
+  const type = { tempest: "etheria:npc_tp_guard", dwarf: "etheria:npc_dw_guard", guy: "etheria:npc_gc_soldier", orc: "etheria:npc_orc_warrior", luminus: "etheria:npc_lm_knight" }[f]; if (!type) return { ok: false, msg: "Sem escolta." };
   let n = 0;
   for (let i = 0; i < 2; i++) { try { const e = player.dimension.spawnEntity(type, { x: player.location.x + (i ? 2 : -2), y: player.location.y, z: player.location.z + 1 }); e.addTag("etheria_escort"); system.runTimeout(() => { try { if (e.isValid) e.remove(); } catch { /* ignore */ } }, 2400); n++; } catch { /* ignore */ } }
   if (!n) return { ok: false, msg: "Não foi possível chamar a escolta aqui." };
@@ -286,6 +332,9 @@ function openPlaces(player) {
   const l = player.location, lines = [], t = tempestInfo();
   const dist = (x, z) => Math.round(Math.hypot(x - l.x, z - l.z));
   if (t) lines.push(`§b${FACTIONS.tempest.capital}: §f${t.x}, ${t.y}, ${t.z} §7(${dist(t.x, t.z)} blocos)`); else lines.push("§bTempest: §7ainda sendo localizada");
+  for (const [k, nm] of [["luminus_reino", "§fReino Sagrado de Luminus"], ["guy_dominio", "§cDomínio de Guy Crimson"]]) {
+    const r = wgRecords().find((q) => q.k === k); lines.push(`${nm}: ${r ? `§f${r.x}, ${r.z} §7(${dist(r.x, r.z)} blocos)` : "§7ainda não descoberto (surge ao explorar o mundo)"}`);
+  }
   for (const s of Object.values(SETTLEMENTS)) { const i = settlementInfo(s.id); lines.push(`${FACTIONS[s.faction].color}${s.name}: ${i ? `§f${i.x}, ${i.z} §7(${dist(i.x, i.z)} blocos${i.built ? "" : ", ainda não visitada"})` : "§7ainda sendo localizada"}`); }
   // viagem posterior (21.14): só para lugares já conhecidos (visitados ou escolhidos na origem); a estrutura é garantida antes do teleporte
   const known = visitedOf(getData(player));
@@ -306,4 +355,32 @@ function openFaction(player, f) {
     ...(PLAYER_FACTIONS.includes(f) ? [`§7Reputação: ${repBar(repOf(d, f))} §f${repOf(d, f)} ${tierFor(d, f).color}(${tierFor(d, f).name})`] : []),
     ...FACTION_LIST.filter((g) => g.id !== f).map((g) => `${g.color}${g.short}§7: ${relationName(relation(f, g.id))}`)].join("\n");
   menu(player, `${F.color}${F.short}`, body, [back(() => openFactionList(player))]);
+}
+
+// ---------------------------------------------------------------- 6.44: NPCs falam quando o jogador chega perto (sem repetir: recarga por jogador e por NPC)
+import { world } from "@minecraft/server";
+import { CHARACTERS } from "../data/characters.js";
+const greetAt = new Map(), greetNpc = new Map();
+export function startNpcGreetings() {
+  system.runInterval(() => {
+    const now = system.currentTick;
+    for (const p of world.getAllPlayers()) {
+      try {
+        if ((greetAt.get(p.id) ?? -1e9) > now) continue;
+        const near = p.dimension.getEntities({ location: p.location, maxDistance: 4.5, excludeTypes: ["minecraft:player"] });
+        for (const e of near) {
+          const id = e.typeId.replace("etheria:", ""), role = id.replace("npc_", ""), meta = WORLD_NPCS[role], C = CHARACTERS[id];
+          if (!meta && !(C && e.hasTag("etheria_calm"))) continue;
+          const k = p.id + e.id; if ((greetNpc.get(k) ?? -1e9) > now) continue;
+          const d = getData(p); let line;
+          if (meta) { const t = tierFor(d, meta.faction).id; line = `${FACTIONS[meta.faction].color}[${meta.name}] §f${pick((Math.random() < 0.5 ? GREET[meta.faction]?.[t] : null) ?? KIND_LINES[meta.kind] ?? ["..."]).replace(/^§./, "")}`; }
+          else line = `${C.color}[${C.name}] §f${pick(C.greet?.normal ?? ["..."])}`;
+          say(p, `${line} §8(toque para falar)`);
+          greetNpc.set(k, now + 6000); greetAt.set(p.id, now + 500);
+          if (greetNpc.size > 600) greetNpc.clear();
+          break;
+        }
+      } catch { /* ignore */ }
+    }
+  }, 40);
 }
