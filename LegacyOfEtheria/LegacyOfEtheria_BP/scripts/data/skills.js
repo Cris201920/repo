@@ -135,6 +135,21 @@ for (const s of PACK) def(s);
 import { AGILITY_SKILLS } from "./agility.js";
 for (const s of AGILITY_SKILLS) def(s);   // Agilidades Supremas (uma linha por raça)
 
+// ---------------------------------------------------------------- 6.46: CAMADA MODULAR (data/skillmods/*): validação antes de registrar
+import { SKILL_MODULES } from "./skillmods/index.js";
+const KINDS = new Set(["projectile", "target_aoe", "aoe_self", "cone", "beam", "chain", "heal", "buff", "dash", "teleport", "summon", "devour"]);
+export const SKILL_MODULE_LOG = [];
+export function registerSkillModule(mod) {
+  let ok = 0;
+  for (const s of mod.skills ?? []) {
+    const why = !s.id ? "sem id" : SKILLS[s.id] ? "id repetido" : !s.name || !s.cat || !s.type ? "faltam nome/categoria/tipo"
+      : s.type === "active" && !KINDS.has(s.exec?.kind) ? `execução desconhecida (${s.exec?.kind})` : (s.req ?? []).some((r) => !SKILLS[r]) ? "pré-requisito inexistente" : null;
+    if (why) { SKILL_MODULE_LOG.push(`${mod.id}/${s.id}: ${why}`); continue; }
+    def({ sp: 1, req: [], mana: 0, cd: 0, ...s, module: mod.id }); ok++;
+  }
+  return ok;
+}
+for (const m of SKILL_MODULES) registerSkillModule(m);
 export const SKILL_LIST = Object.values(SKILLS);
 export function learnable() { return SKILL_LIST.filter((s) => s.sp > 0); }
 

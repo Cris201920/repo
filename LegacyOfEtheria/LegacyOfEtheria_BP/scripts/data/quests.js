@@ -164,6 +164,14 @@ Object.assign(QUESTS, {
     objectives: [{ type: "talk", npc: "tp_messenger", label: "Falar com o Mensageiro de Tempest" }, { type: "kill", target: E + "dark_elf", n: 8, label: "Elfos Sombrios" }], reward: { xp: 5000, coins: 2000, frep: { luminus: 80, tempest: 20 } } },
   ch_hinata_trial: { id: "ch_hinata_trial", name: "O Juramento do Cavaleiro", giver: "char_tt_hinata", minLevel: 35, desc: "Para treinar com Hinata: limpe o caminho dos mortos-vivos e entregue cristais de mana para a bênção da espada.",
     objectives: [{ type: "kill", target: E + "skeleton_knight", n: 25, label: "Cavaleiros Esqueletos" }, { type: "deliver", item: E + "mana_crystal", n: 8, npc: "tt_hinata", label: "Cristais de Mana (entregar à Hinata)" }], reward: { xp: 8000, coins: 3000, frep: { luminus: 80 }, flagSet: "disc_tt_hinata" } },
+  // 6.46: DOMÍNIO DE VELDANAVA (cadeia de missões do Guardião da Memória; recompensas respeitam a progressão — nada de habilidades supremas grátis)
+  vd_echoes: { id: "vd_echoes", name: "Ecos do Criador", giver: "char_sabio_branco", minLevel: 40, desc: "Os anjos que vagam pelo Palácio Celeste perderam a razão. Acalme-os e traga cristais celestiais para reacender a memória.",
+    objectives: [{ type: "kill", target: E + "pico", n: 3, label: "Pico (anjo errante)" }, { type: "kill", target: E + "obera", n: 2, label: "Obera (anjo errante)" }, { type: "deliver", item: E + "celestial_crystal", n: 3, npc: "sabio_branco", label: "Cristais Celestiais (entregar ao Guardião)" }],
+    reward: { xp: 9000, coins: 3000, items: [[E + "evolution_core", 1]] } },
+  vd_scribe: { id: "vd_scribe", name: "O Escriba dos Céus", giver: "char_sabio_branco", minLevel: 50, req: ["vd_echoes"], desc: "A Constelação Escriba dos Céus guarda o registro do mundo. Derrote-a para que a memória volte a ser lida.",
+    objectives: [{ type: "kill", target: E + "const_scribe_of_heaven", n: 1, label: "Escriba dos Céus" }], reward: { xp: 16000, coins: 6000, items: [[E + "evolution_core", 2]] } },
+  vd_judgement: { id: "vd_judgement", name: "O Juízo da Luz", giver: "char_sabio_branco", minLevel: 65, req: ["vd_scribe"], desc: "No trono mais alto está o Deus Supremo da Luz. Vencê-lo encerra a prova do Domínio de Veldanava.",
+    objectives: [{ type: "kill", target: E + "const_supreme_god_of_light", n: 1, label: "Deus Supremo da Luz" }], reward: { xp: 30000, coins: 12000, items: [[E + "evolution_core", 3]], flagSet: "veldanava_trial" } },
 });
 
 export const QUEST_LIST = Object.values(QUESTS);

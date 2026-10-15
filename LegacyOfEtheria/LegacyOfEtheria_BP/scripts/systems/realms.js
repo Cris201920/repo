@@ -12,10 +12,16 @@ import { tempestInfo, tempestSpawn } from "./tempest.js";
 import { MOBS } from "../data/mobs.gen.js";
 import { say, toast, isValid } from "../core/utils.js";
 import { ADMIN_TAG } from "../config.js";
+import { getData, markDirty } from "../core/db.js";
+import { wd } from "./factions.js";
+import { checkAchievements } from "./achievements.js";
+import { sageText } from "./voice.js";
 
 export const REALMS = {
   inferno: { key: "inferno", portal: "portal_inferno", dim: "minecraft:nether", at: { x: 2400, z: 2400 }, top: 64, name: "Inferno", color: "§c", fall: 18 },
-  ceu: { key: "ceu_veldanava", portal: "portal_ceu", dim: "minecraft:overworld", at: { x: -5200, z: 5200 }, top: 215, name: "Céu de Veldanava", color: "§e", fall: 50 },
+  // 6.46: DOMÍNIO DE VELDANAVA — separado do mundo normal: fica no The End, muito longe da ilha principal (céu cósmico, sem terreno em volta).
+  // Addons do Bedrock não podem registrar dimensões novas; esta é a dimensão real separada disponível. Ilha principal + anexo ligado por ponte.
+  ceu: { key: "ceu_veldanava", portal: "portal_ceu", dim: "minecraft:the_end", at: { x: -9000, z: 9000 }, top: 110, name: "Domínio de Veldanava", color: "§e", fall: 50, minLevel: 40, annex: "veldanava_dominio" },
   espiritos: { key: "espiritos", portal: "portal_espiritos", dim: "minecraft:the_end", at: { x: 4400, z: 4400 }, top: 64, name: "Reino dos Espíritos", color: "§b", fall: 30 },
 };
 export const COUNCIL = ["rimuru_tempest", "benimaru", "shion", "shuna"];   // 6.43: Shuna (textura enviada pelo jogador)
@@ -43,6 +49,7 @@ export function ensureRealm(id, cb) {
   const R = REALMS[id], def = defOf(id), S = st(), fin = (r) => { try { cb?.(r); } catch (e) { console.warn(`[Etheria] reino ${id} cb: ${e}`); } };
   if (!R || !def) return fin({ ok: false, err: "reino não registrado" });
   const dim = dimOf(R.dim); let s = S.r[id];
+  if (s && (s.dim ?? (id === "ceu" ? "minecraft:overworld" : R.dim)) !== R.dim) { delete S.r[id]; s = undefined; save(); }   // 6.46: o Céu antigo (Overworld) dá lugar ao Domínio na dimensão própria
   const finishOk = (reused) => { try { ensureGroup(id); ensurePop(id, true); } catch (e) { console.warn(`[Etheria] reino ${id} moradores: ${e}`); } fin({ ok: true, reused, entry: entryOf(id) }); };
   if (s?.built) {
     const probe = () => { try { return dim.getBlock({ x: s.x + (def.size[0] >> 1), y: s.y + def.floor, z: s.z + (def.size[2] >> 1) }); } catch { return undefined; } };
@@ -55,9 +62,32 @@ export function ensureRealm(id, cb) {
     if (!ok) return fin({ ok: false, err: "chunks não carregados" });
     placeWgen(dim, R.key, { x: R.at.x, y: R.top, z: R.at.z }, (res) => {
       if (!res.ok) return fin({ ok: false, err: res.err });
-      S.r[id] = { built: true, x: res.at.x, y: res.at.y, z: res.at.z, pop: 0 }; save(); finishOk(false);
+      S.r[id] = { built: true, x: res.at.x, y: res.at.y, z: res.at.z, pop: 0, dim: R.dim }; save();
+      if (R.annex) placeAnnex(id);
+      finishOk(false);
     }, { noMobs: true });
   });
+}
+
+// ------------------------------------------------------------------ 6.46: anexo do reino (ruínas/templo extra) ligado por uma ponte suspensa
+export function placeAnnex(id, cb) {
+  const R = REALMS[id], S = st(), s = S.r[id], def = defOf(id), A = WGEN[R.annex]; if (!s?.built || !A) return cb?.(false);
+  if (s.annex?.built) { bridge(id); return cb?.(true); }
+  const dim = dimOf(R.dim), cx = s.x + (def.size[0] >> 1), cz = s.z + (def.size[2] >> 1), ax = cx + (def.size[0] >> 1) + 24 + (A.size[0] >> 1), y = s.y + def.floor;
+  placeWgen(dim, R.annex, { x: ax, y, z: cz }, (res) => {
+    if (!res.ok) return cb?.(false);
+    s.annex = { built: true, x: res.at.x, y: res.at.y, z: res.at.z }; save(); bridge(id); cb?.(true);
+  }, { noMobs: true });
+}
+function bridge(id) {
+  const R = REALMS[id], s = st().r[id], def = defOf(id), A = WGEN[R.annex]; if (!s?.annex?.built || s.bridge) return;
+  const dim = dimOf(R.dim), y = s.y + def.floor, cz = s.z + (def.size[2] >> 1), x0 = s.x + def.size[0] - 2, x1 = s.annex.x + 1;
+  try {
+    dim.runCommand(`fill ${x0} ${y} ${cz - 2} ${x1} ${y} ${cz + 2} quartz_block`);
+    dim.runCommand(`fill ${x0} ${y + 1} ${cz - 2} ${x1} ${y + 1} ${cz - 2} quartz_slab`); dim.runCommand(`fill ${x0} ${y + 1} ${cz + 2} ${x1} ${y + 1} ${cz + 2} quartz_slab`);
+    for (let x = x0; x <= x1; x += 6) { dim.runCommand(`setblock ${x} ${y + 1} ${cz - 2} end_rod`); dim.runCommand(`setblock ${x} ${y + 1} ${cz + 2} end_rod`); }
+    s.bridge = 1; save();
+  } catch { /* chunks ainda não carregados: tenta na próxima manutenção */ }
 }
 
 // ------------------------------------------------------------------ moradores-boss cerimoniais (grupos: inferno, ceu, espiritos, council)
@@ -148,6 +178,7 @@ export function realmAt(p) {
 }
 export function enterRealm(p, id, o = {}) {
   const R = REALMS[id]; if (!R) return;
+  if (R.minLevel && !o.start) { let lv = 0; try { lv = getData(p).level; } catch { /* ignore */ } if (lv < R.minLevel) { say(p, `${R.color}[${R.name}] §cA passagem não reage. Requer nível ${R.minLevel} (você: ${lv}).`); try { sageText(p, `Acesso negado ao ${R.name}: nível ${R.minLevel} necessário.`, { pri: 4, key: "realm.lvl." + id, cd: 600 }); } catch { /* ignore */ } return o.fail?.({ ok: false, err: "nível" }); } }
   if (!o.silent) say(p, `${R.color}§l[${R.name}] §r§7Abrindo o caminho...`);
   ensureRealm(id, (res) => {
     if (!isValid(p)) return;
@@ -159,6 +190,7 @@ export function enterRealm(p, id, o = {}) {
       try { p.teleport(e, { dimension: dimOf(R.dim), rotation: { x: 0, y: id === "inferno" || id === "espiritos" ? 180 : 180 }, keepVelocity: false }); } catch (er) { say(p, `§c[${R.name}] não consegui teleportar: ${er}`); return o.fail?.({ ok: false, err: String(er) }); }
       safeFx(p, 300); try { p.setDynamicProperty("etheria:rgrace", system.currentTick + 120); } catch { /* ignore */ }
       toast(p, `${R.color}§l${R.name}`, o.start ? "§7Sua jornada de demônio começa aqui" : "§7Chegada segura — o portal de retorno está ao lado");
+      if (id === "ceu") { try { const w = wd(getData(p)); w.flags.visited_veldanava = 1; markDirty(p); checkAchievements(p); sageText(p, "Domínio de Veldanava confirmado. Fora do mundo normal. O Guardião da Memória aguarda na chegada.", { pri: 4, key: "realm.ceu", cd: 1200 }); } catch { /* ignore */ } }
       say(p, `${R.color}§l[${R.name}] §r§7Você chegou. O portal de retorno fica logo atrás de você (${c ? "§f!voltar§7 também funciona" : ""}).`);
       o.ok?.();
     });
@@ -198,7 +230,7 @@ export function realmCmd(p, name, args = []) {
       const S = st(); S.dead = {}; save(); for (const gk of [...realmIds(), "council"]) ensureGroup(gk); return say(p, "§a[Reinos] registro de derrotados limpo; moradores repostos.");
     }
     const lines = realmIds().map((id) => { const s = st().r[id], g = st().g[id], R = REALMS[id]; return `${R.color}${R.name}§7: ${s?.built ? `gerado em §f${s.x},${s.y},${s.z}` : "ainda não gerado"}${g?.built ? ` | portal §f${g.x + 6},${g.y + 1},${g.z + 6}` : ""} §7— §f!${id}`; });
-    return say(p, "§6[Reinos] §7Comandos: §f!inferno §7| §f!ceu §7| §f!espiritos §7| §f!voltar\n" + lines.join("\n"));
+    return say(p, "§6[Reinos] §7Comandos: §f!inferno §7| §f!ceu §7(Domínio de Veldanava) §7| §f!espiritos §7| §f!voltar\n" + lines.join("\n"));
   }
   const id = name === "ceu" ? "ceu" : name; if (!REALMS[id]) return;
   if (q === "status") {
@@ -280,7 +312,7 @@ export function startRealms() {
       const ps = world.getAllPlayers(); if (!ps.length) return;
       for (const id of realmIds()) {
         const c = centerOf(id); if (!c) continue;
-        if (ps.some((p) => p.dimension.id === REALMS[id].dim && Math.hypot(p.location.x - c.x, p.location.z - c.z) < 120)) { ensureGroup(id); ensurePop(id); }
+        if (ps.some((p) => p.dimension.id === REALMS[id].dim && Math.hypot(p.location.x - c.x, p.location.z - c.z) < 120)) { ensureGroup(id); ensurePop(id); if (REALMS[id].annex) placeAnnex(id); }
       }
       const i = tempestInfo(), t = i && tempestSpawn();
       if (t && ps.some((p) => p.dimension.id === "minecraft:overworld" && Math.hypot(p.location.x - t.x, p.location.z - t.z) < 140)) ensureGroup("council");

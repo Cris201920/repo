@@ -10,7 +10,7 @@ import { RACES, RACE_LIST, stageOf, raceOf, nextStages, isLordStage } from "../.
 import { raceCardText, raceSheet, raceStyle, evoReqs, evoProgress, progressBar, reqLines, treeLines, RACE_LOOK, STAGE_LOOK } from "../../data/racecard.js";
 import { CLASSES, CLASS_LIST } from "../../data/classes.js";
 import { QUESTS } from "../../data/quests.js";
-import { GUILD_RANKS, GUILD_REP, GUILD_REWARDS, ACHIEVEMENTS } from "../../data/misc.js";
+import { GUILD_RANKS, GUILD_REP, GUILD_REWARDS, ACHIEVEMENTS, ACH_CATS } from "../../data/misc.js";
 import { getStats, getHealth, applyDerivedStats } from "../stats.js";
 import { learnSkill, canLearn, castSlot, cdLeft, hasSkill, skillCost } from "../skills.js";
 import { openHotbar, openSlotPick, hotbarSummary } from "../skillbar/ui.js";
@@ -408,11 +408,22 @@ export function openGuild(player) {
 
 // ---------------------------------------------------------------- conquistas / ranking / config
 export function openAchievements(player) {
-  const d = getData(player);
-  const body = ACHIEVEMENTS.map((a) => `${d.achievements.includes(a.id) ? "§a[x]" : "§8[ ]"} §f${a.name} §8- ${a.desc}`).join("\n");
-  menu(player, "§l§6CONQUISTAS", `§7${d.achievements.length}/${ACHIEVEMENTS.length}\n\n${body}`, [
-    { text: "Trocar título", icon: "menu_ranking", run: () => openTitles(player) }, back(() => openMain(player)),
-  ]);
+  // 6.46: por categoria (Missões, Combate, Magia, Evolução, Exploração, Personagens, Lenda), com progresso e detalhes
+  const d = getData(player), got = (a) => d.achievements.includes(a.id);
+  const b = ACH_CATS.map(([c, icon]) => {
+    const list = ACHIEVEMENTS.filter((a) => (a.cat ?? "Missões") === c), n = list.filter(got).length;
+    return { text: `§l${c}\n§r${n === list.length ? "§a" : "§7"}${n}/${list.length} concluídas`, icon, run: () => openAchCat(player, c) };
+  });
+  b.push({ text: "Trocar título", icon: "menu_ranking", run: () => openTitles(player) }, back(() => openMain(player)));
+  const total = ACHIEVEMENTS.length, n = d.achievements.length, f = Math.round((n / total) * 20);
+  menu(player, "§l§6CONQUISTAS", `§7Progresso geral: §f${n}/${total}\n§a${"█".repeat(f)}§8${"█".repeat(20 - f)}\n\n§7Cada conquista registra um feito real e fica salva no seu personagem.`, b);
+}
+function openAchCat(player, c) {
+  const d = getData(player), list = ACHIEVEMENTS.filter((a) => (a.cat ?? "Missões") === c);
+  const body = list.map((a) => d.achievements.includes(a.id)
+    ? `§a✔ §f§l${a.name}§r\n   §7${a.desc}\n   §8Título: §e${a.title}${a.coins ? ` §8· §6${a.coins} moedas` : ""}`
+    : `§8✖ §7${a.name}\n   §8${a.desc}`).join("\n");
+  menu(player, `§l§6${c}`, body, [back(() => openAchievements(player))]);
 }
 export function openRanking(player) {
   const list = getRanking();

@@ -46,6 +46,7 @@ import { startRealms } from "./systems/realms.js";
 import { startCharacters } from "./systems/characters.js";
 import { startResidents } from "./systems/residents.js";
 import { startNpcGreetings } from "./systems/worldnpc.js";
+import { startProgress } from "./systems/progress.js";
 import { startFlight, dropFlight } from "./systems/flight.js";
 import { startAntiSkill } from "./systems/antiskill.js";
 import { startPowers } from "./systems/powers.js";
@@ -146,6 +147,7 @@ system.run(() => {
   startCharacters();
   startResidents();
   startNpcGreetings();
+  startProgress();
   startFlight();
   startAntiSkill();
   startPowers();

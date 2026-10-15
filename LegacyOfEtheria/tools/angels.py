@@ -8,7 +8,7 @@
 import json, os, math, random
 from PIL import Image, ImageDraw
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); RP = os.path.join(ROOT, "LegacyOfEtheria_RP")
-TW = TH = 128
+TW = TH = 256
 
 # ---------------------------------------------------------------- cores
 def hexc(h): h = h.lstrip("#"); return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4)) + (255,)
@@ -20,15 +20,15 @@ class Atlas:
     """aloca blocos no espaço livre da textura 128x128 (fora da skin 64x64 do canto)"""
     def __init__(s, img):
         s.img = img; s.d = ImageDraw.Draw(img); s.slots = {}
-        s.free16 = [(x, y) for y in range(0, 128, 16) for x in range(64, 128, 16)]          # lado direito: 32 blocos 16x16
-        s.free_f = [(x, y) for y in (64, 96) for x in range(0, 64, 8)]                         # embaixo à esquerda: 16 penas 8x32
+        s.free16 = [(x, y) for y in range(0, 256, 16) for x in range(64, 256, 16)]          # lado direito: blocos 16x16
+        s.free_f = [(x, y) for y in (64, 128, 192) for x in range(0, 64, 16)]                  # embaixo à esquerda: 12 penas 16x64
     def tile(s, name, painter):
         if name not in s.slots:
             x, y = s.free16.pop(0); painter(s.img, x, y, 16, 16); s.slots[name] = (x, y, 16, 16)
         return s.slots[name]
     def feather(s, name, painter):
         if name not in s.slots:
-            x, y = s.free_f.pop(0); painter(s.img, x, y, 8, 32); s.slots[name] = (x, y, 8, 32)
+            x, y = s.free_f.pop(0); painter(s.img, x, y, 16, 64); s.slots[name] = (x, y, 16, 64)
         return s.slots[name]
 
 def p_metal(base, trim=None, tw=0):
@@ -84,20 +84,28 @@ def p_blade(steel, edge):
                 if i == w // 2: c = shade(steel, 0.8)                                     # sulco central
                 px[x + i, y + j] = c
     return f
-def p_feather(base, tip, edge=None, shaft=None):
-    """pena 8x32: raque central clara, barbas com degradê base->ponta, ponta arredondada (transparente nos cantos)"""
+def p_feather(base, tip, edge=None, shaft=None, mid=None, round_tip=True):
+    """pena 16x64: raque central clara que afina, barbas diagonais, degradê base->meio->ponta, bordo de ataque mais estreito,
+    contorno de destaque (edge) e ponta arredondada; transparente fora do contorno"""
+    mid = mid or mix(base, tip, 0.5)
     def f(img, x, y, w, h):
-        px = img.load(); cx = (w - 1) / 2
+        px = img.load(); cx = (w - 1) * 0.42
         for j in range(h):
             t = j / (h - 1)
-            half = w / 2 * (0.75 + 0.25 * math.sin(min(1, t * 1.2) * math.pi / 2)) if t < 0.85 else w / 2 * max(0.25, (1 - t) / 0.15)
+            prof = math.sin(min(1.0, t / 0.18) * math.pi / 2)                       # alarga perto da base
+            if t > 0.78: prof *= max(0.0, 1 - ((t - 0.78) / 0.22) ** (1.6 if round_tip else 1.0))
+            lw, rw = (cx + 0.5) * prof, (w - 1 - cx + 0.5) * prof                    # bordo de ataque (esq.) mais estreito
+            col = mix(base, mid, t / 0.55) if t < 0.55 else mix(mid, tip, (t - 0.55) / 0.45)
             for i in range(w):
-                dx = abs(i - cx)
-                if dx > half: px[x + i, y + j] = (0, 0, 0, 0); continue
-                c = mix(base, tip, t)
-                if dx > half - 1.1: c = shade(edge or c, 0.8 if not edge else 1.0)
-                if (j + int(dx)) % 4 == 0: c = shade(c, 0.9)                               # barbas
-                if dx < 0.6: c = shade(shaft or base, 1.35)                                # raque
+                dx = i - cx
+                if dx < -lw or dx > rw: px[x + i, y + j] = (0, 0, 0, 0); continue
+                c = col
+                if (j * 2 + int(abs(dx) * 3)) % 6 == 0: c = shade(c, 0.86)              # barbas diagonais
+                if (j * 2 + int(abs(dx) * 3)) % 6 == 3: c = shade(c, 1.07)
+                d_edge = min(dx + lw, rw - dx)
+                if d_edge < 1.0: c = shade(edge, 1.0) if edge else shade(c, 0.72)       # contorno
+                elif d_edge < 2.0 and edge: c = mix(c, edge, 0.35)
+                if abs(dx) < 0.55 + 0.6 * (1 - t): c = shade(shaft or mix(base, (255, 255, 255, 255), 0.45), 1.15 - 0.2 * t)   # raque que afina
                 px[x + i, y + j] = c
     return f
 
@@ -142,32 +150,52 @@ def base_body(g, slim=False):
     g.cube("rightLeg", [-3.9, 0, -2], [4, 12, 4], [0, 16]); g.cube("rightLeg", [-3.9, 0, -2], [4, 12, 4], [0, 32], inflate=0.25)
     g.cube("leftLeg", [-0.1, 0, -2], [4, 12, 4], [16, 48]); g.cube("leftLeg", [-0.1, 0, -2], [4, 12, 4], [0, 48], inflate=0.25)
 
-def wings(g, A, feat_cov, feat_sec, feat_pri, bar, span=1.0, alt=None):
-    """asa esquerda (+X) e direita (-X, espelhada). Ossos: wing_<l|r> (ombro) -> wingA (braço) -> wingB (antebraço) -> wingC (mão).
-    Penas como placas finas (0,4) de textura própria; primárias em leque. alt = pena alternada (asas de duas cores)."""
+def wings(g, A, feat_cov, feat_sec, feat_pri, bar, span=1.0, alt=None, small=None, pre="wing", root_rot=(-8, -34, 26), y0=21.5, parent="body"):
+    """asa esquerda (+X) e direita (-X, espelhada). Ossos: wing_<l|r> (ombro) -> wingA (braço) -> wingB (antebraço) -> wingC (mão) -> alula.
+    Penas em camadas sobrepostas (pequenas coberteiras, grandes coberteiras, secundárias, primárias abertas como dedos);
+    pose de descanso em arco acima dos ombros. alt = pena alternada (duas cores)."""
+    small = small or feat_cov
+    T = 0.22                                                                        # espessura das penas (placas finas, dupla face)
     for side, sg in (("l", 1), ("r", -1)):
         X = lambda v: v * sg
-        root = g.bone(f"wing_{side}", [X(1.5), 21.5, 2.2], "body", [0, X(-28), X(14)])
-        L1, L2, L3 = 7 * span, 8 * span, 7 * span
-        a = g.bone(f"wingA_{side}", [X(1.5), 21.5, 2.6], f"wing_{side}")
-        x0 = 1.5; x1 = x0 + L1
-        g.cube(a["name"], [X(x0) if sg > 0 else X(x1), 20.6, 2.1], [L1, 1.8, 1.2], faces_tile(bar, [L1, 1.8, 1.2]))
-        for k in range(int(L1 // 2)):                                                   # coberteiras (curtas, em camadas)
-            fx = x0 + 0.3 + k * 2; t = feat_cov if not alt or k % 2 == 0 else alt
-            g.cube(a["name"], [X(fx) if sg > 0 else X(fx + 2.2), 15.2, 2.75 + 0.05 * k], [2.2, 5.6, 0.35], faces_feather(t, [2.2, 5.6, 0.35]))
-        b = g.bone(f"wingB_{side}", [X(x1), 21.5, 2.6], a["name"], [0, 0, X(6)])
+        def box(bone, x0, yy, z0, w, h, d, uv, rot=None, piv=None):
+            g.cube(bone, [X(x0) if sg > 0 else X(x0 + w), yy + dy_, z0], [w, h, d], uv, rot=[rot[0], X(rot[1]), X(rot[2])] if rot else None, pivot=[X(piv[0]), piv[1] + dy_, piv[2]] if piv else None)
+        L1, L2, L3 = 6 * span, 8 * span, 7.5 * span
+        dy_ = y0 - 21.5                                                                 # pares extras (serafim/querubim): mesma asa, mais baixa
+        g.bone(f"{pre}_{side}", [X(1.2), y0, 2.2], parent, [root_rot[0], X(root_rot[1]), X(root_rot[2])])
+        a = g.bone(f"{pre}A_{side}", [X(1.2), y0, 2.6], f"{pre}_{side}")["name"]
+        x0, x1 = 1.2, 1.2 + L1
+        box(a, x0, 20.7, 2.2, L1, 1.6, 1.1, faces_tile(bar, [L1, 1.6, 1.1]))
+        for k in range(int(L1 / 1.1)):                                                  # pequenas coberteiras (escamadas, 2 fileiras)
+            fx = x0 + 0.2 + k * 1.1
+            box(a, fx, 18.2, 3.05, 1.7, 3.0, T, faces_feather(small, [1.7, 3, T]), rot=[6, 0, -4], piv=[fx + 0.85, 21, 3])
+            box(a, fx + 0.5, 16.2, 2.95, 1.9, 4.2, T, faces_feather(feat_cov, [1.9, 4.2, T]), rot=[6, 0, -6], piv=[fx + 1.4, 20, 3])
+        for k in range(int(L1 / 1.6)):                                                  # terciárias (perto do corpo)
+            fx = x0 + 0.3 + k * 1.6; ln = 9 + k * 0.6
+            box(a, fx, 21 - ln, 2.65, 2.4, ln, T, faces_feather(feat_sec, [2.4, ln, T]), rot=[10, 0, -2 - k * 2], piv=[fx + 1.2, 21, 2.7])
+        b = g.bone(f"{pre}B_{side}", [X(x1), y0, 2.6], a, [0, 0, X(-22)])["name"]
         x2 = x1 + L2
-        g.cube(b["name"], [X(x1) if sg > 0 else X(x2), 20.8, 2.2], [L2, 1.4, 1.0], faces_tile(bar, [L2, 1.4, 1.0]))
-        for k in range(int(L2 // 1.8)):                                                 # secundárias (médias)
-            fx = x1 + 0.2 + k * 1.8; ln = 11 + k * 0.5; t = feat_sec if not alt or k % 2 == 0 else alt
-            g.cube(b["name"], [X(fx) if sg > 0 else X(fx + 2.2), 21 - ln, 2.55 + 0.04 * k], [2.2, ln, 0.35], faces_feather(t, [2.2, ln, 0.35]))
-        c = g.bone(f"wingC_{side}", [X(x2), 21.5, 2.6], b["name"], [0, 0, X(10)])
+        box(b, x1, 20.8, 2.25, L2, 1.4, 1.0, faces_tile(bar, [L2, 1.4, 1.0]))
+        for k in range(int(L2 / 1.2)):
+            fx = x1 + 0.1 + k * 1.2
+            box(b, fx, 18.4, 3.0, 1.6, 2.8, T, faces_feather(small, [1.6, 2.8, T]), rot=[6, 0, -4], piv=[fx + 0.8, 21, 3])
+            box(b, fx + 0.3, 16.0, 2.9, 1.9, 4.6, T, faces_feather(feat_cov if not alt or k % 2 == 0 else alt, [1.9, 4.6, T]), rot=[6, 0, -6], piv=[fx + 1.2, 20.5, 3])
+        n2 = int(L2 / 1.35)
+        for k in range(n2):                                                             # secundárias (fileira longa e regular)
+            fx = x1 + 0.15 + k * 1.35; ln = 12.5 + k * 0.35; t = feat_sec if not alt or k % 2 == 0 else alt
+            box(b, fx, 21 - ln, 2.6 - 0.02 * k, 2.5, ln, T, faces_feather(t, [2.5, ln, T]), rot=[9, 0, -3 - k * 1.2], piv=[fx + 1.25, 21, 2.6])
+        c = g.bone(f"{pre}C_{side}", [X(x2), y0, 2.6], b, [0, 0, X(-26)])["name"]
         x3 = x2 + L3
-        g.cube(c["name"], [X(x2) if sg > 0 else X(x3), 20.9, 2.25], [L3, 1.2, 0.9], faces_tile(bar, [L3, 1.2, 0.9]))
-        for k in range(6):                                                              # primárias em leque (as mais longas)
-            fx = x2 + 0.6 + k * 1.15; ln = 15 + k * 1.3; ang = X(-6 - k * 9); t = feat_pri if not alt or k % 2 == 1 else alt
-            g.cube(c["name"], [X(fx) if sg > 0 else X(fx + 2.4), 21.2 - ln, 2.45 - 0.03 * k], [2.4, ln, 0.35], faces_feather(t, [2.4, ln, 0.35]),
-                   rot=[0, 0, ang], pivot=[X(fx + 1.2), 21.2, 2.5])
+        box(c, x2, 20.9, 2.3, L3, 1.2, 0.9, faces_tile(bar, [L3, 1.2, 0.9]))
+        for k in range(int(L3 / 1.3)):
+            fx = x2 + 0.1 + k * 1.3
+            box(c, fx, 18.6, 2.95, 1.6, 2.6, T, faces_feather(small, [1.6, 2.6, T]), rot=[6, 0, -4], piv=[fx + 0.8, 21, 3])
+        for k in range(8):                                                              # primárias abertas em leque ("dedos")
+            fx = x2 + 0.4 + k * 0.9; ln = 15.5 + k * 1.15; ang = -4 - k * 7.5; t = feat_pri if not alt or k % 2 == 1 else alt
+            box(c, fx, 21.3 - ln, 2.5 - 0.03 * k, 2.6, ln, T, faces_feather(t, [2.6, ln, T]), rot=[7, 0, ang], piv=[fx + 1.3, 21.3, 2.5])
+        al = g.bone(f"{pre}Al_{side}", [X(x2), y0 + 0.3, 2.8], c, [0, 0, X(-35)])["name"]       # álula
+        for k in range(2):
+            box(al, x2 - 0.2 + k * 0.8, 21.6, 2.85, 1.4, 4 + k, T, faces_feather(small, [1.4, 4 + k, T]), rot=[0, 0, -70 - k * 10], piv=[x2 + 0.5, 21.8, 2.9])
 
 # ---------------------------------------------------------------- skin base da Garasha (referência: cabelo rosa/vermelho longo, corselete dourado,
 # ombreiras escuras, braço com manopla dourada, calça preta, grevas e botas prateadas, tabardo branco na frente)
@@ -207,16 +235,16 @@ def garasha_skin():
 
 # ---------------------------------------------------------------- cada anjo
 ANGELS = {
-  "garasha": {"skin": None, "hair": "#d8284c", "wing": ("#1c1a22", "#2a2630", "#d9b440"), "bar": "#24212a", "metal": "#c8ccd4", "trim": "#e2b83a", "cloth": "#22202a", "accent": "#ece8e0",
-              "hairstyle": "long", "armor": ["pauldrons", "greaves", "tabard", "shield"], "weapon": "sword", "span": 1.15},
-  "pico":    {"hair": "#f2d45a", "wing": ("#16141c", "#211e28", "#3a3442"), "bar": "#1e1b24", "metal": "#d8d8e4", "trim": "#e4c25a", "cloth": "#b28ad8", "accent": "#f0f0f6",
-              "hairstyle": "twintails", "armor": ["coat_tails"], "weapon": "spear", "span": 1.0},
+  "garasha": {"skin": None, "hair": "#d8284c", "wing": ("#2a2632", "#16141c", "#0e0d12"), "wedge": "#c9a23a", "bar": "#24212a", "metal": "#c8ccd4", "trim": "#e2b83a", "cloth": "#22202a", "accent": "#ece8e0",
+              "hairstyle": "long", "armor": ["pauldrons", "greaves", "tabard", "shield"], "weapon": "sword", "span": 1.0},
+  "pico":    {"hair": "#f2d45a", "wing": ("#3a3446", "#1c1a24", "#0f0e14"), "wedge": "#5a5068", "bar": "#1e1b24", "metal": "#d8d8e4", "trim": "#e4c25a", "cloth": "#b28ad8", "accent": "#f0f0f6",
+              "hairstyle": "twintails", "armor": ["coat_tails"], "weapon": "spear", "span": 0.92},
   "obera":   {"hair": "#16141c", "wing": None, "metal": "#eef0f6", "trim": "#e2b83a", "cloth": "#7a4ab8", "accent": "#eef0f6",
               "hairstyle": "long", "armor": ["pauldrons", "greaves", "cape"], "weapon": None},
-  "zalario": {"hair": "#16141c", "wing": ("#f4f4fa", "#e8e8f2", "#ffffff"), "bar": "#dcdce8", "metal": "#4a2a6a", "trim": "#e2b83a", "cloth": "#f2f2f6", "accent": "#e2b83a",
-              "hairstyle": "long", "armor": ["pauldrons", "greaves", "sash"], "weapon": None, "span": 1.2},
-  "dino":    {"hair": "#dfe2ea", "wing": ("#f0f0f4", "#3a3640", "#d9b440"), "bar": "#2e2a34", "metal": "#2a2630", "trim": "#d9b440", "cloth": "#1c1a22", "accent": "#a8232c",
-              "hairstyle": "spiky", "armor": ["coat_tails", "collar"], "weapon": "sword", "span": 1.1, "alt": True},
+  "zalario": {"hair": "#16141c", "wing": ("#ffffff", "#eef0f8", "#d8dcec"), "wedge": "#e8c860", "bar": "#e4e4f0", "metal": "#4a2a6a", "trim": "#e2b83a", "cloth": "#f2f2f6", "accent": "#e2b83a",
+              "hairstyle": "long", "armor": ["pauldrons", "greaves", "sash"], "weapon": None, "span": 1.05},
+  "dino":    {"hair": "#dfe2ea", "wing": ("#f4f4f8", "#c8c8d4", "#8a8696"), "wedge": "#3a3640", "bar": "#2e2a34", "metal": "#2a2630", "trim": "#d9b440", "cloth": "#1c1a22", "accent": "#a8232c",
+              "hairstyle": "spiky", "armor": ["coat_tails", "collar"], "weapon": "sword", "span": 1.0, "alt": "#2a2632"},
 }
 
 def build(aid, A):
@@ -295,11 +323,12 @@ def build(aid, A):
     if A.get("wing"):
         cb, cs, ct = [hexc(c) for c in A["wing"]]
         bar = at.tile("wingbar", p_cloth(hexc(A["bar"]), fold=False))
-        cov = at.feather("cov", p_feather(cb, cs)); sec = at.feather("sec", p_feather(cs, mix(cs, ct, 0.4), shade(ct, 0.8)))
-        pri = at.feather("pri", p_feather(cs, ct, shade(ct, 0.9)))
-        alt = at.feather("alt", p_feather(hexc("#3a3640"), hexc("#1c1a22"))) if A.get("alt") else None
-        if aid == "dino": cov = at.feather("cov2", p_feather(cb, mix(cb, ct, 0.2)))
-        wings(g, A, cov, sec, pri, bar, A.get("span", 1.0), alt)
+        ed = hexc(A["wedge"]) if A.get("wedge") else None
+        small = at.feather("small", p_feather(shade(cb, 1.1), cb, ed, round_tip=True))
+        cov = at.feather("cov", p_feather(cb, cs, ed)); sec = at.feather("sec", p_feather(cb, cs, ed, mid=mix(cb, cs, 0.6)))
+        pri = at.feather("pri", p_feather(cs, ct, ed, mid=mix(cs, ct, 0.35), round_tip=False))
+        alt = at.feather("alt", p_feather(hexc(A["alt"]), shade(hexc(A["alt"]), 0.8), ed)) if A.get("alt") else None
+        wings(g, A, cov, sec, pri, bar, A.get("span", 1.0), alt, small)
     img.save(os.path.join(RP, f"textures/entity/etheria_{aid}.png"))
     json.dump(g.json(), open(os.path.join(RP, f"models/entity/etheria_{aid}_skin.geo.json"), "w"), indent=1)
     return g

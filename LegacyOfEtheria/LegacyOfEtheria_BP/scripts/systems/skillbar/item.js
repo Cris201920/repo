@@ -1,5 +1,6 @@
 // systems/skillbar/item.js - SkillItem: cria o item físico de uma habilidade (ícone na hotbar) e monta o texto (lore)
 // Proteções nativas do item: lockMode=inventory (não cai no chão, não vai para baú/bancada) e keepOnDeath (sobrevive à morte).
+import { skillColor, GROUP, GROUP_LABEL } from "../../data/skillcolors.js";
 import { ItemStack, ItemLockMode } from "@minecraft/server";
 import { SKILLBAR } from "../../config.js";
 import { SKILLS } from "../../data/skills.js";
@@ -33,6 +34,7 @@ export function skillLore(player, id) {
   res.push(`§7Recarga ${sk.cd ?? 0}s`);
   lines.push(res.join(" §8• "));
   for (const l of wrap(sk.desc, 40).slice(0, 4)) lines.push(`§7${l}`);
+  lines.push(`§7Tipo: ${skillColor(sk)}${GROUP_LABEL[GROUP(sk)]}`);   // 6.46: identidade visual da categoria
   if (mastery > 0) lines.push(`§dMaestria Nv.${mastery}`);
   if (isSpecial(id)) lines.push("§6Habilidade especial");
   lines.push("§8Toque para usar §7• §8Agache: interagir");

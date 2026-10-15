@@ -20,6 +20,7 @@ import { addXp } from "./level.js";
 import { checkAchievements } from "./achievements.js";
 import { residentHome, reviveResident } from "./realms.js";
 import { SOUNDS } from "../config.js";
+import { sageText } from "./voice.js";
 
 const CALM = "etheria_calm", DUEL = "etheria_duel", IDLE = "etheria_oct_idle";
 const DUEL_MAX = 6000, DUEL_RANGE = 48, YIELD = 0.15, DUEL_CD = 12000;
@@ -104,6 +105,7 @@ function openDisciple(player, e) {
   menu(player, `${C.color}§l${C.name}`, `${quoted(C, D.ask)}${extra}`, [
     { text: "§a§lAceitar o treinamento", run: () => {
       const miss = discipleReqs(player, id).filter((x) => !x.ok);
+      if (miss.length) { try { sageText(player, `Requisitos para ser discípulo de ${C.name}: ${miss.map((x) => x.text.replace(/§./g, "").replace("[ ] ", "")).join("; ")}.`, { pri: 4, key: "disc." + id, cd: 600 }); } catch { /* ignore */ } }
       if (miss.length) return menu(player, `${C.color}§l${C.name}`, `${quoted(C, "Ainda não. Volte quando cumprir isto:")}\n\n${discipleReqs(player, id).map((x) => x.text).join("\n")}`, [back(() => openCharacter(player, e))]);
       wd(d).master = id; rel(d, id).disciple = 1; markDirty(player); saveNow(player);
       say(player, quoted(C, D.yes)); toast(player, "§b§lNOVO MESTRE", `§f${C.name}`); playSound(player, SOUNDS.quest);
@@ -153,7 +155,7 @@ function openChallenge(player, e) {
 function startChallenge(player, e) {
   const id = idOf(e), C = CHARACTERS[id], X = C.duel, d = getData(player);
   if (!isValid(e) || !canTalk(e)) return say(player, "§cNão é possível desafiar agora.");
-  if (d.level < X.lvl) return say(player, quoted(C, `Volte quando tiver nível ${X.lvl}. Agora seria só uma surra.`));
+  if (d.level < X.lvl) { try { sageText(player, `Análise: ${C.name} exige nível ${X.lvl}. Seu nível atual é ${d.level}. Probabilidade de vitória insuficiente.`, { pri: 4, key: "duel." + id, cd: 600 }); } catch { /* ignore */ } return say(player, quoted(C, `Volte quando tiver nível ${X.lvl}. Agora seria só uma surra.`)); }
   if ([...duels.values()].some((x) => x.pid === player.id)) return say(player, "§cVocê já está em um desafio.");
   const k = `${player.id}:${id}`, now = system.currentTick;
   if (now - (lastDuel.get(k) ?? -1e9) < DUEL_CD) return say(player, quoted(C, "Acabamos de lutar. Descanse um pouco antes."));

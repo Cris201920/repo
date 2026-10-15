@@ -2,6 +2,7 @@
 // Cada personagem usa SÓ sistemas que já existem: missões (data/quests.js), aulas (data/teachers.js via role de um mestre),
 // lojas das nações (data/worldnpcs.js), reputação/flags (systems/factions.js) e conquistas (data/misc.js).
 //  where : "council" = Conselho de Tempest | "luminus" = Reino Sagrado (morador de estrutura, systems/residents.js) — ambos calmos, duelo até render-se
+//          "veldanava" = Domínio de Veldanava (dimensão própria)
 //          "octagrama" = trono do Octagrama (desafio = luta real de chefe)
 //  greet : falas de saudação (primeira vez / normal / discípulo / depois de perder para você)
 //  talk  : assuntos de conversa [título, fala]
@@ -102,10 +103,26 @@ export const CHARACTERS = {
       ["Sobre Tempest", "Uma nação de monstros que vive em paz... ainda estou avaliando o que isso significa."],
     ],
     quests: ["lm_patrol", "lm_investigation", "ch_hinata_trial"],
-    disciple: { lvl: 35, rep: { luminus: 150 }, quest: "lm_patrol", trial: "ch_hinata_trial", role: "lm_knight", lessons: ["barrier", "evasion_step", "counter_strike", "holy_light"],
+    disciple: { lvl: 35, rep: { luminus: 150 }, quest: "lm_patrol", trial: "ch_hinata_trial", role: "lm_knight", lessons: ["barrier", "evasion_step", "counter_strike", "holy_light", "holy_blade", "wings_of_light"],
       ask: "Quer treinar sob o meu comando? Meus cavaleiros treinam até cair. Está disposto?", yes: "Muito bem. O juramento do cavaleiro está no seu diário. Cumpra-o.", no: "Volte quando estiver certo da sua decisão." },
     duel: { lvl: 50, ask: "Um duelo? Aceito. Mas não espere misericórdia. Pronto?", start: "Em guarda.", win: "...Reconheço a derrota. Você é forte.", lose: "Previsível. Treine mais.",
       reward: { xp: 7000, coins: 3000, rep: 50 } },
+  },
+  sabio_branco: {
+    name: "Sábio Branco", color: "§f", faction: null, where: "veldanava", title: "Guardião da Memória de Veldanava",
+    greet: {
+      first: ["Você atravessou o portal. Este é o Domínio de Veldanava, longe do mundo que você conhece. Eu guardo as memórias do Rei Dragão Estelar."],
+      normal: ["As estrelas daqui não são as do seu céu. Caminhe com cuidado.", "As Constelações guardam este lugar. Elas não perdoam os fracos."],
+      rival: ["Você me venceu. A memória de Veldanava registrará isso."],
+    },
+    talk: [
+      ["Sobre Veldanava", "Veldanava foi o primeiro dos Dragões Verdadeiros, aquele que deu forma ao mundo. Este domínio é o que restou da sua memória."],
+      ["Sobre este lugar", "Há duas partes: o Palácio Celeste, onde você chegou, e as ruínas do Domínio, do outro lado da ponte de luz. O portal de retorno fica atrás de você."],
+      ["Sobre as Constelações", "Cinco Constelações guardam o palácio. Cada uma sentada em seu trono, esperando ser provocada. Derrotá-las é a prova que este domínio exige."],
+    ],
+    quests: ["vd_echoes", "vd_scribe", "vd_judgement"],
+    duel: { lvl: 70, ask: "Testar a memória de Veldanava? Muito bem. Confirma?", start: "Que as estrelas testemunhem.", win: "A memória se curva a você.", lose: "Ainda não. Volte mais forte.",
+      reward: { xp: 8000, coins: 3000 } },
   },
   guy_crimson: {
     name: "Guy Crimson", color: "§4", faction: "guy", where: "octagrama", title: "O Lorde Demônio Mais Antigo",

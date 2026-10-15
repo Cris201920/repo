@@ -1291,6 +1291,12 @@
   },
   "etheria_milim_berserker_boots": {
    "textures": "textures/items/etheria_milim_berserker_boots"
+  },
+  "etheria_sk_holy_blade": {
+   "textures": "textures/items/etheria_sk_holy_lance"
+  },
+  "etheria_sk_wings_of_light": {
+   "textures": "textures/items/etheria_sk_holy_light"
   }
  }
 }

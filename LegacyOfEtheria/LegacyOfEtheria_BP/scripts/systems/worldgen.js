@@ -132,7 +132,7 @@ function tryGenerate(p) {
   for (let i = 0; i < 4; i++) { const a = Math.random() * 6.283, d = 80 + Math.random() * 70; tries.push([Math.floor(l.x + Math.cos(a) * d), Math.floor(l.z + Math.sin(a) * d)]); }
   const keys = wgKeys();
   for (const [x, z] of tries) {
-    const bag = keys.filter((k) => !WGEN[k].manual && (!WGEN[k].rare || Math.random() < 0.18)); if (!bag.length) continue;
+    const bag = keys.filter((k) => !WGEN[k].manual && k !== "veldanava_dominio" && (!WGEN[k].rare || Math.random() < 0.18));   // 6.46: Veldanava só na dimensão própria if (!bag.length) continue;
     const key = pickKey(bag), why = conflict(dim, x, z, key); if (why) continue;
     const s = checkSite(dim, x, z, key); if (!s.ok) continue;
     placeWgen(dim, key, { x, y: s.y, z }, (res) => {

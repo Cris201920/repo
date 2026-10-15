@@ -10,6 +10,7 @@ import { menu } from "../ui/forms.js";
 import { getStats } from "../stats.js";
 import { cdLeft, checkCast, CAST } from "../skills.js";
 import { skillIdOfItem, shortName, categoryLabel, rarityOf } from "./registry.js";
+import { skillColor } from "../../data/skillcolors.js";
 import { HotbarLoadout } from "./loadout.js";
 import { EquippedSkillManager } from "./equipped.js";
 import { describeHotbar } from "./sync.js";
@@ -87,7 +88,7 @@ export function hudSkillLines(player, d, s) {
     const key = e.slot >= 0 && e.slot < HOTBAR_SIZE ? String(e.slot + 1) : "•", n = shortName(e.id, nameLen), cd = cdLeft(player, e.id);
     if (cd > 0) { parts.push(`§8${key} ${n} ${Math.ceil(cd)}s`); continue; }
     const sk = SKILLS[e.id], cost = Math.ceil((sk?.mana ?? 0) * (1 - s.manaCost / 100) * (d.awakened?.[e.id] ? 0.8 : 1));
-    parts.push(d.mana < cost ? `§c${key}§7 ${n}` : `§b${key}§f ${n}`);
+    parts.push(d.mana < cost ? `§c${key}§7 ${n}` : `§b${key} ${skillColor(sk)}${n}`);   // 6.46: cor da categoria
   }
   const lines = []; for (let i = 0; i < parts.length; i += 5) lines.push(parts.slice(i, i + 5).join("  "));
   return lines;

@@ -4,6 +4,9 @@
 // Os mestres e o que ensinam ficam em data/worldnpcs.js (campo teaches).
 const E = "etheria:";
 export const LESSONS = {
+  // 6.46: módulo Angelical (data/skillmods/angelic.js) — ensinado pela Hinata a discípulos
+  holy_blade:    { lvl: 32, cost: 9000, rep: { luminus: 150 }, skills: ["holy_light"] },
+  wings_of_light: { lvl: 36, cost: 14000, rep: { luminus: 250 }, skills: ["holy_blade"] },
   // Espada
   sword_flash:   { lvl: 5,  cost: 300 },
   sword_whirl:   { lvl: 20, cost: 1500, rep: { tempest: 40 }, quest: "tp_sword_trial" },
