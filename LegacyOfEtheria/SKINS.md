@@ -98,6 +98,7 @@
 | orc | etheria_tt_orc | etheria_tt_orc | 128x128 | ok |
 | pico | etheria_pico | etheria_pico_skin | 256x256 | 6.45: skin original + asas articuladas, rabos-de-cavalo e lança 3D (tools/angels.py) |
 | rain | etheria_rain | etheria_rain_skin | 64x80 | ok |
+| ranga | etheria_ranga | etheria_tt_direwolf_boss | 128x128 | ok |
 | rimuru_ogre_fight | etheria_rimuru_ogre_fight | humanoid.custom | 64x64 | ok |
 | rimuru_senhor_demonio | etheria_rimuru_senhor_demonio | etheria_rimuru_senhor_demonio_skin | 64x96 | ok |
 | rimuru_tempest | etheria_rimuru_tempest | etheria_rimuru_tempest_skin | 64x64 | skin do Rimuru enviada (cabelo azul-claro, roupa preta) — antes usava a do Souei |

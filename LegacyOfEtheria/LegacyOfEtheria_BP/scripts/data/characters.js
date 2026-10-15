@@ -89,6 +89,22 @@ export const CHARACTERS = {
       reward: { xp: 3000, coins: 1200, rep: 25 } },
     shop: "tp_alchemist",
   },
+  ranga: {
+    name: "Ranga", color: "§9", faction: "tempest", where: "council", title: "Lobo Estelar de Tempest",
+    greet: {
+      first: ["Grrr... Você cheira a forasteiro. Mas se o Mestre Rimuru permite, eu também permito."],
+      normal: ["Auu! Veio brincar? Quer dizer... veio a serviço?", "Eu guardo Tempest pelas sombras. Nada passa por mim."],
+      rival: ["Você me venceu... O Mestre vai rir de mim. Grrr."],
+    },
+    talk: [
+      ["Sobre o Mestre Rimuru", "O Mestre Rimuru me deu um nome. Desde então, sou o lobo mais forte de Tempest. Pelo menos eu acho."],
+      ["Sobre os lobos", "Os lobos mágicos das planícies não são da minha alcateia. Se atacarem as plantações, pode caçá-los."],
+      ["Sobre as sombras", "Eu viajo pelas sombras. Quem luta comigo precisa vigiar as costas."],
+    ],
+    quests: ["tp_farmer_wolves", "tp_guard_patrol"],
+    duel: { lvl: 30, ask: "Um desafio? Auuu! Finalmente! Pronto?", start: "Grrraaaah!", win: "Ganhei... não, espera, você ganhou. Grrr.", lose: "Auu! Treine mais e volte!",
+      reward: { xp: 3500, coins: 1400, rep: 25 } },
+  },
   tt_hinata: {
     name: "Hinata Sakaguchi", color: "§f", faction: "luminus", where: "luminus", title: "Capitã dos Cavaleiros Sagrados",
     greet: {

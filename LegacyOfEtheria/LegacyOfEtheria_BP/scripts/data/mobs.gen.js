@@ -4400,7 +4400,38 @@ export const MOBS = {
    ]
   ]
  },
- "etheria:tt_direwolf_boss": {
+ "etheria:ranga": {
+  "name": "Ranga",
+  "xp": 180,
+  "coins": [
+   6,
+   20
+  ],
+  "hp": 4000,
+  "role": "beast",
+  "rar": "rare",
+  "dmg": 45,
+  "drops": [
+   [
+    "etheria:wolf_fang",
+    1,
+    3,
+    0.6
+   ],
+   [
+    "etheria:hp_potion_s",
+    1,
+    2,
+    0.4
+   ],
+   [
+    "etheria:arcane_ingot",
+    1,
+    2,
+    0.2
+   ]
+  ]
+ }, "etheria:tt_direwolf_boss": {
   "name": "Lobo Terrível Alfa",
   "xp": 180,
   "coins": [

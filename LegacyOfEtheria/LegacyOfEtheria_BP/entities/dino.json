@@ -25,16 +25,6 @@
    "minecraft:movement": {
     "value": 0.32
    },
-   "minecraft:navigation.walk": {
-    "can_path_over_water": false,
-    "can_pass_doors": true,
-    "can_open_doors": true,
-    "avoid_water": true,
-    "can_break_doors": false
-   },
-   "minecraft:movement.basic": {},
-   "minecraft:jump.static": {},
-   "minecraft:can_climb": {},
    "minecraft:physics": {},
    "minecraft:pushable": {
     "is_pushable": true,
@@ -72,9 +62,6 @@
     "priority": 3,
     "speed_multiplier": 1.2,
     "track_target": true
-   },
-   "minecraft:behavior.random_stroll": {
-    "priority": 6
    },
    "minecraft:behavior.look_at_player": {
     "priority": 7,
@@ -119,6 +106,30 @@
       },
       "interact_text": "Falar"
      }
+    ]
+   },
+   "minecraft:navigation.hover": {
+    "can_path_over_water": true,
+    "can_sink": false,
+    "can_pass_doors": true,
+    "can_path_from_air": true,
+    "avoid_water": true,
+    "avoid_damage_blocks": true
+   },
+   "minecraft:movement.hover": {},
+   "minecraft:flying_speed": {
+    "value": 0.2
+   },
+   "minecraft:can_fly": {},
+   "minecraft:behavior.random_hover": {
+    "priority": 6,
+    "xz_dist": 10,
+    "y_dist": 5,
+    "y_offset": -1,
+    "interval": 1,
+    "hover_height": [
+     2,
+     6
     ]
    }
   },

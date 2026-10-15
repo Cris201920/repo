@@ -938,3 +938,5 @@ entity.etheria:garasha.name=Garasha, the Sword Angel
 item.spawn_egg.entity.etheria:garasha.name=Garasha Spawn Egg
 item.etheria:sk_holy_blade=Lâmina Sagrada
 item.etheria:sk_wings_of_light=Asas de Luz
+entity.etheria:ranga.name=Ranga
+item.spawn_egg.entity.etheria:ranga.name=Ovo de Ranga
