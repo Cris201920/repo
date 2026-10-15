@@ -8,11 +8,11 @@
     "enchanted": "armor_enchanted"
    },
    "textures": {
-    "default": "textures/models/armor/etheria_a_priest",
+    "default": "textures/models/armor/etheria_priest_1",
     "enchanted": "textures/misc/enchanted_item_glint"
    },
    "geometry": {
-    "default": "geometry.etheria_a_priest_chest"
+    "default": "geometry.humanoid.armor.chestplate"
    },
    "scripts": {
     "parent_setup": "variable.chest_layer_visible = 0.0;"

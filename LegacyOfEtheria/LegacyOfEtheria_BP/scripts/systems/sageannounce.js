@@ -137,6 +137,8 @@ function cueSubtitles(out, texts, segs, base) {
 // ------------------------------------------------------------------ gerenciador por jogador
 const S = new Map();   // pid -> { cur: {o, A, t0, nextStep, played:Set, lastLines, lastFx, open:bool, deadlineMs}, queue: [], pending: [], pendTimer }
 const st = (p) => { let s = S.get(p.id); if (!s) S.set(p.id, s = { cur: null, queue: [], pending: [], pendTimer: 0 }); return s; };
+/** a cena nova está ligada para este jogador? (então os avisos antigos de "habilidade obtida" não aparecem) */
+export const sceneOn = (p) => enabled(p);
 export const announcing = (p) => { try { return !!S.get(p.id)?.cur; } catch { return false; } };
 titleGuard.busy = (p) => announcing(p);
 

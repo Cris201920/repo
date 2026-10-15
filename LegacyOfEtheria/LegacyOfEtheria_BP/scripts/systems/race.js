@@ -1,4 +1,5 @@
 // systems/race.js - Raça, classe, evolução/transformação e título no nome
+import { sceneOn } from "./sageannounce.js";
 import { system } from "@minecraft/server";
 import { evolutionScene } from "./sagecore.js";
 import { getData, saveNow } from "../core/db.js";
@@ -75,7 +76,8 @@ export function evolve(player, stageId) {
   if (opts.length === 0) return { ok: false, msg: "Evolução inválida." };
   const st = opts[0], why = evolveCheck(player, st);
   if (why) { sysSay(player, "raceevo", "fail"); return { ok: false, msg: why }; }
-  sysSay(player, "raceevo", "start", { cd: 0 });
+  const scene = sceneOn(player);   // 6.35: com a cena da Voz do Mundo, sem título/voz/chat antigos
+  if (!scene) sysSay(player, "raceevo", "start", { cd: 0 });
   if (st.item && !removeItem(player, st.item[0], st.item[1])) return { ok: false, msg: "Itens insuficientes." };
   d.coins -= st.cost; d.raceStage = st.id;
   const kind = isLordStage(st.id) ? "lord" : "evo";
@@ -85,13 +87,13 @@ export function evolve(player, stageId) {
   grantStage(player, st);
   applyDerivedStats(player); refreshName(player);
   checkAchievements(player); updateRanking(player); saveNow(player);
-  toast(player, `§d§lEVOLUÇÃO`, `§f${st.name}`);
+  if (!scene) toast(player, `§d§lEVOLUÇÃO`, `§f${st.name}`);
   playSound(player, SOUNDS.evolve, 1, 1);
-  sysSay(player, "raceevo", "done", { cd: 0 });
+  if (!scene) sysSay(player, "raceevo", "done", { cd: 0 });
   try { evolutionScene(player, st); } catch { /* ignore */ }
   ring(player.dimension, player.location, 1.5, "transform", player); fx(player.dimension, player.location, "transform", player, 2);
   if (!cine) playTransform(player, kind);   // sem cinemática: animação de evolução em 3ª pessoa (Lord Demônio tem a sua)
-  if (isLordStage(st.id)) lordDemonSage(player);
+  if (isLordStage(st.id) && !scene) lordDemonSage(player);
   try { emit(EV.PLAYER_EVOLVES, { player, kind: "race", stage: st.id, name: st.name }); } catch { /* ignore */ }   // o Sábio registra e anuncia (sageadapter.js)
   return { ok: true, msg: `Você evoluiu para ${st.name}!` };
 }

@@ -106,7 +106,7 @@ export function openEvolveV2(player, id, back) {
     "§8Os bônus do novo estágio substituem os do atual.",
   ].join("\n");
   const B = [];
-  if (ready) B.push({ text: "§a§lEVOLUIR AGORA\n§r§7inicia a cerimônia de evolução", icon: "race_" + d.race, run: () => { try { player.playSound("random.levelup", { volume: 0.6, pitch: 1.2 }); } catch { /* ignore */ } system.runTimeout(() => { const res = evolve(player, id); say(player, `${res.ok ? "§a" : "§c"}${res.msg}`); }, 8); } });
+  if (ready) B.push({ text: "§a§lEVOLUIR AGORA\n§r§7inicia a cerimônia de evolução", icon: "race_" + d.race, run: () => { try { player.playSound("random.levelup", { volume: 0.6, pitch: 1.2 }); } catch { /* ignore */ } system.runTimeout(() => { const res = evolve(player, id); if (!res.ok) say(player, `§c${res.msg}`); }, 8); } });
   B.push({ text: "§7« Árvore da raça", icon: "back", run: () => openRaceV2(player, back) });
   menu(player, `${ready ? "§e" : "§d"}§lEVOLUIR: ${n.name.toUpperCase()}`, body, B, isLordStage(n.id) ? "world" : themeOf(r.id));
 }

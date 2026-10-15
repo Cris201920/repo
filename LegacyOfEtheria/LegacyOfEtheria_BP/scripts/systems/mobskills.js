@@ -4,6 +4,7 @@
 //   Quanto mais raro o mob, maior a chance. Cada derrota sem sucesso soma um "azar protegido" (pity) pequeno; ao conseguir, zera.
 // · O Predador (Única) também sai por chance: mais comum ao matar slimes, bosses e mobs especiais. Quem já o tem (ou Gula/Beelzebuth) não rola.
 // A habilidade concedida passa por grantSkill: a animação do Grande Sábio ("NOVA HABILIDADE DETECTADA") e o registro no arquivo do Sábio saem sozinhos.
+import { sceneOn } from "./sageannounce.js";
 import { world, Player } from "@minecraft/server";
 import { getData, markDirty } from "../core/db.js";
 import { say, toast, isValid } from "../core/utils.js";
@@ -66,7 +67,7 @@ export function rollMobKill(player, typeId, rnd = Math.random) {
       d.mobPity.p = 0; grantSkill(player, "predator"); got.predator = true;
       try { sageVoice(player, "learn"); } catch { /* ignore */ }
       toast(player, "§5§lPREDADOR", "§7Habilidade Única obtida");
-      say(player, "§5§l[Grande Sábio] §r§fVocê obteve a habilidade Única §5Predador§f. Use-a em alvos feridos para devorá-los e absorver habilidades.");
+      if (!sceneOn(player)) say(player, "§5§l[Grande Sábio] §r§fVocê obteve a habilidade Única §5Predador§f. Use-a em alvos feridos para devorá-los e absorver habilidades.");
     } else d.mobPity.p += PRED_PITY_STEP;
   }
   const { short, list } = familyOf(typeId);

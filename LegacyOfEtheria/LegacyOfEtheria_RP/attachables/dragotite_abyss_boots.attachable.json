@@ -8,11 +8,11 @@
     "enchanted": "armor_enchanted"
    },
    "textures": {
-    "default": "textures/models/armor/etheria_a_dragotite_abyss",
+    "default": "textures/models/armor/etheria_dragotite_abyss_1",
     "enchanted": "textures/misc/enchanted_item_glint"
    },
    "geometry": {
-    "default": "geometry.etheria_a_dragotite_abyss_boots"
+    "default": "geometry.humanoid.armor.boots"
    },
    "scripts": {
     "parent_setup": "variable.boot_layer_visible = 0.0;"

@@ -164,73 +164,105 @@ ARCH = {   # comprimento da lâmina, largura máx., espessura do núcleo, cabo, 
   "great":  dict(L=30, W=5.0, T=1.4, grip=9, guard=11.0, curve=0),
 }
 def build_procedural(theme, arch, rank, iid):
+    """v2 (6.35): seção em losango (gume fino, corpo, espinha), ponta em passos de 0,5 px, ornamentos 3D por tema"""
     A = ARCH[arch]; m = Model(); L, W, Tk = A["L"], A["W"], A["T"]
-    gy = 0.0                                  # topo do cabo / base da guarda
+    rnd = random.Random(iid)
+    gy = 0.0
     guard_h = 1.4 if arch != "katana" else 0.8
-    yb = gy + guard_h                         # base da lâmina
-    # --- lâmina: segmentos de 1 px (ponta afinando em degraus de 0,5 px); katana curva (deslocamento em Z)
-    segs = int(L); tip = max(3, int(L * 0.22))
-    for k in range(segs):
-        y0 = yb + k; f = k / segs
-        w = W if k < segs - tip else W * max(0.18, (segs - k) / tip)
-        if arch == "rapier": w = W * (1 - 0.5 * f)
-        if arch == "katana": w = W * (0.9 if k < segs - 3 else max(0.25, (segs - k) / 3))
+    yb = gy + guard_h
+    edge = lambda v0, v1: {"uv": rect("edge", (0, v0, 1, v1))[:2], "uv_size": rect("edge", (0, v0, 1, v1))[2:]}
+    def layer(y0, hgt, w, thick, zoff, v0, v1, mat="flat"):
+        f = faces_all(mat, (0.5 - 0.5 * min(1, w / W), v0, 0.5 + 0.5 * min(1, w / W), v1))
+        if mat == "flat": f["north"] = f["south"] = edge(v0, v1)
+        m.box([-thick / 2, y0, -w / 2 + zoff], [thick, hgt, w], f)
+    # --- lâmina
+    y = yb; tip_len = max(3.0, L * 0.22)
+    while y < yb + L - 0.01:
+        k = y - yb; f = k / L; rest = L - k
+        step = 0.5 if rest <= tip_len + 0.01 else 1.0
+        w = W if rest > tip_len else W * max(0.12, rest / tip_len)
+        if arch == "rapier": w = W * (1 - 0.55 * f)
+        if arch == "katana": w = W * (0.92 if rest > 3 else max(0.22, rest / 3))
         zoff = (A["curve"] * (f ** 2)) if A["curve"] else 0.0
-        v0, v1 = 1 - (k + 1) / segs, 1 - k / segs
-        sub = (0.5 - 0.5 * w / W, v0, 0.5 + 0.5 * w / W, v1)
-        flat = {"uv": None}
-        # núcleo (espinha), mais grosso
-        core_w = max(0.3, w * 0.55)
-        fc = faces_all("flat", (0.5 - 0.5 * core_w / W, v0, 0.5 + 0.5 * core_w / W, v1))
-        fc["north"] = fc["south"] = {"uv": rect("edge", (0, v0, 1, v1))[:2], "uv_size": rect("edge", (0, v0, 1, v1))[2:]}
-        m.box([-Tk / 2, y0, -core_w / 2 + zoff], [Tk, 1, core_w], fc)
-        # gume chanfrado: mais fino, mais largo
-        fe = faces_all("flat", sub)
-        fe["north"] = fe["south"] = {"uv": rect("edge", (0, v0, 1, v1))[:2], "uv_size": rect("edge", (0, v0, 1, v1))[2:]}
-        m.box([-Tk / 4, y0, -w / 2 + zoff], [Tk / 2, 1, w], fe)
-        # serrilhado demoníaco / escamas dracônicas
-        if theme in ("demon", "abyss") and rank >= 3 and k % 3 == 1 and k < segs - tip:
-            m.box([-Tk / 4, y0 + 0.2, w / 2 + zoff - 0.2], [Tk / 2, 0.7, 0.9], faces_all("edge"), rot=[-35, 0, 0], pivot=[0, y0 + 0.5, w / 2 + zoff])
-        if theme == "dragon" and k % 2 == 0 and k < segs - tip:
-            m.box([-Tk * 0.75, y0, -0.35 + zoff], [Tk * 1.5, 0.8, 0.7], faces_all("scale"))
+        v0, v1 = max(0, 1 - (k + step) / L), 1 - k / L
+        layer(y, step, w, Tk * 0.45, zoff, v0, v1)                       # gume (fino e largo)
+        layer(y, step, w * 0.68, Tk * 0.85, zoff, v0, v1)                 # corpo
+        if arch != "katana": layer(y, step, max(0.25, w * 0.22), Tk * 1.15, zoff, v0, v1)   # espinha central
+        y += step
+    blade_top = yb + L
+    # --- ornamentos por tema (ao longo da lâmina)
+    mid = lambda t: yb + L * t
+    if theme == "fire" and rank >= 2:
+        for i, t in enumerate((0.18, 0.38, 0.58)):
+            sgn = 1 if i % 2 == 0 else -1
+            m.box([-0.2, mid(t), sgn * W / 2 - (0.3 if sgn > 0 else 1.1)], [0.4, 1.6, 1.4], faces_all("glow"), rot=[sgn * 35, 0, 0], pivot=[0, mid(t), sgn * W / 2])
+    if theme == "ice" and rank >= 2:
+        for i, t in enumerate((0.12, 0.30, 0.5)):
+            sgn = 1 if i % 2 else -1
+            m.box([-0.35, mid(t), sgn * W / 2 - 0.35], [0.7, 1.8 - i * 0.3, 0.7], faces_all("edge"), rot=[sgn * 50, 0, 20], pivot=[0, mid(t), sgn * W / 2])
+    if theme == "storm" and rank >= 2:
+        z = 0.0
+        for i in range(int(L * 0.7)):
+            z = 0.35 if i % 2 == 0 else -0.35
+            m.box([-Tk * 0.62, yb + 1 + i, z - 0.15], [Tk * 1.24, 1.0, 0.3], faces_all("glow"))
+    if theme in ("cosmic", "prism") and rank >= 3:
+        for j, t in enumerate((0.35, 0.62)):
+            r = W * 0.9 + 0.6
+            for sx in (-1, 1):
+                m.box([-0.1, mid(t) - 0.1, -r], [0.2, 0.2, 2 * r], faces_all("glow" if THEMES[theme]["glow"] else "accent"), rot=[0, 0, (25 + j * 30) * sx], pivot=[0, mid(t), 0])
+        m.box([-0.6, blade_top - L * 0.12, -0.6], [1.2, 1.2, 1.2], faces_all("gem"), rot=[45, 45, 0], pivot=[0, blade_top - L * 0.12 + 0.6, 0])
+    if theme in ("demon", "abyss") and rank >= 2:
+        for i in range(1, int(L * 0.75), 2):
+            m.box([-Tk * 0.2, yb + i, W / 2 - 0.15], [Tk * 0.4, 0.9, 1.0], faces_all("edge"), rot=[-40, 0, 0], pivot=[0, yb + i + 0.4, W / 2])
+        m.box([-Tk * 0.7, yb + 0.6, -0.55], [Tk * 1.4, 1.1, 1.1], faces_all("gem"))          # olho
+    if theme == "dragon":
+        for i in range(1, int(L * 0.7), 2):
+            m.box([-0.15, yb + i, -0.4], [0.3, 1.2, 0.8], faces_all("scale"), rot=[-30, 0, 0], pivot=[0, yb + i, 0])
+    if theme == "sculk" and rank >= 2:
+        for i, t in enumerate((0.1, 0.25, 0.4)):
+            m.box([-0.2, mid(t), -W / 2 - 0.9], [0.4, 0.4, 1.2], faces_all("glow"), rot=[0, 0, 30 - i * 15], pivot=[0, mid(t), -W / 2])
+    if rank >= 4 and THEMES[theme]["glow"] and arch not in ("katana", "rapier"):
+        m.box([-Tk * 0.6, yb + 1.5, -0.2], [Tk * 1.2, L * 0.62, 0.4], faces_all("glow"))     # veio de energia
     # --- guarda
     G = A["guard"]
-    if arch == "katana":   # tsuba: octógono (dois quadrados a 45°) + habaki
+    if arch == "katana":
         for r in (0, 45):
-            m.box([-0.5, gy, -1.8], [1.0, guard_h, 3.6], faces_all("guard"), rot=[0, r, 0], pivot=[0, gy, 0]) if False else \
-            m.box([-1.8, gy, -1.8], [3.6, guard_h, 3.6], faces_all("guard"), rot=[0, r, 0], pivot=[0, gy, 0])
-        m.box([-0.6, yb, -1.3], [1.2, 1.2, 2.6], faces_all("accent"))
+            m.box([-1.9, gy, -1.9], [3.8, guard_h, 3.8], faces_all("guard"), rot=[0, r, 0], pivot=[0, gy, 0])
+        m.box([-0.65, yb - 0.1, -1.3], [1.3, 1.3, 2.6], faces_all("accent"))
     else:
-        m.box([-0.9, gy, -G / 2], [1.8, guard_h, G], faces_all("guard"))
-        m.box([-0.7, gy + guard_h, -1.2], [1.4, 0.8, 2.4], faces_all("accent"))          # ricasso / colar
-        tips = {"holy": "wing", "dragon": "claw", "demon": "horn", "abyss": "horn", "cosmic": "ring"}.get(theme, "ball" if rank >= 2 else None)
-        for s in (-1, 1):
-            zt = s * G / 2
+        m.box([-0.95, gy, -G / 2], [1.9, guard_h, G], faces_all("guard"))
+        m.box([-1.1, gy + 0.2, -G / 2 + 0.6], [2.2, guard_h - 0.4, G - 1.2], faces_all("accent"))    # friso
+        m.box([-0.75, gy + guard_h, -1.3], [1.5, 0.9, 2.6], faces_all("accent"))                      # colar
+        tips = {"holy": "wing", "prism": "wing", "dragon": "claw", "demon": "horn", "abyss": "horn", "cosmic": "ring", "fire": "flame", "ice": "crystal"}.get(theme, "ball" if rank >= 2 else None)
+        if arch in ("dagger", "rapier") and tips in ("horn", "claw", "wing"): tips = "ball"   # adagas: guarda compacta
+        for sgn in (-1, 1):
+            zt = sgn * G / 2
             if tips == "wing":
-                for j in range(3):
-                    m.box([-0.4, gy + 0.3 + j * 0.7, zt - (0 if s > 0 else 2.6)], [0.8, 0.6, 2.6 - j * 0.6], faces_all("accent"), rot=[s * (25 + j * 12), 0, 0], pivot=[0, gy + 0.6, zt])
+                for j in range(4):
+                    m.box([-0.35, gy + 0.2 + j * 0.55, zt - (0 if sgn > 0 else 3.2 - j * 0.6)], [0.7, 0.55, 3.2 - j * 0.6], faces_all("accent" if j % 2 else "guard"), rot=[sgn * (22 + j * 13), 0, 0], pivot=[0, gy + 0.6, zt])
             elif tips in ("horn", "claw"):
-                m.box([-0.5, gy, zt - 0.5], [1.0, 2.6, 1.0], faces_all("dark" if tips == "horn" else "scale"), rot=[-s * 30, 0, 0], pivot=[0, gy, zt])
-                m.box([-0.35, gy + 2.2, zt - 0.35], [0.7, 1.4, 0.7], faces_all("dark" if tips == "horn" else "accent"), rot=[-s * 55, 0, 0], pivot=[0, gy + 2.2, zt])
+                m.box([-0.55, gy, zt - 0.55], [1.1, 2.8, 1.1], faces_all("dark" if tips == "horn" else "scale"), rot=[-sgn * 30, 0, 0], pivot=[0, gy, zt])
+                m.box([-0.38, gy + 2.4, zt - 0.38], [0.76, 1.6, 0.76], faces_all("dark" if tips == "horn" else "accent"), rot=[-sgn * 58, 0, 0], pivot=[0, gy + 2.4, zt])
             elif tips == "ring":
-                m.box([-0.3, gy - 0.6, zt - 1.0], [0.6, 2.6, 2.0], faces_all("glow"), rot=[s * 45, 0, 0], pivot=[0, gy + 0.7, zt])
+                m.box([-0.3, gy - 0.7, zt - 1.1], [0.6, 2.8, 2.2], faces_all("glow"), rot=[sgn * 45, 0, 0], pivot=[0, gy + 0.7, zt])
+            elif tips == "flame":
+                m.box([-0.3, gy, zt - 0.6], [0.6, 2.2, 1.2], faces_all("glow"), rot=[-sgn * 25, 0, 0], pivot=[0, gy, zt])
+            elif tips == "crystal":
+                m.box([-0.45, gy, zt - 0.45], [0.9, 2.4, 0.9], faces_all("edge"), rot=[-sgn * 35, 0, 15], pivot=[0, gy, zt])
             elif tips == "ball":
-                m.box([-0.8, gy - 0.1, zt - 0.8], [1.6, 1.6, 1.6], faces_all("gem2"))
-        if rank >= 2:   # gema central (dos dois lados)
-            m.box([-1.1, gy + 0.05, -0.75], [2.2, 1.3, 1.5], faces_all("gem"))
-    # --- cabo com faixas
+                m.box([-0.85, gy - 0.15, zt - 0.85], [1.7, 1.7, 1.7], faces_all("gem2"))
+        if rank >= 2: m.box([-1.15, gy + 0.05, -0.8], [2.3, 1.3, 1.6], faces_all("gem"))
+    # --- cabo com faixas e pomo
     gl = A["grip"]
     m.box([-0.6, gy - gl, -0.6], [1.2, gl, 1.2], faces_all("grip"))
-    for k in range(1, int(gl), 2):
-        m.box([-0.7, gy - k - 0.3, -0.7], [1.4, 0.4, 1.4], faces_all("accent" if arch != "katana" else "grip"))
-    # --- pomo
-    if arch == "katana": m.box([-0.75, gy - gl - 0.8, -0.85], [1.5, 0.8, 1.7], faces_all("accent"))
+    for k in range(1, int(gl), 2): m.box([-0.72, gy - k - 0.3, -0.72], [1.44, 0.45, 1.44], faces_all("accent" if arch != "katana" else "grip"))
+    if arch == "katana": m.box([-0.78, gy - gl - 0.8, -0.88], [1.56, 0.8, 1.76], faces_all("accent"))
     else:
-        m.box([-0.95, gy - gl - 1.4, -0.95], [1.9, 1.4, 1.9], faces_all("pommel"))
-        if rank >= 3: m.box([-0.6, gy - gl - 2.1, -0.6], [1.2, 0.8, 1.2], faces_all("gem"))
-    # --- energia (lendárias e míticas): núcleo luminoso no sulco
-    if rank >= 4 and THEMES[theme]["glow"] and arch not in ("katana", "rapier"):
-        m.box([-Tk / 2 - 0.05, yb + 2, -0.35], [Tk + 0.1, L * 0.6, 0.7], faces_all("glow"))
+        m.box([-1.0, gy - gl - 1.5, -1.0], [2.0, 1.5, 2.0], faces_all("pommel"))
+        m.box([-0.7, gy - gl - 1.2, -1.15], [1.4, 0.9, 2.3], faces_all("accent"))
+        if rank >= 3: m.box([-0.6, gy - gl - 2.2, -0.6], [1.2, 0.9, 1.2], faces_all("gem"))
+        if theme in ("holy", "prism") and rank >= 3:   # auréola no pomo
+            m.box([-0.15, gy - gl - 3.4, -1.4], [0.3, 0.3, 2.8], faces_all("accent")); m.box([-0.15, gy - gl - 3.4, -1.4], [0.3, 0.3, 2.8], faces_all("accent"), rot=[90, 0, 0], pivot=[0, gy - gl - 3.25, 0])
     return m
 
 # ------------------------------------------------------------------ conversão de modelos Java (elementos)

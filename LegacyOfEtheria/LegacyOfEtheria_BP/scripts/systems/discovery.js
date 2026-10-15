@@ -1,4 +1,5 @@
 // systems/discovery.js - Descoberta de Habilidades Únicas, combinação, despertar (maestria 10) e estatísticas de progresso.
+import { sceneOn } from "./sageannounce.js";
 import { world, system } from "@minecraft/server";
 import { getData, markDirty, saveNow } from "../core/db.js";
 import { SKILLS } from "../data/skills.js";
@@ -52,6 +53,7 @@ function discover(player, id) {
   const d = getData(player), sk = SKILLS[id];
   grantSkill(player, id); applyDerivedStats(player);
   try { learn(player, "evolutions", "disc_" + id, `Descoberta: ${sk.name}`, {}, true); remember(player, "know", `Descobriu ${sk.name}`); addExp(player, 10); } catch { /* ignore */ }
+  if (sceneOn(player)) return;   // 6.35: a cena da Voz do Mundo anuncia (sem título, chat, voz e partículas duplicados)
   sageSay(player, "unique_acquired"); sageSay(player, "ds_knowledge");
   skillSay(player, id, "act", { cd: 0 });
   toast(player, "§d§lHABILIDADE ÚNICA", `§f${sk.name}`);
@@ -148,6 +150,7 @@ export function grantStarter(player) {
   const id = rollStarter(), sk = SKILLS[id], R = RARITY[sk.rarity];
   d.starterUnique = id;                                    // FASE 7 (primeiro, por segurança): salva permanentemente
   grantSkill(player, id); applyDerivedStats(player); saveNow(player);
+  if (sceneOn(player)) return true;   // 6.35: só a cena da Voz do Mundo
   const c = ctx(player, 2), p = player.location;
   // FASE 1 — descoberta
   disc(c, p, { col: "violet", circle: CIRCLE.evolve, size: 6, life: 4, rot: 40 });

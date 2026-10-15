@@ -1,4 +1,5 @@
 // systems/skills.js - Aprender, equipar e lançar habilidades (executor orientado a dados)
+import { sceneOn } from "./sageannounce.js";
 import { isCinematic } from "./cinematic.js";
 import { queueSkillAnnounce } from "./sagecore.js";
 import { system, Player, ItemStack } from "@minecraft/server";
@@ -81,7 +82,7 @@ export function learnSkill(player, id) {
   d.skillPoints -= sk.sp;
   grantSkill(player, id);
   playSound(player, SOUNDS.learn, 1, 1);
-  sageSay(player, "skill_acquired"); sageSay(player, "skill_registered");
+  if (!sceneOn(player)) { sageSay(player, "skill_acquired"); sageSay(player, "skill_registered"); }
   applyDerivedStats(player); saveNow(player);
   return { ok: true, msg: `Aprendeu ${sk.name}!` };
 }

@@ -1,6 +1,7 @@
 // systems/voice.js - Sistema de voz contextual: Grande Sábio + identidade vocal de cada Habilidade Única.
 // Fila por jogador com prioridade (1 = máxima ... 5 = mínima), interrupção só por prioridade 1, cooldown por fala,
 // efeito de ativação -> pausa -> voz -> efeito de finalização, legenda com fade/brilho na action bar e configurações do jogador.
+import { announcing } from "./sageannounce.js";
 import { world, system } from "@minecraft/server";
 import { getData, markDirty } from "../core/db.js";
 import { VOICE } from "../data/voice.gen.js";
@@ -53,6 +54,7 @@ export function dropVoice(id) { st.delete(id); }
 
 function enqueue(player, item) {
   const d = getData(player), sg = sageCfg(d); if (sg.voice === false) return false;
+  if (announcing(player)) return false;   // 6.35: durante a Voz do Mundo só a cena nova fala e aparece (sem a legenda "SÁBIO »")
   const x = S(player), now = system.currentTick;
   if (item.cd > 0) { if ((x.cds.get(item.key) ?? 0) > now) return false; x.cds.set(item.key, now + item.cd); }
   if (x.q.some((i) => i.key === item.key) || x.cur?.key === item.key) return false;
