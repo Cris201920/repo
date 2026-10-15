@@ -1,0 +1,960 @@
+{
+ "namespace": "server_form",
+ "main_screen_content": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "controls": [
+   {
+    "server_form_factory": {
+     "type": "factory",
+     "control_ids": {
+      "long_form": "@server_form.long_form",
+      "custom_form": "@server_form.custom_form"
+     }
+    }
+   }
+  ]
+ },
+ "long_form": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "controls": [
+   {
+    "vanilla_form@server_form.eth_vanilla_long_form": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((#title_text - '§e§t§h') = #title_text)",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "etheria_form@server_form.eth_form": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§e§t§h') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_vanilla_long_form@common_dialogs.main_panel_no_buttons": {
+  "$title_panel": "common_dialogs.standard_title_label",
+  "$title_size": [
+   "100% - 15px",
+   10
+  ],
+  "$title_max_size": [
+   "100% - 15px",
+   10
+  ],
+  "size": [
+   225,
+   200
+  ],
+  "$text_name": "#title_text",
+  "$title_text_binding_type": "none",
+  "$child_control": "server_form.long_form_panel",
+  "layer": 2
+ },
+ "eth_fx_anim": {
+  "anim_type": "flip_book",
+  "initial_uv": [
+   0,
+   0
+  ],
+  "frame_count": 24,
+  "frame_step": 170,
+  "fps": 12,
+  "looping": true,
+  "easing": "linear"
+ },
+ "eth_form": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "layer": 2,
+  "controls": [
+   {
+    "theme_world": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§w') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "fx": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_world",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "uv_size": [
+         320,
+         170
+        ],
+        "uv": "@server_form.eth_fx_anim",
+        "disable_anim_fast_forward": true,
+        "layer": 1
+       }
+      },
+      {
+       "shade": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "alpha": 0.35,
+        "layer": 2
+       }
+      },
+      {
+       "card": {
+        "type": "image",
+        "texture": "textures/ui/etheria/frame_world",
+        "size": [
+         "94%",
+         "90%"
+        ],
+        "layer": 3
+       }
+      },
+      {
+       "band": {
+        "type": "image",
+        "texture": "textures/ui/etheria/band_world",
+        "size": [
+         "70%",
+         22
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         "5% + 2px"
+        ],
+        "layer": 4
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_sage": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§s') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "fx": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_sage",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "uv_size": [
+         320,
+         170
+        ],
+        "uv": "@server_form.eth_fx_anim",
+        "disable_anim_fast_forward": true,
+        "layer": 1
+       }
+      },
+      {
+       "shade": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "alpha": 0.35,
+        "layer": 2
+       }
+      },
+      {
+       "card": {
+        "type": "image",
+        "texture": "textures/ui/etheria/frame_sage",
+        "size": [
+         "94%",
+         "90%"
+        ],
+        "layer": 3
+       }
+      },
+      {
+       "band": {
+        "type": "image",
+        "texture": "textures/ui/etheria/band_sage",
+        "size": [
+         "70%",
+         22
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         "5% + 2px"
+        ],
+        "layer": 4
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_raphael": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§r') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "fx": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_raphael",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "uv_size": [
+         320,
+         170
+        ],
+        "uv": "@server_form.eth_fx_anim",
+        "disable_anim_fast_forward": true,
+        "layer": 1
+       }
+      },
+      {
+       "shade": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "alpha": 0.35,
+        "layer": 2
+       }
+      },
+      {
+       "card": {
+        "type": "image",
+        "texture": "textures/ui/etheria/frame_raphael",
+        "size": [
+         "94%",
+         "90%"
+        ],
+        "layer": 3
+       }
+      },
+      {
+       "band": {
+        "type": "image",
+        "texture": "textures/ui/etheria/band_raphael",
+        "size": [
+         "70%",
+         22
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         "5% + 2px"
+        ],
+        "layer": 4
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_ciel": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§c') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "fx": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ciel",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "uv_size": [
+         320,
+         170
+        ],
+        "uv": "@server_form.eth_fx_anim",
+        "disable_anim_fast_forward": true,
+        "layer": 1
+       }
+      },
+      {
+       "shade": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "alpha": 0.35,
+        "layer": 2
+       }
+      },
+      {
+       "card": {
+        "type": "image",
+        "texture": "textures/ui/etheria/frame_ciel",
+        "size": [
+         "94%",
+         "90%"
+        ],
+        "layer": 3
+       }
+      },
+      {
+       "band": {
+        "type": "image",
+        "texture": "textures/ui/etheria/band_ciel",
+        "size": [
+         "70%",
+         22
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         "5% + 2px"
+        ],
+        "layer": 4
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_tree": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§p') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "fx": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_tree",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "uv_size": [
+         320,
+         170
+        ],
+        "uv": "@server_form.eth_fx_anim",
+        "disable_anim_fast_forward": true,
+        "layer": 1
+       }
+      },
+      {
+       "shade": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "alpha": 0.35,
+        "layer": 2
+       }
+      },
+      {
+       "card": {
+        "type": "image",
+        "texture": "textures/ui/etheria/frame_tree",
+        "size": [
+         "94%",
+         "90%"
+        ],
+        "layer": 3
+       }
+      },
+      {
+       "band": {
+        "type": "image",
+        "texture": "textures/ui/etheria/band_tree",
+        "size": [
+         "70%",
+         22
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         "5% + 2px"
+        ],
+        "layer": 4
+       }
+      }
+     ]
+    }
+   },
+   {
+    "title": {
+     "type": "label",
+     "text": "#title_text",
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      }
+     ],
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "offset": [
+      0,
+      "5% + 8px"
+     ],
+     "size": [
+      "66%",
+      10
+     ],
+     "text_alignment": "center",
+     "font_size": "large",
+     "shadow": true,
+     "color": [
+      1,
+      1,
+      1
+     ],
+     "layer": 6
+    }
+   },
+   {
+    "close@common.close_button": {
+     "anchor_from": "top_right",
+     "anchor_to": "top_right",
+     "offset": [
+      "-3% - 4px",
+      "5% + 2px"
+     ],
+     "layer": 8
+    }
+   },
+   {
+    "columns": {
+     "type": "stack_panel",
+     "orientation": "horizontal",
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "offset": [
+      0,
+      "5% + 28px"
+     ],
+     "size": [
+      "94% - 16px",
+      "90% - 34px"
+     ],
+     "layer": 5,
+     "controls": [
+      {
+       "info": {
+        "type": "panel",
+        "size": [
+         "44%",
+         "100%"
+        ],
+        "controls": [
+         {
+          "f_world": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_world",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§w') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_sage": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_sage",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§s') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_raphael": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_raphael",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§r') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_ciel": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_ciel",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§c') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_tree": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_tree",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§p') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "scroll@common.scrolling_panel": {
+           "$show_background": false,
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "$scrolling_content": "server_form.eth_text_content",
+           "$scroll_size": [
+            5,
+            "100% - 4px"
+           ],
+           "$scrolling_pane_size": [
+            "100% - 4px",
+            "100% - 2px"
+           ],
+           "$scrolling_pane_offset": [
+            2,
+            0
+           ],
+           "$scroll_bar_right_padding_size": [
+            0,
+            0
+           ],
+           "layer": 2
+          }
+         }
+        ]
+       }
+      },
+      {
+       "gap": {
+        "type": "panel",
+        "size": [
+         6,
+         "100%"
+        ]
+       }
+      },
+      {
+       "list": {
+        "type": "panel",
+        "size": [
+         "fill",
+         "100%"
+        ],
+        "controls": [
+         {
+          "f_world": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_world",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§w') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_sage": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_sage",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§s') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_raphael": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_raphael",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§r') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_ciel": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_ciel",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§c') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_tree": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_tree",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§p') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "scroll@common.scrolling_panel": {
+           "$show_background": false,
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "$scrolling_content": "server_form.eth_buttons_content",
+           "$scroll_size": [
+            5,
+            "100% - 4px"
+           ],
+           "$scrolling_pane_size": [
+            "100% - 4px",
+            "100% - 2px"
+           ],
+           "$scrolling_pane_offset": [
+            2,
+            0
+           ],
+           "$scroll_bar_right_padding_size": [
+            0,
+            0
+           ],
+           "layer": 2
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_text_content": {
+  "type": "stack_panel",
+  "size": [
+   "100% - 4px",
+   "100%c"
+  ],
+  "orientation": "vertical",
+  "anchor_from": "top_left",
+  "anchor_to": "top_left",
+  "controls": [
+   {
+    "pad_top": {
+     "type": "panel",
+     "size": [
+      "100%",
+      4
+     ]
+    }
+   },
+   {
+    "text_panel": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%c"
+     ],
+     "controls": [
+      {
+       "main_label": {
+        "type": "label",
+        "offset": [
+         5,
+         0
+        ],
+        "color": [
+         1,
+         1,
+         1
+        ],
+        "size": [
+         "100% - 10px",
+         "default"
+        ],
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "text": "#form_text"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "pad_bottom": {
+     "type": "panel",
+     "size": [
+      "100%",
+      6
+     ]
+    }
+   }
+  ]
+ },
+ "eth_buttons_content": {
+  "type": "stack_panel",
+  "size": [
+   "100% - 4px",
+   "100%c"
+  ],
+  "orientation": "vertical",
+  "anchor_from": "top_left",
+  "anchor_to": "top_left",
+  "controls": [
+   {
+    "pad_top": {
+     "type": "panel",
+     "size": [
+      "100%",
+      4
+     ]
+    }
+   },
+   {
+    "buttons_panel": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%c"
+     ],
+     "controls": [
+      {
+       "long_form_dynamic_buttons_panel@server_form.long_form_dynamic_buttons_panel": {}
+      }
+     ]
+    }
+   },
+   {
+    "pad_bottom": {
+     "type": "panel",
+     "size": [
+      "100%",
+      4
+     ]
+    }
+   }
+  ]
+ }
+}

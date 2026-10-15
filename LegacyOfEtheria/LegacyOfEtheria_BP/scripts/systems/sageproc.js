@@ -3,6 +3,7 @@
 import { coreAlert } from "./sagecore.js";
 import { world, system } from "@minecraft/server";
 import { ActionFormData } from "@minecraft/server-ui";
+import { themed, sageThemeOf } from "./ui/forms.js";
 import { getData, markDirty } from "../core/db.js";
 import { isValid, say, healthComp } from "../core/utils.js";
 import { SKILLS } from "../data/skills.js";
@@ -123,7 +124,7 @@ export function suggest(p, key, text, o = {}) {
 /** EXECUTAR COM AUTORIZAÇÃO: o Sábio nunca age sozinho; pergunta e só executa com "Sim". */
 function askAuthorize(p, action, text) {
   const s = S(p); s.lastAsk = system.currentTick; const sk = SKILLS[action.id]; if (!sk || !hasSkill(getData(p), action.id)) return;
-  const f = new ActionFormData().title(`§l§b${stageName(sageStage(getData(p))).toUpperCase()}`).body(`§f${text}\n\n§7Executar §e${sk.name}§7 agora?\n§8(custos normais de mana e recarga)`).button("§aSim, executar").button("§cNão");
+  const f = new ActionFormData().title(themed(p, `§l§b${stageName(sageStage(getData(p))).toUpperCase()}`, sageThemeOf(sageStage(getData(p))))).body(`§f${text}\n\n§7Executar §e${sk.name}§7 agora?\n§8(custos normais de mana e recarga)`).button("§aSim, executar").button("§cNão");
   f.show(p).then((r) => {
     const sg = sageCfg(getData(p)); sg.dec ??= [];
     if (r.canceled || r.selection !== 0) { sg.dec.unshift({ t: Date.now(), ok: false, text: `Recusado: ${sk.name}` }); }

@@ -8,7 +8,7 @@
 // Desempenho: 1 laço a cada 10 ticks só perto de jogadores, partículas por fxlib (orçamento próprio), máx. 2 ecos, 1 domínio ativo, tudo limpo na morte/despawn.
 import { world, system } from "@minecraft/server";
 import { MOBS } from "../data/mobs.gen.js";
-import { isValid, dist, norm, rand, say } from "../core/utils.js";
+import { isValid, dist, norm, rand, say, titleGuard } from "../core/utils.js";
 import { ctx, burst, implode, ringFlat, column, bolt, streak, after, T } from "./fxlib.js";
 import { setAct } from "./truedragon.js";
 
@@ -137,7 +137,7 @@ function transform(e, tick) {
 // ---------------------------------------------------------------- laço principal (percepção temporal, fases, reversão, estados)
 function think(e, tick) {
   const s = state(e), r = ratio(e), ph = phaseOf(r);
-  if (!s.intro) { s.intro = true; for (const p of near(e, 48)) { try { p.onScreenDisplay.setTitle("§5§lCHRONOA", { subtitle: `§dHABILIDADE ÚNICA: §f${SKILL_NAME}`, fadeInDuration: 10, stayDuration: 60, fadeOutDuration: 20 }); } catch { /* ignore */ } } }
+  if (!s.intro) { s.intro = true; for (const p of near(e, 48)) { try { if (!titleGuard.busy(p)) p.onScreenDisplay.setTitle("§5§lCHRONOA", { subtitle: `§dHABILIDADE ÚNICA: §f${SKILL_NAME}`, fadeInDuration: 10, stayDuration: 60, fadeOutDuration: 20 }); } catch { /* ignore */ } } }
   if (ph !== s.phase) {
     s.phase = ph; const msg = ph === 2 ? "§dChronoa percebe você... §7(Percepção avançada, ecos)" : ph === 3 ? "§5O tempo vacila. §7(Paralisação e reversão)" : "§4§lO TEMPO É DELA. §r§7(Domínio completo)";
     for (const p of near(e, 40)) { say(p, `§5[Chronoa] ${msg}`); } try { sfx(e, "ambient", 1.2, 0.7); } catch { /* ignore */ }

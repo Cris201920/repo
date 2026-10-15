@@ -6,7 +6,7 @@ import { world, system } from "@minecraft/server";
 import { getData, markDirty, saveNow } from "../core/db.js";
 import { say, toast, playSound, removeItem, countItem, fmt, bar, isValid, healthComp } from "../core/utils.js";
 import { SAGE_BASE, SAGE_EVO, SAGE_LEARN, RARITY, STAT_LABELS, AUTO_EQUIP } from "../config.js";
-import { menu } from "./ui/forms.js";
+import { menu as baseMenu, sageThemeOf } from "./ui/forms.js";
 import { MOBS } from "../data/mobs.gen.js";
 import { SET_DEFS } from "../data/armor.gen.js";
 import { recipeLines } from "./forge.js";
@@ -61,6 +61,8 @@ const V = {  // eventos -> sons portados do mod (efeitos; a voz é do voice.js)
 export function sageVoice(player, ev) { const sg = sageCfg(getData(player)); if (sg.voice === false || sg.sfx === false) return; if (V[ev]) playSound(player, V[ev], 0.9 * sg.volume / 100, 1); }
 
 const st = (p) => sageStage(getData(p));
+/** todos os menus do Sábio usam o tema do estágio atual */
+const menu = (p, t, b, B) => baseMenu(p, t, b, B, sageThemeOf(st(p)));
 const head = (p) => `${COL[st(p)]}[${stageName(st(p))}]§r`;
 const sayS = (p, m) => say(p, `${head(p)} §f${m}`);
 const row = (label, v) => (v === undefined || v === null || v === "" ? `§7${label}: ${INS}` : `§7${label}: §f${v}`);

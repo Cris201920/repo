@@ -1,0 +1,256 @@
+{
+ "namespace": "hud",
+ "root_panel": {
+  "modifications": [
+   {
+    "array_name": "controls",
+    "operation": "insert_back",
+    "value": [
+     {
+      "eth_world_voice@hud.eth_world_voice": {}
+     }
+    ]
+   }
+  ]
+ },
+ "eth_fx_anim": {
+  "anim_type": "flip_book",
+  "initial_uv": [
+   0,
+   0
+  ],
+  "frame_count": 24,
+  "frame_step": 170,
+  "fps": 12,
+  "looping": true,
+  "easing": "linear"
+ },
+ "eth_world_voice": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "layer": 60,
+  "bindings": [
+   {
+    "binding_name": "#hud_title_text_string",
+    "binding_type": "global"
+   },
+   {
+    "binding_type": "view",
+    "source_property_name": "(not ((#hud_title_text_string - '§w§v§x') = #hud_title_text_string))",
+    "target_property_name": "#visible"
+   }
+  ],
+  "controls": [
+   {
+    "black": {
+     "type": "image",
+     "texture": "textures/ui/Black",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "layer": 60
+    }
+   },
+   {
+    "fx_world": {
+     "type": "image",
+     "texture": "textures/ui/etheria/fx_world",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "uv_size": [
+      320,
+      170
+     ],
+     "uv": "@hud.eth_fx_anim",
+     "disable_anim_fast_forward": true,
+     "layer": 61,
+     "bindings": [
+      {
+       "binding_name": "#hud_title_text_string",
+       "binding_type": "global"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#hud_title_text_string - '§t§w') = #hud_title_text_string))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "fx_sage": {
+     "type": "image",
+     "texture": "textures/ui/etheria/fx_sage",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "uv_size": [
+      320,
+      170
+     ],
+     "uv": "@hud.eth_fx_anim",
+     "disable_anim_fast_forward": true,
+     "layer": 61,
+     "bindings": [
+      {
+       "binding_name": "#hud_title_text_string",
+       "binding_type": "global"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#hud_title_text_string - '§t§s') = #hud_title_text_string))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "fx_raphael": {
+     "type": "image",
+     "texture": "textures/ui/etheria/fx_raphael",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "uv_size": [
+      320,
+      170
+     ],
+     "uv": "@hud.eth_fx_anim",
+     "disable_anim_fast_forward": true,
+     "layer": 61,
+     "bindings": [
+      {
+       "binding_name": "#hud_title_text_string",
+       "binding_type": "global"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#hud_title_text_string - '§t§r') = #hud_title_text_string))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "fx_ciel": {
+     "type": "image",
+     "texture": "textures/ui/etheria/fx_ciel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "uv_size": [
+      320,
+      170
+     ],
+     "uv": "@hud.eth_fx_anim",
+     "disable_anim_fast_forward": true,
+     "layer": 61,
+     "bindings": [
+      {
+       "binding_name": "#hud_title_text_string",
+       "binding_type": "global"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#hud_title_text_string - '§t§c') = #hud_title_text_string))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "fx_tree": {
+     "type": "image",
+     "texture": "textures/ui/etheria/fx_tree",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "uv_size": [
+      320,
+      170
+     ],
+     "uv": "@hud.eth_fx_anim",
+     "disable_anim_fast_forward": true,
+     "layer": 61,
+     "bindings": [
+      {
+       "binding_name": "#hud_title_text_string",
+       "binding_type": "global"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#hud_title_text_string - '§t§p') = #hud_title_text_string))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "title": {
+     "type": "label",
+     "text": "#text",
+     "localize": false,
+     "font_size": "extra_large",
+     "shadow": true,
+     "text_alignment": "center",
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "offset": [
+      0,
+      "22%"
+     ],
+     "size": [
+      "90%",
+      "default"
+     ],
+     "layer": 63,
+     "bindings": [
+      {
+       "binding_name": "#hud_title_text_string",
+       "binding_name_override": "#text",
+       "binding_type": "global"
+      }
+     ]
+    }
+   },
+   {
+    "lines": {
+     "type": "label",
+     "text": "#text",
+     "localize": false,
+     "font_size": "normal",
+     "shadow": true,
+     "text_alignment": "center",
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "offset": [
+      0,
+      "36%"
+     ],
+     "size": [
+      "80%",
+      "default"
+     ],
+     "layer": 63,
+     "bindings": [
+      {
+       "binding_name": "#hud_subtitle_text_string",
+       "binding_name_override": "#text",
+       "binding_type": "global"
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

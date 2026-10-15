@@ -64,6 +64,9 @@ export function playSound(player, id, volume = 1, pitch = 1) {
   try { player.playSound(id, { volume, pitch }); } catch { /* ignore */ }
 }
 export function say(player, msg) { try { player.sendMessage(msg); } catch { /* ignore */ } }
+/** quem está com a tela da Voz do Mundo ativa não recebe outros títulos (systems/worldvoice.js preenche) */
+export const titleGuard = { busy: (_p) => false };
 export function toast(player, title, sub = "") {
+  if (titleGuard.busy(player)) { try { player.sendMessage(`${title}${sub ? " §r" + sub : ""}`); } catch { /* ignore */ } return; }
   try { player.onScreenDisplay.setTitle(title, { stayDuration: 40, fadeInDuration: 5, fadeOutDuration: 10, subtitle: sub }); } catch { /* ignore */ }
 }

@@ -5,6 +5,7 @@
 // Visual evolui por estágio: Sábio (octaedro) · Grande Sábio (icosaedro) · Raphael (icosaedro duplo) · Ciel (dodecaedro orgânico).
 // Nas cenas principais (habilidade obtida, evolução, descoberta nova, All of Creation) também surge o ANEL DE GLIFOS: uma única partícula com a imagem
 // do Grande Sábio (sageRing, textura em tools/sagering.py), com fade, giro lento e ~2,6 s de vida, no máximo 1 a cada 8 s por jogador.
+import { worldVoice, voiceActive } from "./worldvoice.js";
 import { system, world } from "@minecraft/server";
 import { getData, markDirty } from "../core/db.js";
 import { isValid } from "../core/utils.js";
@@ -195,6 +196,7 @@ const GL = "#%&$▒░?/";
 const corrupt = (s) => { if (s.length < 4) return s; const i = 1 + Math.floor(Math.random() * (s.length - 2)); return s.slice(0, i) + GL[Math.floor(Math.random() * GL.length)] + s.slice(i + 1); };
 /** Digita linhas progressivamente na barra de ação. o: { col, hold, cps, onDone, tail } */
 export function typeText(p, lines, o = {}) {
+  if (voiceActive(p)) { system.runTimeout(() => o.onDone?.(), 10); return; }
   if (!alive(p) || !animOn(p)) { try { p.onScreenDisplay.setActionBar(`${o.col ?? "§b"}${lines[lines.length - 1] ?? ""}`); } catch { /* ignore */ } system.runTimeout(() => o.onDone?.(), 10); return; }
   const id = Symbol(), col = o.col ?? "§b", cps = (o.cps ?? 1.6) / durK(p), done = [];
   jobs.set(p.id, id); jobAt.set(p.id, system.currentTick); let li = 0, ci = 0, wait = 0, glitchFrames = 0, hold = Math.round((o.hold ?? 24) * durK(p));
@@ -216,7 +218,7 @@ export function typeText(p, lines, o = {}) {
 }
 /** Título com entrada "de impacto": glitch → revelação com fade rápido (anúncio de nome). */
 export function slam(p, title, sub = "", o = {}) {
-  if (!alive(p)) return;
+  if (!alive(p) || voiceActive(p)) return;
   const stay = Math.round((o.stay ?? 44) * durK(p)), set = (t, s, fi, st, fo) => { try { p.onScreenDisplay.setTitle(t, { stayDuration: st, fadeInDuration: fi, fadeOutDuration: fo, subtitle: s }); } catch { /* ignore */ } };
   if (!animOn(p)) { set(title, sub, 4, stay, 10); return; }
   const c = o.col ?? "§f";
@@ -299,6 +301,11 @@ export function announceSkills(p, ids) {
   play(p, 3, (end, ok) => {
     const s = stageOf(p), t = tintN(s), many = ids.length > 1, top = ids.map(CLS).sort((a, b) => b.n - a.n)[0], x = ctx(p, 1.5);
     if (!animOn(p)) { for (const i of ids) { try { p.sendMessage(`${CLS(i).c}[${CLS(i).k}] §f${SKILLS[i].name}`); } catch { /* ignore */ } } end(); return; }
+    { // Voz do Mundo: título + categorias + nomes, um a um
+      const groups = []; for (const i of ids.slice(0, 12)) { const c = CLS(i); let g = groups.find((x) => x.header === c.k); if (!g) groups.push(g = { header: c.k, col: c.c, n: c.n, items: [], snd: c.n >= 4 ? "etheria.sage.tier.ultimate" : c.n >= 3 ? "etheria.sage.tier.unique" : c.n === 1 ? "etheria.sage.tier.intrinsic" : c.n === 2 ? "etheria.sage.tier.extra" : "etheria.sage.tier.common" }); g.items.push(SKILLS[i].name); }
+      groups.sort((a, b) => b.n - a.n);
+      worldVoice(p, { theme: s >= 4 ? "ciel" : s >= 3 ? "raphael" : "sage", title: `${top.c}§l${many ? "HABILIDADES ADQUIRIDAS" : SKILLS[ids[0]].name.toUpperCase()}`, narration: [many ? "Confirmado. Relatando as habilidades adquiridas." : "Confirmado. Nova habilidade adquirida."], groups });
+    }
     const dark = ["ultra", "extreme"].includes(lvl(p)) && cfg(p).filter !== false;
     if (dark) { try { p.addEffect("darkness", Math.round(110 * durK(p)), { amplifier: 0, showParticles: false }); } catch { /* ignore */ } }
     coreOn(p, "DETECTING", { ticks: 180 + ids.length * 40, ray: top.n >= 3 ? "gold" : undefined, ring: true }); snd(p, `start${t}`, 0.7);   // habilidade obtida: o anel surge com o núcleo
@@ -329,6 +336,8 @@ export function evolutionScene(p, stage) {
   play(p, 5, (end, ok) => {
     const s = stageOf(p), x = ctx(p, 2.5), at = () => ({ x: p.location.x, y: p.location.y + 1.2, z: p.location.z });
     if (!animOn(p)) { slam(p, name, "EVOLUÇÃO CONFIRMADA"); end(); return; }
+    worldVoice(p, tdl ? { theme: "world", title: "§c§lVERDADEIRO LORDE DEMÔNIO", sound: "etheria.sage.ceremony.true_demon_lord", narration: ["O Festival da Colheita está completo.", "O indivíduo designado, o hospedeiro, despertou como Verdadeiro Lorde Demônio.", "Confirmados o aumento de todos os valores de habilidade e a evolução dos subordinados.", "Continuando, relatarei as habilidades adquiridas."] }
+      : { theme: big ? "world" : "tree", title: `§6§l${name}`, sound: big ? "etheria.sage.ceremony.harvest_festival" : undefined, narration: big ? ["Condições de evolução confirmadas.", "O Festival da Colheita começou.", `Evolução para ${stage?.name ?? "a nova forma"} concluída.`] : ["Condições de evolução confirmadas.", `Evolução para ${stage?.name ?? "a nova forma"} concluída.`] });
     coreOn(p, "DETECTING", { ticks: 420, ray: tdl ? "blood" : undefined, size: tdl ? 1.0 : undefined, ring: true });   // 1º anel na abertura; o 2º (anti-spam de 8 s) no momento do núcleo exposto
     const L = [
       [4, () => typeText(p, ["CONDIÇÕES DE EVOLUÇÃO DETECTADAS."], { col: tdl ? "§c" : "§b", hold: 14 })],
@@ -357,6 +366,8 @@ export function sageEvolveScene(p, to) {
   if (!alive(p) || !animOn(p)) return;
   const cur = stageName(to - 1).toUpperCase(), nxt = ({ 2: "GRANDE SÁBIO", 3: "REI DA SABEDORIA RAPHAEL", 4: "MANAS CIEL" })[to] ?? stageName(to).toUpperCase();
   play(p, 6, (end, ok) => {
+    worldVoice(p, { theme: to >= 4 ? "ciel" : to >= 3 ? "raphael" : "sage", title: `${to >= 4 ? "§d" : to >= 3 ? "§6" : "§b"}§l${nxt}`, sound: to >= 3 ? "etheria.sage.ceremony.demon_lord_seed" : undefined,
+      narration: ["Evolução da habilidade detectada.", `Estrutura existente: ${cur}.`, `A habilidade evoluiu para ${nxt}.`] });
     coreOn(p, "PROCESSING", { stage: Math.max(0, to - 1), ticks: 260 });
     seq(p, ok, [
       [2, () => typeText(p, ["EVOLUÇÃO DA HABILIDADE DETECTADA.", "PROCESSANDO..."], { col: "§e", hold: 4 })],
@@ -412,7 +423,8 @@ export function coreAlert(p, kind = "info") {
 }
 
 // ------------------------------------------------------------------ menu "Sistemas visuais"
-import { menu } from "./ui/forms.js";
+import { menu as baseMenu, sageThemeOf } from "./ui/forms.js";
+const menu = (p, t, b, B) => baseMenu(p, t, b, B, sageThemeOf(sageStage(getData(p))));
 import { FX_LEVELS, FX_LABELS } from "../config.js";
 export function openCoreSettings(p, back) {
   const d = getData(p), sg = cfg(p), st = d.settings, onoff = (v) => (v ? "§aLIGADO" : "§cDESLIGADO");
