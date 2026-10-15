@@ -74,6 +74,7 @@ const P3 = (o, B, a, b, d) => ({ x: o.x + B.r.x * a + B.u.x * b + B.v.x * d, y: 
 
 /** Liga/atualiza o núcleo. o: { stage, ticks, side, ray, size, accel, ring } (ring: true também projeta o anel de glifos; ver sageRing) */
 export function coreOn(p, state = "IDLE", o = {}) {
+  if (announcing(p)) return null;   // durante a Voz do Mundo só a cena nova aparece (sem o núcleo de partículas azul)
   if (!alive(p) || !animOn(p)) return null;
   const now = system.currentTick, ex = cores.get(p.id);
   const c = ex ?? { since: now, phase: Math.random() * 6, boost: 0, frame: 0, accel: 1 };
@@ -348,6 +349,7 @@ export function evolutionScene(p, stage) {
     else if (id === "human_3a") announceCeremony(p, "true_hero", evo);
     else announceEvolution(p, evo.from, evo.to, stage?.from, stage?.id);
   }
+  return;   // 6.33: a cena da Voz do Mundo (sageannounce.js) substitui o núcleo de partículas antigo (as linhas/anéis azuis em volta do personagem)
   play(p, 5, (end, ok) => {
     const s = stageOf(p), x = ctx(p, 2.5), at = () => ({ x: p.location.x, y: p.location.y + 1.2, z: p.location.z });
     if (!animOn(p)) { slam(p, name, "EVOLUÇÃO CONFIRMADA"); end(); return; }
@@ -379,6 +381,7 @@ export function sageEvolveScene(p, to) {
   if (!alive(p) || !animOn(p)) return;
   const cur = stageName(to - 1).toUpperCase(), nxt = ({ 2: "GRANDE SÁBIO", 3: "REI DA SABEDORIA RAPHAEL", 4: "MANAS CIEL" })[to] ?? stageName(to).toUpperCase();
   announceEvolution(p, stageName(to - 1), stageName(to));
+  return;   // 6.33: idem (só a cena nova)
   play(p, 6, (end, ok) => {
     coreOn(p, "PROCESSING", { stage: Math.max(0, to - 1), ticks: 260 });
     seq(p, ok, [

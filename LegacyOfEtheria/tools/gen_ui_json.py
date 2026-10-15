@@ -27,7 +27,7 @@ sf["eth_vanilla_long_form@common_dialogs.main_panel_no_buttons"] = {"$title_pane
 sf["eth_fx_anim"] = flip
 def theme_layer(th, code):
     return {f"theme_{th}": {"type": "panel", "size": ["100%", "100%"], "bindings": vis("#title_text", has("#title_text", code)), "controls": [
-        {"fx": {"type": "image", "texture": f"textures/ui/etheria/fx_{th}", "size": ["100%", "100%"], "uv_size": [320, 170], "uv": "@server_form.eth_fx_anim", "disable_anim_fast_forward": True, "layer": 1}},
+        {"fx": {"type": "image", "texture": f"textures/ui/etheria/fx_{th}", "size": ["100%", "100%"], "uv_size": [320, 170], "keep_ratio": False, "fill": True, "uv": "@server_form.eth_fx_anim", "disable_anim_fast_forward": True, "layer": 1}},
         {"shade": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "alpha": 0.35, "layer": 2}},
         {"card": {"type": "image", "texture": f"textures/ui/etheria/frame_{th}", "size": ["94%", "90%"], "layer": 3}},
         {"band": {"type": "image", "texture": f"textures/ui/etheria/band_{th}", "size": ["70%", 22], "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "5% + 2px"], "layer": 4}},
@@ -81,7 +81,7 @@ hud["eth_title_fx"] = {"type": "panel", "size": [0, 0], "layer": 150, "bindings"
 hud["eth_world_voice"] = {"type": "panel", "size": ["100%", "100%"], "layer": 60, "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", HUDMARK), True), "controls": [
     {"black": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "layer": 60, "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", CER), True)}},
     {"veil": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "alpha": 0.72, "layer": 60, "bindings": vis("#hud_title_text_string", lacks("#hud_title_text_string", CER), True)}},
-] + [{f"fx_{th}": {"type": "image", "texture": f"textures/ui/etheria/fx_{th}", "size": ["100%", "100%"], "uv_size": [320, 170], "uv": "@hud.eth_fx_anim", "disable_anim_fast_forward": True, "layer": 61,
+] + [{f"fx_{th}": {"type": "image", "texture": f"textures/ui/etheria/fx_{th}", "size": ["100%", "100%"], "uv_size": [320, 170], "keep_ratio": False, "fill": True, "uv": "@hud.eth_fx_anim", "disable_anim_fast_forward": True, "layer": 61,
         "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", code), True)}} for th, code in THEMES.items()] + [
     {"title": {"type": "label", "text": "#text", "localize": False, "font_size": "extra_large", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "24%"], "size": ["90%", "default"], "layer": 63,
         "bindings": [{"binding_name": "#hud_title_text_string", "binding_name_override": "#text", "binding_type": "global"}]}},

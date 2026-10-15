@@ -124,6 +124,8 @@
          320,
          170
         ],
+        "keep_ratio": false,
+        "fill": true,
         "uv": "@server_form.eth_fx_anim",
         "disable_anim_fast_forward": true,
         "layer": 1
@@ -202,6 +204,8 @@
          320,
          170
         ],
+        "keep_ratio": false,
+        "fill": true,
         "uv": "@server_form.eth_fx_anim",
         "disable_anim_fast_forward": true,
         "layer": 1
@@ -280,6 +284,8 @@
          320,
          170
         ],
+        "keep_ratio": false,
+        "fill": true,
         "uv": "@server_form.eth_fx_anim",
         "disable_anim_fast_forward": true,
         "layer": 1
@@ -358,6 +364,8 @@
          320,
          170
         ],
+        "keep_ratio": false,
+        "fill": true,
         "uv": "@server_form.eth_fx_anim",
         "disable_anim_fast_forward": true,
         "layer": 1
@@ -436,6 +444,8 @@
          320,
          170
         ],
+        "keep_ratio": false,
+        "fill": true,
         "uv": "@server_form.eth_fx_anim",
         "disable_anim_fast_forward": true,
         "layer": 1
