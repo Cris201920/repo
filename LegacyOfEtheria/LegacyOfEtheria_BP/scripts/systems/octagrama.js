@@ -110,7 +110,7 @@ export function startOctagrama() {
   // provocado -> luta de verdade
   world.afterEvents.entityHurt.subscribe((ev) => {
     try {
-      const e = ev.hurtEntity; if (!e?.hasTag?.(IDLE)) return;
+      const e = ev.hurtEntity; if (!e?.hasTag?.(IDLE) || e.hasTag("etheria_calm")) return;   // 6.43: Conselho calmo só luta por desafio
       e.removeTag(IDLE); try { e.removeEffect("slowness"); } catch { /* ignore */ }
       const by = ev.damageSource?.damagingEntity; if (by?.typeId === "minecraft:player") say(by, `§c§l[Octagrama] §r§7${e.nameTag || "O Lorde"} foi provocado e luta!`);
     } catch { /* ignore */ }

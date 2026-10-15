@@ -5,9 +5,14 @@
 import json, os, glob, re, sys
 from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); RP = os.path.join(ROOT, "LegacyOfEtheria_RP")
-PENDING = {   # aguardando a imagem correta do jogador (não inventar textura)
-  "rimuru_tempest": "usa a skin do Souei — aguardando a imagem do Rimuru",
-  "shion": "usa a skin da Shuna (cabelo rosa) — aguardando a imagem da Shion",
+PENDING = {}   # nada aguardando imagem
+APPLIED = {    # 6.43: skins enviadas pelo jogador (identificadas pela aparência e por comparação pixel a pixel com as texturas do addon)
+  "rimuru_tempest": "skin do Rimuru enviada (cabelo azul-claro, roupa preta) — antes usava a do Souei",
+  "shion": "skin da Shion (cabelo roxo, chifre, terno roxo) — antes usava a da Shuna; essa skin estava errada na Ultima",
+  "shuna": "personagem nova com a skin da Shuna (cabelo rosa, miko) que estava na Shion",
+  "ultima": "skin da Ultima enviada (cabelo rosa, vestido roxo) — antes usava a da Shion",
+  "benimaru": "skin do Benimaru enviada (versão nova)",
+  "cavaleiro_negro": "skin do Cavaleiro Negro enviada (versão nova)",
 }
 GEO = {}
 for f in glob.glob(os.path.join(RP, "models/entity/**/*.json"), recursive=True):
@@ -34,7 +39,7 @@ for t, ents in by_tex.items():
     named = {x for x in ents if not x.startswith(("tt_goblin", "tt_orc", "tt_lizardman", "tt_direwolf", "tt_otherworlder", "tt_special"))}
     if t and len(named) > 1 and not all(x.startswith("npc_") for x in named): issues.append(f"textura compartilhada por personagens diferentes: {os.path.basename(t)} -> {sorted(named)}")
 out = ["# Registro de skins (gerado por tools/skin_registry.py)", "", "| Entidade | Textura | Geometria | Imagem | Situação |", "|---|---|---|---|---|"]
-for e, t, g, sz in rows: out.append(f"| {e} | {os.path.basename(t)} | {g.replace('geometry.', '')} | {sz} | {PENDING.get(e, 'ok')} |")
+for e, t, g, sz in rows: out.append(f"| {e} | {os.path.basename(t)} | {g.replace('geometry.', '')} | {sz} | {PENDING.get(e) or APPLIED.get(e) or 'ok'} |")
 out += ["", "## Problemas encontrados", ""] + [f"- {i}" for i in issues or ["nenhum"]]
 open(os.path.join(ROOT, "SKINS.md"), "w").write("\n".join(out) + "\n")
 print(len(rows), "entidades;", len(issues), "problemas"); print("\n".join(issues[:30]))

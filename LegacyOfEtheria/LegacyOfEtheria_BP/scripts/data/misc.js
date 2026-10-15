@@ -34,6 +34,12 @@ export const ACHIEVEMENTS = [
   { id: "guild_b", name: "Aventureiro Rank B", desc: "Alcance o rank B da guilda.", title: "Veterano da Guilda", coins: 1000, check: (d) => d.guild.id && d.guild.rank >= 4 },
   { id: "guild_s", name: "Lenda da Guilda", desc: "Alcance o rank S da guilda.", title: "Lenda da Guilda", coins: 5000, check: (d) => d.guild.id && d.guild.rank >= 6 },
   { id: "evolved", name: "Evolução", desc: "Evolua sua raça pela primeira vez.", title: "Evoluído", coins: 300, check: (d) => !d.raceStage.endsWith("_1") },
+  // 6.43: conquistas dos personagens (eventos reais registrados em d.world.chars / flags / missões)
+  { id: "disciple", name: "Discípulo", desc: "Conclua a prova de discípulo de um personagem.", title: "Discípulo", coins: 500, check: (d) => Object.keys(d.world?.flags ?? {}).some((k) => k.startsWith("disc_")) },
+  { id: "challenger", name: "Desafiante", desc: "Vença um duelo contra um membro do Conselho de Tempest.", title: "Desafiante", coins: 1000, check: (d) => Object.values(d.world?.chars ?? {}).some((c) => (c.wins ?? 0) > 0) },
+  { id: "council_friend", name: "Amigo do Conselho", desc: "Converse com Rimuru, Benimaru, Shion e Shuna.", title: "Amigo de Tempest", coins: 300, check: (d) => ["rimuru_tempest", "benimaru", "shion", "shuna"].every((k) => d.world?.chars?.[k]?.met) },
+  { id: "tempest_guardian", name: "Guardião de Tempest", desc: "Conclua as missões de defesa de Tempest.", title: "Guardião de Tempest", coins: 2000, check: (d) => ["tp_leader_defend", "tp_defend_city2", "tp_orc_aftermath"].every((q) => d.quests.completed.includes(q)) },
+  { id: "council_champion", name: "Campeão do Conselho", desc: "Vença Rimuru, Benimaru, Shion e Shuna em duelo.", title: "Campeão de Tempest", coins: 6000, check: (d) => ["rimuru_tempest", "benimaru", "shion", "shuna"].every((k) => (d.world?.chars?.[k]?.wins ?? 0) > 0) },
   { id: "ascended_race", name: "Forma Suprema", desc: "Alcance o estágio final da raça.", title: "Forma Suprema", coins: 5000, check: (d) => /_(3[ab]|4)$/.test(d.raceStage) },
 ];
 

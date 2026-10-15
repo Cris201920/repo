@@ -43,6 +43,7 @@ import { startAgility } from "./systems/agility.js";
 import { startWorldgen } from "./systems/worldgen.js";
 import { startOctagrama } from "./systems/octagrama.js";
 import { startRealms } from "./systems/realms.js";
+import { startCharacters } from "./systems/characters.js";
 import { startFlight, dropFlight } from "./systems/flight.js";
 import { startAntiSkill } from "./systems/antiskill.js";
 import { startPowers } from "./systems/powers.js";
@@ -140,6 +141,7 @@ system.run(() => {
   startWorldgen();
   startOctagrama();
   startRealms();
+  startCharacters();
   startFlight();
   startAntiSkill();
   startPowers();

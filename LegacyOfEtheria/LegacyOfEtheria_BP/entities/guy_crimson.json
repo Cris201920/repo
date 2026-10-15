@@ -92,7 +92,7 @@
    },
    "minecraft:boss": {
     "hud_range": 64,
-    "name": "Guy Crimson, o Rei Demônio Carmesim",
+    "name": "Guy Crimson, o Rei Dem\u00f4nio Carmesim",
     "should_darken_sky": false
    },
    "minecraft:follow_range": {
@@ -110,7 +110,26 @@
       "damage_multiplier": 0.58
      }
     ]
+   },
+   "minecraft:interact": {
+    "interactions": [
+     {
+      "on_interact": {
+       "filters": {
+        "test": "is_family",
+        "subject": "other",
+        "value": "player"
+       },
+       "event": "etheria:interact",
+       "target": "self"
+      },
+      "interact_text": "Falar"
+     }
+    ]
    }
+  },
+  "events": {
+   "etheria:interact": {}
   }
  }
 }

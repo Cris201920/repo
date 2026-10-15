@@ -130,6 +130,62 @@
       }
      ]
     }
+   },
+   "etheria_calm": {
+    "minecraft:behavior.nearest_attackable_target": {
+     "priority": 2,
+     "must_see": true,
+     "entity_types": [
+      {
+       "filters": {
+        "test": "is_family",
+        "subject": "other",
+        "value": "etheria_ninguem"
+       },
+       "max_dist": 1
+      }
+     ]
+    },
+    "minecraft:behavior.hurt_by_target": {
+     "priority": 1,
+     "entity_types": [
+      {
+       "filters": {
+        "test": "is_family",
+        "subject": "other",
+        "value": "etheria_ninguem"
+       },
+       "max_dist": 1
+      }
+     ]
+    },
+    "minecraft:attack": {
+     "damage": 0
+    },
+    "minecraft:damage_sensor": {
+     "triggers": [
+      {
+       "cause": "all",
+       "deals_damage": false
+      }
+     ]
+    },
+    "minecraft:interact": {
+     "interactions": [
+      {
+       "on_interact": {
+        "filters": {
+         "test": "is_family",
+         "subject": "other",
+         "value": "player"
+        },
+        "event": "etheria:interact",
+        "target": "self"
+       },
+       "interact_text": "Falar"
+      }
+     ]
+    }
    }
   },
   "events": {
@@ -139,7 +195,22 @@
       "etheria_ally"
      ]
     }
-   }
+   },
+   "etheria:calm": {
+    "add": {
+     "component_groups": [
+      "etheria_calm"
+     ]
+    }
+   },
+   "etheria:provoke": {
+    "remove": {
+     "component_groups": [
+      "etheria_calm"
+     ]
+    }
+   },
+   "etheria:interact": {}
   }
  }
 }

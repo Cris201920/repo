@@ -18,7 +18,7 @@ export const REALMS = {
   ceu: { key: "ceu_veldanava", portal: "portal_ceu", dim: "minecraft:overworld", at: { x: -5200, z: 5200 }, top: 215, name: "Céu de Veldanava", color: "§e", fall: 50 },
   espiritos: { key: "espiritos", portal: "portal_espiritos", dim: "minecraft:the_end", at: { x: 4400, z: 4400 }, top: 64, name: "Reino dos Espíritos", color: "§b", fall: 30 },
 };
-export const COUNCIL = ["rimuru_tempest", "benimaru", "shion"];
+export const COUNCIL = ["rimuru_tempest", "benimaru", "shion", "shuna"];   // 6.43: Shuna (textura enviada pelo jogador)
 const KEY = "etheria:realms", RET = "etheria:ret", STARTED = "etheria:inf_start", PEND = "etheria:inf_pend", RES = "etheria_res", IDLE = "etheria_oct_idle", POPT = "etheria_pop";
 const rd = () => { try { const r = JSON.parse(world.getDynamicProperty(KEY) ?? "null"); return r && typeof r === "object" ? r : { r: {}, g: {}, dead: {} }; } catch { return { r: {}, g: {}, dead: {} }; } };
 let ST = null;
@@ -65,7 +65,7 @@ const tagOf = (gk, id) => `${RES}_${gk}_${id}`;
 function groupInfo(gk) {
   if (gk === "council") {
     const i = tempestInfo(), p = tempestSpawn(); if (!i || !p || !i.done) return null;
-    return { dim: dimOf("minecraft:overworld"), list: COUNCIL.map((id, k) => ({ id, pos: { x: p.x + [0, 2.5, -2.5][k], y: p.y, z: p.z + [-2, 1, 1][k] } })) };
+    return { dim: dimOf("minecraft:overworld"), list: COUNCIL.map((id, k) => ({ id, pos: { x: p.x + [0, 2.5, -2.5, 0][k], y: p.y, z: p.z + [-2, 1, 1, 3][k] } })) };
   }
   const s = st().r[gk], d = REALMS[gk] && defOf(gk); if (!s?.built || !d) return null;
   return { dim: dimOf(REALMS[gk].dim), list: (d.lords ?? []).map((l) => ({ id: l[0], pos: { x: s.x + l[1] + 0.5, y: s.y + l[2], z: s.z + l[3] + 0.5 } })) };
@@ -83,6 +83,7 @@ export function ensureGroup(gk) {
     try {
       const e = g.dim.spawnEntity("etheria:" + m.id, m.pos);
       e.addTag(RES); e.addTag(tagOf(gk, m.id)); e.addTag(IDLE); try { e.nameTag = nameOf(m.id); } catch { /* ignore */ }
+      if (gk === "council") { e.addTag(CALM); try { e.triggerEvent("etheria:calm"); } catch { /* ignore */ } }   // 6.43: Conselho pacífico (diálogo; luta só por desafio)
       out.spawned.push(m.id);
     } catch (e) { out.failed.push(`${m.id}: ${e}`); }
   }
@@ -91,6 +92,10 @@ export function ensureGroup(gk) {
   return out;
 }
 const homeOf = (gk, id) => groupInfo(gk)?.list.find((m) => m.id === id)?.pos;
+export const residentHome = homeOf;
+const CALM = "etheria_calm";
+/** 6.43: um morador que caiu num duelo (systems/characters.js) volta a existir: apaga o registro de morte. */
+export function reviveResident(gk, id) { const S = st(); if (S.dead[gk]?.[id]) { delete S.dead[gk][id]; save(); } }
 
 // ------------------------------------------------------------------ população (inimigos comuns do reino; repostos ao voltar)
 export function ensurePop(id, first = false) {
@@ -255,6 +260,7 @@ export function startRealms() {
           const dx = e.location.x - h.x, dz = e.location.z - h.z, dy = e.location.y - h.y;
           if (dx * dx + dz * dz > 6.25 || Math.abs(dy) > 3) { try { e.teleport(h); } catch { /* ignore */ } }
           try { e.clearVelocity(); e.addEffect("slowness", 40, { amplifier: 250, showParticles: false }); } catch { /* ignore */ }
+          if (gk === "council" && !e.hasTag(CALM) && !e.hasTag("etheria_duel")) { e.addTag(CALM); try { e.triggerEvent("etheria:calm"); } catch { /* ignore */ } }
         }
       }
     } catch (er) { console.warn(`[Etheria] reinos moradores: ${er}`); }

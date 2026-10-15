@@ -110,7 +110,26 @@
       "damage_multiplier": 0.7
      }
     ]
+   },
+   "minecraft:interact": {
+    "interactions": [
+     {
+      "on_interact": {
+       "filters": {
+        "test": "is_family",
+        "subject": "other",
+        "value": "player"
+       },
+       "event": "etheria:interact",
+       "target": "self"
+      },
+      "interact_text": "Falar"
+     }
+    ]
    }
+  },
+  "events": {
+   "etheria:interact": {}
   }
  }
 }

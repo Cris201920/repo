@@ -162,7 +162,7 @@ export function buyFrom(player, role, id) {
   markDirty(player); saveNow(player); playSound(player, SOUNDS.coins);
   return { ok: true, msg: `Comprou ${nameOf(id)} por ${price} moedas.` };
 }
-function openFacShop(player, role, page) {
+export function openFacShop(player, role, page) {
   const d = getData(player), meta = WORLD_NPCS[role], list = shopList(d, role), per = 7, pages = Math.max(1, Math.ceil(list.length / per));
   const b = list.slice(page * per, page * per + per).map((x) => ({ text: `${x.locked ? "§8" : ""}${nameOf(x.i.id)}\n§r${x.locked ? `§c[rep. ${x.gate}]` : `§6${Math.round(x.i.price * priceMult(d, meta.faction))} moedas`}`,
     icon: "textures/items/" + x.i.id.replace("etheria:", "etheria_"), run: () => { msg(player, buyFrom(player, role, x.i.id)); openFacShop(player, role, page); } }));

@@ -4,7 +4,7 @@
 |---|---|---|---|---|
 | arcane_slime | etheria_tt_intelligent_slime | etheria_tt_intelligent_slime | 64x64 | ok |
 | avatar_harem | etheria_avatar_harem | humanoid.custom | 64x64 | ok |
-| benimaru | etheria_benimaru | etheria_benimaru_skin | 64x64 | ok |
+| benimaru | etheria_benimaru | etheria_benimaru_skin | 64x64 | skin do Benimaru enviada (versão nova) |
 | beretta | etheria_beretta | etheria_beretta | 736x736 | ok |
 | boss_ember_tyrant | etheria_boss_ember_tyrant_p1 | etheria_boss_ember_tyrant | 128x256 | ok |
 | boss_goblin_king | etheria_boss_goblin_king_p1 | etheria_boss_goblin_king | 64x512 | ok |
@@ -13,7 +13,7 @@
 | carrera | etheria_carrera | etheria_carrera_skin | 64x64 | ok |
 | carrion | etheria_carrion | etheria_carrion | 256x256 | ok |
 | carrion_royal_beast | etheria_carrion_royal_beast | etheria_carrion_royal_beast | 256x256 | ok |
-| cavaleiro_negro | etheria_cavaleiro_negro | etheria_cavaleiro_negro_skin | 64x64 | ok |
+| cavaleiro_negro | etheria_cavaleiro_negro | etheria_cavaleiro_negro_skin | 64x64 | skin do Cavaleiro Negro enviada (versão nova) |
 | chronoa | etheria_chronoa_human | etheria_chronoa_human | 64x128 | ok |
 | chronoa_echo | etheria_chronoa_human | etheria_chronoa_human | 64x128 | ok |
 | const_abyssal_black_flame_dragon | etheria_const_abyssal_black_flame_dragon | humanoid.custom | 64x64 | ok |
@@ -98,12 +98,13 @@
 | rain | etheria_rain | etheria_rain_skin | 64x80 | ok |
 | rimuru_ogre_fight | etheria_rimuru_ogre_fight | humanoid.custom | 64x64 | ok |
 | rimuru_senhor_demonio | etheria_rimuru_senhor_demonio | etheria_rimuru_senhor_demonio_skin | 64x96 | ok |
-| rimuru_tempest | etheria_rimuru_tempest | etheria_rimuru_tempest_skin | 64x64 | usa a skin do Souei — aguardando a imagem do Rimuru |
+| rimuru_tempest | etheria_rimuru_tempest | etheria_rimuru_tempest_skin | 64x64 | skin do Rimuru enviada (cabelo azul-claro, roupa preta) — antes usava a do Souei |
 | sabio_branco | etheria_sabio_branco | etheria_sabio_branco_skin | 64x64 | ok |
 | sage_circle | etheria_sage_s0 | etheria_sage_circle | 512x512 | ok |
 | serva_azul | etheria_serva_azul | etheria_serva_azul_skin | 64x80 | ok |
 | serva_verde | etheria_serva_verde | etheria_serva_verde_skin | 64x64 | ok |
-| shion | etheria_shion | etheria_shion_skin | 64x80 | usa a skin da Shuna (cabelo rosa) — aguardando a imagem da Shion |
+| shion | etheria_shion | etheria_shion_skin | 64x80 | skin da Shion (cabelo roxo, chifre, terno roxo) — antes usava a da Shuna; essa skin estava errada na Ultima |
+| shuna | etheria_shuna | etheria_shuna_skin | 64x80 | personagem nova com a skin da Shuna (cabelo rosa, miko) que estava na Shion |
 | skeleton_knight | etheria_skeleton_knight | etheria_skeleton_knight | 32x128 | ok |
 | spirit_earth | etheria_spirit_earth | etheria_spirit_earth | 64x64 | ok |
 | spirit_flame | etheria_spirit_flame | etheria_spirit_flame | 32x128 | ok |
@@ -232,7 +233,7 @@
 | tt_special_otherworlder_7 | etheria_tt_special_otherworlder_7 | humanoid.custom | 64x64 | ok |
 | tt_spirit_colossus | etheria_tt_spirit_colossus | etheria_tt_spirit_colossus | 128x128 | ok |
 | tt_tempest_serpent | etheria_tt_tempest_serpent | etheria_tt_tempest_serpent | 64x64 | ok |
-| ultima | etheria_ultima | etheria_ultima_skin | 64x80 | ok |
+| ultima | etheria_ultima | etheria_ultima_skin | 64x64 | skin da Ultima enviada (cabelo rosa, vestido roxo) — antes usava a da Shion |
 | veldanava | etheria_veldanava | etheria_veldanava | 512x512 | ok |
 | veldora | etheria_veldora | etheria_veldora | 512x512 | ok |
 | velgrynd | etheria_velgrynd | etheria_velgrynd | 512x512 | ok |

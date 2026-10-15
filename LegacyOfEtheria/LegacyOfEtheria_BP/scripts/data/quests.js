@@ -144,6 +144,17 @@ Object.assign(QUESTS, {
     objectives: [{ type: "deliver", item: E + "goblin_ear", n: 12, npc: "orc_commander", label: "Orelhas de Goblin" }], reward: { xp: 1500, coins: 600, frep: { orc: 100, tempest: -15 } } },
   hm_legend_trial: { id: "hm_legend_trial", name: "A Prova Lendária", giver: "hm_sage", minLevel: 80, flag: "hermit_time", desc: "Prove que é digno: derrote Chronoa, a Senhora do Tempo.",
     objectives: [{ type: "boss", target: "chronoa", n: 1, label: "Chronoa" }], reward: { xp: 15000, coins: 8000 } },
+  // 6.43: PROVAS DE DISCÍPULO (dadas pelos personagens em systems/characters.js; concluir marca a flag disc_<personagem>)
+  ch_shuna_trial: { id: "ch_shuna_trial", name: "Estudos com Shuna", giver: "char_shuna", minLevel: 8, desc: "Shuna pediu cristais de mana para os primeiros estudos de magia sagrada.",
+    objectives: [{ type: "deliver", item: E + "mana_crystal", n: 6, npc: "shuna", label: "Cristais de Mana (entregar à Shuna)" }], reward: { xp: 900, coins: 300, frep: { tempest: 20 }, flagSet: "disc_shuna" } },
+  ch_shion_trial: { id: "ch_shion_trial", name: "O Treino de Shion", giver: "char_shion", minLevel: 12, desc: "Shion quer ver sua força bruta: cace lobos mágicos e traga as presas (para a comida dela).",
+    objectives: [{ type: "kill", target: E + "magic_wolf", n: 12, label: "Lobos Mágicos" }, { type: "deliver", item: E + "wolf_fang", n: 6, npc: "shion", label: "Presas de Lobo (entregar à Shion)" }], reward: { xp: 1800, coins: 600, frep: { tempest: 25 }, flagSet: "disc_shion" } },
+  ch_benimaru_trial: { id: "ch_benimaru_trial", name: "A Disciplina de Benimaru", giver: "char_benimaru", minLevel: 20, desc: "Benimaru exige resultados: elimine hobgoblins e orcs nos arredores de Tempest.",
+    objectives: [{ type: "kill", target: E + "hobgoblin", n: 15, label: "Hobgoblins" }, { type: "kill", target: E + "orc", n: 15, label: "Orcs" }], reward: { xp: 4000, coins: 1200, frep: { tempest: 35 }, flagSet: "disc_benimaru" } },
+  ch_rimuru_trial: { id: "ch_rimuru_trial", name: "A Prova do Lorde", giver: "char_rimuru_tempest", minLevel: 40, desc: "Rimuru quer ver se você consegue proteger os outros: elimine cavaleiros esqueletos e entregue presas de orc como prova.",
+    objectives: [{ type: "kill", target: E + "skeleton_knight", n: 20, label: "Cavaleiros Esqueletos" }, { type: "deliver", item: E + "orc_tusk", n: 10, npc: "rimuru_tempest", label: "Presas de Orc (entregar ao Rimuru)" }], reward: { xp: 9000, coins: 3000, frep: { tempest: 60 }, flagSet: "disc_rimuru_tempest" } },
+  ch_guy_trial: { id: "ch_guy_trial", name: "O Teste do Soberano Carmesim", giver: "char_guy_crimson", minLevel: 70, desc: "Guy Crimson só aceita discípulos que derrotam o Senhor do Vazio e trazem fragmentos demoníacos.",
+    objectives: [{ type: "boss", target: "void_lord", n: 1, label: "Senhor do Vazio" }, { type: "deliver", item: E + "demonite_shard", n: 10, npc: "guy_crimson", label: "Fragmentos Demoníacos (entregar ao Guy)" }], reward: { xp: 20000, coins: 8000, frep: { guy: 80 }, flagSet: "disc_guy_crimson" } },
 });
 
 export const QUEST_LIST = Object.values(QUESTS);

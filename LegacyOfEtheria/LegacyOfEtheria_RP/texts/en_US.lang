@@ -930,3 +930,5 @@ item.etheria:sk_agi_vampire_2=Passo Sanguíneo
 item.etheria:sk_agi_vampire_3=Noite Eterna
 item.etheria:sk_agi_dwarf_1=Rolamento Blindado
 item.etheria:sk_agi_dwarf_3=Avalanche de Pedra
+entity.etheria:shuna.name=Shuna
+item.spawn_egg.entity.etheria:shuna.name=Ovo de Shuna

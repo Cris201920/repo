@@ -13,8 +13,8 @@
         "default": "geometry.etheria_shion_skin"
       },
       "spawn_egg": {
-        "base_color": "#f0a0c0",
-        "overlay_color": "#e0e0e0"
+        "base_color": "#6a3a9a",
+        "overlay_color": "#b080e0"
       },
       "animations": {
         "base_pose": "animation.humanoid.base_pose",
