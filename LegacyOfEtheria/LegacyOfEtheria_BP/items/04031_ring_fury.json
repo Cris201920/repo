@@ -1,0 +1,23 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:ring_fury",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_ring_fury"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Anel da Fúria"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:glint": true
+  }
+ }
+}

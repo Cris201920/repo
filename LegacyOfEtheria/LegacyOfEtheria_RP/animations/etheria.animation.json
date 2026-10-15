@@ -1,0 +1,183 @@
+{
+ "format_version": "1.8.0",
+ "animations": {
+  "animation.etheria.biped_walk": {
+   "loop": true,
+   "bones": {
+    "rightArm": {
+     "rotation": [
+      "Math.cos(query.modified_distance_moved*38.17)*55*query.modified_move_speed",
+      0,
+      "2+1.5*Math.cos(query.life_time*90)"
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "-Math.cos(query.modified_distance_moved*38.17)*55*query.modified_move_speed",
+      0,
+      "-2-1.5*Math.cos(query.life_time*90)"
+     ]
+    },
+    "rightLeg": {
+     "rotation": [
+      "-Math.cos(query.modified_distance_moved*38.17)*60*query.modified_move_speed",
+      0,
+      0
+     ]
+    },
+    "leftLeg": {
+     "rotation": [
+      "Math.cos(query.modified_distance_moved*38.17)*60*query.modified_move_speed",
+      0,
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria.quad_walk": {
+   "loop": true,
+   "bones": {
+    "leg0": {
+     "rotation": [
+      "Math.cos(query.modified_distance_moved*38.17)*50*query.modified_move_speed",
+      0,
+      0
+     ]
+    },
+    "leg3": {
+     "rotation": [
+      "Math.cos(query.modified_distance_moved*38.17)*50*query.modified_move_speed",
+      0,
+      0
+     ]
+    },
+    "leg1": {
+     "rotation": [
+      "-Math.cos(query.modified_distance_moved*38.17)*50*query.modified_move_speed",
+      0,
+      0
+     ]
+    },
+    "leg2": {
+     "rotation": [
+      "-Math.cos(query.modified_distance_moved*38.17)*50*query.modified_move_speed",
+      0,
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria.look": {
+   "loop": true,
+   "bones": {
+    "head": {
+     "rotation": [
+      "query.target_x_rotation",
+      "query.target_y_rotation",
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria.attack_biped": {
+   "loop": true,
+   "bones": {
+    "rightArm": {
+     "rotation": [
+      "-80*Math.sin(variable.attack_time*180)",
+      0,
+      0
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "-35*Math.sin(variable.attack_time*180)",
+      0,
+      0
+     ]
+    },
+    "body": {
+     "rotation": [
+      0,
+      "12*Math.sin(variable.attack_time*180)",
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria.attack_quad": {
+   "loop": true,
+   "bones": {
+    "head": {
+     "rotation": [
+      "-35*Math.sin(variable.attack_time*180)",
+      0,
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria.slime": {
+   "loop": true,
+   "bones": {
+    "body": {
+     "scale": [
+      "1+0.09*Math.sin(query.life_time*200)",
+      "1-0.12*Math.sin(query.life_time*200)",
+      "1+0.09*Math.sin(query.life_time*200)"
+     ]
+    }
+   }
+  },
+  "animation.etheria.float": {
+   "loop": true,
+   "bones": {
+    "root": {
+     "position": [
+      0,
+      "6+2*Math.sin(query.life_time*100)",
+      0
+     ]
+    },
+    "shards": {
+     "rotation": [
+      0,
+      "query.life_time*50",
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria.flap": {
+   "loop": true,
+   "bones": {
+    "wingL": {
+     "rotation": [
+      0,
+      0,
+      "-14*Math.sin(query.life_time*300)"
+     ]
+    },
+    "wingR": {
+     "rotation": [
+      0,
+      0,
+      "14*Math.sin(query.life_time*300)"
+     ]
+    }
+   }
+  },
+  "animation.etheria.breathe": {
+   "loop": true,
+   "bones": {
+    "body": {
+     "scale": [
+      1,
+      "1+0.015*Math.sin(query.life_time*120)",
+      1
+     ]
+    }
+   }
+  }
+ }
+}

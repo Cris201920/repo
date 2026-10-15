@@ -1,0 +1,23 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:tt_orc_cleaver",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_tt_orc_cleaver"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§aCutelo Orc"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:hand_equipped": true
+  }
+ }
+}

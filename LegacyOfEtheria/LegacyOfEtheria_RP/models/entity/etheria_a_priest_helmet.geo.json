@@ -1,0 +1,320 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.etheria_a_priest_helmet",
+    "texture_width": 96,
+    "texture_height": 96,
+    "visible_bounds_width": 3,
+    "visible_bounds_height": 3.5,
+    "visible_bounds_offset": [
+     0,
+     1.25,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "head",
+     "pivot": [
+      0,
+      24,
+      0
+     ]
+    },
+    {
+     "name": "altArmorHood",
+     "pivot": [
+      0,
+      24,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        30,
+        6
+       ],
+       "size": [
+        8,
+        2,
+        2
+       ],
+       "inflate": 0.99,
+       "pivot": [
+        0,
+        33,
+        5
+       ],
+       "rotation": [
+        -30,
+        0,
+        0
+       ],
+       "uv": {
+        "east": {
+         "uv": [
+          76,
+          10
+         ],
+         "uv_size": [
+          2,
+          2
+         ]
+        },
+        "south": {
+         "uv": [
+          78,
+          12
+         ],
+         "uv_size": [
+          8,
+          -2
+         ]
+        },
+        "west": {
+         "uv": [
+          86,
+          10
+         ],
+         "uv_size": [
+          2,
+          2
+         ]
+        },
+        "up": {
+         "uv": [
+          78,
+          10
+         ],
+         "uv_size": [
+          8,
+          -2
+         ]
+        },
+        "down": {
+         "uv": [
+          78,
+          8
+         ],
+         "uv_size": [
+          8,
+          2
+         ]
+        }
+       }
+      },
+      {
+       "origin": [
+        -4,
+        24,
+        -4
+       ],
+       "size": [
+        8,
+        8,
+        8
+       ],
+       "inflate": 1,
+       "uv": {
+        "north": {
+         "uv": [
+          52,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "east": {
+         "uv": [
+          44,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "south": {
+         "uv": [
+          68,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "west": {
+         "uv": [
+          60,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "up": {
+         "uv": [
+          52,
+          0
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "head"
+    },
+    {
+     "name": "armorHead",
+     "pivot": [
+      0,
+      24,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        24,
+        -4
+       ],
+       "size": [
+        8,
+        8,
+        8
+       ],
+       "inflate": 0.52,
+       "uv": {
+        "north": {
+         "uv": [
+          8,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "east": {
+         "uv": [
+          0,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "south": {
+         "uv": [
+          24,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "west": {
+         "uv": [
+          16,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "up": {
+         "uv": [
+          8,
+          0
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        }
+       }
+      },
+      {
+       "origin": [
+        -4,
+        35,
+        -4
+       ],
+       "size": [
+        8,
+        0,
+        8
+       ],
+       "uv": {
+        "north": {
+         "uv": [
+          8,
+          16
+         ],
+         "uv_size": [
+          8,
+          0
+         ]
+        },
+        "east": {
+         "uv": [
+          0,
+          16
+         ],
+         "uv_size": [
+          8,
+          0
+         ]
+        },
+        "south": {
+         "uv": [
+          24,
+          16
+         ],
+         "uv_size": [
+          8,
+          0
+         ]
+        },
+        "west": {
+         "uv": [
+          16,
+          16
+         ],
+         "uv_size": [
+          8,
+          0
+         ]
+        },
+        "up": {
+         "uv": [
+          37,
+          76
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "head"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:taratect_silk",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_taratect_silk"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§aSeda de Taratect"
+   }
+  }
+ }
+}

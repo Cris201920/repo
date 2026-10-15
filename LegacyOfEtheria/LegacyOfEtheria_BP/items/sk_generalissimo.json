@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_generalissimo",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_generalissimo"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§6Generalíssimo"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_generalissimo",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

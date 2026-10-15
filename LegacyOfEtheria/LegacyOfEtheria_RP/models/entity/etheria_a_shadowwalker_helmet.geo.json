@@ -1,0 +1,125 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.etheria_a_shadowwalker_helmet",
+    "texture_width": 96,
+    "texture_height": 96,
+    "visible_bounds_width": 4,
+    "visible_bounds_height": 6,
+    "visible_bounds_offset": [
+     0,
+     2,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "head",
+     "pivot": [
+      0,
+      24,
+      0
+     ]
+    },
+    {
+     "name": "armorHead",
+     "pivot": [
+      0,
+      24,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        24,
+        -4
+       ],
+       "size": [
+        8,
+        8,
+        8
+       ],
+       "inflate": 0.7,
+       "uv": [
+        48,
+        80
+       ]
+      },
+      {
+       "origin": [
+        -4,
+        24,
+        -4
+       ],
+       "size": [
+        8,
+        8,
+        8
+       ],
+       "inflate": 1,
+       "uv": [
+        0,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -4,
+        24,
+        -4
+       ],
+       "size": [
+        8,
+        8,
+        8
+       ],
+       "inflate": 0.51,
+       "uv": [
+        16,
+        80
+       ],
+       "mirror": true
+      }
+     ],
+     "parent": "head"
+    },
+    {
+     "name": "hood",
+     "pivot": [
+      4,
+      29,
+      4.5
+     ],
+     "rotation": [
+      -20,
+      0,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        29.93978,
+        4.59177
+       ],
+       "size": [
+        8,
+        2,
+        2
+       ],
+       "inflate": 0.99,
+       "uv": [
+        24,
+        4
+       ]
+      }
+     ],
+     "parent": "armorHead"
+    }
+   ]
+  }
+ ]
+}

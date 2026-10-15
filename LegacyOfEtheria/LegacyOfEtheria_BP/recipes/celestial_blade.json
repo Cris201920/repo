@@ -1,0 +1,33 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:celestial_blade_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " C ",
+   " C ",
+   " S "
+  ],
+  "key": {
+   "C": {
+    "item": "etheria:celestial_crystal"
+   },
+   "S": {
+    "item": "minecraft:netherite_ingot"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:celestial_crystal"
+   }
+  ],
+  "result": {
+   "item": "etheria:celestial_blade",
+   "count": 1
+  }
+ }
+}

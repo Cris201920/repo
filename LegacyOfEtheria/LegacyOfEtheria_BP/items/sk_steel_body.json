@@ -1,0 +1,26 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_steel_body",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_steel_body"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§9Corpo de Aço"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_steel_body",
+    "duration": 0.05
+   }
+  }
+ }
+}

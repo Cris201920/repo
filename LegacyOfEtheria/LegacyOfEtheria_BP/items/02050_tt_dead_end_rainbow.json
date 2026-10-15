@@ -1,0 +1,24 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:tt_dead_end_rainbow",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_tt_dead_end_rainbow"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§cDead End Rainbow (Hinata)"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:hand_equipped": true,
+   "minecraft:glint": true
+  }
+ }
+}

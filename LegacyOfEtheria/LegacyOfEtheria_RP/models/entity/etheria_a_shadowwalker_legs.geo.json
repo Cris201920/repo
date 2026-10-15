@@ -1,0 +1,184 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.etheria_a_shadowwalker_legs",
+    "texture_width": 96,
+    "texture_height": 96,
+    "visible_bounds_width": 4,
+    "visible_bounds_height": 6,
+    "visible_bounds_offset": [
+     0,
+     2,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "rightLeg",
+     "pivot": [
+      -1.9,
+      12,
+      0
+     ]
+    },
+    {
+     "name": "leftLeg",
+     "pivot": [
+      1.9,
+      12,
+      0
+     ]
+    },
+    {
+     "name": "body",
+     "pivot": [
+      0,
+      24,
+      0
+     ]
+    },
+    {
+     "name": "armorLeggingTorsoLayer",
+     "pivot": [
+      0,
+      24,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        12,
+        -2
+       ],
+       "size": [
+        8,
+        12,
+        4
+       ],
+       "inflate": 0.25,
+       "uv": [
+        36,
+        51
+       ]
+      }
+     ],
+     "parent": "body"
+    },
+    {
+     "name": "armorLeftLeg",
+     "pivot": [
+      2,
+      12,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        0,
+        0,
+        -2
+       ],
+       "size": [
+        4,
+        12,
+        4
+       ],
+       "inflate": 0.1,
+       "uv": [
+        0,
+        80
+       ]
+      },
+      {
+       "origin": [
+        -0.5,
+        7,
+        -2.5
+       ],
+       "size": [
+        5,
+        8,
+        5
+       ],
+       "inflate": -0.1,
+       "pivot": [
+        -1.5,
+        17,
+        -0.5
+       ],
+       "rotation": [
+        0,
+        0,
+        -2.5
+       ],
+       "uv": [
+        60,
+        54
+       ],
+       "mirror": true
+      }
+     ],
+     "parent": "leftLeg"
+    },
+    {
+     "name": "armorRightLeg",
+     "pivot": [
+      -2,
+      12,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        0,
+        -2
+       ],
+       "size": [
+        4,
+        12,
+        4
+       ],
+       "inflate": 0.1,
+       "uv": [
+        0,
+        64
+       ]
+      },
+      {
+       "origin": [
+        -4.5,
+        7,
+        -2.5
+       ],
+       "size": [
+        5,
+        8,
+        5
+       ],
+       "inflate": -0.1,
+       "pivot": [
+        -0.5,
+        17,
+        -0.5
+       ],
+       "rotation": [
+        0,
+        0,
+        2.5
+       ],
+       "uv": [
+        60,
+        54
+       ]
+      }
+     ],
+     "parent": "rightLeg"
+    }
+   ]
+  }
+ ]
+}

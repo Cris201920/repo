@@ -1,0 +1,231 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.etheria_a_cryomancer_helmet",
+    "texture_width": 96,
+    "texture_height": 96,
+    "visible_bounds_width": 4,
+    "visible_bounds_height": 5.5,
+    "visible_bounds_offset": [
+     0,
+     2.25,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "head",
+     "pivot": [
+      0,
+      24,
+      0
+     ]
+    },
+    {
+     "name": "armorHead",
+     "pivot": [
+      0,
+      24,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        24,
+        -4
+       ],
+       "size": [
+        8,
+        8,
+        8
+       ],
+       "inflate": 0.55,
+       "uv": {
+        "north": {
+         "uv": [
+          44,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "down": {
+         "uv": [
+          52,
+          9
+         ],
+         "uv_size": [
+          -8,
+          -8
+         ]
+        }
+       }
+      },
+      {
+       "origin": [
+        -4,
+        24,
+        -4
+       ],
+       "size": [
+        8,
+        8,
+        8
+       ],
+       "inflate": 0.85,
+       "uv": {
+        "north": {
+         "uv": [
+          8,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "east": {
+         "uv": [
+          0,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "south": {
+         "uv": [
+          24,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "west": {
+         "uv": [
+          16,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "up": {
+         "uv": [
+          8,
+          1
+         ],
+         "uv_size": [
+          8,
+          7
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "head"
+    },
+    {
+     "name": "hood",
+     "pivot": [
+      4,
+      29,
+      4.5
+     ],
+     "rotation": [
+      -20,
+      0,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        29.9,
+        4.33
+       ],
+       "size": [
+        8,
+        2,
+        2
+       ],
+       "inflate": 0.84,
+       "uv": {
+        "north": {
+         "uv": [
+          26,
+          10
+         ],
+         "uv_size": [
+          8,
+          2
+         ]
+        },
+        "east": {
+         "uv": [
+          24,
+          12
+         ],
+         "uv_size": [
+          2,
+          -2
+         ]
+        },
+        "south": {
+         "uv": [
+          36,
+          10
+         ],
+         "uv_size": [
+          8,
+          2
+         ]
+        },
+        "west": {
+         "uv": [
+          36,
+          12
+         ],
+         "uv_size": [
+          -2,
+          -2
+         ]
+        },
+        "up": {
+         "uv": [
+          26,
+          10
+         ],
+         "uv_size": [
+          8,
+          -2
+         ]
+        },
+        "down": {
+         "uv": [
+          34,
+          10
+         ],
+         "uv_size": [
+          8,
+          -2
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "armorHead"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_berserk_rage",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_berserk_rage"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§9Fúria Berserker"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_berserk_rage",
+    "duration": 0.05
+   }
+  }
+ }
+}

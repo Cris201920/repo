@@ -1,0 +1,41 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:imp",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_imp"
+   },
+   "geometry": {
+    "default": "geometry.etheria_imp"
+   },
+   "spawn_egg": {
+    "base_color": "#c42a58",
+    "overlay_color": "#ffd060"
+   },
+   "scripts": {
+    "scale": "0.9",
+    "animate": [
+     "look",
+     "walk",
+     "attack",
+     "breathe",
+     "flap"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.biped_walk",
+    "attack": "animation.etheria.attack_biped",
+    "flap": "animation.etheria.flap"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

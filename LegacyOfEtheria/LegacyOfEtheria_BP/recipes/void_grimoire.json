@@ -1,0 +1,33 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:void_grimoire_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "VVV",
+   "VBV",
+   "VVV"
+  ],
+  "key": {
+   "V": {
+    "item": "etheria:void_fragment"
+   },
+   "B": {
+    "item": "minecraft:book"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:void_fragment"
+   }
+  ],
+  "result": {
+   "item": "etheria:void_grimoire",
+   "count": 1
+  }
+ }
+}

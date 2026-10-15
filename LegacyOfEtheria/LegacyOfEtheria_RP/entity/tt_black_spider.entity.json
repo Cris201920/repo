@@ -1,0 +1,39 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:tt_black_spider",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_tt_black_spider"
+   },
+   "geometry": {
+    "default": "geometry.etheria_tt_black_spider"
+   },
+   "spawn_egg": {
+    "base_color": "#101010",
+    "overlay_color": "#a030a0"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "main": "1.0"
+     },
+     {
+      "attack": "variable.attack_time > 0"
+     }
+    ],
+    "scale": "2.0"
+   },
+   "animations": {
+    "main": "animation.etheria_tt_black_spider.main",
+    "attack": "animation.etheria_tt_black_spider.attack"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

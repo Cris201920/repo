@@ -1,0 +1,30 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:dragotite_storm_chest",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_dragotite_storm_chest"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Peitoral de Dragotita da Tempestade"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:wearable": {
+    "slot": "slot.armor.chest",
+    "protection": 9
+   },
+   "minecraft:durability": {
+    "max_durability": 672
+   },
+   "minecraft:glint": true
+  }
+ }
+}

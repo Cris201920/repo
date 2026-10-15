@@ -1,0 +1,23 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:depth_sword",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_depth_sword"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§9Espada das Profundezas"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:hand_equipped": true
+  }
+ }
+}

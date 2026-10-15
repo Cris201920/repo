@@ -1,0 +1,38 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:tt_orc_3",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_tt_orc_3"
+   },
+   "geometry": {
+    "default": "geometry.etheria_tt_orc_3"
+   },
+   "spawn_egg": {
+    "base_color": "#4a6a30",
+    "overlay_color": "#c0a060"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "main": "1.0"
+     },
+     {
+      "attack": "variable.attack_time > 0"
+     }
+    ]
+   },
+   "animations": {
+    "main": "animation.etheria_tt_orc_3.main",
+    "attack": "animation.etheria_tt_orc_3.attack"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

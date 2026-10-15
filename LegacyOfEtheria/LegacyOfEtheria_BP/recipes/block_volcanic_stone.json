@@ -1,0 +1,25 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shapeless": {
+  "description": {
+   "identifier": "etheria:block_volcanic_stone_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "ingredients": [
+   {
+    "item": "minecraft:blackstone"
+   }
+  ],
+  "unlock": [
+   {
+    "item": "minecraft:blackstone"
+   }
+  ],
+  "result": {
+   "item": "etheria:volcanic_stone",
+   "count": 1
+  }
+ }
+}

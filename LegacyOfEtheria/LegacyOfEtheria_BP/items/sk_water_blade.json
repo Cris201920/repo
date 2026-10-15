@@ -1,0 +1,26 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_water_blade",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_water_blade"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§aLâmina de Água"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_water_blade",
+    "duration": 0.05
+   }
+  }
+ }
+}

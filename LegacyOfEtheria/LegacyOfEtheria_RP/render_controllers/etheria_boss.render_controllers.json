@@ -1,0 +1,26 @@
+{
+ "format_version": "1.8.0",
+ "render_controllers": {
+  "controller.render.etheria_boss": {
+   "arrays": {
+    "textures": {
+     "Array.skins": [
+      "Texture.p1",
+      "Texture.p2",
+      "Texture.p3",
+      "Texture.p4"
+     ]
+    }
+   },
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.skins[query.variant]"
+   ]
+  }
+ }
+}

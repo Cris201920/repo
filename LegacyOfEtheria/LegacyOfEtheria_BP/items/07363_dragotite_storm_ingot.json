@@ -1,0 +1,22 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:dragotite_storm_ingot",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_dragotite_storm_ingot"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Lingote de Dragotita da Tempestade"
+   },
+   "minecraft:glint": true
+  }
+ }
+}

@@ -1,0 +1,33 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:knight_sword_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " I ",
+   " I ",
+   " S "
+  ],
+  "key": {
+   "I": {
+    "item": "etheria:arcane_ingot"
+   },
+   "S": {
+    "item": "minecraft:stick"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:arcane_ingot"
+   }
+  ],
+  "result": {
+   "item": "etheria:knight_sword",
+   "count": 1
+  }
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:frost_core",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_frost_core"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§9Núcleo Congelante"
+   }
+  }
+ }
+}

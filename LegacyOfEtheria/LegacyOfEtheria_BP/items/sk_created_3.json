@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_created_3",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_created_3"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Criação III"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_created_3",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

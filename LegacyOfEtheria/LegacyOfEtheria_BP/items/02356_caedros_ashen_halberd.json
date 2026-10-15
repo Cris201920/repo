@@ -1,0 +1,24 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:caedros_ashen_halberd",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_caedros_ashen_halberd"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§cAlabarda Cinzenta de Caedros"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:hand_equipped": true,
+   "minecraft:glint": true
+  }
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:goblin_totem",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_goblin_totem"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§aTotem Goblin"
+   }
+  }
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:carrion_royal_beast",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_carrion_royal_beast"
+   },
+   "geometry": {
+    "default": "geometry.etheria_carrion_royal_beast"
+   },
+   "spawn_egg": {
+    "base_color": "#5a2a1a",
+    "overlay_color": "#ff9a3c"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "idle": "!(query.ground_speed > 0.1)"
+     },
+     {
+      "walk": "query.ground_speed > 0.1 && query.ground_speed <= 0.25 && !query.is_sneaking"
+     },
+     {
+      "run": "query.ground_speed > 0.25"
+     },
+     {
+      "lion_punch": "variable.attack_time > 0"
+     }
+    ]
+   },
+   "animations": {
+    "idle": "animation.etheria_carrion_royal_beast.idle",
+    "idle_fly": "animation.etheria_carrion_royal_beast.idle_fly",
+    "walk": "animation.etheria_carrion_royal_beast.walk",
+    "run": "animation.etheria_carrion_royal_beast.run",
+    "fly_slow": "animation.etheria_carrion_royal_beast.fly_slow",
+    "fly_fast": "animation.etheria_carrion_royal_beast.fly_fast",
+    "halberd_poke": "animation.etheria_carrion_royal_beast.halberd_poke",
+    "halberd_swing": "animation.etheria_carrion_royal_beast.halberd_swing",
+    "elephant_stampede": "animation.etheria_carrion_royal_beast.elephant_stampede",
+    "lion_punch": "animation.etheria_carrion_royal_beast.lion_punch",
+    "tiger_talon": "animation.etheria_carrion_royal_beast.tiger_talon",
+    "beast_roar": "animation.etheria_carrion_royal_beast.beast_roar"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

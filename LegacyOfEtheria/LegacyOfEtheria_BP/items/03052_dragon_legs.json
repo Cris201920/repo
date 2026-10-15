@@ -1,0 +1,30 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:dragon_legs",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_dragon_legs"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§6Calças do Dragão"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:wearable": {
+    "slot": "slot.armor.legs",
+    "protection": 7
+   },
+   "minecraft:durability": {
+    "max_durability": 528
+   },
+   "minecraft:glint": true
+  }
+ }
+}

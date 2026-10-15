@@ -1,0 +1,77 @@
+{
+ "format_version": "1.10.0",
+ "particle_effect": {
+  "description": {
+   "identifier": "etheria:fx_sakura",
+   "basic_render_parameters": {
+    "material": "particles_alpha",
+    "texture": "textures/particle/etheria_fx_sakura"
+   }
+  },
+  "components": {
+   "minecraft:emitter_rate_instant": {
+    "num_particles": 7
+   },
+   "minecraft:emitter_lifetime_once": {
+    "active_time": 1
+   },
+   "minecraft:emitter_shape_box": {
+    "offset": [
+     0,
+     1.6,
+     0
+    ],
+    "half_dimensions": [
+     1.3,
+     0.3,
+     1.3
+    ],
+    "direction": "outwards"
+   },
+   "minecraft:particle_initial_speed": "Math.random(0.05, 0.3)",
+   "minecraft:particle_lifetime_expression": {
+    "max_lifetime": "Math.random(2, 3.2)"
+   },
+   "minecraft:particle_initial_spin": {
+    "rotation": "Math.random(0, 360)",
+    "rotation_rate": "Math.random(-120, 120)"
+   },
+   "minecraft:particle_motion_dynamic": {
+    "linear_acceleration": [
+     "Math.sin((variable.particle_age * 1.3 + variable.particle_random_1) * 360) * 0.6",
+     -0.55,
+     "Math.cos((variable.particle_age * 1.1 + variable.particle_random_1) * 360) * 0.6"
+    ],
+    "linear_drag_coefficient": 1.2,
+    "rotation_drag_coefficient": 0
+   },
+   "minecraft:particle_appearance_billboard": {
+    "size": [
+     "(0.16 + 0.14 * variable.particle_random_1) * 1 * Math.min(1, (variable.particle_lifetime - variable.particle_age) * 4) * (variable.ft_s > 0 ? variable.ft_s : 1)",
+     "(0.16 + 0.14 * variable.particle_random_1) * 1 * Math.min(1, (variable.particle_lifetime - variable.particle_age) * 4) * (variable.ft_s > 0 ? variable.ft_s : 1)"
+    ],
+    "facing_camera_mode": "lookat_xyz",
+    "uv": {
+     "texture_width": 6,
+     "texture_height": 6,
+     "uv": [
+      0,
+      0
+     ],
+     "uv_size": [
+      6,
+      6
+     ]
+    }
+   },
+   "minecraft:particle_appearance_tinting": {
+    "color": [
+     "1",
+     "1",
+     "1",
+     "Math.min(1, variable.particle_age / 0.1) * Math.min(1, (variable.particle_lifetime - variable.particle_age) / 0.6)"
+    ]
+   }
+  }
+ }
+}

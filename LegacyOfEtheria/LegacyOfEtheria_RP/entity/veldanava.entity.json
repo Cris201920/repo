@@ -1,0 +1,90 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:veldanava",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "dragon": "textures/entity/etheria_veldanava",
+    "human": "textures/entity/etheria_veldanava_human"
+   },
+   "geometry": {
+    "dragon": "geometry.etheria_veldanava",
+    "human": "geometry.etheria_veldanava_human"
+   },
+   "spawn_egg": {
+    "base_color": "#f0e8d0",
+    "overlay_color": "#202020"
+   },
+   "scripts": {
+    "scale": "query.property('etheria:form') == 'dragon' ? 0.9 : 1.15",
+    "animate": [
+     {
+      "idle": "query.property('etheria:form') == 'dragon'"
+     },
+     {
+      "walk": "query.property('etheria:form') == 'dragon' && query.is_on_ground && query.modified_move_speed > 0.05 && query.modified_move_speed <= 0.6"
+     },
+     {
+      "run": "query.property('etheria:form') == 'dragon' && query.is_on_ground && query.modified_move_speed > 0.6"
+     },
+     {
+      "fly": "query.property('etheria:form') == 'dragon' && !query.is_on_ground && !query.is_in_water && query.is_alive"
+     },
+     {
+      "attack": "query.property('etheria:form') == 'dragon' && variable.attack_time > 0"
+     },
+     {
+      "ctl_dragon": "query.property('etheria:form') == 'dragon'"
+     },
+     {
+      "h_look": "query.property('etheria:form') == 'human'"
+     },
+     {
+      "h_walk": "query.property('etheria:form') == 'human'"
+     },
+     {
+      "h_breathe": "query.property('etheria:form') == 'human'"
+     },
+     {
+      "h_attack": "query.property('etheria:form') == 'human' && variable.attack_time >= 0"
+     },
+     {
+      "ctl_human": "query.property('etheria:form') == 'human'"
+     }
+    ]
+   },
+   "animations": {
+    "idle": "animation.etheria_veldanava.idle",
+    "walk": "animation.etheria_tdr.walk",
+    "run": "animation.etheria_tdr.run",
+    "fly": "animation.etheria_tdr.fly",
+    "attack": "animation.etheria_tdr.attack",
+    "bite": "animation.etheria_tdr.bite",
+    "claw": "animation.etheria_tdr.claw",
+    "tail": "animation.etheria_tdr.tail",
+    "roar": "animation.etheria_tdr.roar",
+    "ability": "animation.etheria_tdr.ability",
+    "takeoff": "animation.etheria_tdr.takeoff",
+    "landing": "animation.etheria_tdr.landing",
+    "hurt": "animation.etheria_tdr.hurt",
+    "death": "animation.etheria_tdr.death",
+    "h_cast": "animation.etheria_tdr.h_cast",
+    "h_transform": "animation.etheria_tdr.h_transform",
+    "h_hurt": "animation.etheria_tdr.h_hurt",
+    "h_death": "animation.etheria_tdr.h_death",
+    "h_look": "animation.etheria.look",
+    "h_walk": "animation.etheria.biped_walk",
+    "h_attack": "animation.etheria.attack_biped",
+    "h_breathe": "animation.etheria.breathe",
+    "ctl_dragon": "controller.animation.etheria_tdr.dragon",
+    "ctl_human": "controller.animation.etheria_tdr.human"
+   },
+   "render_controllers": [
+    "controller.render.etheria_tdr"
+   ]
+  }
+ }
+}

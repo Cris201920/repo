@@ -1,0 +1,23 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:goblin_sigil",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_goblin_sigil"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Sigilo do Rei Goblin"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:glint": true
+  }
+ }
+}

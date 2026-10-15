@@ -1,0 +1,38 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:tt_magic_steel_golem",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_tt_magic_steel_golem"
+   },
+   "geometry": {
+    "default": "geometry.etheria_tt_magic_steel_golem"
+   },
+   "spawn_egg": {
+    "base_color": "#606878",
+    "overlay_color": "#80e0ff"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "main": "1.0"
+     },
+     {
+      "attack": "variable.attack_time > 0"
+     }
+    ]
+   },
+   "animations": {
+    "main": "animation.etheria_tt_magic_steel_golem.main",
+    "attack": "animation.etheria_tt_magic_steel_golem.attack"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

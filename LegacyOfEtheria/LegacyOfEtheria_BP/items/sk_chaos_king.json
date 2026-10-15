@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_chaos_king",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_chaos_king"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§bTempestade do Caos"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_chaos_king",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

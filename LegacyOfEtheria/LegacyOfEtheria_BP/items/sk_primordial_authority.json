@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_primordial_authority",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_primordial_authority"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§6Autoridade Primordial"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_primordial_authority",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

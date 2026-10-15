@@ -1,0 +1,280 @@
+{
+ "format_version": "1.8.0",
+ "render_controllers": {
+  "controller.render.etheria_race_demon": {
+   "geometry": "Geometry.etheria_race_demon",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_demon"
+   ]
+  },
+  "controller.render.etheria_race_vampire": {
+   "geometry": "Geometry.etheria_race_vampire",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_vampire"
+   ]
+  },
+  "controller.render.etheria_race_dragonoid": {
+   "geometry": "Geometry.etheria_race_dragonoid",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_dragonoid"
+   ]
+  },
+  "controller.render.etheria_race_lizardman": {
+   "geometry": "Geometry.etheria_race_lizardman",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lizardman"
+   ]
+  },
+  "controller.render.etheria_race_ogre": {
+   "geometry": "Geometry.etheria_race_ogre",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_ogre"
+   ]
+  },
+  "controller.render.etheria_race_beastkin": {
+   "geometry": "Geometry.etheria_race_beastkin",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_beastkin"
+   ]
+  },
+  "controller.render.etheria_race_elf": {
+   "geometry": "Geometry.etheria_race_elf",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_elf"
+   ]
+  },
+  "controller.render.etheria_race_angel": {
+   "geometry": "Geometry.etheria_race_angel",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_angel"
+   ]
+  },
+  "controller.render.etheria_race_angel_arch": {
+   "geometry": "Geometry.etheria_race_angel_arch",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_angel_arch"
+   ]
+  },
+  "controller.render.etheria_race_angel_cherub": {
+   "geometry": "Geometry.etheria_race_angel_cherub",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_angel_cherub"
+   ]
+  },
+  "controller.render.etheria_race_angel_seraph": {
+   "geometry": "Geometry.etheria_race_angel_seraph",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_angel_seraph"
+   ]
+  },
+  "controller.render.etheria_race_fallen": {
+   "geometry": "Geometry.etheria_race_fallen",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_fallen"
+   ]
+  },
+  "controller.render.etheria_race_fallen_lord": {
+   "geometry": "Geometry.etheria_race_fallen_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_fallen_lord"
+   ]
+  },
+  "controller.render.etheria_race_lin_veldora_base": {
+   "geometry": "Geometry.etheria_race_lin_veldora_base",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_veldora_base"
+   ]
+  },
+  "controller.render.etheria_race_lin_veldora_draconic": {
+   "geometry": "Geometry.etheria_race_lin_veldora_draconic",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_veldora_draconic"
+   ]
+  },
+  "controller.render.etheria_race_lin_veldora_true": {
+   "geometry": "Geometry.etheria_race_lin_veldora_true",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_veldora_true"
+   ]
+  },
+  "controller.render.etheria_race_lin_velzard_base": {
+   "geometry": "Geometry.etheria_race_lin_velzard_base",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_velzard_base"
+   ]
+  },
+  "controller.render.etheria_race_lin_velzard_draconic": {
+   "geometry": "Geometry.etheria_race_lin_velzard_draconic",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_velzard_draconic"
+   ]
+  },
+  "controller.render.etheria_race_lin_velzard_true": {
+   "geometry": "Geometry.etheria_race_lin_velzard_true",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_velzard_true"
+   ]
+  },
+  "controller.render.etheria_race_lin_velgrynd_base": {
+   "geometry": "Geometry.etheria_race_lin_velgrynd_base",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_velgrynd_base"
+   ]
+  },
+  "controller.render.etheria_race_lin_velgrynd_draconic": {
+   "geometry": "Geometry.etheria_race_lin_velgrynd_draconic",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_velgrynd_draconic"
+   ]
+  },
+  "controller.render.etheria_race_lin_velgrynd_true": {
+   "geometry": "Geometry.etheria_race_lin_velgrynd_true",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_velgrynd_true"
+   ]
+  },
+  "controller.render.etheria_race_lin_veldanava_base": {
+   "geometry": "Geometry.etheria_race_lin_veldanava_base",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_veldanava_base"
+   ]
+  },
+  "controller.render.etheria_race_lin_veldanava_draconic": {
+   "geometry": "Geometry.etheria_race_lin_veldanava_draconic",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_veldanava_draconic"
+   ]
+  },
+  "controller.render.etheria_race_lin_veldanava_true": {
+   "geometry": "Geometry.etheria_race_lin_veldanava_true",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lin_veldanava_true"
+   ]
+  }
+ }
+}

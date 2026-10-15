@@ -1,0 +1,22 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:dragotite_frost_ingot",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_dragotite_frost_ingot"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Lingote de Dragotita Gélida"
+   },
+   "minecraft:glint": true
+  }
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:dragotite_ingot",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_dragotite_ingot"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§9Lingote de Dragotita"
+   }
+  }
+ }
+}

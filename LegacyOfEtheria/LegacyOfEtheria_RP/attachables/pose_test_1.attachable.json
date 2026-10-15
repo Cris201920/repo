@@ -1,0 +1,32 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:attachable": {
+  "description": {
+   "identifier": "etheria:pose_test_1",
+   "materials": {
+    "default": "entity_alphatest",
+    "enchanted": "entity_alphatest_glint"
+   },
+   "textures": {
+    "default": "textures/attachable/etheria_pose_test",
+    "enchanted": "textures/misc/enchanted_item_glint"
+   },
+   "geometry": {
+    "default": "geometry.etheria_pose_test_1"
+   },
+   "render_controllers": [
+    "controller.render.item_default"
+   ],
+   "animations": {
+    "hold": "controller.animation.etheria.weapon_hold",
+    "hold_fp": "animation.etheria.posetest.1.fp",
+    "hold_tp": "animation.etheria.posetest.1.tp"
+   },
+   "scripts": {
+    "animate": [
+     "hold"
+    ]
+   }
+  }
+ }
+}

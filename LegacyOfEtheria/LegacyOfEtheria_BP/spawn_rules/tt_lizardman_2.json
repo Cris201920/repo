@@ -1,0 +1,65 @@
+{
+ "format_version": "1.8.0",
+ "minecraft:spawn_rules": {
+  "description": {
+   "identifier": "etheria:tt_lizardman_2",
+   "population_control": "monster"
+  },
+  "conditions": [
+   {
+    "minecraft:weight": {
+     "default": 8
+    },
+    "minecraft:herd": {
+     "min_size": 1,
+     "max_size": 1
+    },
+    "minecraft:distance_filter": {
+     "min": 32,
+     "max": 128
+    },
+    "minecraft:delay_filter": {
+     "min": 15,
+     "max": 35,
+     "identifier": "etheria:tt_lizardman_2",
+     "spawn_chance": 50
+    },
+    "minecraft:difficulty_filter": {
+     "min": "easy",
+     "max": "hard"
+    },
+    "minecraft:spawns_on_surface": {},
+    "minecraft:density_limit": {
+     "surface": 2
+    }
+   },
+   {
+    "minecraft:weight": {
+     "default": 8
+    },
+    "minecraft:herd": {
+     "min_size": 1,
+     "max_size": 1
+    },
+    "minecraft:distance_filter": {
+     "min": 32,
+     "max": 128
+    },
+    "minecraft:delay_filter": {
+     "min": 15,
+     "max": 35,
+     "identifier": "etheria:tt_lizardman_2",
+     "spawn_chance": 50
+    },
+    "minecraft:difficulty_filter": {
+     "min": "easy",
+     "max": "hard"
+    },
+    "minecraft:spawns_underground": {},
+    "minecraft:density_limit": {
+     "underground": 2
+    }
+   }
+  ]
+ }
+}

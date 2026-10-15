@@ -1,0 +1,21 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:mana_crystal",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_mana_crystal"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§fCristal de Mana"
+   }
+  }
+ }
+}

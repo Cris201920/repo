@@ -1,0 +1,82 @@
+{
+ "format_version": "1.10.0",
+ "particle_effect": {
+  "description": {
+   "identifier": "etheria:fx_is_blood_ground",
+   "basic_render_parameters": {
+    "material": "particles_alpha",
+    "texture": "textures/particle/etheria_fx_is_blood_ground"
+   }
+  },
+  "components": {
+   "minecraft:emitter_rate_instant": {
+    "num_particles": 3
+   },
+   "minecraft:emitter_lifetime_once": {
+    "active_time": 1
+   },
+   "minecraft:emitter_shape_disc": {
+    "offset": [
+     0,
+     0.05,
+     0
+    ],
+    "radius": 1.0,
+    "plane_normal": [
+     0,
+     1,
+     0
+    ],
+    "direction": [
+     0,
+     0,
+     0
+    ]
+   },
+   "minecraft:particle_initial_speed": 0,
+   "minecraft:particle_lifetime_expression": {
+    "max_lifetime": "Math.random(3, 5)"
+   },
+   "minecraft:particle_initial_spin": {
+    "rotation": "Math.random(0, 360)",
+    "rotation_rate": "Math.random(0, 0)"
+   },
+   "minecraft:particle_motion_dynamic": {
+    "linear_acceleration": [
+     0,
+     0,
+     0
+    ],
+    "linear_drag_coefficient": 1.0,
+    "rotation_drag_coefficient": 0
+   },
+   "minecraft:particle_appearance_billboard": {
+    "size": [
+     "(0.5 + 0.5 * variable.particle_random_1) * 1 * 1 * (variable.ft_s > 0 ? variable.ft_s : 1)",
+     "(0.5 + 0.5 * variable.particle_random_1) * 1 * 1 * (variable.ft_s > 0 ? variable.ft_s : 1)"
+    ],
+    "facing_camera_mode": "emitter_transform_xz",
+    "uv": {
+     "texture_width": 16,
+     "texture_height": 16,
+     "uv": [
+      0,
+      0
+     ],
+     "uv_size": [
+      16,
+      16
+     ]
+    }
+   },
+   "minecraft:particle_appearance_tinting": {
+    "color": [
+     "1",
+     "1",
+     "1",
+     "Math.min(1, variable.particle_age / 0.05) * Math.min(1, (variable.particle_lifetime - variable.particle_age) / 1.5)"
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,33 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:ring_vigor_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " G ",
+   "G G",
+   " M "
+  ],
+  "key": {
+   "G": {
+    "item": "minecraft:gold_ingot"
+   },
+   "M": {
+    "item": "etheria:mana_crystal"
+   }
+  },
+  "unlock": [
+   {
+    "item": "minecraft:gold_ingot"
+   }
+  ],
+  "result": {
+   "item": "etheria:ring_vigor",
+   "count": 1
+  }
+ }
+}

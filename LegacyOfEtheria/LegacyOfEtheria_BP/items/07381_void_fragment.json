@@ -1,0 +1,22 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:void_fragment",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_void_fragment"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Fragmento do Vazio"
+   },
+   "minecraft:glint": true
+  }
+ }
+}

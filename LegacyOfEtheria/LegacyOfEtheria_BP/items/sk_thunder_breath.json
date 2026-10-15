@@ -1,0 +1,26 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_thunder_breath",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_thunder_breath"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Sopro de Trovão"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_thunder_breath",
+    "duration": 0.05
+   }
+  }
+ }
+}

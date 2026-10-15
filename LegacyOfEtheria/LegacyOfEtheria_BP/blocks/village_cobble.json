@@ -1,0 +1,28 @@
+{
+ "format_version": "1.21.80",
+ "minecraft:block": {
+  "description": {
+   "identifier": "etheria:village_cobble",
+   "menu_category": {
+    "category": "construction"
+   }
+  },
+  "components": {
+   "minecraft:geometry": "minecraft:geometry.full_block",
+   "minecraft:material_instances": {
+    "*": {
+     "texture": "etheria_village_cobble",
+     "render_method": "opaque"
+    }
+   },
+   "minecraft:destructible_by_mining": {
+    "seconds_to_destroy": 3
+   },
+   "minecraft:destructible_by_explosion": {
+    "explosion_resistance": 6
+   },
+   "minecraft:friction": 0.6,
+   "tag:minecraft:is_pickaxe_item_destructible": {}
+  }
+ }
+}

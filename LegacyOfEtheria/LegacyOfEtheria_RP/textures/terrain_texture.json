@@ -1,0 +1,107 @@
+{
+ "resource_pack_name": "etheria",
+ "texture_name": "atlas.terrain",
+ "padding": 8,
+ "num_mip_levels": 4,
+ "texture_data": {
+  "etheria_village_planks": {
+   "textures": "textures/blocks/etheria_village_planks"
+  },
+  "etheria_village_cobble": {
+   "textures": "textures/blocks/etheria_village_cobble"
+  },
+  "etheria_castle_stone": {
+   "textures": "textures/blocks/etheria_castle_stone"
+  },
+  "etheria_castle_brick": {
+   "textures": "textures/blocks/etheria_castle_brick"
+  },
+  "etheria_castle_floor": {
+   "textures": "textures/blocks/etheria_castle_floor"
+  },
+  "etheria_castle_pillar_side": {
+   "textures": "textures/blocks/etheria_castle_pillar_side"
+  },
+  "etheria_castle_pillar_top": {
+   "textures": "textures/blocks/etheria_castle_pillar_top"
+  },
+  "etheria_guild_planks": {
+   "textures": "textures/blocks/etheria_guild_planks"
+  },
+  "etheria_guild_wall": {
+   "textures": "textures/blocks/etheria_guild_wall"
+  },
+  "etheria_dungeon_brick": {
+   "textures": "textures/blocks/etheria_dungeon_brick"
+  },
+  "etheria_dungeon_floor": {
+   "textures": "textures/blocks/etheria_dungeon_floor"
+  },
+  "etheria_temple_stone": {
+   "textures": "textures/blocks/etheria_temple_stone"
+  },
+  "etheria_temple_pillar_side": {
+   "textures": "textures/blocks/etheria_temple_pillar_side"
+  },
+  "etheria_temple_pillar_top": {
+   "textures": "textures/blocks/etheria_temple_pillar_top"
+  },
+  "etheria_magic_brick": {
+   "textures": "textures/blocks/etheria_magic_brick"
+  },
+  "etheria_rune_block": {
+   "textures": "textures/blocks/etheria_rune_block"
+  },
+  "etheria_demonic_brick": {
+   "textures": "textures/blocks/etheria_demonic_brick"
+  },
+  "etheria_frozen_brick": {
+   "textures": "textures/blocks/etheria_frozen_brick"
+  },
+  "etheria_volcanic_stone": {
+   "textures": "textures/blocks/etheria_volcanic_stone"
+  },
+  "etheria_volcanic_brick": {
+   "textures": "textures/blocks/etheria_volcanic_brick"
+  },
+  "etheria_corrupted_stone": {
+   "textures": "textures/blocks/etheria_corrupted_stone"
+  },
+  "etheria_arcane_metal_block": {
+   "textures": "textures/blocks/etheria_arcane_metal_block"
+  },
+  "etheria_mana_crystal_ore": {
+   "textures": "textures/blocks/etheria_mana_crystal_ore"
+  },
+  "etheria_arcane_ore": {
+   "textures": "textures/blocks/etheria_arcane_ore"
+  },
+  "etheria_demon_stone_ore": {
+   "textures": "textures/blocks/etheria_demon_stone_ore"
+  },
+  "etheria_celestial_crystal_ore": {
+   "textures": "textures/blocks/etheria_celestial_crystal_ore"
+  },
+  "etheria_void_shard_ore": {
+   "textures": "textures/blocks/etheria_void_shard_ore"
+  },
+  "etheria_dragon_essence_ore": {
+   "textures": "textures/blocks/etheria_dragon_essence_ore"
+  },
+  "etheria_mana_crystal_cluster": {
+   "textures": "textures/blocks/etheria_mana_crystal_cluster"
+  },
+  "etheria_void_crystal_block": {
+   "textures": "textures/blocks/etheria_void_crystal_block"
+  },
+  "etheria_magic_forge": {
+   "textures": "textures/blocks/etheria_magic_forge"
+  },
+  "etheria_demon_forge": {
+   "textures": "textures/blocks/etheria_demon_forge"
+  },
+  "etheria_divine_forge": {
+   "textures": "textures/blocks/etheria_divine_forge"
+  }
+ }
+}

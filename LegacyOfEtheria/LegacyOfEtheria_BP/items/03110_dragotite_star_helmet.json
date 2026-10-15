@@ -1,0 +1,30 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:dragotite_star_helmet",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_dragotite_star_helmet"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§6Capacete de Dragotita Estelar"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:wearable": {
+    "slot": "slot.armor.head",
+    "protection": 7
+   },
+   "minecraft:durability": {
+    "max_durability": 499
+   },
+   "minecraft:glint": true
+  }
+ }
+}

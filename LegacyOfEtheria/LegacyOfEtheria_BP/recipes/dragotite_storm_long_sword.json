@@ -1,0 +1,36 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:dragotite_storm_long_sword_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " A ",
+   " A ",
+   " B "
+  ],
+  "key": {
+   "A": {
+    "item": "etheria:demonite_shard"
+   },
+   "B": {
+    "item": "etheria:arcane_ingot"
+   },
+   "S": {
+    "item": "minecraft:stick"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:demonite_shard"
+   }
+  ],
+  "result": {
+   "item": "etheria:dragotite_storm_long_sword",
+   "count": 1
+  }
+ }
+}

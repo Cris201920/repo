@@ -1,0 +1,33 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:flame_sword_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " D ",
+   " D ",
+   " S "
+  ],
+  "key": {
+   "D": {
+    "item": "etheria:demonite_shard"
+   },
+   "S": {
+    "item": "minecraft:blaze_rod"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:demonite_shard"
+   }
+  ],
+  "result": {
+   "item": "etheria:flame_sword",
+   "count": 1
+  }
+ }
+}

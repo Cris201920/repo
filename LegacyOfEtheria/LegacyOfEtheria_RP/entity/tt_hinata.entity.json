@@ -1,0 +1,47 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:tt_hinata",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_tt_hinata"
+   },
+   "geometry": {
+    "default": "geometry.etheria_tt_hinata"
+   },
+   "spawn_egg": {
+    "base_color": "#e8e8f0",
+    "overlay_color": "#4aa8ff"
+   },
+   "animations": {
+    "base_pose": "animation.humanoid.base_pose",
+    "move": "animation.humanoid.move",
+    "look_at_target": "controller.animation.humanoid.look_at_target",
+    "hold": "animation.etheria_tt_hinata.hold",
+    "slash": "animation.etheria_tt_hinata.slash"
+   },
+   "scripts": {
+    "pre_animation": [
+     "variable.tcos0 = (math.cos(query.modified_distance_moved * 38.17) * query.modified_move_speed) * 57.3;"
+    ],
+    "animate": [
+     "base_pose",
+     "look_at_target",
+     {
+      "move": "query.modified_move_speed > 0.01"
+     },
+     "hold",
+     {
+      "slash": "variable.attack_time > 0.0"
+     }
+    ]
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

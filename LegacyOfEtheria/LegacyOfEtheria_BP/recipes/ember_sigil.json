@@ -1,0 +1,33 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:ember_sigil_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "DDD",
+   "DRD",
+   "DDD"
+  ],
+  "key": {
+   "D": {
+    "item": "etheria:dragon_essence"
+   },
+   "R": {
+    "item": "etheria:demonite_shard"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:dragon_essence"
+   }
+  ],
+  "result": {
+   "item": "etheria:ember_sigil",
+   "count": 1
+  }
+ }
+}

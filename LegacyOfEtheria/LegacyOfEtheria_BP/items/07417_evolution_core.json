@@ -1,0 +1,22 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:evolution_core",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_evolution_core"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§6Núcleo de Evolução"
+   },
+   "minecraft:glint": true
+  }
+ }
+}

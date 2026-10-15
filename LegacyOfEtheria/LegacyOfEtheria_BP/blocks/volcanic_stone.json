@@ -1,0 +1,29 @@
+{
+ "format_version": "1.21.80",
+ "minecraft:block": {
+  "description": {
+   "identifier": "etheria:volcanic_stone",
+   "menu_category": {
+    "category": "construction"
+   }
+  },
+  "components": {
+   "minecraft:geometry": "minecraft:geometry.full_block",
+   "minecraft:material_instances": {
+    "*": {
+     "texture": "etheria_volcanic_stone",
+     "render_method": "opaque"
+    }
+   },
+   "minecraft:destructible_by_mining": {
+    "seconds_to_destroy": 5
+   },
+   "minecraft:destructible_by_explosion": {
+    "explosion_resistance": 10
+   },
+   "minecraft:friction": 0.6,
+   "minecraft:light_emission": 5,
+   "tag:minecraft:is_pickaxe_item_destructible": {}
+  }
+ }
+}

@@ -1,0 +1,248 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.tensura.race_wings",
+    "texture_width": 128,
+    "texture_height": 128,
+    "visible_bounds_width": 4,
+    "visible_bounds_height": 4,
+    "visible_bounds_offset": [
+     0,
+     1.5,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "body",
+     "pivot": [
+      0,
+      24,
+      0
+     ]
+    },
+    {
+     "name": "left_wing",
+     "parent": "body",
+     "pivot": [
+      3,
+      21,
+      2
+     ]
+    },
+    {
+     "name": "miscLW",
+     "parent": "left_wing",
+     "pivot": [
+      3,
+      21,
+      2
+     ],
+     "cubes": [
+      {
+       "origin": [
+        3,
+        12,
+        2
+       ],
+       "size": [
+        0,
+        18,
+        8
+       ],
+       "uv": [
+        32,
+        11
+       ]
+      }
+     ]
+    },
+    {
+     "name": "left_wing_mid",
+     "parent": "miscLW",
+     "pivot": [
+      3,
+      21,
+      10
+     ]
+    },
+    {
+     "name": "miscLWM",
+     "parent": "left_wing_mid",
+     "pivot": [
+      3,
+      21,
+      10
+     ],
+     "cubes": [
+      {
+       "origin": [
+        3,
+        12,
+        10
+       ],
+       "size": [
+        0,
+        18,
+        8
+       ],
+       "uv": [
+        32,
+        37
+       ]
+      }
+     ]
+    },
+    {
+     "name": "left_wing_end",
+     "parent": "miscLWM",
+     "pivot": [
+      3,
+      21,
+      18
+     ]
+    },
+    {
+     "name": "miscLWE",
+     "parent": "left_wing_end",
+     "pivot": [
+      3,
+      21,
+      18
+     ],
+     "cubes": [
+      {
+       "origin": [
+        3,
+        12,
+        18
+       ],
+       "size": [
+        0,
+        18,
+        8
+       ],
+       "uv": [
+        0,
+        48
+       ]
+      }
+     ]
+    },
+    {
+     "name": "right_wing",
+     "parent": "body",
+     "pivot": [
+      -3,
+      21,
+      2
+     ]
+    },
+    {
+     "name": "miscRW",
+     "parent": "right_wing",
+     "pivot": [
+      -3,
+      21,
+      2
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -3,
+        12,
+        2
+       ],
+       "size": [
+        0,
+        18,
+        8
+       ],
+       "uv": [
+        32,
+        11
+       ],
+       "mirror": true
+      }
+     ]
+    },
+    {
+     "name": "right_wing_mid",
+     "parent": "miscRW",
+     "pivot": [
+      -3,
+      21,
+      10
+     ]
+    },
+    {
+     "name": "miscRWM",
+     "parent": "right_wing_mid",
+     "pivot": [
+      -3,
+      21,
+      10
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -3,
+        12,
+        10
+       ],
+       "size": [
+        0,
+        18,
+        8
+       ],
+       "uv": [
+        32,
+        37
+       ],
+       "mirror": true
+      }
+     ]
+    },
+    {
+     "name": "right_wing_end",
+     "parent": "miscRWM",
+     "pivot": [
+      -3,
+      21,
+      18
+     ]
+    },
+    {
+     "name": "miscRWE",
+     "parent": "right_wing_end",
+     "pivot": [
+      -3,
+      21,
+      18
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -3,
+        12,
+        18
+       ],
+       "size": [
+        0,
+        18,
+        8
+       ],
+       "uv": [
+        0,
+        48
+       ],
+       "mirror": true
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:dyrnwyn_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " A ",
+   " A ",
+   " B "
+  ],
+  "key": {
+   "A": {
+    "item": "etheria:void_fragment"
+   },
+   "B": {
+    "item": "etheria:demonite_shard"
+   },
+   "S": {
+    "item": "minecraft:stick"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:void_fragment"
+   }
+  ],
+  "result": {
+   "item": "etheria:dyrnwyn",
+   "count": 1
+  }
+ }
+}

@@ -1,0 +1,76 @@
+{
+ "format_version": "1.10.0",
+ "particle_effect": {
+  "description": {
+   "identifier": "etheria:fx_sun",
+   "basic_render_parameters": {
+    "material": "particles_blend",
+    "texture": "textures/particle/etheria_fx_sun"
+   }
+  },
+  "components": {
+   "minecraft:emitter_rate_instant": {
+    "num_particles": 1
+   },
+   "minecraft:emitter_lifetime_once": {
+    "active_time": 1
+   },
+   "minecraft:emitter_shape_point": {
+    "offset": [
+     0,
+     1.2,
+     0
+    ],
+    "direction": [
+     0,
+     0,
+     0
+    ]
+   },
+   "minecraft:particle_initial_speed": 0,
+   "minecraft:particle_lifetime_expression": {
+    "max_lifetime": "Math.random(0.9, 1.3)"
+   },
+   "minecraft:particle_initial_spin": {
+    "rotation": "Math.random(0, 360)",
+    "rotation_rate": "Math.random(20, 40)"
+   },
+   "minecraft:particle_motion_dynamic": {
+    "linear_acceleration": [
+     0,
+     0,
+     0
+    ],
+    "linear_drag_coefficient": 1.0,
+    "rotation_drag_coefficient": 0
+   },
+   "minecraft:particle_appearance_billboard": {
+    "size": [
+     "(1.6 + 0.8 * variable.particle_random_1) * (1 + 0.15 * Math.sin(variable.particle_age * 432)) * Math.min(1, (variable.particle_lifetime - variable.particle_age) * 4) * (variable.ft_s > 0 ? variable.ft_s : 1)",
+     "(1.6 + 0.8 * variable.particle_random_1) * (1 + 0.15 * Math.sin(variable.particle_age * 432)) * Math.min(1, (variable.particle_lifetime - variable.particle_age) * 4) * (variable.ft_s > 0 ? variable.ft_s : 1)"
+    ],
+    "facing_camera_mode": "lookat_xyz",
+    "uv": {
+     "texture_width": 256,
+     "texture_height": 256,
+     "uv": [
+      0,
+      0
+     ],
+     "uv_size": [
+      256,
+      256
+     ]
+    }
+   },
+   "minecraft:particle_appearance_tinting": {
+    "color": [
+     "1",
+     "1",
+     "1",
+     "Math.min(1, variable.particle_age / 0.15) * Math.min(1, (variable.particle_lifetime - variable.particle_age) / 0.5)"
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,30 @@
+{
+ "format_version": "1.8.0",
+ "render_controllers": {
+  "controller.render.etheria_tdr": {
+   "arrays": {
+    "geometries": {
+     "Array.geo": [
+      "Geometry.human",
+      "Geometry.dragon"
+     ]
+    },
+    "textures": {
+     "Array.tex": [
+      "Texture.human",
+      "Texture.dragon"
+     ]
+    }
+   },
+   "geometry": "Array.geo[query.property('etheria:form') == 'dragon' ? 1 : 0]",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.tex[query.property('etheria:form') == 'dragon' ? 1 : 0]"
+   ]
+  }
+ }
+}

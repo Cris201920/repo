@@ -1,0 +1,24 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:ruyi_jingu_bang",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_ruyi_jingu_bang"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§6Ruyi Jingu Bang"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:hand_equipped": true,
+   "minecraft:glint": true
+  }
+ }
+}

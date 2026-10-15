@@ -1,0 +1,65 @@
+{
+ "format_version": "1.8.0",
+ "minecraft:spawn_rules": {
+  "description": {
+   "identifier": "etheria:luminous_valentine",
+   "population_control": "monster"
+  },
+  "conditions": [
+   {
+    "minecraft:weight": {
+     "default": 4
+    },
+    "minecraft:herd": {
+     "min_size": 1,
+     "max_size": 1
+    },
+    "minecraft:distance_filter": {
+     "min": 64,
+     "max": 128
+    },
+    "minecraft:delay_filter": {
+     "min": 60,
+     "max": 120,
+     "identifier": "etheria:luminous_valentine",
+     "spawn_chance": 30
+    },
+    "minecraft:difficulty_filter": {
+     "min": "easy",
+     "max": "hard"
+    },
+    "minecraft:spawns_on_surface": {},
+    "minecraft:density_limit": {
+     "surface": 1
+    }
+   },
+   {
+    "minecraft:weight": {
+     "default": 4
+    },
+    "minecraft:herd": {
+     "min_size": 1,
+     "max_size": 1
+    },
+    "minecraft:distance_filter": {
+     "min": 64,
+     "max": 128
+    },
+    "minecraft:delay_filter": {
+     "min": 60,
+     "max": 120,
+     "identifier": "etheria:luminous_valentine",
+     "spawn_chance": 30
+    },
+    "minecraft:difficulty_filter": {
+     "min": "easy",
+     "max": "hard"
+    },
+    "minecraft:spawns_underground": {},
+    "minecraft:density_limit": {
+     "underground": 1
+    }
+   }
+  ]
+ }
+}

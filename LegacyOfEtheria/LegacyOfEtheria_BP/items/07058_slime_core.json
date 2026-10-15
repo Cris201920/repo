@@ -1,0 +1,21 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:slime_core",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_slime_core"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§fNúcleo de Slime"
+   }
+  }
+ }
+}

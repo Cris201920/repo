@@ -1,0 +1,21 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:wolf_fang",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_wolf_fang"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§aPresa de Lobo Mágico"
+   }
+  }
+ }
+}

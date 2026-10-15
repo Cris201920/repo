@@ -1,0 +1,380 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.etheria_a_archevoker_helmet",
+    "texture_width": 96,
+    "texture_height": 96,
+    "visible_bounds_width": 4,
+    "visible_bounds_height": 5.5,
+    "visible_bounds_offset": [
+     0,
+     2.25,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "head",
+     "pivot": [
+      0,
+      24,
+      0
+     ]
+    },
+    {
+     "name": "armorHead",
+     "pivot": [
+      0,
+      24,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        24,
+        -4
+       ],
+       "size": [
+        8,
+        8,
+        8
+       ],
+       "inflate": 0.85,
+       "uv": {
+        "north": {
+         "uv": [
+          8,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "east": {
+         "uv": [
+          0,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "south": {
+         "uv": [
+          24,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "west": {
+         "uv": [
+          16,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "up": {
+         "uv": [
+          8,
+          1
+         ],
+         "uv_size": [
+          8,
+          7
+         ]
+        },
+        "down": {
+         "uv": [
+          16,
+          8
+         ],
+         "uv_size": [
+          8,
+          -8
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "head"
+    },
+    {
+     "name": "hat",
+     "pivot": [
+      0,
+      26.6,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -8,
+        31.6,
+        -8
+       ],
+       "size": [
+        16,
+        1,
+        16
+       ],
+       "uv": {
+        "north": {
+         "uv": [
+          80,
+          15
+         ],
+         "uv_size": [
+          16,
+          1
+         ]
+        },
+        "east": {
+         "uv": [
+          80,
+          15
+         ],
+         "uv_size": [
+          16,
+          1
+         ]
+        },
+        "south": {
+         "uv": [
+          80,
+          15
+         ],
+         "uv_size": [
+          16,
+          1
+         ]
+        },
+        "west": {
+         "uv": [
+          80,
+          15
+         ],
+         "uv_size": [
+          16,
+          1
+         ]
+        },
+        "up": {
+         "uv": [
+          96,
+          16
+         ],
+         "uv_size": [
+          -16,
+          -16
+         ]
+        },
+        "down": {
+         "uv": [
+          96,
+          16
+         ],
+         "uv_size": [
+          -16,
+          -16
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "armorHead"
+    },
+    {
+     "name": "hat1",
+     "pivot": [
+      0,
+      32.6,
+      -2.5
+     ],
+     "rotation": [
+      -10,
+      0,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        32.6,
+        -2.5
+       ],
+       "size": [
+        8,
+        12,
+        5
+       ],
+       "uv": {
+        "north": {
+         "uv": [
+          83,
+          73
+         ],
+         "uv_size": [
+          8,
+          12
+         ]
+        },
+        "east": {
+         "uv": [
+          78,
+          73
+         ],
+         "uv_size": [
+          5,
+          12
+         ]
+        },
+        "south": {
+         "uv": [
+          70,
+          73
+         ],
+         "uv_size": [
+          8,
+          12
+         ]
+        },
+        "west": {
+         "uv": [
+          91,
+          73
+         ],
+         "uv_size": [
+          5,
+          12
+         ]
+        },
+        "up": {
+         "uv": [
+          91,
+          73
+         ],
+         "uv_size": [
+          -8,
+          -5
+         ]
+        },
+        "down": {
+         "uv": [
+          91,
+          73
+         ],
+         "uv_size": [
+          -8,
+          -5
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "hat"
+    },
+    {
+     "name": "hat2",
+     "pivot": [
+      0,
+      44.6,
+      2.5
+     ],
+     "rotation": [
+      -120,
+      0,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -3.995,
+        44.6,
+        2.5
+       ],
+       "size": [
+        7.99,
+        5,
+        4
+       ],
+       "uv": {
+        "north": {
+         "uv": [
+          83,
+          68
+         ],
+         "uv_size": [
+          8,
+          5
+         ]
+        },
+        "east": {
+         "uv": [
+          80,
+          89
+         ],
+         "uv_size": [
+          4,
+          5
+         ]
+        },
+        "south": {
+         "uv": [
+          83,
+          68
+         ],
+         "uv_size": [
+          8,
+          5
+         ]
+        },
+        "west": {
+         "uv": [
+          92,
+          89
+         ],
+         "uv_size": [
+          4,
+          5
+         ]
+        },
+        "up": {
+         "uv": [
+          91,
+          73
+         ],
+         "uv_size": [
+          -8,
+          -5
+         ]
+        },
+        "down": {
+         "uv": [
+          92,
+          89
+         ],
+         "uv_size": [
+          -8,
+          -4
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "hat1"
+    }
+   ]
+  }
+ ]
+}

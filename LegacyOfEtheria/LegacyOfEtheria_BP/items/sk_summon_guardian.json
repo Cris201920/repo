@@ -1,0 +1,26 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_summon_guardian",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_summon_guardian"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Guardião Espectral"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_summon_guardian",
+    "duration": 0.05
+   }
+  }
+ }
+}

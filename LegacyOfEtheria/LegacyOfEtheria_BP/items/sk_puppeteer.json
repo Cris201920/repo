@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_puppeteer",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_puppeteer"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Marionetista"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_puppeteer",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

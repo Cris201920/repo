@@ -1,0 +1,32 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:shadow_dagger_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " D",
+   "S "
+  ],
+  "key": {
+   "D": {
+    "item": "etheria:demonite_shard"
+   },
+   "S": {
+    "item": "minecraft:stick"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:demonite_shard"
+   }
+  ],
+  "result": {
+   "item": "etheria:shadow_dagger",
+   "count": 1
+  }
+ }
+}

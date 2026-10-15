@@ -1,0 +1,39 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:npc_tp_adventurer",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_npc_tp_adventurer"
+   },
+   "geometry": {
+    "default": "geometry.etheria_npc_tp_adventurer"
+   },
+   "spawn_egg": {
+    "base_color": "#9a6a40",
+    "overlay_color": "#b0343c"
+   },
+   "scripts": {
+    "scale": "1.0",
+    "animate": [
+     "look",
+     "walk",
+     "attack",
+     "breathe"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.biped_walk",
+    "attack": "animation.etheria.attack_biped"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

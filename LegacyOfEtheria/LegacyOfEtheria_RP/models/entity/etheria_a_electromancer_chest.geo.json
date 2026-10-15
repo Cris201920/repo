@@ -1,0 +1,488 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.etheria_a_electromancer_chest",
+    "texture_width": 96,
+    "texture_height": 96,
+    "visible_bounds_width": 4,
+    "visible_bounds_height": 5.5,
+    "visible_bounds_offset": [
+     0,
+     2.25,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "leftArm",
+     "pivot": [
+      5,
+      22,
+      0
+     ]
+    },
+    {
+     "name": "rightArm",
+     "pivot": [
+      -5,
+      22,
+      0
+     ]
+    },
+    {
+     "name": "body",
+     "pivot": [
+      0,
+      24,
+      0
+     ]
+    },
+    {
+     "name": "armorBody",
+     "pivot": [
+      0,
+      24,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        8.75,
+        -2
+       ],
+       "size": [
+        8,
+        15,
+        4
+       ],
+       "inflate": 0.85,
+       "uv": {
+        "north": {
+         "uv": [
+          56,
+          20
+         ],
+         "uv_size": [
+          8,
+          16
+         ]
+        },
+        "up": {
+         "uv": [
+          56,
+          16
+         ],
+         "uv_size": [
+          8,
+          4
+         ]
+        }
+       }
+      },
+      {
+       "origin": [
+        -4,
+        12,
+        -2
+       ],
+       "size": [
+        8,
+        12,
+        4
+       ],
+       "inflate": 0.55,
+       "uv": {
+        "north": {
+         "uv": [
+          20,
+          20
+         ],
+         "uv_size": [
+          8,
+          12
+         ]
+        },
+        "east": {
+         "uv": [
+          16,
+          20
+         ],
+         "uv_size": [
+          4,
+          12
+         ]
+        },
+        "south": {
+         "uv": [
+          32,
+          20
+         ],
+         "uv_size": [
+          8,
+          12
+         ]
+        },
+        "west": {
+         "uv": [
+          28,
+          20
+         ],
+         "uv_size": [
+          4,
+          12
+         ]
+        },
+        "up": {
+         "uv": [
+          20,
+          16
+         ],
+         "uv_size": [
+          8,
+          4
+         ]
+        },
+        "down": {
+         "uv": [
+          28,
+          20
+         ],
+         "uv_size": [
+          8,
+          -4
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "body"
+    },
+    {
+     "name": "armorRightArm",
+     "pivot": [
+      -5,
+      22,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -8,
+        12,
+        -2
+       ],
+       "size": [
+        4,
+        12,
+        4
+       ],
+       "inflate": 0.4,
+       "uv": {
+        "north": {
+         "uv": [
+          44,
+          20
+         ],
+         "uv_size": [
+          4,
+          12
+         ]
+        },
+        "east": {
+         "uv": [
+          40,
+          20
+         ],
+         "uv_size": [
+          4,
+          12
+         ]
+        },
+        "south": {
+         "uv": [
+          52,
+          20
+         ],
+         "uv_size": [
+          4,
+          12
+         ]
+        },
+        "west": {
+         "uv": [
+          48,
+          20
+         ],
+         "uv_size": [
+          4,
+          12
+         ]
+        },
+        "up": {
+         "uv": [
+          44,
+          16
+         ],
+         "uv_size": [
+          4,
+          4
+         ]
+        },
+        "down": {
+         "uv": [
+          48,
+          20
+         ],
+         "uv_size": [
+          4,
+          -4
+         ]
+        }
+       }
+      },
+      {
+       "origin": [
+        -9,
+        22,
+        -2
+       ],
+       "size": [
+        4,
+        3,
+        4
+       ],
+       "inflate": 0.8,
+       "uv": {
+        "north": {
+         "uv": [
+          64,
+          21
+         ],
+         "uv_size": [
+          4,
+          3
+         ]
+        },
+        "east": {
+         "uv": [
+          64,
+          21
+         ],
+         "uv_size": [
+          4,
+          3
+         ]
+        },
+        "south": {
+         "uv": [
+          64,
+          21
+         ],
+         "uv_size": [
+          4,
+          3
+         ]
+        },
+        "west": {
+         "uv": [
+          64,
+          21
+         ],
+         "uv_size": [
+          4,
+          3
+         ]
+        },
+        "up": {
+         "uv": [
+          68,
+          24
+         ],
+         "uv_size": [
+          4,
+          -4
+         ]
+        },
+        "down": {
+         "uv": [
+          72,
+          24
+         ],
+         "uv_size": [
+          -4,
+          -4
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "rightArm"
+    },
+    {
+     "name": "armorLeftArm",
+     "pivot": [
+      5,
+      22,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        4,
+        12,
+        -2
+       ],
+       "size": [
+        4,
+        12,
+        4
+       ],
+       "inflate": 0.4,
+       "uv": {
+        "north": {
+         "uv": [
+          48,
+          20
+         ],
+         "uv_size": [
+          -4,
+          12
+         ]
+        },
+        "east": {
+         "uv": [
+          52,
+          20
+         ],
+         "uv_size": [
+          -4,
+          12
+         ]
+        },
+        "south": {
+         "uv": [
+          56,
+          20
+         ],
+         "uv_size": [
+          -4,
+          12
+         ]
+        },
+        "west": {
+         "uv": [
+          44,
+          20
+         ],
+         "uv_size": [
+          -4,
+          12
+         ]
+        },
+        "up": {
+         "uv": [
+          48,
+          16
+         ],
+         "uv_size": [
+          -4,
+          4
+         ]
+        },
+        "down": {
+         "uv": [
+          52,
+          20
+         ],
+         "uv_size": [
+          -4,
+          -4
+         ]
+        }
+       }
+      },
+      {
+       "origin": [
+        5,
+        22,
+        -2
+       ],
+       "size": [
+        4,
+        3,
+        4
+       ],
+       "inflate": 0.8,
+       "uv": {
+        "north": {
+         "uv": [
+          64,
+          21
+         ],
+         "uv_size": [
+          4,
+          3
+         ]
+        },
+        "east": {
+         "uv": [
+          64,
+          21
+         ],
+         "uv_size": [
+          4,
+          3
+         ]
+        },
+        "south": {
+         "uv": [
+          64,
+          21
+         ],
+         "uv_size": [
+          4,
+          3
+         ]
+        },
+        "west": {
+         "uv": [
+          64,
+          21
+         ],
+         "uv_size": [
+          4,
+          3
+         ]
+        },
+        "up": {
+         "uv": [
+          68,
+          24
+         ],
+         "uv_size": [
+          4,
+          -4
+         ]
+        },
+        "down": {
+         "uv": [
+          72,
+          24
+         ],
+         "uv_size": [
+          -4,
+          -4
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "leftArm"
+    }
+   ]
+  }
+ ]
+}

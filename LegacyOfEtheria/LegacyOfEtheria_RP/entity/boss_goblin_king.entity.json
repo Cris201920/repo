@@ -1,0 +1,42 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:boss_goblin_king",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "p1": "textures/entity/etheria_boss_goblin_king_p1",
+    "p2": "textures/entity/etheria_boss_goblin_king_p2",
+    "p3": "textures/entity/etheria_boss_goblin_king_p3",
+    "p4": "textures/entity/etheria_boss_goblin_king_p4"
+   },
+   "geometry": {
+    "default": "geometry.etheria_boss_goblin_king"
+   },
+   "spawn_egg": {
+    "base_color": "#3f8a30",
+    "overlay_color": "#efbf4a"
+   },
+   "scripts": {
+    "scale": "2.0",
+    "animate": [
+     "look",
+     "walk",
+     "attack",
+     "breathe"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.biped_walk",
+    "attack": "animation.etheria.attack_biped"
+   },
+   "render_controllers": [
+    "controller.render.etheria_boss"
+   ]
+  }
+ }
+}

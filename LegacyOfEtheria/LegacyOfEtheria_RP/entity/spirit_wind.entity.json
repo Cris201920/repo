@@ -1,0 +1,41 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:spirit_wind",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_spirit_wind"
+   },
+   "geometry": {
+    "default": "geometry.etheria_spirit_wind"
+   },
+   "spawn_egg": {
+    "base_color": "#b8f0d8",
+    "overlay_color": "#ffffff"
+   },
+   "scripts": {
+    "scale": "1.05",
+    "animate": [
+     "look",
+     "walk",
+     "attack",
+     "breathe",
+     "flap"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.biped_walk",
+    "attack": "animation.etheria.attack_biped",
+    "flap": "animation.etheria.flap"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

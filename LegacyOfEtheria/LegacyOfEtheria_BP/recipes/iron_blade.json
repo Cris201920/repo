@@ -1,0 +1,33 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:iron_blade_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " I ",
+   " I ",
+   " S "
+  ],
+  "key": {
+   "I": {
+    "item": "minecraft:iron_ingot"
+   },
+   "S": {
+    "item": "minecraft:stick"
+   }
+  },
+  "unlock": [
+   {
+    "item": "minecraft:iron_ingot"
+   }
+  ],
+  "result": {
+   "item": "etheria:iron_blade",
+   "count": 1
+  }
+ }
+}

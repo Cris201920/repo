@@ -1,0 +1,41 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:drake_whelp",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_drake_whelp"
+   },
+   "geometry": {
+    "default": "geometry.etheria_drake_whelp"
+   },
+   "spawn_egg": {
+    "base_color": "#b2381c",
+    "overlay_color": "#ffc866"
+   },
+   "scripts": {
+    "scale": "1.0",
+    "animate": [
+     "look",
+     "walk",
+     "attack",
+     "breathe",
+     "flap"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.biped_walk",
+    "attack": "animation.etheria.attack_biped",
+    "flap": "animation.etheria.flap"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

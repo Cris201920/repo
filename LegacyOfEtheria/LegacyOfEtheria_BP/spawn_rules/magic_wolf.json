@@ -1,0 +1,65 @@
+{
+ "format_version": "1.8.0",
+ "minecraft:spawn_rules": {
+  "description": {
+   "identifier": "etheria:magic_wolf",
+   "population_control": "monster"
+  },
+  "conditions": [
+   {
+    "minecraft:weight": {
+     "default": 36
+    },
+    "minecraft:herd": {
+     "min_size": 2,
+     "max_size": 3
+    },
+    "minecraft:distance_filter": {
+     "min": 24,
+     "max": 120
+    },
+    "minecraft:delay_filter": {
+     "min": 2,
+     "max": 6,
+     "identifier": "etheria:magic_wolf",
+     "spawn_chance": 100
+    },
+    "minecraft:difficulty_filter": {
+     "min": "easy",
+     "max": "hard"
+    },
+    "minecraft:spawns_on_surface": {},
+    "minecraft:density_limit": {
+     "surface": 4
+    }
+   },
+   {
+    "minecraft:weight": {
+     "default": 36
+    },
+    "minecraft:herd": {
+     "min_size": 2,
+     "max_size": 3
+    },
+    "minecraft:distance_filter": {
+     "min": 24,
+     "max": 120
+    },
+    "minecraft:delay_filter": {
+     "min": 2,
+     "max": 6,
+     "identifier": "etheria:magic_wolf",
+     "spawn_chance": 100
+    },
+    "minecraft:difficulty_filter": {
+     "min": "easy",
+     "max": "hard"
+    },
+    "minecraft:spawns_underground": {},
+    "minecraft:density_limit": {
+     "underground": 4
+    }
+   }
+  ]
+ }
+}

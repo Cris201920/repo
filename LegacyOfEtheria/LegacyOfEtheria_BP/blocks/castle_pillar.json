@@ -1,0 +1,36 @@
+{
+ "format_version": "1.21.80",
+ "minecraft:block": {
+  "description": {
+   "identifier": "etheria:castle_pillar",
+   "menu_category": {
+    "category": "construction"
+   }
+  },
+  "components": {
+   "minecraft:geometry": "minecraft:geometry.full_block",
+   "minecraft:material_instances": {
+    "*": {
+     "texture": "etheria_castle_pillar_side",
+     "render_method": "opaque"
+    },
+    "up": {
+     "texture": "etheria_castle_pillar_top",
+     "render_method": "opaque"
+    },
+    "down": {
+     "texture": "etheria_castle_pillar_top",
+     "render_method": "opaque"
+    }
+   },
+   "minecraft:destructible_by_mining": {
+    "seconds_to_destroy": 4
+   },
+   "minecraft:destructible_by_explosion": {
+    "explosion_resistance": 8
+   },
+   "minecraft:friction": 0.6,
+   "tag:minecraft:is_pickaxe_item_destructible": {}
+  }
+ }
+}

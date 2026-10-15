@@ -1,0 +1,100 @@
+{
+ "format_version": [
+  1,
+  1,
+  0
+ ],
+ "etheria:village_planks": {
+  "sound": "wood"
+ },
+ "etheria:village_cobble": {
+  "sound": "stone"
+ },
+ "etheria:castle_stone": {
+  "sound": "stone"
+ },
+ "etheria:castle_brick": {
+  "sound": "stone"
+ },
+ "etheria:castle_floor": {
+  "sound": "stone"
+ },
+ "etheria:castle_pillar": {
+  "sound": "stone"
+ },
+ "etheria:guild_planks": {
+  "sound": "wood"
+ },
+ "etheria:guild_wall": {
+  "sound": "stone"
+ },
+ "etheria:dungeon_brick": {
+  "sound": "stone"
+ },
+ "etheria:dungeon_floor": {
+  "sound": "stone"
+ },
+ "etheria:temple_stone": {
+  "sound": "stone"
+ },
+ "etheria:temple_pillar": {
+  "sound": "stone"
+ },
+ "etheria:magic_brick": {
+  "sound": "stone"
+ },
+ "etheria:rune_block": {
+  "sound": "stone"
+ },
+ "etheria:demonic_brick": {
+  "sound": "stone"
+ },
+ "etheria:frozen_brick": {
+  "sound": "stone"
+ },
+ "etheria:volcanic_stone": {
+  "sound": "stone"
+ },
+ "etheria:volcanic_brick": {
+  "sound": "stone"
+ },
+ "etheria:corrupted_stone": {
+  "sound": "stone"
+ },
+ "etheria:arcane_metal_block": {
+  "sound": "metal"
+ },
+ "etheria:mana_crystal_ore": {
+  "sound": "stone"
+ },
+ "etheria:arcane_ore": {
+  "sound": "stone"
+ },
+ "etheria:demon_stone_ore": {
+  "sound": "stone"
+ },
+ "etheria:celestial_crystal_ore": {
+  "sound": "stone"
+ },
+ "etheria:void_shard_ore": {
+  "sound": "stone"
+ },
+ "etheria:dragon_essence_ore": {
+  "sound": "stone"
+ },
+ "etheria:mana_crystal_cluster": {
+  "sound": "amethyst_block"
+ },
+ "etheria:void_crystal_block": {
+  "sound": "amethyst_block"
+ },
+ "etheria:magic_forge": {
+  "sound": "metal"
+ },
+ "etheria:demon_forge": {
+  "sound": "metal"
+ },
+ "etheria:divine_forge": {
+  "sound": "metal"
+ }
+}

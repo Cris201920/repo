@@ -1,0 +1,24 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:soul_serpent_blade",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_soul_serpent_blade"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Lâmina da Serpente de Almas"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:hand_equipped": true,
+   "minecraft:glint": true
+  }
+ }
+}

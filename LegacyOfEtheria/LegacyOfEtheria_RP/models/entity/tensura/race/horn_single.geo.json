@@ -1,0 +1,92 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.tensura.race_horn_single",
+    "texture_width": 128,
+    "texture_height": 128,
+    "visible_bounds_width": 4,
+    "visible_bounds_height": 4,
+    "visible_bounds_offset": [
+     0,
+     1.5,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "head",
+     "pivot": [
+      0,
+      24,
+      0
+     ]
+    },
+    {
+     "name": "horn_single",
+     "parent": "head",
+     "pivot": [
+      0,
+      32,
+      -4.5
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -1,
+        31,
+        -6.5
+       ],
+       "size": [
+        2,
+        2,
+        4
+       ],
+       "pivot": [
+        0,
+        32,
+        -4.5
+       ],
+       "rotation": [
+        -45,
+        0,
+        0
+       ],
+       "uv": [
+        62,
+        71
+       ]
+      },
+      {
+       "origin": [
+        -0.5,
+        33.97487,
+        -8.97487
+       ],
+       "size": [
+        1,
+        1,
+        4
+       ],
+       "pivot": [
+        0,
+        34.47487,
+        -6.47487
+       ],
+       "rotation": [
+        -60,
+        0,
+        0
+       ],
+       "uv": [
+        72,
+        40
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

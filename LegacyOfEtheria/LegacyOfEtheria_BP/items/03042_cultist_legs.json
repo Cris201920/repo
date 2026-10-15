@@ -1,0 +1,30 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:cultist_legs",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_cultist_legs"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Calças do Cultista"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:wearable": {
+    "slot": "slot.armor.legs",
+    "protection": 6
+   },
+   "minecraft:durability": {
+    "max_durability": 448
+   },
+   "minecraft:glint": true
+  }
+ }
+}

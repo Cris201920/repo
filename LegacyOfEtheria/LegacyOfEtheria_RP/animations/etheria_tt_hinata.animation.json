@@ -1,0 +1,43 @@
+{
+ "format_version": "1.8.0",
+ "animations": {
+  "animation.etheria_tt_hinata.hold": {
+   "loop": true,
+   "bones": {
+    "rightArm": {
+     "rotation": [
+      -18,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria_tt_hinata.slash": {
+   "loop": true,
+   "bones": {
+    "rightArm": {
+     "rotation": [
+      "-150 * math.sin(variable.attack_time * 180) + 40 * math.sin(variable.attack_time * 360)",
+      "-15 * math.sin(variable.attack_time * 180)",
+      "20 * math.sin(variable.attack_time * 180)"
+     ]
+    },
+    "body": {
+     "rotation": [
+      0,
+      "-28 * math.sin(variable.attack_time * 360)",
+      0
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "-35 * math.sin(variable.attack_time * 180)",
+      0,
+      "-15 * math.sin(variable.attack_time * 180)"
+     ]
+    }
+   }
+  }
+ }
+}

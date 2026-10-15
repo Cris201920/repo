@@ -1,0 +1,30 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:pyromancer_boots",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_pyromancer_boots"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Botas do Piromante"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:wearable": {
+    "slot": "slot.armor.feet",
+    "protection": 4
+   },
+   "minecraft:durability": {
+    "max_durability": 285
+   },
+   "minecraft:glint": true
+  }
+ }
+}

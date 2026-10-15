@@ -1,0 +1,36 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:extermination_blade_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " A ",
+   " A ",
+   " B "
+  ],
+  "key": {
+   "A": {
+    "item": "etheria:celestial_crystal"
+   },
+   "B": {
+    "item": "etheria:void_fragment"
+   },
+   "S": {
+    "item": "minecraft:stick"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:celestial_crystal"
+   }
+  ],
+  "result": {
+   "item": "etheria:extermination_blade",
+   "count": 1
+  }
+ }
+}

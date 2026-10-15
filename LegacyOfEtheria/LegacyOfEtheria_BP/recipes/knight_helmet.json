@@ -1,0 +1,29 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:knight_helmet_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "MMM",
+   "M M"
+  ],
+  "key": {
+   "M": {
+    "item": "etheria:arcane_ingot"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:arcane_ingot"
+   }
+  ],
+  "result": {
+   "item": "etheria:knight_helmet",
+   "count": 1
+  }
+ }
+}

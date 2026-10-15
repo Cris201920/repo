@@ -1,0 +1,28 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shapeless": {
+  "description": {
+   "identifier": "etheria:block_rune_block_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "ingredients": [
+   {
+    "item": "minecraft:obsidian"
+   },
+   {
+    "item": "etheria:mana_crystal"
+   }
+  ],
+  "unlock": [
+   {
+    "item": "minecraft:obsidian"
+   }
+  ],
+  "result": {
+   "item": "etheria:rune_block",
+   "count": 1
+  }
+ }
+}

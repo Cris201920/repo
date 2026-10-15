@@ -1,0 +1,33 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:storm_bow_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " SL",
+   "S L",
+   " SL"
+  ],
+  "key": {
+   "S": {
+    "item": "minecraft:stick"
+   },
+   "L": {
+    "item": "etheria:mana_crystal"
+   }
+  },
+  "unlock": [
+   {
+    "item": "minecraft:stick"
+   }
+  ],
+  "result": {
+   "item": "etheria:storm_bow",
+   "count": 1
+  }
+ }
+}

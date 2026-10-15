@@ -1,0 +1,39 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:tt_evil_centipede",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_tt_evil_centipede"
+   },
+   "geometry": {
+    "default": "geometry.etheria_tt_evil_centipede"
+   },
+   "spawn_egg": {
+    "base_color": "#401010",
+    "overlay_color": "#ffb040"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "main": "1.0"
+     },
+     {
+      "attack": "variable.attack_time > 0"
+     }
+    ],
+    "scale": "2.0"
+   },
+   "animations": {
+    "main": "animation.etheria_tt_evil_centipede.main",
+    "attack": "animation.etheria_tt_evil_centipede.attack"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

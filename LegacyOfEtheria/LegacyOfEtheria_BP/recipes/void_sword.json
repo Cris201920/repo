@@ -1,0 +1,33 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:void_sword_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " V ",
+   " V ",
+   " S "
+  ],
+  "key": {
+   "V": {
+    "item": "etheria:void_fragment"
+   },
+   "S": {
+    "item": "minecraft:netherite_ingot"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:void_fragment"
+   }
+  ],
+  "result": {
+   "item": "etheria:void_sword",
+   "count": 1
+  }
+ }
+}

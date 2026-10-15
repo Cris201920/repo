@@ -1,0 +1,95 @@
+{
+ "format_version": "1.8.0",
+ "animations": {
+  "animation.etheria.tfx_body_evo": {
+   "loop": false,
+   "animation_length": 3.0,
+   "bones": {
+    "root": {
+     "scale": [
+      "(1 + 0.18 * math.sin(180 * math.clamp(query.anim_time / 1.6, 0, 1)))",
+      "(1 + 0.18 * math.sin(180 * math.clamp(query.anim_time / 1.6, 0, 1)))",
+      "(1 + 0.18 * math.sin(180 * math.clamp(query.anim_time / 1.6, 0, 1)))"
+     ]
+    },
+    "All": {
+     "scale": [
+      "(1 + 0.18 * math.sin(180 * math.clamp(query.anim_time / 1.6, 0, 1)))",
+      "(1 + 0.18 * math.sin(180 * math.clamp(query.anim_time / 1.6, 0, 1)))",
+      "(1 + 0.18 * math.sin(180 * math.clamp(query.anim_time / 1.6, 0, 1)))"
+     ]
+    }
+   }
+  },
+  "animation.etheria.tfx_body_lord": {
+   "loop": false,
+   "animation_length": 3.0,
+   "bones": {
+    "root": {
+     "scale": [
+      "((1 + 0.3 * math.sin(180 * math.clamp(query.anim_time / 2.0, 0, 1))) + math.sin(query.anim_time * 40) * 0.03 * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "((1 + 0.3 * math.sin(180 * math.clamp(query.anim_time / 2.0, 0, 1))) + math.sin(query.anim_time * 40) * 0.03 * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "((1 + 0.3 * math.sin(180 * math.clamp(query.anim_time / 2.0, 0, 1))) + math.sin(query.anim_time * 40) * 0.03 * (1 - math.clamp(query.anim_time / 3, 0, 1)))"
+     ]
+    },
+    "All": {
+     "scale": [
+      "((1 + 0.3 * math.sin(180 * math.clamp(query.anim_time / 2.0, 0, 1))) + math.sin(query.anim_time * 40) * 0.03 * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "((1 + 0.3 * math.sin(180 * math.clamp(query.anim_time / 2.0, 0, 1))) + math.sin(query.anim_time * 40) * 0.03 * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "((1 + 0.3 * math.sin(180 * math.clamp(query.anim_time / 2.0, 0, 1))) + math.sin(query.anim_time * 40) * 0.03 * (1 - math.clamp(query.anim_time / 3, 0, 1)))"
+     ]
+    }
+   }
+  },
+  "animation.etheria.tfx_body_dragon": {
+   "loop": false,
+   "animation_length": 3.0,
+   "bones": {
+    "root": {
+     "scale": [
+      "(0.6 + 0.4 * math.clamp(query.anim_time / 2.2, 0, 1) + 0.05 * math.sin(query.anim_time * 16) * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "(0.6 + 0.4 * math.clamp(query.anim_time / 2.2, 0, 1) + 0.05 * math.sin(query.anim_time * 16) * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "(0.6 + 0.4 * math.clamp(query.anim_time / 2.2, 0, 1) + 0.05 * math.sin(query.anim_time * 16) * (1 - math.clamp(query.anim_time / 3, 0, 1)))"
+     ]
+    },
+    "All": {
+     "scale": [
+      "(0.6 + 0.4 * math.clamp(query.anim_time / 2.2, 0, 1) + 0.05 * math.sin(query.anim_time * 16) * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "(0.6 + 0.4 * math.clamp(query.anim_time / 2.2, 0, 1) + 0.05 * math.sin(query.anim_time * 16) * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "(0.6 + 0.4 * math.clamp(query.anim_time / 2.2, 0, 1) + 0.05 * math.sin(query.anim_time * 16) * (1 - math.clamp(query.anim_time / 3, 0, 1)))"
+     ]
+    }
+   }
+  },
+  "animation.etheria.tfx_body_true": {
+   "loop": false,
+   "animation_length": 3.0,
+   "bones": {
+    "root": {
+     "scale": [
+      "(0.4 + 0.6 * math.clamp(query.anim_time / 2.4, 0, 1) + 0.05 * math.sin(query.anim_time * 18) * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "(0.4 + 0.6 * math.clamp(query.anim_time / 2.4, 0, 1) + 0.05 * math.sin(query.anim_time * 18) * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "(0.4 + 0.6 * math.clamp(query.anim_time / 2.4, 0, 1) + 0.05 * math.sin(query.anim_time * 18) * (1 - math.clamp(query.anim_time / 3, 0, 1)))"
+     ],
+     "rotation": [
+      0,
+      "360 * math.clamp(query.anim_time / 2.4, 0, 1)",
+      0
+     ]
+    },
+    "All": {
+     "scale": [
+      "(0.4 + 0.6 * math.clamp(query.anim_time / 2.4, 0, 1) + 0.05 * math.sin(query.anim_time * 18) * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "(0.4 + 0.6 * math.clamp(query.anim_time / 2.4, 0, 1) + 0.05 * math.sin(query.anim_time * 18) * (1 - math.clamp(query.anim_time / 3, 0, 1)))",
+      "(0.4 + 0.6 * math.clamp(query.anim_time / 2.4, 0, 1) + 0.05 * math.sin(query.anim_time * 18) * (1 - math.clamp(query.anim_time / 3, 0, 1)))"
+     ],
+     "rotation": [
+      0,
+      "360 * math.clamp(query.anim_time / 2.4, 0, 1)",
+      0
+     ]
+    }
+   }
+  }
+ }
+}

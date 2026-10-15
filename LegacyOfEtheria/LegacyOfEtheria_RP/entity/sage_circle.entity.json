@@ -1,0 +1,31 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:sage_circle",
+   "materials": {
+    "default": "entity_alphablend"
+   },
+   "textures": {
+    "s0": "textures/entity/etheria_sage_s0",
+    "s1": "textures/entity/etheria_sage_s1",
+    "s2": "textures/entity/etheria_sage_s2",
+    "s3": "textures/entity/etheria_sage_s3"
+   },
+   "geometry": {
+    "default": "geometry.etheria_sage_circle"
+   },
+   "render_controllers": [
+    "controller.render.etheria_sage_circle"
+   ],
+   "animations": {
+    "spin": "animation.etheria.sage_circle"
+   },
+   "scripts": {
+    "animate": [
+     "spin"
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,35 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:spirit_wisp",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_spirit_wisp"
+   },
+   "geometry": {
+    "default": "geometry.etheria_spirit_wisp"
+   },
+   "spawn_egg": {
+    "base_color": "#9fe8ff",
+    "overlay_color": "#ffffff"
+   },
+   "scripts": {
+    "scale": "0.9",
+    "animate": [
+     "slime"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "slime": "animation.etheria.slime"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

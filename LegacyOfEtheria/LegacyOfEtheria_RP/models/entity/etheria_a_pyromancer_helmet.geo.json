@@ -1,0 +1,451 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.etheria_a_pyromancer_helmet",
+    "texture_width": 96,
+    "texture_height": 96,
+    "visible_bounds_width": 4,
+    "visible_bounds_height": 5.5,
+    "visible_bounds_offset": [
+     0,
+     2.25,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "head",
+     "pivot": [
+      0,
+      24,
+      0
+     ]
+    },
+    {
+     "name": "armorHead",
+     "pivot": [
+      0,
+      24,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -4,
+        24,
+        -4
+       ],
+       "size": [
+        8,
+        8,
+        8
+       ],
+       "inflate": 0.35,
+       "uv": {
+        "north": {
+         "uv": [
+          8,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "east": {
+         "uv": [
+          0,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "south": {
+         "uv": [
+          24,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "west": {
+         "uv": [
+          16,
+          8
+         ],
+         "uv_size": [
+          8,
+          8
+         ]
+        },
+        "up": {
+         "uv": [
+          8,
+          1
+         ],
+         "uv_size": [
+          8,
+          7
+         ]
+        },
+        "down": {
+         "uv": [
+          16,
+          8
+         ],
+         "uv_size": [
+          8,
+          -8
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "head"
+    },
+    {
+     "name": "hat",
+     "pivot": [
+      0,
+      32,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -8,
+        30.1,
+        -1
+       ],
+       "size": [
+        16,
+        0,
+        8
+       ],
+       "pivot": [
+        0,
+        30.1,
+        -1
+       ],
+       "rotation": [
+        -2.5,
+        0,
+        0
+       ],
+       "uv": {
+        "up": {
+         "uv": [
+          96,
+          0
+         ],
+         "uv_size": [
+          -16,
+          8
+         ]
+        }
+       }
+      },
+      {
+       "origin": [
+        -8,
+        30.1,
+        -9
+       ],
+       "size": [
+        16,
+        0,
+        8
+       ],
+       "pivot": [
+        0,
+        30.1,
+        -1
+       ],
+       "rotation": [
+        17.5,
+        0,
+        0
+       ],
+       "uv": {
+        "up": {
+         "uv": [
+          96,
+          8
+         ],
+         "uv_size": [
+          -16,
+          8
+         ]
+        }
+       }
+      },
+      {
+       "origin": [
+        -4.5,
+        29,
+        -4.5
+       ],
+       "size": [
+        9,
+        4,
+        9
+       ],
+       "inflate": 0.05,
+       "uv": {
+        "north": {
+         "uv": [
+          43,
+          12
+         ],
+         "uv_size": [
+          9,
+          4
+         ]
+        },
+        "east": {
+         "uv": [
+          32,
+          12
+         ],
+         "uv_size": [
+          9,
+          4
+         ]
+        },
+        "south": {
+         "uv": [
+          62,
+          12
+         ],
+         "uv_size": [
+          9,
+          4
+         ]
+        },
+        "west": {
+         "uv": [
+          52,
+          12
+         ],
+         "uv_size": [
+          9,
+          4
+         ]
+        },
+        "up": {
+         "uv": [
+          32,
+          0
+         ],
+         "uv_size": [
+          9,
+          9
+         ]
+        },
+        "down": {
+         "uv": [
+          48,
+          8
+         ],
+         "uv_size": [
+          8,
+          -8
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "armorHead"
+    },
+    {
+     "name": "hat_rotate_1",
+     "pivot": [
+      -0.9,
+      33.1,
+      0
+     ],
+     "rotation": [
+      -7.5,
+      0,
+      7.5
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -3.5,
+        31.9,
+        -3.5
+       ],
+       "size": [
+        7,
+        5,
+        7
+       ],
+       "inflate": 0.05,
+       "uv": {
+        "north": {
+         "uv": [
+          57,
+          11
+         ],
+         "uv_size": [
+          7,
+          5
+         ]
+        },
+        "east": {
+         "uv": [
+          33,
+          11
+         ],
+         "uv_size": [
+          7,
+          5
+         ]
+        },
+        "south": {
+         "uv": [
+          41,
+          11
+         ],
+         "uv_size": [
+          7,
+          5
+         ]
+        },
+        "west": {
+         "uv": [
+          49,
+          11
+         ],
+         "uv_size": [
+          7,
+          5
+         ]
+        },
+        "up": {
+         "uv": [
+          33,
+          1
+         ],
+         "uv_size": [
+          7,
+          7
+         ]
+        },
+        "down": {
+         "uv": [
+          48,
+          7
+         ],
+         "uv_size": [
+          7,
+          -7
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "hat"
+    },
+    {
+     "name": "hat_rotate_2",
+     "pivot": [
+      0.1,
+      37.1,
+      0
+     ],
+     "rotation": [
+      -9.76758,
+      2.15393,
+      12.31594
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -1.5,
+        35.8,
+        -1.5
+       ],
+       "size": [
+        3,
+        6,
+        3
+       ],
+       "inflate": 0.05,
+       "uv": {
+        "north": {
+         "uv": [
+          68,
+          10
+         ],
+         "uv_size": [
+          3,
+          6
+         ]
+        },
+        "east": {
+         "uv": [
+          49,
+          10
+         ],
+         "uv_size": [
+          3,
+          6
+         ]
+        },
+        "south": {
+         "uv": [
+          54,
+          10
+         ],
+         "uv_size": [
+          3,
+          6
+         ]
+        },
+        "west": {
+         "uv": [
+          34,
+          10
+         ],
+         "uv_size": [
+          3,
+          6
+         ]
+        },
+        "up": {
+         "uv": [
+          34,
+          2
+         ],
+         "uv_size": [
+          3,
+          3
+         ]
+        },
+        "down": {
+         "uv": [
+          48,
+          8
+         ],
+         "uv_size": [
+          8,
+          -8
+         ]
+        }
+       }
+      }
+     ],
+     "parent": "hat_rotate_1"
+    }
+   ]
+  }
+ ]
+}

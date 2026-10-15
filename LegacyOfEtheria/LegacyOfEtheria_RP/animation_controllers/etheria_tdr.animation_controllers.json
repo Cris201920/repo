@@ -1,0 +1,226 @@
+{
+ "format_version": "1.10.0",
+ "animation_controllers": {
+  "controller.animation.etheria_tdr.dragon": {
+   "initial_state": "default",
+   "states": {
+    "default": {
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "bite": "query.property('etheria:act') == 'bite'"
+      },
+      {
+       "claw": "query.property('etheria:act') == 'claw'"
+      },
+      {
+       "tail": "query.property('etheria:act') == 'tail'"
+      },
+      {
+       "roar": "query.property('etheria:act') == 'roar'"
+      },
+      {
+       "ability": "query.property('etheria:act') == 'ability'"
+      },
+      {
+       "takeoff": "query.property('etheria:act') == 'takeoff'"
+      },
+      {
+       "land": "query.property('etheria:act') == 'land'"
+      },
+      {
+       "hurt": "query.property('etheria:act') == 'hurt'"
+      }
+     ]
+    },
+    "death": {
+     "animations": [
+      "death"
+     ]
+    },
+    "bite": {
+     "animations": [
+      "bite"
+     ],
+     "blend_transition": 0.12,
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "default": "query.property('etheria:act') != 'bite'"
+      }
+     ]
+    },
+    "claw": {
+     "animations": [
+      "claw"
+     ],
+     "blend_transition": 0.12,
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "default": "query.property('etheria:act') != 'claw'"
+      }
+     ]
+    },
+    "tail": {
+     "animations": [
+      "tail"
+     ],
+     "blend_transition": 0.12,
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "default": "query.property('etheria:act') != 'tail'"
+      }
+     ]
+    },
+    "roar": {
+     "animations": [
+      "roar"
+     ],
+     "blend_transition": 0.12,
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "default": "query.property('etheria:act') != 'roar'"
+      }
+     ]
+    },
+    "ability": {
+     "animations": [
+      "ability"
+     ],
+     "blend_transition": 0.12,
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "default": "query.property('etheria:act') != 'ability'"
+      }
+     ]
+    },
+    "takeoff": {
+     "animations": [
+      "takeoff"
+     ],
+     "blend_transition": 0.12,
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "default": "query.property('etheria:act') != 'takeoff'"
+      }
+     ]
+    },
+    "land": {
+     "animations": [
+      "landing"
+     ],
+     "blend_transition": 0.12,
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "default": "query.property('etheria:act') != 'land'"
+      }
+     ]
+    },
+    "hurt": {
+     "animations": [
+      "hurt"
+     ],
+     "blend_transition": 0.12,
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "default": "query.property('etheria:act') != 'hurt'"
+      }
+     ]
+    }
+   }
+  },
+  "controller.animation.etheria_tdr.human": {
+   "initial_state": "default",
+   "states": {
+    "default": {
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "h_cast": "query.property('etheria:act') == 'cast'"
+      },
+      {
+       "h_transform": "query.property('etheria:act') == 'transform'"
+      },
+      {
+       "h_hurt": "query.property('etheria:act') == 'hurt'"
+      }
+     ]
+    },
+    "death": {
+     "animations": [
+      "h_death"
+     ]
+    },
+    "h_cast": {
+     "animations": [
+      "h_cast"
+     ],
+     "blend_transition": 0.12,
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "default": "query.property('etheria:act') != 'cast'"
+      }
+     ]
+    },
+    "h_transform": {
+     "animations": [
+      "h_transform"
+     ],
+     "blend_transition": 0.12,
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "default": "query.property('etheria:act') != 'transform'"
+      }
+     ]
+    },
+    "h_hurt": {
+     "animations": [
+      "h_hurt"
+     ],
+     "blend_transition": 0.12,
+     "transitions": [
+      {
+       "death": "!query.is_alive"
+      },
+      {
+       "default": "query.property('etheria:act') != 'hurt'"
+      }
+     ]
+    }
+   }
+  }
+ }
+}

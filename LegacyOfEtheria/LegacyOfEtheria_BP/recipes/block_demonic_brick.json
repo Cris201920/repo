@@ -1,0 +1,28 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shapeless": {
+  "description": {
+   "identifier": "etheria:block_demonic_brick_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "ingredients": [
+   {
+    "item": "minecraft:nether_bricks"
+   },
+   {
+    "item": "etheria:demonite_shard"
+   }
+  ],
+  "unlock": [
+   {
+    "item": "minecraft:nether_bricks"
+   }
+  ],
+  "result": {
+   "item": "etheria:demonic_brick",
+   "count": 1
+  }
+ }
+}

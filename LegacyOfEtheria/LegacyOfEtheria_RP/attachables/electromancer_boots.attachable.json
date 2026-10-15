@@ -1,0 +1,25 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:attachable": {
+  "description": {
+   "identifier": "etheria:electromancer_boots",
+   "materials": {
+    "default": "armor",
+    "enchanted": "armor_enchanted"
+   },
+   "textures": {
+    "default": "textures/models/armor/etheria_a_electromancer",
+    "enchanted": "textures/misc/enchanted_item_glint"
+   },
+   "geometry": {
+    "default": "geometry.etheria_a_electromancer_boots"
+   },
+   "scripts": {
+    "parent_setup": "variable.boot_layer_visible = 0.0;"
+   },
+   "render_controllers": [
+    "controller.render.armor"
+   ]
+  }
+ }
+}

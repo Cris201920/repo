@@ -1,0 +1,36 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:amethyst_rapier_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "  A",
+   " B ",
+   " S "
+  ],
+  "key": {
+   "A": {
+    "item": "etheria:demonite_shard"
+   },
+   "B": {
+    "item": "etheria:arcane_ingot"
+   },
+   "S": {
+    "item": "minecraft:stick"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:demonite_shard"
+   }
+  ],
+  "result": {
+   "item": "etheria:amethyst_rapier",
+   "count": 1
+  }
+ }
+}

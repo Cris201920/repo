@@ -1,0 +1,39 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:tt_knight_spider",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_tt_knight_spider"
+   },
+   "geometry": {
+    "default": "geometry.etheria_tt_knight_spider"
+   },
+   "spawn_egg": {
+    "base_color": "#303848",
+    "overlay_color": "#ffd35c"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "main": "1.0"
+     },
+     {
+      "attack": "variable.attack_time > 0"
+     }
+    ],
+    "scale": "2.0"
+   },
+   "animations": {
+    "main": "animation.etheria_tt_knight_spider.main",
+    "attack": "animation.etheria_tt_knight_spider.attack"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

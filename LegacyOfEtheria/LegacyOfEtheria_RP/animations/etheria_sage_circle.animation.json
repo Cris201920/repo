@@ -1,0 +1,133 @@
+{
+ "format_version": "1.8.0",
+ "animations": {
+  "animation.etheria.sage_circle": {
+   "loop": true,
+   "animation_length": 60,
+   "bones": {
+    "root": {
+     "scale": [
+      "math.min(1, query.life_time * 2.4) * (1 + 0.025 * math.sin(query.life_time * 200))",
+      "math.min(1, query.life_time * 2.4) * (1 + 0.025 * math.sin(query.life_time * 200))",
+      "math.min(1, query.life_time * 2.4) * (1 + 0.025 * math.sin(query.life_time * 200))"
+     ]
+    },
+    "h_core": {
+     "scale": [
+      "0.85 + 0.2 * math.sin(query.life_time * 120 * (1 + 0.4 * query.variant))",
+      "0.85 + 0.2 * math.sin(query.life_time * 120 * (1 + 0.4 * query.variant))",
+      "0.85 + 0.2 * math.sin(query.life_time * 120 * (1 + 0.4 * query.variant))"
+     ]
+    },
+    "h_cells": {
+     "rotation": [
+      0,
+      "query.life_time * 38 * (0.8 + 0.25 * query.variant)",
+      0
+     ]
+    },
+    "h_scale": {
+     "rotation": [
+      0,
+      "query.life_time * -26 * (0.8 + 0.25 * query.variant)",
+      0
+     ],
+     "scale": [
+      "1 + 0.04 * math.sin(query.life_time * 90)",
+      "1 + 0.04 * math.sin(query.life_time * 90)",
+      "1 + 0.04 * math.sin(query.life_time * 90)"
+     ]
+    },
+    "g_glyph": {
+     "rotation": [
+      0,
+      "query.life_time * -62 * (0.8 + 0.25 * query.variant)",
+      0
+     ]
+    },
+    "g_text": {
+     "rotation": [
+      0,
+      "query.life_time * 21 * (0.8 + 0.25 * query.variant)",
+      0
+     ]
+    },
+    "g_band": {
+     "rotation": [
+      0,
+      "query.life_time * -14 * (0.8 + 0.25 * query.variant)",
+      0
+     ],
+     "scale": [
+      "1 + 0.04 * math.sin(query.life_time * 90)",
+      "1 + 0.04 * math.sin(query.life_time * 90)",
+      "1 + 0.04 * math.sin(query.life_time * 90)"
+     ]
+    },
+    "g_dist": {
+     "rotation": [
+      0,
+      "query.life_time * 10 * (0.8 + 0.25 * query.variant)",
+      0
+     ]
+    },
+    "r_lattice": {
+     "rotation": [
+      0,
+      "query.life_time * 54 * (0.8 + 0.25 * query.variant)",
+      0
+     ]
+    },
+    "r_data": {
+     "rotation": [
+      0,
+      "query.life_time * -44 * (0.8 + 0.25 * query.variant)",
+      0
+     ]
+    },
+    "r_spell": {
+     "rotation": [
+      0,
+      "query.life_time * 90 * (0.8 + 0.25 * query.variant)",
+      0
+     ]
+    },
+    "c_core": {
+     "scale": [
+      "0.9 + 0.25 * math.sin(query.life_time * 150)",
+      "0.9 + 0.25 * math.sin(query.life_time * 150)",
+      "0.9 + 0.25 * math.sin(query.life_time * 150)"
+     ]
+    },
+    "c_ring": {
+     "rotation": [
+      0,
+      "query.life_time * 31 * (0.8 + 0.25 * query.variant)",
+      0
+     ]
+    },
+    "v_glyph": {
+     "rotation": [
+      0,
+      "query.life_time * -48 * (0.8 + 0.25 * query.variant)",
+      0
+     ]
+    },
+    "v_text": {
+     "rotation": [
+      0,
+      "query.life_time * 34 * (0.8 + 0.25 * query.variant)",
+      0
+     ]
+    },
+    "v_ciel": {
+     "rotation": [
+      0,
+      "query.life_time * 22 * (0.8 + 0.25 * query.variant)",
+      0
+     ]
+    }
+   }
+  }
+ }
+}

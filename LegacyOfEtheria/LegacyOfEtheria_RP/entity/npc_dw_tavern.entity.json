@@ -1,0 +1,39 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:npc_dw_tavern",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_npc_dw_tavern"
+   },
+   "geometry": {
+    "default": "geometry.etheria_npc_dw_tavern"
+   },
+   "spawn_egg": {
+    "base_color": "#8a6038",
+    "overlay_color": "#f4f4ff"
+   },
+   "scripts": {
+    "scale": "0.88",
+    "animate": [
+     "look",
+     "walk",
+     "attack",
+     "breathe"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.biped_walk",
+    "attack": "animation.etheria.attack_biped"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

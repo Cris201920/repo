@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_drago_nova",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_drago_nova"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§cDrago Nova"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_drago_nova",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

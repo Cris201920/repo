@@ -1,0 +1,21 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:ancient_map",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_ancient_map"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§9Mapa Ancestral"
+   }
+  }
+ }
+}

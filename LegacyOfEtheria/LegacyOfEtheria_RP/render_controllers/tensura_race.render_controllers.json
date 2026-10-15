@@ -1,0 +1,206 @@
+{
+ "format_version": "1.8.0",
+ "render_controllers": {
+  "controller.render.tensura.race_wings": {
+   "arrays": {
+    "textures": {
+     "Array.t": [
+      "Texture.tr_wings_1",
+      "Texture.tr_wings_1",
+      "Texture.tr_wings_2",
+      "Texture.tr_wings_3",
+      "Texture.tr_wings_4",
+      "Texture.tr_wings_5",
+      "Texture.tr_wings_6",
+      "Texture.tr_wings_7",
+      "Texture.tr_wings_8",
+      "Texture.tr_wings_9"
+     ]
+    },
+    "geometries": {
+     "Array.g": [
+      "Geometry.tr_wings",
+      "Geometry.tr_wings",
+      "Geometry.tr_wings",
+      "Geometry.tr_wings",
+      "Geometry.tr_wings",
+      "Geometry.tr_wings",
+      "Geometry.tr_wings",
+      "Geometry.tr_wings",
+      "Geometry.tr_wings",
+      "Geometry.tr_wings"
+     ]
+    }
+   },
+   "geometry": "Array.g[query.property('tensura:wings')]",
+   "materials": [
+    {
+     "*": "Material.tr_part"
+    }
+   ],
+   "textures": [
+    "Array.t[query.property('tensura:wings')]"
+   ]
+  },
+  "controller.render.tensura.race_horns": {
+   "arrays": {
+    "textures": {
+     "Array.t": [
+      "Texture.tr_horns_1",
+      "Texture.tr_horns_1",
+      "Texture.tr_horns_2",
+      "Texture.tr_horns_3",
+      "Texture.tr_horns_4",
+      "Texture.tr_horns_5",
+      "Texture.tr_horns_6",
+      "Texture.tr_horns_7",
+      "Texture.tr_horns_8",
+      "Texture.tr_horns_9"
+     ]
+    },
+    "geometries": {
+     "Array.g": [
+      "Geometry.tr_horn_single_small",
+      "Geometry.tr_horn_single_small",
+      "Geometry.tr_horn_single",
+      "Geometry.tr_horn_dual_small",
+      "Geometry.tr_horn_dual",
+      "Geometry.tr_horn_zigzag",
+      "Geometry.tr_horn_curvy",
+      "Geometry.tr_horn_ram",
+      "Geometry.tr_liz_horns",
+      "Geometry.tr_horn_curvy"
+     ]
+    }
+   },
+   "geometry": "Array.g[query.property('tensura:horns')]",
+   "materials": [
+    {
+     "*": "Material.tr_part"
+    }
+   ],
+   "textures": [
+    "Array.t[query.property('tensura:horns')]"
+   ]
+  },
+  "controller.render.tensura.race_tail": {
+   "arrays": {
+    "textures": {
+     "Array.t": [
+      "Texture.tr_tail_1",
+      "Texture.tr_tail_1",
+      "Texture.tr_tail_2",
+      "Texture.tr_tail_3",
+      "Texture.tr_tail_4",
+      "Texture.tr_tail_5"
+     ]
+    },
+    "geometries": {
+     "Array.g": [
+      "Geometry.tr_arch_tail",
+      "Geometry.tr_arch_tail",
+      "Geometry.tr_liz_tail",
+      "Geometry.tr_liz_tail",
+      "Geometry.tr_arch_tail",
+      "Geometry.tr_liz_tail"
+     ]
+    }
+   },
+   "geometry": "Array.g[query.property('tensura:tail')]",
+   "materials": [
+    {
+     "*": "Material.tr_part"
+    }
+   ],
+   "textures": [
+    "Array.t[query.property('tensura:tail')]"
+   ]
+  },
+  "controller.render.tensura.race_ears": {
+   "arrays": {
+    "textures": {
+     "Array.t": [
+      "Texture.tr_ears_1",
+      "Texture.tr_ears_1",
+      "Texture.tr_ears_2",
+      "Texture.tr_ears_3",
+      "Texture.tr_ears_4"
+     ]
+    },
+    "geometries": {
+     "Array.g": [
+      "Geometry.tr_ears",
+      "Geometry.tr_ears",
+      "Geometry.tr_ears",
+      "Geometry.tr_ears",
+      "Geometry.tr_ears"
+     ]
+    }
+   },
+   "geometry": "Array.g[query.property('tensura:ears')]",
+   "materials": [
+    {
+     "*": "Material.tr_part"
+    }
+   ],
+   "textures": [
+    "Array.t[query.property('tensura:ears')]"
+   ]
+  },
+  "controller.render.tensura.race_halo": {
+   "arrays": {
+    "textures": {
+     "Array.t": [
+      "Texture.tr_halo_1",
+      "Texture.tr_halo_1",
+      "Texture.tr_halo_2",
+      "Texture.tr_halo_3",
+      "Texture.tr_halo_4"
+     ]
+    },
+    "geometries": {
+     "Array.g": [
+      "Geometry.tr_halo",
+      "Geometry.tr_halo",
+      "Geometry.tr_halo",
+      "Geometry.tr_halo",
+      "Geometry.tr_halo"
+     ]
+    }
+   },
+   "geometry": "Array.g[query.property('tensura:halo')]",
+   "materials": [
+    {
+     "*": "Material.tr_glow"
+    }
+   ],
+   "textures": [
+    "Array.t[query.property('tensura:halo')]"
+   ]
+  },
+  "controller.render.tensura.race_body": {
+   "arrays": {
+    "geometries": {
+     "Array.g": [
+      "Geometry.tr_body_1",
+      "Geometry.tr_body_1",
+      "Geometry.tr_body_2",
+      "Geometry.tr_body_3",
+      "Geometry.tr_body_4",
+      "Geometry.tr_body_5",
+      "Geometry.tr_body_6"
+     ]
+    }
+   },
+   "geometry": "Array.g[query.property('tensura:body')]",
+   "materials": [
+    {
+     "*": "Material.tr_part"
+    }
+   ],
+   "textures": [
+    "Texture.tr_body"
+   ]
+  }
+ }
+}

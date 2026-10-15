@@ -1,0 +1,21 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:demonite_shard",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_demonite_shard"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§9Pedra Demoníaca"
+   }
+  }
+ }
+}

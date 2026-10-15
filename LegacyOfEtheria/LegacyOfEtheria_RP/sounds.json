@@ -1,0 +1,3692 @@
+{
+ "entity_sounds": {
+  "entities": {
+   "etheria:goblin": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.goblin_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.goblin_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.goblin_death"
+     }
+    }
+   },
+   "etheria:hobgoblin": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.hobgoblin_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.hobgoblin_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.hobgoblin_death"
+     }
+    }
+   },
+   "etheria:orc": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.orc_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.orc_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.orc_death"
+     }
+    }
+   },
+   "etheria:magic_wolf": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.magic_wolf_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.magic_wolf_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.magic_wolf_death"
+     }
+    }
+   },
+   "etheria:arcane_slime": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.arcane_slime_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.arcane_slime_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.arcane_slime_death"
+     }
+    }
+   },
+   "etheria:imp": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.imp_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.imp_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.imp_death"
+     }
+    }
+   },
+   "etheria:dark_elf": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.dark_elf_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.dark_elf_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.dark_elf_death"
+     }
+    }
+   },
+   "etheria:skeleton_knight": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.skeleton_knight_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.skeleton_knight_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.skeleton_knight_death"
+     }
+    }
+   },
+   "etheria:drake_whelp": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.drake_whelp_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.drake_whelp_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.drake_whelp_death"
+     }
+    }
+   },
+   "etheria:dungeon_crawler": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.dungeon_crawler_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.dungeon_crawler_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.dungeon_crawler_death"
+     }
+    }
+   },
+   "etheria:taratect_small": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_small_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_small_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_small_death"
+     }
+    }
+   },
+   "etheria:taratect_small_lesser": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_small_lesser_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_small_lesser_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_small_lesser_death"
+     }
+    }
+   },
+   "etheria:taratect_small_poison": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_small_poison_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_small_poison_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_small_poison_death"
+     }
+    }
+   },
+   "etheria:taratect_lesser": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_lesser_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_lesser_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_lesser_death"
+     }
+    }
+   },
+   "etheria:taratect_lesser_poison": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_lesser_poison_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_lesser_poison_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_lesser_poison_death"
+     }
+    }
+   },
+   "etheria:taratect": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_death"
+     }
+    }
+   },
+   "etheria:taratect_poison": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_poison_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_poison_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_poison_death"
+     }
+    }
+   },
+   "etheria:taratect_greater": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_greater_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_greater_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_greater_death"
+     }
+    }
+   },
+   "etheria:taratect_great": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_great_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_great_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_great_death"
+     }
+    }
+   },
+   "etheria:taratect_great_poison": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_great_poison_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_great_poison_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_great_poison_death"
+     }
+    }
+   },
+   "etheria:taratect_arch": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_arch_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_arch_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_arch_death"
+     }
+    }
+   },
+   "etheria:taratect_zoa_ele": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_zoa_ele_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_zoa_ele_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_zoa_ele_death"
+     }
+    }
+   },
+   "etheria:taratect_queen": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_queen_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_queen_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_queen_death"
+     }
+    }
+   },
+   "etheria:taratect_orthocadinaht": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_orthocadinaht_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_orthocadinaht_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_orthocadinaht_death"
+     }
+    }
+   },
+   "etheria:taratect_arachne": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_arachne_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_arachne_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_arachne_death"
+     }
+    }
+   },
+   "etheria:taratect_ede_saine": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_ede_saine_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_ede_saine_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_ede_saine_death"
+     }
+    }
+   },
+   "etheria:taratect_zana_horowa": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_zana_horowa_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_zana_horowa_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_zana_horowa_death"
+     }
+    }
+   },
+   "etheria:feldway": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.feldway_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.feldway_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.feldway_death"
+     }
+    }
+   },
+   "etheria:feldway_angel": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.feldway_angel_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.feldway_angel_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.feldway_angel_death"
+     }
+    }
+   },
+   "etheria:michael_manas": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.michael_manas_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.michael_manas_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.michael_manas_death"
+     }
+    }
+   },
+   "etheria:demon_lord_returner": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.demon_lord_returner_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.demon_lord_returner_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.demon_lord_returner_death"
+     }
+    }
+   },
+   "etheria:veldora": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.veldora_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.veldora_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.veldora_death"
+     }
+    }
+   },
+   "etheria:velzard": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.velzard_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.velzard_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.velzard_death"
+     }
+    }
+   },
+   "etheria:velgrynd": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.velgrynd_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.velgrynd_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.velgrynd_death"
+     }
+    }
+   },
+   "etheria:veldanava": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.veldanava_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.veldanava_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.veldanava_death"
+     }
+    }
+   },
+   "etheria:carrion": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.carrion_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.carrion_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.carrion_death"
+     }
+    }
+   },
+   "etheria:carrion_royal_beast": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.carrion_royal_beast_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.carrion_royal_beast_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.carrion_royal_beast_death"
+     }
+    }
+   },
+   "etheria:beretta": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.beretta_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.beretta_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.beretta_death"
+     }
+    }
+   },
+   "etheria:luminous_valentine": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.luminous_valentine_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.luminous_valentine_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.luminous_valentine_death"
+     }
+    }
+   },
+   "etheria:rimuru_ogre_fight": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.rimuru_ogre_fight_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.rimuru_ogre_fight_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.rimuru_ogre_fight_death"
+     }
+    }
+   },
+   "etheria:taratect_small_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_small_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_small_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_small_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_small_lesser_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_small_lesser_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_small_lesser_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_small_lesser_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_small_poison_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_small_poison_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_small_poison_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_small_poison_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_lesser_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_lesser_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_lesser_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_lesser_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_lesser_poison_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_lesser_poison_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_lesser_poison_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_lesser_poison_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_poison_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_poison_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_poison_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_poison_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_greater_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_greater_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_greater_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_greater_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_great_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_great_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_great_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_great_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_great_poison_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_great_poison_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_great_poison_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_great_poison_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_arch_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_arch_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_arch_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_arch_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_zoa_ele_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_zoa_ele_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_zoa_ele_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_zoa_ele_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_queen_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_queen_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_queen_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_queen_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_orthocadinaht_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_orthocadinaht_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_orthocadinaht_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_orthocadinaht_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_arachne_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_arachne_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_arachne_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_arachne_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_ede_saine_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_ede_saine_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_ede_saine_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_ede_saine_kumo_death"
+     }
+    }
+   },
+   "etheria:taratect_zana_horowa_kumo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.taratect_zana_horowa_kumo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.taratect_zana_horowa_kumo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.taratect_zana_horowa_kumo_death"
+     }
+    }
+   },
+   "etheria:const_abyssal_black_flame_dragon": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_abyssal_black_flame_dragon_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_abyssal_black_flame_dragon_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_abyssal_black_flame_dragon_death"
+     }
+    }
+   },
+   "etheria:const_demon_like_judge_of_fire": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_demon_like_judge_of_fire_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_demon_like_judge_of_fire_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_demon_like_judge_of_fire_death"
+     }
+    }
+   },
+   "etheria:const_father_of_the_rich_night": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_father_of_the_rich_night_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_father_of_the_rich_night_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_father_of_the_rich_night_death"
+     }
+    }
+   },
+   "etheria:const_lightning_throne": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_lightning_throne_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_lightning_throne_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_lightning_throne_death"
+     }
+    }
+   },
+   "etheria:const_mass_production_maker": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_mass_production_maker_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_mass_production_maker_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_mass_production_maker_death"
+     }
+    }
+   },
+   "etheria:const_most_ancient_liberator": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_most_ancient_liberator_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_most_ancient_liberator_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_most_ancient_liberator_death"
+     }
+    }
+   },
+   "etheria:const_prisoner_of_the_golden_headband": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_prisoner_of_the_golden_headband_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_prisoner_of_the_golden_headband_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_prisoner_of_the_golden_headband_death"
+     }
+    }
+   },
+   "etheria:const_queen_of_the_darkest_spring": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_queen_of_the_darkest_spring_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_queen_of_the_darkest_spring_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_queen_of_the_darkest_spring_death"
+     }
+    }
+   },
+   "etheria:const_scribe_of_heaven": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_scribe_of_heaven_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_scribe_of_heaven_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_scribe_of_heaven_death"
+     }
+    }
+   },
+   "etheria:const_secretive_plotter": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_secretive_plotter_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_secretive_plotter_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_secretive_plotter_death"
+     }
+    }
+   },
+   "etheria:const_supreme_god_of_light": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_supreme_god_of_light_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_supreme_god_of_light_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_supreme_god_of_light_death"
+     }
+    }
+   },
+   "etheria:const_witch_who_consumed_half_the_world": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.const_witch_who_consumed_half_the_world_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.const_witch_who_consumed_half_the_world_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.const_witch_who_consumed_half_the_world_death"
+     }
+    }
+   },
+   "etheria:avatar_harem": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.avatar_harem_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.avatar_harem_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.avatar_harem_death"
+     }
+    }
+   },
+   "etheria:chronoa": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.chronoa_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.chronoa_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.chronoa_death"
+     }
+    }
+   },
+   "etheria:diablo": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.diablo_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.diablo_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.diablo_death"
+     }
+    }
+   },
+   "etheria:testarossa": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.testarossa_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.testarossa_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.testarossa_death"
+     }
+    }
+   },
+   "etheria:ultima": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.ultima_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.ultima_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.ultima_death"
+     }
+    }
+   },
+   "etheria:carrera": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.carrera_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.carrera_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.carrera_death"
+     }
+    }
+   },
+   "etheria:rimuru_senhor_demonio": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.rimuru_senhor_demonio_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.rimuru_senhor_demonio_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.rimuru_senhor_demonio_death"
+     }
+    }
+   },
+   "etheria:rimuru_tempest": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.rimuru_tempest_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.rimuru_tempest_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.rimuru_tempest_death"
+     }
+    }
+   },
+   "etheria:benimaru": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.benimaru_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.benimaru_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.benimaru_death"
+     }
+    }
+   },
+   "etheria:shion": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.shion_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.shion_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.shion_death"
+     }
+    }
+   },
+   "etheria:sabio_branco": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.sabio_branco_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.sabio_branco_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.sabio_branco_death"
+     }
+    }
+   },
+   "etheria:espadachim_loira": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.espadachim_loira_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.espadachim_loira_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.espadachim_loira_death"
+     }
+    }
+   },
+   "etheria:lorde_branco": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.lorde_branco_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.lorde_branco_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.lorde_branco_death"
+     }
+    }
+   },
+   "etheria:mago_dourado": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.mago_dourado_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.mago_dourado_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.mago_dourado_death"
+     }
+    }
+   },
+   "etheria:cavaleiro_negro": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.cavaleiro_negro_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.cavaleiro_negro_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.cavaleiro_negro_death"
+     }
+    }
+   },
+   "etheria:serva_verde": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.serva_verde_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.serva_verde_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.serva_verde_death"
+     }
+    }
+   },
+   "etheria:serva_azul": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.serva_azul_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.serva_azul_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.serva_azul_death"
+     }
+    }
+   },
+   "etheria:rain": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.rain_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.rain_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.rain_death"
+     }
+    }
+   },
+   "etheria:milim_nava": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.milim_nava_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.milim_nava_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.milim_nava_death"
+     }
+    }
+   },
+   "etheria:guy_crimson": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.guy_crimson_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.guy_crimson_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.guy_crimson_death"
+     }
+    }
+   },
+   "etheria:cacador_floresta": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.cacador_floresta_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.cacador_floresta_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.cacador_floresta_death"
+     }
+    }
+   },
+   "etheria:dino": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.dino_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.dino_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.dino_death"
+     }
+    }
+   },
+   "etheria:zalario": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.zalario_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.zalario_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.zalario_death"
+     }
+    }
+   },
+   "etheria:gracia": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.gracia_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.gracia_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.gracia_death"
+     }
+    }
+   },
+   "etheria:pico": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.pico_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.pico_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.pico_death"
+     }
+    }
+   },
+   "etheria:obera": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.obera_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.obera_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.obera_death"
+     }
+    }
+   },
+   "etheria:cornu": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.cornu_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.cornu_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.cornu_death"
+     }
+    }
+   },
+   "etheria:yuuki_kagurazaka": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.yuuki_kagurazaka_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.yuuki_kagurazaka_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.yuuki_kagurazaka_death"
+     }
+    }
+   },
+   "etheria:tt_armorsaurus": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_armorsaurus_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_armorsaurus_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_armorsaurus_death"
+     }
+    }
+   },
+   "etheria:tt_barghest": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_barghest_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_barghest_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_barghest_death"
+     }
+    }
+   },
+   "etheria:tt_black_spider": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_black_spider_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_black_spider_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_black_spider_death"
+     }
+    }
+   },
+   "etheria:tt_charybdis": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_charybdis_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_charybdis_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_charybdis_death"
+     }
+    }
+   },
+   "etheria:tt_direwolf": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_direwolf_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_direwolf_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_direwolf_death"
+     }
+    }
+   },
+   "etheria:tt_direwolf_boss": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_direwolf_boss_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_direwolf_boss_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_direwolf_boss_death"
+     }
+    }
+   },
+   "etheria:tt_evil_centipede": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_evil_centipede_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_evil_centipede_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_evil_centipede_death"
+     }
+    }
+   },
+   "etheria:tt_giant_ant": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_giant_ant_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_giant_ant_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_giant_ant_death"
+     }
+    }
+   },
+   "etheria:tt_giant_bat": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_giant_bat_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_giant_bat_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_giant_bat_death"
+     }
+    }
+   },
+   "etheria:tt_giant_bear": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_giant_bear_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_giant_bear_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_giant_bear_death"
+     }
+    }
+   },
+   "etheria:tt_grave_lizard": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_grave_lizard_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_grave_lizard_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_grave_lizard_death"
+     }
+    }
+   },
+   "etheria:tt_hell_moth": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_hell_moth_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_hell_moth_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_hell_moth_death"
+     }
+    }
+   },
+   "etheria:tt_flytrap": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_flytrap_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_flytrap_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_flytrap_death"
+     }
+    }
+   },
+   "etheria:tt_ifrit_clone": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_ifrit_clone_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_ifrit_clone_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_ifrit_clone_death"
+     }
+    }
+   },
+   "etheria:tt_shizue_ifrit": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_shizue_ifrit_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_shizue_ifrit_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_shizue_ifrit_death"
+     }
+    }
+   },
+   "etheria:tt_intelligent_slime": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_intelligent_slime_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_intelligent_slime_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_intelligent_slime_death"
+     }
+    }
+   },
+   "etheria:tt_knight_spider": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_knight_spider_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_knight_spider_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_knight_spider_death"
+     }
+    }
+   },
+   "etheria:tt_landfish": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_landfish_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_landfish_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_landfish_death"
+     }
+    }
+   },
+   "etheria:tt_lizardman": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_lizardman_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_lizardman_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_lizardman_death"
+     }
+    }
+   },
+   "etheria:tt_magic_steel_golem": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_magic_steel_golem_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_magic_steel_golem_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_magic_steel_golem_death"
+     }
+    }
+   },
+   "etheria:tt_spirit_colossus": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_spirit_colossus_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_spirit_colossus_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_spirit_colossus_death"
+     }
+    }
+   },
+   "etheria:tt_megalodon": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_megalodon_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_megalodon_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_megalodon_death"
+     }
+    }
+   },
+   "etheria:tt_mushdoom": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_mushdoom_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_mushdoom_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_mushdoom_death"
+     }
+    }
+   },
+   "etheria:tt_one_eyed_owl": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_one_eyed_owl_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_one_eyed_owl_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_one_eyed_owl_death"
+     }
+    }
+   },
+   "etheria:tt_horned_rabbit": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_horned_rabbit_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_horned_rabbit_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_horned_rabbit_death"
+     }
+    }
+   },
+   "etheria:tt_dwarf": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_dwarf_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_dwarf_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_dwarf_death"
+     }
+    }
+   },
+   "etheria:tt_orc_disaster": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_disaster_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_disaster_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_disaster_death"
+     }
+    }
+   },
+   "etheria:tt_orc_lord": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_lord_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_lord_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_lord_death"
+     }
+    }
+   },
+   "etheria:tt_orc": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_death"
+     }
+    }
+   },
+   "etheria:tt_salamander": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_salamander_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_salamander_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_salamander_death"
+     }
+    }
+   },
+   "etheria:tt_sissie": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_sissie_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_sissie_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_sissie_death"
+     }
+    }
+   },
+   "etheria:tt_spear_toro": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_spear_toro_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_spear_toro_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_spear_toro_death"
+     }
+    }
+   },
+   "etheria:tt_tempest_serpent": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_tempest_serpent_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_tempest_serpent_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_tempest_serpent_death"
+     }
+    }
+   },
+   "etheria:tt_orc_1": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_1_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_1_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_1_death"
+     }
+    }
+   },
+   "etheria:tt_orc_2": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_2_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_2_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_2_death"
+     }
+    }
+   },
+   "etheria:tt_orc_3": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_3_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_3_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_3_death"
+     }
+    }
+   },
+   "etheria:tt_orc_4": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_4_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_4_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_4_death"
+     }
+    }
+   },
+   "etheria:tt_orc_5": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_5_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_5_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_5_death"
+     }
+    }
+   },
+   "etheria:tt_orc_6": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_6_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_6_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_6_death"
+     }
+    }
+   },
+   "etheria:tt_orc_7": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_7_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_7_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_7_death"
+     }
+    }
+   },
+   "etheria:tt_orc_8": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_8_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_8_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_8_death"
+     }
+    }
+   },
+   "etheria:tt_orc_9": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_orc_9_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_orc_9_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_orc_9_death"
+     }
+    }
+   },
+   "etheria:tt_lizardman_1": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_lizardman_1_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_lizardman_1_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_lizardman_1_death"
+     }
+    }
+   },
+   "etheria:tt_lizardman_2": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_lizardman_2_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_lizardman_2_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_lizardman_2_death"
+     }
+    }
+   },
+   "etheria:tt_lizardman_3": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_lizardman_3_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_lizardman_3_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_lizardman_3_death"
+     }
+    }
+   },
+   "etheria:tt_lizardman_4": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_lizardman_4_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_lizardman_4_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_lizardman_4_death"
+     }
+    }
+   },
+   "etheria:tt_lizardman_5": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_lizardman_5_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_lizardman_5_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_lizardman_5_death"
+     }
+    }
+   },
+   "etheria:tt_lizardman_6": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_lizardman_6_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_lizardman_6_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_lizardman_6_death"
+     }
+    }
+   },
+   "etheria:tt_lizardman_7": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_lizardman_7_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_lizardman_7_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_lizardman_7_death"
+     }
+    }
+   },
+   "etheria:tt_lizardman_8": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_lizardman_8_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_lizardman_8_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_lizardman_8_death"
+     }
+    }
+   },
+   "etheria:tt_direwolf_1": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_direwolf_1_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_direwolf_1_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_direwolf_1_death"
+     }
+    }
+   },
+   "etheria:tt_direwolf_2": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_direwolf_2_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_direwolf_2_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_direwolf_2_death"
+     }
+    }
+   },
+   "etheria:tt_direwolf_3": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_direwolf_3_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_direwolf_3_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_direwolf_3_death"
+     }
+    }
+   },
+   "etheria:tt_direwolf_4": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_direwolf_4_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_direwolf_4_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_direwolf_4_death"
+     }
+    }
+   },
+   "etheria:mini_orc": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.mini_orc_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.mini_orc_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.mini_orc_death"
+     }
+    }
+   },
+   "etheria:tt_hinata": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_hinata_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_hinata_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_hinata_death"
+     }
+    }
+   },
+   "etheria:tt_shizue": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_shizue_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_shizue_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_shizue_death"
+     }
+    }
+   },
+   "etheria:tt_elf": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_elf_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_elf_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_elf_death"
+     }
+    }
+   },
+   "etheria:tt_goblin": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_death"
+     }
+    }
+   },
+   "etheria:tt_otherworlder": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_otherworlder_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_otherworlder_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_otherworlder_death"
+     }
+    }
+   },
+   "etheria:tt_otherworlder_1": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_otherworlder_1_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_otherworlder_1_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_otherworlder_1_death"
+     }
+    }
+   },
+   "etheria:tt_otherworlder_2": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_otherworlder_2_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_otherworlder_2_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_otherworlder_2_death"
+     }
+    }
+   },
+   "etheria:tt_otherworlder_3": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_otherworlder_3_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_otherworlder_3_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_otherworlder_3_death"
+     }
+    }
+   },
+   "etheria:tt_otherworlder_4": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_otherworlder_4_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_otherworlder_4_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_otherworlder_4_death"
+     }
+    }
+   },
+   "etheria:tt_special_otherworlder_1": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_special_otherworlder_1_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_special_otherworlder_1_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_special_otherworlder_1_death"
+     }
+    }
+   },
+   "etheria:tt_special_otherworlder_2": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_special_otherworlder_2_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_special_otherworlder_2_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_special_otherworlder_2_death"
+     }
+    }
+   },
+   "etheria:tt_special_otherworlder_3": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_special_otherworlder_3_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_special_otherworlder_3_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_special_otherworlder_3_death"
+     }
+    }
+   },
+   "etheria:tt_special_otherworlder_4": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_special_otherworlder_4_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_special_otherworlder_4_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_special_otherworlder_4_death"
+     }
+    }
+   },
+   "etheria:tt_special_otherworlder_5": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_special_otherworlder_5_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_special_otherworlder_5_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_special_otherworlder_5_death"
+     }
+    }
+   },
+   "etheria:tt_special_otherworlder_6": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_special_otherworlder_6_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_special_otherworlder_6_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_special_otherworlder_6_death"
+     }
+    }
+   },
+   "etheria:tt_special_otherworlder_7": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_special_otherworlder_7_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_special_otherworlder_7_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_special_otherworlder_7_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_1": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_1_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_1_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_1_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_2": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_2_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_2_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_2_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_3": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_3_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_3_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_3_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_4": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_4_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_4_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_4_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_5": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_5_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_5_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_5_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_6": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_6_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_6_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_6_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_7": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_7_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_7_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_7_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_8": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_8_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_8_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_8_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_9": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_9_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_9_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_9_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_10": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_10_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_10_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_10_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_11": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_11_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_11_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_11_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_12": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_12_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_12_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_12_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_13": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_13_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_13_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_13_death"
+     }
+    }
+   },
+   "etheria:tt_goblin_16": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_goblin_16_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_goblin_16_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_goblin_16_death"
+     }
+    }
+   },
+   "etheria:tt_otherworlder_5": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.tt_otherworlder_5_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.tt_otherworlder_5_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.tt_otherworlder_5_death"
+     }
+    }
+   },
+   "etheria:ogre": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.ogre_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.ogre_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.ogre_death"
+     }
+    }
+   },
+   "etheria:spirit_wisp": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.spirit_wisp_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.spirit_wisp_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.spirit_wisp_death"
+     }
+    }
+   },
+   "etheria:spirit_flame": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.spirit_flame_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.spirit_flame_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.spirit_flame_death"
+     }
+    }
+   },
+   "etheria:spirit_water": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.spirit_water_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.spirit_water_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.spirit_water_death"
+     }
+    }
+   },
+   "etheria:spirit_wind": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.spirit_wind_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.spirit_wind_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.spirit_wind_death"
+     }
+    }
+   },
+   "etheria:spirit_earth": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.spirit_earth_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.spirit_earth_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.spirit_earth_death"
+     }
+    }
+   },
+   "etheria:spirit_greater": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.spirit_greater_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.spirit_greater_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.spirit_greater_death"
+     }
+    }
+   },
+   "etheria:spirit_stag": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.spirit_stag_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.spirit_stag_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.spirit_stag_death"
+     }
+    }
+   },
+   "etheria:boss_goblin_king": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.boss_goblin_king_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.boss_goblin_king_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.boss_goblin_king_death"
+     }
+    }
+   },
+   "etheria:boss_void_lord": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.boss_void_lord_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.boss_void_lord_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.boss_void_lord_death"
+     }
+    }
+   },
+   "etheria:boss_ember_tyrant": {
+    "volume": 1.0,
+    "pitch": [
+     0.95,
+     1.05
+    ],
+    "events": {
+     "ambient": {
+      "sound": "etheria.mob.boss_ember_tyrant_ambient",
+      "volume": 0.8
+     },
+     "hurt": {
+      "sound": "etheria.mob.boss_ember_tyrant_hurt"
+     },
+     "death": {
+      "sound": "etheria.mob.boss_ember_tyrant_death"
+     }
+    }
+   }
+  }
+ }
+}

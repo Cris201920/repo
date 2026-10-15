@@ -1,0 +1,1170 @@
+{
+ "resource_pack_name": "etheria",
+ "texture_name": "atlas.items",
+ "texture_data": {
+  "etheria_iron_blade": {
+   "textures": "textures/items/etheria_iron_blade"
+  },
+  "etheria_knight_sword": {
+   "textures": "textures/items/etheria_knight_sword"
+  },
+  "etheria_flame_sword": {
+   "textures": "textures/items/etheria_flame_sword"
+  },
+  "etheria_void_sword": {
+   "textures": "textures/items/etheria_void_sword"
+  },
+  "etheria_celestial_blade": {
+   "textures": "textures/items/etheria_celestial_blade"
+  },
+  "etheria_shadow_dagger": {
+   "textures": "textures/items/etheria_shadow_dagger"
+  },
+  "etheria_wyrm_spear": {
+   "textures": "textures/items/etheria_wyrm_spear"
+  },
+  "etheria_berserker_axe": {
+   "textures": "textures/items/etheria_berserker_axe"
+  },
+  "etheria_storm_bow": {
+   "textures": "textures/items/etheria_storm_bow"
+  },
+  "etheria_arcane_staff": {
+   "textures": "textures/items/etheria_arcane_staff"
+  },
+  "etheria_void_grimoire": {
+   "textures": "textures/items/etheria_void_grimoire"
+  },
+  "etheria_reaper_scythe": {
+   "textures": "textures/items/etheria_reaper_scythe"
+  },
+  "etheria_goblin_king_club": {
+   "textures": "textures/items/etheria_goblin_king_club"
+  },
+  "etheria_ember_fang": {
+   "textures": "textures/items/etheria_ember_fang"
+  },
+  "etheria_void_scepter": {
+   "textures": "textures/items/etheria_void_scepter"
+  },
+  "etheria_iron_reinforced_helmet": {
+   "textures": "textures/items/etheria_iron_reinforced_helmet"
+  },
+  "etheria_iron_reinforced_chest": {
+   "textures": "textures/items/etheria_iron_reinforced_chest"
+  },
+  "etheria_iron_reinforced_legs": {
+   "textures": "textures/items/etheria_iron_reinforced_legs"
+  },
+  "etheria_iron_reinforced_boots": {
+   "textures": "textures/items/etheria_iron_reinforced_boots"
+  },
+  "etheria_knight_helmet": {
+   "textures": "textures/items/etheria_knight_helmet"
+  },
+  "etheria_knight_chest": {
+   "textures": "textures/items/etheria_knight_chest"
+  },
+  "etheria_knight_legs": {
+   "textures": "textures/items/etheria_knight_legs"
+  },
+  "etheria_knight_boots": {
+   "textures": "textures/items/etheria_knight_boots"
+  },
+  "etheria_arcane_helmet": {
+   "textures": "textures/items/etheria_arcane_helmet"
+  },
+  "etheria_arcane_chest": {
+   "textures": "textures/items/etheria_arcane_chest"
+  },
+  "etheria_arcane_legs": {
+   "textures": "textures/items/etheria_arcane_legs"
+  },
+  "etheria_arcane_boots": {
+   "textures": "textures/items/etheria_arcane_boots"
+  },
+  "etheria_shadow_helmet": {
+   "textures": "textures/items/etheria_shadow_helmet"
+  },
+  "etheria_shadow_chest": {
+   "textures": "textures/items/etheria_shadow_chest"
+  },
+  "etheria_shadow_legs": {
+   "textures": "textures/items/etheria_shadow_legs"
+  },
+  "etheria_shadow_boots": {
+   "textures": "textures/items/etheria_shadow_boots"
+  },
+  "etheria_dragon_helmet": {
+   "textures": "textures/items/etheria_dragon_helmet"
+  },
+  "etheria_dragon_chest": {
+   "textures": "textures/items/etheria_dragon_chest"
+  },
+  "etheria_dragon_legs": {
+   "textures": "textures/items/etheria_dragon_legs"
+  },
+  "etheria_dragon_boots": {
+   "textures": "textures/items/etheria_dragon_boots"
+  },
+  "etheria_celestial_helmet": {
+   "textures": "textures/items/etheria_celestial_helmet"
+  },
+  "etheria_celestial_chest": {
+   "textures": "textures/items/etheria_celestial_chest"
+  },
+  "etheria_celestial_legs": {
+   "textures": "textures/items/etheria_celestial_legs"
+  },
+  "etheria_celestial_boots": {
+   "textures": "textures/items/etheria_celestial_boots"
+  },
+  "etheria_void_helmet": {
+   "textures": "textures/items/etheria_void_helmet"
+  },
+  "etheria_void_chest": {
+   "textures": "textures/items/etheria_void_chest"
+  },
+  "etheria_void_legs": {
+   "textures": "textures/items/etheria_void_legs"
+  },
+  "etheria_void_boots": {
+   "textures": "textures/items/etheria_void_boots"
+  },
+  "etheria_ring_vigor": {
+   "textures": "textures/items/etheria_ring_vigor"
+  },
+  "etheria_ring_mana": {
+   "textures": "textures/items/etheria_ring_mana"
+  },
+  "etheria_ring_fury": {
+   "textures": "textures/items/etheria_ring_fury"
+  },
+  "etheria_amulet_guardian": {
+   "textures": "textures/items/etheria_amulet_guardian"
+  },
+  "etheria_amulet_arcane": {
+   "textures": "textures/items/etheria_amulet_arcane"
+  },
+  "etheria_mana_crystal": {
+   "textures": "textures/items/etheria_mana_crystal"
+  },
+  "etheria_arcane_ingot": {
+   "textures": "textures/items/etheria_arcane_ingot"
+  },
+  "etheria_demonite_shard": {
+   "textures": "textures/items/etheria_demonite_shard"
+  },
+  "etheria_celestial_crystal": {
+   "textures": "textures/items/etheria_celestial_crystal"
+  },
+  "etheria_void_fragment": {
+   "textures": "textures/items/etheria_void_fragment"
+  },
+  "etheria_dragon_essence": {
+   "textures": "textures/items/etheria_dragon_essence"
+  },
+  "etheria_goblin_ear": {
+   "textures": "textures/items/etheria_goblin_ear"
+  },
+  "etheria_orc_tusk": {
+   "textures": "textures/items/etheria_orc_tusk"
+  },
+  "etheria_wolf_fang": {
+   "textures": "textures/items/etheria_wolf_fang"
+  },
+  "etheria_slime_core": {
+   "textures": "textures/items/etheria_slime_core"
+  },
+  "etheria_ancient_bone": {
+   "textures": "textures/items/etheria_ancient_bone"
+  },
+  "etheria_imp_horn": {
+   "textures": "textures/items/etheria_imp_horn"
+  },
+  "etheria_hp_potion_s": {
+   "textures": "textures/items/etheria_hp_potion_s"
+  },
+  "etheria_hp_potion_l": {
+   "textures": "textures/items/etheria_hp_potion_l"
+  },
+  "etheria_mp_potion_s": {
+   "textures": "textures/items/etheria_mp_potion_s"
+  },
+  "etheria_mp_potion_l": {
+   "textures": "textures/items/etheria_mp_potion_l"
+  },
+  "etheria_stamina_potion": {
+   "textures": "textures/items/etheria_stamina_potion"
+  },
+  "etheria_xp_scroll": {
+   "textures": "textures/items/etheria_xp_scroll"
+  },
+  "etheria_skill_scroll": {
+   "textures": "textures/items/etheria_skill_scroll"
+  },
+  "etheria_coin_pouch": {
+   "textures": "textures/items/etheria_coin_pouch"
+  },
+  "etheria_skill_tome": {
+   "textures": "textures/items/etheria_skill_tome"
+  },
+  "etheria_goblin_sigil": {
+   "textures": "textures/items/etheria_goblin_sigil"
+  },
+  "etheria_void_sigil": {
+   "textures": "textures/items/etheria_void_sigil"
+  },
+  "etheria_ember_sigil": {
+   "textures": "textures/items/etheria_ember_sigil"
+  },
+  "etheria_goblin_totem": {
+   "textures": "textures/items/etheria_goblin_totem"
+  },
+  "etheria_ancient_map": {
+   "textures": "textures/items/etheria_ancient_map"
+  },
+  "etheria_guild_badge": {
+   "textures": "textures/items/etheria_guild_badge"
+  },
+  "etheria_etheria_coin": {
+   "textures": "textures/items/etheria_etheria_coin"
+  },
+  "etheria_sage_book": {
+   "textures": "textures/items/etheria_sage_book"
+  },
+  "etheria_uraku_katana": {
+   "textures": "textures/items/etheria_uraku_katana"
+  },
+  "etheria_kusanagi": {
+   "textures": "textures/items/etheria_kusanagi"
+  },
+  "etheria_green_dragon_blade": {
+   "textures": "textures/items/etheria_green_dragon_blade"
+  },
+  "etheria_dyrnwyn": {
+   "textures": "textures/items/etheria_dyrnwyn"
+  },
+  "etheria_soul_serpent_blade": {
+   "textures": "textures/items/etheria_soul_serpent_blade"
+  },
+  "etheria_extermination_blade": {
+   "textures": "textures/items/etheria_extermination_blade"
+  },
+  "etheria_dragotite_short_sword": {
+   "textures": "textures/items/etheria_dragotite_short_sword"
+  },
+  "etheria_dragotite_sword": {
+   "textures": "textures/items/etheria_dragotite_sword"
+  },
+  "etheria_dragotite_long_sword": {
+   "textures": "textures/items/etheria_dragotite_long_sword"
+  },
+  "etheria_dragotite_katana": {
+   "textures": "textures/items/etheria_dragotite_katana"
+  },
+  "etheria_dragotite_great_sword": {
+   "textures": "textures/items/etheria_dragotite_great_sword"
+  },
+  "etheria_dragotite_abyss_short_sword": {
+   "textures": "textures/items/etheria_dragotite_abyss_short_sword"
+  },
+  "etheria_dragotite_abyss_sword": {
+   "textures": "textures/items/etheria_dragotite_abyss_sword"
+  },
+  "etheria_dragotite_abyss_long_sword": {
+   "textures": "textures/items/etheria_dragotite_abyss_long_sword"
+  },
+  "etheria_dragotite_abyss_katana": {
+   "textures": "textures/items/etheria_dragotite_abyss_katana"
+  },
+  "etheria_dragotite_abyss_great_sword": {
+   "textures": "textures/items/etheria_dragotite_abyss_great_sword"
+  },
+  "etheria_dragotite_earth_short_sword": {
+   "textures": "textures/items/etheria_dragotite_earth_short_sword"
+  },
+  "etheria_dragotite_earth_sword": {
+   "textures": "textures/items/etheria_dragotite_earth_sword"
+  },
+  "etheria_dragotite_earth_long_sword": {
+   "textures": "textures/items/etheria_dragotite_earth_long_sword"
+  },
+  "etheria_dragotite_earth_katana": {
+   "textures": "textures/items/etheria_dragotite_earth_katana"
+  },
+  "etheria_dragotite_earth_great_sword": {
+   "textures": "textures/items/etheria_dragotite_earth_great_sword"
+  },
+  "etheria_dragotite_frost_short_sword": {
+   "textures": "textures/items/etheria_dragotite_frost_short_sword"
+  },
+  "etheria_dragotite_frost_sword": {
+   "textures": "textures/items/etheria_dragotite_frost_sword"
+  },
+  "etheria_dragotite_frost_long_sword": {
+   "textures": "textures/items/etheria_dragotite_frost_long_sword"
+  },
+  "etheria_dragotite_frost_katana": {
+   "textures": "textures/items/etheria_dragotite_frost_katana"
+  },
+  "etheria_dragotite_frost_great_sword": {
+   "textures": "textures/items/etheria_dragotite_frost_great_sword"
+  },
+  "etheria_dragotite_scorch_short_sword": {
+   "textures": "textures/items/etheria_dragotite_scorch_short_sword"
+  },
+  "etheria_dragotite_scorch_sword": {
+   "textures": "textures/items/etheria_dragotite_scorch_sword"
+  },
+  "etheria_dragotite_scorch_long_sword": {
+   "textures": "textures/items/etheria_dragotite_scorch_long_sword"
+  },
+  "etheria_dragotite_scorch_katana": {
+   "textures": "textures/items/etheria_dragotite_scorch_katana"
+  },
+  "etheria_dragotite_scorch_great_sword": {
+   "textures": "textures/items/etheria_dragotite_scorch_great_sword"
+  },
+  "etheria_dragotite_storm_short_sword": {
+   "textures": "textures/items/etheria_dragotite_storm_short_sword"
+  },
+  "etheria_dragotite_storm_sword": {
+   "textures": "textures/items/etheria_dragotite_storm_sword"
+  },
+  "etheria_dragotite_storm_long_sword": {
+   "textures": "textures/items/etheria_dragotite_storm_long_sword"
+  },
+  "etheria_dragotite_storm_katana": {
+   "textures": "textures/items/etheria_dragotite_storm_katana"
+  },
+  "etheria_dragotite_storm_great_sword": {
+   "textures": "textures/items/etheria_dragotite_storm_great_sword"
+  },
+  "etheria_dragotite_star_short_sword": {
+   "textures": "textures/items/etheria_dragotite_star_short_sword"
+  },
+  "etheria_dragotite_star_sword": {
+   "textures": "textures/items/etheria_dragotite_star_sword"
+  },
+  "etheria_dragotite_star_long_sword": {
+   "textures": "textures/items/etheria_dragotite_star_long_sword"
+  },
+  "etheria_dragotite_star_katana": {
+   "textures": "textures/items/etheria_dragotite_star_katana"
+  },
+  "etheria_dragotite_star_great_sword": {
+   "textures": "textures/items/etheria_dragotite_star_great_sword"
+  },
+  "etheria_claymore": {
+   "textures": "textures/items/etheria_claymore"
+  },
+  "etheria_dreadsword": {
+   "textures": "textures/items/etheria_dreadsword"
+  },
+  "etheria_boreal_blade": {
+   "textures": "textures/items/etheria_boreal_blade"
+  },
+  "etheria_amethyst_rapier": {
+   "textures": "textures/items/etheria_amethyst_rapier"
+  },
+  "etheria_fiery_dagger": {
+   "textures": "textures/items/etheria_fiery_dagger"
+  },
+  "etheria_obsidian_katana": {
+   "textures": "textures/items/etheria_obsidian_katana"
+  },
+  "etheria_warden_sword": {
+   "textures": "textures/items/etheria_warden_sword"
+  },
+  "etheria_resonarium_sword": {
+   "textures": "textures/items/etheria_resonarium_sword"
+  },
+  "etheria_neptunium_sword": {
+   "textures": "textures/items/etheria_neptunium_sword"
+  },
+  "etheria_sky_sword": {
+   "textures": "textures/items/etheria_sky_sword"
+  },
+  "etheria_depth_sword": {
+   "textures": "textures/items/etheria_depth_sword"
+  },
+  "etheria_infused_iron_sword": {
+   "textures": "textures/items/etheria_infused_iron_sword"
+  },
+  "etheria_rimuru_katana": {
+   "textures": "textures/items/etheria_rimuru_katana"
+  },
+  "etheria_rimuru_sword": {
+   "textures": "textures/items/etheria_rimuru_sword"
+  },
+  "etheria_earth_core": {
+   "textures": "textures/items/etheria_earth_core"
+  },
+  "etheria_frost_core": {
+   "textures": "textures/items/etheria_frost_core"
+  },
+  "etheria_storm_core": {
+   "textures": "textures/items/etheria_storm_core"
+  },
+  "etheria_evolution_core": {
+   "textures": "textures/items/etheria_evolution_core"
+  },
+  "etheria_taratect_silk": {
+   "textures": "textures/items/etheria_taratect_silk"
+  },
+  "etheria_poison_gland": {
+   "textures": "textures/items/etheria_poison_gland"
+  },
+  "etheria_tt_dead_end_rainbow": {
+   "textures": "textures/items/etheria_tt_dead_end_rainbow"
+  },
+  "etheria_tt_shizue_sword": {
+   "textures": "textures/items/etheria_tt_shizue_sword"
+  },
+  "etheria_tt_sword_of_tempest": {
+   "textures": "textures/items/etheria_tt_sword_of_tempest"
+  },
+  "etheria_tt_katana": {
+   "textures": "textures/items/etheria_tt_katana"
+  },
+  "etheria_tt_ice_blade": {
+   "textures": "textures/items/etheria_tt_ice_blade"
+  },
+  "etheria_tt_crimson_lotus_edge": {
+   "textures": "textures/items/etheria_tt_crimson_lotus_edge"
+  },
+  "etheria_tt_spatial_blade": {
+   "textures": "textures/items/etheria_tt_spatial_blade"
+  },
+  "etheria_gandiva": {
+   "textures": "textures/items/etheria_gandiva"
+  },
+  "etheria_geb": {
+   "textures": "textures/items/etheria_geb"
+  },
+  "etheria_dead_mans_hand": {
+   "textures": "textures/items/etheria_dead_mans_hand"
+  },
+  "etheria_ruyi_jingu_bang": {
+   "textures": "textures/items/etheria_ruyi_jingu_bang"
+  },
+  "etheria_wild_card": {
+   "textures": "textures/items/etheria_wild_card"
+  },
+  "etheria_caedros_ashen_halberd": {
+   "textures": "textures/items/etheria_caedros_ashen_halberd"
+  },
+  "etheria_tt_spatial_blades": {
+   "textures": "textures/items/etheria_tt_spatial_blades"
+  },
+  "etheria_tt_gobuta_kodachi": {
+   "textures": "textures/items/etheria_tt_gobuta_kodachi"
+  },
+  "etheria_tt_kunai": {
+   "textures": "textures/items/etheria_tt_kunai"
+  },
+  "etheria_tt_battle_axe": {
+   "textures": "textures/items/etheria_tt_battle_axe"
+  },
+  "etheria_tt_orc_axe": {
+   "textures": "textures/items/etheria_tt_orc_axe"
+  },
+  "etheria_tt_orc_cleaver": {
+   "textures": "textures/items/etheria_tt_orc_cleaver"
+  },
+  "etheria_tt_battle_hammer": {
+   "textures": "textures/items/etheria_tt_battle_hammer"
+  },
+  "etheria_tt_mace": {
+   "textures": "textures/items/etheria_tt_mace"
+  },
+  "etheria_tt_ogre_eater": {
+   "textures": "textures/items/etheria_tt_ogre_eater"
+  },
+  "etheria_tt_goblin_bat": {
+   "textures": "textures/items/etheria_tt_goblin_bat"
+  },
+  "etheria_pose_test": {
+   "textures": "textures/items/etheria_pose_test"
+  },
+  "etheria_dragotite_helmet": {
+   "textures": "textures/items/etheria_dragotite_helmet"
+  },
+  "etheria_dragotite_chest": {
+   "textures": "textures/items/etheria_dragotite_chest"
+  },
+  "etheria_dragotite_legs": {
+   "textures": "textures/items/etheria_dragotite_legs"
+  },
+  "etheria_dragotite_boots": {
+   "textures": "textures/items/etheria_dragotite_boots"
+  },
+  "etheria_dragotite_abyss_helmet": {
+   "textures": "textures/items/etheria_dragotite_abyss_helmet"
+  },
+  "etheria_dragotite_abyss_chest": {
+   "textures": "textures/items/etheria_dragotite_abyss_chest"
+  },
+  "etheria_dragotite_abyss_legs": {
+   "textures": "textures/items/etheria_dragotite_abyss_legs"
+  },
+  "etheria_dragotite_abyss_boots": {
+   "textures": "textures/items/etheria_dragotite_abyss_boots"
+  },
+  "etheria_dragotite_earth_helmet": {
+   "textures": "textures/items/etheria_dragotite_earth_helmet"
+  },
+  "etheria_dragotite_earth_chest": {
+   "textures": "textures/items/etheria_dragotite_earth_chest"
+  },
+  "etheria_dragotite_earth_legs": {
+   "textures": "textures/items/etheria_dragotite_earth_legs"
+  },
+  "etheria_dragotite_earth_boots": {
+   "textures": "textures/items/etheria_dragotite_earth_boots"
+  },
+  "etheria_dragotite_frost_helmet": {
+   "textures": "textures/items/etheria_dragotite_frost_helmet"
+  },
+  "etheria_dragotite_frost_chest": {
+   "textures": "textures/items/etheria_dragotite_frost_chest"
+  },
+  "etheria_dragotite_frost_legs": {
+   "textures": "textures/items/etheria_dragotite_frost_legs"
+  },
+  "etheria_dragotite_frost_boots": {
+   "textures": "textures/items/etheria_dragotite_frost_boots"
+  },
+  "etheria_dragotite_scorch_helmet": {
+   "textures": "textures/items/etheria_dragotite_scorch_helmet"
+  },
+  "etheria_dragotite_scorch_chest": {
+   "textures": "textures/items/etheria_dragotite_scorch_chest"
+  },
+  "etheria_dragotite_scorch_legs": {
+   "textures": "textures/items/etheria_dragotite_scorch_legs"
+  },
+  "etheria_dragotite_scorch_boots": {
+   "textures": "textures/items/etheria_dragotite_scorch_boots"
+  },
+  "etheria_dragotite_storm_helmet": {
+   "textures": "textures/items/etheria_dragotite_storm_helmet"
+  },
+  "etheria_dragotite_storm_chest": {
+   "textures": "textures/items/etheria_dragotite_storm_chest"
+  },
+  "etheria_dragotite_storm_legs": {
+   "textures": "textures/items/etheria_dragotite_storm_legs"
+  },
+  "etheria_dragotite_storm_boots": {
+   "textures": "textures/items/etheria_dragotite_storm_boots"
+  },
+  "etheria_dragotite_star_helmet": {
+   "textures": "textures/items/etheria_dragotite_star_helmet"
+  },
+  "etheria_dragotite_star_chest": {
+   "textures": "textures/items/etheria_dragotite_star_chest"
+  },
+  "etheria_dragotite_star_legs": {
+   "textures": "textures/items/etheria_dragotite_star_legs"
+  },
+  "etheria_dragotite_star_boots": {
+   "textures": "textures/items/etheria_dragotite_star_boots"
+  },
+  "etheria_priest_helmet": {
+   "textures": "textures/items/etheria_priest_helmet"
+  },
+  "etheria_priest_chest": {
+   "textures": "textures/items/etheria_priest_chest"
+  },
+  "etheria_priest_legs": {
+   "textures": "textures/items/etheria_priest_legs"
+  },
+  "etheria_priest_boots": {
+   "textures": "textures/items/etheria_priest_boots"
+  },
+  "etheria_plagued_helmet": {
+   "textures": "textures/items/etheria_plagued_helmet"
+  },
+  "etheria_plagued_chest": {
+   "textures": "textures/items/etheria_plagued_chest"
+  },
+  "etheria_plagued_legs": {
+   "textures": "textures/items/etheria_plagued_legs"
+  },
+  "etheria_plagued_boots": {
+   "textures": "textures/items/etheria_plagued_boots"
+  },
+  "etheria_pyromancer_helmet": {
+   "textures": "textures/items/etheria_pyromancer_helmet"
+  },
+  "etheria_pyromancer_chest": {
+   "textures": "textures/items/etheria_pyromancer_chest"
+  },
+  "etheria_pyromancer_legs": {
+   "textures": "textures/items/etheria_pyromancer_legs"
+  },
+  "etheria_pyromancer_boots": {
+   "textures": "textures/items/etheria_pyromancer_boots"
+  },
+  "etheria_cryomancer_helmet": {
+   "textures": "textures/items/etheria_cryomancer_helmet"
+  },
+  "etheria_cryomancer_chest": {
+   "textures": "textures/items/etheria_cryomancer_chest"
+  },
+  "etheria_cryomancer_legs": {
+   "textures": "textures/items/etheria_cryomancer_legs"
+  },
+  "etheria_cryomancer_boots": {
+   "textures": "textures/items/etheria_cryomancer_boots"
+  },
+  "etheria_electromancer_helmet": {
+   "textures": "textures/items/etheria_electromancer_helmet"
+  },
+  "etheria_electromancer_chest": {
+   "textures": "textures/items/etheria_electromancer_chest"
+  },
+  "etheria_electromancer_legs": {
+   "textures": "textures/items/etheria_electromancer_legs"
+  },
+  "etheria_electromancer_boots": {
+   "textures": "textures/items/etheria_electromancer_boots"
+  },
+  "etheria_cultist_helmet": {
+   "textures": "textures/items/etheria_cultist_helmet"
+  },
+  "etheria_cultist_chest": {
+   "textures": "textures/items/etheria_cultist_chest"
+  },
+  "etheria_cultist_legs": {
+   "textures": "textures/items/etheria_cultist_legs"
+  },
+  "etheria_cultist_boots": {
+   "textures": "textures/items/etheria_cultist_boots"
+  },
+  "etheria_archevoker_helmet": {
+   "textures": "textures/items/etheria_archevoker_helmet"
+  },
+  "etheria_archevoker_chest": {
+   "textures": "textures/items/etheria_archevoker_chest"
+  },
+  "etheria_archevoker_legs": {
+   "textures": "textures/items/etheria_archevoker_legs"
+  },
+  "etheria_archevoker_boots": {
+   "textures": "textures/items/etheria_archevoker_boots"
+  },
+  "etheria_shadowwalker_helmet": {
+   "textures": "textures/items/etheria_shadowwalker_helmet"
+  },
+  "etheria_shadowwalker_chest": {
+   "textures": "textures/items/etheria_shadowwalker_chest"
+  },
+  "etheria_shadowwalker_legs": {
+   "textures": "textures/items/etheria_shadowwalker_legs"
+  },
+  "etheria_shadowwalker_boots": {
+   "textures": "textures/items/etheria_shadowwalker_boots"
+  },
+  "etheria_dragotite_ingot": {
+   "textures": "textures/items/etheria_dragotite_ingot"
+  },
+  "etheria_dragotite_abyss_ingot": {
+   "textures": "textures/items/etheria_dragotite_abyss_ingot"
+  },
+  "etheria_dragotite_earth_ingot": {
+   "textures": "textures/items/etheria_dragotite_earth_ingot"
+  },
+  "etheria_dragotite_frost_ingot": {
+   "textures": "textures/items/etheria_dragotite_frost_ingot"
+  },
+  "etheria_dragotite_scorch_ingot": {
+   "textures": "textures/items/etheria_dragotite_scorch_ingot"
+  },
+  "etheria_dragotite_storm_ingot": {
+   "textures": "textures/items/etheria_dragotite_storm_ingot"
+  },
+  "etheria_dragotite_star_ingot": {
+   "textures": "textures/items/etheria_dragotite_star_ingot"
+  },
+  "etheria_sk_predator": {
+   "textures": "textures/items/etheria_sk_predator"
+  },
+  "etheria_sk_gluttony": {
+   "textures": "textures/items/etheria_sk_gluttony"
+  },
+  "etheria_sk_fireball": {
+   "textures": "textures/items/etheria_sk_fireball"
+  },
+  "etheria_sk_ice_lance": {
+   "textures": "textures/items/etheria_sk_ice_lance"
+  },
+  "etheria_sk_lightning": {
+   "textures": "textures/items/etheria_sk_lightning"
+  },
+  "etheria_sk_energy_lance": {
+   "textures": "textures/items/etheria_sk_energy_lance"
+  },
+  "etheria_sk_mana_burst": {
+   "textures": "textures/items/etheria_sk_mana_burst"
+  },
+  "etheria_sk_dark_slash": {
+   "textures": "textures/items/etheria_sk_dark_slash"
+  },
+  "etheria_sk_impact": {
+   "textures": "textures/items/etheria_sk_impact"
+  },
+  "etheria_sk_earth_slam": {
+   "textures": "textures/items/etheria_sk_earth_slam"
+  },
+  "etheria_sk_water_surge": {
+   "textures": "textures/items/etheria_sk_water_surge"
+  },
+  "etheria_sk_wind_dash": {
+   "textures": "textures/items/etheria_sk_wind_dash"
+  },
+  "etheria_sk_teleport": {
+   "textures": "textures/items/etheria_sk_teleport"
+  },
+  "etheria_sk_heal": {
+   "textures": "textures/items/etheria_sk_heal"
+  },
+  "etheria_sk_holy_light": {
+   "textures": "textures/items/etheria_sk_holy_light"
+  },
+  "etheria_sk_barrier": {
+   "textures": "textures/items/etheria_sk_barrier"
+  },
+  "etheria_sk_blood_slash": {
+   "textures": "textures/items/etheria_sk_blood_slash"
+  },
+  "etheria_sk_void_rift": {
+   "textures": "textures/items/etheria_sk_void_rift"
+  },
+  "etheria_sk_summon_guardian": {
+   "textures": "textures/items/etheria_sk_summon_guardian"
+  },
+  "etheria_sk_dragon_breath": {
+   "textures": "textures/items/etheria_sk_dragon_breath"
+  },
+  "etheria_sk_demon_flame": {
+   "textures": "textures/items/etheria_sk_demon_flame"
+  },
+  "etheria_sk_war_cry": {
+   "textures": "textures/items/etheria_sk_war_cry"
+  },
+  "etheria_sk_royal_decree": {
+   "textures": "textures/items/etheria_sk_royal_decree"
+  },
+  "etheria_sk_soul_drain": {
+   "textures": "textures/items/etheria_sk_soul_drain"
+  },
+  "etheria_sk_dragon_roar": {
+   "textures": "textures/items/etheria_sk_dragon_roar"
+  },
+  "etheria_sk_power_strike": {
+   "textures": "textures/items/etheria_sk_power_strike"
+  },
+  "etheria_sk_arcane_surge": {
+   "textures": "textures/items/etheria_sk_arcane_surge"
+  },
+  "etheria_sk_shadow_step": {
+   "textures": "textures/items/etheria_sk_shadow_step"
+  },
+  "etheria_sk_divine_shield": {
+   "textures": "textures/items/etheria_sk_divine_shield"
+  },
+  "etheria_sk_piercing_shot": {
+   "textures": "textures/items/etheria_sk_piercing_shot"
+  },
+  "etheria_sk_shield_bash": {
+   "textures": "textures/items/etheria_sk_shield_bash"
+  },
+  "etheria_sk_berserk_rage": {
+   "textures": "textures/items/etheria_sk_berserk_rage"
+  },
+  "etheria_sk_absorb_dissolve": {
+   "textures": "textures/items/etheria_sk_absorb_dissolve"
+  },
+  "etheria_sk_combustion": {
+   "textures": "textures/items/etheria_sk_combustion"
+  },
+  "etheria_sk_flame_breath": {
+   "textures": "textures/items/etheria_sk_flame_breath"
+  },
+  "etheria_sk_heat_sense": {
+   "textures": "textures/items/etheria_sk_heat_sense"
+  },
+  "etheria_sk_noxious_breath": {
+   "textures": "textures/items/etheria_sk_noxious_breath"
+  },
+  "etheria_sk_paralyzing_breath": {
+   "textures": "textures/items/etheria_sk_paralyzing_breath"
+  },
+  "etheria_sk_range_barrier": {
+   "textures": "textures/items/etheria_sk_range_barrier"
+  },
+  "etheria_sk_thread_manip": {
+   "textures": "textures/items/etheria_sk_thread_manip"
+  },
+  "etheria_sk_thunder_breath": {
+   "textures": "textures/items/etheria_sk_thunder_breath"
+  },
+  "etheria_sk_ultrasonic": {
+   "textures": "textures/items/etheria_sk_ultrasonic"
+  },
+  "etheria_sk_vampirism": {
+   "textures": "textures/items/etheria_sk_vampirism"
+  },
+  "etheria_sk_black_flame": {
+   "textures": "textures/items/etheria_sk_black_flame"
+  },
+  "etheria_sk_black_lightning": {
+   "textures": "textures/items/etheria_sk_black_lightning"
+  },
+  "etheria_sk_black_thunder": {
+   "textures": "textures/items/etheria_sk_black_thunder"
+  },
+  "etheria_sk_death_storm": {
+   "textures": "textures/items/etheria_sk_death_storm"
+  },
+  "etheria_sk_earth_manip": {
+   "textures": "textures/items/etheria_sk_earth_manip"
+  },
+  "etheria_sk_fire_manip": {
+   "textures": "textures/items/etheria_sk_fire_manip"
+  },
+  "etheria_sk_gravity_manip": {
+   "textures": "textures/items/etheria_sk_gravity_manip"
+  },
+  "etheria_sk_hellflame": {
+   "textures": "textures/items/etheria_sk_hellflame"
+  },
+  "etheria_sk_hydro_propulsion": {
+   "textures": "textures/items/etheria_sk_hydro_propulsion"
+  },
+  "etheria_sk_magic_improv": {
+   "textures": "textures/items/etheria_sk_magic_improv"
+  },
+  "etheria_sk_magic_manip": {
+   "textures": "textures/items/etheria_sk_magic_manip"
+  },
+  "etheria_sk_magic_sense": {
+   "textures": "textures/items/etheria_sk_magic_sense"
+  },
+  "etheria_sk_molecular_manip": {
+   "textures": "textures/items/etheria_sk_molecular_manip"
+  },
+  "etheria_sk_space_travel": {
+   "textures": "textures/items/etheria_sk_space_travel"
+  },
+  "etheria_sk_water_blade": {
+   "textures": "textures/items/etheria_sk_water_blade"
+  },
+  "etheria_sk_water_current": {
+   "textures": "textures/items/etheria_sk_water_current"
+  },
+  "etheria_sk_water_manip": {
+   "textures": "textures/items/etheria_sk_water_manip"
+  },
+  "etheria_sk_wind_manip": {
+   "textures": "textures/items/etheria_sk_wind_manip"
+  },
+  "etheria_sk_analyst": {
+   "textures": "textures/items/etheria_sk_analyst"
+  },
+  "etheria_sk_berserker": {
+   "textures": "textures/items/etheria_sk_berserker"
+  },
+  "etheria_sk_degenerate": {
+   "textures": "textures/items/etheria_sk_degenerate"
+  },
+  "etheria_sk_dilettante": {
+   "textures": "textures/items/etheria_sk_dilettante"
+  },
+  "etheria_sk_envy": {
+   "textures": "textures/items/etheria_sk_envy"
+  },
+  "etheria_sk_generalissimo": {
+   "textures": "textures/items/etheria_sk_generalissimo"
+  },
+  "etheria_sk_artisan": {
+   "textures": "textures/items/etheria_sk_artisan"
+  },
+  "etheria_sk_gourmet": {
+   "textures": "textures/items/etheria_sk_gourmet"
+  },
+  "etheria_sk_ambition": {
+   "textures": "textures/items/etheria_sk_ambition"
+  },
+  "etheria_sk_healer": {
+   "textures": "textures/items/etheria_sk_healer"
+  },
+  "etheria_sk_master_physician": {
+   "textures": "textures/items/etheria_sk_master_physician"
+  },
+  "etheria_sk_investigator": {
+   "textures": "textures/items/etheria_sk_investigator"
+  },
+  "etheria_sk_lionheart": {
+   "textures": "textures/items/etheria_sk_lionheart"
+  },
+  "etheria_sk_lust": {
+   "textures": "textures/items/etheria_sk_lust"
+  },
+  "etheria_sk_maker": {
+   "textures": "textures/items/etheria_sk_maker"
+  },
+  "etheria_sk_martial_master": {
+   "textures": "textures/items/etheria_sk_martial_master"
+  },
+  "etheria_sk_mathematician": {
+   "textures": "textures/items/etheria_sk_mathematician"
+  },
+  "etheria_sk_merciless": {
+   "textures": "textures/items/etheria_sk_merciless"
+  },
+  "etheria_sk_musician": {
+   "textures": "textures/items/etheria_sk_musician"
+  },
+  "etheria_sk_oppressor": {
+   "textures": "textures/items/etheria_sk_oppressor"
+  },
+  "etheria_sk_perceptor": {
+   "textures": "textures/items/etheria_sk_perceptor"
+  },
+  "etheria_sk_planner": {
+   "textures": "textures/items/etheria_sk_planner"
+  },
+  "etheria_sk_pride": {
+   "textures": "textures/items/etheria_sk_pride"
+  },
+  "etheria_sk_puppeteer": {
+   "textures": "textures/items/etheria_sk_puppeteer"
+  },
+  "etheria_sk_researcher": {
+   "textures": "textures/items/etheria_sk_researcher"
+  },
+  "etheria_sk_retaliator": {
+   "textures": "textures/items/etheria_sk_retaliator"
+  },
+  "etheria_sk_ruler": {
+   "textures": "textures/items/etheria_sk_ruler"
+  },
+  "etheria_sk_severer": {
+   "textures": "textures/items/etheria_sk_severer"
+  },
+  "etheria_sk_dark_attacker": {
+   "textures": "textures/items/etheria_sk_dark_attacker"
+  },
+  "etheria_sk_sloth": {
+   "textures": "textures/items/etheria_sk_sloth"
+  },
+  "etheria_sk_spearhead": {
+   "textures": "textures/items/etheria_sk_spearhead"
+  },
+  "etheria_sk_starving": {
+   "textures": "textures/items/etheria_sk_starving"
+  },
+  "etheria_sk_survivor": {
+   "textures": "textures/items/etheria_sk_survivor"
+  },
+  "etheria_sk_chosen_one": {
+   "textures": "textures/items/etheria_sk_chosen_one"
+  },
+  "etheria_sk_traveler": {
+   "textures": "textures/items/etheria_sk_traveler"
+  },
+  "etheria_sk_usurper": {
+   "textures": "textures/items/etheria_sk_usurper"
+  },
+  "etheria_sk_fury": {
+   "textures": "textures/items/etheria_sk_fury"
+  },
+  "etheria_sk_beast_roar": {
+   "textures": "textures/items/etheria_sk_beast_roar"
+  },
+  "etheria_sk_blood_drain": {
+   "textures": "textures/items/etheria_sk_blood_drain"
+  },
+  "etheria_sk_ogre_flame": {
+   "textures": "textures/items/etheria_sk_ogre_flame"
+  },
+  "etheria_sk_steel_body": {
+   "textures": "textures/items/etheria_sk_steel_body"
+  },
+  "etheria_sk_thought_accel": {
+   "textures": "textures/items/etheria_sk_thought_accel"
+  },
+  "etheria_sk_universal_perception": {
+   "textures": "textures/items/etheria_sk_universal_perception"
+  },
+  "etheria_sk_wind_blade": {
+   "textures": "textures/items/etheria_sk_wind_blade"
+  },
+  "etheria_sk_disintegration": {
+   "textures": "textures/items/etheria_sk_disintegration"
+  },
+  "etheria_sk_blood_rain": {
+   "textures": "textures/items/etheria_sk_blood_rain"
+  },
+  "etheria_sk_haki": {
+   "textures": "textures/items/etheria_sk_haki"
+  },
+  "etheria_sk_dark_bolt": {
+   "textures": "textures/items/etheria_sk_dark_bolt"
+  },
+  "etheria_sk_holy_lance": {
+   "textures": "textures/items/etheria_sk_holy_lance"
+  },
+  "etheria_sk_lion_roar_punch": {
+   "textures": "textures/items/etheria_sk_lion_roar_punch"
+  },
+  "etheria_sk_summon_demons": {
+   "textures": "textures/items/etheria_sk_summon_demons"
+  },
+  "etheria_sk_orc_army": {
+   "textures": "textures/items/etheria_sk_orc_army"
+  },
+  "etheria_sk_megiddo": {
+   "textures": "textures/items/etheria_sk_megiddo"
+  },
+  "etheria_sk_drago_nova": {
+   "textures": "textures/items/etheria_sk_drago_nova"
+  },
+  "etheria_sk_storm_dragon": {
+   "textures": "textures/items/etheria_sk_storm_dragon"
+  },
+  "etheria_sk_world_end": {
+   "textures": "textures/items/etheria_sk_world_end"
+  },
+  "etheria_sk_beelzebuth": {
+   "textures": "textures/items/etheria_sk_beelzebuth"
+  },
+  "etheria_sk_dragon_transform": {
+   "textures": "textures/items/etheria_sk_dragon_transform"
+  },
+  "etheria_sk_storm_wall": {
+   "textures": "textures/items/etheria_sk_storm_wall"
+  },
+  "etheria_sk_anti_skill": {
+   "textures": "textures/items/etheria_sk_anti_skill"
+  },
+  "etheria_sk_creator": {
+   "textures": "textures/items/etheria_sk_creator"
+  },
+  "etheria_sk_created_1": {
+   "textures": "textures/items/etheria_sk_created_1"
+  },
+  "etheria_sk_created_2": {
+   "textures": "textures/items/etheria_sk_created_2"
+  },
+  "etheria_sk_created_3": {
+   "textures": "textures/items/etheria_sk_created_3"
+  },
+  "etheria_sk_created_4": {
+   "textures": "textures/items/etheria_sk_created_4"
+  },
+  "etheria_sk_created_5": {
+   "textures": "textures/items/etheria_sk_created_5"
+  },
+  "etheria_sk_chaos_king": {
+   "textures": "textures/items/etheria_sk_chaos_king"
+  },
+  "etheria_sk_windlash": {
+   "textures": "textures/items/etheria_sk_windlash"
+  },
+  "etheria_sk_thunder_roar": {
+   "textures": "textures/items/etheria_sk_thunder_roar"
+  },
+  "etheria_sk_draconic_tempest": {
+   "textures": "textures/items/etheria_sk_draconic_tempest"
+  },
+  "etheria_sk_frost_breath": {
+   "textures": "textures/items/etheria_sk_frost_breath"
+  },
+  "etheria_sk_absolute_freeze": {
+   "textures": "textures/items/etheria_sk_absolute_freeze"
+  },
+  "etheria_sk_glacial_domain": {
+   "textures": "textures/items/etheria_sk_glacial_domain"
+  },
+  "etheria_sk_flame_dash": {
+   "textures": "textures/items/etheria_sk_flame_dash"
+  },
+  "etheria_sk_inferno_breath": {
+   "textures": "textures/items/etheria_sk_inferno_breath"
+  },
+  "etheria_sk_dragon_inferno": {
+   "textures": "textures/items/etheria_sk_dragon_inferno"
+  },
+  "etheria_sk_creation_light": {
+   "textures": "textures/items/etheria_sk_creation_light"
+  },
+  "etheria_sk_primordial_authority": {
+   "textures": "textures/items/etheria_sk_primordial_authority"
+  },
+  "etheria_sk_genesis_ray": {
+   "textures": "textures/items/etheria_sk_genesis_ray"
+  },
+  "etheria_sk_sword_flash": {
+   "textures": "textures/items/etheria_sk_sword_flash"
+  },
+  "etheria_sk_sword_whirl": {
+   "textures": "textures/items/etheria_sk_sword_whirl"
+  },
+  "etheria_sk_sword_charge": {
+   "textures": "textures/items/etheria_sk_sword_charge"
+  },
+  "etheria_sk_sword_sovereign": {
+   "textures": "textures/items/etheria_sk_sword_sovereign"
+  },
+  "etheria_sk_spear_thrust": {
+   "textures": "textures/items/etheria_sk_spear_thrust"
+  },
+  "etheria_sk_spear_dive": {
+   "textures": "textures/items/etheria_sk_spear_dive"
+  },
+  "etheria_sk_parry_stance": {
+   "textures": "textures/items/etheria_sk_parry_stance"
+  },
+  "etheria_sk_counter_strike": {
+   "textures": "textures/items/etheria_sk_counter_strike"
+  },
+  "etheria_sk_evasion_step": {
+   "textures": "textures/items/etheria_sk_evasion_step"
+  },
+  "etheria_sk_focus_aura": {
+   "textures": "textures/items/etheria_sk_focus_aura"
+  },
+  "etheria_sk_power_surge": {
+   "textures": "textures/items/etheria_sk_power_surge"
+  },
+  "etheria_sk_mass_heal": {
+   "textures": "textures/items/etheria_sk_mass_heal"
+  },
+  "etheria_sk_forge_blessing": {
+   "textures": "textures/items/etheria_sk_forge_blessing"
+  },
+  "etheria_sk_dwarf_hammer": {
+   "textures": "textures/items/etheria_sk_dwarf_hammer"
+  },
+  "etheria_sk_crimson_wave": {
+   "textures": "textures/items/etheria_sk_crimson_wave"
+  },
+  "etheria_sk_overlord_presence": {
+   "textures": "textures/items/etheria_sk_overlord_presence"
+  },
+  "etheria_sk_orc_fury": {
+   "textures": "textures/items/etheria_sk_orc_fury"
+  },
+  "etheria_sk_devour_flesh": {
+   "textures": "textures/items/etheria_sk_devour_flesh"
+  },
+  "etheria_sk_legend_resolve": {
+   "textures": "textures/items/etheria_sk_legend_resolve"
+  }
+ }
+}

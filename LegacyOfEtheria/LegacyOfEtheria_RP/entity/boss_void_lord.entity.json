@@ -1,0 +1,43 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:boss_void_lord",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "p1": "textures/entity/etheria_boss_void_lord_p1",
+    "p2": "textures/entity/etheria_boss_void_lord_p2",
+    "p3": "textures/entity/etheria_boss_void_lord_p3"
+   },
+   "geometry": {
+    "default": "geometry.etheria_boss_void_lord"
+   },
+   "spawn_egg": {
+    "base_color": "#4b1f8a",
+    "overlay_color": "#d9a8ff"
+   },
+   "scripts": {
+    "scale": "2.2",
+    "animate": [
+     "look",
+     "walk",
+     "attack",
+     "breathe",
+     "float"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.biped_walk",
+    "attack": "animation.etheria.attack_biped",
+    "float": "animation.etheria.float"
+   },
+   "render_controllers": [
+    "controller.render.etheria_boss"
+   ]
+  }
+ }
+}

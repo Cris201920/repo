@@ -1,0 +1,36 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:dragotite_great_sword_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " A ",
+   " A ",
+   " B "
+  ],
+  "key": {
+   "A": {
+    "item": "etheria:arcane_ingot"
+   },
+   "B": {
+    "item": "etheria:mana_crystal"
+   },
+   "S": {
+    "item": "minecraft:stick"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:arcane_ingot"
+   }
+  ],
+  "result": {
+   "item": "etheria:dragotite_great_sword",
+   "count": 1
+  }
+ }
+}

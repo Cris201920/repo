@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_investigator",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_investigator"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§9Investigador"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_investigator",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

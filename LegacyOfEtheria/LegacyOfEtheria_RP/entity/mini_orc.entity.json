@@ -1,0 +1,39 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:mini_orc",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_mini_orc"
+   },
+   "geometry": {
+    "default": "geometry.etheria_mini_orc"
+   },
+   "spawn_egg": {
+    "base_color": "#2c6a28",
+    "overlay_color": "#e0c040"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "main": "1.0"
+     },
+     {
+      "attack": "variable.attack_time > 0"
+     }
+    ],
+    "scale": "0.6"
+   },
+   "animations": {
+    "main": "animation.etheria_mini_orc.main",
+    "attack": "animation.etheria_mini_orc.attack"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

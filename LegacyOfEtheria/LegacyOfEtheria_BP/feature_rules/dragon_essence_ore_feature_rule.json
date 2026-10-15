@@ -1,0 +1,37 @@
+{
+ "format_version": "1.13.0",
+ "minecraft:feature_rules": {
+  "description": {
+   "identifier": "etheria:dragon_essence_ore_feature_rule",
+   "places_feature": "etheria:dragon_essence_ore_feature"
+  },
+  "conditions": {
+   "placement_pass": "underground_pass"
+  },
+  "distribution": {
+   "iterations": 5,
+   "coordinate_eval_order": "zyx",
+   "x": {
+    "distribution": "uniform",
+    "extent": [
+     0,
+     16
+    ]
+   },
+   "y": {
+    "distribution": "uniform",
+    "extent": [
+     -60,
+     120
+    ]
+   },
+   "z": {
+    "distribution": "uniform",
+    "extent": [
+     0,
+     16
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:ancient_bone",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_ancient_bone"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§fOsso Ancestral"
+   }
+  }
+ }
+}

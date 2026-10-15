@@ -1,0 +1,38 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:spirit_stag",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_spirit_stag"
+   },
+   "geometry": {
+    "default": "geometry.etheria_spirit_stag"
+   },
+   "spawn_egg": {
+    "base_color": "#d8fff0",
+    "overlay_color": "#ffe66a"
+   },
+   "scripts": {
+    "scale": "1.4",
+    "animate": [
+     "look",
+     "walk",
+     "attack"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.quad_walk",
+    "attack": "animation.etheria.attack_quad"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

@@ -1,0 +1,36 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:gandiva_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   " AS",
+   "B S",
+   " AS"
+  ],
+  "key": {
+   "A": {
+    "item": "etheria:celestial_crystal"
+   },
+   "B": {
+    "item": "etheria:void_fragment"
+   },
+   "S": {
+    "item": "minecraft:stick"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:celestial_crystal"
+   }
+  ],
+  "result": {
+   "item": "etheria:gandiva",
+   "count": 1
+  }
+ }
+}

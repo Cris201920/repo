@@ -1,0 +1,39 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:npc_dw_smith",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_npc_dw_smith"
+   },
+   "geometry": {
+    "default": "geometry.etheria_npc_dw_smith"
+   },
+   "spawn_egg": {
+    "base_color": "#8a5a2a",
+    "overlay_color": "#e0430f"
+   },
+   "scripts": {
+    "scale": "0.88",
+    "animate": [
+     "look",
+     "walk",
+     "attack",
+     "breathe"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.biped_walk",
+    "attack": "animation.etheria.attack_biped"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

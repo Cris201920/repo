@@ -1,0 +1,39 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:npc_dw_miner",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_npc_dw_miner"
+   },
+   "geometry": {
+    "default": "geometry.etheria_npc_dw_miner"
+   },
+   "spawn_egg": {
+    "base_color": "#55525e",
+    "overlay_color": "#c28a44"
+   },
+   "scripts": {
+    "scale": "0.86",
+    "animate": [
+     "look",
+     "walk",
+     "attack",
+     "breathe"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.biped_walk",
+    "attack": "animation.etheria.attack_biped"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:orc_tusk",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_orc_tusk"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§fPresa de Orc"
+   }
+  }
+ }
+}

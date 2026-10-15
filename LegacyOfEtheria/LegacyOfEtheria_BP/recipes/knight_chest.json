@@ -1,0 +1,30 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:knight_chest_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "M M",
+   "MMM",
+   "MMM"
+  ],
+  "key": {
+   "M": {
+    "item": "etheria:arcane_ingot"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:arcane_ingot"
+   }
+  ],
+  "result": {
+   "item": "etheria:knight_chest",
+   "count": 1
+  }
+ }
+}

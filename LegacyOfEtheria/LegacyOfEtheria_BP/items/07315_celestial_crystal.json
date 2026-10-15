@@ -1,0 +1,22 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:celestial_crystal",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_celestial_crystal"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Cristal Celestial"
+   },
+   "minecraft:glint": true
+  }
+ }
+}

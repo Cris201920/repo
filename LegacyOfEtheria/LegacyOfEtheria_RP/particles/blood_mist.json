@@ -1,0 +1,65 @@
+{
+ "format_version": "1.10.0",
+ "particle_effect": {
+  "description": {
+   "identifier": "etheria:blood_mist",
+   "basic_render_parameters": {
+    "material": "particles_alpha",
+    "texture": "textures/particle/etheria_particles"
+   }
+  },
+  "components": {
+   "minecraft:emitter_rate_instant": {
+    "num_particles": 10
+   },
+   "minecraft:emitter_lifetime_once": {
+    "active_time": 1
+   },
+   "minecraft:emitter_shape_sphere": {
+    "radius": 0.2,
+    "direction": "outwards"
+   },
+   "minecraft:particle_initial_speed": 2.0,
+   "minecraft:particle_lifetime_expression": {
+    "max_lifetime": 0.7
+   },
+   "minecraft:particle_motion_dynamic": {
+    "linear_acceleration": [
+     0,
+     -3,
+     0
+    ],
+    "linear_drag_coefficient": 1.2
+   },
+   "minecraft:particle_appearance_billboard": {
+    "size": [
+     0.2,
+     0.2
+    ],
+    "facing_camera_mode": "lookat_xyz",
+    "uv": {
+     "texture_width": 32,
+     "texture_height": 32,
+     "uv": [
+      0,
+      8
+     ],
+     "uv_size": [
+      8,
+      8
+     ]
+    }
+   },
+   "minecraft:particle_appearance_tinting": {
+    "color": {
+     "interpolant": "v.particle_age / v.particle_lifetime",
+     "gradient": {
+      "0.0": "#ffff9aa6",
+      "0.5": "#ffa01530",
+      "1.0": "#004d0614"
+     }
+    }
+   }
+  }
+ }
+}

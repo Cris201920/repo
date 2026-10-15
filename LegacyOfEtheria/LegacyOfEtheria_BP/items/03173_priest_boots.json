@@ -1,0 +1,29 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:priest_boots",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_priest_boots"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§9Botas do Sacerdote"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:wearable": {
+    "slot": "slot.armor.feet",
+    "protection": 3
+   },
+   "minecraft:durability": {
+    "max_durability": 235
+   }
+  }
+ }
+}

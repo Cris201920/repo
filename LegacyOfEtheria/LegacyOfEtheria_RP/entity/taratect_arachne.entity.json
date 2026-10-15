@@ -1,0 +1,40 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:taratect_arachne",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_taratect_arachne"
+   },
+   "geometry": {
+    "default": "geometry.etheria_taratect_arachne"
+   },
+   "spawn_egg": {
+    "base_color": "#2a1a30",
+    "overlay_color": "#b03060"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "attack.bite": "variable.attack_time > 0"
+     },
+     {
+      "move.sneak": "query.is_sneaking"
+     }
+    ]
+   },
+   "animations": {
+    "misc.idle": "animation.etheria_taratect_arachne.misc.idle",
+    "move.walk": "animation.etheria_taratect_arachne.move.walk",
+    "attack.bite": "animation.etheria_taratect_arachne.attack.bite",
+    "move.sneak": "animation.etheria_taratect_arachne.move.sneak"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

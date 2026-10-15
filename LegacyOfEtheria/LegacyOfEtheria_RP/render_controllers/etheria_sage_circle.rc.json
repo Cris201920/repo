@@ -1,0 +1,49 @@
+{
+ "format_version": "1.10.0",
+ "render_controllers": {
+  "controller.render.etheria_sage_circle": {
+   "arrays": {
+    "textures": {
+     "Array.t": [
+      "Texture.s0",
+      "Texture.s1",
+      "Texture.s2",
+      "Texture.s3"
+     ]
+    }
+   },
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.t[query.variant]"
+   ],
+   "part_visibility": [
+    {
+     "*": true
+    },
+    {
+     "g_*": "query.variant >= 1"
+    },
+    {
+     "r_*": "query.variant >= 2"
+    },
+    {
+     "c_*": "query.variant >= 3"
+    },
+    {
+     "v_glyph*": "query.variant >= 1"
+    },
+    {
+     "v_text*": "query.variant >= 2"
+    },
+    {
+     "v_ciel*": "query.variant >= 3"
+    }
+   ]
+  }
+ }
+}

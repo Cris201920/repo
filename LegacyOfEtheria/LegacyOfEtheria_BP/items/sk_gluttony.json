@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_gluttony",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_gluttony"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§bGlutonaria"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_gluttony",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

@@ -1,0 +1,1 @@
+{"format_version": "1.8.0", "animations": {"animation.etheria_tt_intelligent_slime.main": {"loop": true, "bones": {}}, "animation.etheria_tt_intelligent_slime.attack": {"loop": true, "bones": {"Egg": {"scale": ["1 + 0.25 * math.sin(variable.attack_time * 180)", "1 - 0.2 * math.sin(variable.attack_time * 180)", "1 + 0.25 * math.sin(variable.attack_time * 180)"]}}}}}

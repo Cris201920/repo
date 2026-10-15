@@ -1,0 +1,33 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:sage_book_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "MMM",
+   "MBM",
+   "MMM"
+  ],
+  "key": {
+   "M": {
+    "item": "etheria:mana_crystal"
+   },
+   "B": {
+    "item": "minecraft:book"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:mana_crystal"
+   }
+  ],
+  "result": {
+   "item": "etheria:sage_book",
+   "count": 1
+  }
+ }
+}

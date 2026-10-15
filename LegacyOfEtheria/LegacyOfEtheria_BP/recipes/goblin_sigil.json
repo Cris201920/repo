@@ -1,0 +1,33 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:goblin_sigil_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "EEE",
+   "ERE",
+   "EEE"
+  ],
+  "key": {
+   "E": {
+    "item": "etheria:goblin_ear"
+   },
+   "R": {
+    "item": "etheria:mana_crystal"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:goblin_ear"
+   }
+  ],
+  "result": {
+   "item": "etheria:goblin_sigil",
+   "count": 1
+  }
+ }
+}

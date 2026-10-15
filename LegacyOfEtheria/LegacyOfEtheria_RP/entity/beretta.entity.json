@@ -1,0 +1,39 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:beretta",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_beretta"
+   },
+   "geometry": {
+    "default": "geometry.etheria_beretta"
+   },
+   "spawn_egg": {
+    "base_color": "#7a6a52",
+    "overlay_color": "#ffd35c"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "Idle": "!(query.ground_speed > 0.1)"
+     },
+     {
+      "walk": "query.ground_speed > 0.1 && query.ground_speed <= 0.25 && !query.is_sneaking"
+     }
+    ]
+   },
+   "animations": {
+    "Idle": "animation.etheria_beretta.Idle",
+    "Death": "animation.etheria_beretta.Death",
+    "walk": "animation.etheria_beretta.walk"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

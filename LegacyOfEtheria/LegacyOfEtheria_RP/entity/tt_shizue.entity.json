@@ -1,0 +1,47 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:tt_shizue",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_tt_shizue"
+   },
+   "geometry": {
+    "default": "geometry.etheria_tt_shizue"
+   },
+   "spawn_egg": {
+    "base_color": "#c04020",
+    "overlay_color": "#ffe080"
+   },
+   "animations": {
+    "base_pose": "animation.humanoid.base_pose",
+    "move": "animation.humanoid.move",
+    "look_at_target": "controller.animation.humanoid.look_at_target",
+    "hold": "animation.etheria_tt_shizue.hold",
+    "slash": "animation.etheria_tt_shizue.slash"
+   },
+   "scripts": {
+    "pre_animation": [
+     "variable.tcos0 = (math.cos(query.modified_distance_moved * 38.17) * query.modified_move_speed) * 57.3;"
+    ],
+    "animate": [
+     "base_pose",
+     "look_at_target",
+     {
+      "move": "query.modified_move_speed > 0.01"
+     },
+     "hold",
+     {
+      "slash": "variable.attack_time > 0.0"
+     }
+    ]
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

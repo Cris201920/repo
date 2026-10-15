@@ -1,0 +1,30 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:celestial_helmet",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_celestial_helmet"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§cCapacete Celestial"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:wearable": {
+    "slot": "slot.armor.head",
+    "protection": 6
+   },
+   "minecraft:durability": {
+    "max_durability": 441
+   },
+   "minecraft:glint": true
+  }
+ }
+}

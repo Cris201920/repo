@@ -1,0 +1,28 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shapeless": {
+  "description": {
+   "identifier": "etheria:block_castle_floor_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "ingredients": [
+   {
+    "item": "etheria:castle_stone"
+   },
+   {
+    "item": "minecraft:gold_nugget"
+   }
+  ],
+  "unlock": [
+   {
+    "item": "etheria:castle_stone"
+   }
+  ],
+  "result": {
+   "item": "etheria:castle_floor",
+   "count": 1
+  }
+ }
+}

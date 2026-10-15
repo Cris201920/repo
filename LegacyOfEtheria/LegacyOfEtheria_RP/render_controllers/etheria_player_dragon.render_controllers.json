@@ -1,0 +1,49 @@
+{
+ "format_version": "1.8.0",
+ "render_controllers": {
+  "controller.render.etheria_player_dragon_veldora": {
+   "geometry": "Geometry.drg_veldora",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.drg_veldora"
+   ]
+  },
+  "controller.render.etheria_player_dragon_velzard": {
+   "geometry": "Geometry.drg_velzard",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.drg_velzard"
+   ]
+  },
+  "controller.render.etheria_player_dragon_velgrynd": {
+   "geometry": "Geometry.drg_velgrynd",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.drg_velgrynd"
+   ]
+  },
+  "controller.render.etheria_player_dragon_veldanava": {
+   "geometry": "Geometry.drg_veldanava",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.drg_veldanava"
+   ]
+  }
+ }
+}

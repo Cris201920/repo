@@ -1,0 +1,31 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shapeless": {
+  "description": {
+   "identifier": "etheria:block_divine_forge_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "ingredients": [
+   {
+    "item": "minecraft:smithing_table"
+   },
+   {
+    "item": "etheria:celestial_crystal"
+   },
+   {
+    "item": "etheria:void_fragment"
+   }
+  ],
+  "unlock": [
+   {
+    "item": "minecraft:smithing_table"
+   }
+  ],
+  "result": {
+   "item": "etheria:divine_forge",
+   "count": 1
+  }
+ }
+}

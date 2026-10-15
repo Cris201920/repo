@@ -1,0 +1,31 @@
+{
+ "format_version": "1.13.0",
+ "minecraft:ore_feature": {
+  "description": {
+   "identifier": "etheria:dragon_essence_ore_feature"
+  },
+  "count": 4,
+  "replace_rules": [
+   {
+    "places_block": "etheria:dragon_essence_ore",
+    "may_replace": [
+     "minecraft:stone",
+     "minecraft:deepslate",
+     "minecraft:granite",
+     "minecraft:diorite",
+     "minecraft:andesite",
+     "minecraft:tuff",
+     "minecraft:dirt",
+     "minecraft:gravel",
+     "minecraft:sandstone",
+     "minecraft:netherrack",
+     "minecraft:basalt",
+     "minecraft:blackstone",
+     "minecraft:end_stone",
+     "minecraft:calcite",
+     "minecraft:red_sandstone"
+    ]
+   }
+  ]
+ }
+}

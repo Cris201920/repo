@@ -1,0 +1,26 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_forge_blessing",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_forge_blessing"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§9Bênção da Forja"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_forge_blessing",
+    "duration": 0.05
+   }
+  }
+ }
+}

@@ -1,0 +1,44 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:boss_ember_tyrant",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "p1": "textures/entity/etheria_boss_ember_tyrant_p1",
+    "p2": "textures/entity/etheria_boss_ember_tyrant_p2",
+    "p3": "textures/entity/etheria_boss_ember_tyrant_p3",
+    "p4": "textures/entity/etheria_boss_ember_tyrant_p4"
+   },
+   "geometry": {
+    "default": "geometry.etheria_boss_ember_tyrant"
+   },
+   "spawn_egg": {
+    "base_color": "#b2381c",
+    "overlay_color": "#ffd966"
+   },
+   "scripts": {
+    "scale": "2.4",
+    "animate": [
+     "look",
+     "walk",
+     "attack",
+     "breathe",
+     "flap"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.biped_walk",
+    "attack": "animation.etheria.attack_biped",
+    "flap": "animation.etheria.flap"
+   },
+   "render_controllers": [
+    "controller.render.etheria_boss"
+   ]
+  }
+ }
+}

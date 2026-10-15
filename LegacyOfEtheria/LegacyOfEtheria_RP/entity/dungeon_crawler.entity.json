@@ -1,0 +1,38 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:dungeon_crawler",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_dungeon_crawler"
+   },
+   "geometry": {
+    "default": "geometry.etheria_dungeon_crawler"
+   },
+   "spawn_egg": {
+    "base_color": "#2c2a42",
+    "overlay_color": "#3f7dff"
+   },
+   "scripts": {
+    "scale": "1.0",
+    "animate": [
+     "look",
+     "walk",
+     "attack"
+    ]
+   },
+   "animations": {
+    "look": "animation.etheria.look",
+    "breathe": "animation.etheria.breathe",
+    "walk": "animation.etheria.quad_walk",
+    "attack": "animation.etheria.attack_quad"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

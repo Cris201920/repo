@@ -1,0 +1,29 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:plagued_helmet",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_plagued_helmet"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§9Capacete do Pestilento"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:wearable": {
+    "slot": "slot.armor.head",
+    "protection": 3
+   },
+   "minecraft:durability": {
+    "max_durability": 268
+   }
+  }
+ }
+}

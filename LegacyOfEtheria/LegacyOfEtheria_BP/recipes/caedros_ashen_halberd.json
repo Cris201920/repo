@@ -1,0 +1,36 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:caedros_ashen_halberd_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "  A",
+   " B ",
+   "S  "
+  ],
+  "key": {
+   "A": {
+    "item": "etheria:celestial_crystal"
+   },
+   "B": {
+    "item": "etheria:void_fragment"
+   },
+   "S": {
+    "item": "minecraft:stick"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:celestial_crystal"
+   }
+  ],
+  "result": {
+   "item": "etheria:caedros_ashen_halberd",
+   "count": 1
+  }
+ }
+}

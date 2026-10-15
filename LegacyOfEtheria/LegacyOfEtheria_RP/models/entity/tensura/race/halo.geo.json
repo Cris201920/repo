@@ -1,0 +1,463 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.tensura.race_halo",
+    "texture_width": 64,
+    "texture_height": 64,
+    "visible_bounds_width": 4,
+    "visible_bounds_height": 4,
+    "visible_bounds_offset": [
+     0,
+     2,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "head",
+     "pivot": [
+      0,
+      24,
+      0
+     ]
+    },
+    {
+     "name": "halo",
+     "pivot": [
+      0,
+      30,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "inflate": 0.01,
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        112.5
+       ],
+       "uv": [
+        0,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        135
+       ],
+       "uv": [
+        0,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "inflate": 0.01,
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        157.5
+       ],
+       "uv": [
+        0,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        90
+       ],
+       "uv": [
+        0,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "inflate": 0.01,
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        22.5
+       ],
+       "uv": [
+        0,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "inflate": 0.01,
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        67.5
+       ],
+       "uv": [
+        0,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        45
+       ],
+       "uv": [
+        0,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "uv": [
+        0,
+        0
+       ],
+       "mirror": true
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        -90
+       ],
+       "uv": [
+        0,
+        0
+       ],
+       "mirror": true
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "inflate": 0.01,
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        -22.5
+       ],
+       "uv": [
+        0,
+        0
+       ],
+       "mirror": true
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "inflate": 0.01,
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        -67.5
+       ],
+       "uv": [
+        0,
+        0
+       ],
+       "mirror": true
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        -45
+       ],
+       "uv": [
+        0,
+        0
+       ],
+       "mirror": true
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        -135
+       ],
+       "uv": [
+        0,
+        0
+       ],
+       "mirror": true
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "inflate": 0.01,
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        -157.5
+       ],
+       "uv": [
+        0,
+        0
+       ],
+       "mirror": true
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "inflate": 0.01,
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        -112.5
+       ],
+       "uv": [
+        0,
+        0
+       ],
+       "mirror": true
+      },
+      {
+       "origin": [
+        -6,
+        54,
+        -3
+       ],
+       "size": [
+        12,
+        6,
+        6
+       ],
+       "pivot": [
+        0,
+        30,
+        0
+       ],
+       "rotation": [
+        0,
+        0,
+        -180
+       ],
+       "uv": [
+        0,
+        0
+       ],
+       "mirror": true
+      }
+     ],
+     "parent": "head"
+    }
+   ]
+  }
+ ]
+}

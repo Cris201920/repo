@@ -1,0 +1,31 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shapeless": {
+  "description": {
+   "identifier": "etheria:block_demon_forge_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "ingredients": [
+   {
+    "item": "minecraft:blast_furnace"
+   },
+   {
+    "item": "etheria:demonite_shard"
+   },
+   {
+    "item": "etheria:demonite_shard"
+   }
+  ],
+  "unlock": [
+   {
+    "item": "minecraft:blast_furnace"
+   }
+  ],
+  "result": {
+   "item": "etheria:demon_forge",
+   "count": 1
+  }
+ }
+}
