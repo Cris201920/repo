@@ -33,6 +33,7 @@ import { LINEAGE_LIST, LINEAGES, LINEAGE_FORMS, LINEAGE_RACE, lineageLock, tierS
 import { chooseLineage, setForm, endForm } from "../lineage.js";
 import { openWorld } from "../worldnpc.js";
 import { canBuild } from "../../core/perm.js";
+import { openRaceV2, openRacePickV2, openLevelV2, openLordV2 } from "./racemenus.js";
 import { openStructMenu } from "../structcmd.js";
 
 const R = (k) => RARITY[k];
@@ -43,11 +44,11 @@ const msg = (player, r) => say(player, `${r.ok ? "§a" : "§c"}${r.msg}`);
 export function openMain(player) {
   const d = getData(player);
   menu(player, "§l§6LEGACY OF ETHERIA", `§eNv.${d.level} §7| §6${fmt(d.coins)} moedas\n§aAtributos: ${d.attributePoints}  §bHabilidades: ${d.skillPoints}`, [
-    { text: "§lStatus", icon: "menu_status", run: () => openStatus(player) },
+    { text: "§lStatus e Nível\n§r§7XP, marcos e atributos", icon: "menu_status", run: () => openStatus(player) },
     { text: "§lHabilidades", icon: "menu_skills", run: () => openSkills(player) },
     { text: "§lInventário", icon: "menu_inventory", run: () => openInventory(player) },
     { text: "§lMissões", icon: "menu_quests", run: () => openQuests(player) },
-    { text: "§lRaça", icon: "menu_race", run: () => openRace(player) },
+    { text: "§lRaça e Evolução\n§r§7árvore, requisitos e Lord Demônio", icon: "menu_race", run: () => openRace(player) },
     { text: "§lClasse", icon: "menu_class", run: () => openClass(player) },
     { text: "§lGuilda", icon: "menu_guild", run: () => openGuild(player) },
     { text: "§lMundo e Facções\n§r§7Reputação, diplomacia e territórios", icon: "menu_ranking", run: () => openWorld(player) },
@@ -60,6 +61,7 @@ export function openMain(player) {
 
 // ---------------------------------------------------------------- status / atributos
 export function openStatus(player) {
+  return openLevelV2(player, () => openMain(player));   // 6.34: tela nova (nível, marcos e atributos)
   const d = getData(player), s = getStats(player), hp = getHealth(player), st = stageOf(d), r = raceOf(d);
   const need = d.level >= MAX_LEVEL ? 0 : xpToNext(d.level);
   const attrs = Object.entries(ATTRIBUTES).map(([k, v]) => `§7${v.label}: §f${d.attributes[k]}${s[{ strength: "str", defense: "def", intelligence: "int", agility: "agi", vitality: "vit" }[k]] !== d.attributes[k] ? ` §8(total ${s[{ strength: "str", defense: "def", intelligence: "int", agility: "agi", vitality: "vit" }[k]]})` : ""}`).join("\n");
@@ -239,6 +241,7 @@ function pressFx(player, evo, after) {
   system.runTimeout(() => { try { after(); } catch (e) { console.warn(`[Etheria] feedback de botão: ${e}`); } }, evo ? 12 : 4);
 }
 export function openRacePick(player, idx = 0) {
+  return openRacePickV2(player, idx);   // 6.34: tela nova
   // 6.14: ficha com barras comparativas (relativas à melhor raça), estilo de jogo, botões com o NOME da raça anterior/próxima e lista com estilo
   const n = RACE_LIST.length, i = ((idx % n) + n) % n, r = RACE_LIST[i], st = r.stages[r.root];
   const prev = RACE_LIST[(i - 1 + n) % n], nxt = RACE_LIST[(i + 1) % n];
@@ -270,6 +273,7 @@ function openRaceConfirm(player, id) {
   ]);
 }
 export function openRace(player) {
+  return openRaceV2(player, () => openMain(player));   // 6.34: tela nova (trilha da árvore, cartões com estado)
   const d = getData(player);
   if (!d.raceChosen) return openRacePick(player);
   const r = raceOf(d), st = stageOf(d), next = nextStages(d);
@@ -317,6 +321,7 @@ function lordButton(player, d) {
   return { text: "§5§lLord Demônio\n§r§7Evolua até o estágio final primeiro", icon, run: () => openLordDemon(player) };
 }
 export function openLordDemon(player) {
+  return openLordV2(player, () => openMain(player));   // 6.34: tela nova
   const d = getData(player), r = raceOf(d), have = (id) => countItem(player, id);
   const b = [];
   let body;
