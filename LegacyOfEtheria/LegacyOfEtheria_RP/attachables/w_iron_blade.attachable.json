@@ -16,7 +16,21 @@
    },
    "render_controllers": [
     "controller.render.item_default"
-   ]
+   ],
+   "animations": {
+    "eth_fp": "animation.etheria.w.iron_blade.fp",
+    "eth_tp": "animation.etheria.w.iron_blade.tp"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "eth_fp": "c.is_first_person"
+     },
+     {
+      "eth_tp": "!c.is_first_person"
+     }
+    ]
+   }
   }
  }
 }

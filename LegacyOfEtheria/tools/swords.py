@@ -716,4 +716,5 @@ def main():
         report.append((sid, src, len(m.cubes)))
     for r in report: print(*r)
     print(len(report), "armas")
+    import weapon_bind; weapon_bind.main()   # 6.42: liga a arma ao osso da mão + animações de 1ª/3ª pessoa
 if __name__ == "__main__": main()

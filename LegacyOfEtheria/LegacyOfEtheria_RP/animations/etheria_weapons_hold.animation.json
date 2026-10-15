@@ -1,0 +1,2525 @@
+{
+ "format_version": "1.10.0",
+ "animations": {
+  "animation.etheria.w.amethyst_rapier.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.amethyst_rapier.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 1.0
+    }
+   }
+  },
+  "animation.etheria.w.berserker_axe.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.berserker_axe.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.boreal_blade.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.boreal_blade.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 1.0
+    }
+   }
+  },
+  "animation.etheria.w.caedros_ashen_halberd.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.caedros_ashen_halberd.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.celestial_blade.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.celestial_blade.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.claymore.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.claymore.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 1.0
+    }
+   }
+  },
+  "animation.etheria.w.dead_mans_hand.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dead_mans_hand.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.depth_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.depth_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_abyss_great_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_abyss_great_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_abyss_katana.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_abyss_katana.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_abyss_long_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_abyss_long_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_abyss_short_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_abyss_short_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_abyss_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_abyss_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_earth_great_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_earth_great_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_earth_katana.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_earth_katana.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_earth_long_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_earth_long_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_earth_short_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_earth_short_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_earth_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_earth_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_frost_great_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_frost_great_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_frost_katana.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_frost_katana.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_frost_long_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_frost_long_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_frost_short_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_frost_short_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_frost_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_frost_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_great_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_great_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_katana.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_katana.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_long_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_long_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_scorch_great_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_scorch_great_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_scorch_katana.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_scorch_katana.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_scorch_long_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_scorch_long_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_scorch_short_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_scorch_short_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_scorch_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_scorch_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_short_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_short_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_star_great_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_star_great_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_star_katana.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_star_katana.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_star_long_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_star_long_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_star_short_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_star_short_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_star_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_star_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_storm_great_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_storm_great_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_storm_katana.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_storm_katana.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_storm_long_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_storm_long_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_storm_short_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_storm_short_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_storm_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_storm_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dragotite_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dreadsword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dreadsword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.dyrnwyn.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.dyrnwyn.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.ember_fang.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.ember_fang.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.extermination_blade.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.extermination_blade.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 1.471
+    }
+   }
+  },
+  "animation.etheria.w.fiery_dagger.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.fiery_dagger.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.flame_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.flame_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.geb.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.geb.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.goblin_king_club.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.goblin_king_club.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.green_dragon_blade.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.green_dragon_blade.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.567
+    }
+   }
+  },
+  "animation.etheria.w.infused_iron_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.infused_iron_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.iron_blade.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.iron_blade.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.knight_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.knight_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.kusanagi.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.kusanagi.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.neptunium_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.neptunium_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.obsidian_katana.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.obsidian_katana.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 1.0
+    }
+   }
+  },
+  "animation.etheria.w.reaper_scythe.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.reaper_scythe.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.5
+    }
+   }
+  },
+  "animation.etheria.w.reid_dragon_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.reid_dragon_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.resonarium_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.resonarium_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.rimuru_katana.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.rimuru_katana.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.859
+    }
+   }
+  },
+  "animation.etheria.w.rimuru_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.rimuru_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.shadow_dagger.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.shadow_dagger.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.sky_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.sky_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.soul_serpent_blade.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.soul_serpent_blade.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.833
+    }
+   }
+  },
+  "animation.etheria.w.tt_battle_axe.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_battle_axe.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.tt_crimson_lotus_edge.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_crimson_lotus_edge.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.tt_dead_end_rainbow.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_dead_end_rainbow.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 1.0
+    }
+   }
+  },
+  "animation.etheria.w.tt_gobuta_kodachi.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_gobuta_kodachi.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.tt_ice_blade.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_ice_blade.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 1.0
+    }
+   }
+  },
+  "animation.etheria.w.tt_katana.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_katana.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.tt_kunai.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_kunai.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 1.0
+    }
+   }
+  },
+  "animation.etheria.w.tt_orc_axe.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_orc_axe.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.tt_orc_cleaver.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_orc_cleaver.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.tt_shizue_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_shizue_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 1.0
+    }
+   }
+  },
+  "animation.etheria.w.tt_spatial_blade.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_spatial_blade.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.tt_spatial_blades.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_spatial_blades.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 1.0
+    }
+   }
+  },
+  "animation.etheria.w.tt_sword_of_tempest.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.tt_sword_of_tempest.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.uraku_katana.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.uraku_katana.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.907
+    }
+   }
+  },
+  "animation.etheria.w.void_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.void_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.warden_sword.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.warden_sword.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.wild_card.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.wild_card.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.etheria.w.wyrm_spear.tp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      9.0,
+      1.0
+     ]
+    }
+   }
+  },
+  "animation.etheria.w.wyrm_spear.fp": {
+   "loop": true,
+   "bones": {
+    "eth_weapon": {
+     "position": [
+      6.0,
+      13.0,
+      3.0
+     ],
+     "rotation": [
+      45.0,
+      0.0,
+      45.0
+     ],
+     "scale": 0.882
+    }
+   }
+  }
+ }
+}

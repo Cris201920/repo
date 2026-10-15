@@ -6,7 +6,7 @@
     "identifier": "geometry.etheria_w_infused_iron_sword",
     "texture_width": 16,
     "texture_height": 16,
-    "visible_bounds_width": 5,
+    "visible_bounds_width": 6,
     "visible_bounds_height": 6,
     "visible_bounds_offset": [
      0,
@@ -16,25 +16,7 @@
    },
    "bones": [
     {
-     "name": "rightArm",
-     "pivot": [
-      -5,
-      22,
-      0
-     ]
-    },
-    {
-     "name": "rightItem",
-     "parent": "rightArm",
-     "pivot": [
-      -6,
-      15,
-      1
-     ]
-    },
-    {
      "name": "eth_weapon",
-     "parent": "rightItem",
      "pivot": [
       -6.0,
       11.5,
@@ -44,7 +26,8 @@
       55.0,
       0.0,
       0.0
-     ]
+     ],
+     "binding": "q.item_slot_to_bone_name(c.item_slot)"
     },
     {
      "name": "eth_model",
@@ -508,80 +491,6 @@
        "origin": [
         -6.425,
         17.365,
-        -0.085
-       ],
-       "size": [
-        0.85,
-        0.85,
-        1.7
-       ],
-       "uv": {
-        "west": {
-         "uv": [
-          2,
-          6
-         ],
-         "uv_size": [
-          2,
-          1
-         ]
-        },
-        "east": {
-         "uv": [
-          4,
-          6
-         ],
-         "uv_size": [
-          -2,
-          1
-         ]
-        },
-        "up": {
-         "uv": [
-          2,
-          6
-         ],
-         "uv_size": [
-          2,
-          1
-         ]
-        },
-        "down": {
-         "uv": [
-          2,
-          6
-         ],
-         "uv_size": [
-          2,
-          1
-         ]
-        },
-        "north": {
-         "uv": [
-          2,
-          6
-         ],
-         "uv_size": [
-          1,
-          1
-         ]
-        },
-        "south": {
-         "uv": [
-          3,
-          6
-         ],
-         "uv_size": [
-          1,
-          1
-         ]
-        }
-       }
-      },
-      {
-       "origin": [
-        -6.425,
-        17.365,
         4.165
        ],
        "size": [
@@ -656,21 +565,21 @@
        "origin": [
         -6.425,
         16.515,
-        -0.085
+        1.615
        ],
        "size": [
         0.85,
         0.85,
-        2.55
+        0.85
        ],
        "uv": {
         "west": {
          "uv": [
-          2,
+          4,
           7
          ],
          "uv_size": [
-          3,
+          1,
           1
          ]
         },
@@ -680,33 +589,33 @@
           7
          ],
          "uv_size": [
-          -3,
+          -1,
           1
          ]
         },
         "up": {
          "uv": [
-          2,
+          4,
           7
          ],
          "uv_size": [
-          3,
+          1,
           1
          ]
         },
         "down": {
          "uv": [
-          2,
+          4,
           7
          ],
          "uv_size": [
-          3,
+          1,
           1
          ]
         },
         "north": {
          "uv": [
-          2,
+          4,
           7
          ],
          "uv_size": [
@@ -1179,7 +1088,7 @@
        "size": [
         0.85,
         0.85,
-        3.4
+        1.7
        ],
        "uv": {
         "west": {
@@ -1188,17 +1097,17 @@
           12
          ],
          "uv_size": [
-          4,
+          2,
           1
          ]
         },
         "east": {
          "uv": [
-          10,
+          8,
           12
          ],
          "uv_size": [
-          -4,
+          -2,
           1
          ]
         },
@@ -1208,7 +1117,7 @@
           12
          ],
          "uv_size": [
-          4,
+          2,
           1
          ]
         },
@@ -1218,7 +1127,7 @@
           12
          ],
          "uv_size": [
-          4,
+          2,
           1
          ]
         },
@@ -1234,7 +1143,7 @@
         },
         "south": {
          "uv": [
-          9,
+          7,
           12
          ],
          "uv_size": [
@@ -1309,80 +1218,6 @@
         "south": {
          "uv": [
           3,
-          13
-         ],
-         "uv_size": [
-          1,
-          1
-         ]
-        }
-       }
-      },
-      {
-       "origin": [
-        -6.425,
-        11.415,
-        5.015
-       ],
-       "size": [
-        0.85,
-        0.85,
-        1.7
-       ],
-       "uv": {
-        "west": {
-         "uv": [
-          8,
-          13
-         ],
-         "uv_size": [
-          2,
-          1
-         ]
-        },
-        "east": {
-         "uv": [
-          10,
-          13
-         ],
-         "uv_size": [
-          -2,
-          1
-         ]
-        },
-        "up": {
-         "uv": [
-          8,
-          13
-         ],
-         "uv_size": [
-          2,
-          1
-         ]
-        },
-        "down": {
-         "uv": [
-          8,
-          13
-         ],
-         "uv_size": [
-          2,
-          1
-         ]
-        },
-        "north": {
-         "uv": [
-          8,
-          13
-         ],
-         "uv_size": [
-          1,
-          1
-         ]
-        },
-        "south": {
-         "uv": [
-          9,
           13
          ],
          "uv_size": [

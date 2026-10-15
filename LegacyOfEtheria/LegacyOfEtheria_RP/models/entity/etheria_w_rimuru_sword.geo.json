@@ -6,8 +6,8 @@
     "identifier": "geometry.etheria_w_rimuru_sword",
     "texture_width": 192,
     "texture_height": 192,
-    "visible_bounds_width": 4,
-    "visible_bounds_height": 4.5,
+    "visible_bounds_width": 6,
+    "visible_bounds_height": 6,
     "visible_bounds_offset": [
      0,
      1.25,
@@ -16,25 +16,7 @@
    },
    "bones": [
     {
-     "name": "rightArm",
-     "pivot": [
-      -5,
-      22,
-      0
-     ]
-    },
-    {
-     "name": "rightItem",
-     "parent": "rightArm",
-     "pivot": [
-      -6,
-      15,
-      1
-     ]
-    },
-    {
      "name": "eth_weapon",
-     "parent": "rightItem",
      "pivot": [
       -6.0,
       11.5,
@@ -742,7 +724,8 @@
         -3.95
        ]
       }
-     ]
+     ],
+     "binding": "q.item_slot_to_bone_name(c.item_slot)"
     }
    ]
   }

@@ -193,4 +193,5 @@ def apply(TA):
             done.append(f"{sid}_{part}")
     json.dump(itx, open(os.path.join(RP, "textures/item_texture.json"), "w"), indent=1, ensure_ascii=False)
     print(len(done), "peças com modelo detalhado")
+    import armor_fix; armor_fix.main()   # 6.42: lado dos braços + pivôs iguais ao jogador do Bedrock
 if __name__ == "__main__" and sys.argv[1] == "apply": apply(sys.argv[2])

@@ -16,7 +16,21 @@
    },
    "render_controllers": [
     "controller.render.item_default"
-   ]
+   ],
+   "animations": {
+    "eth_fp": "animation.etheria.w.tt_battle_axe.fp",
+    "eth_tp": "animation.etheria.w.tt_battle_axe.tp"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "eth_fp": "c.is_first_person"
+     },
+     {
+      "eth_tp": "!c.is_first_person"
+     }
+    ]
+   }
   }
  }
 }

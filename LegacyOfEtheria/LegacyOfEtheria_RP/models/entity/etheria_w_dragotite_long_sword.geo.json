@@ -6,7 +6,7 @@
     "identifier": "geometry.etheria_w_dragotite_long_sword",
     "texture_width": 20,
     "texture_height": 20,
-    "visible_bounds_width": 5,
+    "visible_bounds_width": 6,
     "visible_bounds_height": 6,
     "visible_bounds_offset": [
      0,
@@ -16,25 +16,7 @@
    },
    "bones": [
     {
-     "name": "rightArm",
-     "pivot": [
-      -5,
-      22,
-      0
-     ]
-    },
-    {
-     "name": "rightItem",
-     "parent": "rightArm",
-     "pivot": [
-      -6,
-      15,
-      1
-     ]
-    },
-    {
      "name": "eth_weapon",
-     "parent": "rightItem",
      "pivot": [
       -6.0,
       11.5,
@@ -44,7 +26,8 @@
       55.0,
       0.0,
       0.0
-     ]
+     ],
+     "binding": "q.item_slot_to_bone_name(c.item_slot)"
     },
     {
      "name": "eth_model",
