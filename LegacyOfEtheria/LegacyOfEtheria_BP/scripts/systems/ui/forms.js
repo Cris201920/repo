@@ -48,3 +48,13 @@ export function cardMenu(player, raceId, name, body, buttons) {
   for (const b of buttons) f.button(b.text);
   show(player, f, (r) => { try { buttons[r.selection]?.run?.(); } catch (e) { console.warn(`[Etheria] Erro no cartão de raça: ${e}`); } });
 }
+
+// 6.58b: MENU DO GRANDE SÁBIO no estilo do vídeo de referência (ui/server_form.json -> eth_sage_form): fundo verde, icosaedro girando no
+// centro, até 8 opções em caixas "[ ]" em volta (posições fixas por índice) e a fala do Sábio num balão. buttons: [{ label, run }]
+const SAGEN = "§t§n";
+export function sageMenu(player, title, say, buttons) {
+  if (classic(player)) return menu(player, title, say, buttons.map((b) => ({ text: `§l${b.label}`, run: b.run })));
+  const f = new ActionFormData().title(`${UI_BASE}${SAGEN}§r${title}`).body(say);
+  for (const b of buttons.slice(0, 8)) f.button(b.label);
+  show(player, f, (r) => { try { buttons[r.selection]?.run?.(); } catch (e) { console.warn(`[Etheria] Erro no menu do Sábio: ${e}`); } });
+}

@@ -6,7 +6,7 @@ import { world, system } from "@minecraft/server";
 import { getData, markDirty, saveNow } from "../core/db.js";
 import { say, toast, playSound, removeItem, countItem, fmt, bar, isValid, healthComp } from "../core/utils.js";
 import { SAGE_BASE, SAGE_EVO, SAGE_LEARN, RARITY, STAT_LABELS, AUTO_EQUIP } from "../config.js";
-import { menu as baseMenu, sageThemeOf } from "./ui/forms.js";
+import { menu as baseMenu, sageThemeOf, sageMenu } from "./ui/forms.js";
 import { MOBS } from "../data/mobs.gen.js";
 import { SET_DEFS } from "../data/armor.gen.js";
 import { recipeLines } from "./forge.js";
@@ -347,8 +347,42 @@ function bars(player) {
   const p = prog(player), b = (v, c) => bar(Math.round(v * 20), 20, 10, c);
   return `§7SABEDORIA ${b(p.wisdom, "§d")}\n§7ANÁLISE ${b(p.analysis, "§b")}\n§7CONHECIMENTO ${b(p.knowledge, "§a")}\n§7MASTERY ${b(p.mastery, "§6")}\n§7PROCESSAMENTO ${b(p.processing, "§3")}\n§7EXPERIÊNCIA ${b(p.exp, "§e")} §8Nv.${p.lvl}`;
 }
+/** 6.58b: tela principal do Grande Sábio igual ao vídeo (opções em volta do icosaedro). A lista completa continua em "MAIS…". */
 export function openSage(player) {
-  const d = getData(player), sg = sageData(d), s = st(player); sageVoice(player, "open");
+  const s = st(player); sageVoice(player, "open");
+  let tod = 6000; try { tod = world.getTimeOfDay(); } catch { /* ignore */ }
+  const hello = tod < 6000 || tod >= 23000 ? "Bom dia." : tod < 12000 ? "Boa tarde." : "Boa noite.";
+  const name = ["SÁBIO", "SÁBIO", "GRANDE SÁBIO", "RAPHAEL", "CIEL"][s];
+  sageMenu(player, name, hello, [
+    { label: "CONFIGURAÇÕES", run: () => openVoice(player) },
+    { label: "ANALISAR", run: () => openAnalysis(player) },
+    { label: "ALOCAÇÃO", run: () => openSkillsMenu(player, false) },
+    { label: "CRESCIMENTO", run: () => openEvolution(player) },
+    { label: "REGISTROS", run: () => openEncyclopedia(player) },
+    { label: "OBSERVAÇÕES", run: () => openObservations(player) },
+    { label: "MODO DE BATALHA", run: () => openBattleMode(player) },
+    { label: "MAIS…", run: () => openSageFull(player) },
+  ]);
+}
+function openObservations(player) {
+  menu(player, "§l§aOBSERVAÇÕES", "§7O que o Sábio observou e mantém em processamento.", [
+    { text: "§lCRIATURAS", icon: "menu_quests", run: () => openCategory(player, "creatures") },
+    { text: "§lITENS\n§r§8arma na mão · estômago do Predador", icon: "menu_inventory", run: () => openItems(player) },
+    { text: "§lEQUIPAMENTO", icon: "menu_inventory", run: () => analyzeGear(player) },
+    { text: "§lPROCESSOS", icon: "menu_status", run: () => openProcesses(player) },
+    { text: "§lMEMÓRIA", icon: "menu_quests", run: () => openMemory(player) },
+    { text: "§lSUGESTÕES", icon: "menu_status", run: () => openTips(player) },
+    back(() => openSage(player))]);
+}
+function openBattleMode(player) {
+  menu(player, "§l§cMODO DE BATALHA", "§7Percepção de combate e alvo.", [
+    { text: `§lMODO ASSESS\n§r§8${assessActive(player) ? `§a${assessLabel(assessState(player))}§8 · toque para sair` : "percepção ampliada · auras · filtro"}`, icon: "menu_skills", run: () => assessToggle(player) },
+    { text: `§lALVO\n§r§8${isLocked(player) ? `travado: §f${lockInfo(player)?.name ?? "?"}§8 · toque para soltar` : "travar o alvo da mira"}`, icon: "menu_skills", run: () => { if (isLocked(player)) releaseTarget(player); else lockTarget(player); } },
+    { text: "§lMAGIAS", icon: "menu_skills", run: () => openSkillsMenu(player, true) },
+    back(() => openSage(player))]);
+}
+export function openSageFull(player) {
+  const d = getData(player), sg = sageData(d), s = st(player);
   const t = `${COL[s]}§l${["SÁBIO", "SÁBIO", "GRANDE SÁBIO", "RAPHAEL, REI DA SABEDORIA", "CIEL"][s]}`;
   const B = [
     { text: "§lANÁLISE\n§r§8criaturas · itens · blocos · habilidades · magias", icon: "menu_skills", run: () => openAnalysis(player) },
@@ -371,6 +405,7 @@ export function openSage(player) {
     { text: "§lGERENCIAMENTO\n§r§8conjunto recomendado de habilidades", icon: "menu_skills", run: () => openManage(player) }, { text: "§lANÁLISE AVANÇADA", icon: "menu_skills", run: () => openAdvanced(player) });
   if (s >= 4) B.push({ text: "§lCONVERSAÇÃO", icon: "menu_quests", run: () => openTalk(player) }, { text: "§lPERSONALIDADE", icon: "menu_race", run: () => openPersonality(player) }, { text: "§lMEMÓRIA AVANÇADA", icon: "menu_quests", run: () => openMemory(player, true) },
     { text: "§lDECISÕES", icon: "menu_status", run: () => openDecisions(player) }, { text: "§lPREFERÊNCIAS", icon: "menu_settings", run: () => openPrefs(player) }, { text: "§lCOOPERAÇÃO", icon: "menu_settings", run: () => openAuto(player) });
+  B.push(back(() => openSage(player)));
   menu(player, t, `${bars(player)}\n\n§7Análises: §f${sg.analyses}  §7Registros: §f${kcount(d)}`, B);
 }
 function openAnalysis(player) {

@@ -17,6 +17,7 @@ import { say } from "../core/utils.js";
 import { RACES } from "../data/races.js";
 import { formOfPlayer } from "../data/lineages.js";
 import { wingedStage } from "./raceparts.js";
+import { takeoffFx, iceWingFx, iceWings } from "./flightfx.js";
 
 const st = new Map();   // playerId -> { air, held, ground, vx, vz, taps, lastJump, mode }
 export const flightOn = (d) => d.flight?.on !== false;                  // padrão: ligada ao desbloquear
@@ -68,7 +69,7 @@ export function stepFlight(p) {
   if (edge) { if (!ground && s.t - s.tapAt <= 7 / step) s.taps = 2; else s.taps = 1; s.tapAt = s.t; }
   s.held = jump ? s.held + step : Math.max(0, s.held - step * 2);
   if (!s.air) {
-    if (s.held >= FLIGHT.holdJump || s.taps >= 2) { s.air = true; s.ground = 0; s.taps = 0; s.lift = 6; s.vx = 0; s.vz = 0; eff(p, "slow_falling", FLIGHT.safeTicks, 0); unEff(p, "levitation"); }
+    if (s.held >= FLIGHT.holdJump || s.taps >= 2) { s.air = true; s.ground = 0; s.taps = 0; s.lift = 6; s.sneakArm = !sneak; s.sneakT = 0; s.vx = 0; s.vz = 0; eff(p, "slow_falling", FLIGHT.safeTicks, 0); unEff(p, "levitation"); takeoffFx(p); }
     else { setMode(p, s, 0); return; }
   }
   if (FLIGHT.staminaPerSec > 0) {
@@ -87,14 +88,18 @@ export function stepFlight(p) {
   if (moving) { const k = FLIGHT.accel; hx = s.vx + (ix / il) * cap * k; hz = s.vz + (iz / il) * cap * k; }
   const hl = Math.hypot(hx, hz); if (hl > cap) { hx *= cap / hl; hz *= cap / hl; }
   if (hl < 0.004) { hx = 0; hz = 0; }
+  // 6.58b: agachar no CELULAR é alternado (fica ligado). Só conta como "descer" se foi apertado DEPOIS de decolar e por até
+  // FLIGHT.sneakMax ticks seguidos; para descer mais, solte e aperte de novo. Agachado ao decolar = ignorado até soltar.
+  if (!sneak) { s.sneakArm = true; s.sneakT = 0; } else if (s.sneakArm) s.sneakT += step;
+  const sneakDown = sneak && s.sneakArm && s.sneakT <= FLIGHT.sneakMax;
   // vertical
   let vy = FLIGHT.hoverLift;                                               // pairar: compensa a gravidade da queda lenta
   if (s.lift > 0) { s.lift--; vy = FLIGHT.rise * 1.3; }                    // impulso de decolagem
   else if (jump) vy = FLIGHT.rise;
-  else if (sneak) vy = -FLIGHT.rise;
+  else if (sneakDown) vy = -FLIGHT.rise;
   else if (moving && Math.abs(pitch) > 30) vy = Math.max(-FLIGHT.rise, Math.min(FLIGHT.rise, -Math.sin(pitch * Math.PI / 180) * Math.hypot(hx, hz) * 1.2));
   // pouso: só ao encostar no chão DESCENDO (ou parado sem subir) por ~0,4 s; voar rente ao chão em movimento não pousa
-  if (ground && vy <= FLIGHT.hoverLift && !jump && (sneak || Math.hypot(hx, hz) < 0.08)) { s.ground += step; if (s.ground >= FLIGHT.landTicks || sneak) { land(p, true); return; } } else s.ground = 0;
+  if (ground && vy <= FLIGHT.hoverLift && !jump && (sneakDown || Math.hypot(hx, hz) < 0.08)) { s.ground += step; if (s.ground >= FLIGHT.landTicks || sneakDown) { land(p, true); return; } } else s.ground = 0;
   eff(p, "slow_falling", 30, 0);                                          // nunca há dano de queda enquanto voa
   const hs = Math.hypot(hx, hz);
   try { p.applyKnockback(hs > 0 ? hx / hs : 0, hs > 0 ? hz / hs : 0, hs, vy); s.vx = hx; s.vz = hz; }
@@ -103,6 +108,7 @@ export function stepFlight(p) {
     if (vy > 0.05) eff(p, "levitation", 6, FLIGHT.riseAmp); else if (vy < -0.05) unEff(p, "levitation"); else if (v.y < -FLIGHT.hoverBand) eff(p, "levitation", 3, 0); else unEff(p, "levitation");
   }
   setMode(p, s, s.lift > 0 || vy > 0.12 ? 2 : vy < -0.12 ? 4 : hs > cap * 0.55 ? 3 : 1);
+  if (s.t % 2 === 0 && iceWings(d)) iceWingFx(p, s.mode, s.t);   // 6.58b: asas de cristal de gelo (Velzard)
 }
 
 /** concede a habilidade por progressão (retroativo para quem já está no estágio). Nunca concede a quem não cumpre. */

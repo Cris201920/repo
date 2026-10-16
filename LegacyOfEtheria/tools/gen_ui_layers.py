@@ -190,3 +190,23 @@ def s_frame():
     d.line([(Wf * 0.18, 2), (Wf * 0.82, 2)], fill=150, width=1); d.line([(Wf * 0.18, Hf - 3), (Wf * 0.82, Hf - 3)], fill=150, width=1)
     return gold_alpha(L)
 save(s_frame(), "ov_s_frame.png")
+
+# ------------------------------------------------------------------ 6.58b: MENU DO GRANDE SÁBIO idêntico ao vídeo de referência (v3/v4)
+# fundo verde-escuro quase preto com poeira fina | botões "[ OPÇÃO ]" em caixa de cantos verde-clara | balão de fala com borda
+gb = Image.new("RGB", (VW, VH), (8, 20, 15)); d = ImageDraw.Draw(gb); rg = random.Random(31)
+for _ in range(260):
+    x, y = rg.uniform(0, VW), rg.uniform(0, VH); v = rg.randint(30, 70); d.point((x, y), fill=(v // 2, v, int(v * 0.8)))
+vg = Image.new("L", (VW, VH), 0); ImageDraw.Draw(vg).ellipse([-VW * 0.2, -VH * 0.3, VW * 1.2, VH * 1.3], fill=255)
+gb = Image.composite(gb, Image.new("RGB", (VW, VH), (3, 9, 7)), vg.filter(ImageFilter.GaussianBlur(40))); save(gb, "ov_g_bg.png")
+def g_box(name, edge, fill):
+    Wb, Hb = 120, 22; im = Image.new("RGBA", (Wb, Hb), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    if fill: d.rectangle([2, 2, Wb - 3, Hb - 3], fill=fill)
+    for x0, sx in ((1, 1), (Wb - 2, -1)):
+        d.line([(x0, 1), (x0, Hb - 2)], fill=edge); d.line([(x0, 1), (x0 + sx * 7, 1)], fill=edge); d.line([(x0, Hb - 2), (x0 + sx * 7, Hb - 2)], fill=edge)
+    d.line([(Wb * 0.3, Hb - 2), (Wb * 0.7, Hb - 2)], fill=edge)
+    im.save(os.path.join(OUT, name))
+g_box("sg_btn.png", (150, 210, 180, 255), None); g_box("sg_btn_h.png", (235, 255, 240, 255), (40, 90, 65, 170))
+def g_bubble():
+    Wb, Hb = 128, 24; im = Image.new("RGBA", (Wb, Hb), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, Wb - 1, Hb - 1], fill=(6, 18, 13, 230), outline=(150, 205, 175, 255)); im.save(os.path.join(OUT, "sg_bubble.png"))
+g_bubble()

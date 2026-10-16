@@ -7,6 +7,7 @@ BASE = "§e§t§h"
 THEMES = {"world": "§t§w", "sage": "§t§s", "raphael": "§t§r", "ciel": "§t§c", "tree": "§t§p"}
 HUDMARK = "§w§v§x"
 CARD = "§t§k"   # 6.56: cartão de escolha de raça
+SAGEN = "§t§n"  # 6.58b: menu principal do Grande Sábio no estilo do vídeo (verde, icosaedro, opções em volta)
 RACE_CODES = {r: "0123456789abc"[i] for i, r in enumerate(["human", "slime", "goblin", "demon", "elf", "angel", "dragonoid", "beastkin", "undead", "ogre", "lizardman", "vampire", "dwarf"])}
 has = lambda var, code: f"(not (({var} - '{code}') = {var}))"
 lacks = lambda var, code: f"(({var} - '{code}') = {var})"
@@ -132,12 +133,13 @@ sf = {"namespace": "server_form"}
 sf["main_screen_content"] = {"type": "panel", "size": ["100%", "100%"], "controls": [{"server_form_factory": {"type": "factory", "control_ids": {"long_form": "@server_form.long_form", "custom_form": "@server_form.custom_form"}}}]}
 sf["long_form"] = {"type": "panel", "size": ["100%", "100%"], "controls": [
     {"vanilla_form@server_form.eth_vanilla_long_form": {"bindings": vis("#title_text", lacks("#title_text", BASE))}},
-    {"etheria_form@server_form.eth_form": {"bindings": vis("#title_text", f"({has('#title_text', BASE)} and {lacks('#title_text', CARD)})")}},
+    {"etheria_form@server_form.eth_form": {"bindings": vis("#title_text", f"({has('#title_text', BASE)} and {lacks('#title_text', CARD)} and {lacks('#title_text', SAGEN)})")}},
+    {"sage_form@server_form.eth_sage_form": {"bindings": vis("#title_text", has("#title_text", SAGEN))}},   # 6.58b: menu do Grande Sábio (vídeo)
     {"card_form@server_form.eth_card_form": {"bindings": vis("#title_text", has("#title_text", CARD))}},   # 6.56: escolha de raça (cartão)
 ]}
 # cópia EXATA do long_form original (1.21.80)
 sf["eth_vanilla_long_form@common_dialogs.main_panel_no_buttons"] = {"$title_panel": "common_dialogs.standard_title_label", "$title_size": ["100% - 15px", 10], "$title_max_size": ["100% - 15px", 10], "size": [225, 200], "$text_name": "#title_text", "$title_text_binding_type": "none", "$child_control": "server_form.long_form_panel", "layer": 2}
-sf.update(anim_defs("server_form"))
+sf.update(anim_defs("server_form")); sf.update(video_anims("server_form"))
 def theme_layer(th, code):
     return {f"theme_{th}": {"type": "panel", "size": ["100%", "100%"], "bindings": vis("#title_text", has("#title_text", code)), "controls": [
         {"shade": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "alpha": 0.35, "layer": 2}},
@@ -192,6 +194,32 @@ sf["eth_card_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "c
         "factory": {"name": "buttons", "control_name": "server_form.eth_card_button"}, "collection_name": "form_buttons",
         "bindings": [{"binding_name": "#form_button_length", "binding_name_override": "#collection_length"}]}},
     {"close@common.close_button": {"anchor_from": "center", "anchor_to": "center", "offset": [CARD_W // 2 - 4, -CARD_H // 2 - 10], "layer": 8}},
+]}
+# ------------------------------------------------------------------ 6.58b: MENU DO GRANDE SÁBIO (vídeos 3/4 do mod de referência)
+# Título: BASE + SAGEN + nome. Corpo = fala do Sábio no balão ("Bom dia."). Botões 0..7 em posições fixas em volta do icosaedro.
+SG_POS = [(-94, -56), (6, -78), (104, -50), (124, 14), (50, 72), (-62, 72), (-128, 14), (0, 104)]   # posições (px) a partir do centro
+SG_GREEN = [0.72, 1.0, 0.84]
+def sg_state(tex, col, alpha=1.0):
+    return {"type": "panel", "size": ["100%", "100%"], "controls": [
+        {"box": {"type": "image", "texture": f"textures/ui/etheria/{tex}", "size": ["100%", "100%"], "keep_ratio": False, "alpha": alpha, "layer": 1}},
+        {"txt": {"type": "label", "text": "#form_button_text", "size": ["100% - 8px", 10], "anchor_from": "center", "anchor_to": "center", "text_alignment": "center", "color": col, "shadow": False, "layer": 2,
+            "bindings": [{"binding_name": "#form_button_text", "binding_type": "collection", "binding_collection_name": "form_buttons"}]}}]}
+sf["eth_sg_button@common.button"] = {"$pressed_button_name": "button.form_button_click", "size": [116, 20], "anchor_from": "center", "anchor_to": "center",
+    "default_control": "default", "hover_control": "hover", "pressed_control": "pressed",
+    "controls": [{"default": sg_state("sg_btn", SG_GREEN)}, {"hover": sg_state("sg_btn_h", [1, 1, 1])}, {"pressed": sg_state("sg_btn_h", [1, 1, 0.8])}],
+    "bindings": [{"binding_type": "collection_details", "binding_collection_name": "form_buttons"}]}
+sg_buttons = [{f"b{k}@server_form.eth_sg_button": {"collection_index": k, "offset": [x, y], "layer": 10}} for k, (x, y) in enumerate(SG_POS)]
+sf["eth_sage_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": [
+    {"bg": {"type": "image", "texture": "textures/ui/etheria/ov_g_bg", "size": ["100%", "100%"], "keep_ratio": False, "fill": True, "layer": 1}},
+    {"motes": {"type": "image", "texture": "textures/ui/etheria/ov_s_motes_0", "size": ["100%", "100%"], "keep_ratio": False, "color": SG_GREEN, "alpha": 0.35, "layer": 2}},
+    {"ico": {"type": "panel", "size": [230, 130], "anchor_from": "center", "anchor_to": "center", "offset": [0, -4], "layer": 3,
+        "controls": [{f"x{k}": {"type": "image", "texture": f"textures/ui/etheria/ov_v_wire_{k}", "size": ["100%", "100%"], "keep_ratio": False, "color": SG_GREEN, "alpha": 0.0, "layer": 3, "anims": [f"@server_form.eth_vx{k}_start"]}} for k in range(12)]
+            + [{"star": {"type": "image", "texture": "textures/ui/etheria/ov_v_star", "size": [60, 16], "anchor_from": "center", "anchor_to": "center", "color": [0.85, 1, 0.9], "layer": 4}}]}},
+    {"title": {"type": "label", "text": "#title_text", "bindings": [{"binding_name": "#title_text"}], "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, 10], "size": ["60%", 10], "text_alignment": "center", "color": SG_GREEN, "layer": 6}},
+    {"bubble": {"type": "image", "texture": "textures/ui/etheria/sg_bubble", "size": [124, 22], "keep_ratio": False, "anchor_from": "center", "anchor_to": "center", "offset": [64, -24], "layer": 7, "controls": [
+        {"say": {"type": "label", "text": "#form_text", "bindings": [{"binding_name": "#form_text"}], "size": ["100% - 8px", 10], "anchor_from": "center", "anchor_to": "center", "text_alignment": "center", "color": [0.9, 1, 0.94], "layer": 8}}]}},
+    {"buttons": {"type": "panel", "size": ["100%", "100%"], "collection_name": "form_buttons", "layer": 9, "controls": sg_buttons}},
+    {"close@common.close_button": {"anchor_from": "top_right", "anchor_to": "top_right", "offset": [-6, 6], "layer": 12}},
 ]}
 json.dump(sf, open(os.path.join(RP, "ui/server_form.json"), "w", encoding="utf8"), ensure_ascii=False, indent=1)
 

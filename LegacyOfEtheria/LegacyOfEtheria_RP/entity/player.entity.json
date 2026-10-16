@@ -445,7 +445,173 @@
      },
      {
       "etheria_rstyle_goblin": "query.property('etheria:rstyle') == 'goblin' && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
-     }
+     },
+     {
+      "ract_none_rise": "query.property('etheria:rstyle') == 'none' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed > 0.2 && query.property('etheria:fly') == 0) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_none_fall": "query.property('etheria:rstyle') == 'none' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed < -0.4 && query.property('etheria:fly') == 0 && !query.is_gliding) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_none_hover": "query.property('etheria:rstyle') == 'none' && (query.property('etheria:fly') == 1) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_none_climb": "query.property('etheria:rstyle') == 'none' && (query.property('etheria:fly') == 2) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_none_glide": "query.property('etheria:rstyle') == 'none' && (query.property('etheria:fly') == 3) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_none_desc": "query.property('etheria:rstyle') == 'none' && (query.property('etheria:fly') == 4) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_heavy_rise": "query.property('etheria:rstyle') == 'heavy' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed > 0.2 && query.property('etheria:fly') == 0) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_heavy_fall": "query.property('etheria:rstyle') == 'heavy' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed < -0.4 && query.property('etheria:fly') == 0 && !query.is_gliding) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_heavy_hover": "query.property('etheria:rstyle') == 'heavy' && (query.property('etheria:fly') == 1) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_heavy_climb": "query.property('etheria:rstyle') == 'heavy' && (query.property('etheria:fly') == 2) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_heavy_glide": "query.property('etheria:rstyle') == 'heavy' && (query.property('etheria:fly') == 3) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_heavy_desc": "query.property('etheria:rstyle') == 'heavy' && (query.property('etheria:fly') == 4) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_beast_rise": "query.property('etheria:rstyle') == 'beast' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed > 0.2 && query.property('etheria:fly') == 0) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_beast_fall": "query.property('etheria:rstyle') == 'beast' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed < -0.4 && query.property('etheria:fly') == 0 && !query.is_gliding) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_beast_hover": "query.property('etheria:rstyle') == 'beast' && (query.property('etheria:fly') == 1) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_beast_climb": "query.property('etheria:rstyle') == 'beast' && (query.property('etheria:fly') == 2) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_beast_glide": "query.property('etheria:rstyle') == 'beast' && (query.property('etheria:fly') == 3) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_beast_desc": "query.property('etheria:rstyle') == 'beast' && (query.property('etheria:fly') == 4) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_draconic_rise": "query.property('etheria:rstyle') == 'draconic' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed > 0.2 && query.property('etheria:fly') == 0) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_draconic_fall": "query.property('etheria:rstyle') == 'draconic' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed < -0.4 && query.property('etheria:fly') == 0 && !query.is_gliding) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_draconic_hover": "query.property('etheria:rstyle') == 'draconic' && (query.property('etheria:fly') == 1) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_draconic_climb": "query.property('etheria:rstyle') == 'draconic' && (query.property('etheria:fly') == 2) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_draconic_glide": "query.property('etheria:rstyle') == 'draconic' && (query.property('etheria:fly') == 3) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_draconic_desc": "query.property('etheria:rstyle') == 'draconic' && (query.property('etheria:fly') == 4) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_light_rise": "query.property('etheria:rstyle') == 'light' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed > 0.2 && query.property('etheria:fly') == 0) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_light_fall": "query.property('etheria:rstyle') == 'light' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed < -0.4 && query.property('etheria:fly') == 0 && !query.is_gliding) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_light_hover": "query.property('etheria:rstyle') == 'light' && (query.property('etheria:fly') == 1) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_light_climb": "query.property('etheria:rstyle') == 'light' && (query.property('etheria:fly') == 2) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_light_glide": "query.property('etheria:rstyle') == 'light' && (query.property('etheria:fly') == 3) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_light_desc": "query.property('etheria:rstyle') == 'light' && (query.property('etheria:fly') == 4) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_demonic_rise": "query.property('etheria:rstyle') == 'demonic' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed > 0.2 && query.property('etheria:fly') == 0) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_demonic_fall": "query.property('etheria:rstyle') == 'demonic' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed < -0.4 && query.property('etheria:fly') == 0 && !query.is_gliding) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_demonic_hover": "query.property('etheria:rstyle') == 'demonic' && (query.property('etheria:fly') == 1) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_demonic_climb": "query.property('etheria:rstyle') == 'demonic' && (query.property('etheria:fly') == 2) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_demonic_glide": "query.property('etheria:rstyle') == 'demonic' && (query.property('etheria:fly') == 3) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_demonic_desc": "query.property('etheria:rstyle') == 'demonic' && (query.property('etheria:fly') == 4) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_slime_rise": "query.property('etheria:rstyle') == 'slime' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed > 0.2 && query.property('etheria:fly') == 0) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_slime_fall": "query.property('etheria:rstyle') == 'slime' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed < -0.4 && query.property('etheria:fly') == 0 && !query.is_gliding) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_slime_hover": "query.property('etheria:rstyle') == 'slime' && (query.property('etheria:fly') == 1) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_slime_climb": "query.property('etheria:rstyle') == 'slime' && (query.property('etheria:fly') == 2) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_slime_glide": "query.property('etheria:rstyle') == 'slime' && (query.property('etheria:fly') == 3) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_slime_desc": "query.property('etheria:rstyle') == 'slime' && (query.property('etheria:fly') == 4) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_undead_rise": "query.property('etheria:rstyle') == 'undead' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed > 0.2 && query.property('etheria:fly') == 0) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_undead_fall": "query.property('etheria:rstyle') == 'undead' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed < -0.4 && query.property('etheria:fly') == 0 && !query.is_gliding) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_undead_hover": "query.property('etheria:rstyle') == 'undead' && (query.property('etheria:fly') == 1) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_undead_climb": "query.property('etheria:rstyle') == 'undead' && (query.property('etheria:fly') == 2) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_undead_glide": "query.property('etheria:rstyle') == 'undead' && (query.property('etheria:fly') == 3) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_undead_desc": "query.property('etheria:rstyle') == 'undead' && (query.property('etheria:fly') == 4) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_goblin_rise": "query.property('etheria:rstyle') == 'goblin' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed > 0.2 && query.property('etheria:fly') == 0) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_goblin_fall": "query.property('etheria:rstyle') == 'goblin' && (!query.is_on_ground && !query.is_in_water && query.vertical_speed < -0.4 && query.property('etheria:fly') == 0 && !query.is_gliding) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_goblin_hover": "query.property('etheria:rstyle') == 'goblin' && (query.property('etheria:fly') == 1) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_goblin_climb": "query.property('etheria:rstyle') == 'goblin' && (query.property('etheria:fly') == 2) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_goblin_glide": "query.property('etheria:rstyle') == 'goblin' && (query.property('etheria:fly') == 3) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "ract_goblin_desc": "query.property('etheria:rstyle') == 'goblin' && (query.property('etheria:fly') == 4) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     "ract_ctrl_death",
+     "ract_ctrl_attack",
+     "ract_ctrl_hurt",
+     "ract_ctrl_land"
     ]
    },
    "animations": {
@@ -782,7 +948,101 @@
     "os_tfxb_dragon": "controller.animation.etheria.os.tfxb_dragon_e205d196",
     "os_tfxb_true": "controller.animation.etheria.os.tfxb_true_6d916c41",
     "os_drg_land": "controller.animation.etheria.os.drg_land_cd01ba74",
-    "os_drg_roar": "controller.animation.etheria.os.drg_roar_2583a69d"
+    "os_drg_roar": "controller.animation.etheria.os.drg_roar_2583a69d",
+    "ract_none_rise": "animation.etheria.ract.none.rise",
+    "ract_none_fall": "animation.etheria.ract.none.fall",
+    "ract_none_hover": "animation.etheria.ract.none.hover",
+    "ract_none_climb": "animation.etheria.ract.none.climb",
+    "ract_none_glide": "animation.etheria.ract.none.glide",
+    "ract_none_desc": "animation.etheria.ract.none.desc",
+    "ract_none_death": "animation.etheria.ract.none.death",
+    "ract_none_attack": "animation.etheria.ract.none.attack",
+    "ract_none_hurt": "animation.etheria.ract.none.hurt",
+    "ract_none_land": "animation.etheria.ract.none.land",
+    "ract_heavy_rise": "animation.etheria.ract.heavy.rise",
+    "ract_heavy_fall": "animation.etheria.ract.heavy.fall",
+    "ract_heavy_hover": "animation.etheria.ract.heavy.hover",
+    "ract_heavy_climb": "animation.etheria.ract.heavy.climb",
+    "ract_heavy_glide": "animation.etheria.ract.heavy.glide",
+    "ract_heavy_desc": "animation.etheria.ract.heavy.desc",
+    "ract_heavy_death": "animation.etheria.ract.heavy.death",
+    "ract_heavy_attack": "animation.etheria.ract.heavy.attack",
+    "ract_heavy_hurt": "animation.etheria.ract.heavy.hurt",
+    "ract_heavy_land": "animation.etheria.ract.heavy.land",
+    "ract_beast_rise": "animation.etheria.ract.beast.rise",
+    "ract_beast_fall": "animation.etheria.ract.beast.fall",
+    "ract_beast_hover": "animation.etheria.ract.beast.hover",
+    "ract_beast_climb": "animation.etheria.ract.beast.climb",
+    "ract_beast_glide": "animation.etheria.ract.beast.glide",
+    "ract_beast_desc": "animation.etheria.ract.beast.desc",
+    "ract_beast_death": "animation.etheria.ract.beast.death",
+    "ract_beast_attack": "animation.etheria.ract.beast.attack",
+    "ract_beast_hurt": "animation.etheria.ract.beast.hurt",
+    "ract_beast_land": "animation.etheria.ract.beast.land",
+    "ract_draconic_rise": "animation.etheria.ract.draconic.rise",
+    "ract_draconic_fall": "animation.etheria.ract.draconic.fall",
+    "ract_draconic_hover": "animation.etheria.ract.draconic.hover",
+    "ract_draconic_climb": "animation.etheria.ract.draconic.climb",
+    "ract_draconic_glide": "animation.etheria.ract.draconic.glide",
+    "ract_draconic_desc": "animation.etheria.ract.draconic.desc",
+    "ract_draconic_death": "animation.etheria.ract.draconic.death",
+    "ract_draconic_attack": "animation.etheria.ract.draconic.attack",
+    "ract_draconic_hurt": "animation.etheria.ract.draconic.hurt",
+    "ract_draconic_land": "animation.etheria.ract.draconic.land",
+    "ract_light_rise": "animation.etheria.ract.light.rise",
+    "ract_light_fall": "animation.etheria.ract.light.fall",
+    "ract_light_hover": "animation.etheria.ract.light.hover",
+    "ract_light_climb": "animation.etheria.ract.light.climb",
+    "ract_light_glide": "animation.etheria.ract.light.glide",
+    "ract_light_desc": "animation.etheria.ract.light.desc",
+    "ract_light_death": "animation.etheria.ract.light.death",
+    "ract_light_attack": "animation.etheria.ract.light.attack",
+    "ract_light_hurt": "animation.etheria.ract.light.hurt",
+    "ract_light_land": "animation.etheria.ract.light.land",
+    "ract_demonic_rise": "animation.etheria.ract.demonic.rise",
+    "ract_demonic_fall": "animation.etheria.ract.demonic.fall",
+    "ract_demonic_hover": "animation.etheria.ract.demonic.hover",
+    "ract_demonic_climb": "animation.etheria.ract.demonic.climb",
+    "ract_demonic_glide": "animation.etheria.ract.demonic.glide",
+    "ract_demonic_desc": "animation.etheria.ract.demonic.desc",
+    "ract_demonic_death": "animation.etheria.ract.demonic.death",
+    "ract_demonic_attack": "animation.etheria.ract.demonic.attack",
+    "ract_demonic_hurt": "animation.etheria.ract.demonic.hurt",
+    "ract_demonic_land": "animation.etheria.ract.demonic.land",
+    "ract_slime_rise": "animation.etheria.ract.slime.rise",
+    "ract_slime_fall": "animation.etheria.ract.slime.fall",
+    "ract_slime_hover": "animation.etheria.ract.slime.hover",
+    "ract_slime_climb": "animation.etheria.ract.slime.climb",
+    "ract_slime_glide": "animation.etheria.ract.slime.glide",
+    "ract_slime_desc": "animation.etheria.ract.slime.desc",
+    "ract_slime_death": "animation.etheria.ract.slime.death",
+    "ract_slime_attack": "animation.etheria.ract.slime.attack",
+    "ract_slime_hurt": "animation.etheria.ract.slime.hurt",
+    "ract_slime_land": "animation.etheria.ract.slime.land",
+    "ract_undead_rise": "animation.etheria.ract.undead.rise",
+    "ract_undead_fall": "animation.etheria.ract.undead.fall",
+    "ract_undead_hover": "animation.etheria.ract.undead.hover",
+    "ract_undead_climb": "animation.etheria.ract.undead.climb",
+    "ract_undead_glide": "animation.etheria.ract.undead.glide",
+    "ract_undead_desc": "animation.etheria.ract.undead.desc",
+    "ract_undead_death": "animation.etheria.ract.undead.death",
+    "ract_undead_attack": "animation.etheria.ract.undead.attack",
+    "ract_undead_hurt": "animation.etheria.ract.undead.hurt",
+    "ract_undead_land": "animation.etheria.ract.undead.land",
+    "ract_goblin_rise": "animation.etheria.ract.goblin.rise",
+    "ract_goblin_fall": "animation.etheria.ract.goblin.fall",
+    "ract_goblin_hover": "animation.etheria.ract.goblin.hover",
+    "ract_goblin_climb": "animation.etheria.ract.goblin.climb",
+    "ract_goblin_glide": "animation.etheria.ract.goblin.glide",
+    "ract_goblin_desc": "animation.etheria.ract.goblin.desc",
+    "ract_goblin_death": "animation.etheria.ract.goblin.death",
+    "ract_goblin_attack": "animation.etheria.ract.goblin.attack",
+    "ract_goblin_hurt": "animation.etheria.ract.goblin.hurt",
+    "ract_goblin_land": "animation.etheria.ract.goblin.land",
+    "ract_ctrl_death": "controller.animation.etheria.ract.death",
+    "ract_ctrl_attack": "controller.animation.etheria.ract.attack",
+    "ract_ctrl_hurt": "controller.animation.etheria.ract.hurt",
+    "ract_ctrl_land": "controller.animation.etheria.ract.land"
    },
    "render_controllers": [
     {

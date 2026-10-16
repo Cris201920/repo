@@ -1,0 +1,201 @@
+{
+ "format_version": "1.10.0",
+ "animation_controllers": {
+  "controller.animation.etheria.ract.death": {
+   "initial_state": "wait",
+   "states": {
+    "wait": {
+     "transitions": [
+      {
+       "play": "(!query.is_alive) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+      }
+     ]
+    },
+    "play": {
+     "animations": [
+      {
+       "ract_none_death": "query.property('etheria:rstyle') == 'none'"
+      },
+      {
+       "ract_heavy_death": "query.property('etheria:rstyle') == 'heavy'"
+      },
+      {
+       "ract_beast_death": "query.property('etheria:rstyle') == 'beast'"
+      },
+      {
+       "ract_draconic_death": "query.property('etheria:rstyle') == 'draconic'"
+      },
+      {
+       "ract_light_death": "query.property('etheria:rstyle') == 'light'"
+      },
+      {
+       "ract_demonic_death": "query.property('etheria:rstyle') == 'demonic'"
+      },
+      {
+       "ract_slime_death": "query.property('etheria:rstyle') == 'slime'"
+      },
+      {
+       "ract_undead_death": "query.property('etheria:rstyle') == 'undead'"
+      },
+      {
+       "ract_goblin_death": "query.property('etheria:rstyle') == 'goblin'"
+      }
+     ],
+     "blend_transition": 0.1,
+     "transitions": [
+      {
+       "wait": "query.all_animations_finished && !(!query.is_alive)"
+      }
+     ]
+    }
+   }
+  },
+  "controller.animation.etheria.ract.attack": {
+   "initial_state": "wait",
+   "states": {
+    "wait": {
+     "transitions": [
+      {
+       "play": "(variable.attack_time > 0 && query.is_alive) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+      }
+     ]
+    },
+    "play": {
+     "animations": [
+      {
+       "ract_none_attack": "query.property('etheria:rstyle') == 'none'"
+      },
+      {
+       "ract_heavy_attack": "query.property('etheria:rstyle') == 'heavy'"
+      },
+      {
+       "ract_beast_attack": "query.property('etheria:rstyle') == 'beast'"
+      },
+      {
+       "ract_draconic_attack": "query.property('etheria:rstyle') == 'draconic'"
+      },
+      {
+       "ract_light_attack": "query.property('etheria:rstyle') == 'light'"
+      },
+      {
+       "ract_demonic_attack": "query.property('etheria:rstyle') == 'demonic'"
+      },
+      {
+       "ract_slime_attack": "query.property('etheria:rstyle') == 'slime'"
+      },
+      {
+       "ract_undead_attack": "query.property('etheria:rstyle') == 'undead'"
+      },
+      {
+       "ract_goblin_attack": "query.property('etheria:rstyle') == 'goblin'"
+      }
+     ],
+     "blend_transition": 0.1,
+     "transitions": [
+      {
+       "wait": "query.all_animations_finished && !(variable.attack_time > 0 && query.is_alive)"
+      }
+     ]
+    }
+   }
+  },
+  "controller.animation.etheria.ract.hurt": {
+   "initial_state": "wait",
+   "states": {
+    "wait": {
+     "transitions": [
+      {
+       "play": "(query.hurt_time > 0 && query.is_alive) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+      }
+     ]
+    },
+    "play": {
+     "animations": [
+      {
+       "ract_none_hurt": "query.property('etheria:rstyle') == 'none'"
+      },
+      {
+       "ract_heavy_hurt": "query.property('etheria:rstyle') == 'heavy'"
+      },
+      {
+       "ract_beast_hurt": "query.property('etheria:rstyle') == 'beast'"
+      },
+      {
+       "ract_draconic_hurt": "query.property('etheria:rstyle') == 'draconic'"
+      },
+      {
+       "ract_light_hurt": "query.property('etheria:rstyle') == 'light'"
+      },
+      {
+       "ract_demonic_hurt": "query.property('etheria:rstyle') == 'demonic'"
+      },
+      {
+       "ract_slime_hurt": "query.property('etheria:rstyle') == 'slime'"
+      },
+      {
+       "ract_undead_hurt": "query.property('etheria:rstyle') == 'undead'"
+      },
+      {
+       "ract_goblin_hurt": "query.property('etheria:rstyle') == 'goblin'"
+      }
+     ],
+     "blend_transition": 0.1,
+     "transitions": [
+      {
+       "wait": "query.all_animations_finished && !(query.hurt_time > 0 && query.is_alive)"
+      }
+     ]
+    }
+   }
+  },
+  "controller.animation.etheria.ract.land": {
+   "initial_state": "wait",
+   "states": {
+    "wait": {
+     "transitions": [
+      {
+       "play": "((query.life_time - variable.etheria_land) < 0.1 && query.property('etheria:fly') == 0) && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+      }
+     ]
+    },
+    "play": {
+     "animations": [
+      {
+       "ract_none_land": "query.property('etheria:rstyle') == 'none'"
+      },
+      {
+       "ract_heavy_land": "query.property('etheria:rstyle') == 'heavy'"
+      },
+      {
+       "ract_beast_land": "query.property('etheria:rstyle') == 'beast'"
+      },
+      {
+       "ract_draconic_land": "query.property('etheria:rstyle') == 'draconic'"
+      },
+      {
+       "ract_light_land": "query.property('etheria:rstyle') == 'light'"
+      },
+      {
+       "ract_demonic_land": "query.property('etheria:rstyle') == 'demonic'"
+      },
+      {
+       "ract_slime_land": "query.property('etheria:rstyle') == 'slime'"
+      },
+      {
+       "ract_undead_land": "query.property('etheria:rstyle') == 'undead'"
+      },
+      {
+       "ract_goblin_land": "query.property('etheria:rstyle') == 'goblin'"
+      }
+     ],
+     "blend_transition": 0.1,
+     "transitions": [
+      {
+       "wait": "query.all_animations_finished && !((query.life_time - variable.etheria_land) < 0.1 && query.property('etheria:fly') == 0)"
+      }
+     ]
+    }
+   }
+  }
+ }
+}

@@ -1,6 +1,6 @@
 // config.js - Constantes e balanceamento (edite aqui, sem mexer na lógica)
 export const BUILD_PROFILE = "quality"; // o build troca para "performance" na versão leve
-export const VERSION = "6.58.0";
+export const VERSION = "6.59.0";
 export const PROP_KEY = "etheria:data";
 export const WORLD_RANK_KEY = "etheria:ranking";
 export const DATA_VERSION = 3;          // v3: hotbar de habilidades (loadout, instâncias, recargas salvas)
@@ -143,6 +143,7 @@ export const FLIGHT = {
   rise: 0.42,           // subir/descer (blocos/tick)
   hoverLift: 0.0098,    // pairar: anula a gravidade da queda lenta (0,01 × arrasto 0,98)
   inputMin: 0.012,      // menor "sobra" de velocidade reconhecida como entrada do jogador
+  sneakMax: 80,         // ticks máximos de "descer" por toque em agachar (celular: agachar alternado não prende o voo)
   landTicks: 8,         // ticks no chão (descendo/parado) para pousar
   // Progressão: estágios de raça que concedem a habilidade (sem duplicar efeitos; só concede, nunca dá a todos)
   stages: ["demon_3a", "demon_3b", "demon_4", "dragonoid_3a", "dragonoid_3b", "angel_3", "angel_4", "angel_5", "angel_f3", "angel_f4", "angel_f5", "fall_3", "fall_4", "fall_5", "vampire_3", "slime_3a", "slime_3b"],
