@@ -24,7 +24,7 @@ export const REALMS = {
   ceu: { key: "ceu_veldanava", portal: "portal_ceu", dim: "minecraft:the_end", at: { x: -9000, z: 9000 }, top: 110, name: "Domínio de Veldanava", color: "§e", fall: 50, minLevel: 40, annex: "veldanava_dominio" },
   espiritos: { key: "espiritos", portal: "portal_espiritos", dim: "minecraft:the_end", at: { x: 4400, z: 4400 }, top: 64, name: "Reino dos Espíritos", color: "§b", fall: 30 },
 };
-export const COUNCIL = ["rimuru_tempest", "benimaru", "shion", "shuna", "ranga"];   // 6.47: Ranga (Lobo Estelar de Tempest, textura do mod)   // 6.43: Shuna (textura enviada pelo jogador)
+export const COUNCIL = ["rimuru_tempest", "benimaru", "shion", "shuna", "ranga", "gobta"];   // 6.49: Gobta (skin enviada pelo jogador)   // 6.47: Ranga (Lobo Estelar de Tempest, textura do mod)   // 6.43: Shuna (textura enviada pelo jogador)
 const KEY = "etheria:realms", RET = "etheria:ret", STARTED = "etheria:inf_start", PEND = "etheria:inf_pend", RES = "etheria_res", IDLE = "etheria_oct_idle", POPT = "etheria_pop";
 const rd = () => { try { const r = JSON.parse(world.getDynamicProperty(KEY) ?? "null"); return r && typeof r === "object" ? r : { r: {}, g: {}, dead: {} }; } catch { return { r: {}, g: {}, dead: {} }; } };
 let ST = null;
@@ -95,7 +95,7 @@ const tagOf = (gk, id) => `${RES}_${gk}_${id}`;
 function groupInfo(gk) {
   if (gk === "council") {
     const i = tempestInfo(), p = tempestSpawn(); if (!i || !p || !i.done) return null;
-    return { dim: dimOf("minecraft:overworld"), list: COUNCIL.map((id, k) => ({ id, pos: { x: p.x + [0, 2.5, -2.5, 0, 4.5][k], y: p.y, z: p.z + [-2, 1, 1, 3, -3][k] } })) };
+    return { dim: dimOf("minecraft:overworld"), list: COUNCIL.map((id, k) => ({ id, pos: { x: p.x + [0, 2.5, -2.5, 0, 4.5, -4.5][k], y: p.y, z: p.z + [-2, 1, 1, 3, -3, -3][k] } })) };
   }
   const s = st().r[gk], d = REALMS[gk] && defOf(gk); if (!s?.built || !d) return null;
   return { dim: dimOf(REALMS[gk].dim), list: (d.lords ?? []).map((l) => ({ id: l[0], pos: { x: s.x + l[1] + 0.5, y: s.y + l[2], z: s.z + l[3] + 0.5 } })) };

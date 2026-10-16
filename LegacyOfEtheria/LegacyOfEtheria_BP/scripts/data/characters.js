@@ -105,6 +105,25 @@ export const CHARACTERS = {
     duel: { lvl: 30, ask: "Um desafio? Auuu! Finalmente! Pronto?", start: "Grrraaaah!", win: "Ganhei... não, espera, você ganhou. Grrr.", lose: "Auu! Treine mais e volte!",
       reward: { xp: 3500, coins: 1400, rep: 25 } },
   },
+  gobta: {
+    name: "Gobta", color: "§a", faction: "tempest", where: "council", title: "Capitão dos Cavaleiros Goblin",
+    greet: {
+      first: ["Opa! Você é novo por aqui, né? Eu sou o Gobta, capitão dos Cavaleiros Goblin! ...Bom, pelo menos é o que o Mestre Rimuru diz."],
+      normal: ["E aí! Veio me tirar do treino do Hakurou? Por favor, diz que sim.", "O Ranga e eu patrulhamos a floresta hoje. Nenhum problema! Quase nenhum."],
+      disciple: ["Montaria é tudo equilíbrio! E sorte. Muita sorte.", "Bora treinar? Sem contar pro Hakurou que a gente pegou leve."],
+      rival: ["Você me venceu de novo... Ainda bem que ninguém viu. Ninguém viu, né?"],
+    },
+    talk: [
+      ["Sobre os Cavaleiros Goblin", "Nós montamos os lobos da alcateia do Ranga. Juntos somos rápidos como o vento! E caímos bastante também."],
+      ["Sobre o treino do Hakurou", "O Hakurou é assustador. Ele aparece do nada e... pá! Mas é por isso que eu fiquei forte. Eu acho."],
+      ["Sobre o Mestre Rimuru", "O Mestre Rimuru me deu um nome e virei hobgoblin! Desde então, tudo deu certo. Quase tudo."],
+    ],
+    quests: ["tp_guard_patrol", "tp_farmer_wolves", "ch_gobta_trial"],
+    disciple: { lvl: 6, rep: { tempest: 15 }, trial: "ch_gobta_trial", role: "tp_combat_master", lessons: ["evasion_step", "sword_charge"],
+      ask: "Você quer aprender comigo? Comigo mesmo? Uau! Tem certeza?", yes: "Beleza! Primeiro, me ajuda a tirar uns goblins selvagens da estrada. Tá no seu diário!", no: "Tudo bem... Eu também não me escolheria. Brincadeira!" },
+    duel: { lvl: 15, ask: "Um duelo? Comigo? Tá... tá bom! Mas sem bater na cara, combinado?", start: "Aqui vou eu!", win: "Ai, ai! Me rendo, me rendo!", lose: "Ganhei?! Ganhei! Alguém viu isso?!",
+      reward: { xp: 1800, coins: 700, rep: 15 } },
+  },
   tt_hinata: {
     name: "Hinata Sakaguchi", color: "§f", faction: "luminus", where: "luminus", title: "Capitã dos Cavaleiros Sagrados",
     greet: {

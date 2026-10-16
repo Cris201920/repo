@@ -147,6 +147,8 @@ Object.assign(QUESTS, {
   // 6.43: PROVAS DE DISCÍPULO (dadas pelos personagens em systems/characters.js; concluir marca a flag disc_<personagem>)
   ch_shuna_trial: { id: "ch_shuna_trial", name: "Estudos com Shuna", giver: "char_shuna", minLevel: 8, desc: "Shuna pediu cristais de mana para os primeiros estudos de magia sagrada.",
     objectives: [{ type: "deliver", item: E + "mana_crystal", n: 6, npc: "shuna", label: "Cristais de Mana (entregar à Shuna)" }], reward: { xp: 900, coins: 300, frep: { tempest: 20 }, flagSet: "disc_shuna" } },
+  ch_gobta_trial: { id: "ch_gobta_trial", name: "Patrulha com Gobta", giver: "char_gobta", minLevel: 6, desc: "Gobta pediu ajuda para tirar goblins selvagens e lobos mágicos da estrada de Tempest.",
+    objectives: [{ type: "kill", target: E + "goblin", n: 10, label: "Goblins" }, { type: "kill", target: E + "magic_wolf", n: 5, label: "Lobos Mágicos" }], reward: { xp: 700, coins: 250, frep: { tempest: 15 }, flagSet: "disc_gobta" } },
   ch_shion_trial: { id: "ch_shion_trial", name: "O Treino de Shion", giver: "char_shion", minLevel: 12, desc: "Shion quer ver sua força bruta: cace lobos mágicos e traga as presas (para a comida dela).",
     objectives: [{ type: "kill", target: E + "magic_wolf", n: 12, label: "Lobos Mágicos" }, { type: "deliver", item: E + "wolf_fang", n: 6, npc: "shion", label: "Presas de Lobo (entregar à Shion)" }], reward: { xp: 1800, coins: 600, frep: { tempest: 25 }, flagSet: "disc_shion" } },
   ch_benimaru_trial: { id: "ch_benimaru_trial", name: "A Disciplina de Benimaru", giver: "char_benimaru", minLevel: 20, desc: "Benimaru exige resultados: elimine hobgoblins e orcs nos arredores de Tempest.",

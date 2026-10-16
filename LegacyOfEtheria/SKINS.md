@@ -40,6 +40,7 @@
 | feldway_angel | etheria_feldway_angel | etheria_feldway_angel_skin | 64x96 | ok |
 | garasha | etheria_garasha | etheria_garasha_skin | 256x256 | 6.45: personagem nova, skin desenhada pela referência enviada + asas/armadura/espada 3D (tools/angels.py) |
 | goblin | etheria_tt_goblin | humanoid.custom | 64x64 | ok |
+| gobta | etheria_gobta | etheria_gobta_skin | 64x64 | 6.49: personagem novo com a skin enviada pelo jogador (hobgoblin verde, roupa marrom) |
 | gracia | etheria_gracia | etheria_gracia_skin | 64x80 | ok |
 | guy_crimson | etheria_guy_crimson | etheria_guy_crimson_skin | 64x80 | ok |
 | hobgoblin | etheria_tt_goblin_7 | humanoid.custom | 64x64 | ok |
