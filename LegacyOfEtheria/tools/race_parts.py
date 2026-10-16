@@ -6,7 +6,7 @@ import json, os, sys, math
 from PIL import Image
 sys.path.insert(0, os.path.dirname(__file__))
 import angels as A
-from race_wings import wing_anim
+from race_wings import wing_anim, tail_anim
 RP = A.RP
 hx = A.hexc
 
@@ -130,6 +130,7 @@ RACES = {
   "demon":     dict(kind="membrane", m0="#7a1420", m1="#2a0508", vein="#b0303c", bone="#1c1416", claw="#d8c8a0", span=1.0, fingers=4, spikes=True),
   "vampire":   dict(kind="membrane", m0="#3a0c1c", m1="#100408", vein="#8a1430", bone="#100a0e", claw="#c8c0c8", span=0.82, scallop=5, depth=0.32, fingers=4),
   "dragonoid": dict(kind="membrane", m0="#e8782e", m1="#8a2010", vein="#ffc060", bone="#5a3418", claw="#efe2c0", scale="#b04a1e", span=1.3, fingers=5, spikes=True, depth=0.16),
+  "dragonewt_w": dict(kind="membrane", m0="#4fb85a", m1="#1d5a2c", vein="#b8f07a", bone="#2a4a24", claw="#e8f0d0", scale="#2e7a3a", span=1.1, fingers=4, spikes=True, depth=0.18),   # 6.52: Dragonato Celeste
   "ogre":      dict(kind="horns", horn="#efe6d0", tip="#c8b48a"),
   "elf":       dict(kind="fairy", m0="#e8fff4", m1="#a8e8ff", vein="#ffffff"),
 }
@@ -153,7 +154,12 @@ def main():
         key = f"animation.etheria.race_{race}"
         if C["kind"] == "membrane" and key in AN["animations"]:
             bones = {k: v for k, v in AN["animations"][key]["bones"].items() if not k.startswith("wing")}
-            bones.update(wing_anim(["wing"])); AN["animations"][key]["bones"] = bones
+            bones.update(wing_anim(["wing"]))
+            tails = sorted([b["name"] for b in g.bones if b["name"].startswith("tail")], key=lambda n: int(n[4:]) if n[4:].isdigit() else 99)
+            if tails: bones.update(tail_anim(tails))
+            AN["animations"][key]["bones"] = bones
         print(race, C["kind"], sum(len(b.get("cubes", [])) for b in g.bones), "cubos")
+    if "animation.etheria.race_dragonewt" in AN["animations"]:   # dragonato sem asas: só a cauda nova
+        AN["animations"]["animation.etheria.race_dragonewt"]["bones"].update(tail_anim([f"tail{i}" for i in range(7)]))
     json.dump(AN, open(ap, "w"), indent=1)
 if __name__ == "__main__": main()

@@ -153,5 +153,20 @@ def main():
     Image.open(os.path.join(RP, "textures/entity/etheria_race_dragonoid.png")).save(os.path.join(RP, "textures/entity/etheria_race_dragonewt.png"))
     anims["animation.etheria.race_dragonewt"] = {"loop": True, "bones": {k: v for k, v in anims["animation.etheria.race_dragonoid"]["bones"].items() if not k.startswith("wing")}}
     print("dragonewt", sum(len(b.get("cubes", [])) for b in dn["minecraft:geometry"][0]["bones"]), "cubos")
+    # 6.52: Dragonato Celeste (lizard_4): o mesmo corpo do dragonato em verde-esmeralda; as asas de membrana são
+    # acrescentadas por tools/race_parts.py (RACES["dragonewt_w"]), que parte da paleta salva em race_src/dragonewt_w.png
+    import colorsys
+    src = Image.open(os.path.join(os.path.dirname(__file__), "race_src", "dragonoid.png")).convert("RGBA"); px = src.load()
+    for y in range(src.height):
+        for x in range(src.width):
+            r, g, b, a = px[x, y]
+            if not a: continue
+            h, l, sat = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
+            r2, g2, b2 = colorsys.hls_to_rgb((h + 0.24) % 1.0, l * 0.92, min(1, sat * 0.85))
+            px[x, y] = (int(r2 * 255), int(g2 * 255), int(b2 * 255), a)
+    src.save(os.path.join(os.path.dirname(__file__), "race_src", "dragonewt_w.png")); src.save(os.path.join(RP, "textures/entity/etheria_race_dragonewt_w.png"))
+    dw = json.loads(json.dumps(dn)); dw["minecraft:geometry"][0]["description"]["identifier"] = "geometry.etheria_race_dragonewt_w"
+    json.dump(dw, open(os.path.join(RP, "models/entity/etheria_race_dragonewt_w.geo.json"), "w"), indent=1)
+    anims["animation.etheria.race_dragonewt_w"] = json.loads(json.dumps(anims["animation.etheria.race_dragonewt"]))
     json.dump(AN, open(ap, "w"), indent=1)
 if __name__ == "__main__": main()

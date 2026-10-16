@@ -19,4 +19,5 @@ export const RACE_CLIP = {
   undead_1: "undead", undead_2a: "death_knight", undead_2b: "skeleton_mage", undead_3a: "wight_lord", undead_3b: "lich",
   ogre_1: "ogre", ogre_2: "spirit_oni", ogre_3: "kijin", lizard_1: "lizardman", lizard_3: "dragonewt",
   vampire_1: "vampire", vampire_2: "blood_noble", vampire_3: "vampire_lord", dwarf_1: "dwarf", dwarf_3: "dwarf_saint",
+  ogre_4a: "kijin", ogre_4b: "kijin", lizard_4: "dragonewt", vampire_3b: "vampire_lord", vampire_4: "vampire_lord", dwarf_3b: "dwarf_saint",
 };

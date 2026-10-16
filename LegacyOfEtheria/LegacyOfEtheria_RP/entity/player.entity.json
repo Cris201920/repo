@@ -75,7 +75,8 @@
     "drg_velzard": "textures/entity/etheria_velzard",
     "drg_velgrynd": "textures/entity/etheria_velgrynd",
     "drg_veldanava": "textures/entity/etheria_veldanava",
-    "etheria_race_dragonewt": "textures/entity/etheria_race_dragonewt"
+    "etheria_race_dragonewt": "textures/entity/etheria_race_dragonewt",
+    "etheria_race_dragonewt_w": "textures/entity/etheria_race_dragonewt_w"
    },
    "geometry": {
     "default": "geometry.humanoid.custom",
@@ -128,7 +129,8 @@
     "drg_velzard": "geometry.etheria_pdrg_velzard",
     "drg_velgrynd": "geometry.etheria_pdrg_velgrynd",
     "drg_veldanava": "geometry.etheria_pdrg_veldanava",
-    "etheria_race_dragonewt": "geometry.etheria_race_dragonewt"
+    "etheria_race_dragonewt": "geometry.etheria_race_dragonewt",
+    "etheria_race_dragonewt_w": "geometry.etheria_race_dragonewt_w"
    },
    "scripts": {
     "scale": "query.property('etheria:lform') == 'true' ? 0.85 : (query.property('etheria:lform') == 'draconic' ? 0.55 : 0.9375)",
@@ -166,6 +168,9 @@
      },
      {
       "etheria_race_dragonewt": "query.property('etheria:race') == 'dragonewt' && query.property('etheria:lin') == 'none'"
+     },
+     {
+      "etheria_race_dragonewt_w": "query.property('etheria:race') == 'dragonewt_w' && query.property('etheria:lin') == 'none'"
      },
      {
       "etheria_race_lizardman": "query.property('etheria:race') == 'lizardman'"
@@ -850,7 +855,8 @@
     "drg_breathe": "animation.etheria_pdrg.breathe",
     "drg_land": "animation.etheria_pdrg.land",
     "drg_roar": "animation.etheria_pdrg.roar",
-    "drg_hide_humanoid": "animation.etheria_pdrg.hide_humanoid"
+    "drg_hide_humanoid": "animation.etheria_pdrg.hide_humanoid",
+    "etheria_race_dragonewt_w": "animation.etheria.race_dragonewt_w"
    },
    "render_controllers": [
     {
@@ -909,6 +915,9 @@
     },
     {
      "controller.render.etheria_race_dragonewt": "((query.property('etheria:race') == 'dragonewt') && query.property('etheria:lin') == 'none' && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator) && variable.etheria_dragon == 0.0"
+    },
+    {
+     "controller.render.etheria_race_dragonewt_w": "((query.property('etheria:race') == 'dragonewt_w') && query.property('etheria:lin') == 'none' && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator) && variable.etheria_dragon == 0.0"
     },
     {
      "controller.render.tensura.race_wings": "(query.property('tensura:wings') > 0 && !variable.is_first_person && !variable.map_face_icon) && variable.etheria_dragon == 0.0"

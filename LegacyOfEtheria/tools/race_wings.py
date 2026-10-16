@@ -42,16 +42,30 @@ def build(race, R):
     return [p for p, _, _ in R["pairs"]]
 
 def wing_anim(pres):
+    """6.52: asas com 4 estados — parado (respira), andando (abre um pouco), voando/subindo (batida forte) e
+    planando ao cair (abertas e quase paradas); agachado recolhe. As fases encadeiam base -> meio -> ponta."""
     fly = "(1 - query.is_on_ground)"; walk = "math.min(1, query.modified_move_speed * 3)"; sneak = "(query.is_sneaking ? 1 : 0)"
+    glide = "(query.is_on_ground ? 0 : (query.vertical_speed < -1.0 ? 1 : 0))"; flap = f"({fly} * (1 - {glide}))"
     out = {}
     for i, pre in enumerate(pres):
         lag = i * 25
         for side, sg in (("l", 1), ("r", -1)):
-            out[f"{pre}_{side}"] = {"rotation": [f"math.sin(query.life_time * 160 - {lag}) * 2 * {fly}",
-                                                 f"{sg} * (-6 * {fly} + 10 * {walk} + 18 * {sneak} + math.sin(query.life_time * 60) * 2)",
-                                                 f"{sg} * (math.sin(query.life_time * 80 - {lag}) * 3 * (1 - {fly}) + {fly} * (16 + math.sin(query.life_time * 600 - {lag}) * 34) - 14 * {sneak})"]}
-            out[f"{pre}B_{side}"] = {"rotation": [0, 0, f"{sg} * ({fly} * math.sin(query.life_time * 600 - 45 - {lag}) * 16 + math.sin(query.life_time * 80 - 30) * 2 - 10 * {sneak})"]}
-            out[f"{pre}C_{side}"] = {"rotation": [0, 0, f"{sg} * ({fly} * math.sin(query.life_time * 600 - 90 - {lag}) * 20 + math.sin(query.life_time * 80 - 60) * 3 - 12 * {sneak})"]}
+            out[f"{pre}_{side}"] = {"rotation": [f"math.sin(query.life_time * 160 - {lag}) * 2 * {flap} - 6 * {glide}",
+                                                 f"{sg} * (-6 * {fly} + 10 * {walk} * (1 - {fly}) + 18 * {sneak} + math.sin(query.life_time * 60) * 2 * (1 - {fly}) - 14 * {glide})",
+                                                 f"{sg} * (math.sin(query.life_time * 80 - {lag}) * 3 * (1 - {fly}) + {flap} * (16 + math.sin(query.life_time * 600 - {lag}) * 34) + {glide} * (24 + math.sin(query.life_time * 90) * 3) - 14 * {sneak})"]}
+            out[f"{pre}B_{side}"] = {"rotation": [0, 0, f"{sg} * ({flap} * math.sin(query.life_time * 600 - 45 - {lag}) * 16 + math.sin(query.life_time * 80 - 30) * 2 * (1 - {fly}) - 10 * {sneak} - 6 * {glide})"]}
+            out[f"{pre}C_{side}"] = {"rotation": [0, 0, f"{sg} * ({flap} * math.sin(query.life_time * 600 - 90 - {lag}) * 20 + math.sin(query.life_time * 80 - 60) * 3 * (1 - {fly}) - 12 * {sneak} - 4 * {glide})"]}
+    return out
+
+def tail_anim(names):
+    """6.52: cauda que reage ao movimento: balanço lento parado, mais rápido andando, erguida correndo,
+    reta para trás voando, abaixada agachado. Cada segmento atrasa a onda (efeito de chicote)."""
+    walk = "math.min(1, query.modified_move_speed * 3)"; fly = "(1 - query.is_on_ground)"; sneak = "(query.is_sneaking ? 1 : 0)"
+    out = {}
+    for k, n in enumerate(names):
+        lift = "-10" if k == 0 else "-3"
+        out[n] = {"rotation": [f"math.sin(query.life_time * 90 - {k * 25}) * 3 * (1 - {fly}) + {lift} * {walk} * (1 - {fly}) + {'-18' if k == 0 else '-4'} * {fly} + {'10' if k == 0 else '2'} * {sneak}",
+                               f"math.sin(query.life_time * (70 + 140 * {walk}) - {k * 30}) * (6 + 6 * {walk}) * (1 - 0.6 * {fly})", 0]}
     return out
 
 def main():

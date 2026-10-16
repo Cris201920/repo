@@ -48,14 +48,14 @@ export const STAGE_LOOK_MAP = {
   // morto-vivo (sem entrada no Tensura: aura de trevas/almas e halo sombrio nos superiores)
   undead_1: {}, undead_2a: { aura: 1 }, undead_2b: { aura: 7 }, undead_3a: { aura: 1, halo: 4 }, undead_3b: { aura: 7, halo: 4 },
   // ogro, lagarto, vampiro, anão
-  ogre_1: "ogre", ogre_2: "mystic_oni", ogre_3: "kijin",
-  lizard_1: "lizardman", lizard_2: "lizardman", lizard_3: "dragonewt",
-  vampire_1: "vampire", vampire_2: "vampire_lord", vampire_3: "divine_vampire",
-  dwarf_1: "dwarf", dwarf_2: "enlightened_dwarf", dwarf_3: "dwarf_saint",
+  ogre_1: "ogre", ogre_2: "mystic_oni", ogre_3: "kijin", ogre_4a: "kijin", ogre_4b: "kijin",
+  lizard_1: "lizardman", lizard_2: "lizardman", lizard_3: "dragonewt", lizard_3b: "lizardman", lizard_4: {},
+  vampire_1: "vampire", vampire_2: "vampire_lord", vampire_3: "divine_vampire", vampire_2b: "vampire", vampire_3b: "vampire_lord", vampire_4: "divine_vampire",
+  dwarf_1: "dwarf", dwarf_2: "enlightened_dwarf", dwarf_3: "dwarf_saint", dwarf_2b: "dwarf", dwarf_3b: "dwarf_saint",
 };
 // estágios cujo corpo vem do Etheria (etheria:race): 4 e 6 asas
 export const ETHERIA_BODY = { angel_4: "angel_cherub", angel_5: "angel_seraph", angel_f4: "fallen_lord", angel_f5: "fallen_lord", fall_4: "fallen_lord", fall_5: "fallen_lord",
-  dragonoid_1: "dragonewt" };   // 6.48: dragonato jovem (chifres, espinho e cauda; sem asas)
+  dragonoid_1: "dragonewt", lizard_4: "dragonewt_w" };   // 6.48: dragonato jovem (chifres, espinho e cauda; sem asas)
 // 6.48: as peças DETALHADAS do Etheria (asas de penas/membrana articuladas, chifres de kijin, asas de fada) substituem as placas simples do
 // Tensura em todo estágio que as tem. A peça equivalente do Tensura é escondida para não duplicar (HIDE).
 export const BODY_BY_LOOK = { lesser_daemon: "demon", greater_daemon: "demon", arch_daemon: "demon", daemon_lord: "demon", devil_lord: "demon",
@@ -64,8 +64,8 @@ export const BODY_BY_LOOK = { lesser_daemon: "demon", greater_daemon: "demon", a
   beastfolk: "beastkin", okami: "beastkin", beast_lord: "beastkin", spirit_beast: "beastkin", lizardman: "lizardman", dragonewt: "dragonewt" };
 export const HIDE = { demon: ["wings", "horns", "tail"], vampire: ["wings"], dragonoid: ["wings", "horns", "tail"], angel: ["wings"], angel_arch: ["wings", "halo"],
   fallen: ["wings"], elf: ["wings"], ogre: ["horns"],
-  beastkin: ["ears", "tail"], lizardman: ["tail", "horns"], dragonewt: ["horns", "tail"] };
-export const WINGED_BODY = new Set(["demon", "vampire", "dragonoid", "angel", "angel_arch", "angel_cherub", "angel_seraph", "fallen", "fallen_lord", "elf"]);
+  beastkin: ["ears", "tail"], lizardman: ["tail", "horns"], dragonewt: ["horns", "tail"], dragonewt_w: ["wings", "horns", "tail"] };
+export const WINGED_BODY = new Set(["dragonewt_w", "demon", "vampire", "dragonoid", "angel", "angel_arch", "angel_cherub", "angel_seraph", "fallen", "fallen_lord", "elf"]);
 /** corpo do Etheria do estágio ("none" se o estágio usa só as peças do Tensura) */
 export function bodyOfStage(stage) {
   if (!stage) return "none";
@@ -108,7 +108,7 @@ function applyFormCollision(player, form) {
 export function applyRaceLook(player, announce = false) {
   let d; try { d = getData(player); } catch { return null; }
   let body = d.raceChosen ? bodyOfStage(d.raceStage) : "none";   // 6.48: corpo detalhado do Etheria quando o estágio tem asas/chifres
-  try { if ((body === "dragonoid" || body === "dragonewt") && d.raceChosen && lineageOf(d)) body = "none"; } catch { /* ignore */ }
+  try { if ((body === "dragonoid" || body === "dragonewt" || body === "dragonewt_w") && d.raceChosen && lineageOf(d)) body = "none"; } catch { /* ignore */ }
   try {
     if (player.getProperty(RACE_PROP) !== body) player.setProperty(RACE_PROP, body);
   } catch (e) {

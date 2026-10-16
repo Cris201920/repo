@@ -286,6 +286,17 @@
    "textures": [
     "Texture.etheria_race_dragonewt"
    ]
+  },
+  "controller.render.etheria_race_dragonewt_w": {
+   "geometry": "Geometry.etheria_race_dragonewt_w",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_dragonewt_w"
+   ]
   }
  }
 }

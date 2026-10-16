@@ -119,19 +119,29 @@ export const RACES = {
     S("ogre_1", "Ogro", null, { attrs: { strength: 3, defense: 1, intelligence: -2, agility: -1, vitality: 3 }, skills: ["war_cry"] }),
     S("ogre_2", "Oni", "ogre_1", { minLevel: 30, cost: 1500, attrs: { strength: 7, defense: 3, intelligence: 1, agility: 2, vitality: 6 }, skills: ["blood_slash"] }),
     S("ogre_3", "Kijin", "ogre_2", { minLevel: 65, cost: 7000, attrs: { strength: 12, defense: 6, intelligence: 4, agility: 5, vitality: 10 }, skills: ["dark_slash"] }),
+    // 6.52: ramos finais do Kijin (Tensura: Benimaru -> Oni das Chamas Espirituais; Shion -> Oni da Fúria)
+    S("ogre_4a", "Oni das Chamas Espirituais", "ogre_3", { minLevel: 82, cost: 12000, kills: 200, attrs: { strength: 14, defense: 7, intelligence: 9, agility: 7, vitality: 11 }, stats: { fire: 15, res_fire: 15 }, skills: ["hellflame", "black_flame"] }),
+    S("ogre_4b", "Oni da Fúria", "ogre_3", { minLevel: 82, cost: 12000, kills: 200, attrs: { strength: 17, defense: 9, intelligence: 3, agility: 5, vitality: 14 }, stats: { physical: 12, hp: 25 }, skills: ["berserker", "earth_slam"] }),
   ]),
   lizardman: build("lizardman", { name: "Homem-Lagarto", color: "§3", desc: "Guerreiros anfíbios das águas e pântanos, ágeis e de pele rígida.", bonus: "+3 Agilidade, dano de água, resistência física", penalty: "Pouca mana", traits: { water: 14, res_physical: 8, res_ice: -10, crit: 3 } }, [
     S("lizard_1", "Homem-Lagarto", null, { attrs: { strength: 1, defense: 2, intelligence: -1, agility: 3, vitality: 1 }, skills: ["piercing_shot"] }),
     S("lizard_2", "Guerreiro Lagarto", "lizard_1", { minLevel: 25, cost: 900, attrs: { strength: 4, defense: 4, intelligence: 0, agility: 5, vitality: 3 }, skills: ["wind_dash"] }),
+    S("lizard_3b", "Grande Chefe dos Pântanos", "lizard_2", { minLevel: 60, cost: 5000, attrs: { strength: 9, defense: 9, intelligence: 2, agility: 6, vitality: 8 }, stats: { water: 12, res_physical: 6 }, skills: ["water_current", "water_blade"] }),   // 6.52: caminho de Abil, o chefe dos homens-lagarto
     S("lizard_3", "Dragonewt", "lizard_2", { minLevel: 60, cost: 5000, attrs: { strength: 8, defense: 7, intelligence: 3, agility: 8, vitality: 6 }, skills: ["dragon_scales"] }),
+    S("lizard_4", "Dragonato Celeste", "lizard_3", { minLevel: 80, cost: 11000, kills: 200, attrs: { strength: 11, defense: 9, intelligence: 5, agility: 11, vitality: 8 }, stats: { res_physical: 6, crit: 4 }, skills: ["storm_scales", "thunder_breath"] }),   // 6.52: dragonatos alados de Gabiru (voam)
   ]),
   vampire: build("vampire", { name: "Vampiro", color: "§5", desc: "Nobres da noite: sedentos de sangue, rápidos e mágicos.", bonus: "Roubo de vida, dano de sangue e sombra", penalty: "Fraco ao fogo", traits: { lifesteal: 6, blood: 12, shadow: 8, res_fire: -10 } }, [
     S("vampire_1", "Vampiro", null, { attrs: { strength: 1, defense: -1, intelligence: 3, agility: 2, vitality: 0 }, skills: ["life_steal"] }),
+    S("vampire_2b", "Vampiro da Névoa", "vampire_1", { minLevel: 28, cost: 1100, attrs: { strength: 2, defense: 1, intelligence: 5, agility: 6, vitality: 2 }, stats: { shadow: 8 }, skills: ["shadow_step"] }),   // 6.52: ramo furtivo
+    S("vampire_3b", "Senhor da Noite", "vampire_2b", { minLevel: 62, cost: 5500, attrs: { strength: 5, defense: 3, intelligence: 10, agility: 9, vitality: 5 }, stats: { shadow: 12, lifesteal: 3 }, skills: ["blood_rain", "dark_bolt"] }),
     S("vampire_2", "Vampiro Nobre", "vampire_1", { minLevel: 28, cost: 1100, attrs: { strength: 3, defense: 1, intelligence: 6, agility: 4, vitality: 2 }, skills: ["blood_slash"] }),
     S("vampire_3", "Vampiro Ancestral", "vampire_2", { minLevel: 62, cost: 5500, attrs: { strength: 6, defense: 3, intelligence: 11, agility: 6, vitality: 5 }, skills: ["soul_drain"] }),
+    S("vampire_4", "Vampiro Verdadeiro (Progenitor)", "vampire_3", { minLevel: 85, cost: 14000, kills: 250, attrs: { strength: 8, defense: 5, intelligence: 14, agility: 8, vitality: 7 }, stats: { lifesteal: 5, blood: 15 }, skills: ["blood_drain", "death_storm"] }),   // 6.52: linhagem de Luminus
   ]),
   dwarf: build("dwarf", { name: "Anão", color: "§6", desc: "Mestres ferreiros das montanhas: baixos, firmes e ricos.", bonus: "+3 Defesa, +20% de moedas, resistência física", penalty: "Pouca agilidade", traits: { coin: 20, res_physical: 10, earth: 10, hp: 10 } }, [
     S("dwarf_1", "Anão", null, { attrs: { strength: 1, defense: 3, intelligence: 0, agility: -2, vitality: 2 }, skills: ["shield_bash"] }),
+    S("dwarf_2b", "Anão de Batalha", "dwarf_1", { minLevel: 25, cost: 900, attrs: { strength: 5, defense: 5, intelligence: 0, agility: 0, vitality: 4 }, stats: { physical: 6 }, skills: ["earth_slam"] }),   // 6.52: ramo guerreiro
+    S("dwarf_3b", "Rei Heroico", "dwarf_2b", { minLevel: 60, cost: 5000, attrs: { strength: 10, defense: 9, intelligence: 3, agility: 2, vitality: 9 }, stats: { earth: 10, hp: 15 }, skills: ["dwarf_hammer", "stone_skin"] }),   // caminho de Gazel Dwargo
     S("dwarf_2", "Mestre Ferreiro", "dwarf_1", { minLevel: 25, cost: 900, attrs: { strength: 3, defense: 6, intelligence: 1, agility: -1, vitality: 4 }, skills: ["barrier"] }),
     S("dwarf_3", "Rei Anão", "dwarf_2", { minLevel: 60, cost: 5000, attrs: { strength: 6, defense: 11, intelligence: 3, agility: 0, vitality: 8 }, skills: ["divine_shield"] }),
   ]),
