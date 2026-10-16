@@ -1,0 +1,31 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:vfx_wind_sphere",
+   "materials": {
+    "default": "entity_emissive_alpha"
+   },
+   "textures": {
+    "default": "textures/entity/spell/wind_sphere"
+   },
+   "geometry": {
+    "default": "geometry.etheria_vfx_shell"
+   },
+   "render_controllers": [
+    "controller.render.etheria_vfx"
+   ],
+   "animations": {
+    "live": "animation.etheria.vfx.live"
+   },
+   "scripts": {
+    "initialize": [
+     "variable.n = 5;"
+    ],
+    "animate": [
+     "live"
+    ]
+   }
+  }
+ }
+}

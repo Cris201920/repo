@@ -22,3 +22,6 @@ tools/sword_src/
 LegacyOfEtheria_RP/models/entity/etheria_michael_halberd.geo.json
 LegacyOfEtheria_RP/animations/etheria_michael_afk.animation.json
 LegacyOfEtheria_RP/textures/entity/etheria_michael_halberd.png
+
+# 6.65 - texturas animadas das magias (do jar do Tensura, uso pessoal)
+LegacyOfEtheria_RP/textures/entity/spell/

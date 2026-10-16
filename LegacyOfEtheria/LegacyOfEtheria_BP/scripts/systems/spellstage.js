@@ -3,6 +3,7 @@
 // por um objeto `io` (guard, aimPoint, execute, onRelease, flush, onCancel, onFail). Nada aqui aplica dano nem gasta recurso por conta própria.
 // Mobile: laços de 1 tick só existem durante a formação (≤ ~18 ticks) e o trajeto (≤ 24 ticks); tudo passa por fxlib (orçamento por tick e níveis).
 import { system } from "@minecraft/server";
+import { spellBody } from "./spellvfx.js";
 import { SOUNDS } from "../config.js";
 import { ctx, snd, burst, mote, implode, T, partChoreo } from "./fxlib.js";
 import { recipeFor } from "../data/fxrecipes.js";
@@ -132,6 +133,7 @@ export function runStaged(player, sk, spec, io) {
     const v = { player, sk, ex, tier, pos: player.location, origin, from, to, at, dir, hand: fr.hand, dist: d, T: T_, hits: out.hits.length };
     play(ch.sfx?.release ?? [{ id: ex.snd ?? SOUNDS.cast, vol: 0.8, pitch: 1 }], player.location);
     safe(() => ch.release?.(c, v));
+    safe(() => spellBody(c, v, sk, Math.max(1, T_)));   // 6.65: corpo 3D da magia, chega junto com o dano (mesmo T_)
     io.onRelease(out, v);
     const delayOf = (e) => (spec.timing === "pass" ? clamp(Math.ceil(dist(from, e.location) / Math.max(0.5, spec.speed)), 0, T_) : T_);
     flight(c, ch, v, T_, () => { safe(() => ch.impact?.(c, v)); play(ch.sfx?.impact, at); });

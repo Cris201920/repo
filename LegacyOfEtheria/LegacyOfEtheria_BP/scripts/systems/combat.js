@@ -44,7 +44,7 @@ export function isValidTarget(e, caster) {
   if (!isValid(e) || e === caster) return false;
   if (e instanceof Player) return pvpTarget(e, caster);
   const id = e.typeId;
-  if (NON_TARGET.has(id) || id.startsWith("etheria:npc_")) return false;
+  if (NON_TARGET.has(id) || id.startsWith("etheria:npc_") || id.startsWith("etheria:vfx_")) return false;   // 6.65: visuais 3D das magias nunca são alvo
   try { if (e.hasTag(ALLY_TAG)) return false; } catch { return false; }
   return !!healthComp(e);
 }

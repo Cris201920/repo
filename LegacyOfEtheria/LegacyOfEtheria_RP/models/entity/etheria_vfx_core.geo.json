@@ -1,0 +1,56 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.etheria_vfx_core",
+    "texture_width": 96,
+    "texture_height": 88,
+    "visible_bounds_width": 8,
+    "visible_bounds_height": 8,
+    "visible_bounds_offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "root",
+     "pivot": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "name": "core",
+     "parent": "root",
+     "pivot": [
+      0,
+      0,
+      0
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -6,
+        -6,
+        -6
+       ],
+       "size": [
+        12,
+        12,
+        12
+       ],
+       "uv": [
+        0,
+        64
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -7,6 +7,7 @@ import { masteryLevel } from "./mastery.js";
 import { getData } from "../core/db.js";
 import { norm } from "../core/utils.js";
 import { grandFx } from "../data/fxgrand.js";
+import { spellBody } from "./spellvfx.js";
 
 export function playSkillFx(player, sk, geo) {
   const c = ctx(player); if (c.k <= 0) return;
@@ -25,4 +26,6 @@ export function playSkillFx(player, sk, geo) {
   after(hitT, () => { run(r.impact); part("impact"); if (E) { run(E.impact); run(E.residue); } });
   // 6.55: camada de grandeza (densidade por raridade + composição própria do elemento), no mesmo tempo do impacto real
   run((cx, vv) => grandFx(cx, vv, sk, (f) => after(hitT, () => f(vv.at)), hitT));
+  // 6.65: corpo 3D da magia (modelo + textura animada do mod) na mesma trajetória e no mesmo impacto
+  run((cx, vv) => spellBody(cx, vv, sk, hitT));
 }

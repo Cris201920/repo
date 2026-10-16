@@ -1,0 +1,76 @@
+{
+ "format_version": "1.21.0",
+ "minecraft:entity": {
+  "description": {
+   "identifier": "etheria:vfx_aura_pink",
+   "is_spawnable": false,
+   "is_summonable": true,
+   "properties": {
+    "etheria:sz": {
+     "type": "float",
+     "range": [
+      0.0,
+      64.0
+     ],
+     "default": 1.0,
+     "client_sync": true
+    }
+   }
+  },
+  "component_groups": {
+   "etheria:vfx_gone": {
+    "minecraft:instant_despawn": {}
+   }
+  },
+  "components": {
+   "minecraft:collision_box": {
+    "width": 0.01,
+    "height": 0.01
+   },
+   "minecraft:physics": {
+    "has_gravity": false,
+    "has_collision": false
+   },
+   "minecraft:pushable": {
+    "is_pushable": false,
+    "is_pushable_by_piston": false
+   },
+   "minecraft:damage_sensor": {
+    "triggers": {
+     "cause": "all",
+     "deals_damage": "no"
+    }
+   },
+   "minecraft:health": {
+    "value": 1,
+    "max": 1
+   },
+   "minecraft:fire_immune": true,
+   "minecraft:knockback_resistance": {
+    "value": 1
+   },
+   "minecraft:type_family": {
+    "family": [
+     "etheria_vfx",
+     "inanimate"
+    ]
+   },
+   "minecraft:timer": {
+    "looping": false,
+    "time": 6,
+    "time_down_event": {
+     "event": "etheria:vfx_end"
+    }
+   }
+  },
+  "events": {
+   "etheria:vfx_end": {
+    "add": {
+     "component_groups": [
+      "etheria:vfx_gone"
+     ]
+    }
+   }
+  }
+ }
+}
