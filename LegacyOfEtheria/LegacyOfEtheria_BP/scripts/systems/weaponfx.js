@@ -25,6 +25,14 @@ const W = {
   dead_mans_hand: ["blood", "black", "skull", "death", "blood", "blood"], ruyi_jingu_bang: ["gold", "ember", "ring", "pierce", "holy", "physical"],
   soul_serpent_blade: ["sage", "violet", "skull", "soul", "devour", "shadow"], wild_card: ["pink", "white", "star", "card", "arcane", "arcane"],
   extermination_blade: ["black", "blood", "line", "exterm", "shadow", "shadow"], caedros_ashen_halberd: ["ember", "black", "ember", "ashen", "fire", "fire"],
+  // 6.52: armas do Tensura que ainda não tinham identidade própria (cada uma com cor, sprite, impacto e círculo coerentes com a obra)
+  tt_katana: ["steel", "white", "line", "iai", "wind", "physical"], tt_gobuta_kodachi: ["steel", "green", "leaf", "slash", "wind", "physical"],
+  tt_kunai: ["black", "steel", "line", "pierce", "shadow", "shadow"], tt_spatial_blade: ["void", "arcane", "orb", "rift", "space", "void"],
+  tt_spatial_blades: ["arcane", "violet", "diamond", "rift", "space", "void"], tt_sword_of_tempest: ["bolt", "white", "zig", "wind", "bolt", "lightning"],
+  tt_crimson_lotus_edge: ["blood", "fire", "flame", "embers", "fire", "fire"], tt_ice_blade: ["ice", "frost", "flake", "pierce", "ice", "ice"],
+  tt_shizue_sword: ["fire", "ember", "flame", "holyfire", "fire", "fire"], tt_dead_end_rainbow: ["pink", "holy", "star", "light", "holy", "light"],
+  reid_dragon_sword: ["gold", "fire", "fang", "dragon", "fire", "fire"], tt_battle_axe: ["steel", "dust", "chunk", "crush", "earth", "physical"],
+  tt_orc_axe: ["blood", "earth", "chunk", "crush", "blood", "physical"], tt_orc_cleaver: ["blood", "black", "fang", "crush", "blood", "blood"],
 };
 const look = (typeId) => { const k = (typeId ?? "").replace("etheria:", ""), r = W[k] ?? SWORD_FX[k]; return r ? { A: r[0], B: r[1], tile: T[r[2]], pat: r[3], circle: CIRCLE[r[4]] ?? 0, el: r[5] } : null; };
 /** Identidade visual da arma (elemento e padrão de golpe) para a análise do Sábio; null se a arma não tem identidade própria. */
