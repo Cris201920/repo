@@ -275,6 +275,17 @@
    "textures": [
     "Texture.etheria_race_lin_veldanava_true"
    ]
+  },
+  "controller.render.etheria_race_dragonewt": {
+   "geometry": "Geometry.etheria_race_dragonewt",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_dragonewt"
+   ]
   }
  }
 }

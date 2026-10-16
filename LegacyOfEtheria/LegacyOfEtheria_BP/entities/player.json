@@ -23,7 +23,8 @@
       "angel_cherub",
       "angel_seraph",
       "fallen",
-      "fallen_lord"
+      "fallen_lord",
+      "dragonewt"
      ],
      "default": "none",
      "client_sync": true
