@@ -150,7 +150,7 @@ def base_body(g, slim=False):
     g.cube("rightLeg", [-3.9, 0, -2], [4, 12, 4], [0, 16]); g.cube("rightLeg", [-3.9, 0, -2], [4, 12, 4], [0, 32], inflate=0.25)
     g.cube("leftLeg", [-0.1, 0, -2], [4, 12, 4], [16, 48]); g.cube("leftLeg", [-0.1, 0, -2], [4, 12, 4], [0, 48], inflate=0.25)
 
-def wings(g, A, feat_cov, feat_sec, feat_pri, bar, span=1.0, alt=None, small=None, pre="wing", root_rot=(-8, -34, 26), y0=21.5, parent="body"):
+def wings(g, A, feat_cov, feat_sec, feat_pri, bar, span=1.0, alt=None, small=None, pre="wing", root_rot=(-8, -34, 26), y0=21.5, parent="body", bj=-22, cj=-26, root_x=1.2):
     """asa esquerda (+X) e direita (-X, espelhada). Ossos: wing_<l|r> (ombro) -> wingA (braço) -> wingB (antebraço) -> wingC (mão) -> alula.
     Penas em camadas sobrepostas (pequenas coberteiras, grandes coberteiras, secundárias, primárias abertas como dedos);
     pose de descanso em arco acima dos ombros. alt = pena alternada (duas cores)."""
@@ -162,9 +162,9 @@ def wings(g, A, feat_cov, feat_sec, feat_pri, bar, span=1.0, alt=None, small=Non
             g.cube(bone, [X(x0) if sg > 0 else X(x0 + w), yy + dy_, z0], [w, h, d], uv, rot=[rot[0], X(rot[1]), X(rot[2])] if rot else None, pivot=[X(piv[0]), piv[1] + dy_, piv[2]] if piv else None)
         L1, L2, L3 = 6 * span, 8 * span, 7.5 * span
         dy_ = y0 - 21.5                                                                 # pares extras (serafim/querubim): mesma asa, mais baixa
-        g.bone(f"{pre}_{side}", [X(1.2), y0, 2.2], parent, [root_rot[0], X(root_rot[1]), X(root_rot[2])])
-        a = g.bone(f"{pre}A_{side}", [X(1.2), y0, 2.6], f"{pre}_{side}")["name"]
-        x0, x1 = 1.2, 1.2 + L1
+        g.bone(f"{pre}_{side}", [X(root_x), y0, 2.2], parent, [root_rot[0], X(root_rot[1]), X(root_rot[2])])
+        a = g.bone(f"{pre}A_{side}", [X(root_x), y0, 2.6], f"{pre}_{side}")["name"]
+        x0, x1 = root_x, root_x + L1
         box(a, x0, 20.7, 2.2, L1, 1.6, 1.1, faces_tile(bar, [L1, 1.6, 1.1]))
         for k in range(int(L1 / 1.1)):                                                  # pequenas coberteiras (escamadas, 2 fileiras)
             fx = x0 + 0.2 + k * 1.1
@@ -173,7 +173,7 @@ def wings(g, A, feat_cov, feat_sec, feat_pri, bar, span=1.0, alt=None, small=Non
         for k in range(int(L1 / 1.6)):                                                  # terciárias (perto do corpo)
             fx = x0 + 0.3 + k * 1.6; ln = 9 + k * 0.6
             box(a, fx, 21 - ln, 2.65, 2.4, ln, T, faces_feather(feat_sec, [2.4, ln, T]), rot=[10, 0, -2 - k * 2], piv=[fx + 1.2, 21, 2.7])
-        b = g.bone(f"{pre}B_{side}", [X(x1), y0, 2.6], a, [0, 0, X(-22)])["name"]
+        b = g.bone(f"{pre}B_{side}", [X(x1), y0, 2.6], a, [0, 0, X(bj)])["name"]
         x2 = x1 + L2
         box(b, x1, 20.8, 2.25, L2, 1.4, 1.0, faces_tile(bar, [L2, 1.4, 1.0]))
         for k in range(int(L2 / 1.2)):
@@ -184,7 +184,7 @@ def wings(g, A, feat_cov, feat_sec, feat_pri, bar, span=1.0, alt=None, small=Non
         for k in range(n2):                                                             # secundárias (fileira longa e regular)
             fx = x1 + 0.15 + k * 1.35; ln = 12.5 + k * 0.35; t = feat_sec if not alt or k % 2 == 0 else alt
             box(b, fx, 21 - ln, 2.6 - 0.02 * k, 2.5, ln, T, faces_feather(t, [2.5, ln, T]), rot=[9, 0, -3 - k * 1.2], piv=[fx + 1.25, 21, 2.6])
-        c = g.bone(f"{pre}C_{side}", [X(x2), y0, 2.6], b, [0, 0, X(-26)])["name"]
+        c = g.bone(f"{pre}C_{side}", [X(x2), y0, 2.6], b, [0, 0, X(cj)])["name"]
         x3 = x2 + L3
         box(c, x2, 20.9, 2.3, L3, 1.2, 0.9, faces_tile(bar, [L3, 1.2, 0.9]))
         for k in range(int(L3 / 1.3)):

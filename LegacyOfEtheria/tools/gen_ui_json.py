@@ -6,6 +6,8 @@ RP = sys.argv[1]
 BASE = "§e§t§h"
 THEMES = {"world": "§t§w", "sage": "§t§s", "raphael": "§t§r", "ciel": "§t§c", "tree": "§t§p"}
 HUDMARK = "§w§v§x"
+CARD = "§t§k"   # 6.56: cartão de escolha de raça
+RACE_CODES = {r: "0123456789abc"[i] for i, r in enumerate(["human", "slime", "goblin", "demon", "elf", "angel", "dragonoid", "beastkin", "undead", "ogre", "lizardman", "vampire", "dwarf"])}
 has = lambda var, code: f"(not (({var} - '{code}') = {var}))"
 lacks = lambda var, code: f"(({var} - '{code}') = {var})"
 
@@ -54,6 +56,43 @@ def anim_defs(ns, sfx="", rel=False):
     A["eth_scan_r"] = {"anim_type": "offset", "easing": "in_out_sine", "from": [0, "-5%"], "to": [0, "98%"], "duration": 2.6, "next": f"@{ns}.eth_scan_back_r"}
     A["eth_scan_back_r"] = {"anim_type": "offset", "easing": "in_out_sine", "from": [0, "98%"], "to": [0, "-5%"], "duration": 2.6, "next": f"@{ns}.eth_scan_r"}
     return A
+def frame_cycle(A, ns, name, n, step, amax=1.0):
+    """n quadros com troca suave em sequência (rotação contínua): quadro k acende e apaga em 'step' e espera o resto do ciclo"""
+    for k in range(n):
+        A[f"{name}{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * step, "next": f"@{ns}.{name}{k}_in"}
+        A[f"{name}{k}_in"] = {"anim_type": "alpha", "easing": "linear", "from": 0.0, "to": amax, "duration": step, "next": f"@{ns}.{name}{k}_out"}
+        A[f"{name}{k}_out"] = {"anim_type": "alpha", "easing": "linear", "from": amax, "to": 0.0, "duration": step, "next": f"@{ns}.{name}{k}_wait"}
+        A[f"{name}{k}_wait"] = {"anim_type": "wait", "duration": max(0.001, (n - 2) * step), "next": f"@{ns}.{name}{k}_in"}
+def video_anims(ns):
+    A = {}
+    frame_cycle(A, ns, "eth_vr", 8, 0.25); frame_cycle(A, ns, "eth_vw", 8, 0.25, 0.6); frame_cycle(A, ns, "eth_vx", 12, 0.15, 0.9)
+    A["eth_vstar_a"] = {"anim_type": "size", "easing": "in_out_sine", "from": [190, 48], "to": [250, 62], "duration": 0.7, "next": f"@{ns}.eth_vstar_b"}
+    A["eth_vstar_b"] = {"anim_type": "size", "easing": "in_out_sine", "from": [250, 62], "to": [190, 48], "duration": 0.7, "next": f"@{ns}.eth_vstar_a"}
+    for k in range(2):   # anel elíptico tingido que se expande (o "anel vermelho" do vídeo)
+        A[f"eth_vring{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * 1.6, "next": f"@{ns}.eth_vring{k}_s"}
+        A[f"eth_vring{k}_s"] = {"anim_type": "size", "easing": "out_quad", "from": [60, 26], "to": [760, 330], "duration": 3.2, "next": f"@{ns}.eth_vring{k}_s"}
+        A[f"eth_vringa{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * 1.6, "next": f"@{ns}.eth_vringa{k}_a"}
+        A[f"eth_vringa{k}_a"] = {"anim_type": "alpha", "easing": "linear", "from": 0.45, "to": 0.0, "duration": 3.2, "next": f"@{ns}.eth_vringa{k}_a"}
+    return A
+def fx_video(ns, var, glob, base_layer):
+    """6.56: camadas IDÊNTICAS ao vídeo do mod Great Sage (fundo estrelado, raios girando, poliedro de arame, estrela central, anel elíptico)"""
+    g = {"binding_type": "global"} if glob else {}
+    def vb(expr):
+        b = {"binding_name": var}; b.update(g)
+        return [b, {"binding_type": "view", "source_property_name": expr, "target_property_name": "#visible"}]
+    full = lambda tex, **kw: {"type": "image", "texture": f"textures/ui/etheria/{tex}", "size": ["100%", "100%"], "keep_ratio": False, "fill": True, **kw}
+    ctr = lambda tex, sz, **kw: {"type": "image", "texture": f"textures/ui/etheria/{tex}", "size": sz, "anchor_from": "center", "anchor_to": "center", **kw}
+    out = [{"vbg": full("ov_v_bg", layer=base_layer)}]
+    for th, code in THEMES.items():
+        c = TCOL[th]; ctrls = []
+        for k in range(8): ctrls.append({f"vr{k}": full(f"ov_v_rays_{k}", color=c, alpha=0.0, layer=base_layer + 1, anims=[f"@{ns}.eth_vr{k}_start"])})
+        for k in range(8): ctrls.append({f"vw{k}": full(f"ov_v_rayw_{k}", alpha=0.0, layer=base_layer + 2, anims=[f"@{ns}.eth_vw{k}_start"])})
+        for k in range(2): ctrls.append({f"vring{k}": ctr("fx_ring", [60, 26], color=light(c), alpha=0.0, layer=base_layer + 2, anims=[f"@{ns}.eth_vring{k}_start", f"@{ns}.eth_vringa{k}_start"])})
+        for k in range(12): ctrls.append({f"vx{k}": full(f"ov_v_wire_{k}", alpha=0.0, layer=base_layer + 3, anims=[f"@{ns}.eth_vx{k}_start"])})
+        ctrls.append({"vstar": ctr("ov_v_star", [220, 55], layer=base_layer + 4, anims=[f"@{ns}.eth_vstar_a"])})
+        out.append({f"vtheme_{th}": {"type": "panel", "size": ["100%", "100%"], "bindings": vb(has(var, code)), "controls": ctrls}})
+    return out
+
 def fx_layers(ns, var, glob, base_layer, rel=False):
     R = "_r" if rel else ""   # 6.55: rel=True -> círculos/núcleo/pulsos medidos pela altura do contêiner (anúncios em janela, não em tela cheia)
     g = {"binding_type": "global"} if glob else {}
@@ -93,7 +132,8 @@ sf = {"namespace": "server_form"}
 sf["main_screen_content"] = {"type": "panel", "size": ["100%", "100%"], "controls": [{"server_form_factory": {"type": "factory", "control_ids": {"long_form": "@server_form.long_form", "custom_form": "@server_form.custom_form"}}}]}
 sf["long_form"] = {"type": "panel", "size": ["100%", "100%"], "controls": [
     {"vanilla_form@server_form.eth_vanilla_long_form": {"bindings": vis("#title_text", lacks("#title_text", BASE))}},
-    {"etheria_form@server_form.eth_form": {"bindings": vis("#title_text", has("#title_text", BASE))}},
+    {"etheria_form@server_form.eth_form": {"bindings": vis("#title_text", f"({has('#title_text', BASE)} and {lacks('#title_text', CARD)})")}},
+    {"card_form@server_form.eth_card_form": {"bindings": vis("#title_text", has("#title_text", CARD))}},   # 6.56: escolha de raça (cartão)
 ]}
 # cópia EXATA do long_form original (1.21.80)
 sf["eth_vanilla_long_form@common_dialogs.main_panel_no_buttons"] = {"$title_panel": "common_dialogs.standard_title_label", "$title_size": ["100% - 15px", 10], "$title_max_size": ["100% - 15px", 10], "size": [225, 200], "$text_name": "#title_text", "$title_text_binding_type": "none", "$child_control": "server_form.long_form_panel", "layer": 2}
@@ -127,6 +167,32 @@ sf["eth_buttons_content"] = {"type": "stack_panel", "size": ["100% - 4px", "100%
     {"pad_bottom": {"type": "panel", "size": ["100%", 4]}},
 ]}
 os.makedirs(os.path.join(RP, "ui"), exist_ok=True)
+# ------------------------------------------------------------------ 6.56: CARTÃO DE ESCOLHA DE RAÇA (estilo do mod de referência)
+# Título: BASE + CARD + "§k§r§<código da raça>" + nome. Retrato: imagem fixa por raça, visível conforme o código no título.
+# Botões em linha embaixo do cartão: « anterior | SELECIONAR | próxima » | (lista) — mesma coleção form_buttons do formulário original.
+CARD_W, CARD_H = 250, 196
+card_portraits = [{f"face_{rid}": {"type": "image", "texture": f"textures/ui/etheria/race_face_{rid}", "size": [26, 26], "layer": 8,
+    "bindings": vis("#title_text", has("#title_text", f"§k§r§{RACE_CODES[rid]}"))}} for rid in RACE_CODES]
+sf["eth_card_button"] = {"type": "panel", "size": [70, 24], "controls": [
+    {"form_button@common_buttons.light_text_button": {"$pressed_button_name": "button.form_button_click", "anchor_from": "center", "anchor_to": "center", "size": ["100% - 4px", 22],
+        "$button_text": "#form_button_text", "$button_text_binding_type": "collection", "$button_text_grid_collection_name": "form_buttons", "$button_text_max_size": ["100%", 20],
+        "bindings": [{"binding_type": "collection_details", "binding_collection_name": "form_buttons"}]}}]}
+sf["eth_card_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": [
+    {"shade": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "alpha": 0.55, "layer": 1}},
+    {"card": {"type": "panel", "size": [CARD_W, CARD_H], "anchor_from": "center", "anchor_to": "center", "offset": [0, -14], "layer": 3, "controls": [
+        {"bg": {"type": "image", "texture": "textures/ui/etheria/card_bg", "size": ["100%", "100%"], "keep_ratio": False, "layer": 1}},
+        {"frame": {"type": "image", "texture": "textures/ui/etheria/card_frame", "size": [38, 38], "anchor_from": "top_left", "anchor_to": "top_left", "offset": [8, 6], "layer": 6,
+            "controls": [{"portraits": {"type": "panel", "size": [26, 26], "anchor_from": "center", "anchor_to": "center", "controls": card_portraits}}]}},
+        {"banner": {"type": "image", "texture": "textures/ui/etheria/card_banner", "size": [190, 26], "anchor_from": "top_left", "anchor_to": "top_left", "offset": [50, 12], "layer": 6, "keep_ratio": False,
+            "controls": [{"name": {"type": "label", "text": "#title_text", "bindings": [{"binding_name": "#title_text"}], "size": ["100% - 12px", 10], "anchor_from": "center", "anchor_to": "center", "text_alignment": "center", "color": [1, 1, 1], "shadow": True, "layer": 7}}]}},
+        {"info": {"type": "panel", "size": ["100% - 18px", "100% - 56px"], "anchor_from": "top_left", "anchor_to": "top_left", "offset": [9, 48], "layer": 5, "controls": [
+            {"scroll@common.scrolling_panel": dict(scroll("server_form.eth_text_content"), layer=2)}]}},
+    ]}},
+    {"arrows": {"type": "stack_panel", "orientation": "horizontal", "size": ["100%c", 24], "anchor_from": "center", "anchor_to": "center", "offset": [0, CARD_H // 2 + 2], "layer": 6,
+        "factory": {"name": "buttons", "control_name": "server_form.eth_card_button"}, "collection_name": "form_buttons",
+        "bindings": [{"binding_name": "#form_button_length", "binding_name_override": "#collection_length"}]}},
+    {"close@common.close_button": {"anchor_from": "center", "anchor_to": "center", "offset": [CARD_W // 2 - 4, -CARD_H // 2 - 10], "layer": 8}},
+]}
 json.dump(sf, open(os.path.join(RP, "ui/server_form.json"), "w", encoding="utf8"), ensure_ascii=False, indent=1)
 
 hud = {"namespace": "hud"}
@@ -134,8 +200,8 @@ CER = "§3§7"   # cerimônia: preto total; sem ele, véu escuro (o mundo aparec
 hud["root_panel"] = {"modifications": [{"array_name": "controls", "operation": "insert_back", "value": [{"eth_world_voice@hud.eth_world_voice": {}}]}]}
 # o título é recriado a cada "impacto": efeitos de um disparo só vivem dentro dele (abertura do núcleo e onda de choque de cada nome)
 hud["hud_title_text"] = {"modifications": [{"array_name": "controls", "operation": "insert_back", "value": [{"eth_title_fx@hud.eth_title_fx": {}}]}]}
-hud.update(anim_defs("hud"))
-hud["eth_ring_open_size"] = {"anim_type": "size", "easing": "out_expo", "from": [24, 24], "to": [560, 560], "duration": 0.9}
+hud.update(anim_defs("hud")); hud.update(video_anims("hud"))
+hud["eth_ring_open_size"] = {"anim_type": "size", "easing": "out_expo", "from": [40, 18], "to": [520, 230], "duration": 1.1}
 hud["eth_ring_open_alpha"] = {"anim_type": "alpha", "easing": "linear", "from": 1.0, "to": 0.0, "duration": 0.9}
 hud["eth_flash_open_size"] = {"anim_type": "size", "easing": "out_expo", "from": [40, 40], "to": [760, 760], "duration": 0.9}
 hud["eth_flash_open_alpha"] = {"anim_type": "alpha", "easing": "in_quad", "from": 1.0, "to": 0.0, "duration": 0.9}
@@ -152,12 +218,8 @@ hud["eth_title_fx"] = {"type": "panel", "size": [0, 0], "layer": 150, "bindings"
 ]}
 hud["eth_world_voice"] = {"type": "panel", "size": ["100%", "100%"], "layer": 60, "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", HUDMARK), True), "controls": [
     {"black": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "layer": 60, "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", CER), True)}},
-    {"veil": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "alpha": 0.38, "layer": 60, "bindings": vis("#hud_title_text_string", lacks("#hud_title_text_string", CER), True)}},
-    # 6.55: CERIMÔNIAS (Verdadeiro Lorde Demônio etc.) continuam em tela cheia, como na referência
-    {"cer_fx": {"type": "panel", "size": ["100%", "100%"], "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", CER), True), "controls": fx_layers("hud", "#hud_title_text_string", True, 61)}},
-    # 6.55: ANÚNCIOS (nível, habilidade, conquista): as MESMAS camadas numa janela central proporcional à altura da tela (não cobrem mira, hotbar nem controles)
-    {"ann_fx": {"type": "panel", "size": ["128%y", "66%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-5%"], "bindings": vis("#hud_title_text_string", lacks("#hud_title_text_string", CER), True), "controls": fx_layers("hud", "#hud_title_text_string", True, 61, rel=True)}},
-] + [
+    # 6.56: IDÊNTICO ao vídeo do mod: tela cheia (cerimônias e anúncios), fundo estrelado, raios, poliedro de arame e estrela central
+] + fx_video("hud", "#hud_title_text_string", True, 61) + [
     {"title": {"type": "label", "text": "#text", "localize": False, "font_size": "extra_large", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "24%"], "size": ["90%", "default"], "layer": 63,
         "bindings": [{"binding_name": "#hud_title_text_string", "binding_name_override": "#text", "binding_type": "global"}]}},
     {"lines": {"type": "label", "text": "#text", "localize": False, "font_size": "normal", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "38%"], "size": ["80%", "default"], "layer": 63,

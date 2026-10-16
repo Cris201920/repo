@@ -33,6 +33,18 @@ export function show(player, form, cb, tries = 0) {
 /** Menu de botões. buttons: [{ text, icon?, run }]. theme opcional (padrão: o de withTheme ou "tree"). */
 export function menu(player, title, body, buttons, theme) {
   const f = new ActionFormData().title(themed(player, title, theme)).body(body);
-  for (const b of buttons) { if (b.icon) f.button(b.text, b.icon.startsWith("textures/") ? b.icon : ICON(b.icon)); else f.button(b.text); }
+  // 6.56: o botão do jogo é cinza-claro: cores claras (§7 cinza, §f branco, §e amarelo) na 2ª linha ficavam ilegíveis -> escurecidas
+  const legible = (t) => String(t).replace(/§7/g, "§8").replace(/(\n[^\n]*)§f/g, "$1§0").replace(/(\n[^\n]*)§e/g, "$1§6");
+  for (const b of buttons) { const tx = legible(b.text); if (b.icon) f.button(tx, b.icon.startsWith("textures/") ? b.icon : ICON(b.icon)); else f.button(tx); }
   show(player, f, (r) => { try { buttons[r.selection]?.run?.(); } catch (e) { console.warn(`[Etheria] Erro no menu "${title}": ${e}`); } });
+}
+
+// 6.56: CARTÃO DE ESCOLHA DE RAÇA (ui/server_form.json -> eth_card_form): retrato do rosto da raça, faixa do nome, ficha e botões em linha.
+const CARD = "§t§k";
+const RACE_CODE = { human: "0", slime: "1", goblin: "2", demon: "3", elf: "4", angel: "5", dragonoid: "6", beastkin: "7", undead: "8", ogre: "9", lizardman: "a", vampire: "b", dwarf: "c" };
+export function cardMenu(player, raceId, name, body, buttons) {
+  if (classic(player)) return menu(player, name, body, buttons);
+  const f = new ActionFormData().title(`${UI_BASE}${CARD}§k§r§${RACE_CODE[raceId] ?? "0"}§r${name}`).body(body);
+  for (const b of buttons) f.button(b.text);
+  show(player, f, (r) => { try { buttons[r.selection]?.run?.(); } catch (e) { console.warn(`[Etheria] Erro no cartão de raça: ${e}`); } });
 }

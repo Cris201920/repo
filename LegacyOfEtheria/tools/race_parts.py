@@ -73,7 +73,7 @@ def membrane_wings(g, at, C, span=1.0, pre="wing"):
         def box(bone, x0, yy, z0, w, h, d, uv, rot=None, piv=None):
             g.cube(bone, [X(x0) if sg > 0 else X(x0 + w), yy, z0], [w, h, d], uv, rot=[rot[0], X(rot[1]), X(rot[2])] if rot else None, pivot=[X(piv[0]), piv[1], piv[2]] if piv else None)
         L1, L2 = 6.5 * span, 7.5 * span
-        g.bone(f"{pre}_{side}", [X(1.5), 21.5, 2.3], "body", [-6, X(-32), X(34)])
+        g.bone(f"{pre}_{side}", [X(1.5), 22.5, 2.3], "body", [-6, X(-22), X(52)])   # 6.56: ombro da asa erguido e aberto (pose da referência)
         a = g.bone(f"{pre}A_{side}", [X(1.5), 21.5, 2.6], f"{pre}_{side}")["name"]
         box(a, 1.5, 20.6, 2.0, L1 * 0.55, 1.8, 1.6, A.faces_tile(bone_t, [L1 * 0.55, 1.8, 1.6]))                         # braço: grosso no ombro
         box(a, 1.5 + L1 * 0.5, 20.8, 2.15, L1 * 0.5, 1.4, 1.3, A.faces_tile(bone_t, [L1 * 0.5, 1.4, 1.3]))                # e afinando
@@ -83,19 +83,20 @@ def membrane_wings(g, at, C, span=1.0, pre="wing"):
         box(a, 1.5 + L1 - 1, 21.6, 2.2, 1, 1.6, 1, A.faces_tile(claw_t, [1, 1.6, 1]), rot=[0, 0, -25], piv=[1.5 + L1 - 0.5, 21.6, 2.6])   # espinho do cotovelo
         if C.get("scale"):
             for k in range(int(L1 // 1.4)): box(a, 1.8 + k * 1.4, 21.9, 2.1, 1.3, 0.6, 1.4, A.faces_tile(scale_t, [1.3, 0.6, 1.4]))
-        box(a, 1.6, 21 - 6 * span, 2.55, L1 - 0.2, 6 * span, T, faces_mem(mem, [L1, 6, T]), rot=[0, 0, 90], piv=[1.6, 21, 2.55])   # membrana braço-corpo
+        hA = 7 * span; box(a, 1.6, 21 - hA, 2.55, L1 - 0.2, hA, T, faces_mem(mem, [L1, hA, T]))   # 6.56: membrana pendurada sob o braço (vela até o corpo)
         x1 = 1.5 + L1
-        b = g.bone(f"{pre}B_{side}", [X(x1), 21.5, 2.6], a, [0, 0, X(-38)])["name"]
+        b = g.bone(f"{pre}B_{side}", [X(x1), 21.5, 2.6], a, [0, 0, X(-46)])["name"]
         box(b, x1, 20.85, 2.2, L2, 1.2, 1.1, A.faces_tile(bone_t, [L2, 1.2, 1.1]))
         box(b, x1 + L2 - 0.8, 20.65, 2.05, 1.6, 1.6, 1.4, A.faces_tile(knot, [1.6, 1.6, 1.4]))                                # nó do pulso
         if C.get("spikes"):
             for k in range(3): box(b, x1 + 1 + k * 2.2, 22.0, 2.45, 0.6, 1.1 - k * 0.2, 0.6, A.faces_tile(claw_t, [0.6, 1.1, 0.6]), rot=[0, 0, -30], piv=[x1 + 1.3 + k * 2.2, 22.0, 2.75])
         if C.get("scale"):
             for k in range(int(L2 // 1.4)): box(b, x1 + 0.3 + k * 1.4, 21.85, 2.2, 1.2, 0.55, 1.2, A.faces_tile(scale_t, [1.2, 0.55, 1.2]))
+        hB = 10 * span; box(b, x1 - 0.2, 21 - hB, 2.5, L2, hB, T, faces_mem(mem, [L2, hB, T]))      # 6.56: membrana sob o antebraço
         x2 = x1 + L2
         c = g.bone(f"{pre}C_{side}", [X(x2), 21.5, 2.6], b, [0, 0, X(-10)])["name"]
         box(c, x2 - 0.2, 21.4, 2.15, 1.3, 2.6, 1.2, A.faces_tile(claw_t, [1.3, 2.6, 1.2]), rot=[0, 0, -35], piv=[x2, 21.5, 2.6])      # polegar com garra
-        angs = [10 + k * (100 / max(1, NF - 1)) for k in range(NF)]                    # dedos abrindo para BAIXO em leque
+        angs = [-(8 + k * (96 / max(1, NF - 1))) for k in range(NF)]                   # 6.56: dedos abrindo para BAIXO em leque (antes abriam para cima)
         for k, ang in enumerate(angs):
             ln = (13 - k * 1.1) * span
             f = g.bone(f"{pre}F{k}_{side}", [X(x2), 21.5, 2.6], c, [0, 0, X(ang)])["name"]
@@ -109,7 +110,7 @@ def fairy_wings(g, at, C):
     for side, sg in (("l", 1), ("r", -1)):
         X = lambda v: v * sg
         g.bone(f"wing_{side}", [X(1.0), 21.5, 2.3], "body", [0, X(-28), 0])
-        for k, (ln, wd, ang) in enumerate([(15, 6, -118), (11, 4.6, -62)]):        # par de cima (aberto para cima/fora) e de baixo
+        for k, (ln, wd, ang) in enumerate([(19, 7.5, -125), (14, 5.6, -58)]):        # par de cima (aberto para cima/fora) e de baixo
             g.cube(f"wing_{side}", [X(1.0) - wd / 2, 21.5 - ln, 2.5 + 0.03 * k], [wd, ln, 0.12], A.faces_feather(t, [wd, ln, 0.12]),
                    rot=[0, 0, X(ang)], pivot=[X(1.0), 21.5, 2.5])
 def kijin_horns(g, at, C):
@@ -119,18 +120,18 @@ def kijin_horns(g, at, C):
         for n in (f"horn_{side}", f"horn_{side}_tip"):
             b = g.idx.get(n)
             if b: b["cubes"] = []
-        base = g.idx[f"horn_{side}"]; base["pivot"] = [X(2.3), 31.6, -2.6]; base["rotation"] = [-14, 0, X(18)]
+        base = g.idx[f"horn_{side}"]; base["pivot"] = [X(2.3), 31.6, -2.6]; base["rotation"] = [-14, 0, X(-20)]   # 6.56: inclinam para FORA (antes se cruzavam no topo)
         y = 31.4
         for k, (w, h) in enumerate([(2.2, 1.6), (1.9, 1.6), (1.6, 1.5)]):              # base larga com anéis (cada segmento um pouco menor)
             g.cube(base["name"], [X(2.3) - w / 2, y, -2.6 - w / 2], [w, h, w], A.faces_tile(t, [w, h, w])); y += h
-        tb = g.idx[f"horn_{side}_tip"]; tb["parent"] = base["name"]; tb["pivot"] = [X(2.3), y, -2.6]; tb["rotation"] = [-24, 0, X(-6)]
+        tb = g.idx[f"horn_{side}_tip"]; tb["parent"] = base["name"]; tb["pivot"] = [X(2.3), y, -2.6]; tb["rotation"] = [-22, 0, X(-12)]
         for k, (w, h) in enumerate([(1.3, 1.5), (1.0, 1.4), (0.7, 1.2), (0.4, 1.0)]):
             g.cube(tb["name"], [X(2.3) - w / 2, y, -2.6 - w / 2], [w, h, w], A.faces_tile(tip if k > 1 else t, [w, h, w])); y += h
 RACES = {
-  "demon":     dict(kind="membrane", m0="#7a1420", m1="#2a0508", vein="#b0303c", bone="#1c1416", claw="#d8c8a0", span=1.0, fingers=4, spikes=True),
-  "vampire":   dict(kind="membrane", m0="#3a0c1c", m1="#100408", vein="#8a1430", bone="#100a0e", claw="#c8c0c8", span=0.82, scallop=5, depth=0.32, fingers=4),
-  "dragonoid": dict(kind="membrane", m0="#e8782e", m1="#8a2010", vein="#ffc060", bone="#5a3418", claw="#efe2c0", scale="#b04a1e", span=1.3, fingers=5, spikes=True, depth=0.16),
-  "dragonewt_w": dict(kind="membrane", m0="#4fb85a", m1="#1d5a2c", vein="#b8f07a", bone="#2a4a24", claw="#e8f0d0", scale="#2e7a3a", span=1.1, fingers=4, spikes=True, depth=0.18),   # 6.52: Dragonato Celeste
+  "demon":     dict(kind="membrane", m0="#8a1a24", m1="#2a0508", vein="#d0404a", bone="#1c1416", claw="#ffb050", span=1.35, fingers=5, spikes=True),
+  "vampire":   dict(kind="membrane", m0="#4a0c22", m1="#100408", vein="#a01838", bone="#100a0e", claw="#c8c0c8", span=1.15, scallop=5, depth=0.32, fingers=4),
+  "dragonoid": dict(kind="membrane", m0="#c83a22", m1="#5a0e0a", vein="#ff9a40", bone="#3a1a10", claw="#ffb040", scale="#8a2414", span=1.6, fingers=5, spikes=True, depth=0.16),
+  "dragonewt_w": dict(kind="membrane", m0="#4fb85a", m1="#1d5a2c", vein="#b8f07a", bone="#2a4a24", claw="#e8f0d0", scale="#2e7a3a", span=1.35, fingers=4, spikes=True, depth=0.18),   # 6.52: Dragonato Celeste
   "ogre":      dict(kind="horns", horn="#efe6d0", tip="#c8b48a"),
   "elf":       dict(kind="fairy", m0="#e8fff4", m1="#a8e8ff", vein="#ffffff"),
 }
@@ -149,6 +150,8 @@ def main():
         if C["kind"] == "membrane": membrane_wings(g, at, C, C["span"])
         elif C["kind"] == "fairy": fairy_wings(g, at, C)
         elif C["kind"] == "horns": kijin_horns(g, at, C)
+        # 6.56: cauda dracônica sai para TRÁS e desce em curva (antes pendia reta colada às pernas)
+        if race in ("dragonoid", "dragonewt_w") and "tail0" in g.idx: g.idx["tail0"]["rotation"] = [42, 0, 0]
         out = g.json(); out["minecraft:geometry"][0]["description"]["visible_bounds_width"] = 6
         img.save(tp); json.dump(out, open(gp, "w"), indent=1)
         key = f"animation.etheria.race_{race}"
@@ -159,6 +162,10 @@ def main():
             if tails: bones.update(tail_anim(tails))
             AN["animations"][key]["bones"] = bones
         print(race, C["kind"], sum(len(b.get("cubes", [])) for b in g.bones), "cubos")
+    gp = os.path.join(RP, "models/entity/etheria_race_dragonewt.geo.json"); dd = json.load(open(gp))   # dragonato sem asas: mesma cauda erguida
+    for b in dd["minecraft:geometry"][0]["bones"]:
+        if b["name"] == "tail0": b["rotation"] = [42, 0, 0]
+    json.dump(dd, open(gp, "w"), indent=1)
     if "animation.etheria.race_dragonewt" in AN["animations"]:   # dragonato sem asas: só a cauda nova
         AN["animations"]["animation.etheria.race_dragonewt"]["bones"].update(tail_anim([f"tail{i}" for i in range(7)]))
     json.dump(AN, open(ap, "w"), indent=1)

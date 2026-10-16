@@ -4,7 +4,7 @@
 import { system } from "@minecraft/server";
 import { getData } from "../../core/db.js";
 import { bar, fmt, say, countItem } from "../../core/utils.js";
-import { ATTRIBUTES, MAX_LEVEL, ATTR_POINTS_PER_LEVEL, SKILL_POINT_EVERY, xpToNext } from "../../config.js";
+import { ATTRIBUTES, STAT_LABELS, MAX_LEVEL, ATTR_POINTS_PER_LEVEL, SKILL_POINT_EVERY, xpToNext } from "../../config.js";
 import { SKILLS } from "../../data/skills.js";
 import { RACES, RACE_LIST, stageOf, raceOf, nextStages, isLordStage } from "../../data/races.js";
 import { raceSheet, raceStyle, evoReqs, evoProgress, RACE_LOOK, STAGE_LOOK } from "../../data/racecard.js";
@@ -14,7 +14,7 @@ import { AGILITY_LINES, AGI_GATES } from "../../data/agility.js";
 import { getStats, getHealth } from "../stats.js";
 import { chooseRace, evolve, evolveCheck } from "../race.js";
 import { hasSkill } from "../skills.js";
-import { menu } from "./forms.js";
+import { menu, cardMenu } from "./forms.js";
 import { openLineage, openClass, openAttributes, openTitles } from "./menus.js";
 import { openPowers } from "../powers.js";
 
@@ -143,24 +143,31 @@ function treeOf(r) {
   return L.join("\n");
 }
 export function openRacePickV2(player, idx = 0) {
+  // 6.56: cartão no estilo do mod de referência (retrato, faixa do nome, ficha curta) com ◀ SELECIONAR ▶ embaixo
   const n = RACE_LIST.length, i = ((idx % n) + n) % n, r = RACE_LIST[i], st = r.stages[r.root];
-  const prev = RACE_LIST[(i - 1 + n) % n], nxt = RACE_LIST[(i + 1) % n];
-  const body = [`§e§lESCOLHA SUA RAÇA §r§8(${i + 1}/${n} · permanente)`, `${r.color}§l${r.name.toUpperCase()}`, `§f${r.desc}`, SEP,
-    raceSheet(RACE_LIST, r, st, skillName), SEP, "§l§fÁRVORE DE EVOLUÇÃO", treeOf(r), SEP,
-    `§bAgilidades Supremas: §f${AGILITY_LINES[r.id]?.name ?? "—"}`].join("\n");
-  menu(player, `${r.color}§l${r.name.toUpperCase()}`, body, [
-    { text: `§a§lESCOLHER ${r.name.toUpperCase()}\n§r§7confirmar na próxima tela`, icon: "race_" + r.id, run: () => openRaceConfirmV2(player, r.id) },
-    { text: `§l« ${prev.name}\n§r§7${raceStyle(RACE_LIST, prev.stages[prev.root])}`, icon: "race_" + prev.id, run: () => openRacePickV2(player, i - 1) },
-    { text: `§l${nxt.name} »\n§r§7${raceStyle(RACE_LIST, nxt.stages[nxt.root])}`, icon: "race_" + nxt.id, run: () => openRacePickV2(player, i + 1) },
-    { text: "§l§bTodas as raças\n§r§7lista com estilo e bônus", icon: "menu_race", run: () => openRaceListV2(player, false) },
-  ], themeOf(r.id));
+  const A = Object.entries(st.attrs ?? {}).filter(([, v]) => v).map(([k, v]) => ` §f- ${v > 0 ? "+" : ""}${v} ${ATTRIBUTES[k]?.label ?? k}`);
+  const S = Object.entries(st.stats ?? {}).filter(([, v]) => v).map(([k, v]) => ` §f- ${v > 0 ? "+" : ""}${v} ${STAT_LABELS[k] ?? k}`);
+  const body = [
+    `§7${r.desc}`,
+    "§bAtributos", ...(A.length ? A : [" §f- equilibrados"]), ...S,
+    "§bTraço racial", ` §f${r.bonus}`,
+    "§cFraqueza", ` §f${r.penalty}`,
+    "§bHabilidades", ` §f${st.skills.map(skillName).join(", ") || "—"}`,
+    "§bEvolui para", ` §f${st.next.map((x) => r.stages[x].name).join(", ") || "—"}`,
+    `§8${i + 1}/${n} · escolha permanente`,
+  ].join("\n");
+  cardMenu(player, r.id, `${r.color}${r.name}`, body, [
+    { text: "§l<", run: () => openRacePickV2(player, i - 1) },
+    { text: "§2§lSelecionar", run: () => openRaceConfirmV2(player, r.id) },
+    { text: "§l>", run: () => openRacePickV2(player, i + 1) },
+  ]);
 }
 function openRaceConfirmV2(player, id) {
   const r = RACES[id], st = r.stages[r.root], idx = RACE_LIST.findIndex((x) => x.id === id);
-  menu(player, `${r.color}§lCONFIRMAR: ${r.name.toUpperCase()}`, [`${r.color}§l${r.name}`, `§f${r.desc}`, SEP, `§7Estilo: ${raceStyle(RACE_LIST, st)}`, `§a+ ${r.bonus}`, `§c- ${r.penalty}`, SEP, "§cEsta escolha é permanente.", "§7Em seguida você escolhe a classe inicial."].join("\n"), [
-    { text: "§a§lCONFIRMAR RAÇA", icon: "race_" + id, run: () => { if (chooseRace(player, id)) { say(player, `§aVocê agora é ${r.name}!`); system.runTimeout(() => openClass(player, true), 50); } } },
-    { text: "§7« Voltar", icon: "back", run: () => openRacePickV2(player, idx) },
-  ], themeOf(id));
+  cardMenu(player, id, `${r.color}${r.name}`, [`§7Estilo: §f${raceStyle(RACE_LIST, st)}`, `§a+ ${r.bonus}`, `§c- ${r.penalty}`, "", "§cEsta escolha é permanente.", "§7Em seguida você escolhe a classe inicial."].join("\n"), [
+    { text: "§l<", run: () => openRacePickV2(player, idx) },
+    { text: "§2§lConfirmar", run: () => { if (chooseRace(player, id)) { say(player, `§aVocê agora é ${r.name}!`); system.runTimeout(() => openClass(player, true), 50); } } },
+  ]);
 }
 export function openRaceListV2(player, view = false, back) {
   const d = getData(player);

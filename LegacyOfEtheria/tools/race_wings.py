@@ -9,12 +9,12 @@ sys.path.insert(0, os.path.dirname(__file__))
 import angels as A
 RP = A.RP
 RACES = {   # cores das penas (base, meio, ponta), borda, barra, envergadura, pares [(prefixo, rotação raiz, altura)]
-  "angel":        dict(w=("#ffffff", "#eef0f8", "#d8dcec"), edge="#e8d27a", bar="#e6e6f0", span=0.85, pairs=[("wing", (-8, -34, 26), 21.5)]),
-  "angel_arch":   dict(w=("#ffffff", "#f2f2fa", "#e2c860"), edge="#e2b83a", bar="#e6e6f0", span=1.05, pairs=[("wing", (-8, -34, 26), 21.5)]),
-  "angel_cherub": dict(w=("#fff8f0", "#f4ecf8", "#e0d4f0"), edge="#e8c8a8", bar="#ece8f2", span=0.75, pairs=[("wing", (-6, -30, 30), 21.5), ("wing2", (-4, -40, -8), 17.0)]),
-  "angel_seraph": dict(w=("#ffffff", "#fff4d8", "#ffd27a"), edge="#ffb84a", bar="#f2ecd8", span=0.8, pairs=[("wing", (-10, -30, 42), 22.5), ("wing2", (-6, -38, 14), 19.5), ("wing3", (-2, -44, -14), 16.5)]),
-  "fallen":       dict(w=("#4a4652", "#2a2630", "#16141a"), edge="#5a5466", bar="#24212a", span=0.9, pairs=[("wing", (-8, -34, 22), 21.5)]),
-  "fallen_lord":  dict(w=("#2a2630", "#16141c", "#0a090c"), edge="#8a2a3a", bar="#1c1a22", span=1.05, pairs=[("wing", (-8, -34, 26), 21.5)]),
+  "angel":        dict(w=("#ffffff", "#eef0f8", "#d8dcec"), edge="#e8d27a", bar="#e6e6f0", span=1.5, pairs=[("wing", (-6, -24, 44), 22.5)]),
+  "angel_arch":   dict(w=("#ffffff", "#f2f2fa", "#e2c860"), edge="#e2b83a", bar="#e6e6f0", span=1.7, pairs=[("wing", (-6, -24, 46), 22.5)]),
+  "angel_cherub": dict(w=("#fff8f0", "#f4ecf8", "#e0d4f0"), edge="#e8c8a8", bar="#ece8f2", span=1.25, pairs=[("wing", (-6, -24, 50), 22.5), ("wing2", (-4, -30, 6), 19.0)]),
+  "angel_seraph": dict(w=("#ffffff", "#fff4d8", "#ffd27a"), edge="#ffb84a", bar="#f2ecd8", span=1.2, pairs=[("wing", (-8, -22, 62), 23.5), ("wing2", (-4, -28, 22), 20.5), ("wing3", (-2, -34, -18), 17.5)]),
+  "fallen":       dict(w=("#4a4652", "#2a2630", "#16141a"), edge="#5a5466", bar="#24212a", span=1.45, pairs=[("wing", (-6, -24, 40), 22.5)]),
+  "fallen_lord":  dict(w=("#2a2630", "#16141c", "#0a090c"), edge="#8a2a3a", bar="#1c1a22", span=1.4, pairs=[("wing", (-6, -24, 44), 22.5)]),
 }
 def hx(c): return A.hexc(c)
 
@@ -35,7 +35,7 @@ def build(race, R):
     sec = at.feather("sec", A.p_feather(cb, cs, ed, mid=A.mix(cb, cs, 0.6))); pri = at.feather("pri", A.p_feather(cs, ct, ed, mid=A.mix(cs, ct, 0.35), round_tip=False))
     bar = at.tile("bar", A.p_cloth(hx(R["bar"]), fold=False))
     for pre, rot, y in R["pairs"]:
-        A.wings(g, {}, cov, sec, pri, bar, R["span"], None, small, pre=pre, root_rot=rot, y0=y)
+        A.wings(g, {}, cov, sec, pri, bar, R["span"], None, small, pre=pre, root_rot=rot, y0=y, bj=-14, cj=-18, root_x=2.0)
     out = g.json(); out["minecraft:geometry"][0]["description"].update({k: v for k, v in G["description"].items() if k.startswith("visible")})
     out["minecraft:geometry"][0]["description"]["visible_bounds_width"] = 6
     img.save(tp); json.dump(out, open(gp, "w"), indent=1)
@@ -51,8 +51,8 @@ def wing_anim(pres):
         lag = i * 25
         for side, sg in (("l", 1), ("r", -1)):
             out[f"{pre}_{side}"] = {"rotation": [f"math.sin(query.life_time * 160 - {lag}) * 2 * {flap} - 6 * {glide}",
-                                                 f"{sg} * (-6 * {fly} + 10 * {walk} * (1 - {fly}) + 18 * {sneak} + math.sin(query.life_time * 60) * 2 * (1 - {fly}) - 14 * {glide})",
-                                                 f"{sg} * (math.sin(query.life_time * 80 - {lag}) * 3 * (1 - {fly}) + {flap} * (16 + math.sin(query.life_time * 600 - {lag}) * 34) + {glide} * (24 + math.sin(query.life_time * 90) * 3) - 14 * {sneak})"]}
+                                                 f"{sg} * (-6 * {fly} + 10 * {walk} * (1 - {fly}) + 18 * {sneak} + math.sin(query.life_time * 60) * 5 * (1 - {fly}) - 14 * {glide})",
+                                                 f"{sg} * (math.sin(query.life_time * 80 - {lag}) * 6 * (1 - {fly}) + {flap} * (14 + math.sin(query.life_time * 560 - {lag}) * 42) + {glide} * (24 + math.sin(query.life_time * 90) * 3) - 14 * {sneak})"]}
             out[f"{pre}B_{side}"] = {"rotation": [0, 0, f"{sg} * ({flap} * math.sin(query.life_time * 600 - 45 - {lag}) * 16 + math.sin(query.life_time * 80 - 30) * 2 * (1 - {fly}) - 10 * {sneak} - 6 * {glide})"]}
             out[f"{pre}C_{side}"] = {"rotation": [0, 0, f"{sg} * ({flap} * math.sin(query.life_time * 600 - 90 - {lag}) * 20 + math.sin(query.life_time * 80 - 60) * 3 * (1 - {fly}) - 12 * {sneak} - 4 * {glide})"]}
     return out

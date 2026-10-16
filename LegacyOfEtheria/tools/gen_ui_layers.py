@@ -97,3 +97,66 @@ for sx, sy in ((0, 0), (1, 0), (0, 1), (1, 1)):
     d.line([(x0, y0), (x0 + dx * ln, y0)], fill=255, width=3); d.line([(x0, y0), (x0, y0 + dy * ln * 0.7)], fill=255, width=3)
     d.line([(x0 + dx * 6, y0 + dy * 6), (x0 + dx * ln * 0.6, y0 + dy * 6)], fill=150, width=1)
 save(white_alpha(L), "ov_brackets.png")
+
+# ------------------------------------------------------------------ 6.56: estilo IDÊNTICO ao vídeo do mod Great Sage (Voz do Mundo)
+# fundo azul-escuro com estrelas pequenas | ~32 raios finos que giram (tingidos) + raios brancos finos | poliedro de arame branco girando
+# estrela central com reflexo horizontal. Rotação contínua = N quadros com troca suave (o JSON UI não gira imagens).
+VW, VH = 640, 360; vcx, vcy = VW / 2, VH * 0.5
+def wa(L):
+    im = Image.new("RGBA", L.size, (255, 255, 255, 0)); im.putalpha(L); return im
+rv = random.Random(7)
+bgv = Image.new("RGB", (VW, VH), (4, 6, 14)); d = ImageDraw.Draw(bgv)
+for _ in range(420):
+    x, y = rv.uniform(0, VW), rv.uniform(0, VH); b = rv.random() ** 2.2
+    v = int(60 + 150 * b); d.point((x, y), fill=(v, v, min(255, v + 20)))
+    if b > 0.8: d.point((x + 1, y), fill=(v // 2, v // 2, v // 2))
+save(bgv, "ov_v_bg.png")
+NR = 32; RAY = [(rv.uniform(-0.04, 0.04), rv.uniform(0.45, 1.0), rv.choice((1, 1, 2, 2, 3))) for _ in range(4)]   # padrão repete a cada 4 raios
+def rays(frame, nfr, white=False):
+    L = Image.new("L", (VW * 2, VH * 2), 0); ld = ImageDraw.Draw(L); rot = (frame / nfr) * (2 * math.pi / NR) * 4
+    for k in range(NR):
+        jit, br, wd = RAY[k % 4]
+        if white and k % 4 != 1: continue
+        a = k * 2 * math.pi / NR + jit + rot; r0 = 10 if white else 22
+        x0, y0 = vcx * 2 + math.cos(a) * r0, vcy * 2 + math.sin(a) * r0 * 0.9
+        x1, y1 = vcx * 2 + math.cos(a) * VW * 2.2, vcy * 2 + math.sin(a) * VW * 2.2 * 0.9
+        ld.line([(x0, y0), (x1, y1)], fill=int((200 if white else 255) * br), width=(1 if white else wd) * 2)
+    L = L.filter(ImageFilter.GaussianBlur(1.2 if white else 2.4)).resize((VW, VH), Image.LANCZOS)
+    if not white:   # brilho largo em volta dos raios (o "glow" vermelho do vídeo)
+        L = ImageChops.lighter(L, L.filter(ImageFilter.GaussianBlur(6)).point(lambda v: int(v * 0.7)))
+    return wa(L)
+NFR = 8
+for f in range(NFR): save(rays(f, NFR), f"ov_v_rays_{f}.png"); save(rays(f, NFR, True), f"ov_v_rayw_{f}.png")
+# poliedro de arame: icosaedro + dodecaedro girando no eixo de um vértice (simetria de 72° -> laço perfeito em 12 quadros)
+ico = V; dod = []
+for i in range(12):
+    for j in range(i + 1, 12):
+        for k in range(j + 1, 12):
+            if all(abs(sum((a - b) ** 2 for a, b in zip(ico[x], ico[y])) - 4) < 1e-6 for x, y in ((i, j), (j, k), (i, k))):
+                dod.append(tuple((ico[i][t] + ico[j][t] + ico[k][t]) / 3 for t in range(3)))
+dodE = [(i, j) for i in range(len(dod)) for j in range(i + 1, len(dod)) if abs(math.dist(dod[i], dod[j]) - min(math.dist(dod[0], dod[q]) for q in range(1, len(dod)))) < 1e-3]
+ax = [c / math.sqrt(sum(v * v for v in ico[0])) for c in ico[0]]
+def rot_axis(p, a):
+    x, y, z = p; ux, uy, uz = ax; c, s = math.cos(a), math.sin(a); dot = x * ux + y * uy + z * uz
+    return (x * c + (uy * z - uz * y) * s + ux * dot * (1 - c), y * c + (uz * x - ux * z) * s + uy * dot * (1 - c), z * c + (ux * y - uy * x) * s + uz * dot * (1 - c))
+def wire(frame, nfr):
+    L = Image.new("L", (VW * 2, VH * 2), 0); ld = ImageDraw.Draw(L); a = (frame / nfr) * (2 * math.pi / 5)
+    for verts, edges, sc, extra, fill in ((ico, E, VH * 0.40, 0.0, 175), (ico, E, VH * 0.27, 0.6, 70)):
+        P = []
+        for v in verts:
+            x, y, z = rot_axis(v, a + extra)
+            y, z = y * math.cos(0.45) - z * math.sin(0.45), y * math.sin(0.45) + z * math.cos(0.45)   # inclinação fixa
+            k = sc / 1.9 * 2 / (1 + z * 0.12); P.append((vcx * 2 + x * k, vcy * 2 + y * k))
+        for i, j in edges: ld.line([P[i], P[j]], fill=fill, width=2)
+    return wa(L.resize((VW, VH), Image.LANCZOS))
+NW = 12
+for f in range(NW): save(wire(f, NW), f"ov_v_wire_{f}.png")
+# estrela central com reflexo horizontal (lens flare)
+SW, SH = 512, 128; L = Image.new("L", (SW, SH), 0); d = ImageDraw.Draw(L)
+for r in range(40, 0, -1): d.ellipse([SW / 2 - r, SH / 2 - r, SW / 2 + r, SH / 2 + r], fill=int(255 * (1 - r / 40) ** 2.4))
+for x in range(SW):
+    f = (1 - abs(x - SW / 2) / (SW / 2)) ** 3
+    for y in range(-2, 3): L.putpixel((x, int(SH / 2) + y), max(L.getpixel((x, int(SH / 2) + y)), int(255 * f * (1 if y == 0 else 0.35))))
+for a in (math.radians(25), math.radians(-25)):   # dois reflexos diagonais curtos
+    d.line([(SW / 2 - math.cos(a) * 60, SH / 2 - math.sin(a) * 60), (SW / 2 + math.cos(a) * 60, SH / 2 + math.sin(a) * 60)], fill=110, width=1)
+save(wa(L.filter(ImageFilter.GaussianBlur(0.8))), "ov_v_star.png")
