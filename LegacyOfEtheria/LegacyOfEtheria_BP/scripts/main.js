@@ -1,3 +1,4 @@
+import { emit, EV } from "./core/bus.js";
 // main.js - Ponto de entrada de Legacy of Etheria (RPG para Minecraft Bedrock)
 import { world, system, ItemStack } from "@minecraft/server";
 import { VERSION } from "./config.js";
@@ -102,6 +103,7 @@ try { world.beforeEvents.playerLeave.subscribe((ev) => { const p = ev.player; tr
 
 function initPlayer(player, first) {
   const d = getData(player);
+  system.runTimeout(() => { try { if (player.isValid) emit(first ? EV.PLAYER_JOIN : EV.PLAYER_RESPAWN, { player, first }); } catch { /* ignore */ } }, first ? 120 : 20);   // 6.54: o Sábio reage à entrada e ao renascimento
   dropStats(player.id);
   applyDerivedStats(player);
   refreshName(player);

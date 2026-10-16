@@ -59,6 +59,7 @@ function evaluate(player, id) {
   if (done(q, st)) completeQuest(player, id);
 }
 import { sysSay } from "./voice.js";
+import { emit, EV } from "../core/bus.js";
 function completeQuest(player, id) {
   sysSay(player, "main", "quest", { cd: 300 });
   const d = getData(player), q = QUESTS[id];
@@ -82,6 +83,7 @@ function completeQuest(player, id) {
   for (const [a, b, dv] of r.dipl ?? []) changeRelation(a, b, dv, player);
   if (r.xp) addXp(player, r.xp);
   checkAchievements(player); saveNow(player);
+  try { emit(EV.QUEST_COMPLETED, { player, id, name: q.name }); } catch { /* ignore */ }
 }
 
 function eachActive(player, fn) {

@@ -18,3 +18,7 @@ LegacyOfEtheria_RP/textures/entity/etheria_npc_lm_knight.png
 __pycache__/
 LegacyOfEtheria_RP/textures/entity/etheria_ranga.png
 tools/sword_src/
+# 6.54 Michael AFK (geometria/animação derivadas do jar tensuramoreskills - uso pessoal)
+LegacyOfEtheria_RP/models/entity/etheria_michael_halberd.geo.json
+LegacyOfEtheria_RP/animations/etheria_michael_afk.animation.json
+LegacyOfEtheria_RP/textures/entity/etheria_michael_halberd.png

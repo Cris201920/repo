@@ -10,6 +10,7 @@ import { checkAchievements } from "./achievements.js";
 import { updateRanking } from "./ranking.js";
 import { onLevelQuest } from "./quests.js";
 import { sysSay } from "./voice.js";
+import { emit, EV } from "../core/bus.js";
 
 export function addXp(player, amount) {
   const d = getData(player);
@@ -43,5 +44,6 @@ function onLevelUp(player, d, n) {
   updateRanking(player);
   onLevelQuest(player);
   notifyEvolution(player);
+  try { emit(EV.PLAYER_LEVEL_UP, { player, level: d.level, gained: n }); } catch { /* ignore */ }
   saveNow(player);
 }

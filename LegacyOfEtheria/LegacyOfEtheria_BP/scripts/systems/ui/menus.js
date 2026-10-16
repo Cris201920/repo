@@ -10,7 +10,9 @@ import { RACES, RACE_LIST, stageOf, raceOf, nextStages, isLordStage } from "../.
 import { raceCardText, raceSheet, raceStyle, evoReqs, evoProgress, progressBar, reqLines, treeLines, RACE_LOOK, STAGE_LOOK } from "../../data/racecard.js";
 import { CLASSES, CLASS_LIST } from "../../data/classes.js";
 import { QUESTS } from "../../data/quests.js";
-import { GUILD_RANKS, GUILD_REP, GUILD_REWARDS, ACHIEVEMENTS, ACH_CATS } from "../../data/misc.js";
+import { GUILD_RANKS, GUILD_REP, GUILD_REWARDS, ACHIEVEMENTS, ACH_CATS, RARITY as ACH_RARITY } from "../../data/misc.js";
+import { sageStage } from "../voice.js";
+import { achProgress, nearestAchievements } from "../achievements.js";
 import { getStats, getHealth, applyDerivedStats } from "../stats.js";
 import { learnSkill, canLearn, castSlot, cdLeft, hasSkill, skillCost } from "../skills.js";
 import { openHotbar, openSlotPick, hotbarSummary } from "../skillbar/ui.js";
@@ -408,22 +410,47 @@ export function openGuild(player) {
 
 // ---------------------------------------------------------------- conquistas / ranking / config
 export function openAchievements(player) {
-  // 6.46: por categoria (Missões, Combate, Magia, Evolução, Exploração, Personagens, Lenda), com progresso e detalhes
-  const d = getData(player), got = (a) => d.achievements.includes(a.id);
+  // 6.54: Grande Sábio 2.0 — categorias, raridade, progresso, dicas, recentes e recomendações (o nível de detalhe cresce com o estágio do Sábio)
+  const d = getData(player), got = (a) => d.achievements.includes(a.id), st = sageStage(d);
   const b = ACH_CATS.map(([c, icon]) => {
-    const list = ACHIEVEMENTS.filter((a) => (a.cat ?? "Missões") === c), n = list.filter(got).length;
+    const list = ACHIEVEMENTS.filter((a) => a.cat === c), n = list.filter(got).length;
     return { text: `§l${c}\n§r${n === list.length ? "§a" : "§7"}${n}/${list.length} concluídas`, icon, run: () => openAchCat(player, c) };
   });
+  b.unshift({ text: "§l§6Recentes\n§r§7ordem de desbloqueio", icon: "menu_ranking", run: () => openAchRecent(player) });
+  if (st >= 2) b.unshift({ text: `§l§bRecomendações do ${st >= 4 ? "Ciel" : st >= 3 ? "Raphael" : "Grande Sábio"}\n§r§7objetivos mais próximos`, icon: "menu_skills", run: () => openAchAdvice(player) });
   b.push({ text: "Trocar título", icon: "menu_ranking", run: () => openTitles(player) }, back(() => openMain(player)));
-  const total = ACHIEVEMENTS.length, n = d.achievements.length, f = Math.round((n / total) * 20);
-  menu(player, "§l§6CONQUISTAS", `§7Progresso geral: §f${n}/${total}\n§a${"█".repeat(f)}§8${"█".repeat(20 - f)}\n\n§7Cada conquista registra um feito real e fica salva no seu personagem.`, b);
+  const total = ACHIEVEMENTS.length, n = ACHIEVEMENTS.filter(got).length, f = Math.round((n / total) * 20);
+  const byR = Object.entries(ACH_RARITY).map(([k, R]) => { const l = ACHIEVEMENTS.filter((a) => a.rarity === k); return `${R.col}${R.name} ${l.filter(got).length}/${l.length}`; }).join("§8 · ");
+  menu(player, "§l§6CONQUISTAS", `§7Progresso geral: §f${n}/${total}\n§a${"█".repeat(f)}§8${"█".repeat(20 - f)}\n${byR}\n\n§7Cada conquista registra um feito real, fica salva no seu personagem e dá moedas, XP e título.`, b);
+}
+const achBar = (cur, max, n = 10) => { const f = Math.max(0, Math.min(n, Math.round((cur / Math.max(1, max)) * n))); return `§a${"█".repeat(f)}§8${"█".repeat(n - f)} §7${cur}/${max}`; };
+function achLine(d, a, st) {
+  const R = ACH_RARITY[a.rarity] ?? ACH_RARITY.comum, rew = `${a.coins ? `§6${a.coins} moedas §8· ` : ""}§b${a.xp ?? R.xp} XP${a.title ? ` §8· §e"${a.title}"` : ""}`;
+  if (d.achievements.includes(a.id)) {
+    const log = (d.achLog ?? []).find((x) => x.id === a.id);
+    return `§a✔ ${R.col}§l${a.name}§r §8[${R.name}]${log ? ` §8#${log.n}` : ""}\n   §7${a.desc}\n   ${rew}`;
+  }
+  const p = achProgress(d, a), hint = a.hint && st >= 1 ? `\n   §8Dica: §7${a.hint}` : "";
+  return `§8✖ §7${a.name} ${R.col}[${R.name}]\n   §8${a.desc}${p ? `\n   ${achBar(p[0], p[1])}` : ""}${hint}\n   §8Recompensa: ${rew}`;
 }
 function openAchCat(player, c) {
-  const d = getData(player), list = ACHIEVEMENTS.filter((a) => (a.cat ?? "Missões") === c);
-  const body = list.map((a) => d.achievements.includes(a.id)
-    ? `§a✔ §f§l${a.name}§r\n   §7${a.desc}\n   §8Título: §e${a.title}${a.coins ? ` §8· §6${a.coins} moedas` : ""}`
-    : `§8✖ §7${a.name}\n   §8${a.desc}`).join("\n");
-  menu(player, `§l§6${c}`, body, [back(() => openAchievements(player))]);
+  const d = getData(player), st = sageStage(d), list = ACHIEVEMENTS.filter((a) => a.cat === c)
+    .sort((x, y) => (d.achievements.includes(y.id) - d.achievements.includes(x.id)) || ((ACH_RARITY[x.rarity]?.order ?? 0) - (ACH_RARITY[y.rarity]?.order ?? 0)));
+  menu(player, `§l§6${c}`, list.map((a) => achLine(d, a, st)).join("\n"), [back(() => openAchievements(player))]);
+}
+function openAchRecent(player) {
+  const d = getData(player), log = (d.achLog ?? []).slice().reverse().slice(0, 15);
+  const when = (t) => { try { const x = new Date(t); return `${String(x.getDate()).padStart(2, "0")}/${String(x.getMonth() + 1).padStart(2, "0")}`; } catch { return ""; } };
+  const body = log.length ? log.map((x) => { const a = ACHIEVEMENTS.find((q) => q.id === x.id); const R = ACH_RARITY[a?.rarity] ?? ACH_RARITY.comum; return `§8#${x.n} ${R.col}${a?.name ?? x.id} §8[${R.name}] §7${when(x.t)}`; }).join("\n")
+    : (d.achievements.length ? `§7${d.achievements.length} conquistas de antes do registro de ordem (6.54).` : "§7Nenhuma conquista ainda.");
+  menu(player, "§l§6RECENTES", body, [back(() => openAchievements(player))]);
+}
+function openAchAdvice(player) {
+  const d = getData(player), st = sageStage(d), near = nearestAchievements(d, st >= 4 ? 5 : st >= 3 ? 4 : 3);
+  const who = st >= 4 ? "§e[Ciel]" : st >= 3 ? "§c[Raphael]" : "§b[Grande Sábio]";
+  const lines = near.length ? near.map(({ a, p }) => `${(ACH_RARITY[a.rarity] ?? ACH_RARITY.comum).col}• ${a.name}\n   ${achBar(p[0], p[1])}${st >= 3 && a.hint ? `\n   §8${a.hint}` : ""}`) : ["§7Sem objetivos acumulativos em andamento. Explore, lute e conclua missões."];
+  const extra = st >= 4 ? `\n\n§e[Ciel] §fPlano sugerido: concentre-se em §e${near[0]?.a.name ?? "explorar novas regiões"}§f; o restante virá no caminho.` : "";
+  menu(player, "§l§bRECOMENDAÇÕES", `${who} §fObjetivos mais próximos de serem concluídos:\n\n${lines.join("\n")}${extra}`, [back(() => openAchievements(player))]);
 }
 export function openRanking(player) {
   const list = getRanking();

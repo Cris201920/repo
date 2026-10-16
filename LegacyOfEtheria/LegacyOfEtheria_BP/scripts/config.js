@@ -1,6 +1,6 @@
 // config.js - Constantes e balanceamento (edite aqui, sem mexer na lógica)
 export const BUILD_PROFILE = "quality"; // o build troca para "performance" na versão leve
-export const VERSION = "6.53.0";
+export const VERSION = "6.54.0";
 export const PROP_KEY = "etheria:data";
 export const WORLD_RANK_KEY = "etheria:ranking";
 export const DATA_VERSION = 3;          // v3: hotbar de habilidades (loadout, instâncias, recargas salvas)
@@ -112,11 +112,11 @@ export const DEFAULT_FX = BUILD_PROFILE === "performance" ? "low" : "high";
 // Requisitos CONFIGURÁVEIS. Marcação: [CANÔNICO] vem da obra · [ADAPTAÇÃO] foi inventado para este addon (não é oficial).
 export const SAGE_EVO = {
   // Sábio -> Grande Sábio  [ADAPTAÇÃO: na obra o Grande Sábio nasce da fusão de habilidades do Rimuru]
-  gs:   { level: 20, analyses: 20, knowledge: 10, masteryTotal: 6 },
+  gs:   { level: 20, analyses: 20, knowledge: 10, masteryTotal: 6, ach: 3 },
   // Grande Sábio -> Raphael  [CANÔNICO: evolução ocorre após a evolução do mestre (Demon Lord) · ADAPTAÇÃO: números e itens]
-  raph: { level: 40, analyses: 80, knowledge: 30, masteryTotal: 20, coins: 1000, item: "etheria:void_fragment", n: 3 },
+  raph: { level: 40, analyses: 80, knowledge: 30, masteryTotal: 20, coins: 1000, item: "etheria:void_fragment", n: 3, ach: 12, rare: 1 },
   // Raphael -> Ciel (Manas)  [CANÔNICO: consciência/ego surge do vínculo com o mestre · ADAPTAÇÃO: vínculo, despertar e chefes como requisito]
-  ciel: { level: 70, analyses: 300, knowledge: 80, bond: 60, awakened: 1, bossKills: 5 },
+  ciel: { level: 70, analyses: 300, knowledge: 80, bond: 60, awakened: 1, bossKills: 5, ach: 25, legend: 1 },
 };
 // Aprendizado por uso: análises -> benefício [ADAPTAÇÃO]
 export const SAGE_LEARN = [

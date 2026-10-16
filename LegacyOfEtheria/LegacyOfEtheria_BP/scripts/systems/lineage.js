@@ -54,6 +54,7 @@ export function setForm(player, form) {
   if (d.mana < 20) return { ok: false, msg: "Mana insuficiente (20)." };
   if (!roomFor(player, form)) return { ok: false, msg: "Espaço insuficiente: o dragão não cabe aqui. Vá para um lugar aberto." };
   d.mana -= 20; d.lform = form; markDirty(player);
+  d.world ??= {}; d.world.flags ??= {}; d.world.flags.used_form = 1;   // 6.54: conquista "Transformação"
   const kind = form === "true" ? "true" : "dragon";
   dropStats(player.id); applyDerivedStats(player);
   const cine = playCinematic(player, { kind, tier: kind === "true" ? "supreme" : "power", change: () => { try { applyRaceLook(player); } catch { /* ignore */ } } });

@@ -452,8 +452,9 @@ function openTips(player) {
   menu(player, "§l§bSUGESTÕES", tips.join("\n\n") + `\n\n§8Autonomia: §f${AUTO[sg.auto ?? 1]}`, [back(() => openSage(player))]);
 }
 function openMemory(player, adv = false) {
-  const sg = sageCfg(getData(player)), mem = (sg.mem ?? []).slice().reverse(), T = { boss: "§c", evo: "§d", know: "§a", learn: "§b", death: "§8" };
-  const body = mem.length ? mem.slice(0, adv ? 25 : 12).map((m) => `${T[m.type] ?? "§7"}• §f${m.text}`).join("\n") : "§7Ainda não há memórias.";
+  const sg = sageCfg(getData(player)), mem = (sg.mem ?? []).slice().reverse(), T = { boss: "§c", evo: "§d", know: "§a", learn: "§b", death: "§8", ach: "§6", quest: "§e", place: "§3", item: "§5", level: "§a" };   // 6.54: + conquistas, missões, lugares, itens, níveis
+  const ago = (t) => { const m = Math.max(0, Math.round((Date.now() - (t ?? Date.now())) / 60000)); return m < 1 ? "agora" : m < 60 ? `há ${m} min` : m < 1440 ? `há ${Math.round(m / 60)} h` : `há ${Math.round(m / 1440)} d`; };
+  const body = mem.length ? mem.slice(0, adv ? 25 : 15).map((m) => `${T[m.type] ?? "§7"}• §f${m.text} §8${ago(m.t)}`).join("\n") : "§7Ainda não há memórias.";
   menu(player, adv ? "§l§eMEMÓRIA AVANÇADA" : "§l§bMEMÓRIA", body + (adv ? `\n\n§7Padrões: §f${patternSummary(player)}` : ""), [back(() => openSage(player))]);
 }
 function patternSummary(player) {

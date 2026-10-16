@@ -62,7 +62,7 @@ def main(geo_p, anim_p, tex_p):
     D["animations"].update({"afk_float": "animation.etheria.michael.afk_float", "afk_pose": "animation.etheria.michael.afk_pose"})
     an = D.setdefault("scripts", {}).setdefault("animate", [])
     an[:] = [x for x in an if not (isinstance(x, dict) and ("afk_float" in x or "afk_pose" in x))]
-    an += [{"afk_float": "query.is_alive"}, {"afk_pose": "query.modified_move_speed < 0.05 && variable.attack_time < 0"}]
+    an += [{"afk_float": "query.is_alive"}, {"afk_pose": "query.modified_move_speed < 0.05 && !query.is_moving"}]
     rcs = [r for r in D["render_controllers"] if r != "controller.render.etheria_michael_halberd"]
     D["render_controllers"] = rcs + ["controller.render.etheria_michael_halberd"]
     json.dump(E, open(ep, "w"), indent=1)

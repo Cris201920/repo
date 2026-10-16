@@ -5,6 +5,7 @@ import { SAGE_EVO, SAGE_LEARN, SAGE_BASE } from "../config.js";
 import { sageCfg, sageSay } from "./voice.js";
 import { countItem } from "../core/utils.js";
 import { emit, EV } from "../core/bus.js";
+import { ACH_BY_ID } from "../data/achievements.js";
 
 // Categorias da base de conhecimento (SKILLS · MOBS · RAÇAS · ITENS · ARMAS · ARMADURAS · MAGIAS · MATERIAIS · ESTRUTURAS · EVOLUÇÕES · AMBIENTE · COMBATE).
 // "creatures" = MOBS, "phenomena" = AMBIENTE; "blocks", "bosses" e "recipes" são extras do addon.
@@ -94,6 +95,7 @@ export const masteryTotal = (d) => Object.values(d.mastery ?? {}).reduce((a, xp)
 const bossTotal = (d) => Object.values(d.bossKills ?? {}).reduce((a, b) => a + b, 0);
 
 /** Requisitos de evolução para o estágio `to` (2 Grande Sábio · 3 Raphael · 4 Ciel). Retorna lista [{ok, text, tag}]. */
+const ACH_RANK = { comum: 0, incomum: 1, rara: 2, epica: 3, lendaria: 4 };
 export function evoReq(player, to) {
   const d = getData(player), sg = sageCfg(d), cfg = to === 2 ? SAGE_EVO.gs : to === 3 ? SAGE_EVO.raph : SAGE_EVO.ciel, out = [];
   const A = (ok, text, tag = "ADAPTAÇÃO") => out.push({ ok, text, tag });
@@ -101,6 +103,11 @@ export function evoReq(player, to) {
   A(sg.analyses >= cfg.analyses, `${cfg.analyses} análises (${sg.analyses})`);
   A(kcount(d) >= cfg.knowledge, `${cfg.knowledge} registros de conhecimento (${kcount(d)})`);
   if (cfg.masteryTotal) A(masteryTotal(d) >= cfg.masteryTotal, `Maestria acumulada ${cfg.masteryTotal} (${masteryTotal(d)})`);
+  // 6.54: conquistas reais também contam (nível sozinho não libera Raphael/Ciel)
+  const ach = d.achievements ?? [], rk = (min) => ach.filter((id) => (ACH_RANK[ACH_BY_ID[id]?.rarity] ?? 0) >= min).length;
+  if (cfg.ach) A(ach.length >= cfg.ach, `${cfg.ach} conquistas (${ach.length})`);
+  if (cfg.rare) A(rk(2) >= cfg.rare, `${cfg.rare} conquista Rara ou superior (${rk(2)})`);
+  if (cfg.legend) A(rk(4) >= cfg.legend, `${cfg.legend} conquista Lendária (${rk(4)})`);
   if (to === 3) {
     A(d.coins >= cfg.coins, `${cfg.coins} moedas (${d.coins})`);
     const have = countItem(player, cfg.item); A(have >= cfg.n, `${cfg.n}x Fragmento do Vazio (${have})`);

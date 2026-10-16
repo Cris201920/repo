@@ -19,6 +19,9 @@ export const EV = Object.freeze({
   // eventos de habilidade que o Sábio detecta
   SAGE_SKILL_ACQUIRED: "skill_acquired", SAGE_SKILL_EVOLVED: "skill_evolved", SAGE_SKILL_COMBINED: "skill_combined", SAGE_SKILL_REMOVED: "skill_removed",
   SAGE_SKILL_AWAKENED: "skill_awakened", SAGE_SKILL_MASTERED: "skill_mastered", SAGE_MAGIC_LEARNED: "magic_learned",
+  // 6.54: progresso que o Grande Sábio acompanha (emitidos onde acontecem: quests.js, bossfight.js, progress.js, achievements.js)
+  QUEST_COMPLETED: "QUEST_COMPLETED", BOSS_ENCOUNTER: "BOSS_ENCOUNTER", BOSS_DEFEATED: "BOSS_DEFEATED", REGION_DISCOVERED: "REGION_DISCOVERED",
+  STRUCTURE_DISCOVERED: "STRUCTURE_DISCOVERED", RARE_ITEM: "RARE_ITEM", ACHIEVEMENT_UNLOCKED: "ACHIEVEMENT_UNLOCKED", STRONG_ENEMY_DEFEATED: "STRONG_ENEMY_DEFEATED",
   // eventos do próprio Sábio
   SAGE_STAGE_CHANGED: "sage_stage_changed", SAGE_ANALYSIS_START: "analysis_started", SAGE_ANALYSIS_DONE: "analysis_finished",
   SAGE_EVOLUTION_START: "evolution_started", SAGE_EVOLUTION_DONE: "evolution_finished", SAGE_DANGER: "danger_detected",

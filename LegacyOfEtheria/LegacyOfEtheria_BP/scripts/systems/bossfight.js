@@ -4,6 +4,7 @@
 // A barra de vida é a nativa (componente minecraft:boss, 1 por entidade, some sozinha na morte).
 // Desempenho: 1 laço a cada 20 ticks só perto de jogadores; minions têm limite por chefe e tempo de vida; nada roda sem jogador por perto.
 import { world, system, Player } from "@minecraft/server";
+import { emit, EV } from "../core/bus.js";
 import { PROFILES } from "../data/bossprofiles.js";
 import { MOBS } from "../data/mobs.gen.js";
 import { isValid, say, toast, playSound, heal, healthComp, rand } from "../core/utils.js";
@@ -151,8 +152,14 @@ function eatTick(b, now) {
 function finalBlast(m) {   // fase final: súditos explodem ao morrer (pequeno; o limite de súditos já segura a quantidade)
   try { burst(ctx(undefined, 1, m.dimension), m.location, { col: "fire", n: 6, spd: 2, up: 1 }); for (const p of m.dimension.getPlayers({ location: m.location, maxDistance: 2.6 })) p.applyDamage(4, { cause: "entityExplosion" }); } catch { /* ignore */ }
 }
+// 6.54: quem entrou na luta (para o Grande Sábio e as conquistas) e quando cada jogador morreu pela última vez
+const lastDeath = new Map();
 function bossDeath(b) {
   live.delete(b.id);
+  for (const [pid, at] of Object.entries(b.party ?? {})) {
+    const p = world.getAllPlayers().find((x) => x.id === pid); if (!p) continue;
+    try { emit(EV.BOSS_DEFEATED, { player: p, key: keyOf(b.e) || b.id, name: b.p.name, noDeath: !((lastDeath.get(pid) ?? -1) >= at) }); } catch { /* ignore */ }
+  }
   try {
     let pl = []; try { pl = b.dim.getPlayers({ location: b.pos, maxDistance: 70 }); } catch { /* ignore */ }
     for (const p of pl) { say(p, `${b.p.color}§l[${b.p.name}] §r§7foi derrotado${b.p.evo && b.level > 1 ? ` §8(chegou ao nível ${b.level})` : ""}.`); try { p.playSound("random.explode", { volume: 1.2, pitch: 0.6 }); } catch { /* ignore */ } }
@@ -165,6 +172,7 @@ function bossDeath(b) {
 function onAnyDeath(ev) {
   const d = ev.deadEntity; if (!d) return;
   let id; try { id = d.id; } catch { return; }
+  try { if (d.typeId === "minecraft:player") lastDeath.set(id, system.currentTick); } catch { /* ignore */ }
   const own = live.get(id); if (own) { bossDeath(own); return; }
   let isMinion = false, loc, dimId;
   try { isMinion = d.hasTag("etheria_minion"); loc = d.location; dimId = d.dimension.id; } catch { return; }
@@ -191,6 +199,11 @@ function tick() {
     try { b.pos = { ...e.location }; b.dim = e.dimension; } catch { /* ignore */ }
     const r = ratio(e); let idx = b.phase; b.p.phases.forEach((p, i) => { if (r <= p.hp && i > idx) idx = i; });
     const ps = near(e, 48);
+    b.party ??= {};
+    for (const p of ps) if (b.party[p.id] === undefined) {
+      b.party[p.id] = now;
+      try { emit(EV.BOSS_ENCOUNTER, { player: p, key: keyOf(e), name: b.p.name, hp: e.getComponent("minecraft:health")?.currentValue, maxHp: maxHp(e), phase: b.phase, mech: b.p.mech }); } catch { /* ignore */ }
+    }
     if (ps.length && !b.intro) { b.intro = true; for (const p of ps) { say(p, b.p.intro); toast(p, `${b.p.color}§l${b.p.name}`, `§7${b.p.mech.split(";")[0]}`); playSound(p, SOUNDS.boss, 1, 0.8); } }
     if (!b.fxAdded || idx !== b.phase) enterPhase(b, idx);
     b.final = idx === b.p.phases.length - 1 && !!b.p.minion;
