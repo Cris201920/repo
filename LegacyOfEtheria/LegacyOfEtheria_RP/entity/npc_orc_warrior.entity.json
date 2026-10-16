@@ -26,8 +26,12 @@
      {
       "life_idle": "!query.is_moving && variable.attack_time <= 0"
      },
-     "os_life_swing",
-     "os_life_hurt",
+     {
+      "life_swing": "variable.attack_time > 0.0"
+     },
+     {
+      "life_hurt": "query.hurt_time > 0"
+     },
      "life_greet"
     ],
     "initialize": [
@@ -44,9 +48,7 @@
     "life_hurt": "animation.etheria.life.hurt",
     "life_talk": "animation.etheria.life.talk",
     "life_wave": "animation.etheria.life.wave",
-    "life_greet": "controller.animation.etheria.life.greet",
-    "os_life_swing": "controller.animation.etheria.os.life_swing_7e41a585",
-    "os_life_hurt": "controller.animation.etheria.os.life_hurt_ea4d1ff1"
+    "life_greet": "controller.animation.etheria.life.greet"
    },
    "render_controllers": [
     "controller.render.default"

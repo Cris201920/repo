@@ -27,7 +27,9 @@
      {
       "run": "query.ground_speed > 0.25"
      },
-     "os_lion_punch"
+     {
+      "lion_punch": "variable.attack_time > 0"
+     }
     ]
    },
    "animations": {
@@ -42,8 +44,7 @@
     "elephant_stampede": "animation.etheria_carrion_royal_beast.elephant_stampede",
     "lion_punch": "animation.etheria_carrion_royal_beast.lion_punch",
     "tiger_talon": "animation.etheria_carrion_royal_beast.tiger_talon",
-    "beast_roar": "animation.etheria_carrion_royal_beast.beast_roar",
-    "os_lion_punch": "controller.animation.etheria.os.lion_punch_996cadbb"
+    "beast_roar": "animation.etheria_carrion_royal_beast.beast_roar"
    },
    "render_controllers": [
     "controller.render.default"
