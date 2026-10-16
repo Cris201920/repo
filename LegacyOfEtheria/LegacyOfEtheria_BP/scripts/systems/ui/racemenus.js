@@ -80,7 +80,7 @@ export function openRaceV2(player, back) {
     icon: "race_" + r.id, run: () => openEvolveV2(player, n.id, back),
   }));
   B.push({ text: "§l§5Lord Demônio\n§r§7caminho do Verdadeiro Lorde Demônio", icon: "race_" + r.id, run: () => openLordV2(player, back) });
-  if (d.race === LINEAGE_RACE) { const Lg = lineageOf(d); B.push({ text: Lg ? `§l${Lg.color}Linhagem: ${Lg.name}\n§r§7${LINEAGE_FORMS[formOfPlayer(d)].name} · árvore e formas` : "§l§6Escolher linhagem dracônica\n§r§7Veldora, Velzard, Velgrynd, Veldanava", icon: "race_dragonoid", run: () => openLineage(player) }); }
+  if (d.race === LINEAGE_RACE) { const Lg = lineageOf(d); B.push({ text: Lg ? `§l${Lg.color}Linhagem: ${Lg.name}\n§r§7${LINEAGE_FORMS[formOfPlayer(d)].name} · árvore e formas` : "§l§6Escolher linhagem dracônica\n§r§7Veldora, Velzard, Velgrynd, Veldanava", icon: Lg ? `lin_${Lg.id}` : "race_dragonoid", run: () => openLineage(player) }); }
   B.push({ text: "§l§eNível e evolução de nível\n§r§7o que cada nível libera", icon: "menu_status", run: () => openLevelV2(player, () => openRaceV2(player, back)) });
   B.push({ text: "§l§bComparar raças\n§r§7fichas e árvores de todas as raças", icon: "menu_race", run: () => openRaceListV2(player, true, back) });
   B.push({ text: "§7« Voltar", icon: "back", run: () => back?.() });

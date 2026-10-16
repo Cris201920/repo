@@ -299,7 +299,7 @@ export function openRace(player) {
   ].filter((x) => x !== undefined);
   const b = info.map(({ n, prog, ready }) => ({ text: ready ? `§a§l★ Evoluir: ${n.name}\n§r§aPronto! Toque para confirmar` : `§8§l${n.name}\n§r§c[BLOQUEADA] §7${Math.floor(prog * 100)}% - ver o que falta`, icon: "race_" + r.id, run: () => (ready ? pressFx(player, true, () => openEvolveConfirm(player, n.id)) : openEvolveConfirm(player, n.id)) }));
   b.push(lordButton(player, d));
-  if (d.race === LINEAGE_RACE) { const L = lineageOf(d); b.push({ text: L ? `§l${L.color}Linhagem: ${L.name}\n§r§7${LINEAGE_FORMS[formOfPlayer(d)].name} - árvore, formas e trocar` : "§l§6ESCOLHA SUA LINHAGEM DRACÔNICA\n§r§eVeldora, Velzard, Velgrynd, Veldanava", icon: "race_dragonoid", run: () => openLineage(player) }); }
+  if (d.race === LINEAGE_RACE) { const L = lineageOf(d); b.push({ text: L ? `§l${L.color}Linhagem: ${L.name}\n§r§7${LINEAGE_FORMS[formOfPlayer(d)].name} - árvore, formas e trocar` : "§l§6ESCOLHA SUA LINHAGEM DRACÔNICA\n§r§eVeldora, Velzard, Velgrynd, Veldanava", icon: L ? `lin_${L.id}` : "race_dragonoid", run: () => openLineage(player) }); }
   b.push({ text: "§l§bFichas e comparação de raças\n§r§7Outras raças e seus traços", icon: "menu_race", run: () => openRaceList(player, true) });
   b.push(back(() => openMain(player)));
   menu(player, anyReady ? `§a§l★ ${st.name}` : `${r.color}§l${st.name}`, L.join("\n"), b);
@@ -494,7 +494,7 @@ export function openLineage(player) {
   ].filter(Boolean);
   const b = LINEAGE_LIST.map((l) => {
     const lock = lineageLock(d, l);
-    return { text: `${lock && d.lineage !== l.id ? "§8" : l.color}§l${l.name}§r §7- ${l.concept}\n${cur?.id === l.id ? "§a[x] Sua linhagem" : lock ? `§c[Bloqueada] ${lock}` : `${stars(l.difficulty)} §7toque para ver`}`, icon: "race_dragonoid", run: () => openLineageView(player, l.id) };
+    return { text: `${lock && d.lineage !== l.id ? "§8" : l.color}§l${l.name}§r §7- ${l.concept}\n${cur?.id === l.id ? "§a[x] Sua linhagem" : lock ? `§c[Bloqueada] ${lock}` : `${stars(l.difficulty)} §7toque para ver`}`, icon: `lin_${l.id}`, run: () => openLineageView(player, l.id) };
   });
   if (cur) b.push({ text: "§l§dFormas e transformação\n§r§7Dragonoide, Forma Dracônica, Dragão Verdadeiro", icon: "menu_race", run: () => openForms(player) });
   b.push(back(() => openRace(player)));
@@ -530,7 +530,7 @@ function openForms(player) {
     if (k === "base") continue;
     const lock = formLock(d, l, k);
     if (cur === k) b.push({ text: `§l§cEncerrar ${f.name}\n§r§7Voltar ao Dragonoide`, icon: "back", run: () => { msg(player, endForm(player, true)); } });
-    else b.push({ text: `${lock ? "§8" : "§a"}§l${f.name}\n§r${lock ? "§c[Bloqueada] " + lock : `§7Gasta ${f.drain} de mana/s`}`, icon: "race_dragonoid", run: () => { msg(player, lock ? { ok: false, msg: lock } : setForm(player, k)); } });
+    else b.push({ text: `${lock ? "§8" : "§a"}§l${f.name}\n§r${lock ? "§c[Bloqueada] " + lock : `§7Gasta ${f.drain} de mana/s`}`, icon: `form_${l.id}_${k}`, run: () => { msg(player, lock ? { ok: false, msg: lock } : setForm(player, k)); } });
   }
   b.push(back(() => openLineage(player)));
   menu(player, "§d§lFormas Dracônicas", body.join("\n"), b);

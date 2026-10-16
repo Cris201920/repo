@@ -1,0 +1,24 @@
+{
+ "format_version": "1.8.0",
+ "animations": {
+  "animation.etheria_pdrg.true_extras": {
+   "loop": true,
+   "bones": {
+    "x_true": {
+     "scale": [
+      "query.property('etheria:lform') == 'true' ? 1 : 0",
+      "query.property('etheria:lform') == 'true' ? 1 : 0",
+      "query.property('etheria:lform') == 'true' ? 1 : 0"
+     ]
+    },
+    "x_true_halo": {
+     "rotation": [
+      0,
+      0,
+      "query.life_time * 25"
+     ]
+    }
+   }
+  }
+ }
+}

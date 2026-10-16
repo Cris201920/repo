@@ -72,9 +72,9 @@
     "tr_halo_4": "textures/entity/tensura/race/halo_4",
     "tr_body": "textures/entity/tensura/race/body_kits",
     "drg_veldora": "textures/entity/etheria_veldora",
-    "drg_velzard": "textures/entity/etheria_velzard",
-    "drg_velgrynd": "textures/entity/etheria_velgrynd",
-    "drg_veldanava": "textures/entity/etheria_veldanava",
+    "drg_velzard": "textures/entity/etheria_pdrg_velzard",
+    "drg_velgrynd": "textures/entity/etheria_pdrg_velgrynd",
+    "drg_veldanava": "textures/entity/etheria_pdrg_veldanava",
     "etheria_race_dragonewt": "textures/entity/etheria_race_dragonewt",
     "etheria_race_dragonewt_w": "textures/entity/etheria_race_dragonewt_w"
    },
@@ -657,6 +657,9 @@
      },
      {
       "etheria_rstyle_goblin": "query.property('etheria:rstyle') == 'goblin' && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "drg_true_extras": "variable.etheria_dragon"
      }
     ]
    },
@@ -888,7 +891,8 @@
     "etheria_rstyle_demonic": "animation.etheria.rstyle.demonic",
     "etheria_rstyle_slime": "animation.etheria.rstyle.slime",
     "etheria_rstyle_undead": "animation.etheria.rstyle.undead",
-    "etheria_rstyle_goblin": "animation.etheria.rstyle.goblin"
+    "etheria_rstyle_goblin": "animation.etheria.rstyle.goblin",
+    "drg_true_extras": "animation.etheria_pdrg.true_extras"
    },
    "render_controllers": [
     {
