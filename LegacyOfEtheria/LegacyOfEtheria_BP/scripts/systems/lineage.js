@@ -14,6 +14,8 @@ import { applyRaceLook, playTransform } from "./raceparts.js";
 import { playCinematic } from "./cinematic.js";
 import { refreshName } from "./race.js";
 import { sageText } from "./voice.js";
+import { playAnim } from "../core/anim.js";
+import { ctx, column, ringFlat, burst, T } from "./fxlib.js";
 
 export { lineageOf, formOfPlayer, lineageStats };
 
@@ -44,6 +46,20 @@ export function chooseLineage(player, id) {
   return { ok: true, msg: `Linhagem ${L.name} escolhida!` };
 }
 
+// 6.68: SURGIMENTO DO DRAGÃO (sequência de transformação): o dragão nasce pequeno girando, cresce, ABRE AS ASAS e RUGE
+// (RP animation.etheria_pdrg.emerge, tocada por script -> reinicia em toda transformação), com coluna de energia e anéis da linhagem.
+const LCOL = { veldora: ["bolt", "ice"], velzard: ["ice", "frost"], velgrynd: ["fire", "ember"], veldanava: ["gold", "light"] };
+function dragonEmerge(player, L, form) {
+  try { playAnim(player, "animation.etheria_pdrg.emerge", { channel: "etheria_drg", blendOut: 0.3 }); } catch { /* ignore */ }
+  const [c1, c2] = LCOL[L.id] ?? ["arcane", "mana"], big = form === "true";
+  try {
+    const c = ctx(player, 1), at = player.location;
+    column(c, at, { col: c1, tile: T.spark, n: big ? 40 : 26, h: big ? 14 : 9, life: 1.0, r: 1.6, size: 0.22 });
+    for (let i = 0; i < (big ? 4 : 3); i++) system.runTimeout(() => { try { ringFlat(ctx(player, 1), { x: at.x, y: at.y + 0.2 + i * 1.2, z: at.z }, { col: i % 2 ? c2 : c1, tile: T.ring, n: 26, radius: 3 + i * 1.6, life: 0.6, size: 0.24 }); } catch { /* ignore */ } }, 6 + i * 4);
+    system.runTimeout(() => { try { burst(ctx(player, 1), { x: at.x, y: at.y + 3, z: at.z }, { col: c2, tile: T.star, n: big ? 30 : 18, spd: 6, life: 0.7, size: 0.2 }); } catch { /* ignore */ } }, 18);
+  } catch { /* ignore */ }
+  system.runTimeout(() => { try { if (player.isValid) playSound(player, "mob.enderdragon.growl", 1.2, big ? 0.55 : 0.8); } catch { /* ignore */ } }, 20);   // rugido junto com a boca abrindo
+}
 /** Alterna a forma. Sobe para a forma pedida ou volta ao Dragonoide. */
 export function setForm(player, form) {
   const d = getData(player), L = lineageOf(d); if (!L) return { ok: false, msg: "Escolha uma linhagem primeiro." };
@@ -57,8 +73,8 @@ export function setForm(player, form) {
   d.world ??= {}; d.world.flags ??= {}; d.world.flags.used_form = 1;   // 6.54: conquista "Transformação"
   const kind = form === "true" ? "true" : "dragon";
   dropStats(player.id); applyDerivedStats(player);
-  const cine = playCinematic(player, { kind, tier: kind === "true" ? "supreme" : "power", change: () => { try { applyRaceLook(player); } catch { /* ignore */ } } });
-  if (!cine) { playTransform(player, kind); try { applyRaceLook(player); } catch { /* ignore */ } }   // sem cinemática: a forma cresce na hora
+  const cine = playCinematic(player, { kind, tier: kind === "true" ? "supreme" : "power", change: () => { try { applyRaceLook(player); } catch { /* ignore */ } dragonEmerge(player, L, form); } });
+  if (!cine) { playTransform(player, kind); try { applyRaceLook(player); } catch { /* ignore */ } dragonEmerge(player, L, form); }   // sem cinemática: o dragão surge na hora
   const dim = player.dimension, loc = player.location;
   toast(player, `${L.color}§l${F.name}`, `§7Linhagem de ${L.name}`); playSound(player, "mob.enderdragon.growl", 1, form === "true" ? 0.6 : 0.9);
   for (let i = 0; i < F.fx + 1; i++) system.runTimeout(() => { try { ring(dim, player.location, 1.5 + i * 1.5, L.fxKey, player); fx(dim, player.location, L.fx2, player, 2); } catch { /* ignore */ } }, i * 6);

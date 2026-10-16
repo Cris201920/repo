@@ -122,6 +122,8 @@ def arc(p0, n, step, d0, turn):   # curva suave: direção inicial d0 girando "t
 def diamond_spike(at, s, uv, lean=0):   # espinho triangular: prisma girado 45° com metade enterrada no corpo
     x, y, z = at; return cube([x - s * 0.18, y - s / 2, z - s / 2], [s * 0.36, s, s], uv, [45 + lean, 0, 0], [x, y, z])
 
+def bone(G, name, parent, pivot, cubes):
+    G["bones"].append({"name": name, "parent": parent, "pivot": [round(v, 3) for v in pivot], "cubes": cubes}); return G["bones"][-1]
 def build(lin):
     D = json.load(open(os.path.join(SRC, f"etheria_pdrg_{lin}.geo.json"))); G = D["minecraft:geometry"][0]; B = {b["name"]: b for b in G["bones"]}
     P = PAL[lin]
@@ -146,7 +148,7 @@ def build(lin):
             hd["cubes"] += beads(arc([s * 6.5, top - 1, back - 5], 16, 2.6, [s * 0.35, 1.0, 0.5], (-14, s * 0.05)), 5.2, 1.4, U["horn"])
             hd["cubes"] += beads(arc([s * 4, smn[1] + 1, front + 4], 5, 2.0, [s * 0.15, -1.0, -0.35], (8, 0)), 2.6, 1.0, U["tusk"])   # presas/barba
         cy, cz = top + 16, back - 4   # halo (sempre — marca do Veldanava)
-        hd["cubes"] += beads([(math.cos(a) * 13, cy + math.sin(a) * 2.5, cz + math.sin(a) * 13 * 0.35) for a in np.linspace(0, 2 * math.pi, 30, endpoint=False)], 2.2, 2.2, U["halo"])
+        bone(G, "x_halo", "d_head", [0, cy, cz], beads([(math.cos(a) * 13, cy, cz + math.sin(a) * 13) for a in np.linspace(0, 2 * math.pi, 30, endpoint=False)], 2.2, 2.2, U["halo"]))   # anel horizontal: flutua e gira
         ub = B["d_upper_body"]; mn, mx = bbox(ub)   # armadura escura com frisos ciano no peito e nas pernas
         ub["cubes"] += [cube([-12, mn[1] + 4, mn[2] - 1.2], [24, 20, 2], U["armor"]), cube([-8, mn[1] + 10, mn[2] - 1.8], [16, 1.2, 1], U["glow"]),
                         cube([-0.6, mn[1] + 4, mn[2] - 1.8], [1.2, 20, 1], U["glow"]), cube([-11, mn[1] + 18, mn[2] - 1.8], [22, 1.2, 1], U["glow"])]
@@ -174,17 +176,20 @@ def build(lin):
                 zc = (mn[2] + mx[2]) / 2; b["cubes"].append(cube([s * w / 2 - 0.5, yc + w * 0.2, zc - 1], [1.0, 2.2, 9 - i], U["blade"], [-28, s * 35, 0], [s * w / 2, yc + w * 0.2, zc]))
             if name == "d_tail5":
                 z0 = mx[2]
-                for k in range(6):   # prolongamento da serpente, afinando
-                    w2 = max(2.5, w - 1.4 * (k + 1)); b["cubes"].append(cube([-w2 / 2, yc - w2 / 2, z0 + k * 14], [w2, w2, 15], tile2(U["body"], U["bodyb"])))
+                par = "d_tail5"
+                for k in range(6):   # prolongamento da serpente em CADEIA de ossos (serpenteia), afinando
+                    w2 = max(2.5, w - 1.4 * (k + 1)); zk = z0 + k * 14
+                    cs = [cube([-w2 / 2, yc - w2 / 2, zk], [w2, w2, 15], tile2(U["body"], U["bodyb"]))]
                     if k % 2 == 0:
-                        for s in (1, -1): b["cubes"].append(cube([s * w2 / 2 - 0.5, yc + w2 * 0.2, z0 + k * 14 + 6], [1.0, 2.0, 7], U["blade"], [-28, s * 35, 0], [s * w2 / 2, yc + w2 * 0.2, z0 + k * 14 + 7]))
+                        for s in (1, -1): cs.append(cube([s * w2 / 2 - 0.5, yc + w2 * 0.2, zk + 6], [1.0, 2.0, 7], U["blade"], [-28, s * 35, 0], [s * w2 / 2, yc + w2 * 0.2, zk + 7]))
+                    bone(G, f"x_serp{k + 1}", par, [0, yc, zk], cs); par = f"x_serp{k + 1}"
         for name, h in dorsal[:5]:
             b = B[name]; mn, mx = bbox(b)
             for i in range(2):
                 z = mn[2] + (mx[2] - mn[2]) * (i + 0.5) / 2; y = surface(b, z) - 0.6
                 b["cubes"].append(cube([-0.5, y - 0.5, z - 1], [1.0, h * 1.3, 2.2], U["blade"], [-35, 0, 0], [0, y, z]))
         for s in (1, -1):   # bigodes longos azuis (do focinho para trás) + crista angulosa
-            hd["cubes"] += beads(arc([s * 5, smn[1] + 6, front - 6], 22, 2.4, [s * 0.5, 0.35, 1.0], (-3, s * 0.06)), 1.3, 0.7, U["whisker"])
+            bone(G, f"x_whisk_{'l' if s > 0 else 'r'}", "d_head", [s * 5, smn[1] + 6, front - 6], beads(arc([s * 5, smn[1] + 6, front - 6], 22, 2.4, [s * 0.5, 0.35, 1.0], (-3, s * 0.06)), 1.3, 0.7, U["whisker"]))
             hd["cubes"] += [cube([s * 6 - 1, top - 2, back - 10], [2, 8, 10], U["crest"], [-35, s * 12, s * 15], [s * 6, top - 2, back - 8]),
                             cube([s * 7.5 - 0.8, top - 4, back - 4], [1.6, 6, 12], U["blade"], [-25, s * 25, 0], [s * 7.5, top - 4, back - 2])]
     else:   # velzard
@@ -196,22 +201,23 @@ def build(lin):
         for s in (1, -1):   # espinhos dos ombros
             ub["cubes"] += [diamond_spike([s * 16, mx[1] - 4, mn[2] + 10], 9, U["spike"], -5), diamond_spike([s * 18, mx[1] - 9, mn[2] + 18], 7, U["spike"], 0)]
         for i, (x, z, h, rx, rz) in enumerate([(-12, 6, 13, -20, 25), (12, 6, 13, -20, -25), (-9, 22, 10, 15, 15), (9, 22, 10, 15, -15), (-19, 14, 8, 0, 40), (19, 14, 8, 0, -40), (-4, 28, 7, 25, 10), (4, 28, 7, 25, -10)]):
-            ub["cubes"].append(cube([x - 1.8, mx[1] - 3, z - 1.8], [3.6, h, 3.6], U["crystal" if i % 2 else "crystal2"], [rx, 30 * (i % 3), rz], [x, mx[1] - 3, z]))
+            cr = next((b for b in G["bones"] if b["name"] == "x_cryst"), None) or bone(G, "x_cryst", "d_upper_body", [0, mx[1] - 3, 14], [])
+            cr["cubes"].append(cube([x - 1.8, mx[1] - 3, z - 1.8], [3.6, h, 3.6], U["crystal" if i % 2 else "crystal2"], [rx, 30 * (i % 3), rz], [x, mx[1] - 3, z]))
         for name in ("d_tail2", "d_tail3"):
             b = B[name]; mn, mx = bbox(b)
             for s in (1, -1): b["cubes"].append(cube([s * 4 - 1.2, mx[1] - 2, (mn[2] + mx[2]) / 2 - 1.2], [2.4, 7, 2.4], U["crystal"], [-15, 20, s * 35], [s * 4, mx[1] - 2, (mn[2] + mx[2]) / 2]))
         hd["cubes"] += [cube([-1, top - 2, front + 2], [2, 13, 18], U["crest"], [-28, 0, 0], [0, top - 2, front + 10])]   # crista laranja
         for s in (1, -1): hd["cubes"] += beads(arc([s * 5.5, top - 1, back - 6], 9, 2.4, [s * 0.25, 0.9, 0.7], (-12, 0)), 3.2, 1.2, U["horn"])
-        for k, x in enumerate((-4, -1.5, 1.5, 4)):   # juba azul: do topo da cabeça descendo pelo pescoço
-            pts = [np.array([x, top + 1, back - 2 + k], float)]
-            for name in ("d_neck3", "d_neck2", "d_neck1"):
-                b = B[name]; mn, mx = bbox(b)
-                for t in (0.25, 0.75):
+        mane = {}
+        for k, x in enumerate((-4, -1.5, 1.5, 4)):   # juba azul: do topo da cabeça descendo pelo pescoço (cada trecho preso ao seu osso)
+            hd["cubes"] += beads([np.array([x, top + 1, back - 2 + k], float)], 3.2, 3.2, U["mane"])
+            for j, name in enumerate(("d_neck3", "d_neck2", "d_neck1")):
+                b = B[name]; mn, mx = bbox(b); pts = []
+                for t in np.linspace(0.05, 0.95, 6):
                     z = mn[2] + (mx[2] - mn[2]) * t; pts.append(np.array([x * 1.3, surface(b, z) + 1.5 + (k % 2), z + 2], float))
-            dense = []
-            for a, b2 in zip(pts, pts[1:]):
-                for t in np.linspace(0, 1, 4, endpoint=False): dense.append(a + (b2 - a) * t)
-            hd["cubes"] += beads(dense, 3.0, 1.6, U["mane"])
+                mane.setdefault(name, []).extend(beads(pts, 3.0 - j * 0.5, 2.4 - j * 0.5, U["mane"]))
+        for j, (name, cs) in enumerate(mane.items()):
+            mn, mx = bbox(B[name]); bone(G, f"x_mane{j + 1}", name, [0, mx[1], (mn[2] + mx[2]) / 2], cs)
     # Dragão Verdadeiro: coroa + anel de energia (osso x_true, escala 0 nas outras formas)
     T = P["T"]; gk = "glow" if "glow" in U else "halo"
     ring = beads([(math.cos(a) * 18, top + 24 + math.sin(a) * 18, back + 6) for a in np.linspace(0, 2 * math.pi, 36, endpoint=False)], 1.8, 1.8, U[gk])
@@ -224,16 +230,34 @@ def build(lin):
     json.dump(D, open(os.path.join(RP, f"models/entity/etheria_pdrg_{lin}.geo.json"), "w"), indent=1)
     return sum(len(b.get("cubes", [])) for b in G["bones"])
 
+T_ = "query.life_time"
+PARTS = {   # animação contínua das peças (só com a forma de dragão ativa)
+  "x_halo": {"position": [0, f"1.2 * math.sin({T_} * 110)", 0], "rotation": [0, f"{T_} * 35", 0]},
+  "x_whisk_l": {"rotation": [f"math.sin({T_} * 140) * 10", f"math.sin({T_} * 95) * 14", 0]},
+  "x_whisk_r": {"rotation": [f"math.sin({T_} * 140 + 60) * 10", f"-math.sin({T_} * 95 + 40) * 14", 0]},
+  "x_cryst": {"scale": [f"1 + 0.05 * math.sin({T_} * 200)"] * 3},
+  **{f"x_serp{k}": {"rotation": [f"math.sin({T_} * 120 - {k * 40}) * 5", f"math.sin({T_} * 150 - {k * 50}) * (9 + 10 * math.min(1, query.modified_move_speed * 3))", 0]} for k in range(1, 7)},
+  **{f"x_mane{k}": {"rotation": [f"math.sin({T_} * 80 - {k * 25}) * 4", 0, f"math.sin({T_} * 100 - {k * 30}) * 7"]} for k in range(1, 4)},
+  "x_true_halo": {"rotation": [0, 0, f"{T_} * 25"]},
+}
+EMERGE = {"loop": False, "animation_length": 1.6, "bones": {   # surgimento do dragão (tocado pelo script ao transformar; reinicia sempre)
+  "d_All": {"scale": {"0.0": [0.15, 0.15, 0.15], "0.5": [1.12, 1.12, 1.12], "0.75": [0.96, 0.96, 0.96], "1.0": [1, 1, 1]}, "rotation": {"0.0": [0, -270, 0], "0.6": [0, 0, 0]}},
+  "d_left_wing_base": {"rotation": {"0.0": [0, 0, -45], "0.55": [0, 0, -45], "0.9": [0, 0, 28], "1.3": [0, 0, 0]}},   # recolhidas -> abrem bem -> normal
+  "d_right_wing_base": {"rotation": {"0.0": [0, 0, 45], "0.55": [0, 0, 45], "0.9": [0, 0, -28], "1.3": [0, 0, 0]}},
+  "d_head": {"rotation": {"0.8": [0, 0, 0], "1.0": [-30, 0, 0], "1.4": [-30, 0, 0], "1.6": [0, 0, 0]}},
+  "d_lower_jaw": {"rotation": {"1.0": [0, 0, 0], "1.05": [30, 0, 0], "1.4": [30, 0, 0], "1.6": [0, 0, 0]}}}}
 def wire():
     ap = os.path.join(RP, "animations/etheria_pdrg_forms.animation.json")
-    json.dump({"format_version": "1.8.0", "animations": {"animation.etheria_pdrg.true_extras": {"loop": True, "bones": {
-        "x_true": {"scale": ["query.property('etheria:lform') == 'true' ? 1 : 0"] * 3},
-        "x_true_halo": {"rotation": [0, 0, "query.life_time * 25"]}}}}}, open(ap, "w"), indent=1)
+    json.dump({"format_version": "1.8.0", "animations": {
+        "animation.etheria_pdrg.true_extras": {"loop": True, "bones": {"x_true": {"scale": ["query.property('etheria:lform') == 'true' ? 1 : 0"] * 3}}},
+        "animation.etheria_pdrg.parts": {"loop": True, "bones": PARTS},
+        "animation.etheria_pdrg.emerge": EMERGE}}, open(ap, "w"), indent=1)
     ep = os.path.join(RP, "entity/player.entity.json"); E = json.load(open(ep)); Dd = E["minecraft:client_entity"]["description"]
     for l in PAL: Dd["textures"][f"drg_{l}"] = f"textures/entity/etheria_pdrg_{l}"
-    Dd["animations"]["drg_true_extras"] = "animation.etheria_pdrg.true_extras"
+    Dd["animations"]["drg_true_extras"] = "animation.etheria_pdrg.true_extras"; Dd["animations"]["drg_parts"] = "animation.etheria_pdrg.parts"
     am = Dd["scripts"]["animate"]
-    if not any(isinstance(x, dict) and "drg_true_extras" in x for x in am): am.append({"drg_true_extras": "variable.etheria_dragon"})
+    for k in ("drg_true_extras", "drg_parts"):
+        if not any(isinstance(x, dict) and k in x for x in am): am.append({k: "variable.etheria_dragon"})
     json.dump(E, open(ep, "w"), indent=1)
 
 if __name__ == "__main__":

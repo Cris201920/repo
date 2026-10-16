@@ -660,6 +660,9 @@
      },
      {
       "drg_true_extras": "variable.etheria_dragon"
+     },
+     {
+      "drg_parts": "variable.etheria_dragon"
      }
     ]
    },
@@ -892,7 +895,8 @@
     "etheria_rstyle_slime": "animation.etheria.rstyle.slime",
     "etheria_rstyle_undead": "animation.etheria.rstyle.undead",
     "etheria_rstyle_goblin": "animation.etheria.rstyle.goblin",
-    "drg_true_extras": "animation.etheria_pdrg.true_extras"
+    "drg_true_extras": "animation.etheria_pdrg.true_extras",
+    "drg_parts": "animation.etheria_pdrg.parts"
    },
    "render_controllers": [
     {
