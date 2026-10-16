@@ -143,6 +143,63 @@ export const CHARACTERS = {
     duel: { lvl: 28, ask: "Um duelo? Não costumo lutar à vista... mas aceito. Pronto?", start: "...", win: "Basta. Você venceu.", lose: "Você ainda deixa rastros. Treine mais.",
       reward: { xp: 3400, coins: 1300, rep: 25 } },
   },
+  middray: {
+    name: "Middray", color: "§9", faction: "milim", where: "milim", title: "Sumo Sacerdote dos Fiéis do Dragão",
+    greet: {
+      first: ["Bem-vindo à terra sagrada da Senhora Milim. Sou Middray, Sumo Sacerdote. Aqui, a força é a nossa oração."],
+      normal: ["A Senhora Milim saiu voando de novo. Se a vir, diga que o jantar está pronto.", "Treinou hoje? Um corpo forte é uma prece viva."],
+      disciple: ["Punho firme, espírito calmo. Outra vez!", "Hoje vamos treinar até o chão tremer."],
+      rival: ["Hahaha! Que golpe! Você seria um ótimo sacerdote guerreiro."],
+    },
+    talk: [
+      ["Sobre a Senhora Milim", "Ela é a filha do Dragão Estelar Veldanava. Nós a servimos e a protegemos... mesmo quando ela não precisa."],
+      ["Sobre os Fiéis do Dragão", "Somos dragonatos que veneram a Senhora Milim. Rezamos com os punhos: força é devoção."],
+      ["Sobre Hermes e Stella", "Hermes é meu assistente: cuidadoso demais. Stella é a aprendiz mais teimosa do templo. Boa menina."],
+    ],
+    quests: ["ml_offering", "ch_middray_trial"],
+    disciple: { lvl: 40, rep: { milim: 120 }, trial: "ch_middray_trial", role: "ml_priest", lessons: ["counter_strike", "parry_stance", "barrier"],
+      ask: "Quer aprender a orar com os punhos? O treino é duro. Tem certeza?", yes: "Excelente! Primeiro, prove sua devoção — a tarefa está no seu diário.", no: "Volte quando seu espírito estiver pronto." },
+    duel: { lvl: 45, ask: "Um duelo? Hahaha! Finalmente alguém com coragem! Pronto?", start: "Pela Senhora Milim!", win: "Hahaha! Eu me rendo! Que força!", lose: "Bom esforço! Coma bem e volte.",
+      reward: { xp: 5000, coins: 2000, rep: 30 } },
+  },
+  hermes: {
+    name: "Hermes", color: "§b", faction: "milim", where: "milim", title: "Assistente do Sumo Sacerdote",
+    greet: {
+      first: ["Olá, viajante. Sou Hermes, assistente do Sumo Sacerdote Middray. Se precisar de algo, é só pedir — com calma, por favor."],
+      normal: ["O Sumo Sacerdote está treinando de novo... Eu cuido da papelada.", "Cuidado com a Senhora Milim: ela é gentil, mas não conhece a própria força."],
+      disciple: ["A barreira nasce da concentração. Respire.", "Vamos revisar o que aprendeu?"],
+      rival: ["Você é forte... vou relatar isso ao Sumo Sacerdote. Ele vai querer lutar com você, infelizmente."],
+    },
+    talk: [
+      ["Sobre o templo", "O templo da Cidadela Rosa foi construído para a Senhora Milim. Ela raramente entra nele, mas gosta das festas."],
+      ["Sobre Tempest", "Tempest é uma nação amiga. A Senhora Milim chama o Rimuru de melhor amigo. Isso mudou muita coisa por aqui."],
+      ["Sobre magia sagrada", "Barreiras e luz exigem foco. Comece se protegendo antes de pensar em atacar."],
+    ],
+    quests: ["ml_dragon_trial", "ch_hermes_trial"],
+    disciple: { lvl: 20, rep: { milim: 60 }, trial: "ch_hermes_trial", role: "ml_priest", lessons: ["barrier", "heal", "holy_light"],
+      ask: "Quer estudar magia sagrada comigo? Sou um professor paciente. Tem certeza?", yes: "Ótimo. Comece pela tarefa que anotei no seu diário.", no: "Sem problemas. A porta do templo está sempre aberta." },
+    duel: { lvl: 28, ask: "Um duelo? Eu preferia não... mas aceito. Pronto?", start: "Com sua licença.", win: "Eu me rendo. Muito bem.", lose: "Descanse. Lutar cansado é imprudente.",
+      reward: { xp: 3200, coins: 1200, rep: 20 } },
+  },
+  stella: {
+    name: "Stella", color: "§3", faction: "milim", where: "milim", title: "Aprendiz de Sacerdote Guerreira",
+    greet: {
+      first: ["Ah! Um visitante! Eu sou Stella, aprendiz de sacerdote guerreira! Um dia vou proteger a Senhora Milim sozinha!"],
+      normal: ["Treinei mil golpes hoje! Bom... quinhentos. Mas foram bem dados!", "O Sumo Sacerdote diz que sou teimosa. Eu digo que sou determinada!"],
+      disciple: ["Mais rápido! O vento não espera ninguém!", "Vamos treinar juntos? Eu ensino o que sei!"],
+      rival: ["Você me venceu... Mas eu vou treinar mais! Muito mais!"],
+    },
+    talk: [
+      ["Sobre treinar", "Velocidade primeiro, força depois! Foi o Hermes que disse. Ou fui eu? Tanto faz!"],
+      ["Sobre a Senhora Milim", "Ela me deu um doce uma vez! Desde então, prometi protegê-la para sempre."],
+      ["Sobre os guardas", "Os guardas dragonatos são enormes. Um dia vou derrubar um no treino. Um dia!"],
+    ],
+    quests: ["ml_guard_hunt", "ch_stella_trial"],
+    disciple: { lvl: 10, rep: { milim: 20 }, trial: "ch_stella_trial", role: "ml_priest", lessons: ["evasion_step", "sword_charge"],
+      ask: "Quer treinar comigo? Eu sou aprendiz, mas sei umas coisas! Tem certeza?", yes: "Eba! Primeira tarefa no seu diário. Vamos!", no: "Ah... tudo bem. Se mudar de ideia, estou aqui!" },
+    duel: { lvl: 14, ask: "Um duelo?! Sim! Sem pegar leve, hein! Pronto?", start: "Lá vou eu!", win: "Ai! Eu me rendo... por hoje!", lose: "Ganhei! O Sumo Sacerdote vai ficar orgulhoso!",
+      reward: { xp: 1600, coins: 600, rep: 15 } },
+  },
   tt_hinata: {
     name: "Hinata Sakaguchi", color: "§f", faction: "luminus", where: "luminus", title: "Capitã dos Cavaleiros Sagrados",
     greet: {

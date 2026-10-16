@@ -19,6 +19,9 @@ APPLIED = {    # 6.43: skins enviadas pelo jogador (identificadas pela aparênci
   "zalario": "6.45: skin original + asas brancas articuladas, ombreiras roxas/douradas e faixa 3D (tools/angels.py)",
   "gobta": "6.49: personagem novo com a skin enviada pelo jogador (hobgoblin verde, roupa marrom)",
   "souei": "6.49: personagem novo com a skin enviada pelo jogador (cabelo azul-esverdeado, roupa ninja azul-marinho)",
+  "middray": "6.52: desenhada pela descrição canônica (Sumo Sacerdote dragonato, careca, marca na testa, vestes azuis) — tools/milim_skins.py",
+  "hermes": "6.52: desenhada pela descrição canônica (cabelo prateado, olhos azuis, vestes, marca na testa) — tools/milim_skins.py",
+  "stella": "6.52: desenhada pela descrição canônica (cabelo azul em maria-chiquinha, tiara, roupa azul) — tools/milim_skins.py",
   "dino": "6.45: skin original + asas claras/escuras, cabelo espetado, casaco e espada 3D (tools/angels.py)",
 }
 GEO = {}

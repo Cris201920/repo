@@ -3332,6 +3332,174 @@ export const MOBS = {
    ]
   ]
  },
+ "etheria:stella": {
+  "name": "Stella",
+  "xp": 1500,
+  "coins": [
+   55,
+   146
+  ],
+  "hp": 3200,
+  "role": "brute",
+  "rar": "special",
+  "dmg": 30,
+  "drops": [
+   [
+    "etheria:demonite_shard",
+    2,
+    4,
+    0.9
+   ],
+   [
+    "etheria:void_fragment",
+    1,
+    3,
+    0.6
+   ],
+   [
+    "etheria:celestial_crystal",
+    1,
+    2,
+    0.5
+   ],
+   [
+    "etheria:skill_scroll",
+    1,
+    1,
+    0.45
+   ],
+   [
+    "etheria:hp_potion_l",
+    1,
+    2,
+    0.6
+   ],
+   [
+    "etheria:earth_core",
+    1,
+    1,
+    0.05
+   ],
+   [
+    "etheria:evolution_core",
+    1,
+    1,
+    0.2
+   ]
+  ]
+ },
+ "etheria:hermes": {
+  "name": "Hermes",
+  "xp": 2400,
+  "coins": [
+   55,
+   146
+  ],
+  "hp": 5000,
+  "role": "brute",
+  "rar": "special",
+  "dmg": 42,
+  "drops": [
+   [
+    "etheria:demonite_shard",
+    2,
+    4,
+    0.9
+   ],
+   [
+    "etheria:void_fragment",
+    1,
+    3,
+    0.6
+   ],
+   [
+    "etheria:celestial_crystal",
+    1,
+    2,
+    0.5
+   ],
+   [
+    "etheria:skill_scroll",
+    1,
+    1,
+    0.45
+   ],
+   [
+    "etheria:hp_potion_l",
+    1,
+    2,
+    0.6
+   ],
+   [
+    "etheria:earth_core",
+    1,
+    1,
+    0.05
+   ],
+   [
+    "etheria:evolution_core",
+    1,
+    1,
+    0.2
+   ]
+  ]
+ },
+ "etheria:middray": {
+  "name": "Middray",
+  "xp": 4200,
+  "coins": [
+   55,
+   146
+  ],
+  "hp": 9000,
+  "role": "brute",
+  "rar": "special",
+  "dmg": 70,
+  "drops": [
+   [
+    "etheria:demonite_shard",
+    2,
+    4,
+    0.9
+   ],
+   [
+    "etheria:void_fragment",
+    1,
+    3,
+    0.6
+   ],
+   [
+    "etheria:celestial_crystal",
+    1,
+    2,
+    0.5
+   ],
+   [
+    "etheria:skill_scroll",
+    1,
+    1,
+    0.45
+   ],
+   [
+    "etheria:hp_potion_l",
+    1,
+    2,
+    0.6
+   ],
+   [
+    "etheria:earth_core",
+    1,
+    1,
+    0.05
+   ],
+   [
+    "etheria:evolution_core",
+    1,
+    1,
+    0.2
+   ]
+  ]
+ },
  "etheria:souei": {
   "name": "Souei",
   "xp": 2600,

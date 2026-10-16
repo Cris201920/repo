@@ -79,7 +79,7 @@ const DIR = (dx, dz) => { const ns = dz < -4 ? "norte" : dz > 4 ? "sul" : "", ew
 const SERVICE = (def) => [def.shop ? "loja" : "", def.teaches?.length ? "aulas" : "", def.heal ? "cura" : "", def.cook ? "refeições" : "", def.forge ? "forja" : "", def.recipes ? "encomendas" : "", def.oath ? "aliança" : "", def.quests?.length ? "missões" : ""].filter(Boolean).join(", ");
 function cityRoles(faction) {
   if (faction === "tempest") return TEMPEST_EXTRA;
-  if (faction === "milim") return RESIDENTS.milim_reino.map(([t, dx, dz]) => [t.replace("etheria:npc_", ""), dx, dz]);
+  if (faction === "milim") return RESIDENTS.milim_reino.map(([t, dx, dz]) => [t.includes(":npc_") ? t.replace("etheria:npc_", "") : "char:" + t.slice(8), dx, dz]);
   if (faction === "luminus") return RESIDENTS.luminus_reino.map(([t, dx, dz]) => [t.includes(":npc_") ? t.replace("etheria:npc_", "") : "char:" + t.slice(8), dx, dz]);
   const s = Object.values(SETTLEMENTS).find((x) => x.faction === faction); return s?.npcs ?? [];
 }

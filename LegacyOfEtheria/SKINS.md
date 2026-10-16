@@ -43,6 +43,7 @@
 | gobta | etheria_gobta | etheria_gobta_skin | 64x64 | 6.49: personagem novo com a skin enviada pelo jogador (hobgoblin verde, roupa marrom) |
 | gracia | etheria_gracia | etheria_gracia_skin | 64x80 | ok |
 | guy_crimson | etheria_guy_crimson | etheria_guy_crimson_skin | 64x80 | ok |
+| hermes | etheria_hermes | etheria_hermes_skin | 64x64 | 6.52: desenhada pela descrição canônica (cabelo prateado, olhos azuis, vestes, marca na testa) — tools/milim_skins.py |
 | hobgoblin | etheria_tt_goblin_7 | humanoid.custom | 64x64 | ok |
 | imp | etheria_imp | etheria_imp | 32x128 | ok |
 | lorde_branco | etheria_lorde_branco | etheria_lorde_branco_skin | 64x64 | ok |
@@ -50,6 +51,7 @@
 | magic_wolf | etheria_tt_direwolf | etheria_tt_direwolf | 128x128 | ok |
 | mago_dourado | etheria_mago_dourado | etheria_mago_dourado_skin | 64x64 | ok |
 | michael_manas | etheria_michael_manas | humanoid.custom | 64x64 | ok |
+| middray | etheria_middray | etheria_middray_skin | 64x64 | 6.52: desenhada pela descrição canônica (Sumo Sacerdote dragonato, careca, marca na testa, vestes azuis) — tools/milim_skins.py |
 | milim_nava | etheria_milim_nava | etheria_milim_nava_skin | 64x80 | ok |
 | mini_orc | etheria_mini_orc | etheria_mini_orc | 128x128 | ok |
 | npc_chronoa | etheria_chronoa_human | etheria_chronoa_human | 64x128 | ok |
@@ -121,6 +123,7 @@
 | spirit_water | etheria_spirit_water | etheria_spirit_water | 32x128 | ok |
 | spirit_wind | etheria_spirit_wind | etheria_spirit_wind | 32x128 | ok |
 | spirit_wisp | etheria_spirit_wisp | etheria_spirit_wisp | 32x64 | ok |
+| stella | etheria_stella | etheria_stella_skin | 64x64 | 6.52: desenhada pela descrição canônica (cabelo azul em maria-chiquinha, tiara, roupa azul) — tools/milim_skins.py |
 | taratect | etheria_taratect | etheria_taratect | 138x178 | ok |
 | taratect_arachne | etheria_taratect_arachne | etheria_taratect_arachne | 168x152 | ok |
 | taratect_arachne_kumo | etheria_taratect_arachne_kumo | etheria_taratect_arachne_kumo | 168x152 | ok |
