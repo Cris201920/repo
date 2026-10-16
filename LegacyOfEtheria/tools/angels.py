@@ -236,7 +236,7 @@ def garasha_skin():
 # ---------------------------------------------------------------- cada anjo
 ANGELS = {
   "garasha": {"skin": None, "hair": "#d8284c", "wing": ("#2a2632", "#16141c", "#0e0d12"), "wedge": "#c9a23a", "bar": "#24212a", "metal": "#c8ccd4", "trim": "#e2b83a", "cloth": "#22202a", "accent": "#ece8e0",
-              "hairstyle": "long", "armor": ["pauldrons", "greaves", "tabard", "shield"], "weapon": "sword", "span": 1.0},
+              "hairstyle": "long", "armor": ["pauldrons", "greaves", "tabard", "shield"], "weapon": "sword", "span": 1.0, "pauldron": "#26242c", "lion": True},
   "pico":    {"hair": "#f2d45a", "wing": ("#3a3446", "#1c1a24", "#0f0e14"), "wedge": "#5a5068", "bar": "#1e1b24", "metal": "#d8d8e4", "trim": "#e4c25a", "cloth": "#b28ad8", "accent": "#f0f0f6",
               "hairstyle": "twintails", "armor": ["coat_tails"], "weapon": "spear", "span": 0.92},
   "obera":   {"hair": "#16141c", "wing": None, "metal": "#eef0f6", "trim": "#e2b83a", "cloth": "#7a4ab8", "accent": "#eef0f6",
@@ -249,7 +249,8 @@ ANGELS = {
 
 def build(aid, A):
     src = os.path.join(RP, f"textures/entity/etheria_{aid}.png")
-    skin = garasha_skin() if aid == "garasha" else Image.open(os.path.join(os.path.dirname(__file__), "angel_src", f"{aid}.png") if os.path.exists(os.path.join(os.path.dirname(__file__), "angel_src", f"{aid}.png")) else src).convert("RGBA").crop((0, 0, 64, 64))
+    from angel_skins import SKINS   # 6.52: skins refeitas pelas ilustrações (as do mod estavam quebradas)
+    skin = SKINS[aid]() if aid in SKINS else garasha_skin() if aid == "garasha" else Image.open(os.path.join(os.path.dirname(__file__), "angel_src", f"{aid}.png") if os.path.exists(os.path.join(os.path.dirname(__file__), "angel_src", f"{aid}.png")) else src).convert("RGBA").crop((0, 0, 64, 64))
     img = Image.new("RGBA", (TW, TH), (0, 0, 0, 0)); img.paste(skin, (0, 0))
     at = Atlas(img)
     H = hexc(A["hair"]); M = hexc(A["metal"]); T = hexc(A["trim"]); C = hexc(A["cloth"]); AC = hexc(A["accent"])
@@ -277,8 +278,9 @@ def build(aid, A):
     # ---- armadura e roupa
     ar = A["armor"]
     if "pauldrons" in ar:
+        pm = at.tile("pmetal", p_metal(hexc(A["pauldron"]), T, 2)) if A.get("pauldron") else metal
         for arm, sx in (("rightArm", -9), ("leftArm", 3.6)):
-            g.cube(arm, [sx, 21.5, -2.8], [5.4, 3.4, 5.6], faces_tile(metal, [5.4, 3.4, 5.6]))
+            g.cube(arm, [sx, 21.5, -2.8], [5.4, 3.4, 5.6], faces_tile(pm, [5.4, 3.4, 5.6]))
             g.cube(arm, [sx + 0.4, 20.2, -2.5], [4.6, 1.4, 5], faces_tile(metal_plain, [4.6, 1.4, 5]))
             g.cube(arm, [sx + 0.3, 12, -2.4], [4.8, 3.2, 4.8], faces_tile(metal, [4.8, 3.2, 4.8]))   # braçadeira/manopla
     if "greaves" in ar:
@@ -286,7 +288,14 @@ def build(aid, A):
             g.cube(leg, [sx, 0, -2.4], [4.6, 5.5, 4.8], faces_tile(metal, [4.6, 5.5, 4.8]))
             g.cube(leg, [sx + 0.8, 5.5, -2.9], [3, 2.2, 1], faces_tile(metal_plain, [3, 2.2, 1]))  # joelheira
     if "tabard" in ar:
-        g.cube("body", [-2.5, 6.5, -2.6], [5, 6, 0.4], faces_tile(accent, [5, 6, 0.4]))
+        def p_lion(img, x, y, w, h):      # tabardo branco com leão rampante preto (ilustração da Garasha)
+            px_ = img.load(); W = hexc("#eeeae2"); K = hexc("#1e1c22")
+            for j in range(h):
+                for i in range(w): px_[x + i, y + j] = shade(W, 1.04 - 0.08 * j / h)
+            for (i, j) in ((2, 0), (1, 1), (2, 1), (3, 1), (1, 2), (2, 2), (0, 3), (2, 3), (3, 3), (1, 4), (3, 4), (0, 5), (4, 5)): px_[x + i, y + j] = K
+            for i in range(w): px_[x + i, y + h - 1] = hexc("#2a2830")
+        tab = at.tile("tabard", p_lion) if A.get("lion") else accent
+        g.cube("body", [-2.5, 6.5, -2.6], [5, 6, 0.4], faces_tile(tab, [5, 6, 0.4]))
     if "shield" in ar:
         b = g.bone("shield", [6, 15, 0], "leftArm")
         g.cube("shield", [8.2, 10, -4.5], [1, 9, 9], faces_tile(metal, [1, 9, 9]))
