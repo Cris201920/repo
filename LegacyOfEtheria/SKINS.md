@@ -110,6 +110,7 @@
 | shion | etheria_shion | etheria_shion_skin | 64x80 | skin da Shion (cabelo roxo, chifre, terno roxo) — antes usava a da Shuna; essa skin estava errada na Ultima |
 | shuna | etheria_shuna | etheria_shuna_skin | 64x80 | personagem nova com a skin da Shuna (cabelo rosa, miko) que estava na Shion |
 | skeleton_knight | etheria_skeleton_knight | etheria_skeleton_knight | 32x128 | ok |
+| souei | etheria_souei | etheria_souei_skin | 64x64 | 6.49: personagem novo com a skin enviada pelo jogador (cabelo azul-esverdeado, roupa ninja azul-marinho) |
 | spirit_earth | etheria_spirit_earth | etheria_spirit_earth | 64x64 | ok |
 | spirit_flame | etheria_spirit_flame | etheria_spirit_flame | 32x128 | ok |
 | spirit_greater | etheria_spirit_greater | etheria_spirit_greater | 32x256 | ok |

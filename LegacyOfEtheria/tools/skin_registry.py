@@ -18,6 +18,7 @@ APPLIED = {    # 6.43: skins enviadas pelo jogador (identificadas pela aparênci
   "obera": "6.45: skin original + cabelo longo, ombreiras, grevas e capa 3D (tools/angels.py)",
   "zalario": "6.45: skin original + asas brancas articuladas, ombreiras roxas/douradas e faixa 3D (tools/angels.py)",
   "gobta": "6.49: personagem novo com a skin enviada pelo jogador (hobgoblin verde, roupa marrom)",
+  "souei": "6.49: personagem novo com a skin enviada pelo jogador (cabelo azul-esverdeado, roupa ninja azul-marinho)",
   "dino": "6.45: skin original + asas claras/escuras, cabelo espetado, casaco e espada 3D (tools/angels.py)",
 }
 GEO = {}

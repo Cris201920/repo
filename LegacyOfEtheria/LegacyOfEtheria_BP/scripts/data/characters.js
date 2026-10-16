@@ -124,6 +124,25 @@ export const CHARACTERS = {
     duel: { lvl: 15, ask: "Um duelo? Comigo? Tá... tá bom! Mas sem bater na cara, combinado?", start: "Aqui vou eu!", win: "Ai, ai! Me rendo, me rendo!", lose: "Ganhei?! Ganhei! Alguém viu isso?!",
       reward: { xp: 1800, coins: 700, rep: 15 } },
   },
+  souei: {
+    name: "Souei", color: "§3", faction: "tempest", where: "council", title: "Mestre Espião de Tempest",
+    greet: {
+      first: ["...Souei. Cuido das informações de Tempest. Se o Lorde Rimuru confia em você, eu também. Por enquanto."],
+      normal: ["Relatório: nada fora do normal nas fronteiras.", "Fale baixo. Há ouvidos em toda parte."],
+      disciple: ["Um espião não é visto. Respire, observe, espere.", "Vamos continuar. Desta vez, não faça barulho."],
+      rival: ["Você me encontrou nas sombras. Isso poucos conseguem."],
+    },
+    talk: [
+      ["Sobre espionagem", "Informação vence guerras antes da primeira espada. Saber onde o inimigo está vale mais que um exército."],
+      ["Sobre os fios de aço", "Meus fios são finos demais para ver. Prendem, cortam e me levam aonde eu quiser."],
+      ["Sobre Benimaru", "Benimaru e eu crescemos juntos na vila dos ogros. Ele comanda; eu observo. Combinamos bem."],
+    ],
+    quests: ["tp_guard_patrol", "ch_souei_trial"],
+    disciple: { lvl: 18, rep: { tempest: 40 }, trial: "ch_souei_trial", role: "tp_combat_master", lessons: ["evasion_step", "counter_strike", "parry_stance"],
+      ask: "Quer aprender a andar nas sombras? Exige disciplina. Tem certeza?", yes: "Então prove. Faça um reconhecimento por mim; os detalhes estão no seu diário.", no: "Entendido. A oferta continua de pé." },
+    duel: { lvl: 28, ask: "Um duelo? Não costumo lutar à vista... mas aceito. Pronto?", start: "...", win: "Basta. Você venceu.", lose: "Você ainda deixa rastros. Treine mais.",
+      reward: { xp: 3400, coins: 1300, rep: 25 } },
+  },
   tt_hinata: {
     name: "Hinata Sakaguchi", color: "§f", faction: "luminus", where: "luminus", title: "Capitã dos Cavaleiros Sagrados",
     greet: {

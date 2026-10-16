@@ -3332,6 +3332,62 @@ export const MOBS = {
    ]
   ]
  },
+ "etheria:souei": {
+  "name": "Souei",
+  "xp": 2600,
+  "coins": [
+   55,
+   146
+  ],
+  "hp": 5500,
+  "role": "brute",
+  "rar": "special",
+  "dmg": 46,
+  "drops": [
+   [
+    "etheria:demonite_shard",
+    2,
+    4,
+    0.9
+   ],
+   [
+    "etheria:void_fragment",
+    1,
+    3,
+    0.6
+   ],
+   [
+    "etheria:celestial_crystal",
+    1,
+    2,
+    0.5
+   ],
+   [
+    "etheria:skill_scroll",
+    1,
+    1,
+    0.45
+   ],
+   [
+    "etheria:hp_potion_l",
+    1,
+    2,
+    0.6
+   ],
+   [
+    "etheria:earth_core",
+    1,
+    1,
+    0.05
+   ],
+   [
+    "etheria:evolution_core",
+    1,
+    1,
+    0.2
+   ]
+  ]
+ },
  "etheria:gobta": {
   "name": "Gobta",
   "xp": 1500,
