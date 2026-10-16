@@ -10,7 +10,7 @@
     "default": "textures/entity/etheria_feldway"
    },
    "geometry": {
-    "default": "geometry.humanoid.custom"
+    "default": "geometry.humanoid.customSlim"
    },
    "spawn_egg": {
     "base_color": "#5a1a1a",

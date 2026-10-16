@@ -10,7 +10,7 @@
     "default": "textures/entity/etheria_michael_manas"
    },
    "geometry": {
-    "default": "geometry.humanoid.custom"
+    "default": "geometry.humanoid.customSlim"
    },
    "spawn_egg": {
     "base_color": "#d8d8f0",
