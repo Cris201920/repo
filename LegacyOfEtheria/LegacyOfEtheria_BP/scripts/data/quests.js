@@ -159,6 +159,13 @@ Object.assign(QUESTS, {
     objectives: [{ type: "kill", target: E + "skeleton_knight", n: 20, label: "Cavaleiros Esqueletos" }, { type: "deliver", item: E + "orc_tusk", n: 10, npc: "rimuru_tempest", label: "Presas de Orc (entregar ao Rimuru)" }], reward: { xp: 9000, coins: 3000, frep: { tempest: 60 }, flagSet: "disc_rimuru_tempest" } },
   ch_guy_trial: { id: "ch_guy_trial", name: "O Teste do Soberano Carmesim", giver: "char_guy_crimson", minLevel: 70, desc: "Guy Crimson só aceita discípulos que derrotam o Senhor do Vazio e trazem fragmentos demoníacos.",
     objectives: [{ type: "boss", target: "void_lord", n: 1, label: "Senhor do Vazio" }, { type: "deliver", item: E + "demonite_shard", n: 10, npc: "guy_crimson", label: "Fragmentos Demoníacos (entregar ao Guy)" }], reward: { xp: 20000, coins: 8000, frep: { guy: 80 }, flagSet: "disc_guy_crimson" } },
+  // 6.51: DOMÍNIO DE MILIM NAVA (Fiéis do Dragão)
+  ml_guard_hunt: { id: "ml_guard_hunt", name: "Caça na Cidadela Rosa", giver: "ml_guard", minLevel: 20, desc: "Orcs e lobos rondam as terras da Senhora Milim. Os guardas dragonatos pedem ajuda.",
+    objectives: [{ type: "kill", target: E + "orc", n: 12, label: "Orcs" }, { type: "kill", target: E + "magic_wolf", n: 8, label: "Lobos Mágicos" }], reward: { xp: 2200, coins: 800, frep: { milim: 40 } } },
+  ml_offering: { id: "ml_offering", name: "Oferenda ao Dragão", giver: "ml_priest", minLevel: 18, desc: "O sacerdote prepara uma festa para a Senhora Milim e precisa de cristais de mana para o altar.",
+    objectives: [{ type: "deliver", item: E + "mana_crystal", n: 8, npc: "ml_priest", label: "Cristais de Mana (entregar ao sacerdote)" }], reward: { xp: 1600, coins: 600, frep: { milim: 35 } } },
+  ml_dragon_trial: { id: "ml_dragon_trial", name: "A Prova do Dragão", giver: "ml_priest", minLevel: 35, req: ["ml_offering"], desc: "Só quem enfrenta um guardião poderoso é digno da bênção dracônica: derrote cavaleiros esqueletos e entregue fragmentos demoníacos ao templo.",
+    objectives: [{ type: "kill", target: E + "skeleton_knight", n: 15, label: "Cavaleiros Esqueletos" }, { type: "deliver", item: E + "demonite_shard", n: 6, npc: "ml_priest", label: "Fragmentos Demoníacos (entregar ao sacerdote)" }], reward: { xp: 5000, coins: 1800, frep: { milim: 70 } } },
   // 6.44: REINO SAGRADO DE LUMINUS (cavaleiros e Hinata)
   lm_patrol: { id: "lm_patrol", name: "Ronda Sagrada", giver: "lm_knight", minLevel: 15, desc: "Os cavaleiros pedem ajuda para conter os mortos-vivos que rondam o Reino Sagrado.",
     objectives: [{ type: "kill", target: E + "skeleton_knight", n: 12, label: "Cavaleiros Esqueletos" }], reward: { xp: 1800, coins: 700, frep: { luminus: 40 } } },

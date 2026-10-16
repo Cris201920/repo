@@ -1,0 +1,38 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:npc_ml_priest",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_tt_lizardman_8"
+   },
+   "geometry": {
+    "default": "geometry.etheria_tt_lizardman_8"
+   },
+   "spawn_egg": {
+    "base_color": "#6a3a8a",
+    "overlay_color": "#f0b0e0"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "main": "1.0"
+     },
+     {
+      "attack": "variable.attack_time > 0"
+     }
+    ]
+   },
+   "animations": {
+    "main": "animation.etheria_tt_lizardman_8.main",
+    "attack": "animation.etheria_tt_lizardman_8.attack"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

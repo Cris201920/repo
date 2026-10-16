@@ -72,6 +72,9 @@
 | npc_lm_knight | etheria_npc_lm_knight | etheria_npc_lm_knight | 64x64 | ok |
 | npc_master | etheria_npc_master | etheria_npc_master | 64x64 | ok |
 | npc_merchant | etheria_npc_merchant | etheria_npc_merchant | 32x128 | ok |
+| npc_ml_guard | etheria_tt_lizardman_7 | etheria_tt_lizardman_7 | 128x64 | ok |
+| npc_ml_merchant | etheria_tt_lizardman_6 | etheria_tt_lizardman_6 | 128x64 | ok |
+| npc_ml_priest | etheria_tt_lizardman_8 | etheria_tt_lizardman_8 | 128x64 | ok |
 | npc_orc_commander | etheria_npc_orc_commander | etheria_npc_orc_commander | 64x128 | ok |
 | npc_orc_trader | etheria_npc_orc_trader | etheria_npc_orc_trader | 32x128 | ok |
 | npc_orc_warrior | etheria_npc_orc_warrior | etheria_npc_orc_warrior | 32x128 | ok |

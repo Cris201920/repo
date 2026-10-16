@@ -11,6 +11,7 @@ import { MOBS } from "../data/mobs.gen.js";
 // [tipo, dx, dz] a partir do centro da estrutura (o portão fica no lado +Z)
 export const RESIDENTS = {
   luminus_reino: [["etheria:tt_hinata", 0, -8], ["etheria:npc_lm_knight", -5, 50], ["etheria:npc_lm_knight", 5, 50], ["etheria:npc_lm_knight", -22, 4], ["etheria:npc_lm_knight", 22, 4], ["etheria:npc_lm_knight", 0, 24]],
+  milim_reino: [["etheria:npc_ml_priest", 0, -6], ["etheria:npc_ml_guard", -5, 50], ["etheria:npc_ml_guard", 5, 50], ["etheria:npc_ml_guard", -20, 4], ["etheria:npc_ml_guard", 20, 4], ["etheria:npc_ml_merchant", 9, 2]],   // 6.51: Fiéis do Dragão (dragonatos)
   ceu_veldanava: [["etheria:sabio_branco", 6, 40]],                                    // Guardião da Memória, na chegada do Domínio de Veldanava
   guy_dominio: [["etheria:npc_gc_envoy", 0, -10], ["etheria:npc_gc_soldier", -5, 40], ["etheria:npc_gc_soldier", 5, 40], ["etheria:npc_gc_servant", -8, 6], ["etheria:npc_gc_merchant", 9, 2]],
 };

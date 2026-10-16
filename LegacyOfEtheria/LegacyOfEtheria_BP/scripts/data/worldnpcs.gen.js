@@ -1,5 +1,29 @@
 // GERADO por tools/build.py a partir de tools/content.py - não edite à mão.
 export const WORLD_NPCS = {
+ "ml_guard": {
+  "id": "ml_guard",
+  "name": "Guarda Dragonato",
+  "faction": "milim",
+  "kind": "guard",
+  "guard": true,
+  "scale": 1.0
+ },
+ "ml_priest": {
+  "id": "ml_priest",
+  "name": "Sacerdote dos Fiéis do Dragão",
+  "faction": "milim",
+  "kind": "healer",
+  "guard": false,
+  "scale": 1.0
+ },
+ "ml_merchant": {
+  "id": "ml_merchant",
+  "name": "Mercador Dragonato",
+  "faction": "milim",
+  "kind": "merchant",
+  "guard": false,
+  "scale": 1.0
+ },
  "lm_knight": {
   "id": "lm_knight",
   "name": "Cavaleiro Sagrado",

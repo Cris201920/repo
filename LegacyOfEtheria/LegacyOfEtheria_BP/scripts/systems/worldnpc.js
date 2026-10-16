@@ -79,6 +79,7 @@ const DIR = (dx, dz) => { const ns = dz < -4 ? "norte" : dz > 4 ? "sul" : "", ew
 const SERVICE = (def) => [def.shop ? "loja" : "", def.teaches?.length ? "aulas" : "", def.heal ? "cura" : "", def.cook ? "refeições" : "", def.forge ? "forja" : "", def.recipes ? "encomendas" : "", def.oath ? "aliança" : "", def.quests?.length ? "missões" : ""].filter(Boolean).join(", ");
 function cityRoles(faction) {
   if (faction === "tempest") return TEMPEST_EXTRA;
+  if (faction === "milim") return RESIDENTS.milim_reino.map(([t, dx, dz]) => [t.replace("etheria:npc_", ""), dx, dz]);
   if (faction === "luminus") return RESIDENTS.luminus_reino.map(([t, dx, dz]) => [t.includes(":npc_") ? t.replace("etheria:npc_", "") : "char:" + t.slice(8), dx, dz]);
   const s = Object.values(SETTLEMENTS).find((x) => x.faction === faction); return s?.npcs ?? [];
 }
@@ -292,7 +293,7 @@ const escortAt = new Map();
 export function callEscort(player, f) {
   const d = getData(player); if (!isAlly(d, f)) return { ok: false, msg: "Só aliados podem chamar escolta." };
   const now = Date.now(); if ((escortAt.get(player.id) ?? 0) > now) return { ok: false, msg: `Escolta indisponível por mais ${Math.ceil((escortAt.get(player.id) - now) / 1000)}s.` };
-  const type = { tempest: "etheria:npc_tp_guard", dwarf: "etheria:npc_dw_guard", guy: "etheria:npc_gc_soldier", orc: "etheria:npc_orc_warrior", luminus: "etheria:npc_lm_knight" }[f]; if (!type) return { ok: false, msg: "Sem escolta." };
+  const type = { tempest: "etheria:npc_tp_guard", dwarf: "etheria:npc_dw_guard", guy: "etheria:npc_gc_soldier", orc: "etheria:npc_orc_warrior", luminus: "etheria:npc_lm_knight", milim: "etheria:npc_ml_guard" }[f]; if (!type) return { ok: false, msg: "Sem escolta." };
   let n = 0;
   for (let i = 0; i < 2; i++) { try { const e = player.dimension.spawnEntity(type, { x: player.location.x + (i ? 2 : -2), y: player.location.y, z: player.location.z + 1 }); e.addTag("etheria_escort"); system.runTimeout(() => { try { if (e.isValid) e.remove(); } catch { /* ignore */ } }, 2400); n++; } catch { /* ignore */ } }
   if (!n) return { ok: false, msg: "Não foi possível chamar a escolta aqui." };
@@ -332,7 +333,7 @@ function openPlaces(player) {
   const l = player.location, lines = [], t = tempestInfo();
   const dist = (x, z) => Math.round(Math.hypot(x - l.x, z - l.z));
   if (t) lines.push(`§b${FACTIONS.tempest.capital}: §f${t.x}, ${t.y}, ${t.z} §7(${dist(t.x, t.z)} blocos)`); else lines.push("§bTempest: §7ainda sendo localizada");
-  for (const [k, nm] of [["luminus_reino", "§fReino Sagrado de Luminus"], ["guy_dominio", "§cDomínio de Guy Crimson"]]) {
+  for (const [k, nm] of [["luminus_reino", "§fReino Sagrado de Luminus"], ["guy_dominio", "§cDomínio de Guy Crimson"], ["milim_reino", "§dDomínio de Milim Nava (Cidadela Rosa)"]]) {
     const r = wgRecords().find((q) => q.k === k); lines.push(`${nm}: ${r ? `§f${r.x}, ${r.z} §7(${dist(r.x, r.z)} blocos)` : "§7ainda não descoberto (surge ao explorar o mundo)"}`);
   }
   for (const s of Object.values(SETTLEMENTS)) { const i = settlementInfo(s.id); lines.push(`${FACTIONS[s.faction].color}${s.name}: ${i ? `§f${i.x}, ${i.z} §7(${dist(i.x, i.z)} blocos${i.built ? "" : ", ainda não visitada"})` : "§7ainda sendo localizada"}`); }

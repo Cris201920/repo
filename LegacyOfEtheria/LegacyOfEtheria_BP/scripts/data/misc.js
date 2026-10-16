@@ -49,6 +49,7 @@ export const ACHIEVEMENTS = [
   { id: "adventurer", cat: "Missões", name: "Aventureiro", desc: "Conclua 5 missões.", title: "Aventureiro", coins: 400, check: (d) => d.quests.completed.length >= 5 },
   { id: "dimension_explorer", cat: "Exploração", name: "Explorador Dimensional", desc: "Entre no Domínio de Veldanava.", title: "Viajante das Estrelas", coins: 1500, check: (d) => !!d.world?.flags?.visited_veldanava },
   { id: "luminus_visitor", cat: "Exploração", name: "Peregrino da Luz", desc: "Visite o Reino Sagrado de Luminus.", title: "Peregrino", coins: 300, check: (d) => !!d.world?.flags?.region_luminus },
+  { id: "milim_visitor", cat: "Exploração", name: "Visita à Destruidora", desc: "Visite o Domínio de Milim Nava.", title: "Amigo dos Dragões", coins: 300, check: (d) => !!d.world?.flags?.region_milim },
   { id: "world_traveler", cat: "Exploração", name: "Andarilho", desc: "Visite Tempest, Luminus, o Domínio de Guy e Dwargon.", title: "Andarilho", coins: 1200, check: (d) => ["region_tempest", "region_luminus", "region_guy", "region_dwargon"].every((k) => d.world?.flags?.[k]) },
   { id: "weapon_master", cat: "Combate", name: "Mestre das Armas", desc: "Ataque com 4 tipos diferentes de arma.", title: "Mestre das Armas", coins: 800, check: (d) => Object.keys(d.world?.wtypes ?? {}).length >= 4 },
   { id: "monster_hunter", cat: "Combate", name: "Caçador de Monstros", desc: "Derrote 15 tipos diferentes de criaturas.", title: "Caçador de Monstros", coins: 900, check: (d) => Object.keys(d.world?.killTypes ?? {}).length >= 15 },

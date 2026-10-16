@@ -16,6 +16,7 @@ const dirty = new Set();
 const REGIONS = [
   { id: "region_tempest", name: "Tempest", r: 110, at: () => tempestInfo(), sage: "Região identificada: Federação de Tempest. Monstros e humanos vivem aqui em paz. O Conselho de Rimuru fica perto da praça." },
   { id: "region_luminus", name: "Reino Sagrado de Luminus", r: 75, at: () => wgRecords().find((q) => q.k === "luminus_reino" && q.d === "minecraft:overworld"), sage: "Região identificada: Reino Sagrado de Luminus. Os Cavaleiros Sagrados caçam mortos-vivos. Hinata Sakaguchi comanda a ordem." },
+  { id: "region_milim", name: "Domínio de Milim Nava", r: 70, at: () => wgRecords().find((q) => q.k === "milim_reino" && q.d === "minecraft:overworld"), sage: "Região identificada: Domínio de Milim Nava. Os Fiéis do Dragão servem a Destruidora. Recomendo boas maneiras." },
   { id: "region_guy", name: "Domínio de Guy Crimson", r: 65, at: () => wgRecords().find((q) => q.k === "guy_dominio" && q.d === "minecraft:overworld"), sage: "Alerta: Domínio de Guy Crimson. Só o poder é respeitado aqui. Evite provocar os soldados." },
   { id: "region_dwargon", name: "Fortaleza de Dwargon", r: 45, at: () => settlementInfo("dwargon"), sage: "Região identificada: Fortaleza de Dwargon. A melhor forja do mundo; os anões valorizam reputação." },
 ];
