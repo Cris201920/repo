@@ -12,6 +12,7 @@ import { CLASSES, CLASS_LIST } from "../../data/classes.js";
 import { QUESTS } from "../../data/quests.js";
 import { GUILD_RANKS, GUILD_REP, GUILD_REWARDS, ACHIEVEMENTS, ACH_CATS, RARITY as ACH_RARITY } from "../../data/misc.js";
 import { sageStage } from "../voice.js";
+import { playerPower, silverUnlocked, rankLabel } from "../power.js";
 import { achProgress, nearestAchievements } from "../achievements.js";
 import { getStats, getHealth, applyDerivedStats } from "../stats.js";
 import { learnSkill, canLearn, castSlot, cdLeft, hasSkill, skillCost } from "../skills.js";
@@ -468,9 +469,12 @@ export function openSettings(player) {
     .toggle("Magias em fases (formação, trajeto e impacto)", sb.staged !== false)
     .toggle("Interface temática animada (desligue para a interface clássica)", st.classicUi !== true)
     .toggle("Cerimônias em tela cheia (Voz do Mundo)", st.cinematic !== false)
-    .toggle("Textos da Voz do Mundo em inglês (como no anime)", st.voiceLang === "en");
+    .toggle("Textos da Voz do Mundo em inglês (como no anime)", st.voiceLang === "en")
+    .dropdown("Aura mágica (mostra sua classe de poder)", ["Automática (cor da raça)", "Brilho prateado (classe S+, habilidade Divina ou Ciel)", "Desligada"], Math.max(0, ["auto", "silver", "off"].indexOf(st.aura ?? "auto")));
   show(player, f, (r) => {
-    const [hud, compact, tracker, fx, announce, selSound, selInfo, strip, blockInteract, staged, themedUi, cine, en] = r.formValues;
+    const [hud, compact, tracker, fx, announce, selSound, selInfo, strip, blockInteract, staged, themedUi, cine, en, aura] = r.formValues;
+    st.aura = ["auto", "silver", "off"][aura] ?? "auto";
+    if (st.aura === "silver") { const pw = playerPower(player); if (!silverUnlocked(d, pw)) say(player, `§7Brilho prateado ainda bloqueado (sua classe: ${rankLabel(pw.rank)}§7). Requer classe S, uma habilidade Divina ou o Sábio Ciel; até lá a aura automática é usada.`); }
     st.classicUi = themedUi === false; st.cinematic = cine !== false; st.voiceLang = en ? "en" : "pt";
     st.hud = !!hud; st.compact = !!compact; st.tracker = !!tracker; st.fx = FX_LEVELS[fx] ?? "high";
     sb.announce = !!announce; sb.selectSound = !!selSound; sb.selectInfo = !!selInfo; sb.strip = !!strip; sb.blockInteract = !!blockInteract; sb.staged = staged !== false;

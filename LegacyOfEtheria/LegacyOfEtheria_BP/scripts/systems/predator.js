@@ -11,6 +11,11 @@ import { sageVoice } from "./sage.js";
 import { EquippedSkillManager } from "./skillbar/equipped.js";
 import { AUTO_EQUIP } from "../config.js";
 import { emit, EV } from "../core/bus.js";
+import { sageText } from "./voice.js";
+import { store, room, predTier, analyze } from "./stomach.js";
+import { MOBS } from "../data/mobs.gen.js";
+import { ALLY_TAG } from "../config.js";
+import { mote, streak, ringFlat, orbit, helix, after } from "./fxlib.js";
 
 // quantidade de devorados -> habilidade de mimetismo
 const MIMIC = [
@@ -23,22 +28,73 @@ export const BEELZEBUTH_EVOLVE = Object.freeze({ devoured: 120, level: 60 });
 
 function healthOf(e) { try { return e.getComponent("minecraft:health"); } catch { return undefined; } }
 
+// ---------------------------------------------------------------- 6.55: validação, sequência visual e Estômago real
+const done = new Map();   // entityId -> tick (a mesma entidade nunca é processada duas vezes)
+const head = (e) => ({ x: e.location.x, y: e.location.y + 1, z: e.location.z });
+/** null = pode devorar; texto = motivo (imune/incompatível) */
+export function devourBlock(d, e) {
+  const id = e.typeId ?? "";
+  if (e instanceof Player) return "jogadores não podem ser devorados";
+  if (/^etheria:npc_|^minecraft:(villager|wandering_trader|iron_golem|armor_stand)/.test(id)) return "NPCs são imunes";
+  try { if (e.hasTag(ALLY_TAG) || e.hasTag("etheria_resident") || e.hasTag("etheria_npc")) return "aliado/morador protegido"; } catch { /* ignore */ }
+  const rar = MOBS[id]?.rar, tier = predTier(d);
+  if (rar === "boss" && tier === "predator") return "chefes exigem Gula ou Beelzebuth";
+  if ((rar === "legendary" || rar === "special") && tier !== "beelzebuth") return "seres lendários só cedem a Beelzebuth";
+  if (done.has(e.id)) return "já está sendo devorado";
+  return null;
+}
+/** sequência de captura (aura, espirais, tentáculos, partículas puxadas do alvo) — o resultado só aparece depois */
+function captureFx(player, e) {
+  const c = ctx(player, 1); if (c.k <= 0) return;
+  const P = () => ({ x: player.location.x, y: player.location.y + 1.1, z: player.location.z });
+  orbit(c, P, { col: "shadow", tile: T.smoke, n: 4, r: 1, dur: 14, step: 2, size: 0.35, speed: 2.2, a: 0.7 });
+  orbit(c, P, { col: "mana", tile: T.orb, n: 3, r: 0.6, dur: 14, step: 2, size: 0.14, speed: -3 });
+  helix(c, e.location, { col: "violet", tile: T.spark, steps: 22, turns: 3, r: 1.2, h: 2.4, dur: 12, size: 0.12, down: true });
+  for (let i = 0; i < 5; i++) after(i * 2, () => { if (!isLive(e)) return; const a = P(), b = head(e); for (let k = 0; k < 3; k++) { const m = { x: (a.x + b.x) / 2 + (Math.random() - 0.5) * 1.6, y: (a.y + b.y) / 2 + Math.random(), z: (a.z + b.z) / 2 + (Math.random() - 0.5) * 1.6 }; streak(c, a, m, { col: "shadow", w: 0.14, life: 0.18 }); streak(c, m, b, { col: "violet", w: 0.1, life: 0.18 }); } });
+}
+function successFx(player, loc) {
+  const c = ctx(player, 1); if (c.k <= 0) return;
+  const P = () => ({ x: player.location.x, y: player.location.y + 1.1, z: player.location.z });
+  for (let i = 0; i < 6; i++) after(i, () => { const a = P(); for (let k = 0; k < 8; k++) { const q = { x: loc.x + (Math.random() - 0.5) * 1.6, y: loc.y + (Math.random() - 0.3) * 1.6, z: loc.z + (Math.random() - 0.5) * 1.6 }, dx = a.x - q.x, dy = a.y - q.y, dz = a.z - q.z, m = Math.hypot(dx, dy, dz) || 1; mote(c, q, { col: k % 3 ? "violet" : "mana", tile: k % 2 ? T.spark : T.skull, size: 0.16, spd: m / 0.35, dir: [dx / m, dy / m, dz / m], life: 0.35, drag: 0 }); } });
+  implode(c, loc, { col: "black", tile: T.smoke, n: 18, radius: 2.4, life: 0.5, size: 0.45, a: 0.8 });
+  after(7, () => { const a = P(); burst(c, a, { col: "mana", tile: T.star, n: 18, spd: 3, life: 0.5, size: 0.12 }); ringFlat(c, { x: a.x, y: a.y - 1, z: a.z }, { col: "violet", tile: T.ring, n: 22, radius: 2.2, spd: 4, life: 0.45, size: 0.16 }); orbit(c, P, { col: "mana", tile: T.orb, n: 2, r: 0.4, dur: 20, step: 2, size: 0.18, speed: 4 }); });
+  disc(c, { x: loc.x, y: loc.y - 1, z: loc.z }, { col: "shadow", circle: CIRCLE.devour, size: 3, life: 1 });
+}
+function failFx(player, e) {
+  const c = ctx(player, 1); if (c.k <= 0 || !isLive(e)) return;
+  const L = head(e);
+  burst(c, L, { col: "violet", tile: T.cross, n: 12, spd: 3, life: 0.4, size: 0.16 });
+  ringFlat(c, L, { col: "blood", tile: T.ring, n: 14, radius: 1.4, spd: 3, life: 0.35, size: 0.12 });
+  for (let k = 0; k < 4; k++) { const a = { x: player.location.x, y: player.location.y + 1.1, z: player.location.z }; streak(c, a, { x: (a.x + L.x) / 2 + (Math.random() - 0.5), y: (a.y + L.y) / 2, z: (a.z + L.z) / 2 + (Math.random() - 0.5) }, { col: "shadow", w: 0.08, life: 0.25, a: 0.5 }); }
+}
+const isLive = (e) => { try { return e.isValid !== false && !!e.location; } catch { return false; } };
+
 function devourOne(player, e, sk, h) {
   const d = getData(player), hp = healthOf(e);
   if (!hp) return false;
+  const why = devourBlock(d, e);
+  if (why) { failFx(player, e); try { sageText(player, `Predação impossível: ${why}.`, { pri: 3, key: "pred.deny." + why, cd: 200 }); } catch { /* ignore */ } return false; }
+  if (room(d) <= 0) { failFx(player, e); try { sageText(player, "Estômago cheio. Processe ou libere conteúdos.", { pri: 3, key: "pred.full", cd: 300 }); } catch { /* ignore */ } return false; }
+  captureFx(player, e);
   const frac = hp.currentValue / hp.effectiveMax;
   h.hitOne(player, e, sk, getStats(player), 0.6);
   const hp2 = healthOf(e);
   const dead = !hp2 || hp2.currentValue <= 0;
-  if (!(dead || frac <= (sk.exec.threshold ?? 0.3))) return false;
+  const legendary = ["legendary", "special"].includes(MOBS[e.typeId]?.rar);
+  const thr = legendary ? 0.1 : (sk.exec.threshold ?? 0.3);
+  if (!(dead || frac <= thr)) { after(10, () => failFx(player, e)); try { sageText(player, `Captura falhou: o alvo resiste. Reduza a vida dele abaixo de ${Math.round(thr * 100)}%.`, { pri: 4, key: "pred.fail", cd: 160 }); } catch { /* ignore */ } return false; }
+  done.set(e.id, system.currentTick); if (done.size > 200) done.delete(done.keys().next().value);
   const typeId = e.typeId, short = typeId.split(":")[1] ?? typeId;
-  const loc = { x: e.location.x, y: e.location.y + 1, z: e.location.z }, dim = e.dimension;
-  try { if (!dead) e.kill(); } catch { /* ignore */ }
+  const loc = head(e);
+  // intacto: removido SEM soltar itens (o material sai só pelo processamento, sem duplicar). Já morto pelo golpe: os itens já caíram -> só a análise é guardada.
+  let stored = 0;
+  if (!dead) { try { e.remove(); stored = store(player, "mobs", typeId, 1); } catch { try { e.kill(); } catch { /* ignore */ } } }
   d.stomach ??= {}; d.stomach[short] = (d.stomach[short] ?? 0) + 1; d.devoured = (d.devoured ?? 0) + 1;
   const s = getStats(player); d.mana = Math.min(s.maxMana, d.mana + s.maxMana * 0.08); heal(player, 4);
-  const c = ctx(player);
-  implode(c, loc, { col: "violet", tile: T.skull, n: 10, radius: 2, life: 0.5, size: 0.28 }); disc(c, { x: loc.x, y: loc.y - 1, z: loc.z }, { col: "shadow", circle: CIRCLE.devour, size: 2.4, life: 0.8 });
+  successFx(player, loc);
   playSound(player, "mob.enderman.teleport", 0.6, 0.6);
+  after(10, () => { try { analyze(player, typeId); } catch { /* ignore */ } });
+  if (!stored && dead) { try { sageText(player, "O alvo se desfez antes da captura completa. Apenas a análise foi registrada.", { pri: 4, key: "pred.dead", cd: 200 }); } catch { /* ignore */ } }
   for (const [fam, skill, need] of MIMIC) {
     if (short.includes(fam) && d.stomach[short] >= need && !hasSkill(d, skill)) {
       grantSkill(player, skill); toast(player, "§5Mimetismo", `§7${short} → ${skill}`); sageVoice(player, "learn");
@@ -49,6 +105,23 @@ function devourOne(player, e, sk, h) {
   else if (hasSkill(d, "gluttony") && !hasSkill(d, "beelzebuth") && d.devoured >= BEELZEBUTH_EVOLVE.devoured && d.level >= BEELZEBUTH_EVOLVE.level) evolveBeelzebuth(player);
   markDirty(player);
   return true;
+}
+
+/** devora itens soltos no chão perto do ponto mirado (guardados no Estômago, liberáveis depois) */
+function devourItems(player, at) {
+  let n = 0;
+  try {
+    for (const it of player.dimension.getEntities({ type: "minecraft:item", location: at, maxDistance: 3.5 })) {
+      if (done.has(it.id)) continue;
+      const st = it.getComponent("minecraft:item")?.itemStack; if (!st) continue;
+      const fit = store(player, "items", st.typeId, st.amount); if (!fit) break;
+      done.set(it.id, system.currentTick);
+      if (fit < st.amount) { try { st.amount -= fit; player.dimension.spawnItem(st, it.location); } catch { /* ignore */ } }
+      const c = ctx(player); implode(c, it.location, { col: "violet", tile: T.spark, n: 6, radius: 1, life: 0.3, size: 0.12 });
+      it.remove(); n += fit;
+    }
+  } catch { /* ignore */ }
+  return n;
 }
 
 /** Evolução de uma habilidade de devoração: a antiga sai da lista e a nova entra no MESMO slot da hotbar (nada é duplicado nem perdido);
@@ -107,7 +180,9 @@ function devourBlocks(player, sk, h) {
   for (const b of list) {
     try {
       const loc = { x: b.location.x + 0.5, y: b.location.y + 0.5, z: b.location.z + 0.5 };
+      const bid = b.typeId; if (room(d) <= 0) break;
       b.setPermutation(BlockPermutation.resolve("minecraft:air"));
+      store(player, "blocks", bid, 1);
       implode(c, loc, { col: "violet", n: 4, radius: 1.4, life: 0.4, size: 0.2 }); n++;
     } catch { /* ignore */ }
   }
@@ -161,6 +236,8 @@ export function startPredator() {
     openAbsorbWindow(player);   // 5 s: golpes de habilidade de outro jogador contra você são devorados e podem ser aprendidos
     const targets = ex.aoe ? h.around(player.dimension, player.location, ex.aoe, player) : (a.target ? [a.target] : []);
     if (!targets.length) {
+      const ni = devourItems(player, a.point ?? player.location);
+      if (ni) { say(player, `§5[Predador] §7engoliu §f${ni}§7 item(ns). Veja no Estômago.`); return true; }
       const nb = devourBlocks(player, sk, h);
       if (nb) { say(player, `§5[Predador] §7devorou §f${nb}§7 bloco(s).`); return true; }
       return "Nenhum alvo ao alcance. (Janela de absorção aberta por 5 s.)";

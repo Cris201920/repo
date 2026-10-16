@@ -21,7 +21,11 @@
     "move": "animation.humanoid.move",
     "look_at_target": "controller.animation.humanoid.look_at_target",
     "attack": "animation.humanoid.attack.rotations",
-    "angel": "animation.etheria.angel.obera.idle"
+    "angel": "animation.etheria.angel.obera.idle",
+    "life_idle": "animation.etheria.life.idle",
+    "life_swing": "animation.etheria.life.swing",
+    "life_hurt": "animation.etheria.life.hurt",
+    "life_stance": "animation.etheria.life.stance"
    },
    "scripts": {
     "pre_animation": [
@@ -36,7 +40,22 @@
      {
       "attack": "variable.attack_time >= 0.0"
      },
-     "angel"
+     "angel",
+     {
+      "life_idle": "!query.is_moving && variable.attack_time <= 0"
+     },
+     {
+      "life_swing": "variable.attack_time > 0.0"
+     },
+     {
+      "life_hurt": "query.hurt_time > 0"
+     },
+     {
+      "life_stance": "query.has_target && !query.is_moving && variable.attack_time <= 0"
+     }
+    ],
+    "initialize": [
+     "v.ph = math.random(0, 360); v.sp = math.random(0.85, 1.2);"
     ]
    },
    "render_controllers": [

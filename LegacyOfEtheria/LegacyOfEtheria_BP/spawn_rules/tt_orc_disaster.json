@@ -33,18 +33,8 @@
      "surface": 1
     },
     "minecraft:biome_filter": {
-     "any_of": [
-      {
-       "test": "has_biome_tag",
-       "operator": "==",
-       "value": "desert"
-      },
-      {
-       "test": "has_biome_tag",
-       "operator": "==",
-       "value": "mesa"
-      }
-     ]
+     "test": "has_biome_tag",
+     "value": "etheria_no_natural_spawn"
     }
    },
    {
@@ -74,18 +64,8 @@
      "surface": 1
     },
     "minecraft:biome_filter": {
-     "any_of": [
-      {
-       "test": "has_biome_tag",
-       "operator": "==",
-       "value": "desert"
-      },
-      {
-       "test": "has_biome_tag",
-       "operator": "==",
-       "value": "mesa"
-      }
-     ]
+     "test": "has_biome_tag",
+     "value": "etheria_no_natural_spawn"
     }
    }
   ]

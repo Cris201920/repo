@@ -22,8 +22,10 @@ const spawnedAt = new Map(); // entityId -> tick
 const interval = () => Math.floor(rand(3600, 7200));            // 3-6 min
 const level = (p) => { try { return getData(p).level ?? 1; } catch { return 1; } };
 
+// 6.55: chefes de alto nível sem arena/reino/estrutura próprios entram no sorteio errante a partir de um nível mínimo (sempre alcançáveis no Sobrevivência)
+const LATE = { yuuki_kagurazaka: 75 };
 function choose(lv) {
-  const ok = POOL.filter((b) => lv >= MIN_LEVEL[b.rar] && b.hp <= 400 + lv * 60);
+  const ok = POOL.filter((b) => lv >= MIN_LEVEL[b.rar] && (b.hp <= 400 + lv * 60 || (LATE[b.id] && lv >= LATE[b.id])));
   const all = ok.length ? ok : POOL.filter((b) => b.rar === "special").slice(0, 3);
   let tot = 0; for (const b of all) tot += WEIGHT[b.rar] ?? 1;
   let r = Math.random() * tot; for (const b of all) { r -= WEIGHT[b.rar] ?? 1; if (r <= 0) return b; }

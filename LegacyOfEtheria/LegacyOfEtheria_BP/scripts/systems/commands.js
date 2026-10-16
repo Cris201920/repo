@@ -29,6 +29,7 @@ import { settlementsCmd } from "./settlements.js";
 import { openWorld } from "./worldnpc.js";
 import { warCmd } from "./worldwar.js";
 import { bossCmd } from "./bossspawn.js";
+import { coreCmd } from "./charybdis.js";
 import { toggleForm, FORMS } from "./truedragon.js";
 import { placeArena, anchorFromPlayer, keyOfBoss, arenaKeys, verifyAll, ARENAS, results as arenaResults } from "./arenas.js";
 import { pvpOn, setPvp, teamOf, setTeam } from "./combat.js";
@@ -81,6 +82,7 @@ function run(p, cmd, args, trusted = false) {
     case "guerra": return warCmd(p, args);
     case "mundo": case "reputacao": return openWorld(p);
     case "boss": return bossCmd(p, args);
+    case "nucleo": return coreCmd(p);
     case "pvp": {
       const a = (args[0] ?? "status").toLowerCase();
       if (a === "on" || a === "off") { if (!p.hasTag(ADMIN_TAG)) return say(p, "§cSó administradores ligam/desligam o PvP."); setPvp(a === "on"); for (const q of world.getAllPlayers()) say(q, `§6[Etheria] §7PvP ${a === "on" ? "§cLIGADO§7: habilidades e golpes atingem outros jogadores" : "§aDESLIGADO"}.`); return; }

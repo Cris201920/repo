@@ -1,0 +1,23 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:charybdis_core",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_charybdis_core"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§bNúcleo de Caríbdis"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:glint": true
+  }
+ }
+}

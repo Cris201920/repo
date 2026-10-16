@@ -1,0 +1,42 @@
+{
+ "format_version": "1.10.0",
+ "animation_controllers": {
+  "controller.animation.etheria.life.greet": {
+   "initial_state": "far",
+   "states": {
+    "far": {
+     "transitions": [
+      {
+       "near": "query.distance_from_camera < 5 && !query.is_moving"
+      }
+     ]
+    },
+    "near": {
+     "animations": [
+      "life_wave"
+     ],
+     "transitions": [
+      {
+       "talk": "query.all_animations_finished"
+      },
+      {
+       "far": "query.distance_from_camera > 7"
+      }
+     ],
+     "blend_transition": 0.2
+    },
+    "talk": {
+     "animations": [
+      "life_talk"
+     ],
+     "transitions": [
+      {
+       "far": "query.distance_from_camera > 7 || query.is_moving"
+      }
+     ],
+     "blend_transition": 0.3
+    }
+   }
+  }
+ }
+}

@@ -10,6 +10,7 @@ import { addBuff } from "./effects.js";
 import { fx } from "./fx.js";
 import { BOSS_BY_TYPE } from "../data/bosses.js";
 import { infusedHit } from "./infusion.js";
+import { pressureMul } from "./power.js";
 
 const lastCombat = new Map(); // playerId -> tick
 export function markCombat(player) { if (!inCombat(player)) { try { sysSay(player, "combat", "start"); } catch { /* ignore */ } } lastCombat.set(player.id, Date.now()); }
@@ -51,6 +52,7 @@ export function isValidTarget(e, caster) {
 /** Aplica dano de habilidade/efeito creditando o atacante (para XP, drops e quests). */
 export function dealDamage(attacker, target, amount, o = {}) {
   if (!isValid(target) || !(amount > 0)) return 0;
+  if (attacker instanceof Player) { try { amount *= pressureMul(attacker, target); } catch { /* ignore */ } }   // 6.55: pressão de poder
   try {
     target.applyDamage(amount, { cause: "entityAttack", damagingEntity: isValid(attacker) ? attacker : undefined });
     return amount;

@@ -6,6 +6,8 @@ import { getData, forget, startAutosave, saveNow } from "./core/db.js";
 import { applyDerivedStats, dropStats } from "./systems/stats.js";
 import { startLoop } from "./systems/loop.js";
 import { startCombat } from "./systems/combat.js";
+import { startPower } from "./systems/power.js";
+import { startBarrier } from "./systems/barrier.js";
 import { startDrops } from "./systems/drops.js";
 import { startBosses } from "./systems/bosses.js";
 import { startMobAI } from "./systems/mobai.js";
@@ -37,6 +39,7 @@ import { startFactions } from "./systems/factions.js";
 import { startBossFight } from "./systems/bossfight.js";
 import { startWorldWar } from "./systems/worldwar.js";
 import { startBossSpawn } from "./systems/bossspawn.js";
+import { startCharybdis } from "./systems/charybdis.js";
 import { startArenas } from "./systems/arenas.js";
 import { startPlacer } from "./systems/placer.js";
 import { startAnnouncements } from "./systems/sageannounce.js";
@@ -128,6 +131,7 @@ system.run(() => {
   for (const p of world.getAllPlayers()) { initPlayer(p, false); updateRanking(p); }
   startAutosave();
   startCombat();
+  startPower(); startBarrier();   // 6.55: classe de poder, auras, pressão e Barreira passiva
   startDrops();
   startBosses();
   startMobAI();
@@ -138,7 +142,7 @@ system.run(() => {
   startNpcs();
   startStructures();
   startTempest(); startSettlements(); startTravelWatch(); startFactions(); startWorldWar();
-  startBossSpawn();
+  startBossSpawn(); startCharybdis();   // 6.55: Núcleo de Caríbdis
   startPlacer();
   startAnnouncements();
   startAgility();

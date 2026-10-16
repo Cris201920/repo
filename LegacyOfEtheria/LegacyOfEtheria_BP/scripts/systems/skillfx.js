@@ -6,6 +6,7 @@ import { ELEMENT_VFX, familyOf } from "../data/elementvfx.js";
 import { masteryLevel } from "./mastery.js";
 import { getData } from "../core/db.js";
 import { norm } from "../core/utils.js";
+import { grandFx } from "../data/fxgrand.js";
 
 export function playSkillFx(player, sk, geo) {
   const c = ctx(player); if (c.k <= 0) return;
@@ -20,5 +21,8 @@ export function playSkillFx(player, sk, geo) {
   run(r.cast); part("cast"); if (E) { run(E.prep); after(1, () => run(E.act)); }
   const d = Math.hypot(v.to.x - v.from.x, v.to.y - v.from.y, v.to.z - v.from.z);
   after(2, () => { run(r.travel); part("travel"); if (E) run(E.trail); });
-  after(2 + Math.min(10, Math.ceil(d / 3)), () => { run(r.impact); part("impact"); if (E) { run(E.impact); run(E.residue); } });
+  const hitT = 2 + Math.min(10, Math.ceil(d / 3));
+  after(hitT, () => { run(r.impact); part("impact"); if (E) { run(E.impact); run(E.residue); } });
+  // 6.55: camada de grandeza (densidade por raridade + composição própria do elemento), no mesmo tempo do impacto real
+  run((cx, vv) => grandFx(cx, vv, sk, (f) => after(hitT, () => f(vv.at))));
 }

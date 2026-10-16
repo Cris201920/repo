@@ -956,3 +956,4 @@ entity.etheria:hermes.name=Hermes
 item.spawn_egg.entity.etheria:hermes.name=Hermes Spawn Egg
 entity.etheria:stella.name=Stella
 item.spawn_egg.entity.etheria:stella.name=Stella Spawn Egg
+item.etheria:charybdis_core=Charybdis Core

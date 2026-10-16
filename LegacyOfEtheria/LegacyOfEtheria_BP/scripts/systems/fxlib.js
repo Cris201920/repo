@@ -20,7 +20,7 @@ export const CIRCLE = { arcane: 0, fire: 1, ice: 2, void: 3, holy: 4, shadow: 5,
 
 let tickMark = -1, used = 0, lastUsed = 0, peakUsed = 0, totalUsed = 0, fxMark = -1, fxUsed = 0;
 const MAP = new MolangVariableMap();
-const CAP = { extreme: 320, ultra: 210, high: 150, medium: 100, low: 55, off: 0 };
+const CAP = { extreme: 520, ultra: 340, high: 210, medium: 120, low: 55, off: 0 };   // 6.55: mais densidade nos níveis altos (fases distribuídas no tempo)
 const KMAP = { extreme: 1.7, ultra: 1.3, high: 1, medium: 0.7, low: 0.4, off: 0 };
 /** Métrica de partículas (modo debug do Sábio): emitidas no tick atual/anterior, pico desde o início e total. Sem custo extra: só contadores.
  *  Inclui os spawns das partículas portadas (fxp), que têm orçamento próprio por tick. */

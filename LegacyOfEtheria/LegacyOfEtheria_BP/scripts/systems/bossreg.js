@@ -7,6 +7,8 @@ import { WGEN } from "../data/wgen.gen.js";
 import { bossPoolIds } from "./bossspawn.js";
 import { say } from "../core/utils.js";
 import { COUNCIL, REALMS } from "./realms.js";
+import { RESIDENTS } from "./residents.js";
+import { CORE_ID } from "./charybdis.js";
 
 const FORM = /(_angel|_royal_beast|_\d)$/;
 export const BOSS_RARITIES = ["boss", "legendary", "special"];
@@ -27,6 +29,8 @@ export function bossEntry(id) {
   for (const [wk, w] of Object.entries(WGEN)) {                // estruturas errantes com o boss dentro (ex.: Ninho Taratect)
     if (!w.manual && (w.mobs ?? []).some((m) => m[0] === "etheria:" + id)) { methods.push("estrutura"); where.push(`${w.name} (${wk}) — gerada pelo mundo`); }
   }
+  for (const [sk, list] of Object.entries(RESIDENTS)) if (list.some((r) => r[0] === "etheria:" + id)) { methods.push("morador"); where.push(`morador fixo da estrutura ${sk}`); }   // 6.55
+  if (id === "tt_charybdis") { methods.push("núcleo"); where.push(`Núcleo de Caríbdis (${CORE_ID}): carregue com abates e invoque`); }
   if (bossPoolIds().includes(id)) methods.push("errante");
   if (FORM.test(id) && MOBS["etheria:" + id.replace(FORM, "")]) { methods.push("forma"); where.push(`transformação de ${id.replace(FORM, "")}`); }
   methods.push("admin");

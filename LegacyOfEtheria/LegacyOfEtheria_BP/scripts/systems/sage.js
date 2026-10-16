@@ -20,6 +20,7 @@ import { skillIdOfItem } from "./skillbar/registry.js";
 import { masteryLevel, masteryXp, masteryNeed, MASTERY_MAX } from "./mastery.js";
 import { applyDerivedStats, dropStats } from "./stats.js";
 import { STOMACH_EVOLVE, BEELZEBUTH_EVOLVE } from "./predator.js";
+import { openStomachUI } from "./stomach.js";
 import { coreBegin, coreResult, coreFail, resistsAnalysis, sceneChant, sageEvolveScene, openCoreSettings, corePulse, coreActive } from "./sagecore.js";
 import { sageSay, sageStage, sageCfg, setVoiceOpt, sysSay, setVoiceHook, sageText } from "./voice.js";
 import { conditions, combine, COMBOS, awakened } from "./discovery.js";
@@ -434,12 +435,9 @@ function openCombine(player) {
     return { text: `${has ? "§a✔ " : ok ? "§e" : "§8"}${SKILLS[cb.id].name}\n§r§8${cb.from.map((k) => SKILLS[k].name).join(" + ")}`, icon: "menu_skills", run: () => { const r = has ? { ok: false, msg: "Já possui." } : combine(player, cb.id); say(player, r.ok ? `${head(player)} §f${r.msg}` : `§c${r.msg}`); } };
   }).concat([back(() => openSage(player))]));
 }
-function openStomach(player) {
+function openStomach(player) {   // 6.55: Estômago completo (systems/stomach.js): criaturas, itens, materiais, análise, processamento, histórico
   sysSay(player, "inv", "stomach");
-  const d = getData(player), s = d.stomach ?? {}, has = hasSkill(d, "predator") || hasSkill(d, "gluttony") || hasSkill(d, "beelzebuth");
-  const stage = hasSkill(d, "beelzebuth") ? " §d(Beelzebuth)" : hasSkill(d, "gluttony") ? ` §d(Gula) §7/${BEELZEBUTH_EVOLVE.devoured} para Beelzebuth (Nv.${BEELZEBUTH_EVOLVE.level})` : `§7/${STOMACH_EVOLVE} para evoluir (Nv.35)`;
-  const body = has ? `§5Devorados: §f${d.devoured ?? 0}${stage}\n` + (Object.entries(s).map(([k, v]) => `§f${MOBS["etheria:" + k]?.name ?? k} §7x${v}`).join("\n") || "§7Vazio.") : "§7Você não possui Predador. Raça Slime começa com ele.";
-  menu(player, "§l§5ESTÔMAGO", body, [back(() => openItems(player))]);
+  openStomachUI(player, () => openItems(player));
 }
 function openTips(player) {
   const d = getData(player), sg = sageData(d), tips = [];

@@ -1297,6 +1297,9 @@
   },
   "etheria_sk_wings_of_light": {
    "textures": "textures/items/etheria_sk_holy_light"
+  },
+  "etheria_charybdis_core": {
+   "textures": "textures/items/etheria_charybdis_core"
   }
  }
 }

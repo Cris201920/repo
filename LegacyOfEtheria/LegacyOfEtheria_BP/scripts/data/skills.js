@@ -59,9 +59,10 @@ def(A("heal", { name: "Cura", cat: "Suporte", element: "light", rarity: "common"
 def(A("holy_light", { name: "Luz Sagrada", cat: "Suporte", element: "light", rarity: "epic", mana: 45, cd: 14, level: 30, sp: 3, req: ["heal"],
   desc: "Coluna de luz que fere os malignos e cura aliados.",
   exec: { kind: "target_aoe", range: 22, radius: 5, power: 2.6, stat: "intelligence", heal: 12, snd: "beacon.activate" } }));
-def(A("barrier", { name: "Barreira", cat: "Suporte", element: "arcane", rarity: "uncommon", mana: 20, cd: 15, level: 8,
-  desc: "Escudo mágico que absorve dano por alguns segundos.",
-  exec: { kind: "buff", sec: 10, absorb: 3, buff: { id: "barrier", stats: { defense: 6, res_magic: 15 } }, snd: "random.orb" } }));
+// 6.55: Barreira virou PASSIVA automática (systems/barrier.js): anula 7 golpes, rompe, recarrega 40 s e se reconstrói sozinha.
+def(P("barrier", { name: "Barreira", cat: "Suporte", element: "arcane", rarity: "uncommon", level: 8,
+  desc: "Passiva: barreira mágica permanente que anula 7 golpes (1 carga por golpe; ataques em área contam uma vez). Ao romper, recarrega em 40 s e se reconstrói sozinha. Dano contínuo é amortecido sem gastar cargas.",
+  stats: { res_magic: 5 } }));
 def(A("blood_slash", { name: "Corte Sanguíneo", cat: "Combate", element: "blood", rarity: "rare", mana: 18, cd: 6, level: 20, sp: 2, req: ["dark_slash"],
   desc: "Corte que faz o alvo sangrar e rouba vida.",
   exec: { kind: "cone", range: 4.2, angle: 70, power: 1.8, stat: "strength", debuff: { id: "bleed", sec: 6 }, drain: 0.25, snd: "mob.player.hurt" } }));
