@@ -169,7 +169,7 @@ const st = (p) => { let s = S.get(p.id); if (!s) S.set(p.id, s = { cur: null, qu
 /** a cena nova está ligada para este jogador? (então os avisos antigos de "habilidade obtida" não aparecem) */
 export const sceneOn = (p) => enabled(p);
 export const announcing = (p) => { try { return !!S.get(p.id)?.cur; } catch { return false; } };
-titleGuard.busy = (p) => announcing(p);
+titleGuard.busy = (p) => announcing(p) || toastActive(p);
 
 function nowMs(s) { return (system.currentTick - s.cur.t0) * 50; }
 /** a cena aberta ainda aceita habilidades? (referência: cerimônia/evolução/anúncio abertos até a lista terminar + espera) */
@@ -225,16 +225,48 @@ const chatOnce = new Map();   // pid -> Map(texto -> tick) (evita a mesma linha 
 function chat(p, msg) {
   try { const m = chatOnce.get(p.id) ?? new Map(); chatOnce.set(p.id, m); const t = m.get(msg); if (t && system.currentTick - t < 600) return; m.set(msg, system.currentTick); if (m.size > 40) m.clear(); p.sendMessage(msg); } catch { /* ignore */ }
 }
+// 6.66: NOTIFICAÇÃO DE CANTO (como nos vídeos do mod): icosaedro girando no canto superior esquerdo + caixa com a fala digitada.
+// HUD: tools/hud_toast.py (título = marcador TOAST, subtítulo = texto; o título padrão do jogo some enquanto ela está na tela).
+// Fila por jogador; espera uma cena grande do Sábio terminar; nunca apaga uma cena que começou depois.
+const TOAST = "§w§n§t", TYPE_T = 1, HOLD_T = 64;
+const TQ = new Map();   // pid -> { q: [], busy }
+export const toastActive = (p) => { try { return !!TQ.get(p.id)?.busy; } catch { return false; } };
+function toastNext(p) {
+  const s = TQ.get(p.id); if (!s || s.busy || !s.q.length || !ok(p)) return;
+  if (announcing(p)) { system.runTimeout(() => toastNext(p), 20); return; }
+  const raw = s.q.shift(), plain = raw.replace(/§./g, ""); s.busy = true;
+  try { p.onScreenDisplay.setTitle(TOAST, { subtitle: " ", fadeInDuration: 0, stayDuration: HOLD_T + plain.length * TYPE_T + 20, fadeOutDuration: 0 }); } catch { /* ignore */ }
+  try { p.playSound("etheria.voice.sfx.on", { volume: 0.4, pitch: 1.1 }); } catch { /* ignore */ }
+  let i = 0; const id = system.runInterval(() => {
+    if (!ok(p) || announcing(p)) { system.clearRun(id); s.busy = false; if (ok(p)) s.q.unshift(raw); toastNext(p); return; }   // cena grande começou: volta para a fila
+    i++;
+    if (i <= plain.length) { const n = Math.min(raw.length, cut(raw, i)); try { p.onScreenDisplay.updateSubtitle(`${raw.slice(0, n)}${i < plain.length ? "§8_" : ""}`); } catch { /* ignore */ } return; }
+    if (i >= plain.length + HOLD_T) {
+      system.clearRun(id); s.busy = false;
+      if (!announcing(p)) { try { p.onScreenDisplay.setTitle(" ", { subtitle: " ", fadeInDuration: 0, stayDuration: 1, fadeOutDuration: 0 }); } catch { /* ignore */ } }
+      system.runTimeout(() => toastNext(p), 6);
+    }
+  }, TYPE_T);
+}
+/** posição no texto com códigos de cor que corresponde a n letras visíveis */
+function cut(raw, n) { let k = 0, j = 0; while (j < raw.length && k < n) { if (raw[j] === "§") { j += 2; continue; } j++; k++; } return j; }
+export function sageToast(p, text) {
+  if (!ok(p) || !text) return;
+  let s = TQ.get(p.id); if (!s) TQ.set(p.id, s = { q: [], busy: false });
+  if (s.q.includes(text)) return;
+  s.q.push(text); while (s.q.length > 4) s.q.shift();
+  toastNext(p);
+}
 /** subiu de nível. info = { attr, skillPt } */
 export function announceLevel(p, to, info = {}) {
   if (!ok(p)) return;
   const T = TXT[lang(p)];
-  chat(p, `§8[§bSÁBIO§8] §e${T.level} ${to}§7${info.attr ? ` · ${T.attr(info.attr)}` : ""}${info.skillPt ? ` · ${T.skillpt}` : ""}`);
+  sageToast(p, `§fAviso. ${lang(p) === "en" ? "Level" : "Nível"} §e${to}§f alcançado.${info.attr ? ` §7${T.attr(info.attr)}` : ""}${info.skillPt ? ` §7· ${T.skillpt}` : ""}`);
 }
-/** aviso curto (evolução disponível, conquistas, despertares prontos) */
+/** aviso curto (conquistas, evolução disponível, despertares prontos) */
 export function announceInfo(p, header, name, hint = "", tier = "intrinsic") {
   if (!ok(p)) return;
-  chat(p, `§8[§bSÁBIO§8] ${TIER_COL[tier] ?? "§a"}${header}§r §f${name}${hint ? ` §8— §7${hint}` : ""}`);
+  sageToast(p, `${TIER_COL[tier] ?? "§a"}${header}§f: ${name}${hint ? ` §7${hint}` : ""}`);
 }
 export function announceAnalysis(p, name) { if (ok(p)) chat(p, `§8[§bSÁBIO§8] §b${name} §7— ${TXT[lang(p)].sub.analysis}`); }
 
