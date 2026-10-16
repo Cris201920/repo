@@ -13,7 +13,18 @@ import { lineageOf, formOfPlayer } from "../data/lineages.js";
 import { RACE_LOOK as TENSURA_LOOK } from "../data/tensura/racelook_tensura.js";
 
 export const RACE_PROP = "etheria:race";
-export const LIN_PROP = "etheria:lin", LFORM_PROP = "etheria:lform";   // linhagem dracônica e forma (enum client_sync)
+export const LIN_PROP = "etheria:lin", LFORM_PROP = "etheria:lform";
+// 6.57: estilo de corpo (postura/andar) por raça -> animações etheria_rstyle_* no player.entity (tools/race_styles.py)
+export const RSTYLE_PROP = "etheria:rstyle";
+const RSTYLE = { ogre: "heavy", dwarf: "heavy", beastkin: "beast", dragonoid: "draconic", lizardman: "draconic", elf: "light", angel: "light",
+  demon: "demonic", vampire: "demonic", slime: "slime", undead: "undead", goblin: "goblin" };
+export function styleOf(d) {
+  if (!d?.raceChosen) return "none";
+  if (d.race === "angel" && /^(angel_f|fall_)/.test(d.raceStage ?? "")) return "demonic";   // anjos caídos
+  if (/_ld$/.test(d.raceStage ?? "") || d.raceStage === "demon_4") return "demonic";          // Lord Demônio de qualquer raça
+  return RSTYLE[d.race] ?? "none";
+}
+function applyStyle(player, d) { const v = styleOf(d); try { if (player.getProperty(RSTYLE_PROP) !== v) player.setProperty(RSTYLE_PROP, v); } catch { /* BP antigo */ } }   // linhagem dracônica e forma (enum client_sync)
 const LEGACY_PREFIX = "etheria:race_parts_";   // itens de traços das versões antigas (6.6.0): só são removidos
 function hasItem(c, id) { for (let i = 0; i < c.size; i++) { try { if (c.getItem(i)?.typeId === id) return true; } catch { /* ignore */ } } return false; }
 
@@ -108,6 +119,7 @@ function applyFormCollision(player, form) {
 /** Aplica a aparência da raça atual do jogador (no corpo, pelas propriedades). Com announce, avisa (pt-BR) quando a raça tem traços. Devolve os traços aplicados ou null se falhou. */
 export function applyRaceLook(player, announce = false) {
   let d; try { d = getData(player); } catch { return null; }
+  applyStyle(player, d);
   let body = d.raceChosen ? bodyOfStage(d.raceStage) : "none";   // 6.48: corpo detalhado do Etheria quando o estágio tem asas/chifres
   try { if ((body === "dragonoid" || body === "dragonewt" || body === "dragonewt_w") && d.raceChosen && lineageOf(d)) body = "none"; } catch { /* ignore */ }
   try {
@@ -163,7 +175,7 @@ export function startAngelGlide() {
         if ((body === "dragonoid" || body === "dragonewt" || body === "dragonewt_w") && lineageOf(d)) body = "none";
         const want = lookOfStage(d.raceStage), hidden = HIDE[body] ?? [];
         const wingsWant = lineageOf(d) ? 0 : (hidden.includes("wings") ? 0 : (want.wings ?? 0));
-        if (p.getProperty(RACE_PROP) !== body || (p.getProperty("tensura:wings") ?? 0) !== wingsWant) applyRaceLook(p);
+        if (p.getProperty(RACE_PROP) !== body || (p.getProperty("tensura:wings") ?? 0) !== wingsWant || (p.getProperty(RSTYLE_PROP) ?? "none") !== styleOf(d)) applyRaceLook(p);
       } catch { /* ignore */ }
     }
   }, 200);

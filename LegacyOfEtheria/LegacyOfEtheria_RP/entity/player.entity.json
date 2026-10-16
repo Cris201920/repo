@@ -633,6 +633,30 @@
      },
      {
       "drg_hide_humanoid": "variable.etheria_dragon && !variable.is_first_person"
+     },
+     {
+      "etheria_rstyle_heavy": "query.property('etheria:rstyle') == 'heavy' && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "etheria_rstyle_beast": "query.property('etheria:rstyle') == 'beast' && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "etheria_rstyle_draconic": "query.property('etheria:rstyle') == 'draconic' && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "etheria_rstyle_light": "query.property('etheria:rstyle') == 'light' && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "etheria_rstyle_demonic": "query.property('etheria:rstyle') == 'demonic' && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "etheria_rstyle_slime": "query.property('etheria:rstyle') == 'slime' && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "etheria_rstyle_undead": "query.property('etheria:rstyle') == 'undead' && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "etheria_rstyle_goblin": "query.property('etheria:rstyle') == 'goblin' && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
      }
     ]
    },
@@ -856,7 +880,15 @@
     "drg_land": "animation.etheria_pdrg.land",
     "drg_roar": "animation.etheria_pdrg.roar",
     "drg_hide_humanoid": "animation.etheria_pdrg.hide_humanoid",
-    "etheria_race_dragonewt_w": "animation.etheria.race_dragonewt_w"
+    "etheria_race_dragonewt_w": "animation.etheria.race_dragonewt_w",
+    "etheria_rstyle_heavy": "animation.etheria.rstyle.heavy",
+    "etheria_rstyle_beast": "animation.etheria.rstyle.beast",
+    "etheria_rstyle_draconic": "animation.etheria.rstyle.draconic",
+    "etheria_rstyle_light": "animation.etheria.rstyle.light",
+    "etheria_rstyle_demonic": "animation.etheria.rstyle.demonic",
+    "etheria_rstyle_slime": "animation.etheria.rstyle.slime",
+    "etheria_rstyle_undead": "animation.etheria.rstyle.undead",
+    "etheria_rstyle_goblin": "animation.etheria.rstyle.goblin"
    },
    "render_controllers": [
     {

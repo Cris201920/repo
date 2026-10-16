@@ -126,6 +126,22 @@
      ],
      "default": 0,
      "client_sync": true
+    },
+    "etheria:rstyle": {
+     "type": "enum",
+     "values": [
+      "none",
+      "heavy",
+      "beast",
+      "draconic",
+      "light",
+      "demonic",
+      "slime",
+      "undead",
+      "goblin"
+     ],
+     "default": "none",
+     "client_sync": true
     }
    }
   },

@@ -1,0 +1,1313 @@
+{
+ "format_version": "1.8.0",
+ "animations": {
+  "animation.etheria.rstyle.heavy": {
+   "loop": true,
+   "bones": {
+    "body": {
+     "rotation": [
+      "(6 + 2 * math.sin(query.life_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "4 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      "3 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
+     ]
+    },
+    "head": {
+     "rotation": [
+      -6,
+      0,
+      "-2 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      "-4 * math.sin(query.life_time * 90)",
+      0,
+      "8"
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "-4 * math.sin(query.life_time * 90)",
+      0,
+      "-8"
+     ]
+    },
+    "rightLeg": {
+     "rotation": [
+      0,
+      0,
+      2
+     ]
+    },
+    "leftLeg": {
+     "rotation": [
+      0,
+      0,
+      -2
+     ]
+    }
+   }
+  },
+  "animation.etheria.rstyle.beast": {
+   "loop": true,
+   "bones": {
+    "body": {
+     "rotation": [
+      "(12 + 8 * (query.is_sprinting ? 1 : 0)) + 10 * (query.is_sprinting ? 1 : 0)",
+      0,
+      "2 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
+     ]
+    },
+    "head": {
+     "rotation": [
+      "-14 - 6 * (query.is_sprinting ? 1 : 0)",
+      0,
+      0
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      "-18 - 10 * (query.is_sprinting ? 1 : 0)",
+      0,
+      6
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "-18 - 10 * (query.is_sprinting ? 1 : 0)",
+      0,
+      -6
+     ]
+    },
+    "rightLeg": {
+     "rotation": [
+      -8,
+      0,
+      0
+     ]
+    },
+    "leftLeg": {
+     "rotation": [
+      -8,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria.rstyle.draconic": {
+   "loop": true,
+   "bones": {
+    "body": {
+     "rotation": [
+      "(-4 + math.sin(query.life_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "6 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      0
+     ]
+    },
+    "head": {
+     "rotation": [
+      "-6",
+      "-3 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      0
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      10,
+      0,
+      6
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      10,
+      0,
+      -6
+     ]
+    }
+   }
+  },
+  "animation.etheria.rstyle.light": {
+   "loop": true,
+   "bones": {
+    "body": {
+     "rotation": [
+      "(-2 + math.sin(query.life_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      0,
+      "1.5 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
+     ]
+    },
+    "head": {
+     "rotation": [
+      "-4 + 1.5 * math.sin(query.life_time * 90)",
+      0,
+      0
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      "-6 + 2 * math.sin(query.life_time * 90)",
+      0,
+      "10 + 3 * math.sin(query.life_time * 90)"
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "-6 + 2 * math.sin(query.life_time * 90)",
+      0,
+      "-10 - 3 * math.sin(query.life_time * 90)"
+     ]
+    }
+   }
+  },
+  "animation.etheria.rstyle.demonic": {
+   "loop": true,
+   "bones": {
+    "body": {
+     "rotation": [
+      "(8 + 2 * math.sin(query.life_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "3 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      0
+     ]
+    },
+    "head": {
+     "rotation": [
+      8,
+      0,
+      "3 * math.sin(query.life_time * 40)"
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      "4",
+      0,
+      5
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "4",
+      0,
+      -5
+     ]
+    }
+   }
+  },
+  "animation.etheria.rstyle.slime": {
+   "loop": true,
+   "bones": {
+    "body": {
+     "rotation": [
+      "0 + 10 * (query.is_sprinting ? 1 : 0)",
+      0,
+      "2 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
+     ],
+     "position": [
+      0,
+      "math.abs(math.sin(query.modified_distance_moved * 38.17)) * 1.2 * math.min(1, query.modified_move_speed * 4) + 0.3 * math.sin(query.life_time * 90)",
+      0
+     ]
+    },
+    "head": {
+     "position": [
+      0,
+      "math.abs(math.sin(query.modified_distance_moved * 38.17)) * 1.2 * math.min(1, query.modified_move_speed * 4) + 0.3 * math.sin(query.life_time * 90)",
+      0
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      0,
+      0,
+      14
+     ],
+     "position": [
+      0,
+      "math.abs(math.sin(query.modified_distance_moved * 38.17)) * 1.2 * math.min(1, query.modified_move_speed * 4)",
+      0
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      0,
+      0,
+      -14
+     ],
+     "position": [
+      0,
+      "math.abs(math.sin(query.modified_distance_moved * 38.17)) * 1.2 * math.min(1, query.modified_move_speed * 4)",
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria.rstyle.undead": {
+   "loop": true,
+   "bones": {
+    "body": {
+     "rotation": [
+      "4 + 10 * (query.is_sprinting ? 1 : 0)",
+      0,
+      "3 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
+     ]
+    },
+    "head": {
+     "rotation": [
+      6,
+      0,
+      9
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      "-38 + 4 * math.sin(query.life_time * 90)",
+      -6,
+      4
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "-30 + 4 * math.sin(query.life_time * 90)",
+      6,
+      -4
+     ]
+    },
+    "rightLeg": {
+     "rotation": [
+      0,
+      0,
+      3
+     ]
+    },
+    "leftLeg": {
+     "rotation": [
+      0,
+      0,
+      -3
+     ]
+    }
+   }
+  },
+  "animation.etheria.rstyle.goblin": {
+   "loop": true,
+   "bones": {
+    "body": {
+     "rotation": [
+      "(14 + 2 * math.sin(query.life_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "5 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      0
+     ]
+    },
+    "head": {
+     "rotation": [
+      -10,
+      "4 * math.sin(query.life_time * 70)",
+      0
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      "-10 - 12 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      0,
+      10
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "-10 + 12 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      0,
+      -10
+     ]
+    }
+   }
+  },
+  "animation.etheria.cast.charge": {
+   "animation_length": 1.2,
+   "loop": true,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       -55,
+       20,
+       0
+      ],
+      "1.2": [
+       -60,
+       22,
+       0
+      ]
+     }
+    },
+    "leftArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       -55,
+       -20,
+       0
+      ],
+      "1.2": [
+       -60,
+       -22,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       6,
+       0,
+       0
+      ],
+      "1.2": [
+       8,
+       0,
+       0
+      ]
+     }
+    },
+    "head": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       6,
+       0,
+       0
+      ],
+      "1.2": [
+       4,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.etheria.cast.projectile": {
+   "animation_length": 0.55,
+   "loop": false,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.12": [
+       -20,
+       0,
+       18
+      ],
+      "0.22": [
+       -100,
+       4,
+       0
+      ],
+      "0.4": [
+       -92,
+       0,
+       0
+      ],
+      "0.55": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.12": [
+       0,
+       16,
+       0
+      ],
+      "0.22": [
+       6,
+       -14,
+       0
+      ],
+      "0.55": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.22": [
+       20,
+       0,
+       -8
+      ],
+      "0.55": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.etheria.cast.beam": {
+   "animation_length": 0.9,
+   "loop": false,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.15": [
+       -92,
+       8,
+       0
+      ],
+      "0.75": [
+       -90,
+       6,
+       0
+      ],
+      "0.9": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.15": [
+       -92,
+       -8,
+       0
+      ],
+      "0.75": [
+       -90,
+       -6,
+       0
+      ],
+      "0.9": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.15": [
+       -6,
+       0,
+       0
+      ],
+      "0.75": [
+       -8,
+       0,
+       0
+      ],
+      "0.9": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "rightLeg": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.15": [
+       -14,
+       0,
+       0
+      ],
+      "0.9": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftLeg": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.15": [
+       12,
+       0,
+       0
+      ],
+      "0.9": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.etheria.cast.aoe": {
+   "animation_length": 0.8,
+   "loop": false,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       -170,
+       0,
+       10
+      ],
+      "0.4": [
+       -30,
+       0,
+       20
+      ],
+      "0.8": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       -170,
+       0,
+       -10
+      ],
+      "0.4": [
+       -30,
+       0,
+       -20
+      ],
+      "0.8": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       -10,
+       0,
+       0
+      ],
+      "0.4": [
+       24,
+       0,
+       0
+      ],
+      "0.8": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "head": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       -20,
+       0,
+       0
+      ],
+      "0.4": [
+       12,
+       0,
+       0
+      ],
+      "0.8": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "rightLeg": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.4": [
+       -22,
+       0,
+       6
+      ],
+      "0.8": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftLeg": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.4": [
+       -22,
+       0,
+       -6
+      ],
+      "0.8": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.etheria.cast.target": {
+   "animation_length": 0.75,
+   "loop": false,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       -175,
+       0,
+       -6
+      ],
+      "0.45": [
+       -115,
+       0,
+       0
+      ],
+      "0.75": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "head": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       -22,
+       0,
+       0
+      ],
+      "0.45": [
+       -4,
+       0,
+       0
+      ],
+      "0.75": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       -20,
+       0,
+       -20
+      ],
+      "0.75": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       -6,
+       0,
+       0
+      ],
+      "0.75": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.etheria.cast.support": {
+   "animation_length": 0.9,
+   "loop": false,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -40,
+       0,
+       70
+      ],
+      "0.7": [
+       -40,
+       0,
+       66
+      ],
+      "0.9": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -40,
+       0,
+       -70
+      ],
+      "0.7": [
+       -40,
+       0,
+       -66
+      ],
+      "0.9": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "head": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -18,
+       0,
+       0
+      ],
+      "0.9": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -6,
+       0,
+       0
+      ],
+      "0.9": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.etheria.cast.slash": {
+   "animation_length": 0.5,
+   "loop": false,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.12": [
+       -120,
+       50,
+       0
+      ],
+      "0.28": [
+       -70,
+       -60,
+       0
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.12": [
+       0,
+       30,
+       0
+      ],
+      "0.28": [
+       8,
+       -30,
+       0
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.28": [
+       -30,
+       0,
+       -30
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "rightLeg": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.28": [
+       -20,
+       0,
+       0
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.etheria.cast.dash": {
+   "animation_length": 0.5,
+   "loop": false,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.1": [
+       28,
+       0,
+       0
+      ],
+      "0.35": [
+       24,
+       0,
+       0
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.1": [
+       55,
+       0,
+       12
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.1": [
+       55,
+       0,
+       -12
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "rightLeg": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.1": [
+       -40,
+       0,
+       0
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftLeg": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.1": [
+       30,
+       0,
+       0
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.etheria.cast.devour": {
+   "animation_length": 0.85,
+   "loop": false,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -70,
+       0,
+       85
+      ],
+      "0.5": [
+       -85,
+       -10,
+       0
+      ],
+      "0.85": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -70,
+       0,
+       -85
+      ],
+      "0.5": [
+       -85,
+       10,
+       0
+      ],
+      "0.85": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -8,
+       0,
+       0
+      ],
+      "0.5": [
+       14,
+       0,
+       0
+      ],
+      "0.85": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "head": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -10,
+       0,
+       0
+      ],
+      "0.5": [
+       10,
+       0,
+       0
+      ],
+      "0.85": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.etheria.cast.summon": {
+   "animation_length": 0.8,
+   "loop": false,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -160,
+       0,
+       0
+      ],
+      "0.6": [
+       -150,
+       0,
+       0
+      ],
+      "0.8": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "leftArm": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -40,
+       0,
+       -30
+      ],
+      "0.8": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "head": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -25,
+       0,
+       0
+      ],
+      "0.8": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.3": [
+       -8,
+       0,
+       0
+      ],
+      "0.8": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  }
+ }
+}
