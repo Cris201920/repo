@@ -6218,176 +6218,36 @@
    }
   ]
  },
- "eth_sg_button@common.button": {
-  "$pressed_button_name": "button.form_button_click",
+ "eth_sg_row": {
+  "type": "panel",
   "size": [
-   116,
-   20
+   126,
+   24
   ],
-  "anchor_from": "center",
-  "anchor_to": "center",
-  "default_control": "default",
-  "hover_control": "hover",
-  "pressed_control": "pressed",
   "controls": [
    {
-    "default": {
-     "type": "panel",
+    "form_button@common_buttons.light_text_button": {
+     "$pressed_button_name": "button.form_button_click",
+     "anchor_from": "center",
+     "anchor_to": "center",
      "size": [
-      "100%",
-      "100%"
+      120,
+      21
      ],
-     "controls": [
+     "$button_text": "#form_button_text",
+     "$button_text_binding_type": "collection",
+     "$button_text_grid_collection_name": "form_buttons",
+     "$button_text_max_size": [
+      "100%",
+      20
+     ],
+     "bindings": [
       {
-       "box": {
-        "type": "image",
-        "texture": "textures/ui/etheria/sg_btn",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "alpha": 1.0,
-        "layer": 1
-       }
-      },
-      {
-       "txt": {
-        "type": "label",
-        "text": "#form_button_text",
-        "size": [
-         "100% - 8px",
-         10
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "text_alignment": "center",
-        "color": [
-         0.72,
-         1.0,
-         0.84
-        ],
-        "shadow": false,
-        "layer": 2,
-        "bindings": [
-         {
-          "binding_name": "#form_button_text",
-          "binding_type": "collection",
-          "binding_collection_name": "form_buttons"
-         }
-        ]
-       }
+       "binding_type": "collection_details",
+       "binding_collection_name": "form_buttons"
       }
      ]
     }
-   },
-   {
-    "hover": {
-     "type": "panel",
-     "size": [
-      "100%",
-      "100%"
-     ],
-     "controls": [
-      {
-       "box": {
-        "type": "image",
-        "texture": "textures/ui/etheria/sg_btn_h",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "alpha": 1.0,
-        "layer": 1
-       }
-      },
-      {
-       "txt": {
-        "type": "label",
-        "text": "#form_button_text",
-        "size": [
-         "100% - 8px",
-         10
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "text_alignment": "center",
-        "color": [
-         1,
-         1,
-         1
-        ],
-        "shadow": false,
-        "layer": 2,
-        "bindings": [
-         {
-          "binding_name": "#form_button_text",
-          "binding_type": "collection",
-          "binding_collection_name": "form_buttons"
-         }
-        ]
-       }
-      }
-     ]
-    }
-   },
-   {
-    "pressed": {
-     "type": "panel",
-     "size": [
-      "100%",
-      "100%"
-     ],
-     "controls": [
-      {
-       "box": {
-        "type": "image",
-        "texture": "textures/ui/etheria/sg_btn_h",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "alpha": 1.0,
-        "layer": 1
-       }
-      },
-      {
-       "txt": {
-        "type": "label",
-        "text": "#form_button_text",
-        "size": [
-         "100% - 8px",
-         10
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "text_alignment": "center",
-        "color": [
-         1,
-         1,
-         0.8
-        ],
-        "shadow": false,
-        "layer": 2,
-        "bindings": [
-         {
-          "binding_name": "#form_button_text",
-          "binding_type": "collection",
-          "binding_collection_name": "form_buttons"
-         }
-        ]
-       }
-      }
-     ]
-    }
-   }
-  ],
-  "bindings": [
-   {
-    "binding_type": "collection_details",
-    "binding_collection_name": "form_buttons"
    }
   ]
  },
@@ -6440,7 +6300,7 @@
      "anchor_from": "center",
      "anchor_to": "center",
      "offset": [
-      0,
+      "-14%",
       -4
      ],
      "layer": 3,
@@ -6758,7 +6618,7 @@
      "anchor_from": "center",
      "anchor_to": "center",
      "offset": [
-      64,
+      "-14% + 64px",
       -24
      ],
      "layer": 7,
@@ -6792,93 +6652,28 @@
    },
    {
     "buttons": {
-     "type": "panel",
+     "type": "stack_panel",
+     "orientation": "vertical",
      "size": [
-      "100%",
-      "100%"
+      126,
+      "100%c"
      ],
-     "collection_name": "form_buttons",
+     "anchor_from": "right_middle",
+     "anchor_to": "right_middle",
+     "offset": [
+      "-4%",
+      8
+     ],
      "layer": 9,
-     "controls": [
+     "factory": {
+      "name": "buttons",
+      "control_name": "server_form.eth_sg_row"
+     },
+     "collection_name": "form_buttons",
+     "bindings": [
       {
-       "b0@server_form.eth_sg_button": {
-        "collection_index": 0,
-        "offset": [
-         -94,
-         -56
-        ],
-        "layer": 10
-       }
-      },
-      {
-       "b1@server_form.eth_sg_button": {
-        "collection_index": 1,
-        "offset": [
-         6,
-         -78
-        ],
-        "layer": 10
-       }
-      },
-      {
-       "b2@server_form.eth_sg_button": {
-        "collection_index": 2,
-        "offset": [
-         104,
-         -50
-        ],
-        "layer": 10
-       }
-      },
-      {
-       "b3@server_form.eth_sg_button": {
-        "collection_index": 3,
-        "offset": [
-         124,
-         14
-        ],
-        "layer": 10
-       }
-      },
-      {
-       "b4@server_form.eth_sg_button": {
-        "collection_index": 4,
-        "offset": [
-         50,
-         72
-        ],
-        "layer": 10
-       }
-      },
-      {
-       "b5@server_form.eth_sg_button": {
-        "collection_index": 5,
-        "offset": [
-         -62,
-         72
-        ],
-        "layer": 10
-       }
-      },
-      {
-       "b6@server_form.eth_sg_button": {
-        "collection_index": 6,
-        "offset": [
-         -128,
-         14
-        ],
-        "layer": 10
-       }
-      },
-      {
-       "b7@server_form.eth_sg_button": {
-        "collection_index": 7,
-        "offset": [
-         0,
-         104
-        ],
-        "layer": 10
-       }
+       "binding_name": "#form_button_length",
+       "binding_name_override": "#collection_length"
       }
      ]
     }

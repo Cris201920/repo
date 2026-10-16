@@ -43,22 +43,25 @@ def build(race, R):
 
 # 6.58: estados do VOO vindos do script (propriedade do jogador etheria:fly): 0 chão · 1 pairando · 2 subindo/decolando · 3 planando · 4 descendo.
 FP = "query.property('etheria:fly')"
+# 6.59b: os estados são calculados UMA vez por quadro no pre_animation do jogador (tools/flight_anims.py -> PRE) e lidos aqui por variáveis
+# curtas: as fórmulas de cada osso ficaram ~5x menores (antes até 1.600 caracteres), mais leves no celular.
+PRE = [
+    f"v.ef_h = {FP} == 1 ? 1 : 0; v.ef_c = {FP} == 2 ? 1 : 0; v.ef_g = {FP} == 3 ? 1 : 0; v.ef_d = {FP} == 4 ? 1 : 0;",
+    f"v.ef_f = {FP} > 0 ? 1 : 0; v.ef_a = ({FP} == 0 && !query.is_on_ground) ? 1 : 0; v.ef_n = 1 - v.ef_f - v.ef_a;",
+    "v.ef_l = (query.life_time - variable.etheria_land) < 0.45 ? 1 : 0; v.ef_t = math.clamp(query.yaw_speed / 240, -1, 1);",
+    "v.ef_w = 300 * v.ef_d + 420 * v.ef_h + 640 * v.ef_c + 90 * v.ef_g + 160 * v.ef_n + 160 * v.ef_a;",
+    "v.ef_amp = 12 * v.ef_d + 30 * v.ef_h + 46 * v.ef_c + 4 * v.ef_g + 8 * v.ef_a;",
+    "v.ef_open = 16 * v.ef_h + 12 * v.ef_c + 28 * v.ef_g + 30 * v.ef_d + 14 * v.ef_a + 34 * v.ef_l;",
+]
 def _st():
-    hov, clb, gld, dsc = (f"({FP} == {k} ? 1 : 0)" for k in (1, 2, 3, 4))
-    flyer = f"({FP} > 0 ? 1 : 0)"; air = f"(({FP} == 0 && !query.is_on_ground) ? 1 : 0)"   # pulo/queda sem voar: asas meio abertas (equilíbrio)
-    gnd = f"(1 - {flyer} - {air})"
-    lnd = "((query.life_time - variable.etheria_land) < 0.45 ? 1 : 0)"                     # pouso: abre e freia, depois recolhe
-    turn = "math.clamp(query.yaw_speed / 240, -1, 1)"                                          # curvas: uma asa sobe e a outra desce (inclinação)
-    return hov, clb, gld, dsc, flyer, air, gnd, lnd, turn
+    return "v.ef_h", "v.ef_c", "v.ef_g", "v.ef_d", "v.ef_f", "v.ef_a", "v.ef_n", "v.ef_l", "v.ef_t"
 def wing_anim(pres):
     """6.58: asas com estados reais do voo — recolher (agachado no chão), abrir, decolar/subir (batida forte e rápida), pairar (batida média),
     planar (abertas, ondulação lenta, inclinam nas curvas), descer (abertas para trás, batida curta), pouso (abre e freia) e pulo sem voar
     (meio abertas). As fases encadeiam base -> meio -> ponta (atraso por segmento e por par de asas)."""
     hov, clb, gld, dsc, flyer, air, gnd, lnd, turn = _st()
     walk = "math.min(1, query.modified_move_speed * 3)"; sneak = "(query.is_sneaking ? 1 : 0)"
-    W = f"(300 * {dsc} + 420 * {hov} + 640 * {clb} + 90 * {gld} + 160 * {gnd} + 160 * {air})"   # frequência (graus/s)
-    AMP = f"(12 * {dsc} + 30 * {hov} + 46 * {clb} + 4 * {gld} + 8 * {air})"                    # amplitude da batida
-    OPEN = f"(16 * {hov} + 12 * {clb} + 28 * {gld} + 30 * {dsc} + 14 * {air} + 34 * {lnd})"     # abertura média
+    W, AMP, OPEN = "v.ef_w", "v.ef_amp", "v.ef_open"   # frequência (graus/s), amplitude da batida e abertura média
     out = {}
     for i, pre in enumerate(pres):
         lag = i * 25
