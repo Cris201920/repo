@@ -127,12 +127,18 @@ export function conflict(dim, x, z, key) {
 
 // ---------------------------------------------------------------- geração aleatória
 function pickKey(bag) { const t = bag.reduce((s, k) => s + WGEN[k].w, 0); let r = Math.random() * t; for (const k of bag) { r -= WGEN[k].w; if (r <= 0) return k; } return bag[0]; }
+// 6.55: estruturas BÁSICAS (acampamentos, vilas, ruínas, postos = não raras) ~35% menos frequentes: em 35% das células (escolhidas de forma
+// fixa pela coordenada, sem salvar nada) só as raras podem surgir. Reinos, lendárias, portais e as CIDADES (systems/settlements.js) não mudam.
+export const BASIC_SKIP = 0.35;
+export const quietCell = (cx, cz) => { let h = (cx * 73856093) ^ (cz * 19349663); h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) % 1000 < BASIC_SKIP * 1000; };
 function tryGenerate(p) {
   const dim = p.dimension, l = p.location, tries = [];
+  const quiet = quietCell(Math.floor(l.x / CELL), Math.floor(l.z / CELL));
   for (let i = 0; i < 4; i++) { const a = Math.random() * 6.283, d = 80 + Math.random() * 70; tries.push([Math.floor(l.x + Math.cos(a) * d), Math.floor(l.z + Math.sin(a) * d)]); }
   const keys = wgKeys();
   for (const [x, z] of tries) {
-    const bag = keys.filter((k) => !WGEN[k].manual && k !== "veldanava_dominio" && (!WGEN[k].rare || Math.random() < 0.18));   // 6.46: Veldanava só na dimensão própria if (!bag.length) continue;
+    const bag = keys.filter((k) => !WGEN[k].manual && k !== "veldanava_dominio" && (!WGEN[k].rare || Math.random() < 0.18) && (WGEN[k].rare || !quiet));   // 6.46: Veldanava só na dimensão própria
+    if (!bag.length) continue;
     const key = pickKey(bag), why = conflict(dim, x, z, key); if (why) continue;
     const s = checkSite(dim, x, z, key); if (!s.ok) continue;
     placeWgen(dim, key, { x, y: s.y, z }, (res) => {

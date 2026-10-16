@@ -12,7 +12,7 @@ lacks = lambda var, code: f"(({var} - '{code}') = {var})"
 # ------------------------------------------------------------------ fundo animado em camadas (6.35): texturas pequenas, tingidas pelo tema
 TCOL = {"world": [1.0, 0.2, 0.24], "sage": [0.3, 0.68, 1.0], "raphael": [1.0, 0.76, 0.28], "ciel": [0.74, 0.48, 1.0], "tree": [0.66, 0.38, 1.0]}
 def light(c): return [round(0.55 + 0.45 * v, 3) for v in c]
-def anim_defs(ns):
+def anim_defs(ns, sfx="", rel=False):
     A = {}
     for k in range(4):   # raios: cada camada acende 0,5 s, apaga 0,5 s e espera; 4 camadas defasadas = giro contínuo
         A[f"eth_ray{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * 0.5, "next": f"@{ns}.eth_ray{k}_in"}
@@ -42,12 +42,20 @@ def anim_defs(ns):
     for k in range(2):   # pulsos contínuos saindo do núcleo
         A[f"eth_pulse{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * 0.9, "next": f"@{ns}.eth_pulse{k}_s"}
         A[f"eth_pulse{k}_s"] = {"anim_type": "size", "easing": "out_quad", "from": [40, 40], "to": [380, 380], "duration": 1.8, "next": f"@{ns}.eth_pulse{k}_s"}
+        # 6.55: variante proporcional (janela dos anúncios): mesmo pulso, medido pela altura da janela
+        A[f"eth_pulse{k}_start_r"] = {"anim_type": "wait", "duration": 0.001 + k * 0.9, "next": f"@{ns}.eth_pulse{k}_s_r"}
+        A[f"eth_pulse{k}_s_r"] = {"anim_type": "size", "easing": "out_quad", "from": ["17%y", "17%y"], "to": ["160%y", "160%y"], "duration": 1.8, "next": f"@{ns}.eth_pulse{k}_s_r"}
         A[f"eth_pulsea{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * 0.9, "next": f"@{ns}.eth_pulsea{k}_a"}
         A[f"eth_pulsea{k}_a"] = {"anim_type": "alpha", "easing": "linear", "from": 0.55, "to": 0.0, "duration": 1.8, "next": f"@{ns}.eth_pulsea{k}_a"}
     A["eth_core_a"] = {"anim_type": "size", "easing": "in_out_sine", "from": [56, 56], "to": [84, 84], "duration": 0.9, "next": f"@{ns}.eth_core_b"}
     A["eth_core_b"] = {"anim_type": "size", "easing": "in_out_sine", "from": [84, 84], "to": [56, 56], "duration": 0.9, "next": f"@{ns}.eth_core_a"}
+    A["eth_core_a_r"] = {"anim_type": "size", "easing": "in_out_sine", "from": ["24%y", "24%y"], "to": ["36%y", "36%y"], "duration": 0.9, "next": f"@{ns}.eth_core_b_r"}
+    A["eth_core_b_r"] = {"anim_type": "size", "easing": "in_out_sine", "from": ["36%y", "36%y"], "to": ["24%y", "24%y"], "duration": 0.9, "next": f"@{ns}.eth_core_a_r"}
+    A["eth_scan_r"] = {"anim_type": "offset", "easing": "in_out_sine", "from": [0, "-5%"], "to": [0, "98%"], "duration": 2.6, "next": f"@{ns}.eth_scan_back_r"}
+    A["eth_scan_back_r"] = {"anim_type": "offset", "easing": "in_out_sine", "from": [0, "98%"], "to": [0, "-5%"], "duration": 2.6, "next": f"@{ns}.eth_scan_r"}
     return A
-def fx_layers(ns, var, glob, base_layer):
+def fx_layers(ns, var, glob, base_layer, rel=False):
+    R = "_r" if rel else ""   # 6.55: rel=True -> círculos/núcleo/pulsos medidos pela altura do contêiner (anúncios em janela, não em tela cheia)
     g = {"binding_type": "global"} if glob else {}
     def vb(expr):
         b = {"binding_name": var}; b.update(g)
@@ -62,14 +70,14 @@ def fx_layers(ns, var, glob, base_layer):
         ctrls.append({"hex": full("ov_hex", color=c, alpha=0.3, layer=base_layer + 1, anims=[f"@{ns}.eth_hex_a"])})
         ctr = lambda tex, sz, **kw: {"type": "image", "texture": f"textures/ui/etheria/{tex}", "size": sz, "anchor_from": "center", "anchor_to": "center", "offset": [0, "-3%"], **kw}
         for k in range(6):
-            ctrls.append({f"circ_o{k}": ctr(f"ov_circle_{k}", [230, 230], color=light(c), alpha=0.0, layer=base_layer + 3, anims=[f"@{ns}.eth_circ{k}_start"])})
-            ctrls.append({f"circ_i{k}": ctr(f"ov_circle_{5 - k}", [120, 120], color=c, alpha=0.0, layer=base_layer + 3, anims=[f"@{ns}.eth_circ{k}_start"])})
+            ctrls.append({f"circ_o{k}": ctr(f"ov_circle_{k}", ["92%y", "92%y"] if rel else [230, 230], color=light(c), alpha=0.0, layer=base_layer + 3, anims=[f"@{ns}.eth_circ{k}_start"])})
+            ctrls.append({f"circ_i{k}": ctr(f"ov_circle_{5 - k}", ["48%y", "48%y"] if rel else [120, 120], color=c, alpha=0.0, layer=base_layer + 3, anims=[f"@{ns}.eth_circ{k}_start"])})
         for k in range(2):
-            ctrls.append({f"pulse{k}": ctr("fx_ring", [40, 40], color=light(c), alpha=0.0, layer=base_layer + 3, anims=[f"@{ns}.eth_pulse{k}_start", f"@{ns}.eth_pulsea{k}_start"])})
+            ctrls.append({f"pulse{k}": ctr("fx_ring", ["17%y", "17%y"] if rel else [40, 40], color=light(c), alpha=0.0, layer=base_layer + 3, anims=[f"@{ns}.eth_pulse{k}_start{R}", f"@{ns}.eth_pulsea{k}_start"])})
             ctrls.append({f"motes{k}": full(f"ov_motes_{k}", color=light(c), alpha=0.0, layer=base_layer + 4, anims=[f"@{ns}.eth_mote{k}_start", f"@{ns}.eth_motea{k}_start"])})
-        ctrls.append({"scan": {"type": "image", "texture": "textures/ui/etheria/ov_scan", "size": ["100%", 8], "keep_ratio": False, "anchor_from": "top_middle", "anchor_to": "top_middle", "color": light(c), "alpha": 0.7, "layer": base_layer + 4, "anims": [f"@{ns}.eth_scan"]}})
+        ctrls.append({"scan": {"type": "image", "texture": "textures/ui/etheria/ov_scan", "size": ["100%", 8], "keep_ratio": False, "anchor_from": "top_middle", "anchor_to": "top_middle", "color": light(c), "alpha": 0.7, "layer": base_layer + 4, "anims": [f"@{ns}.eth_scan{R}"]}})
         ctrls.append({"brackets": full("ov_brackets", color=light(c), layer=base_layer + 5, anims=[f"@{ns}.eth_brk_a"])})
-        ctrls.append({"core": {"type": "image", "texture": "textures/ui/etheria/ov_core", "size": [70, 70], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-3%"], "color": light(c), "layer": base_layer + 4, "anims": [f"@{ns}.eth_core_a"]}})
+        ctrls.append({"core": {"type": "image", "texture": "textures/ui/etheria/ov_core", "size": ["28%y", "28%y"] if rel else [70, 70], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-3%"], "color": light(c), "layer": base_layer + 4, "anims": [f"@{ns}.eth_core_a{R}"]}})
         out.append({f"theme_{th}": {"type": "panel", "size": ["100%", "100%"], "bindings": vb(has(var, code)), "controls": ctrls}})
     return out
 
@@ -144,8 +152,12 @@ hud["eth_title_fx"] = {"type": "panel", "size": [0, 0], "layer": 150, "bindings"
 ]}
 hud["eth_world_voice"] = {"type": "panel", "size": ["100%", "100%"], "layer": 60, "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", HUDMARK), True), "controls": [
     {"black": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "layer": 60, "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", CER), True)}},
-    {"veil": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "alpha": 0.72, "layer": 60, "bindings": vis("#hud_title_text_string", lacks("#hud_title_text_string", CER), True)}},
-] + fx_layers("hud", "#hud_title_text_string", True, 61) + [
+    {"veil": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "alpha": 0.38, "layer": 60, "bindings": vis("#hud_title_text_string", lacks("#hud_title_text_string", CER), True)}},
+    # 6.55: CERIMÔNIAS (Verdadeiro Lorde Demônio etc.) continuam em tela cheia, como na referência
+    {"cer_fx": {"type": "panel", "size": ["100%", "100%"], "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", CER), True), "controls": fx_layers("hud", "#hud_title_text_string", True, 61)}},
+    # 6.55: ANÚNCIOS (nível, habilidade, conquista): as MESMAS camadas numa janela central proporcional à altura da tela (não cobrem mira, hotbar nem controles)
+    {"ann_fx": {"type": "panel", "size": ["128%y", "66%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-5%"], "bindings": vis("#hud_title_text_string", lacks("#hud_title_text_string", CER), True), "controls": fx_layers("hud", "#hud_title_text_string", True, 61, rel=True)}},
+] + [
     {"title": {"type": "label", "text": "#text", "localize": False, "font_size": "extra_large", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "24%"], "size": ["90%", "default"], "layer": 63,
         "bindings": [{"binding_name": "#hud_title_text_string", "binding_name_override": "#text", "binding_type": "global"}]}},
     {"lines": {"type": "label", "text": "#text", "localize": False, "font_size": "normal", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "38%"], "size": ["80%", "default"], "layer": 63,

@@ -55,7 +55,8 @@ export const STAGE_LOOK_MAP = {
 };
 // estágios cujo corpo vem do Etheria (etheria:race): 4 e 6 asas
 export const ETHERIA_BODY = { angel_4: "angel_cherub", angel_5: "angel_seraph", angel_f4: "fallen_lord", angel_f5: "fallen_lord", fall_4: "fallen_lord", fall_5: "fallen_lord",
-  dragonoid_1: "dragonewt", lizard_4: "dragonewt_w" };   // 6.48: dragonato jovem (chifres, espinho e cauda; sem asas)
+  dragonoid_1: "dragonewt", lizard_4: "dragonewt_w",
+  dragonoid_2a: "dragonewt_w", dragonoid_2b: "dragonewt_w" };   // 6.55: dragonatos adultos (Guerreiro/Arcano) têm asas, como na obra   // 6.48: dragonato jovem (chifres, espinho e cauda; sem asas)
 // 6.48: as peças DETALHADAS do Etheria (asas de penas/membrana articuladas, chifres de kijin, asas de fada) substituem as placas simples do
 // Tensura em todo estágio que as tem. A peça equivalente do Tensura é escondida para não duplicar (HIDE).
 export const BODY_BY_LOOK = { lesser_daemon: "demon", greater_daemon: "demon", arch_daemon: "demon", daemon_lord: "demon", devil_lord: "demon",
@@ -150,6 +151,22 @@ export function cleanLegacyRaceItems(player) {
 // ---------------------------------------------------------------- Anjo: Asas Sagradas (planar)
 // Sem API de voo no Bedrock: o planar usa "slow_falling" (cai devagar e sem dano de queda), renovado enquanto o anjo cai no ar sem estar agachado.
 export function startAngelGlide() {
+  // 6.55: SINCRONIA DA APARÊNCIA — a troca de corpo/asas na evolução acontece no fim da cinemática; se ela for interrompida (saída, morte,
+  // erro), o corpo ficava o antigo até o próximo login ("asas não aparecem"). A cada 10 s confere e reaplica só quando há diferença,
+  // nunca durante uma transformação/cinemática (a forma final só aparece quando a transformação termina).
+  system.runInterval(() => {
+    for (const p of world.getAllPlayers()) {
+      try {
+        if (p.hasTag("etheria_cine") || (p.getProperty(TFX_PROP) ?? "none") !== "none") continue;
+        const d = getData(p); if (!d.raceChosen) continue;
+        let body = bodyOfStage(d.raceStage);
+        if ((body === "dragonoid" || body === "dragonewt" || body === "dragonewt_w") && lineageOf(d)) body = "none";
+        const want = lookOfStage(d.raceStage), hidden = HIDE[body] ?? [];
+        const wingsWant = lineageOf(d) ? 0 : (hidden.includes("wings") ? 0 : (want.wings ?? 0));
+        if (p.getProperty(RACE_PROP) !== body || (p.getProperty("tensura:wings") ?? 0) !== wingsWant) applyRaceLook(p);
+      } catch { /* ignore */ }
+    }
+  }, 200);
   system.runInterval(() => {
     for (const p of world.getAllPlayers()) {
       try {

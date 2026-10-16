@@ -77,7 +77,8 @@ const PT = { "voice.koku": "pt:dg_attention", "voice.shinka_jouken": "pt:evo_rea
 let PTMODE = false;
 /** traduz a chave de áudio da cena para o clipe em português (ou nenhum: nomes/categorias em japonês não têm equivalente falado) */
 const tr = (k) => { if (!PTMODE || !k || k.startsWith("sfx.") || k.startsWith("pt:") || k.startsWith("sys:")) return k; if (PT[k]) return PT[k]; if (k.startsWith("ceremony.")) return "pt:awk_start"; return ""; };
-const voiceMode = (p) => { try { const d = getData(p); PTMODE = sageCfg(d).style !== "mod"; const st = sageStage(d); SFX = st >= 4 ? "_c" : st === 3 ? "_r" : st === 2 ? "_b" : ""; } catch { PTMODE = true; SFX = ""; } };
+// 6.55: as vozes sintetizadas (pt:/sys:) foram retiradas -> as cenas tocam só as GRAVAÇÕES ORIGINAIS (japonês do mod) e o texto aparece na tela
+const voiceMode = (p) => { try { const d = getData(p); PTMODE = false; const st = sageStage(d); SFX = st >= 4 ? "_c" : st === 3 ? "_r" : st === 2 ? "_b" : ""; } catch { PTMODE = true; SFX = ""; } };
 const lang = (p) => { try { return getData(p)?.settings?.voiceLang === "en" ? "en" : "pt"; } catch { return "pt"; } };
 const enabled = (p) => { try { return getData(p)?.settings?.cinematic !== false; } catch { return true; } };
 const ok = (p) => { try { return p.isValid; } catch { return false; } };

@@ -29,8 +29,9 @@ const st = new Map();                         // playerId -> { q: [], cur, t0, c
 export function sageCfg(d) {
   const sg = (d.sage ??= { archive: {}, voice: true, raphael: false, analyses: 0 });
   sg.volume ??= 80; sg.sfx ??= true; sg.subs ??= true; sg.seen ??= {};
-  // 6.38: voz em PORTUGUÊS é o padrão (clipes etheria.voice.sage.*); o japonês do pacote Voz continua opcional nas configurações
-  if ((sg.styleV ?? 0) < 2) { sg.style = "pt"; sg.styleV = 2; }
+  // 6.55: só GRAVAÇÕES ORIGINAIS (clipes do mod Great Sage, etheria.sage.*). As vozes sintetizadas por IA (etheria.voice.sage/sys/u/p.*)
+  // foram retiradas: falas sem gravação original aparecem só como legenda (nenhum áudio artificial é tocado, nada é sobreposto).
+  if ((sg.styleV ?? 0) < 3) { sg.style = "orig"; sg.styleV = 3; }
   if (sg.gs === undefined) sg.gs = !!sg.raphael || sg.analyses >= 20 || d.level >= 35;   // migração: quem já era Grande Sábio continua
   sg.ciel ??= false; sg.mods ??= {}; sg.auto ??= 1; sg.exp ??= 0; sg.bond ??= 0; sg.tasks ??= 0;
   // configurações do Sábio (voz, volume, efeitos, partículas, animações, cinematográfico, dicas, análise, interface, desempenho, frequência, debug)
@@ -88,11 +89,9 @@ export function sageSay(player, key, opts = {}) {
   const d = getData(player), stage = sageStage(d);
   if (ln.s > stage && !opts.force) return false;
   const adv = stage >= 2, pri = priOf(key), sg = sageCfg(d);
-  const mv = sg.style !== "pt" ? MODV[key] : null;
-  const useMod = mv && stage <= 3;                           // Ciel tem voz própria (sem clipes do mod)
-  const sfx = stage >= 4 ? "_c" : stage === 3 ? "_r" : stage === 2 ? "_b" : "";
-  const sound = useMod ? `etheria.sage.${mv}` : `etheria.voice.sage.${key}${sfx}`;
-  const dur = useMod ? (VOICE.mod[mv] ?? 50) : ({ "": ln.d, _b: ln.db, _r: ln.dr, _c: ln.dc }[sfx] ?? ln.d);
+  const mv = MODV[key];                                       // 6.55: gravação original (todos os estágios); sem ela, só legenda
+  const sound = mv ? `etheria.sage.${mv}` : null;
+  const dur = mv ? (VOICE.mod[mv] ?? 50) : ln.d;
   return enqueue(player, { key: "sage." + key, who: ["SÁBIO", "SÁBIO", "GRANDE SÁBIO", "RAPHAEL", "CIEL"][stage] ?? "SÁBIO", sound, text: ln.t, dur, pri, cd: opts.cd ?? (pri <= 4 ? 0 : 200), at: system.currentTick, tone: ["§b", "§b", "§3", "§d", "§e"][stage] ?? "§b", sage: true, stage });
 }
 /** Fala de um SISTEMA do jogo (identidade vocal própria): main, combat, skills, magic, race, raceevo, inv. */
@@ -102,13 +101,13 @@ const SYSTONE = { main: "§f", combat: "§c", skills: "§a", magic: "§5", race:
 export function sysSay(player, sys, key, opts = {}) {
   const ln = VOICE.sys?.[sys]?.[key]; if (!ln) return false;
   const pri = opts.pri ?? (sys === "raceevo" && key === "ready" ? 5 : SYSPRI[sys] ?? 7);
-  return enqueue(player, { key: `sys.${sys}.${key}`, who: SYSNAME[sys], sound: `etheria.voice.sys.${sys}.${key}`, text: ln.t, dur: ln.d, pri, cd: opts.cd ?? (sys === "combat" ? 1200 : 300), at: system.currentTick, tone: SYSTONE[sys], sage: false });
+  return enqueue(player, { key: `sys.${sys}.${key}`, who: SYSNAME[sys], sound: null, text: ln.t, dur: ln.d, pri, cd: opts.cd ?? (sys === "combat" ? 1200 : 300), at: system.currentTick, tone: SYSTONE[sys], sage: false });
 }
 /** Fala própria de uma Habilidade Única: kind = act | cmb | awk | an | evo | fail | spec | m25 | m50 | m75 | m100 */
 export function skillSay(player, skillId, kind, opts = {}) {
   const u = VOICE.uniques[skillId]; if (!u) return false;
   const ln = u.lines[kind] ?? VOICE.profiles[u.profile]?.[kind]; if (!ln) return false;
-  const sound = u.lines[kind] ? `etheria.voice.u.${skillId}.${kind}` : `etheria.voice.p.${u.profile}.${kind}`;
+  const sound = null;   // 6.55: fala de habilidade única era só voz sintetizada -> agora apenas legenda
   return enqueue(player, { key: `u.${skillId}.${kind}`, who: (SKILLS[skillId]?.name ?? skillId).toUpperCase(), sound, text: ln.t, dur: ln.d, pri: { act: 6, cmb: 7, awk: 3, evo: 2, an: 5, fail: 7, spec: 6 }[kind] ?? 7, cd: opts.cd ?? (kind === "act" ? 1800 : kind === "cmb" ? 2400 : 400), at: system.currentTick, tone: "§d", sage: false });
 }
 

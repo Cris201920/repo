@@ -1,0 +1,674 @@
+{
+ "amethyst_rapier": {
+  "shift": [
+   0.0,
+   -1.91,
+   -0.263
+  ],
+  "length": 27.38
+ },
+ "berserker_axe": {
+  "shift": [
+   0.0,
+   -4.133,
+   0.153
+  ],
+  "length": 10.2
+ },
+ "boreal_blade": {
+  "shift": [
+   0.0,
+   -1.706,
+   0.332
+  ],
+  "length": 33.0
+ },
+ "caedros_ashen_halberd": {
+  "shift": [
+   0,
+   0,
+   0
+  ],
+  "length": 32.0
+ },
+ "celestial_blade": {
+  "shift": [
+   0.0,
+   1.16,
+   1.387
+  ],
+  "length": 42.62
+ },
+ "claymore": {
+  "shift": [
+   0.0,
+   -0.827,
+   -0.401
+  ],
+  "length": 24.17
+ },
+ "dead_mans_hand": {
+  "shift": [
+   0.0,
+   -3.766,
+   0.85
+  ],
+  "length": 11.9
+ },
+ "depth_sword": {
+  "shift": [
+   0.0,
+   -0.212,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "dragotite_abyss_great_sword": {
+  "shift": [
+   0.0,
+   0.622,
+   1.293
+  ],
+  "length": 41.32
+ },
+ "dragotite_abyss_katana": {
+  "shift": [
+   -0.0,
+   -1.717,
+   -0.334
+  ],
+  "length": 17.66
+ },
+ "dragotite_abyss_long_sword": {
+  "shift": [
+   0.0,
+   -0.396,
+   -0.34
+  ],
+  "length": 26.45
+ },
+ "dragotite_abyss_short_sword": {
+  "shift": [
+   0.0,
+   -0.636,
+   -0.314
+  ],
+  "length": 13.53
+ },
+ "dragotite_abyss_sword": {
+  "shift": [
+   0.0,
+   -2.274,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "dragotite_earth_great_sword": {
+  "shift": [
+   0.0,
+   0.622,
+   1.293
+  ],
+  "length": 41.32
+ },
+ "dragotite_earth_katana": {
+  "shift": [
+   -0.0,
+   -1.717,
+   -0.334
+  ],
+  "length": 17.66
+ },
+ "dragotite_earth_long_sword": {
+  "shift": [
+   0.0,
+   -0.396,
+   -0.34
+  ],
+  "length": 26.45
+ },
+ "dragotite_earth_short_sword": {
+  "shift": [
+   0.0,
+   -0.636,
+   -0.314
+  ],
+  "length": 13.53
+ },
+ "dragotite_earth_sword": {
+  "shift": [
+   0.0,
+   -2.274,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "dragotite_frost_great_sword": {
+  "shift": [
+   0.0,
+   0.622,
+   1.293
+  ],
+  "length": 41.32
+ },
+ "dragotite_frost_katana": {
+  "shift": [
+   -0.0,
+   -1.717,
+   -0.334
+  ],
+  "length": 17.66
+ },
+ "dragotite_frost_long_sword": {
+  "shift": [
+   0.0,
+   -0.396,
+   -0.34
+  ],
+  "length": 26.45
+ },
+ "dragotite_frost_short_sword": {
+  "shift": [
+   0.0,
+   -0.636,
+   -0.314
+  ],
+  "length": 13.53
+ },
+ "dragotite_frost_sword": {
+  "shift": [
+   0.0,
+   -2.274,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "dragotite_great_sword": {
+  "shift": [
+   0.0,
+   0.622,
+   1.293
+  ],
+  "length": 41.32
+ },
+ "dragotite_katana": {
+  "shift": [
+   -0.0,
+   -1.717,
+   -0.334
+  ],
+  "length": 17.66
+ },
+ "dragotite_long_sword": {
+  "shift": [
+   0.0,
+   -0.396,
+   -0.34
+  ],
+  "length": 26.45
+ },
+ "dragotite_scorch_great_sword": {
+  "shift": [
+   0.0,
+   0.622,
+   1.293
+  ],
+  "length": 41.32
+ },
+ "dragotite_scorch_katana": {
+  "shift": [
+   -0.0,
+   -1.717,
+   -0.334
+  ],
+  "length": 17.66
+ },
+ "dragotite_scorch_long_sword": {
+  "shift": [
+   0.0,
+   -0.396,
+   -0.34
+  ],
+  "length": 26.45
+ },
+ "dragotite_scorch_short_sword": {
+  "shift": [
+   0.0,
+   -0.636,
+   -0.314
+  ],
+  "length": 13.53
+ },
+ "dragotite_scorch_sword": {
+  "shift": [
+   0.0,
+   -2.274,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "dragotite_short_sword": {
+  "shift": [
+   0.0,
+   -0.636,
+   -0.314
+  ],
+  "length": 13.53
+ },
+ "dragotite_star_great_sword": {
+  "shift": [
+   0.0,
+   0.622,
+   1.293
+  ],
+  "length": 41.32
+ },
+ "dragotite_star_katana": {
+  "shift": [
+   -0.0,
+   -1.717,
+   -0.334
+  ],
+  "length": 17.66
+ },
+ "dragotite_star_long_sword": {
+  "shift": [
+   0.0,
+   -0.396,
+   -0.34
+  ],
+  "length": 26.45
+ },
+ "dragotite_star_short_sword": {
+  "shift": [
+   0.0,
+   -0.636,
+   -0.314
+  ],
+  "length": 13.53
+ },
+ "dragotite_star_sword": {
+  "shift": [
+   0.0,
+   -2.274,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "dragotite_storm_great_sword": {
+  "shift": [
+   0.0,
+   0.622,
+   1.293
+  ],
+  "length": 41.32
+ },
+ "dragotite_storm_katana": {
+  "shift": [
+   -0.0,
+   -1.717,
+   -0.334
+  ],
+  "length": 17.66
+ },
+ "dragotite_storm_long_sword": {
+  "shift": [
+   0.0,
+   -0.396,
+   -0.34
+  ],
+  "length": 26.45
+ },
+ "dragotite_storm_short_sword": {
+  "shift": [
+   0.0,
+   -0.636,
+   -0.314
+  ],
+  "length": 13.53
+ },
+ "dragotite_storm_sword": {
+  "shift": [
+   0.0,
+   -2.274,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "dragotite_sword": {
+  "shift": [
+   0.0,
+   -2.274,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "dreadsword": {
+  "shift": [
+   0.0,
+   -2.359,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "dyrnwyn": {
+  "shift": [
+   -0.0,
+   -0.414,
+   -0.385
+  ],
+  "length": 24.35
+ },
+ "ember_fang": {
+  "shift": [
+   0.0,
+   1.16,
+   1.387
+  ],
+  "length": 42.62
+ },
+ "extermination_blade": {
+  "shift": [
+   -0.26,
+   -0.955,
+   1.565
+  ],
+  "length": 4.12
+ },
+ "fiery_dagger": {
+  "shift": [
+   0.0,
+   -2.245,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "flame_sword": {
+  "shift": [
+   0.0,
+   1.16,
+   1.387
+  ],
+  "length": 42.62
+ },
+ "geb": {
+  "shift": [
+   0.0,
+   -4.109,
+   0.0
+  ],
+  "length": 10.2
+ },
+ "goblin_king_club": {
+  "shift": [
+   0.0,
+   -0.892,
+   0.51
+  ],
+  "length": 13.6
+ },
+ "green_dragon_blade": {
+  "shift": [
+   0.0,
+   -14.118,
+   3.101
+  ],
+  "length": 8.16
+ },
+ "infused_iron_sword": {
+  "shift": [
+   -0.0,
+   -1.666,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "iron_blade": {
+  "shift": [
+   0.0,
+   -0.396,
+   -0.34
+  ],
+  "length": 26.45
+ },
+ "knight_sword": {
+  "shift": [
+   0.0,
+   -2.245,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "kusanagi": {
+  "shift": [
+   -0.0,
+   -0.432,
+   -0.385
+  ],
+  "length": 24.35
+ },
+ "neptunium_sword": {
+  "shift": [
+   0.0,
+   -2.018,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "obsidian_katana": {
+  "shift": [
+   0.0,
+   -0.959,
+   -0.144
+  ],
+  "length": 27.5
+ },
+ "reaper_scythe": {
+  "shift": [
+   0,
+   0,
+   0
+  ],
+  "length": 31.33
+ },
+ "reid_dragon_sword": {
+  "shift": [
+   0.0,
+   -9.33,
+   0.613
+  ],
+  "length": 1.61
+ },
+ "resonarium_sword": {
+  "shift": [
+   0.0,
+   -2.245,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "rimuru_katana": {
+  "shift": [
+   -0.131,
+   -2.726,
+   0.665
+  ],
+  "length": 1.75
+ },
+ "rimuru_sword": {
+  "shift": [
+   -0.001,
+   -7.078,
+   4.294
+  ],
+  "length": 11.3
+ },
+ "shadow_dagger": {
+  "shift": [
+   0.0,
+   -2.605,
+   0.365
+  ],
+  "length": 15.94
+ },
+ "sky_sword": {
+  "shift": [
+   -0.0,
+   -1.666,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "soul_serpent_blade": {
+  "shift": [
+   -0.0,
+   -2.572,
+   1.049
+  ],
+  "length": 2.76
+ },
+ "tt_battle_axe": {
+  "shift": [
+   0.0,
+   -4.109,
+   0.0
+  ],
+  "length": 10.2
+ },
+ "tt_crimson_lotus_edge": {
+  "shift": [
+   0.0,
+   0.203,
+   -0.208
+  ],
+  "length": 13.64
+ },
+ "tt_dead_end_rainbow": {
+  "shift": [
+   -0.003,
+   -6.571,
+   0.618
+  ],
+  "length": 1.64
+ },
+ "tt_gobuta_kodachi": {
+  "shift": [
+   0.0,
+   -1.814,
+   -0.199
+  ],
+  "length": 13.56
+ },
+ "tt_ice_blade": {
+  "shift": [
+   0.465,
+   -8.632,
+   0.784
+  ],
+  "length": 2.06
+ },
+ "tt_katana": {
+  "shift": [
+   -0.0,
+   -1.717,
+   -0.334
+  ],
+  "length": 17.66
+ },
+ "tt_kunai": {
+  "shift": [
+   0.0,
+   -0.223,
+   -0.191
+  ],
+  "length": 10.34
+ },
+ "tt_orc_axe": {
+  "shift": [
+   0.0,
+   -4.109,
+   0.0
+  ],
+  "length": 10.2
+ },
+ "tt_orc_cleaver": {
+  "shift": [
+   0.0,
+   -4.109,
+   0.0
+  ],
+  "length": 10.2
+ },
+ "tt_shizue_sword": {
+  "shift": [
+   -0.0,
+   -6.442,
+   0.665
+  ],
+  "length": 1.75
+ },
+ "tt_spatial_blade": {
+  "shift": [
+   0.0,
+   -0.396,
+   -0.34
+  ],
+  "length": 26.45
+ },
+ "tt_spatial_blades": {
+  "shift": [
+   0.0,
+   -0.223,
+   -0.191
+  ],
+  "length": 10.34
+ },
+ "tt_sword_of_tempest": {
+  "shift": [
+   0.0,
+   -2.003,
+   -0.312
+  ],
+  "length": 26.53
+ },
+ "uraku_katana": {
+  "shift": [
+   0.0,
+   -5.39,
+   1.083
+  ],
+  "length": 2.85
+ },
+ "void_sword": {
+  "shift": [
+   -0.0,
+   -0.432,
+   -0.385
+  ],
+  "length": 24.35
+ },
+ "warden_sword": {
+  "shift": [
+   0.0,
+   -2.245,
+   -0.324
+  ],
+  "length": 17.58
+ },
+ "wild_card": {
+  "shift": [
+   0.0,
+   -1.645,
+   0.309
+  ],
+  "length": 18.39
+ },
+ "wyrm_spear": {
+  "shift": [
+   -0.0,
+   -10.769,
+   0.323
+  ],
+  "length": 0.85
+ }
+}
