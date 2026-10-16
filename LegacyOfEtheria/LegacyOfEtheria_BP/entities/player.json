@@ -162,6 +162,18 @@
       "target": "self"
      }
     }
+   },
+   "etheria:form_draconic": {
+    "minecraft:collision_box": {
+     "width": 1.2,
+     "height": 2.6
+    }
+   },
+   "etheria:form_true": {
+    "minecraft:collision_box": {
+     "width": 1.6,
+     "height": 3.4
+    }
    }
   },
   "components": {
@@ -331,6 +343,38 @@
     "remove": {
      "component_groups": [
       "minecraft:raid_trigger"
+     ]
+    }
+   },
+   "etheria:form_base": {
+    "remove": {
+     "component_groups": [
+      "etheria:form_draconic",
+      "etheria:form_true"
+     ]
+    }
+   },
+   "etheria:form_draconic": {
+    "remove": {
+     "component_groups": [
+      "etheria:form_true"
+     ]
+    },
+    "add": {
+     "component_groups": [
+      "etheria:form_draconic"
+     ]
+    }
+   },
+   "etheria:form_true": {
+    "remove": {
+     "component_groups": [
+      "etheria:form_draconic"
+     ]
+    },
+    "add": {
+     "component_groups": [
+      "etheria:form_true"
      ]
     }
    }

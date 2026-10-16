@@ -86,6 +86,7 @@ let warnedT = false;
 /** Define as partes do Tensura para o estágio atual. Com linhagem dracônica ativa, o corpo é o da linhagem: todas ficam em 0 (Dragonoide em linhagem usa só o kit corporal de escamas). */
 function applyTensuraLook(player, d, lineageActive) {
   let look = lineageActive ? (d.race === "dragonoid" ? { body: 3 } : {}) : lookOfStage(d.raceStage);
+  if (lineageActive && isDragonForm(formOfPlayer(d))) look = {};   // 6.52: na forma de dragão nada do corpo humanoide é desenhado (antes o traje de escamas aparecia dentro do dragão)
   if (!lineageActive && !Object.prototype.hasOwnProperty.call(STAGE_LOOK_MAP, mapKey(d.raceStage))) look = {};
   const hide = lineageActive ? [] : (HIDE[bodyOfStage(d.raceStage)] ?? []);
   if (hide.length) { look = { ...look }; for (const k of hide) look[k] = 0; }
@@ -97,6 +98,12 @@ function applyTensuraLook(player, d, lineageActive) {
   return look;
 }
 
+export const isDragonForm = (f) => f === "draconic" || f === "true";
+/** 6.52: colisão do jogador acompanha a forma (dragão é bem maior que o humanoide). Evento idempotente no player.json do BP. */
+function applyFormCollision(player, form) {
+  const ev = form === "true" ? "etheria:form_true" : form === "draconic" ? "etheria:form_draconic" : "etheria:form_base";
+  try { player.triggerEvent(ev); } catch { /* entidade do jogador sem os eventos (BP antigo) */ }
+}
 /** Aplica a aparência da raça atual do jogador (no corpo, pelas propriedades). Com announce, avisa (pt-BR) quando a raça tem traços. Devolve os traços aplicados ou null se falhou. */
 export function applyRaceLook(player, announce = false) {
   let d; try { d = getData(player); } catch { return null; }
@@ -114,6 +121,7 @@ export function applyRaceLook(player, announce = false) {
     lineageActive = !!L;
     if (player.getProperty(LIN_PROP) !== lin) player.setProperty(LIN_PROP, lin);
     if (player.getProperty(LFORM_PROP) !== lf) player.setProperty(LFORM_PROP, lf);
+    applyFormCollision(player, lf);
   } catch { /* propriedades de linhagem indisponíveis */ }
   let look = null;
   try { look = d.raceChosen ? applyTensuraLook(player, d, lineageActive) : applyTensuraLook(player, { raceStage: null, race: null }, false); } catch { /* ignore */ }

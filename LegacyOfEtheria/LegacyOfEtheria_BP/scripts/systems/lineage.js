@@ -13,6 +13,7 @@ import { fx, ring } from "./fx.js";
 import { applyRaceLook, playTransform } from "./raceparts.js";
 import { playCinematic } from "./cinematic.js";
 import { refreshName } from "./race.js";
+import { sageText } from "./voice.js";
 
 export { lineageOf, formOfPlayer, lineageStats };
 
@@ -51,6 +52,7 @@ export function setForm(player, form) {
   const F = LINEAGE_FORMS[form], now = Date.now();
   if ((d.lcool ?? 0) > now) return { ok: false, msg: `Aguarde ${Math.ceil((d.lcool - now) / 1000)}s para transformar de novo.` };
   if (d.mana < 20) return { ok: false, msg: "Mana insuficiente (20)." };
+  if (!roomFor(player, form)) return { ok: false, msg: "Espaço insuficiente: o dragão não cabe aqui. Vá para um lugar aberto." };
   d.mana -= 20; d.lform = form; markDirty(player);
   const kind = form === "true" ? "true" : "dragon";
   dropStats(player.id); applyDerivedStats(player);
@@ -62,6 +64,19 @@ export function setForm(player, form) {
   fx(dim, loc, "transform", player, 2);
   say(player, `${L.color}§l[Linhagem] §r§fVocê assume a §l${F.name}§r§f! Gasta ${F.drain} de mana por segundo. Use o Relógio > Raça > Linhagem para voltar.`);
   return { ok: true, msg: `${F.name} ativada!` };
+}
+// 6.52: o dragão tem colisão maior (BP player.json, eventos etheria:form_*). Antes de crescer, confere se há espaço livre
+// (sem blocos sólidos) no volume da nova forma — evita o jogador ficar preso/sufocado dentro de paredes ou tetos.
+const FORM_BOX = { draconic: [1.2, 2.6], true: [1.6, 3.4] };
+const SOFT = /grass|fern|flower|sapling|torch|snow_layer|vine|carpet|rail|button|sign|lever|mushroom|dead_bush|wheat|carrots|potatoes|beetroot|sugar_cane|kelp|seagrass|cobweb|tripwire|redstone_wire|pressure_plate|banner|lantern|ladder|leaves|azalea|dripleaf|moss_carpet|tulip|daisy|orchid|allium|bluet|poppy|dandelion|cornflower|lily|rose|peony|lilac|sweet_berry/;
+const blocks = (b) => { if (b.isAir || b.isLiquid) return false; if (typeof b.isSolid === "boolean") return b.isSolid; return !SOFT.test(b.typeId); };
+export function roomFor(player, form) {
+  const box = FORM_BOX[form]; if (!box) return true;
+  const [w, h] = box, l = player.location, dim = player.dimension, r = w / 2;
+  for (let y = 0; y < Math.ceil(h); y++) for (const dx of [-r, 0, r]) for (const dz of [-r, 0, r]) {
+    try { const b = dim.getBlock({ x: Math.floor(l.x + dx), y: Math.floor(l.y + 0.1 + y), z: Math.floor(l.z + dz) }); if (b && blocks(b)) return false; } catch { /* fora do mundo carregado: ignora */ }
+  }
+  return true;
 }
 export function endForm(player, manual = false) {
   const d = getData(player), L = lineageOf(d); if (!L || d.lform === "base") return { ok: false, msg: "Já está na forma base." };
@@ -91,6 +106,17 @@ export function startLineage() {
       } catch { /* ignore */ }
     }
   }, 20);
+  // 6.52: morrer desfaz a forma (volta ao Dragonoide; a colisão volta ao normal antes do renascimento)
+  try {
+    world.afterEvents.entityDie.subscribe((ev) => {
+      try {
+        const p = ev.deadEntity; if (p?.typeId !== "minecraft:player") return;
+        const d = getData(p); if (!d.lform || d.lform === "base") return;
+        d.lform = "base"; markDirty(p); dropStats(p.id);
+        try { applyRaceLook(p); } catch { /* ignore */ }
+      } catch { /* ignore */ }
+    });
+  } catch { /* evento indisponível */ }
   // sincroniza a árvore a cada 5 s (nível/estágio mudam por vários caminhos)
   system.runInterval(() => { for (const p of world.getAllPlayers()) { try { syncLineage(p); } catch { /* ignore */ } } }, 100);
   // personagens reconhecem a linhagem ao serem interagidos (mensagem com recarga por jogador e personagem)
