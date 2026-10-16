@@ -24,5 +24,5 @@ export function playSkillFx(player, sk, geo) {
   const hitT = 2 + Math.min(10, Math.ceil(d / 3));
   after(hitT, () => { run(r.impact); part("impact"); if (E) { run(E.impact); run(E.residue); } });
   // 6.55: camada de grandeza (densidade por raridade + composição própria do elemento), no mesmo tempo do impacto real
-  run((cx, vv) => grandFx(cx, vv, sk, (f) => after(hitT, () => f(vv.at))));
+  run((cx, vv) => grandFx(cx, vv, sk, (f) => after(hitT, () => f(vv.at)), hitT));
 }

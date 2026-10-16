@@ -41,31 +41,50 @@ def build(race, R):
     img.save(tp); json.dump(out, open(gp, "w"), indent=1)
     return [p for p, _, _ in R["pairs"]]
 
+# 6.58: estados do VOO vindos do script (propriedade do jogador etheria:fly): 0 chão · 1 pairando · 2 subindo/decolando · 3 planando · 4 descendo.
+FP = "query.property('etheria:fly')"
+def _st():
+    hov, clb, gld, dsc = (f"({FP} == {k} ? 1 : 0)" for k in (1, 2, 3, 4))
+    flyer = f"({FP} > 0 ? 1 : 0)"; air = f"(({FP} == 0 && !query.is_on_ground) ? 1 : 0)"   # pulo/queda sem voar: asas meio abertas (equilíbrio)
+    gnd = f"(1 - {flyer} - {air})"
+    lnd = "((query.life_time - variable.etheria_land) < 0.45 ? 1 : 0)"                     # pouso: abre e freia, depois recolhe
+    turn = "math.clamp(query.yaw_speed / 240, -1, 1)"                                          # curvas: uma asa sobe e a outra desce (inclinação)
+    return hov, clb, gld, dsc, flyer, air, gnd, lnd, turn
 def wing_anim(pres):
-    """6.52: asas com 4 estados — parado (respira), andando (abre um pouco), voando/subindo (batida forte) e
-    planando ao cair (abertas e quase paradas); agachado recolhe. As fases encadeiam base -> meio -> ponta."""
-    fly = "(1 - query.is_on_ground)"; walk = "math.min(1, query.modified_move_speed * 3)"; sneak = "(query.is_sneaking ? 1 : 0)"
-    glide = "(query.is_on_ground ? 0 : (query.vertical_speed < -1.0 ? 1 : 0))"; flap = f"({fly} * (1 - {glide}))"
+    """6.58: asas com estados reais do voo — recolher (agachado no chão), abrir, decolar/subir (batida forte e rápida), pairar (batida média),
+    planar (abertas, ondulação lenta, inclinam nas curvas), descer (abertas para trás, batida curta), pouso (abre e freia) e pulo sem voar
+    (meio abertas). As fases encadeiam base -> meio -> ponta (atraso por segmento e por par de asas)."""
+    hov, clb, gld, dsc, flyer, air, gnd, lnd, turn = _st()
+    walk = "math.min(1, query.modified_move_speed * 3)"; sneak = "(query.is_sneaking ? 1 : 0)"
+    W = f"(300 * {dsc} + 420 * {hov} + 640 * {clb} + 90 * {gld} + 160 * {gnd} + 160 * {air})"   # frequência (graus/s)
+    AMP = f"(12 * {dsc} + 30 * {hov} + 46 * {clb} + 4 * {gld} + 8 * {air})"                    # amplitude da batida
+    OPEN = f"(16 * {hov} + 12 * {clb} + 28 * {gld} + 30 * {dsc} + 14 * {air} + 34 * {lnd})"     # abertura média
     out = {}
     for i, pre in enumerate(pres):
         lag = i * 25
+        ph = f"math.sin(query.life_time * {W} - {lag})"
         for side, sg in (("l", 1), ("r", -1)):
-            out[f"{pre}_{side}"] = {"rotation": [f"math.sin(query.life_time * 160 - {lag}) * 2 * {flap} - 6 * {glide}",
-                                                 f"{sg} * (-6 * {fly} + 10 * {walk} * (1 - {fly}) + 18 * {sneak} + math.sin(query.life_time * 60) * 5 * (1 - {fly}) - 14 * {glide})",
-                                                 f"{sg} * (math.sin(query.life_time * 80 - {lag}) * 6 * (1 - {fly}) + {flap} * (14 + math.sin(query.life_time * 560 - {lag}) * 42) + {glide} * (24 + math.sin(query.life_time * 90) * 3) - 14 * {sneak})"]}
-            out[f"{pre}B_{side}"] = {"rotation": [0, 0, f"{sg} * ({flap} * math.sin(query.life_time * 600 - 45 - {lag}) * 16 + math.sin(query.life_time * 80 - 30) * 2 * (1 - {fly}) - 10 * {sneak} - 6 * {glide})"]}
-            out[f"{pre}C_{side}"] = {"rotation": [0, 0, f"{sg} * ({flap} * math.sin(query.life_time * 600 - 90 - {lag}) * 20 + math.sin(query.life_time * 80 - 60) * 3 * (1 - {fly}) - 12 * {sneak} - 4 * {glide})"]}
+            out[f"{pre}_{side}"] = {"rotation": [
+                f"{ph} * 4 * ({hov} + {clb}) - 8 * {gld} + 10 * {dsc} - 12 * {lnd}",
+                f"{sg} * (-6 * {flyer} + 10 * {walk} * {gnd} + 18 * {sneak} * {gnd} + math.sin(query.life_time * 60) * 5 * {gnd} - 14 * {gld} - 8 * {dsc})",
+                f"{sg} * (math.sin(query.life_time * 80 - {lag}) * 6 * {gnd} + {OPEN} + {ph} * {AMP} - 14 * {sneak} * {gnd}) + 12 * {turn} * ({gld} + {hov} + {clb})"]}
+            out[f"{pre}B_{side}"] = {"rotation": [0, 0, f"{sg} * (math.sin(query.life_time * {W} - 45 - {lag}) * {AMP} * 0.4 + math.sin(query.life_time * 80 - 30) * 2 * {gnd} - 10 * {sneak} * {gnd} - 6 * {gld} + 8 * {lnd})"]}
+            out[f"{pre}C_{side}"] = {"rotation": [0, 0, f"{sg} * (math.sin(query.life_time * {W} - 90 - {lag}) * {AMP} * 0.5 + math.sin(query.life_time * 80 - 60) * 3 * {gnd} - 12 * {sneak} * {gnd} - 4 * {gld} + 10 * {lnd})"]}
     return out
 
 def tail_anim(names):
-    """6.52: cauda que reage ao movimento: balanço lento parado, mais rápido andando, erguida correndo,
-    reta para trás voando, abaixada agachado. Cada segmento atrasa a onda (efeito de chicote)."""
-    walk = "math.min(1, query.modified_move_speed * 3)"; fly = "(1 - query.is_on_ground)"; sneak = "(query.is_sneaking ? 1 : 0)"
+    """6.58: cauda segmentada que reage a tudo: balanço lento parado, mais rápido andando, erguida correndo, sobe no pulo e fica para cima
+    na queda, reta para trás voando (ondula como leme e acompanha as curvas), abaixada agachado. Cada segmento atrasa a onda (chicote)."""
+    hov, clb, gld, dsc, flyer, air, gnd, lnd, turn = _st()
+    walk = "math.min(1, query.modified_move_speed * 3)"; sneak = "(query.is_sneaking ? 1 : 0)"
+    rise = "(query.vertical_speed > 0.5 ? 1 : 0)"; fall = "(query.vertical_speed < -0.5 ? 1 : 0)"
     out = {}
     for k, n in enumerate(names):
-        lift = "-10" if k == 0 else "-3"
-        out[n] = {"rotation": [f"math.sin(query.life_time * 90 - {k * 25}) * 3 * (1 - {fly}) + {lift} * {walk} * (1 - {fly}) + {'-18' if k == 0 else '-4'} * {fly} + {'10' if k == 0 else '2'} * {sneak}",
-                               f"math.sin(query.life_time * (70 + 140 * {walk}) - {k * 30}) * (6 + 6 * {walk}) * (1 - 0.6 * {fly})", 0]}
+        r0 = k == 0
+        out[n] = {"rotation": [
+            f"math.sin(query.life_time * 90 - {k * 25}) * 3 * {gnd} + {-10 if r0 else -3} * {walk} * {gnd} + {-18 if r0 else -4} * {flyer} + {10 if r0 else 2} * {sneak} * {gnd}"
+            f" + {air} * ({8 if r0 else 3} * {rise} - {16 if r0 else 5} * {fall}) + {6 if r0 else 2} * {lnd} + {4 if r0 else 1} * {dsc}",
+            f"math.sin(query.life_time * (70 + 140 * {walk} + 60 * {flyer}) - {k * 30}) * (6 + 6 * {walk} - 2 * {flyer}) - {turn} * {6 if r0 else 3} * {flyer}", 0]}
     return out
 
 def main():

@@ -27,9 +27,7 @@
      {
       "run": "query.ground_speed > 0.25"
      },
-     {
-      "halberd_swing": "variable.attack_time > 0"
-     }
+     "os_halberd_swing"
     ]
    },
    "animations": {
@@ -44,7 +42,8 @@
     "elephant_stampede": "animation.etheria_carrion.elephant_stampede",
     "lion_punch": "animation.etheria_carrion.lion_punch",
     "tiger_talon": "animation.etheria_carrion.tiger_talon",
-    "beast_roar": "animation.etheria_carrion.beast_roar"
+    "beast_roar": "animation.etheria_carrion.beast_roar",
+    "os_halberd_swing": "controller.animation.etheria.os.halberd_swing_521cf71b"
    },
    "render_controllers": [
     "controller.render.default"

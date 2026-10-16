@@ -90,8 +90,27 @@ const E = {
 E.shadow = E.dark; E.void = E.dark;
 export const grandOf = (sk) => E[sk?.element] ?? E.arcane;
 
+// 6.58: MAGIA DE GRANDE ESCALA (vídeo de referência 5): esfera de energia que cresce sobre o conjurador enquanto o círculo gira -> disparo ->
+// clarão -> CÚPULA de choque do tamanho REAL da área de dano (exec.radius, a mesma usada em systems/skillkinds.js) -> coluna e "cogumelo" de
+// fumaça/energia na cor do elemento -> anel no chão. Só magias de ÁREA lendárias+ (BIG); o orçamento por tick do fxlib protege o celular.
+const AREA = new Set(["aoe_self", "target_aoe", "field", "storm", "wave"]);
+export const isCataclysm = (sk) => BIG(sk) && AREA.has(sk?.exec?.kind);
+function cataclysm(c, v, sk, X, g, hitT, schedule) {
+  const R = Math.max(4, Math.min(24, sk.exec?.radius ?? 6)), core = up(v.pos, 2.4);
+  // esfera crescendo (camadas que convergem para uma casca cada vez maior)
+  for (let k = 0; k < Math.max(3, hitT - 1); k++) after(k, () => implode(c, core, { col: k % 2 ? X.c2 : "white", tile: T.spark, n: N(c, g, 10), radius: 0.6 + k * 0.22, flat: 1, life: 0.3, size: 0.12 + k * 0.012, grow: 0.4 }));
+  orbit(c, () => core, { col: X.c1, tile: T.orb, n: 3, r: 1.1, dur: hitT, step: 2, size: 0.32, speed: 2.4 });
+  schedule((at) => {
+    burst(c, up(at, 1), { col: "white", tile: T.flash ?? T.spark, n: N(c, g, 14), spd: R * 1.2, life: 0.35, size: 0.5 });
+    for (let i = 0; i <= 6; i++) { const th = (i / 6) * 1.35, rr = R * Math.cos(th); after(1 + i * 0.6, () => ringFlat(c, up(at, R * Math.sin(th)), { col: i % 2 ? X.c1 : X.c2, tile: T.ring, n: Math.max(8, Math.round(N(c, g, 26) * Math.cos(th))), radius: rr, start: rr * 0.55, life: 0.45, size: 0.22, a: 0.8 })); }
+    after(3, () => column(c, at, { col: X.c1, tile: T.smoke ?? T.cloud, n: N(c, g, 30), h: R * 1.3, life: 1.1, r: R * 0.18, size: 0.5 }));
+    after(12, () => { const top = up(at, R * 1.3); ringFlat(c, top, { col: X.c2, tile: T.cloud ?? T.smoke, n: N(c, g, 22), radius: R * 0.55, start: R * 0.1, life: 0.9, size: 0.7, lift: 0.15 }); burst(c, top, { col: X.c1, tile: T.cloud ?? T.smoke, n: N(c, g, 16), spd: R * 0.4, up: 0.6, life: 1.1, size: 0.6 }); });
+    for (let i = 0; i < 3; i++) after(2 + i * 4, () => ringFlat(c, up(at, 0.15), { col: i ? X.c2 : "white", tile: T.ring, n: N(c, g, 30), radius: R * (1 + i * 0.25), start: 0.5, life: 0.55, size: 0.24 }));
+  });
+}
+
 /** Executa todas as fases da camada de grandeza (chamado por systems/skillfx.js). */
-export function grandFx(c, v, sk, schedule) {
+export function grandFx(c, v, sk, schedule, hitT = 8) {
   const g = (GRAND[sk.rarity] ?? 1) * (v.tier >= 3 ? 1.25 : v.tier >= 2 ? 1.1 : 1), X = grandOf(sk), big = BIG(sk);
   const run = (f) => { try { f(); } catch { /* efeitos nunca derrubam a habilidade */ } };
   // 1-4: formação, círculo, órbitas e núcleo
@@ -102,6 +121,7 @@ export function grandFx(c, v, sk, schedule) {
   // 6: rastro denso ao longo do trajeto
   const L = lenOf(v.from, v.to);
   if (L > 2) after(3, () => run(() => along(v.from, v.to, Math.min(28, Math.max(4, Math.round(L * 1.2 * Math.min(1.6, g)))), (p, t, i) => after(i * 0.4, () => run(() => X.trail(c, p, g))))));
+  if (isCataclysm(sk)) run(() => cataclysm(c, v, sk, X, g, hitT, schedule));
   // 7-10: impacto em camadas, onda de choque, fragmentos e dissipação
   schedule((at) => {
     run(() => X.impact(c, at, g)); after(2, () => run(() => X.residue(c, at, g)));

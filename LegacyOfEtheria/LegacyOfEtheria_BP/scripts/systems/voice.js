@@ -25,6 +25,9 @@ const MODV = { an_start: "voice.kaiseki_kaishi", an_progress: "voice.kaiseki_chu
   evo_gs_ready: "voice.shinka_jouken", evo_rf_ready: "voice.shinka_jouken", al_energy: "voice.maso_fusoku", al_ambush: "voice.sentou_mode", al_superior: "voice.seizon_kakuritsu", al_attack: "voice.sentou_mode",
   sg_combo: "raphael.gaitou", rf_optimize: "raphael.saikouchiku", rf_synergy: "raphael.gaitou", rf_predict: "raphael.juri" };
 const st = new Map();                         // playerId -> { q: [], cur, t0, cds: Map }
+// 6.58: ORDEM DO JOGADOR — o Sábio só se manifesta em evolução de raça, aquisição de habilidade (única/normal) e desbloqueios importantes.
+// Exploração, combate, voo, uso normal de habilidades, dicas, alertas e saudação ao entrar no mundo ficam em silêncio (configurável: "Sábio discreto").
+const IMPORTANT = (k) => /^sage\.(skill_acquired|skill_registered|unique_acquired|skill_evolved|birth_|evo_(?!insuf)|stage_|awk_)/.test(k) || /^u\.[^.]+\.(evo|awk)$/.test(k) || /^sys\.raceevo\./.test(k);
 
 export function sageCfg(d) {
   const sg = (d.sage ??= { archive: {}, voice: true, raphael: false, analyses: 0 });
@@ -35,7 +38,7 @@ export function sageCfg(d) {
   if (sg.gs === undefined) sg.gs = !!sg.raphael || sg.analyses >= 20 || d.level >= 35;   // migração: quem já era Grande Sábio continua
   sg.ciel ??= false; sg.mods ??= {}; sg.auto ??= 1; sg.exp ??= 0; sg.bond ??= 0; sg.tasks ??= 0;
   // configurações do Sábio (voz, volume, efeitos, partículas, animações, cinematográfico, dicas, análise, interface, desempenho, frequência, debug)
-  sg.tips ??= true; sg.tipFreq ??= "normal"; sg.cinematic ??= false; sg.perf ??= false; sg.ui ??= "normal"; sg.debug ??= false; sg.parts ??= true;
+  sg.tips ??= true; sg.tipFreq ??= "normal"; sg.cinematic ??= false; sg.perf ??= false; sg.ui ??= "normal"; sg.debug ??= false; sg.parts ??= true; sg.quiet ??= true;
   return sg;
 }
 /** Estágio do Sábio: 0 inicial · 1 Sábio · 2 Grande Sábio · 3 Raphael · 4 Ciel (explícito e salvo no save). */
@@ -70,6 +73,7 @@ export function dropVoice(id) { st.delete(id); }
 function enqueue(player, item) {
   const d = getData(player), sg = sageCfg(d);   // 6.38: "voz desligada" silencia o áudio, mas o Sábio continua com legenda e indicador
   if (announcing(player)) return false;   // 6.35: durante a Voz do Mundo só a cena nova fala e aparece (sem a legenda "SÁBIO »")
+  if (sg.quiet !== false && !item.important && !IMPORTANT(item.key)) return false;   // 6.58: Sábio discreto (padrão) — só eventos importantes
   const x = S(player), now = system.currentTick;
   if (item.cd > 0) { if ((x.cds.get(item.key) ?? 0) > now) return false; x.cds.set(item.key, now + item.cd); }
   if (x.q.some((i) => i.key === item.key) || x.cur?.key === item.key) return false;

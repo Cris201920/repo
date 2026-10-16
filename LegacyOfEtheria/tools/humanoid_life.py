@@ -71,7 +71,7 @@ def main():
         sc = D.setdefault("scripts", {})
         ini = [x for x in sc.get("initialize", []) if "v.ph" not in x] + ["v.ph = math.random(0, 360); v.sp = math.random(0.85, 1.2);"]
         sc["initialize"] = ini
-        am = [x for x in sc.get("animate", []) if not (isinstance(x, dict) and any(k.startswith("life_") for k in x)) and x not in ("life_greet",)]
+        am = [x for x in sc.get("animate", []) if not (isinstance(x, dict) and any(k.startswith("life_") for k in x)) and x not in ("life_greet", "os_life_swing", "os_life_hurt")]   # 6.58: depois rode tools/oneshot_ctrl.py
         am += [{"life_idle": "!query.is_moving && variable.attack_time <= 0"}, {"life_swing": "variable.attack_time > 0.0"}, {"life_hurt": "query.hurt_time > 0"}]
         if npc: am.append("life_greet")
         else: am.append({"life_stance": "query.has_target && !query.is_moving && variable.attack_time <= 0"})

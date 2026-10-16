@@ -495,7 +495,7 @@ function openVoice(player) {
   menu(player, "§l§bCONFIGURAÇÕES", `§7Estágio da voz: §f${stageName(s)}\n§7A voz, o som e o círculo ficam mais sofisticados a cada estágio.\n§7Efeitos visuais do jogo: Núcleo → Partículas (Extremo/Ultra/Alto/Médio/Reduzido).\n§8Tudo é salvo no seu personagem (memória do Sábio, versão ${sg.sv ?? 1}).`, [
     { text: `§lVoz: ${sg.voice === false ? "§cDESATIVADA" : "§aATIVADA"}`, icon: "menu_settings", run: () => { setVoiceOpt(player, "voice", sg.voice === false); again(); } },
     { text: `§lVolume: §f${sg.volume}%\n§r§8toque para +20% (volta a 0 após 100%)`, icon: "menu_settings", run: () => vol(sg.volume >= 100 ? 0 : sg.volume + 20) },
-    { text: `§lEstilo da voz: §f${sg.style === "pt" ? "Português (sintetizada)" : "Original do mod (restaurada)"}`, icon: "menu_settings", run: () => { setVoiceOpt(player, "style", sg.style === "pt" ? "mod" : "pt"); again(); } },
+    { text: `§lSábio discreto: ${onoff(sg.quiet !== false)}\n§r§8só aparece em evolução de raça e novas habilidades`, icon: "menu_settings", run: () => { setVoiceOpt(player, "quiet", sg.quiet === false); again(); } },
     { text: `§lEfeitos sonoros do Sábio: ${sg.sfx === false ? "§cDESATIVADOS" : "§aATIVADOS"}`, icon: "menu_settings", run: () => { setVoiceOpt(player, "sfx", sg.sfx === false); again(); } },
     { text: `§lPartículas do Sábio (auras e destaques): ${onoff(sg.parts !== false)}`, icon: "menu_settings", run: () => flip("parts") },
     { text: `§lAnimações do núcleo: ${onoff(sg.anim !== false)}`, icon: "menu_settings", run: () => flip("anim") },

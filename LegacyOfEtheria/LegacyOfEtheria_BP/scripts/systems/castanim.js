@@ -2,6 +2,7 @@
 // Conjuração em fases: mãos juntas carregando enquanto a magia se forma. Ao lançar: gesto conforme o TIPO real da habilidade
 // (projétil, raio, explosão ao redor, área no alvo, suporte, corte, investida, devorar, invocação). Agilidade e forma dracônica têm animação própria.
 import { on, EV } from "../core/bus.js";
+import { playAnim } from "../core/anim.js";
 
 const KIND = {
   projectile: "projectile", chain: "projectile", mark: "projectile", steal: "projectile",
@@ -14,7 +15,7 @@ const KIND = {
   devour: "devour", feast: "devour",
   summon: "summon", creation: "summon", creator_forge: "summon",
 };
-const play = (p, id, blend = 0.2) => { try { p.playAnimation(`animation.etheria.cast.${id}`, { blendOutTime: blend }); } catch { /* ignore */ } };
+const play = (p, id, blend = 0.2) => playAnim(p, `animation.etheria.cast.${id}`, { channel: "etheria_cast", blendOut: blend });   // 6.58: repetível
 export const gestureOf = (sk) => KIND[sk?.exec?.kind] ?? null;
 export function startCastAnim() {
   on(EV.SKILL_CAST_START, ({ player, sk }) => { if (gestureOf(sk)) play(player, "charge", 0.15); });

@@ -3,6 +3,7 @@
 // coincide com o golpe. Ataques corpo a corpo tocam "swing" e o chefe reage ao dano com "flinch" (no máx. 1x a cada 1,5 s, nunca durante um golpe).
 import { world, system } from "@minecraft/server";
 import { BOSS_ANIM } from "../data/bossanim.gen.js";
+import { playAnim } from "../core/anim.js";
 
 const KIND = {
   slam: "slam", quake: "slam", war_stomp: "slam", ground_pound: "slam", calamity: "slam", stampede: "slam", earth_slam: "slam", iron_skin: "roar",
@@ -16,7 +17,7 @@ export const kindFor = (id) => KIND[id] ?? "cast";
 const busyUntil = new Map(), lastFlinch = new Map();
 export function playBossAnim(e, kind, holdTicks = 20) {
   const a = BOSS_ANIM[e?.typeId]; if (!a || !a.k.includes(kind)) return false;
-  try { e.playAnimation(`animation.etheria.bc.${a.g}.${kind}`, { blendOutTime: 0.25 }); } catch { return false; }
+  if (!playAnim(e, `animation.etheria.bc.${a.g}.${kind}`, { channel: "etheria_boss", blendOut: 0.25 })) return false;   // 6.58: repetível
   busyUntil.set(e.id, system.currentTick + holdTicks);
   return true;
 }

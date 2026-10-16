@@ -1,4 +1,5 @@
 import { announceInfo } from "./sageannounce.js";
+import { playAnim } from "../core/anim.js";
 // systems/agility.js - AGILIDADES SUPREMAS (6.29): executor exec.kind "agility" + esquiva automática + progressão por raça.
 // Dados: data/agility.js. Cada movimento tem efeito real (deslocamento, dano no trajeto, invisibilidade, aceleração), animação corporal
 // (RP animations/etheria_agility.animation.json via playAnimation), partículas com direção e som. Custos/recargas vêm do pipeline normal de habilidades.
@@ -14,7 +15,7 @@ import { getStats } from "./stats.js";
 
 const H = () => helpers();
 const LINE_OF = (sk) => AGILITY_LINES[AGILITY_OF[sk.id]?.race] ?? { fx: ["wind", "white"] };
-const anim = (p, id, blend = 0.15) => { try { p.playAnimation(`animation.etheria.agi.${id}`, { blendOutTime: blend }); } catch { /* ignore */ } };
+const anim = (p, id, blend = 0.15) => playAnim(p, `animation.etheria.agi.${id}`, { channel: "etheria_agi", blendOut: blend });   // 6.58: repetível
 const eff = (e, id, ticks, amp = 0) => { try { e.addEffect(id, ticks, { amplifier: amp, showParticles: false }); } catch { /* ignore */ } };
 const PASS = /air|water|lava|grass|fern|flower|sapling|torch|carpet|snow_layer|vine|button|pressure_plate|rail|sign|banner|tall|bush|reeds|kelp|seagrass|web|ladder|lever|rose|tulip|dandelion|poppy|orchid|allium|bluet|daisy|lily|petals|moss_carpet|glow_lichen|light_block|structure_void/;
 function passable(dim, x, y, z) {

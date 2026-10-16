@@ -142,6 +142,15 @@
      ],
      "default": "none",
      "client_sync": true
+    },
+    "etheria:fly": {
+     "type": "int",
+     "range": [
+      0,
+      4
+     ],
+     "default": 0,
+     "client_sync": true
     }
    }
   },

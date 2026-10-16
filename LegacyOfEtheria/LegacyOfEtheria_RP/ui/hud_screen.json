@@ -1464,6 +1464,247 @@
   "duration": 3.2,
   "next": "@hud.eth_vringa1_a"
  },
+ "eth_sr0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_sr0_in"
+ },
+ "eth_sr0_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr0_out"
+ },
+ "eth_sr0_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr0_wait"
+ },
+ "eth_sr0_wait": {
+  "anim_type": "wait",
+  "duration": 1.4,
+  "next": "@hud.eth_sr0_in"
+ },
+ "eth_sr1_start": {
+  "anim_type": "wait",
+  "duration": 0.351,
+  "next": "@hud.eth_sr1_in"
+ },
+ "eth_sr1_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr1_out"
+ },
+ "eth_sr1_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr1_wait"
+ },
+ "eth_sr1_wait": {
+  "anim_type": "wait",
+  "duration": 1.4,
+  "next": "@hud.eth_sr1_in"
+ },
+ "eth_sr2_start": {
+  "anim_type": "wait",
+  "duration": 0.701,
+  "next": "@hud.eth_sr2_in"
+ },
+ "eth_sr2_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr2_out"
+ },
+ "eth_sr2_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr2_wait"
+ },
+ "eth_sr2_wait": {
+  "anim_type": "wait",
+  "duration": 1.4,
+  "next": "@hud.eth_sr2_in"
+ },
+ "eth_sr3_start": {
+  "anim_type": "wait",
+  "duration": 1.0509999999999997,
+  "next": "@hud.eth_sr3_in"
+ },
+ "eth_sr3_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr3_out"
+ },
+ "eth_sr3_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr3_wait"
+ },
+ "eth_sr3_wait": {
+  "anim_type": "wait",
+  "duration": 1.4,
+  "next": "@hud.eth_sr3_in"
+ },
+ "eth_sr4_start": {
+  "anim_type": "wait",
+  "duration": 1.4009999999999998,
+  "next": "@hud.eth_sr4_in"
+ },
+ "eth_sr4_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr4_out"
+ },
+ "eth_sr4_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr4_wait"
+ },
+ "eth_sr4_wait": {
+  "anim_type": "wait",
+  "duration": 1.4,
+  "next": "@hud.eth_sr4_in"
+ },
+ "eth_sr5_start": {
+  "anim_type": "wait",
+  "duration": 1.751,
+  "next": "@hud.eth_sr5_in"
+ },
+ "eth_sr5_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr5_out"
+ },
+ "eth_sr5_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35,
+  "next": "@hud.eth_sr5_wait"
+ },
+ "eth_sr5_wait": {
+  "anim_type": "wait",
+  "duration": 1.4,
+  "next": "@hud.eth_sr5_in"
+ },
+ "eth_sm0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_sm0_in"
+ },
+ "eth_sm0_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.6,
+  "next": "@hud.eth_sm0_out"
+ },
+ "eth_sm0_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.6,
+  "next": "@hud.eth_sm0_wait"
+ },
+ "eth_sm0_wait": {
+  "anim_type": "wait",
+  "duration": 0.6,
+  "next": "@hud.eth_sm0_in"
+ },
+ "eth_sm1_start": {
+  "anim_type": "wait",
+  "duration": 0.601,
+  "next": "@hud.eth_sm1_in"
+ },
+ "eth_sm1_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.6,
+  "next": "@hud.eth_sm1_out"
+ },
+ "eth_sm1_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.6,
+  "next": "@hud.eth_sm1_wait"
+ },
+ "eth_sm1_wait": {
+  "anim_type": "wait",
+  "duration": 0.6,
+  "next": "@hud.eth_sm1_in"
+ },
+ "eth_sm2_start": {
+  "anim_type": "wait",
+  "duration": 1.2009999999999998,
+  "next": "@hud.eth_sm2_in"
+ },
+ "eth_sm2_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.6,
+  "next": "@hud.eth_sm2_out"
+ },
+ "eth_sm2_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.6,
+  "next": "@hud.eth_sm2_wait"
+ },
+ "eth_sm2_wait": {
+  "anim_type": "wait",
+  "duration": 0.6,
+  "next": "@hud.eth_sm2_in"
+ },
+ "eth_s_in": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.0,
+  "to": 0.55,
+  "duration": 0.5
+ },
  "eth_ring_open_size": {
   "anim_type": "size",
   "easing": "out_expo",
@@ -1723,20 +1964,7 @@
     }
    },
    {
-    "vbg": {
-     "type": "image",
-     "texture": "textures/ui/etheria/ov_v_bg",
-     "size": [
-      "100%",
-      "100%"
-     ],
-     "keep_ratio": false,
-     "fill": true,
-     "layer": 61
-    }
-   },
-   {
-    "vtheme_world": {
+    "skill_scene": {
      "type": "panel",
      "size": [
       "100%",
@@ -1749,586 +1977,228 @@
       },
       {
        "binding_type": "view",
-       "source_property_name": "(not ((#hud_title_text_string - '§t§w') = #hud_title_text_string))",
+       "source_property_name": "(not ((#hud_title_text_string - '§3§6') = #hud_title_text_string))",
        "target_property_name": "#visible"
       }
      ],
      "controls": [
       {
-       "vr0": {
+       "veil": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_0",
+        "texture": "textures/ui/Black",
         "size": [
          "100%",
          "100%"
         ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.2,
-         0.24
-        ],
-        "alpha": 0.0,
-        "layer": 62,
+        "alpha": 0.55,
+        "layer": 61,
         "anims": [
-         "@hud.eth_vr0_start"
+         "@hud.eth_s_in"
         ]
        }
       },
       {
-       "vr1": {
+       "sr0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_1",
+        "texture": "textures/ui/etheria/ov_s_ring_0",
         "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.2,
-         0.24
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr1_start"
-        ]
-       }
-      },
-      {
-       "vr2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.2,
-         0.24
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr2_start"
-        ]
-       }
-      },
-      {
-       "vr3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.2,
-         0.24
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr3_start"
-        ]
-       }
-      },
-      {
-       "vr4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.2,
-         0.24
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr4_start"
-        ]
-       }
-      },
-      {
-       "vr5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.2,
-         0.24
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr5_start"
-        ]
-       }
-      },
-      {
-       "vr6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.2,
-         0.24
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr6_start"
-        ]
-       }
-      },
-      {
-       "vr7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.2,
-         0.24
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr7_start"
-        ]
-       }
-      },
-      {
-       "vw0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw0_start"
-        ]
-       }
-      },
-      {
-       "vw1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw1_start"
-        ]
-       }
-      },
-      {
-       "vw2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw2_start"
-        ]
-       }
-      },
-      {
-       "vw3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw3_start"
-        ]
-       }
-      },
-      {
-       "vw4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw4_start"
-        ]
-       }
-      },
-      {
-       "vw5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw5_start"
-        ]
-       }
-      },
-      {
-       "vw6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw6_start"
-        ]
-       }
-      },
-      {
-       "vw7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw7_start"
-        ]
-       }
-      },
-      {
-       "vring0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
-        "size": [
-         60,
-         26
+         "92%y",
+         "92%y"
         ],
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         1.0,
-         0.64,
-         0.658
+        "offset": [
+         0,
+         "-2%"
         ],
         "alpha": 0.0,
-        "layer": 63,
+        "layer": 62,
         "anims": [
-         "@hud.eth_vring0_start",
-         "@hud.eth_vringa0_start"
+         "@hud.eth_sr0_start"
         ]
        }
       },
       {
-       "vring1": {
+       "sr1": {
         "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
+        "texture": "textures/ui/etheria/ov_s_ring_1",
         "size": [
-         60,
-         26
+         "92%y",
+         "92%y"
         ],
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         1.0,
-         0.64,
-         0.658
+        "offset": [
+         0,
+         "-2%"
         ],
         "alpha": 0.0,
-        "layer": 63,
+        "layer": 62,
         "anims": [
-         "@hud.eth_vring1_start",
-         "@hud.eth_vringa1_start"
+         "@hud.eth_sr1_start"
         ]
        }
       },
       {
-       "vx0": {
+       "sr2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_0",
+        "texture": "textures/ui/etheria/ov_s_ring_2",
         "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx0_start"
-        ]
-       }
-      },
-      {
-       "vx1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx1_start"
-        ]
-       }
-      },
-      {
-       "vx2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx2_start"
-        ]
-       }
-      },
-      {
-       "vx3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx3_start"
-        ]
-       }
-      },
-      {
-       "vx4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx4_start"
-        ]
-       }
-      },
-      {
-       "vx5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx5_start"
-        ]
-       }
-      },
-      {
-       "vx6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx6_start"
-        ]
-       }
-      },
-      {
-       "vx7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx7_start"
-        ]
-       }
-      },
-      {
-       "vx8": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_8",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx8_start"
-        ]
-       }
-      },
-      {
-       "vx9": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_9",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx9_start"
-        ]
-       }
-      },
-      {
-       "vx10": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_10",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx10_start"
-        ]
-       }
-      },
-      {
-       "vx11": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_11",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx11_start"
-        ]
-       }
-      },
-      {
-       "vstar": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_star",
-        "size": [
-         220,
-         55
+         "92%y",
+         "92%y"
         ],
         "anchor_from": "center",
         "anchor_to": "center",
-        "layer": 65,
+        "offset": [
+         0,
+         "-2%"
+        ],
+        "alpha": 0.0,
+        "layer": 62,
         "anims": [
-         "@hud.eth_vstar_a"
+         "@hud.eth_sr2_start"
+        ]
+       }
+      },
+      {
+       "sr3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_s_ring_3",
+        "size": [
+         "92%y",
+         "92%y"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-2%"
+        ],
+        "alpha": 0.0,
+        "layer": 62,
+        "anims": [
+         "@hud.eth_sr3_start"
+        ]
+       }
+      },
+      {
+       "sr4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_s_ring_4",
+        "size": [
+         "92%y",
+         "92%y"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-2%"
+        ],
+        "alpha": 0.0,
+        "layer": 62,
+        "anims": [
+         "@hud.eth_sr4_start"
+        ]
+       }
+      },
+      {
+       "sr5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_s_ring_5",
+        "size": [
+         "92%y",
+         "92%y"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-2%"
+        ],
+        "alpha": 0.0,
+        "layer": 62,
+        "anims": [
+         "@hud.eth_sr5_start"
+        ]
+       }
+      },
+      {
+       "sm0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_s_motes_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "alpha": 0.0,
+        "layer": 62,
+        "anims": [
+         "@hud.eth_sm0_start"
+        ]
+       }
+      },
+      {
+       "sm1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_s_motes_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "alpha": 0.0,
+        "layer": 62,
+        "anims": [
+         "@hud.eth_sm1_start"
+        ]
+       }
+      },
+      {
+       "sm2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_s_motes_2",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "alpha": 0.0,
+        "layer": 62,
+        "anims": [
+         "@hud.eth_sm2_start"
+        ]
+       }
+      },
+      {
+       "frame": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_s_frame",
+        "size": [
+         "60%y",
+         "52%y"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "1%"
+        ],
+        "layer": 63,
+        "bindings": [
+         {
+          "binding_name": "#hud_title_text_string",
+          "binding_type": "global"
+         },
+         {
+          "binding_type": "view",
+          "source_property_name": "(not ((#hud_title_text_string - '§3§5') = #hud_title_text_string))",
+          "target_property_name": "#visible"
+         }
         ]
        }
       }
@@ -2336,7 +2206,7 @@
     }
    },
    {
-    "vtheme_sage": {
+    "video": {
      "type": "panel",
      "size": [
       "100%",
@@ -2349,2386 +2219,3021 @@
       },
       {
        "binding_type": "view",
-       "source_property_name": "(not ((#hud_title_text_string - '§t§s') = #hud_title_text_string))",
+       "source_property_name": "((#hud_title_text_string - '§3§6') = #hud_title_text_string)",
        "target_property_name": "#visible"
       }
      ],
      "controls": [
       {
-       "vr0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.3,
-         0.68,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr0_start"
-        ]
-       }
-      },
-      {
-       "vr1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.3,
-         0.68,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr1_start"
-        ]
-       }
-      },
-      {
-       "vr2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.3,
-         0.68,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr2_start"
-        ]
-       }
-      },
-      {
-       "vr3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.3,
-         0.68,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr3_start"
-        ]
-       }
-      },
-      {
-       "vr4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.3,
-         0.68,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr4_start"
-        ]
-       }
-      },
-      {
-       "vr5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.3,
-         0.68,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr5_start"
-        ]
-       }
-      },
-      {
-       "vr6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.3,
-         0.68,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr6_start"
-        ]
-       }
-      },
-      {
-       "vr7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.3,
-         0.68,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr7_start"
-        ]
-       }
-      },
-      {
-       "vw0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw0_start"
-        ]
-       }
-      },
-      {
-       "vw1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw1_start"
-        ]
-       }
-      },
-      {
-       "vw2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw2_start"
-        ]
-       }
-      },
-      {
-       "vw3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw3_start"
-        ]
-       }
-      },
-      {
-       "vw4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw4_start"
-        ]
-       }
-      },
-      {
-       "vw5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw5_start"
-        ]
-       }
-      },
-      {
-       "vw6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw6_start"
-        ]
-       }
-      },
-      {
-       "vw7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw7_start"
-        ]
-       }
-      },
-      {
-       "vring0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
-        "size": [
-         60,
-         26
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "color": [
-         0.685,
-         0.856,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vring0_start",
-         "@hud.eth_vringa0_start"
-        ]
-       }
-      },
-      {
-       "vring1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
-        "size": [
-         60,
-         26
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "color": [
-         0.685,
-         0.856,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vring1_start",
-         "@hud.eth_vringa1_start"
-        ]
-       }
-      },
-      {
-       "vx0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx0_start"
-        ]
-       }
-      },
-      {
-       "vx1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx1_start"
-        ]
-       }
-      },
-      {
-       "vx2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx2_start"
-        ]
-       }
-      },
-      {
-       "vx3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx3_start"
-        ]
-       }
-      },
-      {
-       "vx4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx4_start"
-        ]
-       }
-      },
-      {
-       "vx5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx5_start"
-        ]
-       }
-      },
-      {
-       "vx6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx6_start"
-        ]
-       }
-      },
-      {
-       "vx7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx7_start"
-        ]
-       }
-      },
-      {
-       "vx8": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_8",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx8_start"
-        ]
-       }
-      },
-      {
-       "vx9": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_9",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx9_start"
-        ]
-       }
-      },
-      {
-       "vx10": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_10",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx10_start"
-        ]
-       }
-      },
-      {
-       "vx11": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_11",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx11_start"
-        ]
-       }
-      },
-      {
-       "vstar": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_star",
-        "size": [
-         220,
-         55
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "layer": 65,
-        "anims": [
-         "@hud.eth_vstar_a"
-        ]
-       }
-      }
-     ]
-    }
-   },
-   {
-    "vtheme_raphael": {
-     "type": "panel",
-     "size": [
-      "100%",
-      "100%"
-     ],
-     "bindings": [
-      {
-       "binding_name": "#hud_title_text_string",
-       "binding_type": "global"
-      },
-      {
-       "binding_type": "view",
-       "source_property_name": "(not ((#hud_title_text_string - '§t§r') = #hud_title_text_string))",
-       "target_property_name": "#visible"
-      }
-     ],
-     "controls": [
-      {
-       "vr0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.76,
-         0.28
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr0_start"
-        ]
-       }
-      },
-      {
-       "vr1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.76,
-         0.28
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr1_start"
-        ]
-       }
-      },
-      {
-       "vr2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.76,
-         0.28
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr2_start"
-        ]
-       }
-      },
-      {
-       "vr3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.76,
-         0.28
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr3_start"
-        ]
-       }
-      },
-      {
-       "vr4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.76,
-         0.28
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr4_start"
-        ]
-       }
-      },
-      {
-       "vr5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.76,
-         0.28
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr5_start"
-        ]
-       }
-      },
-      {
-       "vr6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.76,
-         0.28
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr6_start"
-        ]
-       }
-      },
-      {
-       "vr7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         1.0,
-         0.76,
-         0.28
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr7_start"
-        ]
-       }
-      },
-      {
-       "vw0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw0_start"
-        ]
-       }
-      },
-      {
-       "vw1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw1_start"
-        ]
-       }
-      },
-      {
-       "vw2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw2_start"
-        ]
-       }
-      },
-      {
-       "vw3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw3_start"
-        ]
-       }
-      },
-      {
-       "vw4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw4_start"
-        ]
-       }
-      },
-      {
-       "vw5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw5_start"
-        ]
-       }
-      },
-      {
-       "vw6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw6_start"
-        ]
-       }
-      },
-      {
-       "vw7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw7_start"
-        ]
-       }
-      },
-      {
-       "vring0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
-        "size": [
-         60,
-         26
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "color": [
-         1.0,
-         0.892,
-         0.676
-        ],
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vring0_start",
-         "@hud.eth_vringa0_start"
-        ]
-       }
-      },
-      {
-       "vring1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
-        "size": [
-         60,
-         26
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "color": [
-         1.0,
-         0.892,
-         0.676
-        ],
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vring1_start",
-         "@hud.eth_vringa1_start"
-        ]
-       }
-      },
-      {
-       "vx0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx0_start"
-        ]
-       }
-      },
-      {
-       "vx1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx1_start"
-        ]
-       }
-      },
-      {
-       "vx2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx2_start"
-        ]
-       }
-      },
-      {
-       "vx3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx3_start"
-        ]
-       }
-      },
-      {
-       "vx4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx4_start"
-        ]
-       }
-      },
-      {
-       "vx5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx5_start"
-        ]
-       }
-      },
-      {
-       "vx6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx6_start"
-        ]
-       }
-      },
-      {
-       "vx7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx7_start"
-        ]
-       }
-      },
-      {
-       "vx8": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_8",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx8_start"
-        ]
-       }
-      },
-      {
-       "vx9": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_9",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx9_start"
-        ]
-       }
-      },
-      {
-       "vx10": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_10",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx10_start"
-        ]
-       }
-      },
-      {
-       "vx11": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_11",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx11_start"
-        ]
-       }
-      },
-      {
-       "vstar": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_star",
-        "size": [
-         220,
-         55
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "layer": 65,
-        "anims": [
-         "@hud.eth_vstar_a"
-        ]
-       }
-      }
-     ]
-    }
-   },
-   {
-    "vtheme_ciel": {
-     "type": "panel",
-     "size": [
-      "100%",
-      "100%"
-     ],
-     "bindings": [
-      {
-       "binding_name": "#hud_title_text_string",
-       "binding_type": "global"
-      },
-      {
-       "binding_type": "view",
-       "source_property_name": "(not ((#hud_title_text_string - '§t§c') = #hud_title_text_string))",
-       "target_property_name": "#visible"
-      }
-     ],
-     "controls": [
-      {
-       "vr0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.74,
-         0.48,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr0_start"
-        ]
-       }
-      },
-      {
-       "vr1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.74,
-         0.48,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr1_start"
-        ]
-       }
-      },
-      {
-       "vr2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.74,
-         0.48,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr2_start"
-        ]
-       }
-      },
-      {
-       "vr3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.74,
-         0.48,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr3_start"
-        ]
-       }
-      },
-      {
-       "vr4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.74,
-         0.48,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr4_start"
-        ]
-       }
-      },
-      {
-       "vr5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.74,
-         0.48,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr5_start"
-        ]
-       }
-      },
-      {
-       "vr6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.74,
-         0.48,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr6_start"
-        ]
-       }
-      },
-      {
-       "vr7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.74,
-         0.48,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr7_start"
-        ]
-       }
-      },
-      {
-       "vw0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw0_start"
-        ]
-       }
-      },
-      {
-       "vw1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw1_start"
-        ]
-       }
-      },
-      {
-       "vw2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw2_start"
-        ]
-       }
-      },
-      {
-       "vw3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw3_start"
-        ]
-       }
-      },
-      {
-       "vw4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw4_start"
-        ]
-       }
-      },
-      {
-       "vw5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw5_start"
-        ]
-       }
-      },
-      {
-       "vw6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw6_start"
-        ]
-       }
-      },
-      {
-       "vw7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw7_start"
-        ]
-       }
-      },
-      {
-       "vring0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
-        "size": [
-         60,
-         26
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "color": [
-         0.883,
-         0.766,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vring0_start",
-         "@hud.eth_vringa0_start"
-        ]
-       }
-      },
-      {
-       "vring1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
-        "size": [
-         60,
-         26
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "color": [
-         0.883,
-         0.766,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vring1_start",
-         "@hud.eth_vringa1_start"
-        ]
-       }
-      },
-      {
-       "vx0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx0_start"
-        ]
-       }
-      },
-      {
-       "vx1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx1_start"
-        ]
-       }
-      },
-      {
-       "vx2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx2_start"
-        ]
-       }
-      },
-      {
-       "vx3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx3_start"
-        ]
-       }
-      },
-      {
-       "vx4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx4_start"
-        ]
-       }
-      },
-      {
-       "vx5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx5_start"
-        ]
-       }
-      },
-      {
-       "vx6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx6_start"
-        ]
-       }
-      },
-      {
-       "vx7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx7_start"
-        ]
-       }
-      },
-      {
-       "vx8": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_8",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx8_start"
-        ]
-       }
-      },
-      {
-       "vx9": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_9",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx9_start"
-        ]
-       }
-      },
-      {
-       "vx10": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_10",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx10_start"
-        ]
-       }
-      },
-      {
-       "vx11": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_11",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx11_start"
-        ]
-       }
-      },
-      {
-       "vstar": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_star",
-        "size": [
-         220,
-         55
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "layer": 65,
-        "anims": [
-         "@hud.eth_vstar_a"
-        ]
-       }
-      }
-     ]
-    }
-   },
-   {
-    "vtheme_tree": {
-     "type": "panel",
-     "size": [
-      "100%",
-      "100%"
-     ],
-     "bindings": [
-      {
-       "binding_name": "#hud_title_text_string",
-       "binding_type": "global"
-      },
-      {
-       "binding_type": "view",
-       "source_property_name": "(not ((#hud_title_text_string - '§t§p') = #hud_title_text_string))",
-       "target_property_name": "#visible"
-      }
-     ],
-     "controls": [
-      {
-       "vr0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.66,
-         0.38,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr0_start"
-        ]
-       }
-      },
-      {
-       "vr1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.66,
-         0.38,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr1_start"
-        ]
-       }
-      },
-      {
-       "vr2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.66,
-         0.38,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr2_start"
-        ]
-       }
-      },
-      {
-       "vr3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.66,
-         0.38,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr3_start"
-        ]
-       }
-      },
-      {
-       "vr4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.66,
-         0.38,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr4_start"
-        ]
-       }
-      },
-      {
-       "vr5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.66,
-         0.38,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr5_start"
-        ]
-       }
-      },
-      {
-       "vr6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.66,
-         0.38,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr6_start"
-        ]
-       }
-      },
-      {
-       "vr7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "color": [
-         0.66,
-         0.38,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 62,
-        "anims": [
-         "@hud.eth_vr7_start"
-        ]
-       }
-      },
-      {
-       "vw0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw0_start"
-        ]
-       }
-      },
-      {
-       "vw1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw1_start"
-        ]
-       }
-      },
-      {
-       "vw2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw2_start"
-        ]
-       }
-      },
-      {
-       "vw3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw3_start"
-        ]
-       }
-      },
-      {
-       "vw4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw4_start"
-        ]
-       }
-      },
-      {
-       "vw5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw5_start"
-        ]
-       }
-      },
-      {
-       "vw6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw6_start"
-        ]
-       }
-      },
-      {
-       "vw7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vw7_start"
-        ]
-       }
-      },
-      {
-       "vring0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
-        "size": [
-         60,
-         26
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "color": [
-         0.847,
-         0.721,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vring0_start",
-         "@hud.eth_vringa0_start"
-        ]
-       }
-      },
-      {
-       "vring1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
-        "size": [
-         60,
-         26
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "color": [
-         0.847,
-         0.721,
-         1.0
-        ],
-        "alpha": 0.0,
-        "layer": 63,
-        "anims": [
-         "@hud.eth_vring1_start",
-         "@hud.eth_vringa1_start"
-        ]
-       }
-      },
-      {
-       "vx0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx0_start"
-        ]
-       }
-      },
-      {
-       "vx1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx1_start"
-        ]
-       }
-      },
-      {
-       "vx2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx2_start"
-        ]
-       }
-      },
-      {
-       "vx3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx3_start"
-        ]
-       }
-      },
-      {
-       "vx4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx4_start"
-        ]
-       }
-      },
-      {
-       "vx5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx5_start"
-        ]
-       }
-      },
-      {
-       "vx6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx6_start"
-        ]
-       }
-      },
-      {
-       "vx7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx7_start"
-        ]
-       }
-      },
-      {
-       "vx8": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_8",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx8_start"
-        ]
-       }
-      },
-      {
-       "vx9": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_9",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx9_start"
-        ]
-       }
-      },
-      {
-       "vx10": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_10",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx10_start"
-        ]
-       }
-      },
-      {
-       "vx11": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_11",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx11_start"
-        ]
-       }
-      },
-      {
-       "vstar": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_star",
-        "size": [
-         220,
-         55
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "layer": 65,
-        "anims": [
-         "@hud.eth_vstar_a"
+       "vbg": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_v_bg",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "layer": 61
+       }
+      },
+      {
+       "vtheme_world": {
+        "type": "panel",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "bindings": [
+         {
+          "binding_name": "#hud_title_text_string",
+          "binding_type": "global"
+         },
+         {
+          "binding_type": "view",
+          "source_property_name": "(not ((#hud_title_text_string - '§t§w') = #hud_title_text_string))",
+          "target_property_name": "#visible"
+         }
+        ],
+        "controls": [
+         {
+          "vr0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.2,
+            0.24
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr0_start"
+           ]
+          }
+         },
+         {
+          "vr1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.2,
+            0.24
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr1_start"
+           ]
+          }
+         },
+         {
+          "vr2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.2,
+            0.24
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr2_start"
+           ]
+          }
+         },
+         {
+          "vr3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.2,
+            0.24
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr3_start"
+           ]
+          }
+         },
+         {
+          "vr4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.2,
+            0.24
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr4_start"
+           ]
+          }
+         },
+         {
+          "vr5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.2,
+            0.24
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr5_start"
+           ]
+          }
+         },
+         {
+          "vr6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.2,
+            0.24
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr6_start"
+           ]
+          }
+         },
+         {
+          "vr7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.2,
+            0.24
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr7_start"
+           ]
+          }
+         },
+         {
+          "vw0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw0_start"
+           ]
+          }
+         },
+         {
+          "vw1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw1_start"
+           ]
+          }
+         },
+         {
+          "vw2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw2_start"
+           ]
+          }
+         },
+         {
+          "vw3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw3_start"
+           ]
+          }
+         },
+         {
+          "vw4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw4_start"
+           ]
+          }
+         },
+         {
+          "vw5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw5_start"
+           ]
+          }
+         },
+         {
+          "vw6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw6_start"
+           ]
+          }
+         },
+         {
+          "vw7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw7_start"
+           ]
+          }
+         },
+         {
+          "vring0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/fx_ring",
+           "size": [
+            60,
+            26
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            1.0,
+            0.64,
+            0.658
+           ],
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vring0_start",
+            "@hud.eth_vringa0_start"
+           ]
+          }
+         },
+         {
+          "vring1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/fx_ring",
+           "size": [
+            60,
+            26
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            1.0,
+            0.64,
+            0.658
+           ],
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vring1_start",
+            "@hud.eth_vringa1_start"
+           ]
+          }
+         },
+         {
+          "vx0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx0_start"
+           ]
+          }
+         },
+         {
+          "vx1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx1_start"
+           ]
+          }
+         },
+         {
+          "vx2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx2_start"
+           ]
+          }
+         },
+         {
+          "vx3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx3_start"
+           ]
+          }
+         },
+         {
+          "vx4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx4_start"
+           ]
+          }
+         },
+         {
+          "vx5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx5_start"
+           ]
+          }
+         },
+         {
+          "vx6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx6_start"
+           ]
+          }
+         },
+         {
+          "vx7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx7_start"
+           ]
+          }
+         },
+         {
+          "vx8": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_8",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx8_start"
+           ]
+          }
+         },
+         {
+          "vx9": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_9",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx9_start"
+           ]
+          }
+         },
+         {
+          "vx10": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_10",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx10_start"
+           ]
+          }
+         },
+         {
+          "vx11": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_11",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx11_start"
+           ]
+          }
+         },
+         {
+          "vstar": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_star",
+           "size": [
+            220,
+            55
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 65,
+           "anims": [
+            "@hud.eth_vstar_a"
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "vtheme_sage": {
+        "type": "panel",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "bindings": [
+         {
+          "binding_name": "#hud_title_text_string",
+          "binding_type": "global"
+         },
+         {
+          "binding_type": "view",
+          "source_property_name": "(not ((#hud_title_text_string - '§t§s') = #hud_title_text_string))",
+          "target_property_name": "#visible"
+         }
+        ],
+        "controls": [
+         {
+          "vr0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.3,
+            0.68,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr0_start"
+           ]
+          }
+         },
+         {
+          "vr1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.3,
+            0.68,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr1_start"
+           ]
+          }
+         },
+         {
+          "vr2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.3,
+            0.68,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr2_start"
+           ]
+          }
+         },
+         {
+          "vr3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.3,
+            0.68,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr3_start"
+           ]
+          }
+         },
+         {
+          "vr4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.3,
+            0.68,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr4_start"
+           ]
+          }
+         },
+         {
+          "vr5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.3,
+            0.68,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr5_start"
+           ]
+          }
+         },
+         {
+          "vr6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.3,
+            0.68,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr6_start"
+           ]
+          }
+         },
+         {
+          "vr7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.3,
+            0.68,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr7_start"
+           ]
+          }
+         },
+         {
+          "vw0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw0_start"
+           ]
+          }
+         },
+         {
+          "vw1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw1_start"
+           ]
+          }
+         },
+         {
+          "vw2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw2_start"
+           ]
+          }
+         },
+         {
+          "vw3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw3_start"
+           ]
+          }
+         },
+         {
+          "vw4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw4_start"
+           ]
+          }
+         },
+         {
+          "vw5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw5_start"
+           ]
+          }
+         },
+         {
+          "vw6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw6_start"
+           ]
+          }
+         },
+         {
+          "vw7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw7_start"
+           ]
+          }
+         },
+         {
+          "vring0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/fx_ring",
+           "size": [
+            60,
+            26
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.685,
+            0.856,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vring0_start",
+            "@hud.eth_vringa0_start"
+           ]
+          }
+         },
+         {
+          "vring1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/fx_ring",
+           "size": [
+            60,
+            26
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.685,
+            0.856,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vring1_start",
+            "@hud.eth_vringa1_start"
+           ]
+          }
+         },
+         {
+          "vx0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx0_start"
+           ]
+          }
+         },
+         {
+          "vx1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx1_start"
+           ]
+          }
+         },
+         {
+          "vx2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx2_start"
+           ]
+          }
+         },
+         {
+          "vx3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx3_start"
+           ]
+          }
+         },
+         {
+          "vx4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx4_start"
+           ]
+          }
+         },
+         {
+          "vx5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx5_start"
+           ]
+          }
+         },
+         {
+          "vx6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx6_start"
+           ]
+          }
+         },
+         {
+          "vx7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx7_start"
+           ]
+          }
+         },
+         {
+          "vx8": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_8",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx8_start"
+           ]
+          }
+         },
+         {
+          "vx9": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_9",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx9_start"
+           ]
+          }
+         },
+         {
+          "vx10": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_10",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx10_start"
+           ]
+          }
+         },
+         {
+          "vx11": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_11",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx11_start"
+           ]
+          }
+         },
+         {
+          "vstar": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_star",
+           "size": [
+            220,
+            55
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 65,
+           "anims": [
+            "@hud.eth_vstar_a"
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "vtheme_raphael": {
+        "type": "panel",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "bindings": [
+         {
+          "binding_name": "#hud_title_text_string",
+          "binding_type": "global"
+         },
+         {
+          "binding_type": "view",
+          "source_property_name": "(not ((#hud_title_text_string - '§t§r') = #hud_title_text_string))",
+          "target_property_name": "#visible"
+         }
+        ],
+        "controls": [
+         {
+          "vr0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.76,
+            0.28
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr0_start"
+           ]
+          }
+         },
+         {
+          "vr1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.76,
+            0.28
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr1_start"
+           ]
+          }
+         },
+         {
+          "vr2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.76,
+            0.28
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr2_start"
+           ]
+          }
+         },
+         {
+          "vr3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.76,
+            0.28
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr3_start"
+           ]
+          }
+         },
+         {
+          "vr4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.76,
+            0.28
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr4_start"
+           ]
+          }
+         },
+         {
+          "vr5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.76,
+            0.28
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr5_start"
+           ]
+          }
+         },
+         {
+          "vr6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.76,
+            0.28
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr6_start"
+           ]
+          }
+         },
+         {
+          "vr7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            1.0,
+            0.76,
+            0.28
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr7_start"
+           ]
+          }
+         },
+         {
+          "vw0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw0_start"
+           ]
+          }
+         },
+         {
+          "vw1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw1_start"
+           ]
+          }
+         },
+         {
+          "vw2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw2_start"
+           ]
+          }
+         },
+         {
+          "vw3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw3_start"
+           ]
+          }
+         },
+         {
+          "vw4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw4_start"
+           ]
+          }
+         },
+         {
+          "vw5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw5_start"
+           ]
+          }
+         },
+         {
+          "vw6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw6_start"
+           ]
+          }
+         },
+         {
+          "vw7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw7_start"
+           ]
+          }
+         },
+         {
+          "vring0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/fx_ring",
+           "size": [
+            60,
+            26
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            1.0,
+            0.892,
+            0.676
+           ],
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vring0_start",
+            "@hud.eth_vringa0_start"
+           ]
+          }
+         },
+         {
+          "vring1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/fx_ring",
+           "size": [
+            60,
+            26
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            1.0,
+            0.892,
+            0.676
+           ],
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vring1_start",
+            "@hud.eth_vringa1_start"
+           ]
+          }
+         },
+         {
+          "vx0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx0_start"
+           ]
+          }
+         },
+         {
+          "vx1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx1_start"
+           ]
+          }
+         },
+         {
+          "vx2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx2_start"
+           ]
+          }
+         },
+         {
+          "vx3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx3_start"
+           ]
+          }
+         },
+         {
+          "vx4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx4_start"
+           ]
+          }
+         },
+         {
+          "vx5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx5_start"
+           ]
+          }
+         },
+         {
+          "vx6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx6_start"
+           ]
+          }
+         },
+         {
+          "vx7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx7_start"
+           ]
+          }
+         },
+         {
+          "vx8": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_8",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx8_start"
+           ]
+          }
+         },
+         {
+          "vx9": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_9",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx9_start"
+           ]
+          }
+         },
+         {
+          "vx10": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_10",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx10_start"
+           ]
+          }
+         },
+         {
+          "vx11": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_11",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx11_start"
+           ]
+          }
+         },
+         {
+          "vstar": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_star",
+           "size": [
+            220,
+            55
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 65,
+           "anims": [
+            "@hud.eth_vstar_a"
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "vtheme_ciel": {
+        "type": "panel",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "bindings": [
+         {
+          "binding_name": "#hud_title_text_string",
+          "binding_type": "global"
+         },
+         {
+          "binding_type": "view",
+          "source_property_name": "(not ((#hud_title_text_string - '§t§c') = #hud_title_text_string))",
+          "target_property_name": "#visible"
+         }
+        ],
+        "controls": [
+         {
+          "vr0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.74,
+            0.48,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr0_start"
+           ]
+          }
+         },
+         {
+          "vr1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.74,
+            0.48,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr1_start"
+           ]
+          }
+         },
+         {
+          "vr2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.74,
+            0.48,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr2_start"
+           ]
+          }
+         },
+         {
+          "vr3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.74,
+            0.48,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr3_start"
+           ]
+          }
+         },
+         {
+          "vr4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.74,
+            0.48,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr4_start"
+           ]
+          }
+         },
+         {
+          "vr5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.74,
+            0.48,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr5_start"
+           ]
+          }
+         },
+         {
+          "vr6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.74,
+            0.48,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr6_start"
+           ]
+          }
+         },
+         {
+          "vr7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.74,
+            0.48,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr7_start"
+           ]
+          }
+         },
+         {
+          "vw0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw0_start"
+           ]
+          }
+         },
+         {
+          "vw1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw1_start"
+           ]
+          }
+         },
+         {
+          "vw2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw2_start"
+           ]
+          }
+         },
+         {
+          "vw3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw3_start"
+           ]
+          }
+         },
+         {
+          "vw4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw4_start"
+           ]
+          }
+         },
+         {
+          "vw5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw5_start"
+           ]
+          }
+         },
+         {
+          "vw6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw6_start"
+           ]
+          }
+         },
+         {
+          "vw7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw7_start"
+           ]
+          }
+         },
+         {
+          "vring0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/fx_ring",
+           "size": [
+            60,
+            26
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.883,
+            0.766,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vring0_start",
+            "@hud.eth_vringa0_start"
+           ]
+          }
+         },
+         {
+          "vring1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/fx_ring",
+           "size": [
+            60,
+            26
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.883,
+            0.766,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vring1_start",
+            "@hud.eth_vringa1_start"
+           ]
+          }
+         },
+         {
+          "vx0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx0_start"
+           ]
+          }
+         },
+         {
+          "vx1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx1_start"
+           ]
+          }
+         },
+         {
+          "vx2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx2_start"
+           ]
+          }
+         },
+         {
+          "vx3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx3_start"
+           ]
+          }
+         },
+         {
+          "vx4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx4_start"
+           ]
+          }
+         },
+         {
+          "vx5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx5_start"
+           ]
+          }
+         },
+         {
+          "vx6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx6_start"
+           ]
+          }
+         },
+         {
+          "vx7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx7_start"
+           ]
+          }
+         },
+         {
+          "vx8": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_8",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx8_start"
+           ]
+          }
+         },
+         {
+          "vx9": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_9",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx9_start"
+           ]
+          }
+         },
+         {
+          "vx10": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_10",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx10_start"
+           ]
+          }
+         },
+         {
+          "vx11": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_11",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx11_start"
+           ]
+          }
+         },
+         {
+          "vstar": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_star",
+           "size": [
+            220,
+            55
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 65,
+           "anims": [
+            "@hud.eth_vstar_a"
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "vtheme_tree": {
+        "type": "panel",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "bindings": [
+         {
+          "binding_name": "#hud_title_text_string",
+          "binding_type": "global"
+         },
+         {
+          "binding_type": "view",
+          "source_property_name": "(not ((#hud_title_text_string - '§t§p') = #hud_title_text_string))",
+          "target_property_name": "#visible"
+         }
+        ],
+        "controls": [
+         {
+          "vr0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.66,
+            0.38,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr0_start"
+           ]
+          }
+         },
+         {
+          "vr1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.66,
+            0.38,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr1_start"
+           ]
+          }
+         },
+         {
+          "vr2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.66,
+            0.38,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr2_start"
+           ]
+          }
+         },
+         {
+          "vr3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.66,
+            0.38,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr3_start"
+           ]
+          }
+         },
+         {
+          "vr4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.66,
+            0.38,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr4_start"
+           ]
+          }
+         },
+         {
+          "vr5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.66,
+            0.38,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr5_start"
+           ]
+          }
+         },
+         {
+          "vr6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.66,
+            0.38,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr6_start"
+           ]
+          }
+         },
+         {
+          "vr7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rays_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "color": [
+            0.66,
+            0.38,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 62,
+           "anims": [
+            "@hud.eth_vr7_start"
+           ]
+          }
+         },
+         {
+          "vw0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw0_start"
+           ]
+          }
+         },
+         {
+          "vw1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw1_start"
+           ]
+          }
+         },
+         {
+          "vw2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw2_start"
+           ]
+          }
+         },
+         {
+          "vw3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw3_start"
+           ]
+          }
+         },
+         {
+          "vw4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw4_start"
+           ]
+          }
+         },
+         {
+          "vw5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw5_start"
+           ]
+          }
+         },
+         {
+          "vw6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw6_start"
+           ]
+          }
+         },
+         {
+          "vw7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_rayw_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vw7_start"
+           ]
+          }
+         },
+         {
+          "vring0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/fx_ring",
+           "size": [
+            60,
+            26
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.847,
+            0.721,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vring0_start",
+            "@hud.eth_vringa0_start"
+           ]
+          }
+         },
+         {
+          "vring1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/fx_ring",
+           "size": [
+            60,
+            26
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.847,
+            0.721,
+            1.0
+           ],
+           "alpha": 0.0,
+           "layer": 63,
+           "anims": [
+            "@hud.eth_vring1_start",
+            "@hud.eth_vringa1_start"
+           ]
+          }
+         },
+         {
+          "vx0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_0",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx0_start"
+           ]
+          }
+         },
+         {
+          "vx1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_1",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx1_start"
+           ]
+          }
+         },
+         {
+          "vx2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_2",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx2_start"
+           ]
+          }
+         },
+         {
+          "vx3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_3",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx3_start"
+           ]
+          }
+         },
+         {
+          "vx4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_4",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx4_start"
+           ]
+          }
+         },
+         {
+          "vx5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_5",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx5_start"
+           ]
+          }
+         },
+         {
+          "vx6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_6",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx6_start"
+           ]
+          }
+         },
+         {
+          "vx7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_7",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx7_start"
+           ]
+          }
+         },
+         {
+          "vx8": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_8",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx8_start"
+           ]
+          }
+         },
+         {
+          "vx9": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_9",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx9_start"
+           ]
+          }
+         },
+         {
+          "vx10": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_10",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx10_start"
+           ]
+          }
+         },
+         {
+          "vx11": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_wire_11",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "fill": true,
+           "alpha": 0.0,
+           "layer": 64,
+           "anims": [
+            "@hud.eth_vx11_start"
+           ]
+          }
+         },
+         {
+          "vstar": {
+           "type": "image",
+           "texture": "textures/ui/etheria/ov_v_star",
+           "size": [
+            220,
+            55
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 65,
+           "anims": [
+            "@hud.eth_vstar_a"
+           ]
+          }
+         }
         ]
        }
       }
@@ -4787,6 +5292,52 @@
        "binding_name": "#hud_subtitle_text_string",
        "binding_name_override": "#text",
        "binding_type": "global"
+      },
+      {
+       "binding_name": "#hud_title_text_string",
+       "binding_type": "global"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((#hud_title_text_string - '§3§6') = #hud_title_text_string)",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "lines_s": {
+     "type": "label",
+     "text": "#text",
+     "localize": false,
+     "font_size": "normal",
+     "shadow": true,
+     "text_alignment": "center",
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "offset": [
+      0,
+      "28%"
+     ],
+     "size": [
+      "56%y",
+      "default"
+     ],
+     "layer": 64,
+     "bindings": [
+      {
+       "binding_name": "#hud_subtitle_text_string",
+       "binding_name_override": "#text",
+       "binding_type": "global"
+      },
+      {
+       "binding_name": "#hud_title_text_string",
+       "binding_type": "global"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#hud_title_text_string - '§3§6') = #hud_title_text_string))",
+       "target_property_name": "#visible"
       }
      ]
     }

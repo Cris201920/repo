@@ -25,7 +25,9 @@
     "life_idle": "animation.etheria.life.idle",
     "life_swing": "animation.etheria.life.swing",
     "life_hurt": "animation.etheria.life.hurt",
-    "life_stance": "animation.etheria.life.stance"
+    "life_stance": "animation.etheria.life.stance",
+    "os_life_swing": "controller.animation.etheria.os.life_swing_7e41a585",
+    "os_life_hurt": "controller.animation.etheria.os.life_hurt_ea4d1ff1"
    },
    "scripts": {
     "pre_animation": [
@@ -46,12 +48,8 @@
      {
       "life_idle": "!query.is_moving && variable.attack_time <= 0"
      },
-     {
-      "life_swing": "variable.attack_time > 0.0"
-     },
-     {
-      "life_hurt": "query.hurt_time > 0"
-     },
+     "os_life_swing",
+     "os_life_hurt",
      {
       "life_stance": "query.has_target && !query.is_moving && variable.attack_time <= 0"
      }

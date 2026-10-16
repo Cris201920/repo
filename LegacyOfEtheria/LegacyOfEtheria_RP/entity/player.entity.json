@@ -238,306 +238,106 @@
      {
       "etheria_race_lin_veldanava_true": "query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'true'"
      },
-     {
-      "etheria_tfx_evo_demon": "(query.property('etheria:race') == 'demon') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_demon": "(query.property('etheria:race') == 'demon') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_demon": "(query.property('etheria:race') == 'demon') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_demon": "(query.property('etheria:race') == 'demon') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_vampire": "(query.property('etheria:race') == 'vampire') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_vampire": "(query.property('etheria:race') == 'vampire') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_vampire": "(query.property('etheria:race') == 'vampire') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_vampire": "(query.property('etheria:race') == 'vampire') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_dragonoid": "(query.property('etheria:race') == 'dragonoid' && query.property('etheria:lin') == 'none') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_dragonoid": "(query.property('etheria:race') == 'dragonoid' && query.property('etheria:lin') == 'none') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_dragonoid": "(query.property('etheria:race') == 'dragonoid' && query.property('etheria:lin') == 'none') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_dragonoid": "(query.property('etheria:race') == 'dragonoid' && query.property('etheria:lin') == 'none') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lizardman": "(query.property('etheria:race') == 'lizardman') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lizardman": "(query.property('etheria:race') == 'lizardman') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lizardman": "(query.property('etheria:race') == 'lizardman') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lizardman": "(query.property('etheria:race') == 'lizardman') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_ogre": "(query.property('etheria:race') == 'ogre') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_ogre": "(query.property('etheria:race') == 'ogre') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_ogre": "(query.property('etheria:race') == 'ogre') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_ogre": "(query.property('etheria:race') == 'ogre') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_beastkin": "(query.property('etheria:race') == 'beastkin') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_beastkin": "(query.property('etheria:race') == 'beastkin') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_beastkin": "(query.property('etheria:race') == 'beastkin') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_beastkin": "(query.property('etheria:race') == 'beastkin') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_elf": "(query.property('etheria:race') == 'elf') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_elf": "(query.property('etheria:race') == 'elf') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_elf": "(query.property('etheria:race') == 'elf') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_elf": "(query.property('etheria:race') == 'elf') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_angel": "(query.property('etheria:race') == 'angel') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_angel": "(query.property('etheria:race') == 'angel') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_angel": "(query.property('etheria:race') == 'angel') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_angel": "(query.property('etheria:race') == 'angel') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_angel_arch": "(query.property('etheria:race') == 'angel_arch') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_angel_arch": "(query.property('etheria:race') == 'angel_arch') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_angel_arch": "(query.property('etheria:race') == 'angel_arch') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_angel_arch": "(query.property('etheria:race') == 'angel_arch') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_angel_cherub": "(query.property('etheria:race') == 'angel_cherub') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_angel_cherub": "(query.property('etheria:race') == 'angel_cherub') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_angel_cherub": "(query.property('etheria:race') == 'angel_cherub') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_angel_cherub": "(query.property('etheria:race') == 'angel_cherub') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_angel_seraph": "(query.property('etheria:race') == 'angel_seraph') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_angel_seraph": "(query.property('etheria:race') == 'angel_seraph') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_angel_seraph": "(query.property('etheria:race') == 'angel_seraph') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_angel_seraph": "(query.property('etheria:race') == 'angel_seraph') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_fallen": "(query.property('etheria:race') == 'fallen') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_fallen": "(query.property('etheria:race') == 'fallen') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_fallen": "(query.property('etheria:race') == 'fallen') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_fallen": "(query.property('etheria:race') == 'fallen') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_fallen_lord": "(query.property('etheria:race') == 'fallen_lord') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_fallen_lord": "(query.property('etheria:race') == 'fallen_lord') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_fallen_lord": "(query.property('etheria:race') == 'fallen_lord') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_fallen_lord": "(query.property('etheria:race') == 'fallen_lord') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_veldora_base": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_veldora_base": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_veldora_base": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_veldora_base": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_veldora_draconic": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_veldora_draconic": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_veldora_draconic": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_veldora_draconic": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_veldora_true": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_veldora_true": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_veldora_true": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_veldora_true": "(query.property('etheria:lin') == 'veldora' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_velzard_base": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_velzard_base": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_velzard_base": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_velzard_base": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_velzard_draconic": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_velzard_draconic": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_velzard_draconic": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_velzard_draconic": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_velzard_true": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_velzard_true": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_velzard_true": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_velzard_true": "(query.property('etheria:lin') == 'velzard' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_velgrynd_base": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_velgrynd_base": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_velgrynd_base": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_velgrynd_base": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_velgrynd_draconic": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_velgrynd_draconic": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_velgrynd_draconic": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_velgrynd_draconic": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_velgrynd_true": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_velgrynd_true": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_velgrynd_true": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_velgrynd_true": "(query.property('etheria:lin') == 'velgrynd' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_veldanava_base": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_veldanava_base": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_veldanava_base": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_veldanava_base": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'base') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_veldanava_draconic": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_veldanava_draconic": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_veldanava_draconic": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_veldanava_draconic": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'draconic') && query.property('etheria:tfx') == 'true'"
-     },
-     {
-      "etheria_tfx_evo_lin_veldanava_true": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "etheria_tfx_lord_lin_veldanava_true": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "etheria_tfx_dragon_lin_veldanava_true": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "etheria_tfx_true_lin_veldanava_true": "(query.property('etheria:lin') == 'veldanava' && query.property('etheria:lform') == 'true') && query.property('etheria:tfx') == 'true'"
-     },
+     "os_etheria_tfx_evo_demon",
+     "os_etheria_tfx_lord_demon",
+     "os_etheria_tfx_dragon_demon",
+     "os_etheria_tfx_true_demon",
+     "os_etheria_tfx_evo_vampire",
+     "os_etheria_tfx_lord_vampire",
+     "os_etheria_tfx_dragon_vampire",
+     "os_etheria_tfx_true_vampire",
+     "os_etheria_tfx_evo_dragonoid",
+     "os_etheria_tfx_lord_dragonoid",
+     "os_etheria_tfx_dragon_dragonoid",
+     "os_etheria_tfx_true_dragonoid",
+     "os_etheria_tfx_evo_lizardman",
+     "os_etheria_tfx_lord_lizardman",
+     "os_etheria_tfx_dragon_lizardman",
+     "os_etheria_tfx_true_lizardman",
+     "os_etheria_tfx_evo_ogre",
+     "os_etheria_tfx_lord_ogre",
+     "os_etheria_tfx_dragon_ogre",
+     "os_etheria_tfx_true_ogre",
+     "os_etheria_tfx_evo_beastkin",
+     "os_etheria_tfx_lord_beastkin",
+     "os_etheria_tfx_dragon_beastkin",
+     "os_etheria_tfx_true_beastkin",
+     "os_etheria_tfx_evo_elf",
+     "os_etheria_tfx_lord_elf",
+     "os_etheria_tfx_dragon_elf",
+     "os_etheria_tfx_true_elf",
+     "os_etheria_tfx_evo_angel",
+     "os_etheria_tfx_lord_angel",
+     "os_etheria_tfx_dragon_angel",
+     "os_etheria_tfx_true_angel",
+     "os_etheria_tfx_evo_angel_arch",
+     "os_etheria_tfx_lord_angel_arch",
+     "os_etheria_tfx_dragon_angel_arch",
+     "os_etheria_tfx_true_angel_arch",
+     "os_etheria_tfx_evo_angel_cherub",
+     "os_etheria_tfx_lord_angel_cherub",
+     "os_etheria_tfx_dragon_angel_cherub",
+     "os_etheria_tfx_true_angel_cherub",
+     "os_etheria_tfx_evo_angel_seraph",
+     "os_etheria_tfx_lord_angel_seraph",
+     "os_etheria_tfx_dragon_angel_seraph",
+     "os_etheria_tfx_true_angel_seraph",
+     "os_etheria_tfx_evo_fallen",
+     "os_etheria_tfx_lord_fallen",
+     "os_etheria_tfx_dragon_fallen",
+     "os_etheria_tfx_true_fallen",
+     "os_etheria_tfx_evo_fallen_lord",
+     "os_etheria_tfx_lord_fallen_lord",
+     "os_etheria_tfx_dragon_fallen_lord",
+     "os_etheria_tfx_true_fallen_lord",
+     "os_etheria_tfx_evo_lin_veldora_base",
+     "os_etheria_tfx_lord_lin_veldora_base",
+     "os_etheria_tfx_dragon_lin_veldora_base",
+     "os_etheria_tfx_true_lin_veldora_base",
+     "os_etheria_tfx_evo_lin_veldora_draconic",
+     "os_etheria_tfx_lord_lin_veldora_draconic",
+     "os_etheria_tfx_dragon_lin_veldora_draconic",
+     "os_etheria_tfx_true_lin_veldora_draconic",
+     "os_etheria_tfx_evo_lin_veldora_true",
+     "os_etheria_tfx_lord_lin_veldora_true",
+     "os_etheria_tfx_dragon_lin_veldora_true",
+     "os_etheria_tfx_true_lin_veldora_true",
+     "os_etheria_tfx_evo_lin_velzard_base",
+     "os_etheria_tfx_lord_lin_velzard_base",
+     "os_etheria_tfx_dragon_lin_velzard_base",
+     "os_etheria_tfx_true_lin_velzard_base",
+     "os_etheria_tfx_evo_lin_velzard_draconic",
+     "os_etheria_tfx_lord_lin_velzard_draconic",
+     "os_etheria_tfx_dragon_lin_velzard_draconic",
+     "os_etheria_tfx_true_lin_velzard_draconic",
+     "os_etheria_tfx_evo_lin_velzard_true",
+     "os_etheria_tfx_lord_lin_velzard_true",
+     "os_etheria_tfx_dragon_lin_velzard_true",
+     "os_etheria_tfx_true_lin_velzard_true",
+     "os_etheria_tfx_evo_lin_velgrynd_base",
+     "os_etheria_tfx_lord_lin_velgrynd_base",
+     "os_etheria_tfx_dragon_lin_velgrynd_base",
+     "os_etheria_tfx_true_lin_velgrynd_base",
+     "os_etheria_tfx_evo_lin_velgrynd_draconic",
+     "os_etheria_tfx_lord_lin_velgrynd_draconic",
+     "os_etheria_tfx_dragon_lin_velgrynd_draconic",
+     "os_etheria_tfx_true_lin_velgrynd_draconic",
+     "os_etheria_tfx_evo_lin_velgrynd_true",
+     "os_etheria_tfx_lord_lin_velgrynd_true",
+     "os_etheria_tfx_dragon_lin_velgrynd_true",
+     "os_etheria_tfx_true_lin_velgrynd_true",
+     "os_etheria_tfx_evo_lin_veldanava_base",
+     "os_etheria_tfx_lord_lin_veldanava_base",
+     "os_etheria_tfx_dragon_lin_veldanava_base",
+     "os_etheria_tfx_true_lin_veldanava_base",
+     "os_etheria_tfx_evo_lin_veldanava_draconic",
+     "os_etheria_tfx_lord_lin_veldanava_draconic",
+     "os_etheria_tfx_dragon_lin_veldanava_draconic",
+     "os_etheria_tfx_true_lin_veldanava_draconic",
+     "os_etheria_tfx_evo_lin_veldanava_true",
+     "os_etheria_tfx_lord_lin_veldanava_true",
+     "os_etheria_tfx_dragon_lin_veldanava_true",
+     "os_etheria_tfx_true_lin_veldanava_true",
      {
       "tr_w_fold": "query.property('tensura:wings') > 0 && query.is_sneaking && query.is_on_ground"
      },
@@ -604,18 +404,10 @@
      {
       "drg_attack": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && variable.attack_time > 0"
      },
-     {
-      "tfxb_evo": "query.property('etheria:tfx') == 'evo'"
-     },
-     {
-      "tfxb_lord": "query.property('etheria:tfx') == 'lord'"
-     },
-     {
-      "tfxb_dragon": "query.property('etheria:tfx') == 'dragon'"
-     },
-     {
-      "tfxb_true": "query.property('etheria:tfx') == 'true'"
-     },
+     "os_tfxb_evo",
+     "os_tfxb_lord",
+     "os_tfxb_dragon",
+     "os_tfxb_true",
      {
       "drg_fly": "variable.etheria_dragon && (!query.is_on_ground && !query.is_in_water) && query.vertical_speed > -1.0"
      },
@@ -625,12 +417,8 @@
      {
       "drg_breathe": "variable.etheria_dragon && query.is_on_ground && query.modified_move_speed <= 0.05"
      },
-     {
-      "drg_land": "variable.etheria_dragon && query.is_on_ground && (query.life_time - variable.etheria_land) < 0.5"
-     },
-     {
-      "drg_roar": "variable.etheria_dragon && query.property('etheria:tfx') != 'none'"
-     },
+     "os_drg_land",
+     "os_drg_roar",
      {
       "drg_hide_humanoid": "variable.etheria_dragon && !variable.is_first_person"
      },
@@ -888,7 +676,113 @@
     "etheria_rstyle_demonic": "animation.etheria.rstyle.demonic",
     "etheria_rstyle_slime": "animation.etheria.rstyle.slime",
     "etheria_rstyle_undead": "animation.etheria.rstyle.undead",
-    "etheria_rstyle_goblin": "animation.etheria.rstyle.goblin"
+    "etheria_rstyle_goblin": "animation.etheria.rstyle.goblin",
+    "os_etheria_tfx_evo_demon": "controller.animation.etheria.os.etheria_tfx_evo_demon_5058e549",
+    "os_etheria_tfx_lord_demon": "controller.animation.etheria.os.etheria_tfx_lord_demon_140e9147",
+    "os_etheria_tfx_dragon_demon": "controller.animation.etheria.os.etheria_tfx_dragon_demon_a58223df",
+    "os_etheria_tfx_true_demon": "controller.animation.etheria.os.etheria_tfx_true_demon_61d70a14",
+    "os_etheria_tfx_evo_vampire": "controller.animation.etheria.os.etheria_tfx_evo_vampire_5a32a989",
+    "os_etheria_tfx_lord_vampire": "controller.animation.etheria.os.etheria_tfx_lord_vampire_7797c564",
+    "os_etheria_tfx_dragon_vampire": "controller.animation.etheria.os.etheria_tfx_dragon_vampire_d879ea9d",
+    "os_etheria_tfx_true_vampire": "controller.animation.etheria.os.etheria_tfx_true_vampire_c5513deb",
+    "os_etheria_tfx_evo_dragonoid": "controller.animation.etheria.os.etheria_tfx_evo_dragonoid_35401cd7",
+    "os_etheria_tfx_lord_dragonoid": "controller.animation.etheria.os.etheria_tfx_lord_dragonoid_b94e7db1",
+    "os_etheria_tfx_dragon_dragonoid": "controller.animation.etheria.os.etheria_tfx_dragon_dragonoid_5b80c126",
+    "os_etheria_tfx_true_dragonoid": "controller.animation.etheria.os.etheria_tfx_true_dragonoid_bb2cdfae",
+    "os_etheria_tfx_evo_lizardman": "controller.animation.etheria.os.etheria_tfx_evo_lizardman_4bcc92c4",
+    "os_etheria_tfx_lord_lizardman": "controller.animation.etheria.os.etheria_tfx_lord_lizardman_3c28a60a",
+    "os_etheria_tfx_dragon_lizardman": "controller.animation.etheria.os.etheria_tfx_dragon_lizardman_10d78d0a",
+    "os_etheria_tfx_true_lizardman": "controller.animation.etheria.os.etheria_tfx_true_lizardman_bfcc6023",
+    "os_etheria_tfx_evo_ogre": "controller.animation.etheria.os.etheria_tfx_evo_ogre_c06d3352",
+    "os_etheria_tfx_lord_ogre": "controller.animation.etheria.os.etheria_tfx_lord_ogre_691519ff",
+    "os_etheria_tfx_dragon_ogre": "controller.animation.etheria.os.etheria_tfx_dragon_ogre_20a5fc94",
+    "os_etheria_tfx_true_ogre": "controller.animation.etheria.os.etheria_tfx_true_ogre_9d1f1c49",
+    "os_etheria_tfx_evo_beastkin": "controller.animation.etheria.os.etheria_tfx_evo_beastkin_7a8d4c10",
+    "os_etheria_tfx_lord_beastkin": "controller.animation.etheria.os.etheria_tfx_lord_beastkin_884afcac",
+    "os_etheria_tfx_dragon_beastkin": "controller.animation.etheria.os.etheria_tfx_dragon_beastkin_022ee3a1",
+    "os_etheria_tfx_true_beastkin": "controller.animation.etheria.os.etheria_tfx_true_beastkin_30e44d4f",
+    "os_etheria_tfx_evo_elf": "controller.animation.etheria.os.etheria_tfx_evo_elf_284c7a37",
+    "os_etheria_tfx_lord_elf": "controller.animation.etheria.os.etheria_tfx_lord_elf_a6896523",
+    "os_etheria_tfx_dragon_elf": "controller.animation.etheria.os.etheria_tfx_dragon_elf_66c288d0",
+    "os_etheria_tfx_true_elf": "controller.animation.etheria.os.etheria_tfx_true_elf_a88ee84e",
+    "os_etheria_tfx_evo_angel": "controller.animation.etheria.os.etheria_tfx_evo_angel_3a3a680e",
+    "os_etheria_tfx_lord_angel": "controller.animation.etheria.os.etheria_tfx_lord_angel_aad4dd76",
+    "os_etheria_tfx_dragon_angel": "controller.animation.etheria.os.etheria_tfx_dragon_angel_933eeda3",
+    "os_etheria_tfx_true_angel": "controller.animation.etheria.os.etheria_tfx_true_angel_a72f0f7d",
+    "os_etheria_tfx_evo_angel_arch": "controller.animation.etheria.os.etheria_tfx_evo_angel_arch_d83a9d4a",
+    "os_etheria_tfx_lord_angel_arch": "controller.animation.etheria.os.etheria_tfx_lord_angel_arch_5748a1b9",
+    "os_etheria_tfx_dragon_angel_arch": "controller.animation.etheria.os.etheria_tfx_dragon_angel_arch_a6059359",
+    "os_etheria_tfx_true_angel_arch": "controller.animation.etheria.os.etheria_tfx_true_angel_arch_e338f51a",
+    "os_etheria_tfx_evo_angel_cherub": "controller.animation.etheria.os.etheria_tfx_evo_angel_cherub_16c1988f",
+    "os_etheria_tfx_lord_angel_cherub": "controller.animation.etheria.os.etheria_tfx_lord_angel_cherub_ceb3a6b7",
+    "os_etheria_tfx_dragon_angel_cherub": "controller.animation.etheria.os.etheria_tfx_dragon_angel_cherub_c2826a8b",
+    "os_etheria_tfx_true_angel_cherub": "controller.animation.etheria.os.etheria_tfx_true_angel_cherub_96251e36",
+    "os_etheria_tfx_evo_angel_seraph": "controller.animation.etheria.os.etheria_tfx_evo_angel_seraph_a6757abb",
+    "os_etheria_tfx_lord_angel_seraph": "controller.animation.etheria.os.etheria_tfx_lord_angel_seraph_dcb4a4b4",
+    "os_etheria_tfx_dragon_angel_seraph": "controller.animation.etheria.os.etheria_tfx_dragon_angel_seraph_005add9c",
+    "os_etheria_tfx_true_angel_seraph": "controller.animation.etheria.os.etheria_tfx_true_angel_seraph_0c12e2dc",
+    "os_etheria_tfx_evo_fallen": "controller.animation.etheria.os.etheria_tfx_evo_fallen_7998ee05",
+    "os_etheria_tfx_lord_fallen": "controller.animation.etheria.os.etheria_tfx_lord_fallen_e8f8d518",
+    "os_etheria_tfx_dragon_fallen": "controller.animation.etheria.os.etheria_tfx_dragon_fallen_7957cccc",
+    "os_etheria_tfx_true_fallen": "controller.animation.etheria.os.etheria_tfx_true_fallen_23f35cbc",
+    "os_etheria_tfx_evo_fallen_lord": "controller.animation.etheria.os.etheria_tfx_evo_fallen_lord_eef36f2b",
+    "os_etheria_tfx_lord_fallen_lord": "controller.animation.etheria.os.etheria_tfx_lord_fallen_lord_7e0430b1",
+    "os_etheria_tfx_dragon_fallen_lord": "controller.animation.etheria.os.etheria_tfx_dragon_fallen_lord_29533e40",
+    "os_etheria_tfx_true_fallen_lord": "controller.animation.etheria.os.etheria_tfx_true_fallen_lord_147000e3",
+    "os_etheria_tfx_evo_lin_veldora_base": "controller.animation.etheria.os.etheria_tfx_evo_lin_veldora_base_7324f5e8",
+    "os_etheria_tfx_lord_lin_veldora_base": "controller.animation.etheria.os.etheria_tfx_lord_lin_veldora_base_873b2bcd",
+    "os_etheria_tfx_dragon_lin_veldora_base": "controller.animation.etheria.os.etheria_tfx_dragon_lin_veldora_base_b3aa70b8",
+    "os_etheria_tfx_true_lin_veldora_base": "controller.animation.etheria.os.etheria_tfx_true_lin_veldora_base_6d48b1de",
+    "os_etheria_tfx_evo_lin_veldora_draconic": "controller.animation.etheria.os.etheria_tfx_evo_lin_veldora_draconic_1b490fcf",
+    "os_etheria_tfx_lord_lin_veldora_draconic": "controller.animation.etheria.os.etheria_tfx_lord_lin_veldora_draconic_ba3bedc4",
+    "os_etheria_tfx_dragon_lin_veldora_draconic": "controller.animation.etheria.os.etheria_tfx_dragon_lin_veldora_draconic_22c26ac9",
+    "os_etheria_tfx_true_lin_veldora_draconic": "controller.animation.etheria.os.etheria_tfx_true_lin_veldora_draconic_aa72a791",
+    "os_etheria_tfx_evo_lin_veldora_true": "controller.animation.etheria.os.etheria_tfx_evo_lin_veldora_true_ada34499",
+    "os_etheria_tfx_lord_lin_veldora_true": "controller.animation.etheria.os.etheria_tfx_lord_lin_veldora_true_a3766ff4",
+    "os_etheria_tfx_dragon_lin_veldora_true": "controller.animation.etheria.os.etheria_tfx_dragon_lin_veldora_true_3cae993d",
+    "os_etheria_tfx_true_lin_veldora_true": "controller.animation.etheria.os.etheria_tfx_true_lin_veldora_true_933acb74",
+    "os_etheria_tfx_evo_lin_velzard_base": "controller.animation.etheria.os.etheria_tfx_evo_lin_velzard_base_32be03f9",
+    "os_etheria_tfx_lord_lin_velzard_base": "controller.animation.etheria.os.etheria_tfx_lord_lin_velzard_base_34801f71",
+    "os_etheria_tfx_dragon_lin_velzard_base": "controller.animation.etheria.os.etheria_tfx_dragon_lin_velzard_base_5ffe2ad3",
+    "os_etheria_tfx_true_lin_velzard_base": "controller.animation.etheria.os.etheria_tfx_true_lin_velzard_base_a936f214",
+    "os_etheria_tfx_evo_lin_velzard_draconic": "controller.animation.etheria.os.etheria_tfx_evo_lin_velzard_draconic_717d5ffd",
+    "os_etheria_tfx_lord_lin_velzard_draconic": "controller.animation.etheria.os.etheria_tfx_lord_lin_velzard_draconic_d721d891",
+    "os_etheria_tfx_dragon_lin_velzard_draconic": "controller.animation.etheria.os.etheria_tfx_dragon_lin_velzard_draconic_9e43c1b4",
+    "os_etheria_tfx_true_lin_velzard_draconic": "controller.animation.etheria.os.etheria_tfx_true_lin_velzard_draconic_04785352",
+    "os_etheria_tfx_evo_lin_velzard_true": "controller.animation.etheria.os.etheria_tfx_evo_lin_velzard_true_928631b8",
+    "os_etheria_tfx_lord_lin_velzard_true": "controller.animation.etheria.os.etheria_tfx_lord_lin_velzard_true_ed705742",
+    "os_etheria_tfx_dragon_lin_velzard_true": "controller.animation.etheria.os.etheria_tfx_dragon_lin_velzard_true_3b0e99ef",
+    "os_etheria_tfx_true_lin_velzard_true": "controller.animation.etheria.os.etheria_tfx_true_lin_velzard_true_bfc8b8e1",
+    "os_etheria_tfx_evo_lin_velgrynd_base": "controller.animation.etheria.os.etheria_tfx_evo_lin_velgrynd_base_57d5c7b0",
+    "os_etheria_tfx_lord_lin_velgrynd_base": "controller.animation.etheria.os.etheria_tfx_lord_lin_velgrynd_base_02dc4301",
+    "os_etheria_tfx_dragon_lin_velgrynd_base": "controller.animation.etheria.os.etheria_tfx_dragon_lin_velgrynd_base_ac620cd5",
+    "os_etheria_tfx_true_lin_velgrynd_base": "controller.animation.etheria.os.etheria_tfx_true_lin_velgrynd_base_018e4cb5",
+    "os_etheria_tfx_evo_lin_velgrynd_draconic": "controller.animation.etheria.os.etheria_tfx_evo_lin_velgrynd_draconic_bab62872",
+    "os_etheria_tfx_lord_lin_velgrynd_draconic": "controller.animation.etheria.os.etheria_tfx_lord_lin_velgrynd_draconic_a442d96c",
+    "os_etheria_tfx_dragon_lin_velgrynd_draconic": "controller.animation.etheria.os.etheria_tfx_dragon_lin_velgrynd_draconic_57410543",
+    "os_etheria_tfx_true_lin_velgrynd_draconic": "controller.animation.etheria.os.etheria_tfx_true_lin_velgrynd_draconic_1ef76225",
+    "os_etheria_tfx_evo_lin_velgrynd_true": "controller.animation.etheria.os.etheria_tfx_evo_lin_velgrynd_true_d79d9818",
+    "os_etheria_tfx_lord_lin_velgrynd_true": "controller.animation.etheria.os.etheria_tfx_lord_lin_velgrynd_true_7ccd7423",
+    "os_etheria_tfx_dragon_lin_velgrynd_true": "controller.animation.etheria.os.etheria_tfx_dragon_lin_velgrynd_true_0ade23e5",
+    "os_etheria_tfx_true_lin_velgrynd_true": "controller.animation.etheria.os.etheria_tfx_true_lin_velgrynd_true_4135215c",
+    "os_etheria_tfx_evo_lin_veldanava_base": "controller.animation.etheria.os.etheria_tfx_evo_lin_veldanava_base_eeb2f074",
+    "os_etheria_tfx_lord_lin_veldanava_base": "controller.animation.etheria.os.etheria_tfx_lord_lin_veldanava_base_3be31722",
+    "os_etheria_tfx_dragon_lin_veldanava_base": "controller.animation.etheria.os.etheria_tfx_dragon_lin_veldanava_base_8222dd21",
+    "os_etheria_tfx_true_lin_veldanava_base": "controller.animation.etheria.os.etheria_tfx_true_lin_veldanava_base_3cb810d7",
+    "os_etheria_tfx_evo_lin_veldanava_draconic": "controller.animation.etheria.os.etheria_tfx_evo_lin_veldanava_draconic_6d23553c",
+    "os_etheria_tfx_lord_lin_veldanava_draconic": "controller.animation.etheria.os.etheria_tfx_lord_lin_veldanava_draconic_524ce032",
+    "os_etheria_tfx_dragon_lin_veldanava_draconic": "controller.animation.etheria.os.etheria_tfx_dragon_lin_veldanava_draconic_7ebf4c7e",
+    "os_etheria_tfx_true_lin_veldanava_draconic": "controller.animation.etheria.os.etheria_tfx_true_lin_veldanava_draconic_f65185f6",
+    "os_etheria_tfx_evo_lin_veldanava_true": "controller.animation.etheria.os.etheria_tfx_evo_lin_veldanava_true_e4c4db64",
+    "os_etheria_tfx_lord_lin_veldanava_true": "controller.animation.etheria.os.etheria_tfx_lord_lin_veldanava_true_ca3fd32d",
+    "os_etheria_tfx_dragon_lin_veldanava_true": "controller.animation.etheria.os.etheria_tfx_dragon_lin_veldanava_true_29b8351a",
+    "os_etheria_tfx_true_lin_veldanava_true": "controller.animation.etheria.os.etheria_tfx_true_lin_veldanava_true_a3444918",
+    "os_tfxb_evo": "controller.animation.etheria.os.tfxb_evo_283857ea",
+    "os_tfxb_lord": "controller.animation.etheria.os.tfxb_lord_d3100346",
+    "os_tfxb_dragon": "controller.animation.etheria.os.tfxb_dragon_e205d196",
+    "os_tfxb_true": "controller.animation.etheria.os.tfxb_true_6d916c41",
+    "os_drg_land": "controller.animation.etheria.os.drg_land_cd01ba74",
+    "os_drg_roar": "controller.animation.etheria.os.drg_roar_2583a69d"
    },
    "render_controllers": [
     {

@@ -160,3 +160,33 @@ for x in range(SW):
 for a in (math.radians(25), math.radians(-25)):   # dois reflexos diagonais curtos
     d.line([(SW / 2 - math.cos(a) * 60, SH / 2 - math.sin(a) * 60), (SW / 2 + math.cos(a) * 60, SH / 2 + math.sin(a) * 60)], fill=110, width=1)
 save(wa(L.filter(ImageFilter.GaussianBlur(0.8))), "ov_v_star.png")
+
+# ------------------------------------------------------------------ 6.58: cena de AQUISIÇÃO DE HABILIDADE idêntica ao vídeo de referência (v7)
+# mundo visível escurecido, anel de traços dourados radiais em volta da lista, pontos dourados flutuando, moldura de cantos dourada
+GOLD = (255, 214, 72)
+def gold_alpha(L, col=GOLD):
+    im = Image.new("RGBA", L.size, col + (0,)); im.putalpha(L); return im
+def s_ring(frame, nfr):
+    S = 512; L = Image.new("L", (S, S), 0); d = ImageDraw.Draw(L); rnd = random.Random(70); c = S / 2; R = S * 0.46
+    N = 72; off = frame * (2 * math.pi / N) / nfr
+    for k in range(N):
+        a = k * 2 * math.pi / N + off; ln = rnd.choice((5, 8, 12, 16)); r0 = R + rnd.uniform(-10, 10); br = rnd.randint(120, 255)
+        if rnd.random() < 0.18: continue   # falhas no anel, como no vídeo
+        if rnd.random() < 0.25:            # pontinho quadrado
+            x, y = c + math.cos(a) * r0, c + math.sin(a) * r0; d.rectangle([x - 2.5, y - 2.5, x + 2.5, y + 2.5], fill=br); continue
+        d.line([(c + math.cos(a) * r0, c + math.sin(a) * r0), (c + math.cos(a) * (r0 + ln), c + math.sin(a) * (r0 + ln))], fill=br, width=3)
+    return gold_alpha(L.filter(ImageFilter.GaussianBlur(0.5)))
+for f in range(6): save(s_ring(f, 6), f"ov_s_ring_{f}.png")
+def s_motes(k):
+    L = Image.new("L", (W, H), 0); d = ImageDraw.Draw(L); rnd = random.Random(80 + k)
+    for _ in range(26):
+        x, y = rnd.uniform(0.18, 0.82) * W, rnd.uniform(0.05, 0.95) * H; s = rnd.choice((1.5, 2, 2.5)); d.rectangle([x - s, y - s, x + s, y + s], fill=rnd.randint(150, 255))
+    return gold_alpha(L)
+for k in range(3): save(s_motes(k), f"ov_s_motes_{k}.png")
+def s_frame():
+    Wf, Hf = 256, 224; L = Image.new("L", (Wf, Hf), 0); d = ImageDraw.Draw(L); a = 30; t = 3
+    for (x, y, sx, sy) in ((2, 2, 1, 1), (Wf - 3, 2, -1, 1), (2, Hf - 3, 1, -1), (Wf - 3, Hf - 3, -1, -1)):
+        d.line([(x, y), (x + sx * a, y)], fill=255, width=t); d.line([(x, y), (x, y + sy * a * 0.45)], fill=255, width=t)
+    d.line([(Wf * 0.18, 2), (Wf * 0.82, 2)], fill=150, width=1); d.line([(Wf * 0.18, Hf - 3), (Wf * 0.82, Hf - 3)], fill=150, width=1)
+    return gold_alpha(L)
+save(s_frame(), "ov_s_frame.png")

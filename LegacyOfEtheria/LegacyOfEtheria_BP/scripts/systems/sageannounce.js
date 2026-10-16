@@ -219,31 +219,32 @@ export function announceEvolution(p, from, to, fromId, toId) {
   submitAnn(p, { evolution: { from, to, fromKey: raceKey(fromId, from), toKey: raceKey(toId, to) }, entries: s.pending.splice(0), notice: true });
 }
 /** subiu de nível: mostrado na cena da Voz do Mundo (6.36) em vez de chat + título + barra. info = { attr, skillPt, evo } */
+// 6.58: ORDEM DO JOGADOR — a cena do Grande Sábio só aparece em EVOLUÇÃO DE RAÇA, AQUISIÇÃO DE HABILIDADE (única/normal) e cerimônias
+// de desbloqueio. Nível, conquistas, avisos e análises viram UMA linha discreta no chat (sem cena, sem interromper, sem repetir).
+const chatOnce = new Map();   // pid -> Map(texto -> tick) (evita a mesma linha repetida em sequência)
+function chat(p, msg) {
+  try { const m = chatOnce.get(p.id) ?? new Map(); chatOnce.set(p.id, m); const t = m.get(msg); if (t && system.currentTick - t < 600) return; m.set(msg, system.currentTick); if (m.size > 40) m.clear(); p.sendMessage(msg); } catch { /* ignore */ }
+}
+/** subiu de nível. info = { attr, skillPt } */
 export function announceLevel(p, to, info = {}) {
   if (!ok(p)) return;
-  if (!enabled(p)) { try { p.sendMessage(`§6§l[Etheria]§r §eNível §f${to}§e!`); } catch { /* ignore */ } return; }
-  const s = st(p), c = s.cur;
-  // vários níveis seguidos: atualiza o anúncio que ainda está na fila em vez de empilhar cenas
-  const q = s.queue.find((x) => x.level); if (q) { q.level = { ...q.level, ...info, to, attr: (q.level.attr ?? 0) + (info.attr ?? 0) }; return; }
-  if (c?.o.level && nowMs(s) < 600) { c.o.level = { ...c.o.level, ...info, to, attr: (c.o.level.attr ?? 0) + (info.attr ?? 0) }; rebuild(p); return; }
-  submitAnn(p, { level: { to, ...info }, entries: [], theme: "sage" });
+  const T = TXT[lang(p)];
+  chat(p, `§8[§bSÁBIO§8] §e${T.level} ${to}§7${info.attr ? ` · ${T.attr(info.attr)}` : ""}${info.skillPt ? ` · ${T.skillpt}` : ""}`);
 }
-/** aviso curto na cena (ex.: evolução disponível). Se houver um anúncio de nível na fila/tela, vira uma linha dele. */
+/** aviso curto (evolução disponível, conquistas, despertares prontos) */
 export function announceInfo(p, header, name, hint = "", tier = "intrinsic") {
   if (!ok(p)) return;
-  if (!enabled(p)) { try { p.sendMessage(`§a§l${header}§r §f${name}`); } catch { /* ignore */ } return; }
-  const s = st(p), q = s.queue.find((x) => x.level) ?? (s.cur?.o.level ? s.cur.o : null);
-  if (q && tier === "intrinsic") { q.level.evo = name; if (q === s.cur?.o) rebuild(p); return; }
-  submitAnn(p, { info: { header, name, hint, tier }, entries: [], theme: "sage" });
+  chat(p, `§8[§bSÁBIO§8] ${TIER_COL[tier] ?? "§a"}${header}§r §f${name}${hint ? ` §8— §7${hint}` : ""}`);
 }
-export function announceAnalysis(p, name) { if (ok(p) && enabled(p)) submitAnn(p, { analysis: { name }, entries: [], notice: true }); }
+export function announceAnalysis(p, name) { if (ok(p)) chat(p, `§8[§bSÁBIO§8] §b${name} §7— ${TXT[lang(p)].sub.analysis}`); }
 
 // ------------------------------------------------------------------ desenho (a cada tick)
 function lineText(l, t, L) {
   if (l.type === "CEREMONY") return null;
   const k = Math.min(1, Math.max(0, (t - l.at) / TYPE_MS));
-  const full = l.type === "TIER" ? `${TIER_COL[l.tier]}§l${l.text}` : l.type === "SKILL" ? `§f${l.text}` : l.type === "ANALYSED" ? `§b${l.text}` : l.type === "RACE_TO" ? `§6§l${l.text}` : `§7${l.text}`;
-  if (l.type === "SKILL" || l.type === "ANALYSED") return full;           // nomes entram de uma vez (impacto)
+  const full = l.type === "TIER" ? `${TIER_COL[l.tier]}—— §l${l.text}§r${TIER_COL[l.tier]} ——` : l.type === "SKILL" ? `§f${l.text}` : l.type === "ANALYSED" ? `§b${l.text}` : l.type === "RACE_TO" ? `§6§l${l.text}` : `§7${l.text}`;
+  if (l.type === "SKILL" || l.type === "ANALYSED") return full;
+  if (l.type === "TIER") { const n = Math.max(1, Math.ceil(l.text.length * k)); return `${TIER_COL[l.tier]}—— §l${l.text.slice(0, n)}§r${TIER_COL[l.tier]}${k < 1 ? "" : " ——"}`; }           // nomes entram de uma vez (impacto)
   const raw = l.text, n = Math.max(1, Math.ceil(raw.length * k));       // categorias e raças são digitadas
   return full.slice(0, full.length - raw.length + n) + (k < 1 ? "§8_" : "");
 }
@@ -265,11 +266,12 @@ function renderFrame(p, first = false) {
   const subs = A.sub.filter((x) => x.at <= t), last = subs[subs.length - 1], narr = last && t < (last.until ?? last.at + 2600) ? last.text : "";
   const subtitle = `${body}${narr ? `${body ? "\n\n" : "\n\n\n\n\n\n\n"}§7${narr}` : ""}` || " ";
   const newSlam = vis.filter((l) => l.type === "SKILL" || l.type === "ANALYSED").length;
-  const fx = first ? "open" : newSlam > c.fxCount ? "slam" : null;
+  const v7 = !c.o.ceremony;   // 6.58: aquisição/evolução = cena do vídeo de referência (mundo escurecido, anel dourado, moldura)
+  const fx = v7 ? null : first ? "open" : newSlam > c.fxCount ? "slam" : null;
   if (newSlam > c.fxCount) c.fxCount = newSlam;
-  const title = `${VOICE_MARK}${THEME[A.theme] ?? THEME.sage}${c.o.ceremony ? "§3§7" : ""}${FX[fx ?? "none"]}§r${cer ? `§c§l${cer.text}` : ""}`;
+  const title = `${VOICE_MARK}${THEME[A.theme] ?? THEME.sage}${c.o.ceremony ? "§3§7" : `§3§6${list.length >= 2 ? "§3§5" : ""}`}${FX[fx ?? "none"]}§r${cer ? `§c§l${cer.text}` : ""}`;
   try {
-    if (fx || c.lastTitle !== title.replace(/§1§9|§2§8/, "")) { p.onScreenDisplay.setTitle(title, { subtitle, fadeInDuration: 0, stayDuration: 400, fadeOutDuration: 0 }); c.lastTitle = title.replace(/§1§9|§2§8/, ""); c.lastSub = subtitle; c.keep = system.currentTick; }
+    if (fx || first || c.lastTitle !== title.replace(/§1§9|§2§8/, "")) { p.onScreenDisplay.setTitle(title, { subtitle, fadeInDuration: 0, stayDuration: 400, fadeOutDuration: 0 }); c.lastTitle = title.replace(/§1§9|§2§8/, ""); c.lastSub = subtitle; c.keep = system.currentTick; }
     else if (subtitle !== c.lastSub) { p.onScreenDisplay.updateSubtitle(subtitle); c.lastSub = subtitle; }
     if (system.currentTick - (c.keep ?? 0) > 300) { p.onScreenDisplay.setTitle(title.replace(/§1§9|§2§8/, ""), { subtitle, fadeInDuration: 0, stayDuration: 400, fadeOutDuration: 0 }); c.keep = system.currentTick; }
   } catch { /* ignore */ }

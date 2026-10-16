@@ -201,6 +201,17 @@ hud["root_panel"] = {"modifications": [{"array_name": "controls", "operation": "
 # o título é recriado a cada "impacto": efeitos de um disparo só vivem dentro dele (abertura do núcleo e onda de choque de cada nome)
 hud["hud_title_text"] = {"modifications": [{"array_name": "controls", "operation": "insert_back", "value": [{"eth_title_fx@hud.eth_title_fx": {}}]}]}
 hud.update(anim_defs("hud")); hud.update(video_anims("hud"))
+SKM, SKF = "§3§6", "§3§5"   # 6.58: cena de aquisição (vídeo v7) | moldura de cantos visível (2+ entradas)
+_sa = {}; frame_cycle(_sa, "hud", "eth_sr", 6, 0.35); frame_cycle(_sa, "hud", "eth_sm", 3, 0.6); hud.update(_sa)
+hud["eth_s_in"] = {"anim_type": "alpha", "easing": "out_quad", "from": 0.0, "to": 0.55, "duration": 0.5}
+def skill_overlay():
+    full = lambda tex, **kw: {"type": "image", "texture": f"textures/ui/etheria/{tex}", "size": ["100%", "100%"], "keep_ratio": False, "fill": True, **kw}
+    ctr = lambda tex, sz, **kw: {"type": "image", "texture": f"textures/ui/etheria/{tex}", "size": sz, "anchor_from": "center", "anchor_to": "center", **kw}
+    c = [{"veil": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "alpha": 0.55, "layer": 61, "anims": ["@hud.eth_s_in"]}}]
+    for k in range(6): c.append({f"sr{k}": ctr(f"ov_s_ring_{k}", ["92%y", "92%y"], offset=[0, "-2%"], alpha=0.0, layer=62, anims=[f"@hud.eth_sr{k}_start"])})
+    for k in range(3): c.append({f"sm{k}": full(f"ov_s_motes_{k}", alpha=0.0, layer=62, anims=[f"@hud.eth_sm{k}_start"])})
+    c.append({"frame": ctr("ov_s_frame", ["60%y", "52%y"], offset=[0, "1%"], layer=63, bindings=vis("#hud_title_text_string", has("#hud_title_text_string", SKF), True))})
+    return [{"skill_scene": {"type": "panel", "size": ["100%", "100%"], "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", SKM), True), "controls": c}}]
 hud["eth_ring_open_size"] = {"anim_type": "size", "easing": "out_expo", "from": [40, 18], "to": [520, 230], "duration": 1.1}
 hud["eth_ring_open_alpha"] = {"anim_type": "alpha", "easing": "linear", "from": 1.0, "to": 0.0, "duration": 0.9}
 hud["eth_flash_open_size"] = {"anim_type": "size", "easing": "out_expo", "from": [40, 40], "to": [760, 760], "duration": 0.9}
@@ -219,11 +230,14 @@ hud["eth_title_fx"] = {"type": "panel", "size": [0, 0], "layer": 150, "bindings"
 hud["eth_world_voice"] = {"type": "panel", "size": ["100%", "100%"], "layer": 60, "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", HUDMARK), True), "controls": [
     {"black": {"type": "image", "texture": "textures/ui/Black", "size": ["100%", "100%"], "layer": 60, "bindings": vis("#hud_title_text_string", has("#hud_title_text_string", CER), True)}},
     # 6.56: IDÊNTICO ao vídeo do mod: tela cheia (cerimônias e anúncios), fundo estrelado, raios, poliedro de arame e estrela central
-] + fx_video("hud", "#hud_title_text_string", True, 61) + [
+] + skill_overlay() + [{"video": {"type": "panel", "size": ["100%", "100%"], "bindings": vis("#hud_title_text_string", lacks("#hud_title_text_string", SKM), True),
+    "controls": fx_video("hud", "#hud_title_text_string", True, 61)}}] + [
     {"title": {"type": "label", "text": "#text", "localize": False, "font_size": "extra_large", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "24%"], "size": ["90%", "default"], "layer": 63,
         "bindings": [{"binding_name": "#hud_title_text_string", "binding_name_override": "#text", "binding_type": "global"}]}},
     {"lines": {"type": "label", "text": "#text", "localize": False, "font_size": "normal", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "38%"], "size": ["80%", "default"], "layer": 63,
-        "bindings": [{"binding_name": "#hud_subtitle_text_string", "binding_name_override": "#text", "binding_type": "global"}]}},
+        "bindings": [{"binding_name": "#hud_subtitle_text_string", "binding_name_override": "#text", "binding_type": "global"}] + vis("#hud_title_text_string", lacks("#hud_title_text_string", SKM), True)}},
+    {"lines_s": {"type": "label", "text": "#text", "localize": False, "font_size": "normal", "shadow": True, "text_alignment": "center", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "28%"], "size": ["56%y", "default"], "layer": 64,
+        "bindings": [{"binding_name": "#hud_subtitle_text_string", "binding_name_override": "#text", "binding_type": "global"}] + vis("#hud_title_text_string", has("#hud_title_text_string", SKM), True)}},
 ]}
 json.dump(hud, open(os.path.join(RP, "ui/hud_screen.json"), "w", encoding="utf8"), ensure_ascii=False, indent=1)
 print("ok")
