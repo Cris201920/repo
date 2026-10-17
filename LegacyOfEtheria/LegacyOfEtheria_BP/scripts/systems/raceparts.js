@@ -56,7 +56,7 @@ export const STAGE_LOOK_MAP = {
   angel_f1: "fallen_angel", angel_f2: "fallen_angel", angel_f3: "fallen_angel", angel_f4: {}, angel_f5: {},
   fall_2: "fallen_angel", fall_3: "fallen_angel", fall_4: {}, fall_5: {},
   // dragonoide: corpo próprio (kit corporal 3 = escamas) desde o 1º estágio
-  dragonoid_1: { body: 3, tail: 3, horns: 6 }, dragonoid_2a: "dragonewt", dragonoid_2b: "dragonewt", dragonoid_3a: "true_dragonewt", dragonoid_3b: "divine_dragon",
+  dragonoid_1: { body: 3, tail: 3, horns: 6, wings: 5 }, dragonoid_2a: "dragonewt", dragonoid_2b: "dragonewt", dragonoid_3a: "true_dragonewt", dragonoid_3b: "divine_dragon",
   // bestial
   beastkin_1: "beastfolk", beastkin_2a: "okami", beastkin_2b: "beastfolk", beastkin_3a: "beast_lord", beastkin_3b: "spirit_beast",
   // morto-vivo (sem entrada no Tensura: aura de trevas/almas e halo sombrio nos superiores)
