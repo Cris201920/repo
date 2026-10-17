@@ -39,7 +39,7 @@ export const FAMILY_SKILLS = [
 ];
 const TIER = { common: 1, uncommon: 1.4, rare: 2, epic: 3, legendary: 4.5, special: 6, boss: 9 };
 const BASE = 0.025, PITY_STEP = 0.002, PITY_MAX = 0.03, CAP = 0.4;
-const PRED_BASE = 0.008, PRED_PITY_STEP = 0.0006, PRED_PITY_MAX = 0.04, PRED_CAP = 0.15;
+const PRED_BASE = 0.002, PRED_PITY_STEP = 0.0002, PRED_PITY_MAX = 0.01, PRED_CAP = 0.04;   // 6.98: Predador bem mais raro
 const PRED_ANY = ["predator", "gluttony", "beelzebuth"];
 
 export function familyOf(typeId) {

@@ -16,6 +16,9 @@ import { SOUNDS, RARITY, STARTER_WEIGHT, UNIQUE_HARD, MAX_LEVEL } from "../confi
 const PRED_LINE = ["predator", "gluttony", "beelzebuth"];
 /** 6.87: quem tem a linha do Predador mantém as regras antigas; os demais têm Únicas mais difíceis */
 export const hardUnique = (d) => !PRED_LINE.some((k) => hasSkill(d, k));
+/** 6.98: quantas Únicas o personagem tem e quantas o núcleo suporta */
+export const uniqueCount = (d) => Object.keys(SKILLS).filter((k) => SKILLS[k].cat === "Única" && hasSkill(d, k)).length;
+export const uniqueCap = (d) => UNIQUE_HARD.capBase + Math.floor((d.level ?? 1) / UNIQUE_HARD.capPerLevels) + (hardUnique(d) ? 0 : UNIQUE_HARD.capPred);
 import { menu } from "./ui/forms.js";
 import { learn, remember, addBond, addExp } from "./sageknow.js";
 import { emit, EV } from "../core/bus.js";
@@ -35,11 +38,12 @@ export function conditions(d, id) {
   let u = SKILLS[id]?.unlock; if (!u) return [];
   const sg = sageCfg(d), s = stat(d), out = [];
   const add = (ok, text) => out.push({ ok, text });
-  const H = hardUnique(d), M = (n) => (H ? Math.ceil(n * UNIQUE_HARD.mult) : n);   // 6.87: requisitos maiores sem o Predador
-  u = H ? { ...u, level: u.level ? Math.min(MAX_LEVEL ?? 100, u.level + UNIQUE_HARD.levelAdd) : u.level, kills: u.kills && M(u.kills), analyses: u.analyses && M(u.analyses),
+  const H = hardUnique(d), U = UNIQUE_HARD, mult = H ? U.mult : U.predMult, lvAdd = H ? U.levelAdd : U.predLevelAdd, mAdd = H ? U.masteryAdd : U.predMasteryAdd;
+  const M = (n) => Math.ceil(n * mult);   // 6.98: requisitos maiores para todos (a linha do Predador só tem menos acréscimo)
+  u = { ...u, level: u.level ? Math.min(MAX_LEVEL ?? 100, u.level + lvAdd) : u.level, kills: u.kills && M(u.kills), analyses: u.analyses && M(u.analyses),
     discoveries: u.discoveries && M(u.discoveries), mastery_total: u.mastery_total && M(u.mastery_total), bossKills: u.bossKills && M(u.bossKills), boss: u.boss && M(u.boss),
     devoured: u.devoured && M(u.devoured), coins: u.coins && M(u.coins), hurt: u.hurt && M(u.hurt), idle: u.idle && M(u.idle), distance: u.distance && M(u.distance),
-    mastery: u.mastery && Object.fromEntries(Object.entries(u.mastery).map(([k, v]) => [k, v + UNIQUE_HARD.masteryAdd])) } : u;
+    mastery: u.mastery && Object.fromEntries(Object.entries(u.mastery).map(([k, v]) => [k, Math.min(10, v + mAdd)])) };
   if (u.level) add(d.level >= u.level, `Nível ${u.level}`);
   if (u.kills) add(d.kills >= u.kills, `${u.kills} abates (${d.kills})`);
   if (u.analyses) add(sg.analyses >= u.analyses, `${u.analyses} análises (${sg.analyses})`);
@@ -54,10 +58,17 @@ export function conditions(d, id) {
   if (u.hurt) add(s.hurt >= u.hurt, `Sofrer ${u.hurt} golpes (${s.hurt})`);
   if (u.idle) add(s.idle >= u.idle * 300, `Meditar ${u.idle * 5} min parado`);
   if (u.distance) add(s.dist >= u.distance * 1000, `Percorrer ${u.distance * 1000} blocos`);
+  if (out.length && !SKILLS[id]?.unlock?.combine) {   // 6.98: limite de Únicas no núcleo e espera entre descobertas
+    const n = uniqueCount(d), cap = uniqueCap(d);
+    add(n < cap, `Espaço no núcleo para Únicas (${n}/${cap}; +1 a cada ${U.capPerLevels} níveis)`);
+    const left = Math.ceil(((d.lastUniqueAt ?? 0) + U.cooldownMin * 60000 - Date.now()) / 60000);
+    add(left <= 0, left > 0 ? `Núcleo estabilizando (faltam ${left} min)` : "Núcleo estável");
+  }
   return out;
 }
 
 function discover(player, id) {
+  try { getData(player).lastUniqueAt = Date.now(); } catch { /* ignore */ }
   const d = getData(player), sk = SKILLS[id];
   grantSkill(player, id); applyDerivedStats(player);
   try { learn(player, "evolutions", "disc_" + id, `Descoberta: ${sk.name}`, {}, true); remember(player, "know", `Descobriu ${sk.name}`); addExp(player, 10); } catch { /* ignore */ }
@@ -164,7 +175,7 @@ export function grantStarter(player) {
     return false;
   }
   const id = rollStarter(hard), sk = SKILLS[id], R = RARITY[sk.rarity];
-  d.starterUnique = id;                                    // FASE 7 (primeiro, por segurança): salva permanentemente
+  d.starterUnique = id; d.lastUniqueAt = Date.now();      // FASE 7 (primeiro, por segurança): salva permanentemente
   grantSkill(player, id); applyDerivedStats(player); saveNow(player);
   if (sceneOn(player)) return true;   // 6.35: só a cena da Voz do Mundo
   const c = ctx(player, 2), p = player.location;

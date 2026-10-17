@@ -1,6 +1,6 @@
 // config.js - Constantes e balanceamento (edite aqui, sem mexer na lógica)
 export const BUILD_PROFILE = "quality"; // o build troca para "performance" na versão leve
-export const VERSION = "6.97.0";
+export const VERSION = "6.98.0";
 export const PROP_KEY = "etheria:data";
 export const WORLD_RANK_KEY = "etheria:ranking";
 export const DATA_VERSION = 3;          // v3: hotbar de habilidades (loadout, instâncias, recargas salvas)
@@ -64,7 +64,9 @@ export const STARTER_WEIGHT = { rare: 14, epic: 10, legendary: 3.5, mythic: 1.2 
 // 6.87: Únicas mais difíceis para quem NÃO tem a linha do Predador (Predador/Gula/Beelzebuth). Quem tem o Predador mantém as regras antigas.
 //   mult: requisitos numéricos de descoberta (abates, análises, chefes, distância...) · levelAdd: nível extra · masteryAdd: +nível de maestria
 //   starterChance: chance de nascer com uma Única · starterRare: peso das Únicas lendárias/míticas no sorteio inicial
-export const UNIQUE_HARD = { mult: 1.8, levelAdd: 10, masteryAdd: 1, starterChance: 0.35, starterRare: { legendary: 0.4, mythic: 0.3 } }; // sorteio da Única inicial (usa a raridade existente)
+export const UNIQUE_HARD = { mult: 3.0, levelAdd: 20, masteryAdd: 2, starterChance: 0.15, starterRare: { legendary: 0.25, mythic: 0.15 },
+  predMult: 1.8, predLevelAdd: 8, predMasteryAdd: 1,          // 6.98: a linha do Predador também tem requisitos maiores (só que menos)
+  capBase: 1, capPerLevels: 30, capPred: 1, cooldownMin: 90 };   // limite de Únicas por nível e espera entre descobertas // sorteio da Única inicial (usa a raridade existente)
 export const RARITY_ORDER = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "divine"];
 
 // Combate (tudo balanceável aqui)
