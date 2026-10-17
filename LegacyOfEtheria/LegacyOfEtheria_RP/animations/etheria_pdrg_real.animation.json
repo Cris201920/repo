@@ -55,36 +55,134 @@
     },
     "d_tail1": {
      "rotation": [
-      "math.sin(query.life_time * 50 - 20) * 2",
+      "math.sin(query.life_time * 50 - 20) * 5",
       "math.sin(query.life_time * 40 - 35) * 8",
       0
      ]
     },
     "d_tail2": {
      "rotation": [
-      "math.sin(query.life_time * 50 - 40) * 2",
+      "math.sin(query.life_time * 50 - 40) * 5",
       "math.sin(query.life_time * 40 - 70) * 12",
       0
      ]
     },
     "d_tail3": {
      "rotation": [
-      "math.sin(query.life_time * 50 - 60) * 2",
+      "math.sin(query.life_time * 50 - 60) * 5",
       "math.sin(query.life_time * 40 - 105) * 16",
       0
      ]
     },
     "d_tail4": {
      "rotation": [
-      "math.sin(query.life_time * 50 - 80) * 2",
+      "math.sin(query.life_time * 50 - 80) * 5",
       "math.sin(query.life_time * 40 - 140) * 20",
       0
      ]
     },
     "d_tail5": {
      "rotation": [
-      "math.sin(query.life_time * 50 - 100) * 2",
+      "math.sin(query.life_time * 50 - 100) * 5",
       "math.sin(query.life_time * 40 - 175) * 24",
+      0
+     ]
+    },
+    "d_lower_jaw": {
+     "rotation": [
+      "Math.max(0, math.sin(query.life_time * 23) - 0.85) * 120",
+      0,
+      0
+     ]
+    },
+    "d_left_wing_top": {
+     "rotation": [
+      0,
+      "math.sin(query.life_time * 80) * 3",
+      "math.sin(query.life_time * 80 - 40) * 2"
+     ]
+    },
+    "d_right_wing_top": {
+     "rotation": [
+      0,
+      "-math.sin(query.life_time * 80) * 3",
+      "-math.sin(query.life_time * 80 - 40) * 2"
+     ]
+    },
+    "x_serp1": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 40) * 6",
+      "math.sin(query.life_time * 35 - 45) * 10",
+      0
+     ]
+    },
+    "x_serp2": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 80) * 6",
+      "math.sin(query.life_time * 35 - 90) * 10",
+      0
+     ]
+    },
+    "x_serp3": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 120) * 6",
+      "math.sin(query.life_time * 35 - 135) * 10",
+      0
+     ]
+    },
+    "x_serp4": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 160) * 6",
+      "math.sin(query.life_time * 35 - 180) * 10",
+      0
+     ]
+    },
+    "x_serp5": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 200) * 6",
+      "math.sin(query.life_time * 35 - 225) * 10",
+      0
+     ]
+    },
+    "x_serp6": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 240) * 6",
+      "math.sin(query.life_time * 35 - 270) * 10",
+      0
+     ]
+    },
+    "x_mane1": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 30) * 6",
+      "math.sin(query.life_time * 60 - 50) * 8",
+      0
+     ]
+    },
+    "x_mane2": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 60) * 6",
+      "math.sin(query.life_time * 60 - 100) * 8",
+      0
+     ]
+    },
+    "x_mane3": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 90) * 6",
+      "math.sin(query.life_time * 60 - 150) * 8",
+      0
+     ]
+    },
+    "x_mane4": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 120) * 6",
+      "math.sin(query.life_time * 60 - 200) * 8",
+      0
+     ]
+    },
+    "x_mane5": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 150) * 6",
+      "math.sin(query.life_time * 60 - 250) * 8",
       0
      ]
     }
@@ -237,6 +335,62 @@
       "math.sin(query.life_time * 40 - 175) * 14",
       0
      ]
+    },
+    "d_lower_jaw": {
+     "rotation": [
+      "Math.max(0, math.sin(query.life_time * 23) - 0.85) * 120",
+      0,
+      0
+     ]
+    },
+    "d_left_wing_top": {
+     "rotation": [
+      0,
+      "math.sin(query.life_time * 80) * 3",
+      "math.sin(query.life_time * 80 - 40) * 2"
+     ]
+    },
+    "d_right_wing_top": {
+     "rotation": [
+      0,
+      "-math.sin(query.life_time * 80) * 3",
+      "-math.sin(query.life_time * 80 - 40) * 2"
+     ]
+    },
+    "x_mane1": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 30) * 6",
+      "math.sin(query.life_time * 60 - 50) * 8",
+      0
+     ]
+    },
+    "x_mane2": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 60) * 6",
+      "math.sin(query.life_time * 60 - 100) * 8",
+      0
+     ]
+    },
+    "x_mane3": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 90) * 6",
+      "math.sin(query.life_time * 60 - 150) * 8",
+      0
+     ]
+    },
+    "x_mane4": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 120) * 6",
+      "math.sin(query.life_time * 60 - 200) * 8",
+      0
+     ]
+    },
+    "x_mane5": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 150) * 6",
+      "math.sin(query.life_time * 60 - 250) * 8",
+      0
+     ]
     }
    }
   },
@@ -327,36 +481,134 @@
     },
     "d_tail1": {
      "rotation": [
-      "math.sin(query.life_time * 50 - 20) * 2",
+      "math.sin(query.life_time * 50 - 20) * 5",
       "math.sin(query.life_time * 40 - 35) * 8",
       0
      ]
     },
     "d_tail2": {
      "rotation": [
-      "math.sin(query.life_time * 50 - 40) * 2",
+      "math.sin(query.life_time * 50 - 40) * 5",
       "math.sin(query.life_time * 40 - 70) * 12",
       0
      ]
     },
     "d_tail3": {
      "rotation": [
-      "math.sin(query.life_time * 50 - 60) * 2",
+      "math.sin(query.life_time * 50 - 60) * 5",
       "math.sin(query.life_time * 40 - 105) * 16",
       0
      ]
     },
     "d_tail4": {
      "rotation": [
-      "math.sin(query.life_time * 50 - 80) * 2",
+      "math.sin(query.life_time * 50 - 80) * 5",
       "math.sin(query.life_time * 40 - 140) * 20",
       0
      ]
     },
     "d_tail5": {
      "rotation": [
-      "math.sin(query.life_time * 50 - 100) * 2",
+      "math.sin(query.life_time * 50 - 100) * 5",
       "math.sin(query.life_time * 40 - 175) * 24",
+      0
+     ]
+    },
+    "d_lower_jaw": {
+     "rotation": [
+      "Math.max(0, math.sin(query.life_time * 23) - 0.85) * 120",
+      0,
+      0
+     ]
+    },
+    "d_left_wing_top": {
+     "rotation": [
+      0,
+      "math.sin(query.life_time * 80) * 3",
+      "math.sin(query.life_time * 80 - 40) * 2"
+     ]
+    },
+    "d_right_wing_top": {
+     "rotation": [
+      0,
+      "-math.sin(query.life_time * 80) * 3",
+      "-math.sin(query.life_time * 80 - 40) * 2"
+     ]
+    },
+    "x_serp1": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 40) * 6",
+      "math.sin(query.life_time * 35 - 45) * 10",
+      0
+     ]
+    },
+    "x_serp2": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 80) * 6",
+      "math.sin(query.life_time * 35 - 90) * 10",
+      0
+     ]
+    },
+    "x_serp3": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 120) * 6",
+      "math.sin(query.life_time * 35 - 135) * 10",
+      0
+     ]
+    },
+    "x_serp4": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 160) * 6",
+      "math.sin(query.life_time * 35 - 180) * 10",
+      0
+     ]
+    },
+    "x_serp5": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 200) * 6",
+      "math.sin(query.life_time * 35 - 225) * 10",
+      0
+     ]
+    },
+    "x_serp6": {
+     "rotation": [
+      "math.sin(query.life_time * 45 - 240) * 6",
+      "math.sin(query.life_time * 35 - 270) * 10",
+      0
+     ]
+    },
+    "x_mane1": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 30) * 6",
+      "math.sin(query.life_time * 60 - 50) * 8",
+      0
+     ]
+    },
+    "x_mane2": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 60) * 6",
+      "math.sin(query.life_time * 60 - 100) * 8",
+      0
+     ]
+    },
+    "x_mane3": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 90) * 6",
+      "math.sin(query.life_time * 60 - 150) * 8",
+      0
+     ]
+    },
+    "x_mane4": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 120) * 6",
+      "math.sin(query.life_time * 60 - 200) * 8",
+      0
+     ]
+    },
+    "x_mane5": {
+     "rotation": [
+      "math.sin(query.life_time * 90 - 150) * 6",
+      "math.sin(query.life_time * 60 - 250) * 8",
       0
      ]
     }

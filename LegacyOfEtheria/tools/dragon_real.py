@@ -45,6 +45,13 @@ def tile_img(kind, a, b, c=None, seed=1):
         d.ellipse([2, 4, 13, 11], fill=b + (255,)); d.line([(7, 4), (7, 11)], fill=(10, 10, 10, 255), width=2)
     elif kind == "solid":
         pass
+    if kind in ("scales", "plates", "metal", "membrane", "feathers"):   # volume: borda superior clara, base mais escura, ruído fino
+        px = im.load()
+        for yy in range(TS):
+            f = 1.12 - 0.3 * (yy / (TS - 1))
+            for xx in range(TS):
+                r_, g_, b_, a_ = px[xx, yy]; n = rnd.randint(-7, 7)
+                px[xx, yy] = (max(0, min(255, int(r_ * f) + n)), max(0, min(255, int(g_ * f) + n)), max(0, min(255, int(b_ * f) + n)), a_)
     return im
 TILES = ["back", "side", "belly", "wing", "wbone", "horn", "claw", "eye", "glow", "acc1", "acc2", "mane", "teeth", "mouth", "acc3", "spike"]
 DRAGONS = {
@@ -300,6 +307,28 @@ def build(name, cfg):
         else:    # Velgrynd: asas VERMELHAS de morcego
             for side, sg in (("left", -1), ("right", 1)):
                 wing(g, side, (sg * 12 * s, 72 * s, -20 * s), sg, cfg, scale=s * 0.9)
+    # ---------- 6.88.1: mais detalhes
+    if name == "velzard":   # mais cristais de gelo ao redor do corpo + 2 mechas extras na juba
+        g.add("x_cryst", [rod((sg * (26 + k * 6) * s, 30 * s, (60 + k * 40) * s), (sg * (36 + k * 6) * s, (58 - k * 4) * s, (66 + k * 40) * s), (10 - k) * s, (10 - k) * s, "acc1" if k % 2 else "acc3") for sg in (1, -1) for k in range(4)])
+        hp = g.idx["d_head"]["pivot"]
+        for k, sg in ((4, -2), (5, 2)):
+            p0 = (sg * 4 * s, hp[1] + 12 * s, hp[2] + 6 * s)
+            g.bone(f"x_mane{k}", "d_head", p0, taper([p0, (sg * 9 * s, hp[1] + 18 * s, hp[2] + 30 * s), (sg * 14 * s, hp[1] + 10 * s, hp[2] + 56 * s), (sg * 18 * s, hp[1] - 2 * s, hp[2] + 80 * s)], 7 * s, 3 * s, "mane", hk=0.5))
+    if name == "velgrynd":   # garras nas pontas das asas + lâminas/brasas no pescoço
+        for side, sg in (("left", -1), ("right", 1)):
+            for nb in ("top", "mid"):
+                b_ = g.idx[f"d_{side}_wing_{nb}"]; pv = b_["pivot"]
+                g.add(f"d_{side}_wing_{nb}", [rod(pv, (pv[0] + sg * 3 * s, pv[1] + 7 * s, pv[2] - 2 * s), 2.4 * s, 2.4 * s, "horn")])
+        for nb in ("d_neck1", "d_neck2", "d_neck3"):
+            pp = g.idx[nb]["pivot"]; g.add(nb, [rod((sg * 9 * s, pp[1] + 2 * s, pp[2]), (sg * 20 * s, pp[1] + 8 * s, pp[2] + 8 * s), 2.5 * s, 4 * s, "spike") for sg in (1, -1)])
+    if name == "veldanava":   # leque de espinhos na ponta da cauda + espinhos-barbatana na mandíbula + penas extras nas asas
+        tp = g.idx["d_tail5"]["pivot"]
+        g.add("d_tail5", [rod((0, tp[1], tp[2] + 20 * s), (sg * 10 * s, tp[1] + 6 * s, tp[2] + 36 * s), 3 * s, 6 * s, "spike") for sg in (-1, 0, 1)])
+        hp = g.idx["d_head"]["pivot"]
+        g.add("d_lower_jaw", [rod((sg * 6 * s, hp[1] - 10 * s, hp[2] - 10 * s), (sg * 14 * s, hp[1] - 18 * s, hp[2] + 4 * s), 2.5 * s, 2.5 * s, "spike") for sg in (1, -1)])
+        for side, sg in (("left", -1), ("right", 1)):
+            pv = g.idx[f"d_{side}_wing_mid"]["pivot"]
+            g.add(f"d_{side}_wing_mid", [box((pv[0] + sg * (10 + k * 10) * s, pv[1] - (70 + k * 6) * s, pv[2] + 2), (8 * s, 26 * s, 1.6), "wing") for k in range(4)])
     # forma verdadeira (só aparece com lform == true): coroa + anel de energia
     hp = g.idx["d_head"]["pivot"]
     crown = [rod((math.sin(a) * 9 * s, hp[1] + 12 * s, hp[2] - 2 * s + math.cos(a) * 9 * s), (math.sin(a) * 11 * s, hp[1] + 22 * s, hp[2] - 2 * s + math.cos(a) * 11 * s), 2.2 * s, 2.2 * s, "glow") for a in [k * 0.9 for k in range(7)]]
@@ -327,7 +356,12 @@ def anims():
              "d_neck1": {"rotation": [f"{S} * 70 - 30) * 2", f"{S} * 22) * 4", 0]}, "d_neck2": {"rotation": [f"{S} * 70 - 50) * 1.5", f"{S} * 22 - 30) * 4", 0]},
              "d_head": {"rotation": [f"{S} * 70 - 70) * 2", f"{S} * 18) * 8", 0]},
              "d_left_wing_base": {"rotation": [0, 0, f"(-8 + {S} * 60) * 3)" if quad else f"{S} * 120) * 10"]}, "d_right_wing_base": {"rotation": [0, 0, f"(8 - {S} * 60) * 3)" if quad else f"-{S} * 120) * 10"]}}
-        for i in range(1, 6): b[f"d_tail{i}"] = {"rotation": [f"{S} * 50 - {i * 20}) * 2", f"{S} * 40 - {i * 35}) * {4 + i * (2 if quad else 4)}", 0]}
+        for i in range(1, 6): b[f"d_tail{i}"] = {"rotation": [f"{S} * 50 - {i * 20}) * {2 if quad else 5}", f"{S} * 40 - {i * 35}) * {4 + i * (2 if quad else 4)}", 0]}
+        b["d_lower_jaw"] = {"rotation": [f"Math.max(0, {S} * 23) - 0.85) * 120", 0, 0]}   # abre a boca de vez em quando (respiro/rosnado)
+        b["d_left_wing_top"] = {"rotation": [0, f"{S} * 80) * 3", f"{S} * 80 - 40) * 2"]}; b["d_right_wing_top"] = {"rotation": [0, f"-{S} * 80) * 3", f"-{S} * 80 - 40) * 2"]}
+        if not quad:   # corpo inteiro ondulando como serpente (segmentos extras)
+            for i in range(1, 7): b[f"x_serp{i}"] = {"rotation": [f"{S} * 45 - {i * 40}) * 6", f"{S} * 35 - {i * 45}) * 10", 0]}
+        for k in range(1, 6): b[f"x_mane{k}"] = {"rotation": [f"{S} * 90 - {k * 30}) * 6", f"{S} * 60 - {k * 50}) * 8", 0]}
         A[f"animation.etheria_pdrg_{name}.idle"] = {"loop": True, "bones": b}
         mv = "Math.min(1,query.modified_move_speed)"; ph = "(query.modified_distance_moved*24)"
         if quad:
