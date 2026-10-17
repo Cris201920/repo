@@ -19,15 +19,29 @@
    "scripts": {
     "scale": "1.0",
     "animate": [
-     "swim",
      {
-      "bite": "variable.attack_time > 0"
+      "swim": "query.is_alive"
+     },
+     {
+      "bite": "variable.attack_time > 0 && query.is_alive"
+     },
+     {
+      "hurt": "query.hurt_time > 0 && query.is_alive"
+     },
+     {
+      "flop": "!query.is_in_water && query.is_alive"
+     },
+     {
+      "death": "!query.is_alive"
      }
     ]
    },
    "animations": {
     "swim": "animation.etheria.sea_dragon.swim",
-    "bite": "animation.etheria.sea_dragon.bite"
+    "bite": "animation.etheria.sea_dragon.bite",
+    "hurt": "animation.etheria.sea_dragon.hurt",
+    "death": "animation.etheria.sea_dragon.death",
+    "flop": "animation.etheria.sea_dragon.flop"
    },
    "render_controllers": [
     "controller.render.default"

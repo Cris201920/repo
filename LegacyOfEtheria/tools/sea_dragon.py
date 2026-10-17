@@ -196,4 +196,5 @@ def write_bp():
 
 if __name__ == "__main__":
     g = build(); write_rp(g); write_bp()
+    import dragon_acts; dragon_acts.main()
     print("dragão marinho ok:", len(g.bones), "ossos", sum(len(b.get("cubes", [])) for b in g.bones), "cubos")

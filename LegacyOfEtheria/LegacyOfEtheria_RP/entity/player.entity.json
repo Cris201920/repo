@@ -732,7 +732,7 @@
       "drg_run": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.6 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
      },
      {
-      "drg_attack": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && variable.attack_time > 0"
+      "drg_attack": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && variable.attack_time > 0 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
      },
      {
       "tfxb_evo": "query.property('etheria:tfx') == 'evo'"
@@ -880,6 +880,15 @@
      },
      {
       "drg_gait_velgrynd": "false"
+     },
+     {
+      "drg_serp_attack_velzard": "query.property('etheria:lin') == 'velzard' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && variable.attack_time > 0"
+     },
+     {
+      "drg_serp_attack_velgrynd": "query.property('etheria:lin') == 'velgrynd' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && variable.attack_time > 0"
+     },
+     {
+      "drg_amb_veldanava": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic')"
      }
     ]
    },
@@ -1157,7 +1166,10 @@
     "drg_gait_veldanava": "animation.etheria_pdrg_veldanava.gait",
     "drg_gait_velgrynd": "animation.etheria_pdrg_velgrynd.gait",
     "drg_serpent_velzard": "animation.etheria_pdrg_velzard.serpent",
-    "drg_serpent_velgrynd": "animation.etheria_pdrg_velgrynd.serpent"
+    "drg_serpent_velgrynd": "animation.etheria_pdrg_velgrynd.serpent",
+    "drg_serp_attack_velzard": "animation.etheria_serp_velzard.player_attack",
+    "drg_serp_attack_velgrynd": "animation.etheria_serp_velgrynd.player_attack",
+    "drg_amb_veldanava": "animation.etheria_pdrg_veldanava.ambient"
    },
    "render_controllers": [
     {

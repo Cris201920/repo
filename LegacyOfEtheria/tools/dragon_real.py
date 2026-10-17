@@ -504,4 +504,5 @@ if __name__ == "__main__":
     for name, cfg in DRAGONS.items(): print(name, "ossos/cubos:", write(name, cfg))
     anims(); wire()
     import anim_time_fix, serpent_float   # noqa: E401  (anim_time_fix roda ao importar)
-    serpent_float.main(); print("ok")
+    serpent_float.main()
+    import dragon_acts; dragon_acts.main(); print("ok")

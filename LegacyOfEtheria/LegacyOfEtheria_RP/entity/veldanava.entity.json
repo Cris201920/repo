@@ -25,6 +25,9 @@
       "idle": "query.property('etheria:form') == 'dragon'"
      },
      {
+      "ambient": "query.property('etheria:form') == 'dragon' && query.is_alive"
+     },
+     {
       "gait": "query.property('etheria:form') == 'dragon' && query.is_on_ground && query.modified_move_speed > 0.05"
      },
      {
@@ -84,7 +87,8 @@
     "h_breathe": "animation.etheria.breathe",
     "ctl_dragon": "controller.animation.etheria_tdr.dragon",
     "ctl_human": "controller.animation.etheria_tdr.human",
-    "gait": "animation.etheria_pdrg_veldanava.gait"
+    "gait": "animation.etheria_pdrg_veldanava.gait",
+    "ambient": "animation.etheria_pdrg_veldanava.ambient"
    },
    "render_controllers": [
     "controller.render.etheria_tdr"
