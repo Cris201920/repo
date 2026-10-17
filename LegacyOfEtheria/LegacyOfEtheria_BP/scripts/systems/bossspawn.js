@@ -9,6 +9,8 @@ import { say, toast, playSound, isValid, rand, pick } from "../core/utils.js";
 import { ADMIN_TAG } from "../config.js";
 import { placeArena, keyOfBoss } from "./arenas.js";
 import { auditCmd } from "./bossreg.js";
+import { menu } from "./ui/forms.js";
+import { markDirty } from "../core/db.js";
 
 const TAG = "etheria_roam_boss";
 const MIN_LEVEL = { special: 5, rare: 1, legendary: 15, boss: 25 };
@@ -19,13 +21,20 @@ const RAR_COLOR = { special: "§b", legendary: "§6", boss: "§c" };
 const next = new Map();   // playerId -> tick
 const spawnedAt = new Map(); // entityId -> tick
 
-const interval = () => Math.floor(rand(3600, 7200));            // 3-6 min
+const interval = () => Math.floor(rand(2400, 4800));            // 6.99: 2-4 min (antes 3-6)
 const level = (p) => { try { return getData(p).level ?? 1; } catch { return 1; } };
 
 // 6.55: chefes de alto nível sem arena/reino/estrutura próprios entram no sorteio errante a partir de um nível mínimo (sempre alcançáveis no Sobrevivência)
 const LATE = { yuuki_kagurazaka: 75 };
+// 6.99: antes o filtro era "vida <= 400 + nível×60" e os chefes grandes (Veldora 40000 de vida) nunca apareciam.
+// Agora cada chefe tem um nível mínimo por faixa de vida — a maioria entra no mundo ao longo da progressão.
+export function reqLevel(b) {
+  if (LATE[b.id]) return LATE[b.id];
+  if (b.rar !== "boss") return MIN_LEVEL[b.rar] ?? 1;
+  return b.hp <= 3000 ? 25 : b.hp <= 15000 ? 45 : b.hp <= 26000 ? 60 : b.hp <= 38000 ? 72 : 85;
+}
 function choose(lv) {
-  const ok = POOL.filter((b) => lv >= MIN_LEVEL[b.rar] && (b.hp <= 400 + lv * 60 || (LATE[b.id] && lv >= LATE[b.id])));
+  const ok = POOL.filter((b) => lv >= reqLevel(b));
   const all = ok.length ? ok : POOL.filter((b) => b.rar === "special").slice(0, 3);
   let tot = 0; for (const b of all) tot += WEIGHT[b.rar] ?? 1;
   let r = Math.random() * tot; for (const b of all) { r -= WEIGHT[b.rar] ?? 1; if (r <= 0) return b; }
@@ -69,7 +78,7 @@ function tickSpawner() {
     if (now < next.get(p.id)) continue;
     if (p.dimension.id !== "minecraft:overworld") { next.set(p.id, now + 1200); continue; }
     const mine = live.filter((e) => { try { const dx = e.location.x - p.location.x, dz = e.location.z - p.location.z; return dx * dx + dz * dz < 150 * 150; } catch { return false; } });
-    if (mine.length >= 1 || live.length >= 4) { next.set(p.id, now + 1200); continue; }
+    if (mine.length >= 1 || live.length >= 6) { next.set(p.id, now + 1200); continue; }
     next.set(p.id, now + interval()); summonRoaming(p);
   }
   for (const e of live) {   // limpeza de bosses abandonados
@@ -94,3 +103,36 @@ export function startBossSpawn() { system.runInterval(tickSpawner, 100); }
 
 /** ids que o sorteio errante pode invocar (auditoria de bosses) */
 export const bossPoolIds = () => POOL.map((b) => b.id);
+
+
+// ---------------------------------------------------------------- 6.99: ALTAR DE INVOCAÇÃO (Relógio > Altar de Invocação, ou !invocar)
+// Paga moedas para chamar qualquer chefe já liberado pelo seu nível; ele nasce por perto (com a arena dele, se tiver).
+export const summonCost = (b) => Math.max(200, Math.round((b.hp ?? 1000) / 8 / 50) * 50);
+const lastSummon = new Map();
+export function openSummonAltar(p, page = 0) {
+  const d = getData(p), lv = d.level ?? 1, list = [...POOL].sort((a, b) => reqLevel(a) - reqLevel(b) || a.hp - b.hp);
+  const per = 12, pages = Math.ceil(list.length / per), cur = list.slice(page * per, page * per + per);
+  const btns = cur.map((b) => {
+    const need = reqLevel(b), cost = summonCost(b), ok = lv >= need;
+    return { text: `${ok ? (RAR_COLOR[b.rar] ?? "§c") : "§8"}§l${b.name}\n§r${ok ? `§6${cost} moedas` : `§8nível ${need}`}`, icon: "menu_ranking", run: () => confirmSummon(p, b) };
+  });
+  if (page > 0) btns.push({ text: "§l« Anterior", icon: "menu_ranking", run: () => openSummonAltar(p, page - 1) });
+  if (page < pages - 1) btns.push({ text: "§lPróxima »", icon: "menu_ranking", run: () => openSummonAltar(p, page + 1) });
+  menu(p, "§l§cALTAR DE INVOCAÇÃO", `§7Pague moedas para invocar um chefe perto de você (campo aberto, na superfície).\n§7Você tem §6${d.coins} moedas§7 · nível §e${lv}§7 · página ${page + 1}/${pages}`, btns);
+}
+function confirmSummon(p, b) {
+  const d = getData(p), need = reqLevel(b), cost = summonCost(b);
+  if ((d.level ?? 1) < need) return say(p, `§c${b.name} só pode ser invocado a partir do nível ${need}.`);
+  if (p.dimension.id !== "minecraft:overworld") return say(p, "§cO altar só funciona no mundo normal (Overworld).");
+  if (system.currentTick - (lastSummon.get(p.id) ?? -99999) < 1200) return say(p, "§cO altar ainda está recarregando (1 minuto entre invocações).");
+  if (roaming().filter((e) => { try { const dx = e.location.x - p.location.x, dz = e.location.z - p.location.z; return dx * dx + dz * dz < 150 * 150; } catch { return false; } }).length >= 2) return say(p, "§cJá há chefes demais por perto. Derrote-os primeiro.");
+  if ((d.coins ?? 0) < cost) return say(p, `§cMoedas insuficientes: ${b.name} custa §6${cost}§c.`);
+  menu(p, `§l§c${b.name}`, `§7Invocar §f${b.name}§7 por §6${cost} moedas§7?\n§7Vida: §c${b.hp}§7 · Raridade: §f${b.rar}`, [
+    { text: "§l§aINVOCAR", icon: "menu_ranking", run: () => {
+      const dd = getData(p); if ((dd.coins ?? 0) < cost) return say(p, "§cMoedas insuficientes.");
+      dd.coins -= cost; markDirty(p); lastSummon.set(p.id, system.currentTick);
+      if (!summonRoaming(p, b.id)) { dd.coins += cost; markDirty(p); say(p, "§cNão achei um ponto livre perto; vá para campo aberto e tente de novo (moedas devolvidas)."); }
+    } },
+    { text: "§lVoltar", icon: "menu_ranking", run: () => openSummonAltar(p) },
+  ]);
+}

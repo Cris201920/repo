@@ -12,7 +12,7 @@ import { say, toast, playSound } from "../core/utils.js";
 import { sageText } from "./voice.js";
 import { ctx, burst, implode } from "./fxlib.js";
 
-const HUMAN_RX = /villager|pillager|vindicator|evoker|witch|wandering_trader|adventurer|(?<!spider_)knight(?!_spider)|human|hero|bandit|soldier|paladin|merchant|^minecraft:player$/;
+const HUMAN_RX = /villager|pillager|vindicator|evoker|witch|wandering_trader|adventurer|(?<!spider_|skeleton_)knight(?!_spider)|human|hero|bandit|soldier|paladin|merchant|^minecraft:player$/;   // 6.99: cavaleiro esqueleto não conta
 const PRED_LINE = ["predator", "gluttony", "beelzebuth"];
 const ULT_BASE = 0.002, ULT_STEP = 0.00015, ULT_MAX = 0.02;   // "muito sortudo": 0,2% por devoração, sobe até 2% com o azar acumulado
 

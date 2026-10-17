@@ -1,3 +1,4 @@
+import { openSummonAltar } from "../bossspawn.js";
 import { openInfusion } from "../infusion.js";
 import { system } from "@minecraft/server";
 // systems/ui/menus.js - Menus principais do jogador (celular: botões grandes, textos curtos, sempre com "Voltar")
@@ -56,6 +57,7 @@ export function openMain(player) {
     { text: "§lClasse", icon: "menu_class", run: () => openClass(player) },
     { text: "§lGuilda", icon: "menu_guild", run: () => openGuild(player) },
     { text: "§lMundo e Facções\n§r§7Reputação, diplomacia e territórios", icon: "menu_ranking", run: () => openWorld(player) },
+    { text: "§lAltar de Invocação\n§r§7invoque chefes liberados pelo nível", icon: "menu_ranking", run: () => openSummonAltar(player) },
     { text: "§lConquistas e Títulos", icon: "menu_ranking", run: () => openAchievements(player) },
     { text: "§lRanking", icon: "menu_ranking", run: () => openRanking(player) },
     { text: "§lConfigurações", icon: "menu_settings", run: () => openSettings(player) },

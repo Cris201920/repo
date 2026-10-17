@@ -28,7 +28,7 @@ import { tempestCmd } from "./tempest.js";
 import { settlementsCmd } from "./settlements.js";
 import { openWorld } from "./worldnpc.js";
 import { warCmd } from "./worldwar.js";
-import { bossCmd } from "./bossspawn.js";
+import { bossCmd, openSummonAltar } from "./bossspawn.js";
 import { coreCmd } from "./charybdis.js";
 import { toggleForm, FORMS } from "./truedragon.js";
 import { placeArena, anchorFromPlayer, keyOfBoss, arenaKeys, verifyAll, ARENAS, results as arenaResults } from "./arenas.js";
@@ -81,6 +81,7 @@ function run(p, cmd, args, trusted = false) {
     case "aldeia": case "territorios": return settlementsCmd(p, args);
     case "guerra": return warCmd(p, args);
     case "mundo": case "reputacao": return openWorld(p);
+    case "invocar": case "altar": return openSummonAltar(p);   // 6.99: Altar de Invocação
     case "boss": return bossCmd(p, args);
     case "nucleo": return coreCmd(p);
     case "pvp": {
@@ -122,7 +123,7 @@ function run(p, cmd, args, trusted = false) {
       if (q === "verificar") { const r = verifyWgen(), bad = r.filter((x) => !x.ok), a2 = verifyAll(), bad2 = a2.filter((x) => !x.ok); return say(p, `§6[Etheria] §7Estruturas: §a${r.length + a2.length - bad.length - bad2.length} OK§7, ${bad.length + bad2.length ? "§c" + (bad.length + bad2.length) + " com problema: §f" + [...bad.map((b) => `${b.id} (${b.why})`), ...bad2.map((b) => b.id)].join(", ") : "§a0 com problema"}§7.`); }
       return structCmd(p, args, trusted);
     }
-    case "help": case "ajuda": return say(p, "§6[Etheria] §7Use o §fRelógio§7 para abrir o menu. Comandos: §f!menu !status !lord !arena !octagrama !inferno !ceu !espiritos !voltar !voo !poderes !criar !skills !hotbar !cast N !quests !tempest !gerar !mundo !aldeia !guerra !boss !pvp !time§7. Suas habilidades são §fitens na hotbar§7: selecione o slot e use. Sem chat de comandos? Use §f/scriptevent etheria:cmd menu§7.");
+    case "help": case "ajuda": return say(p, "§6[Etheria] §7Use o §fRelógio§7 para abrir o menu. Comandos: §f!menu !status !lord !arena !octagrama !inferno !ceu !espiritos !voltar !voo !poderes !criar !skills !hotbar !cast N !quests !tempest !gerar !mundo !aldeia !guerra !invocar !pvp !time§7. Suas habilidades são §fitens na hotbar§7: selecione o slot e use. Sem chat de comandos? Use §f/scriptevent etheria:cmd menu§7.");
   }
   if (!p.hasTag(ADMIN_TAG)) return say(p, `§cSem permissão para !${cmd}. Admin: /tag @s add ${ADMIN_TAG}`);
   const d = getData(p);
