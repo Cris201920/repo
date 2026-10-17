@@ -63,7 +63,7 @@ if __name__ == "__main__":
     D.pop("hud_actionbar_text", None)                # 6.90 tentou pela actionbar ($actionbar_text não funciona em bindings)
     D["eth_mod_hud"] = ui(sizes)
     ins = D["root_panel"]["modifications"][0]["value"]
-    if not any("eth_mod_hud@hud.eth_mod_hud" in x for x in ins): ins.insert(0, {"eth_mod_hud@hud.eth_mod_hud": {}})
+    if "--ligar" in sys.argv and not any("eth_mod_hud@hud.eth_mod_hud" in x for x in ins): ins.insert(0, {"eth_mod_hud@hud.eth_mod_hud": {}})   # 7.0: desligado por padrão
     vb = [x for x in D["hud_title_text"]["bindings"] if x.get("target_property_name") == "#visible"][0]
     vb["source_property_name"] = "(((#hud_title_text_string - '§w§n§t') = #hud_title_text_string) and ((#hud_title_text_string - 'Q#') = #hud_title_text_string))"
     D["eth_sage_toast"]["offset"] = [4, 74]          # abaixo da HUD do mod

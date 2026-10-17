@@ -79,8 +79,8 @@ function sendHudTitle(p, d, s) {
 }
 
 export function renderHud(p, d = getData(p), s = getStats(p)) {
-  if (d.settings.hud) sendHudTitle(p, d, s);
-  else if (lastHead.has(p.id)) { lastHead.delete(p.id); try { p.onScreenDisplay.setTitle(" ", { fadeInDuration: 0, stayDuration: 1, fadeOutDuration: 0 }); } catch { /* ignore */ } }
+  // 7.0: o painel de vida do canto (HUD do mod) foi tirado a pedido; fica só a linha da barra de ação
+  if (lastHead.has(p.id)) { lastHead.delete(p.id); try { p.onScreenDisplay.setTitle(" ", { fadeInDuration: 0, stayDuration: 1, fadeOutDuration: 0 }); } catch { /* ignore */ } }
   if (!d.settings.hud || subtitleActive(p) || flashActive(p) || typingActive(p)) return;
   try { p.onScreenDisplay.setActionBar(hudOverride(p) ?? hudText(p, d, s)); } catch { /* ignore */ }   // Modo Assess substitui a HUD inteira
 }

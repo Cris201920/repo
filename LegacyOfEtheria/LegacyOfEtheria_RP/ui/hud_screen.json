@@ -7,9 +7,6 @@
     "operation": "insert_back",
     "value": [
      {
-      "eth_mod_hud@hud.eth_mod_hud": {}
-     },
-     {
       "eth_world_voice@hud.eth_world_voice": {}
      },
      {
