@@ -122,6 +122,172 @@
       0,
       "-1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 95 - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) * 0.55 - 12 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 4 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0))"
      ]
+    },
+    "wingF0_l": {
+     "rotation": [
+      0,
+      0,
+      "-1 * 4 * (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))"
+     ]
+    },
+    "wingW0_l": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640)) - 80) * (query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))",
+      0,
+      0
+     ],
+     "scale": [
+      1,
+      "math.sin(24 - (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))) / 0.40674",
+      1
+     ]
+    },
+    "wingF1_l": {
+     "rotation": [
+      0,
+      0,
+      "-1 * 3 * (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))"
+     ]
+    },
+    "wingW1_l": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640)) - 105) * (query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))",
+      0,
+      0
+     ],
+     "scale": [
+      1,
+      "math.sin(24 - (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))) / 0.40674",
+      1
+     ]
+    },
+    "wingF2_l": {
+     "rotation": [
+      0,
+      0,
+      "-1 * 2 * (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))"
+     ]
+    },
+    "wingW2_l": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640)) - 130) * (query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))",
+      0,
+      0
+     ],
+     "scale": [
+      1,
+      "math.sin(24 - (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))) / 0.40674",
+      1
+     ]
+    },
+    "wingF3_l": {
+     "rotation": [
+      0,
+      0,
+      "-1 * 1 * (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))"
+     ]
+    },
+    "wingW3_l": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640)) - 155) * (query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))",
+      0,
+      0
+     ],
+     "scale": [
+      1,
+      "math.sin(24 - (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))) / 0.40674",
+      1
+     ]
+    },
+    "wingWC_l": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640)) - 180) * (query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))",
+      0,
+      0
+     ]
+    },
+    "wingF0_r": {
+     "rotation": [
+      0,
+      0,
+      "1 * 4 * (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))"
+     ]
+    },
+    "wingW0_r": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640)) - 80) * (query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))",
+      0,
+      0
+     ],
+     "scale": [
+      1,
+      "math.sin(24 - (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))) / 0.40674",
+      1
+     ]
+    },
+    "wingF1_r": {
+     "rotation": [
+      0,
+      0,
+      "1 * 3 * (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))"
+     ]
+    },
+    "wingW1_r": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640)) - 105) * (query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))",
+      0,
+      0
+     ],
+     "scale": [
+      1,
+      "math.sin(24 - (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))) / 0.40674",
+      1
+     ]
+    },
+    "wingF2_r": {
+     "rotation": [
+      0,
+      0,
+      "1 * 2 * (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))"
+     ]
+    },
+    "wingW2_r": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640)) - 130) * (query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))",
+      0,
+      0
+     ],
+     "scale": [
+      1,
+      "math.sin(24 - (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))) / 0.40674",
+      1
+     ]
+    },
+    "wingF3_r": {
+     "rotation": [
+      0,
+      0,
+      "1 * 1 * (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))"
+     ]
+    },
+    "wingW3_r": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640)) - 155) * (query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))",
+      0,
+      0
+     ],
+     "scale": [
+      1,
+      "math.sin(24 - (query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60) * 4))) / 0.40674",
+      1
+     ]
+    },
+    "wingWC_r": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640)) - 180) * (query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))",
+      0,
+      0
+     ]
     }
    }
   },

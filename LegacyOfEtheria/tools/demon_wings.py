@@ -129,14 +129,29 @@ for sd, mirror in (("l", False), ("r", True)):
                 cubes.append({"origin": [round(-xmin - W, 4), round(ymin, 4), round(z + dz, 4)], "size": [round(W, 4), round(H, 4), 0],
                               "uv": {"north": {"uv": [u + w, v], "uv_size": [-w, h]}, "south": {"uv": [u, v], "uv_size": [w, h]}}})
         else: cache[key] = reg
-        B[f"{n}_{sd}"]["cubes"] += cubes
+        if n.startswith("wingF") or n == "wingC":   # membrana num osso próprio (dobradiça no dedo/pulso) para poder ondular e acompanhar o leque
+            par = B[f"{n}_{sd}"]; wb = {"name": f"wingW{n[5:] or 'C'}_{sd}", "parent": par["name"], "pivot": list(par["pivot"]), "cubes": cubes}
+            G["bones"].insert(G["bones"].index(par) + 1, wb)
+        else: B[f"{n}_{sd}"]["cubes"] += cubes
     C = B[f"wingC_{sd}"]; sg = -1 if mirror else 1
     C["cubes"] += claw(B[f"wingF0_{sd}"]["cubes"][2], C["pivot"][0] - 0.45, C["pivot"][1] + 1.6, 2.2, sg, 25)
 G["description"]["visible_bounds_width"] = 8
 json.dump(D, open(GP, "w"), indent=1); TEX.save(TP)
-# animação: tira as rotações extras de dedos (a membrana entre dedos segue o dedo de cima; dedos ficam no leque do modelo)
+# animação dos dedos e da membrana
 AP = os.path.join(RP, "animations/etheria_race_parts.animation.json"); AN = json.load(open(AP))
 bones = AN["animations"]["animation.etheria.race_demon"]["bones"]
-for k in [k for k in bones if k.startswith(("wingF", "wingM"))]: del bones[k]
+for k in [k for k in bones if k.startswith(("wingF", "wingM", "wingW"))]: del bones[k]
+# leque: f = quanto cada par de dedos vizinhos fecha (graus). Chão: fecha um pouco (agachado fecha muito); ar: abre e pulsa com a batida.
+# O último dedo fica fixo e os outros giram (4-i)*f; a membrana entre dedos escala na vertical sin(24-f)/sin(24) para continuar presa.
+FL = "math.sin(query.life_time * (query.vertical_speed < -1.0 ? 90 : 640) - 60)"
+f = f"(query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_time * 70) * 1.5) : (query.vertical_speed < -1.0 ? -5 : -2 + {FL} * 4))"
+amp = "(query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))"
+spd = "(query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640))"
+for sd, sg in (("l", 1), ("r", -1)):
+    for i in range(5):
+        if i < 4: bones[f"wingF{i}_{sd}"] = {"rotation": [0, 0, f"{-sg} * {4 - i} * {f}"]}
+        wb = f"wingW{i}_{sd}" if i < 4 else f"wingWC_{sd}"
+        bones[wb] = {"rotation": [f"math.sin(query.life_time * {spd} - {80 + i * 25}) * {amp}", 0, 0]}   # ondulação (pega vento)
+        if i < 4: bones[wb]["scale"] = [1, f"math.sin(24 - {f}) / 0.40674", 1]
 json.dump(AN, open(AP, "w"), indent=1)
 print("demônio ok; textura usada até a linha", shelf["y"] + shelf["h"])
