@@ -102,3 +102,46 @@ an["animation.tensura.race.ears"] = {"loop": True, "bones": {
     "right_ear": {"scale": 1.5, "rotation": [f"{mv}", 0, f"-({tw(1.7)}) + (query.is_sneaking ? 20 : 0) - math.sin({T} * 90) * 2"]}}}
 json.dump(A, open(ap, "w"), indent=1)
 print("ok")
+
+# ---------- chifres: colar na base + ponta afunilada em 2 estágios (mesma paleta/UV do próprio chifre) ----------
+import math
+def rot(p, piv, r):
+    x, y, z = (p[i] - piv[i] for i in range(3)); a, b, c = (math.radians(v) for v in r)
+    y, z = y * math.cos(a) - z * math.sin(a), y * math.sin(a) + z * math.cos(a)
+    x, z = x * math.cos(b) + z * math.sin(b), -x * math.sin(b) + z * math.cos(b)
+    x, y = x * math.cos(c) - y * math.sin(c), x * math.sin(c) + y * math.cos(c)
+    return (x + piv[0], y + piv[1], z + piv[2])
+HEAD = (0, 28, 0)
+def ends(c):
+    ax = max(range(3), key=lambda i: c["size"][i]); o, s = c["origin"], c["size"]
+    ctr = [o[i] + s[i] / 2 for i in range(3)]
+    lo, hi = list(ctr), list(ctr); lo[ax] = o[ax]; hi[ax] = o[ax] + s[ax]
+    piv, r = c.get("pivot", ctr), c.get("rotation", [0, 0, 0])
+    d = lambda p: math.dist(rot(p, piv, r), HEAD)
+    return ax, (d(hi) > d(lo)), d(ctr)
+def piece(c, ax, far, start, ln, cross, inf):
+    n = {k: v for k, v in c.items() if k in ("pivot", "rotation", "uv", "mirror")}
+    o, s = c["origin"], c["size"]; no, ns = list(o), list(s)
+    for i in range(3):
+        if i != ax: ns[i] = min(s[i], cross); no[i] = o[i] + (s[i] - ns[i]) / 2
+    ns[ax] = ln; no[ax] = (o[ax] + s[ax] + start) if far else (o[ax] - start - ln)
+    n["origin"], n["size"], n["inflate"] = no, ns, inf
+    return n
+for name in ["horn_single", "horn_single_small", "horn_dual", "horn_dual_small", "horn_zigzag", "horn_curvy", "horn_ram", "liz_horns"]:
+    d = src(name + ".geo.json")
+    for b in d["minecraft:geometry"][0]["bones"]:
+        cs = b.get("cubes", [])
+        if not cs: continue
+        groups = {}
+        for c in cs: groups.setdefault((c["origin"][0] + c["size"][0] / 2) > 0, []).append(c)
+        add = []
+        for g in groups.values():
+            info = [(c, *ends(c)) for c in g]
+            tip = max(info, key=lambda t: t[3]); base = min(info, key=lambda t: t[3])
+            c, ax, far, _ = tip
+            add += [piece(c, ax, far, -0.1, 1.4, 1, -0.18), piece(c, ax, far, 1.1, 1.0, 1, -0.34)]
+            c, ax, far, _ = base
+            add.append(piece(c, ax, not far, -0.7, 0.7, 9, 0.22))       # colar/anel na raiz
+        b["cubes"] = cs + add
+    save(name + ".geo.json", d)
+print("horns ok")
