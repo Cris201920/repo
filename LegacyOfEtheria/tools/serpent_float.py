@@ -23,10 +23,11 @@ def anim(l):
     ch = chain(l); N = len(ch)
     for i, b in enumerate(ch):
         u = i / max(1, N - 1)
-        ay = 1.4 + 2.6 * u * u                                   # quase parado no tronco, solto na cauda
-        ax = 0.9 + 1.4 * u
-        B[b] = {"rotation": [f"math.sin({T} * {sp} * 0.8 - {i * 24}) * ({f(ax)} + 1.2 * {MV})",
-                             f"math.sin({T} * {sp} - {i * 28}) * ({f(ay)} + 2 * {MV})",
+        kj = 30 / max(30, N)                                     # mais articulações -> menos giro em cada uma
+        ay = (1.4 + 2.6 * u * u) * kj                            # quase parado no tronco, solto na cauda
+        ax = (0.9 + 1.4 * u) * kj
+        B[b] = {"rotation": [f"math.sin({T} * {sp} * 0.8 - {round(i * 24 * kj, 1)}) * ({f(ax)} + {f(1.2 * kj)} * {MV})",
+                             f"math.sin({T} * {sp} - {round(i * 28 * kj, 1)}) * ({f(ay)} + {f(2 * kj)} * {MV})",
                              f"math.sin({T} * {sp} - {i * 28 + 90}) * {f(1 + u)}"]}
     for i, b in enumerate(("d_neck1", "d_neck2", "d_neck3")):
         B[b] = {"rotation": [f"math.sin({T} * {sp} * 0.8 + {(i + 1) * 30}) * 2.5", f"math.sin({T} * {sp} + {(i + 1) * 34}) * 3.5", 0]}

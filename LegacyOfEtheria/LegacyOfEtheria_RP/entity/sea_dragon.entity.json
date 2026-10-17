@@ -1,0 +1,37 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:sea_dragon",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_sea_dragon"
+   },
+   "geometry": {
+    "default": "geometry.etheria_sea_dragon"
+   },
+   "spawn_egg": {
+    "base_color": "#245a6a",
+    "overlay_color": "#8ef0c8"
+   },
+   "scripts": {
+    "scale": "1.0",
+    "animate": [
+     "swim",
+     {
+      "bite": "variable.attack_time > 0"
+     }
+    ]
+   },
+   "animations": {
+    "swim": "animation.etheria.sea_dragon.swim",
+    "bite": "animation.etheria.sea_dragon.bite"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

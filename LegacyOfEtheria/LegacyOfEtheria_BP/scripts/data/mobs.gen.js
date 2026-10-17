@@ -1,5 +1,6 @@
 // GERADO por tools/build.py a partir de tools/content.py - não edite à mão.
 export const MOBS = {
+ "etheria:sea_dragon": {"name": "Dragão Marinho", "xp": 900, "coins": [80, 160], "hp": 420, "role": "frost", "rar": "rare", "dmg": 22, "drops": [["etheria:dragon_essence", 1, 2, 0.55], ["minecraft:prismarine_crystals", 2, 6, 0.8], ["minecraft:heart_of_the_sea", 1, 1, 0.08]]},
  "etheria:goblin": {
   "name": "Goblin",
   "xp": 12,

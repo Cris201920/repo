@@ -990,3 +990,5 @@ item.etheria:sk_gs_glacial_prison=Prisão Glacial
 item.etheria:sk_gs_demonic_inferno=Inferno Demoníaco
 item.etheria:sk_gs_absolute_destruction=Destruição Absoluta
 item.etheria:sk_stomach=Estômago do Predador
+entity.etheria:sea_dragon.name=Dragão Marinho
+item.spawn_egg.entity.etheria:sea_dragon.name=Ovo de Dragão Marinho

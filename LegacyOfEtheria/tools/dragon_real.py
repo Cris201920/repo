@@ -234,7 +234,7 @@ def coil_path(k):
     pts += bez(e, (12, e[1] - 22, e[2] + 14), (14, 18, 74), (10, 6, 112), 30)[1:] + [(8, 4, 124)]
     pts = [(p[0] * k, p[1] * k, p[2] * k) for p in pts]
     # reamostra em passos iguais
-    out = [pts[0]]; acc = 0.0; step = 12 * k
+    out = [pts[0]]; acc = 0.0; step = 9.5 * k
     for i in range(1, len(pts)):
         a, b = pts[i - 1], pts[i]; L = math.sqrt(sum((b[j] - a[j]) ** 2 for j in range(3)))
         while acc + L >= step:
@@ -263,6 +263,9 @@ def coil_serpent(g, name, cfg):
         i = seg_of[nm]; w = wid(i); n = dors(i); t = tan(i); lat = _cross(n, t)
         a, b = P[i], P[i + 1]; mid = tuple((a[q] + b[q]) / 2 for q in range(3))
         cs = [seg(a, _v(b, t, 1.5 * s), w, w * 0.92, n)]
+        cs.append(seg(_v(a, n, -w * 0.4), _v(_v(b, t, 0.6 * s), n, -w * 0.4), w * 0.78, w * 0.2, n, tile="belly", top="belly", bottom="belly"))   # placas da barriga
+        if i % 3 == 1 and i < M - 6:   # tufos/escamas eriçadas atrás das placas (volume)
+            for sg in (1, -1): cs.append(rod(_v(_v(mid, lat, sg * w * 0.46), n, -w * 0.12), _v(_v(_v(mid, lat, sg * w * 0.62), t, w * 0.5), n, -w * 0.05), w * 0.18, w * 0.3, "side"))
         if vz:   # espinhos escuros grandes nas costas (alternando tamanho) + espinhos laterais
             if i % 2 == 0 and i > 1:
                 hs = max(5, w * 0.85)
@@ -290,7 +293,13 @@ def coil_serpent(g, name, cfg):
         i = seg_of[nm]; n = dors(i); t = tan(i); p = _v(P[i], n, wid(i) * 0.4)
         g.bone(f"x_mane{j + 1}", nm, p, taper([p, _v(_v(p, n, 7 * s), t, 12 * s), _v(_v(p, n, 9 * s), t, 26 * s), _v(_v(p, n, 6 * s), t, 40 * s)], 8 * s, 2.5 * s, "mane", hk=0.45) if vz
                else [rod(p, _v(_v(p, n, 9 * s), t, 6 * s), 2.5 * s, 7 * s, "acc1")])
-    head(g, cfg, (0, P[0][1] + 2 * s, P[0][2] - 2 * s), s * 1.05, name)
+    head(g, cfg, (0, P[0][1] + 2 * s, P[0][2] - 2 * s), s * 1.22, name)
+    if not vz:   # Velgrynd: crina vermelha caindo do pescoço + bigodes longos
+        for j, nm in enumerate(("d_neck3", "d_neck2", "d_neck1")):
+            i = seg_of[nm]; n = dors(i); t = tan(i); lat = _cross(n, t)
+            for sg in (1, -1):
+                p = _v(_v(P[i], n, wid(i) * 0.3), lat, sg * wid(i) * 0.35)
+                g.add(nm, taper([p, _v(_v(_v(p, n, 5 * s), t, 10 * s), lat, sg * 4 * s), _v(_v(_v(p, n, 3 * s), t, 22 * s), lat, sg * 7 * s)], 5 * s, 1.5 * s, "mane", hk=0.45))
     if vz:   # mechas longas da juba saindo da nuca
         hp = g.idx["d_head"]["pivot"]
         for kk, sg in ((4, -1), (5, 1)):
