@@ -6,44 +6,44 @@
    "bones": {
     "left_wing": {
      "rotation": [
-      "-17.5 + math.sin(query.anim_time * 100) * 2",
-      "60 + math.sin(query.anim_time * 100) * 4",
-      "0 + math.sin(query.anim_time * 100) * 3"
+      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
+      "(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
+      "(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
      ]
     },
     "right_wing": {
      "rotation": [
-      "-17.5 + math.sin(query.anim_time * 100) * 2",
-      "-(60 + math.sin(query.anim_time * 100) * 4)",
-      "-(0 + math.sin(query.anim_time * 100) * 3)"
+      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
+      "-(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
+      "-(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
      ]
     },
     "left_wing_mid": {
      "rotation": [
-      "0 + 0",
-      "-135 + math.sin(query.anim_time * 100 - 40) * -5",
-      "0 + 0"
+      "math.lerp(0, -2, variable.wb_k)",
+      "(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
+      "(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
      ]
     },
     "right_wing_mid": {
      "rotation": [
-      "0 + 0",
-      "-(-135 + math.sin(query.anim_time * 100 - 40) * -5)",
-      "-(0 + 0)"
+      "math.lerp(0, -2, variable.wb_k)",
+      "-(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
+      "-(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
      ]
     },
     "left_wing_end": {
      "rotation": [
-      "0 + 0",
-      "140 + math.sin(query.anim_time * 100 - 80) * 6",
-      "0 + 0"
+      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
+      "(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      0
      ]
     },
     "right_wing_end": {
      "rotation": [
-      "0 + 0",
-      "-(140 + math.sin(query.anim_time * 100 - 80) * 6)",
-      "-(0 + 0)"
+      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
+      "-(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      0
      ]
     }
    },
@@ -54,44 +54,44 @@
    "bones": {
     "left_wing": {
      "rotation": [
-      "8 + math.sin(query.anim_time * 330) * 3",
-      "26 + math.sin(query.anim_time * 330) * 8",
-      "27 + math.sin(query.anim_time * 330) * 5 + math.sin(query.anim_time * 100) * 2"
+      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
+      "(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
+      "(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
      ]
     },
     "right_wing": {
      "rotation": [
-      "8 + math.sin(query.anim_time * 330) * 3",
-      "-(26 + math.sin(query.anim_time * 330) * 8)",
-      "-(27 + math.sin(query.anim_time * 330) * 5 + math.sin(query.anim_time * 100) * 2)"
+      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
+      "-(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
+      "-(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
      ]
     },
     "left_wing_mid": {
      "rotation": [
-      "0 + 0",
-      "-22 + math.sin(query.anim_time * 330 - 45) * 8",
-      "0 + 0"
+      "math.lerp(0, -2, variable.wb_k)",
+      "(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
+      "(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
      ]
     },
     "right_wing_mid": {
      "rotation": [
-      "0 + 0",
-      "-(-22 + math.sin(query.anim_time * 330 - 45) * 8)",
-      "-(0 + 0)"
+      "math.lerp(0, -2, variable.wb_k)",
+      "-(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
+      "-(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
      ]
     },
     "left_wing_end": {
      "rotation": [
-      "0 + 0",
-      "62 + math.sin(query.anim_time * 330 - 90) * 12",
-      "0 + 0"
+      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
+      "(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      0
      ]
     },
     "right_wing_end": {
      "rotation": [
-      "0 + 0",
-      "-(62 + math.sin(query.anim_time * 330 - 90) * 12)",
-      "-(0 + 0)"
+      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
+      "-(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      0
      ]
     }
    },
@@ -102,44 +102,44 @@
    "bones": {
     "left_wing": {
      "rotation": [
-      "28 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380))) * 8",
-      "12 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380))) * 30",
-      "46 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380))) * 14"
+      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
+      "(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
+      "(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
      ]
     },
     "right_wing": {
      "rotation": [
-      "28 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380))) * 8",
-      "-(12 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380))) * 30)",
-      "-(46 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380))) * 14)"
+      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
+      "-(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
+      "-(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
      ]
     },
     "left_wing_mid": {
      "rotation": [
-      "-2 + 0",
-      "22 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380)) - 50) * 22",
-      "0 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380)) - 50) * 4"
+      "math.lerp(0, -2, variable.wb_k)",
+      "(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
+      "(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
      ]
     },
     "right_wing_mid": {
      "rotation": [
-      "-2 + 0",
-      "-(22 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380)) - 50) * 22)",
-      "-(0 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380)) - 50) * 4)"
+      "math.lerp(0, -2, variable.wb_k)",
+      "-(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
+      "-(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
      ]
     },
     "left_wing_end": {
      "rotation": [
-      "-6 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380)) - 95) * 6",
-      "-6 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380)) - 95) * 24",
-      "0 + 0"
+      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
+      "(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      0
      ]
     },
     "right_wing_end": {
      "rotation": [
-      "-6 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380)) - 95) * 6",
-      "-(-6 + math.sin(query.anim_time * (query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380)) - 95) * 24)",
-      "-(0 + 0)"
+      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
+      "-(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      0
      ]
     }
    },
