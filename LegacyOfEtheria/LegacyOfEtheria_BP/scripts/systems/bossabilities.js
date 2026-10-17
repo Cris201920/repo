@@ -198,3 +198,5 @@ export const BA = {
   inferno_pillars: STRIKE({ act: "ability", cd: 15, wind: 24, max: 24, n: 5, spread: 5, radius: 2.6, dmg: 0.75, col: "fire", col2: "ember", fire: 4, h: 10 }),
   genesis: STRIKE({ act: "ability", cd: 24, wind: 56, max: 26, radius: 5.5, dmg: 1.7, knock: 1.6, col: "light", col2: "gold", eff: [["blindness", 3, 0]], h: 14 }),
 };
+// 6.83: usados pelas magias gigantes dos chefes (systems/grandspells.js)
+export { D as bossDmg, hurt as bossHurt, near as bossNear };

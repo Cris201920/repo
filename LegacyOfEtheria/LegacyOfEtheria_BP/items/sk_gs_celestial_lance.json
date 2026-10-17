@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_gs_celestial_lance",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_gs_celestial_lance"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "\u00a76Lan\u00e7a Celestial"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_gs_celestial_lance",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

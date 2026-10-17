@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_gs_dragon_storm",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_gs_dragon_storm"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "\u00a76Tempestade Drac\u00f4nica"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_gs_dragon_storm",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

@@ -3,6 +3,7 @@
 // As habilidades ficam em mobai.js (A) e bossabilities.js (BA); este módulo decide QUAL lista, QUANTO dano e QUANDO a fase muda.
 // A barra de vida é a nativa (componente minecraft:boss, 1 por entidade, some sozinha na morte).
 // Desempenho: 1 laço a cada 20 ticks só perto de jogadores; minions têm limite por chefe e tempo de vida; nada roda sem jogador por perto.
+import { GRAND_BY_BOSS } from "./grandspells.js";
 import { world, system, Player } from "@minecraft/server";
 import { emit, EV } from "../core/bus.js";
 import { PROFILES } from "../data/bossprofiles.js";
@@ -61,6 +62,7 @@ export function bossAbilities(e, base) {
   const ph = b.p.phases[b.phase]; let list = ph.list.length ? ph.list.slice() : (base ?? []).slice();
   if (b.p.dragon && b.phase >= 1) list = (b.p.sig ?? []).concat(list);
   for (let l = 2; l <= b.level; l++) for (const id of b.p.evo?.abilities[l] ?? []) if (!list.includes(id)) list.unshift(id);
+  if (b.phase >= 1) for (const id of GRAND_BY_BOSS[(e.typeId ?? "").split(":")[1]] ?? []) if (!list.includes(id)) list.unshift(id);   // 6.83: magias gigantes
   return list;
 }
 

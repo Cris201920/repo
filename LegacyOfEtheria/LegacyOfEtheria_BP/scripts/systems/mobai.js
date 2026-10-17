@@ -1,4 +1,5 @@
 import { bossImpact } from "./elementfx.js";
+import { GA } from "./grandspells.js";
 import { playBossAnim, kindFor } from "./bossanim.js";
 // systems/mobai.js - IA individual dos mobs de Tensura: cada papel (e alguns mobs) tem ataques, alcance, recarga, telegrafia e som próprios.
 // Roda a cada 10 ticks só ao redor dos jogadores (máx. N mobs por varredura); sem entidades auxiliares permanentes.
@@ -167,7 +168,7 @@ function think(e, tick) {
   }
   const c = ctx(t, 1);
   for (const id of abilitiesOf(e)) {
-    const a = A[id] ?? CHR_A[id] ?? BA[id]; if (!a || td < a.min || td > a.max || tick < (s.cds[id] ?? 0)) continue;
+    const a = A[id] ?? CHR_A[id] ?? BA[id] ?? GA[id]; if (!a || td < a.min || td > a.max || tick < (s.cds[id] ?? 0)) continue;
     if (a.cond && !a.cond(e)) continue;
     if (!a.cond && Math.random() > (boss ? 0.85 : 0.55)) continue; // variação: nem sempre usa a primeira opção disponível (chefes quase sempre agem)
     s.busy = true; s.used = tick; s.cds[id] = tick + a.cd * 20; s.gcd = tick + ((GCD[m.rar] ?? 5) * 20 + Math.floor(rand(0, 30))) * (e.hasTag("chr_accel") ? 0.45 : 1) * gcdMul(e);

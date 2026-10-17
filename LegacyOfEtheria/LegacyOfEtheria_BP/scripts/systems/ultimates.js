@@ -7,7 +7,8 @@
 import { system, world } from "@minecraft/server";
 import { registerExec, registerPost, grantSkill, hasSkill, castSkill, helpers } from "./skills.js";
 import { SKILLS } from "../data/skills.js";
-import { ULTIMATES, ULT_UNLOCKS } from "../data/ultimates.js";
+import { ULTIMATES, ULT_UNLOCKS, GRANDS, GRAND_UNLOCKS } from "../data/ultimates.js";
+const ALL_UNLOCKS = { ...ULT_UNLOCKS, ...GRAND_UNLOCKS };
 import { ctx, after, mote, streak, disc, layer, burst, implode, ringFlat, column, helix, orbit, bolt, snd, T, CIRCLE, nn } from "./fxlib.js";
 import { dome, vfxSpawn, vfxSize, vfxKill, vfxOk } from "./spellvfx.js";
 import { addBuff } from "./effects.js";
@@ -428,7 +429,7 @@ export function startUltimates() {
 const sumBoss = (d, key) => d.bossKills?.[key] ?? 0;
 /** requisitos de cada Ultimate (data/ultimates.js ULT_UNLOCKS); devolve [{ok, txt}] */
 export function ultReqs(d, id) {
-  const u = ULT_UNLOCKS[id]; if (!u) return [];
+  const u = ALL_UNLOCKS[id]; if (!u) return [];
   const R = [];
   if (u.level) R.push({ ok: (d.level ?? 0) >= u.level, txt: `nível ${u.level}` });
   if (u.races) R.push({ ok: u.races.includes(d.race) || u.races.some((r) => String(d.raceStage ?? "").startsWith(r)), txt: `raça: ${u.races.join("/")}` });
@@ -437,18 +438,19 @@ export function ultReqs(d, id) {
   if (u.skillsAny) R.push({ ok: u.skillsAny.some((x) => hasSkill(d, x)), txt: `ter ${u.skillsAny.map((x) => SKILLS[x]?.name ?? x).join(" ou ")}` });
   if (u.sage) R.push({ ok: (() => { try { return sageStage(d) >= u.sage; } catch { return false; } })(), txt: "Sábio evoluído a Raphael" });
   if (u.lin) R.push({ ok: (() => { try { return lineageOf(d)?.id === u.lin && (!u.lform || formOfPlayer(d) === u.lform); } catch { return false; } })(), txt: `linhagem ${u.lin}${u.lform ? " (forma verdadeira)" : ""}` });
+  if (u.elem) R.push({ ok: (d.unlockedSkills ?? []).some((x) => SKILLS[x]?.element === u.elem && SKILLS[x]?.type === "active"), txt: `ter uma magia de ${({ ice: "gelo" })[u.elem] ?? u.elem}` });
   if (u.boss) R.push({ ok: sumBoss(d, u.boss) > 0, txt: "derrotar Michael" });
   return R;
 }
 function checkUnlocks(p) {
   const d = getData(p); if (!d.raceChosen) return;
-  for (const sk of ULTIMATES) {
+  for (const sk of [...ULTIMATES, ...GRANDS]) {
     if (hasSkill(d, sk.id)) continue;
     const R = ultReqs(d, sk.id); if (!R.length || !R.every((r) => r.ok)) continue;
     grantSkill(p, sk.id);
-    toast(p, "§6§lSKILL ULTIMATE", `§e${sk.name}`);
-    say(p, `§6[Ultimate] §fVocê despertou §e${sk.name}§f! §7${sk.desc}`);
-    try { sageText(p, `Aviso. Os requisitos foram atingidos. A Skill Ultimate «${sk.name}» foi adquirida.`, { pri: 1, key: "ult.get." + sk.id, cd: 20 }); } catch { /* ignore */ }
+    toast(p, sk.cat === "Ultimate" ? "§6§lSKILL ULTIMATE" : "§c§lMAGIA GIGANTE", `§e${sk.name}`);
+    say(p, `§6[${sk.cat === "Ultimate" ? "Ultimate" : "Magia Gigante"}] §fVocê despertou §e${sk.name}§f! §7${sk.desc}`);
+    try { sageText(p, `Aviso. Os requisitos foram atingidos. ${sk.cat === "Ultimate" ? "A Skill Ultimate" : "A magia de grande escala"} «${sk.name}» foi adquirida.`, { pri: 1, key: "ult.get." + sk.id, cd: 20 }); } catch { /* ignore */ }
     try { p.playSound("ui.toast.challenge_complete", { volume: 1, pitch: 0.9 }); } catch { /* ignore */ }
     markDirty(p);
   }

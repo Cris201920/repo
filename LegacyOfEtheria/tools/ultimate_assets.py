@@ -4,10 +4,10 @@ import json, os, re, math
 from PIL import Image, ImageDraw, ImageFilter
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); RP = os.path.join(ROOT, "LegacyOfEtheria_RP"); BP = os.path.join(ROOT, "LegacyOfEtheria_BP")
 src = open(os.path.join(BP, "scripts/data/ultimates.js")).read()
-ULT = re.findall(r'U\("(ult_\w+)", \{ name: "([^"]+)", element: "(\w+)"', src)
+ULT = re.findall(r'[UG]\("((?:ult|gs)_\w+)", \{ name: "([^"]+)", element: "(\w+)"', src)
 PAL = {"void": ((20, 6, 40), (150, 80, 255)), "arcane": ((30, 18, 60), (170, 130, 255)), "holy": ((60, 48, 10), (255, 230, 140)), "lightning": ((16, 26, 56), (255, 240, 120)),
-       "fire": ((60, 12, 4), (255, 140, 40)), "shadow": ((14, 6, 24), (170, 70, 220)), "light": ((60, 56, 30), (255, 250, 210))}
-FRAME = {"void": (150, 90, 255), "arcane": (175, 120, 255), "holy": (255, 205, 90), "lightning": (110, 210, 255), "fire": (255, 110, 70), "shadow": (200, 80, 230), "light": (255, 225, 120)}
+       "fire": ((60, 12, 4), (255, 140, 40)), "shadow": ((14, 6, 24), (170, 70, 220)), "light": ((60, 56, 30), (255, 250, 210)), "ice": ((10, 30, 60), (170, 230, 255))}
+FRAME = {"void": (150, 90, 255), "arcane": (175, 120, 255), "holy": (255, 205, 90), "lightning": (110, 210, 255), "fire": (255, 110, 70), "shadow": (200, 80, 230), "light": (255, 225, 120), "ice": (140, 220, 255)}
 S = 256
 import random
 from PIL import ImageChops
@@ -120,6 +120,36 @@ def art(uid, el):
         d.rectangle([56, 140, 200, 160], fill=(230, 180, 70, 255))
         for x in (92, 128, 164): d.ellipse([x - 9, 141, x + 9, 159], fill=(150, 80, 255, 255))
         glow(bg, l, 5, 0.9); l = L(); d = ImageDraw.Draw(l)
+    elif uid == "gs_meteor":
+        for k in range(10): d.line([(40 + k * 4, 30 + k * 2), (150 + k * 2, 150)], fill=(255, 140 + k * 8, 40, 120), width=10)
+        glow(bg, l, 10, 1.3); l = L(); d = ImageDraw.Draw(l)
+        radial(d, 160, 160, 54, (255, 240, 180, 255), (200, 60, 10, 255)); d.polygon([(130, 140), (150, 130), (146, 152)], fill=(90, 40, 20, 255)); d.polygon([(170, 176), (190, 170), (182, 190)], fill=(90, 40, 20, 255))
+    elif uid == "gs_dragon_storm":
+        for x, y, r in ((70, 60, 40), (128, 46, 48), (186, 62, 40)): d.ellipse([x - r, y - r, x + r, y + r], fill=(60, 66, 100, 255))
+        glow(bg, l, 4, 0.8); l = L(); d = ImageDraw.Draw(l)
+        for x0 in (70, 128, 186): d.line([(x0, 90), (x0 - 18, 150), (x0 + 6, 160), (x0 - 12, 236)], fill=(255, 245, 150, 255), width=9)
+        glow(bg, l, 12, 1.6); l = L(); d = ImageDraw.Draw(l)
+    elif uid == "gs_void_explosion":
+        d.ellipse([40, 40, 216, 216], outline=(170, 100, 255, 255), width=10); d.ellipse([70, 70, 186, 186], outline=(230, 200, 255, 255), width=5)
+        for k in range(12): ang = k * math.pi / 6; d.line([(128 + math.cos(ang) * 30, 128 + math.sin(ang) * 30), (128 + math.cos(ang) * 120, 128 + math.sin(ang) * 120)], fill=(200, 140, 255, 200), width=4)
+        glow(bg, l, 10, 1.4); l = L(); d = ImageDraw.Draw(l); radial(d, 128, 128, 34, (255, 255, 255, 255), (120, 40, 220, 255))
+    elif uid == "gs_celestial_lance":
+        d.ellipse([60, 196, 196, 226], outline=G, width=6)
+        for x in (78, 128, 178): d.polygon([(x, 210), (x - 10, 70), (x, 26), (x + 10, 70)], fill=W)
+        glow(bg, l, 10, 1.4); l = L(); d = ImageDraw.Draw(l)
+    elif uid == "gs_glacial_prison":
+        for k, x in enumerate(range(50, 220, 28)): h = 150 - abs(x - 135) * 0.9; d.polygon([(x - 14, 220), (x, 220 - h), (x + 14, 220)], fill=[(180, 235, 255, 255), (120, 200, 255, 255)][k % 2], outline=W)
+        glow(bg, l, 8, 1.2); l = L(); d = ImageDraw.Draw(l); d.ellipse([110, 150, 146, 186], fill=(40, 60, 90, 255))
+    elif uid == "gs_demonic_inferno":
+        d.rectangle([20, 200, 236, 236], fill=(200, 40, 20, 255))
+        for x in (60, 128, 196): d.polygon([(x - 22, 210), (x - 10, 110), (x, 40 + (x % 3) * 10), (x + 12, 110), (x + 22, 210)], fill=(255, 110, 20, 255))
+        glow(bg, l, 12, 1.4); l = L(); d = ImageDraw.Draw(l)
+        for x in (60, 128, 196): d.polygon([(x - 8, 210), (x, 120), (x + 8, 210)], fill=(255, 230, 120, 255))
+    elif uid == "gs_absolute_destruction":
+        for k in range(16): ang = k * math.pi / 8; d.line([(128, 128), (128 + math.cos(ang) * 124, 128 + math.sin(ang) * 124)], fill=(255, 60, 60, 160), width=6)
+        glow(bg, l, 12, 1.5); l = L(); d = ImageDraw.Draw(l)
+        radial(d, 128, 128, 60, (255, 230, 220, 255), (160, 0, 20, 255))
+        for k in range(5): ang = k * 1.3; d.line([(128, 128), (128 + math.cos(ang) * 58, 128 + math.sin(ang) * 58)], fill=K, width=4)
     glow(bg, l, 4, 0.8)
     return bg
 def pixelize(im, el, n=32):
@@ -150,7 +180,7 @@ for lang in ("pt_BR", "en_US"):
     L += [f"item.etheria:sk_{uid}={name}" for uid, name, _ in ULT]
     open(p, "w", encoding="utf-8").write("\n".join(L) + "\n")
 # prévia
-sheet = Image.new("RGBA", (6 * 140, 2 * 160), (34, 36, 48, 255)); dd = ImageDraw.Draw(sheet)
+sheet = Image.new("RGBA", (6 * 140, 3 * 160), (34, 36, 48, 255)); dd = ImageDraw.Draw(sheet)
 for i, (uid, name, el) in enumerate(ULT):
     ic = Image.open(os.path.join(RP, f"textures/items/etheria_sk_{uid}.png")).resize((128, 128), Image.NEAREST)
     x, y = (i % 6) * 140 + 6, (i // 6) * 160 + 6; sheet.alpha_composite(ic, (x, y)); dd.text((x, y + 132), name.split(",")[0], fill=(230, 230, 230))

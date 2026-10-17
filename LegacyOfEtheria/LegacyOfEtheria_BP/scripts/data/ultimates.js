@@ -52,3 +52,24 @@ export const ULT_UNLOCKS = {
   ult_michael:        { level: 90, boss: "michael_manas", why: "derrotar Michael, nível 90" },
   ult_hastur:         { races: ["elf", "beastkin", "dragonoid", "lizardman", "dragonewt", "dragonewt_w"], lord: true, level: 85, why: "Lorde Demônio de elfo/fera/dragão, nível 85" },
 };
+
+// 6.83: MAGIAS GIGANTES (personagens poderosos, dragões verdadeiros, demônios e chefes). exec.kind "grand" (systems/grandspells.js).
+const G = (id, o) => ({ id, type: "active", sp: 0, req: [], cat: "Magia", rarity: "mythic", level: 50, ...o, exec: { kind: "grand", stat: "intelligence", ...o.exec } });
+export const GRANDS = [
+  G("gs_meteor", { name: "Meteoro Celestial", element: "fire", mana: 150, cd: 75, level: 75, desc: "Um meteoro colossal rompe as nuvens e atinge o campo: explosão com ondas de choque.", exec: { range: 36, radius: 10, power: 5 } }),
+  G("gs_dragon_storm", { name: "Tempestade Dracônica", element: "lightning", mana: 140, cd: 70, level: 60, desc: "O céu escurece; nuvens se formam e raios enormes caem sobre os inimigos por 5 s.", exec: { range: 30, radius: 12, power: 1.1 } }),
+  G("gs_void_explosion", { name: "Explosão do Vazio", element: "void", mana: 150, cd: 75, level: 70, desc: "Um portal dimensional concentra energia e libera uma explosão que distorce o espaço.", exec: { range: 32, radius: 9, power: 4.6 } }),
+  G("gs_celestial_lance", { name: "Lança Celestial", element: "light", mana: 130, cd: 60, level: 60, desc: "Lanças de luz surgem no céu sobre cada inimigo e caem ao mesmo tempo.", exec: { range: 30, radius: 16, power: 1.6 } }),
+  G("gs_glacial_prison", { name: "Prisão Glacial", element: "ice", mana: 120, cd: 55, level: 65, desc: "Uma estrutura de gelo enorme se forma ao redor do alvo e o congela; depois se estilhaça.", exec: { range: 28, radius: 5, power: 2.6 } }),
+  G("gs_demonic_inferno", { name: "Inferno Demoníaco", element: "fire", mana: 140, cd: 70, level: 65, desc: "O chão vira um mar de chamas com pilares de fogo e uma explosão final.", exec: { range: 26, radius: 11, power: 1 } }),
+  G("gs_absolute_destruction", { name: "Destruição Absoluta", element: "void", mana: 260, cd: 180, level: 95, desc: "Acumula energia por 3 s e libera um ataque devastador de enorme impacto.", exec: { range: 34, radius: 13, power: 9 } }),
+];
+export const GRAND_UNLOCKS = {
+  gs_meteor: { level: 75, why: "nível 75" },
+  gs_dragon_storm: { races: ["dragonoid", "dragonewt_w", "dragonewt", "lizardman"], level: 60, why: "linha dracônica, nível 60" },
+  gs_void_explosion: { races: ["demon", "slime", "fallen", "fallen_lord", "vampire"], level: 70, why: "demônio, slime, caído ou vampiro, nível 70" },
+  gs_celestial_lance: { races: ["angel", "angel_arch", "angel_cherub", "angel_seraph"], level: 60, why: "anjo, nível 60" },
+  gs_glacial_prison: { level: 65, elem: "ice", why: "nível 65 com uma magia de gelo" },
+  gs_demonic_inferno: { races: ["demon", "ogre", "vampire"], level: 65, why: "demônio, ogro ou vampiro, nível 65" },
+  gs_absolute_destruction: { lord: true, level: 95, why: "Lorde Demônio nível 95" },
+};

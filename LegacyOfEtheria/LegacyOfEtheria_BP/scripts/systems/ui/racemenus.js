@@ -19,7 +19,7 @@ import { openLineage, openClass, openAttributes, openTitles } from "./menus.js";
 import { openPowers } from "../powers.js";
 import { openSlimeForms } from "../slimeform.js";
 import { ultReqs } from "../ultimates.js";
-import { ULTIMATES } from "../../data/ultimates.js";
+import { ULTIMATES, GRANDS } from "../../data/ultimates.js";
 
 const SEP = "§8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬";
 const RACE_THEME = { slime: "sage", demon: "world", vampire: "world", undead: "ciel", angel: "raphael", human: "raphael", dragonoid: "raphael", dwarf: "raphael", elf: "ciel", lizardman: "sage" };
@@ -85,7 +85,7 @@ export function openRaceV2(player, back) {
   if (d.race === "slime") B.push({ text: "§l§bForma do Slime\n§r§7slime · humana · Mímico", icon: "race_slime", run: () => openSlimeForms(player, () => openRaceV2(player, back), menu) });
   B.push({ text: "§l§5Lord Demônio\n§r§7caminho do Verdadeiro Lorde Demônio", icon: "race_" + r.id, run: () => openLordV2(player, back) });
   if (d.race === LINEAGE_RACE) { const Lg = lineageOf(d); B.push({ text: Lg ? `§l${Lg.color}Linhagem: ${Lg.name}\n§r§7${LINEAGE_FORMS[formOfPlayer(d)].name} · árvore e formas` : "§l§6Escolher linhagem dracônica\n§r§7Veldora, Velzard, Velgrynd, Veldanava", icon: Lg ? `lin_${Lg.id}` : "race_dragonoid", run: () => openLineage(player) }); }
-  B.push({ text: "§l§6Skills Ultimate\n§r§7as 12 Ultimates e como despertar", icon: "menu_status", run: () => openUltimates(player, () => openRaceV2(player, back)) });
+  B.push({ text: "§l§6Skills Ultimate e Magias Gigantes\n§r§7como despertar cada uma", icon: "menu_status", run: () => openUltimates(player, () => openRaceV2(player, back)) });
   B.push({ text: "§l§eNível e evolução de nível\n§r§7o que cada nível libera", icon: "menu_status", run: () => openLevelV2(player, () => openRaceV2(player, back)) });
   B.push({ text: "§l§bComparar raças\n§r§7fichas e árvores de todas as raças", icon: "menu_race", run: () => openRaceListV2(player, true, back) });
   B.push({ text: "§7« Voltar", icon: "back", run: () => back?.() });
@@ -227,7 +227,7 @@ export function openLevelV2(player, back) {
 /** 6.81: lista das Skills Ultimate com os requisitos reais (systems/ultimates.js ultReqs) */
 export function openUltimates(player, back) {
   const d = getData(player);
-  const B = ULTIMATES.map((u) => {
+  const B = [...ULTIMATES, ...GRANDS].map((u) => {
     const R = ultReqs(d, u.id), own = hasSkill(d, u.id);
     return { text: own ? `§6§l${u.name}\n§r§aDESPERTADA` : `§8§l${u.name}\n§r§7${R.filter((r) => r.ok).length}/${R.length} requisitos`, icon: "textures/ui/etheria/skill_" + u.id,
       run: () => menu(player, `§6§l${u.name.toUpperCase()}`, [`§f${u.desc}`, "", `§7Mana §b${u.mana} §7· Recarga §e${u.cd}s`, "", ...R.map((r) => `${r.ok ? "§a✔" : "§c✘"} §7${r.txt}`), "", "§8Também pode surgir por sorte ao devorar com o Predador."].join("\n"),

@@ -11,7 +11,7 @@ import { grandFx } from "../data/fxgrand.js";
 import { spellBody } from "./spellvfx.js";
 
 export function playSkillFx(player, sk, geo) {
-  if (sk?.exec?.kind === "ultimate") return;   // 6.81: Skills Ultimate têm coreografia própria (systems/ultimates.js)
+  if (sk?.exec?.kind === "ultimate" || sk?.exec?.kind === "grand") return;   // 6.81: Skills Ultimate têm coreografia própria (systems/ultimates.js)
   const c = ctx(player); if (c.k <= 0) return;
   const r = recipeFor(sk), ml = masteryLevel(player, sk.id), tier = ml >= 7 ? 3 : ml >= 3 ? 2 : 1;
   const dir = geo.dir ?? norm(player.getViewDirection());

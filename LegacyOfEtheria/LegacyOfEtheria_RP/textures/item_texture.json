@@ -1333,6 +1333,27 @@
   },
   "etheria_sk_ult_hastur": {
    "textures": "textures/items/etheria_sk_ult_hastur"
+  },
+  "etheria_sk_gs_meteor": {
+   "textures": "textures/items/etheria_sk_gs_meteor"
+  },
+  "etheria_sk_gs_dragon_storm": {
+   "textures": "textures/items/etheria_sk_gs_dragon_storm"
+  },
+  "etheria_sk_gs_void_explosion": {
+   "textures": "textures/items/etheria_sk_gs_void_explosion"
+  },
+  "etheria_sk_gs_celestial_lance": {
+   "textures": "textures/items/etheria_sk_gs_celestial_lance"
+  },
+  "etheria_sk_gs_glacial_prison": {
+   "textures": "textures/items/etheria_sk_gs_glacial_prison"
+  },
+  "etheria_sk_gs_demonic_inferno": {
+   "textures": "textures/items/etheria_sk_gs_demonic_inferno"
+  },
+  "etheria_sk_gs_absolute_destruction": {
+   "textures": "textures/items/etheria_sk_gs_absolute_destruction"
   }
  }
 }
