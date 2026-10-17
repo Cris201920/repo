@@ -25,6 +25,26 @@ function blockedForm(p) {
   try { const lf = p.getProperty("etheria:lform"); if (lf === "true" || lf === "draconic") return true; if (p.getProperty("etheria:slime") || (p.getProperty("etheria:mimic") ?? 0) > 0) return true; } catch { /* ignore */ }
   return false;
 }
+// 8.2: aura do rastro pela raça/linhagem (partículas do próprio pacote)
+const AURA = { angel: ["etheria:fx_white_flare", "etheria:fx_holy_smoke"], fall: ["etheria:fx_black_flare", "etheria:fx_judgement_smoke"],
+  demon: ["etheria:fx_black_flame", "etheria:fx_is_ember_ash"], vampire: ["etheria:fx_bats", "etheria:blood_mist"], dragonoid: ["etheria:fx_is_dragon_fire", "etheria:fx_is_embers"],
+  elf: ["etheria:fx_sakura", "etheria:fx_is_firefly"], beastkin: ["etheria:tx_gust", "etheria:fx_is_trace"], lizard: ["etheria:fx_water_bubble", "etheria:water_splash"],
+  ogre: ["etheria:fx_is_fire", "etheria:fx_is_embers"], undead: ["etheria:fx_is_soul_fire", "etheria:shadow_wisp"], slime: ["etheria:fx_water_bubble", "etheria:fx_is_wisp"],
+  velzard: ["etheria:fx_is_snowflake", "etheria:ice_shard"], velgrynd: ["etheria:fx_is_fire", "etheria:fx_is_flame_strike"], veldora: ["etheria:fx_black_lightning", "etheria:fx_is_zap"],
+  veldanava: ["etheria:fx_white_lightning", "etheria:fx_sun"], none: ["etheria:streak", "etheria:mote"] };
+function auraOf(p, d) {
+  let lin = "none"; try { lin = p.getProperty("etheria:lin") ?? "none"; } catch { /* ignore */ }
+  if (AURA[lin]) return AURA[lin];
+  if (/^fall_|^angel_f/.test(d.raceStage ?? "")) return AURA.fall;
+  return AURA[d.race] ?? AURA.none;
+}
+const cmd = (p, c) => { try { p.runCommand(c); } catch { /* comando indisponível nesta versão */ } };
+/** altura até o chão (até 9 blocos) e se o chão é água */
+function below(p) {
+  const l = p.location, dim = p.dimension;
+  for (let i = 1; i <= 9; i++) { try { const b = dim.getBlock({ x: Math.floor(l.x), y: Math.floor(l.y) - i, z: Math.floor(l.z) }); if (b && b.typeId !== "minecraft:air") return { h: i, water: /water/.test(b.typeId), y: Math.floor(l.y) - i + 1 }; } catch { return null; } }
+  return null;
+}
 export const superOn = (p) => !!Q.get(p.id)?.on;
 function state(p) { let q = Q.get(p.id); if (!q) { q = { on: false, sp: 0, fwd: 0, idle: 0, boom: false, carry: null, pose: -1, poseT: 0 }; Q.set(p.id, q); } return q; }
 
@@ -40,7 +60,7 @@ function release(p, q, throwIt) {
 /** encerra o super voo (volta ao voo normal ou ao chão) */
 export function endSuper(p, keepPose = false) {
   const q = Q.get(p.id); if (!q) return;
-  release(p, q, false); q.on = false; q.sp = 0; q.fwd = 0; q.idle = 0; q.boom = false;
+  release(p, q, false); if (q.on) cmd(p, "camera @s fov_clear"); q.on = false; q.sp = 0; q.fwd = 0; q.idle = 0; q.boom = false;
   if (!keepPose && q.pose !== 3) setPose(p, q, 0);
 }
 export const dropSuper = (id) => Q.delete(id);
@@ -58,6 +78,11 @@ export function impact(p, sp) {
   const dim = p.dimension, l = p.location, r = Math.min(TURBO.craterMax, 2 + Math.floor(sp * 1.2));
   fx(dim, "minecraft:huge_explosion_emitter", l); fx(dim, "etheria:impact_ring", l); fx(dim, "etheria:fx_is_shockwave", l); fx(dim, "etheria:fx_is_ring_smoke", l);
   snd(p, "random.explode", 1.4, 0.7); snd(p, "mob.warden.sonic_boom", 0.8, 0.6); shake(p, 0.9, 0.6);
+  // 8.2: detritos, segunda onda e poeira que fica no ar
+  fx(dim, "etheria:fx_is_blastwave", l); cmd(p, "camera @s fade time 0 0.05 0.25 color 255 245 220");
+  for (let i = 0; i < 10; i++) { const a = i * 0.628, rr = 1.5 + (i % 3); fx(dim, "etheria:earth_chunk", { x: l.x + Math.cos(a) * rr, y: l.y + 0.3, z: l.z + Math.sin(a) * rr }); }
+  system.runTimeout(() => { try { if (!p.isValid) return; fx(dim, "etheria:impact_ring", l); fx(dim, "etheria:fx_is_ring_smoke", l); snd(p, "random.explode", 0.7, 1.2); } catch { /* ignore */ } }, 6);
+  for (let k = 1; k <= 4; k++) system.runTimeout(() => { try { for (let i = 0; i < 6; i++) { const a = i * 1.047 + k, rr = 2 + k; fx(dim, "etheria:vfx_smoke", { x: l.x + Math.cos(a) * rr, y: l.y + 0.5 + k * 0.3, z: l.z + Math.sin(a) * rr }); } } catch { /* ignore */ } }, 8 * k);
   try {
     for (const e of dim.getEntities({ location: l, maxDistance: r + 3 })) {
       if (e.id === p.id || e.typeId === "minecraft:item") continue;
@@ -90,6 +115,8 @@ export function superStep(p, inp) {
     if (inp.moving && !inp.sneak && !inp.ground && (inp.sprint || q.fwd >= TURBO.holdTicks)) {
       q.on = true; q.sp = Math.max(TURBO.start, Math.hypot(s.vx, s.vz)); q.boom = false; q.idle = 0;
       setPose(p, q, 1); snd(p, "mob.enderdragon.flap", 1, 1.4); fx(p.dimension, "etheria:wind_swirl", p.location);
+      fx(p.dimension, "etheria:transform_ring", p.location); fx(p.dimension, "etheria:fx_is_blastwave", p.location); q.aura = auraOf(p, d); q.fov = 0;
+      const g = below(p); if (g && g.h <= 4) for (let i = 0; i < 8; i++) { const a = i * 0.785; fx(p.dimension, g.water ? "etheria:water_splash" : "etheria:earth_chunk", { x: p.location.x + Math.cos(a) * 1.8, y: g.y + 0.2, z: p.location.z + Math.sin(a) * 1.8 }); }
     } else return false;
   }
   // saída: agachar freia; soltar o movimento por ~0,4 s desliga
@@ -109,9 +136,18 @@ export function superStep(p, inp) {
   if (!q.boom && q.sp >= TURBO.boom) {
     q.boom = true; const l = p.location;
     fx(p.dimension, "etheria:fx_is_shockwave", l); fx(p.dimension, "etheria:fx_is_ring_smoke", l); snd(p, "mob.warden.sonic_boom", 1, 1.2); shake(p, 0.35, 0.4);
+    cmd(p, "camera @s fade time 0 0.03 0.12 color 255 255 255"); fx(p.dimension, "etheria:fx_is_blastwave", l);
   }
-  // rastro
-  if (s.t % 2 === 0) { const l = p.location; fx(p.dimension, q.sp >= TURBO.boom ? "etheria:fx_is_trailed_shockwave" : "etheria:wind_swirl", { x: l.x - v.x * 1.6, y: l.y + 0.9 - v.y * 1.6, z: l.z - v.z * 1.6 }); }
+  // rastro: vento + aura da raça; voo rasante levanta terra/água; velocidade máxima: cone de vento e faíscas; nuvens; FOV e vento
+  const l = p.location, dim = p.dimension, back = (k) => ({ x: l.x - v.x * k, y: l.y + 0.9 - v.y * k, z: l.z - v.z * k });
+  if (s.t % 2 === 0) { fx(dim, q.sp >= TURBO.boom ? "etheria:fx_is_trailed_shockwave" : "etheria:wind_swirl", back(1.6)); const au = q.aura ?? AURA.none; fx(dim, au[0], back(1.2)); if (s.t % 4 === 0) fx(dim, au[1], back(2.6)); }
+  if (s.t % 3 === 0) { const g = below(p); if (g && g.h <= 6) { const wk = { x: l.x - v.x * 1.5, y: g.y + 0.15, z: l.z - v.z * 1.5 }; fx(dim, g.water ? "etheria:water_splash" : "etheria:earth_chunk", wk); fx(dim, g.water ? "etheria:fx_water_bubble" : "etheria:vfx_smoke", wk); } }
+  if (q.sp >= TURBO.max * 0.9 && s.t % 8 === 0) { fx(dim, "etheria:fx_is_ring_smoke", { x: l.x + v.x * 2.5, y: l.y + 0.9 + v.y * 2.5, z: l.z + v.z * 2.5 }); fx(dim, "etheria:fx_is_electricity", back(0.6)); }
+  if ((q.lastY ?? l.y) < 192 && l.y >= 192) { for (let i = 0; i < 6; i++) fx(dim, "etheria:fx_is_fog", { x: l.x + (i - 3) * 0.8, y: l.y, z: l.z }); snd(p, "mob.phantom.swoop", 1, 0.8); }
+  q.lastY = l.y;
+  const fov = Math.round(70 + 25 * Math.min(1, (q.sp - TURBO.start) / (TURBO.max - TURBO.start)));
+  if (Math.abs(fov - (q.fov ?? 0)) >= 4) { q.fov = fov; cmd(p, `camera @s fov_set ${fov} 0.3 linear`); }
+  if (s.t % 24 === 0) snd(p, "mob.phantom.swoop", 0.5, 0.6 + q.sp * 0.25);
   // carregando: o alvo vai à frente
   if (q.carry) {
     const e = q.carry;
