@@ -923,6 +923,9 @@
      },
      {
       "tr_ewings": "query.property('etheria:tier') > 0"
+     },
+     {
+      "tr_superfly": "query.property('etheria:sfly') > 0 && !variable.is_first_person"
      }
     ]
    },
@@ -1214,7 +1217,8 @@
     "etheria_tfx_lord_dragonewt": "animation.etheria.tfx_lord_dragonewt",
     "etheria_tfx_evo_dragonewt_w": "animation.etheria.tfx_evo_dragonewt_w",
     "etheria_tfx_lord_dragonewt_w": "animation.etheria.tfx_lord_dragonewt_w",
-    "tr_ewings": "animation.tensura.race.ewings"
+    "tr_ewings": "animation.tensura.race.ewings",
+    "tr_superfly": "animation.tensura.race.superfly"
    },
    "render_controllers": [
     {

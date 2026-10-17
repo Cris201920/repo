@@ -842,6 +842,66 @@
      ]
     }
    }
+  },
+  "animation.tensura.race.superfly": {
+   "loop": true,
+   "animation_length": 3600,
+   "bones": {
+    "root": {
+     "rotation": [
+      "((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) * (82 + math.sin(query.anim_time * 120) * 3)",
+      0,
+      "((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) * math.sin(query.anim_time * 90) * 4"
+     ],
+     "position": [
+      0,
+      "((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) * 14 - (query.property('etheria:sfly') == 3 ? 1 : 0) * 4",
+      "((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) * -10"
+     ]
+    },
+    "body": {
+     "rotation": [
+      "(query.property('etheria:sfly') == 3 ? 1 : 0) * 30",
+      0,
+      0
+     ]
+    },
+    "head": {
+     "rotation": [
+      "((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) * -68 + (query.property('etheria:sfly') == 3 ? 1 : 0) * -20",
+      0,
+      0
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      "((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) * (-172 + math.sin(query.anim_time * 200) * 3) + (query.property('etheria:sfly') == 3 ? 1 : 0) * -30",
+      0,
+      "((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) * 6 + (query.property('etheria:sfly') == 3 ? 1 : 0) * 12"
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "(query.property('etheria:sfly') == 2 ? 1 : 0) * -172 + (((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) - (query.property('etheria:sfly') == 2 ? 1 : 0)) * (8 + math.sin(query.anim_time * 200 + 90) * 3) + (query.property('etheria:sfly') == 3 ? 1 : 0) * 35",
+      0,
+      "(((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) - (query.property('etheria:sfly') == 2 ? 1 : 0)) * -10 + (query.property('etheria:sfly') == 2 ? 1 : 0) * -6 + (query.property('etheria:sfly') == 3 ? 1 : 0) * -45"
+     ]
+    },
+    "rightLeg": {
+     "rotation": [
+      "((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) * (4 + math.sin(query.anim_time * 520) * 5) + (query.property('etheria:sfly') == 3 ? 1 : 0) * -45",
+      0,
+      "((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) * 3"
+     ]
+    },
+    "leftLeg": {
+     "rotation": [
+      "((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) * (2 - math.sin(query.anim_time * 520) * 5) + (query.property('etheria:sfly') == 3 ? 1 : 0) * 60",
+      0,
+      "((query.property('etheria:sfly') == 1 || query.property('etheria:sfly') == 2) ? 1 : 0) * -3"
+     ]
+    }
+   }
   }
  }
 }

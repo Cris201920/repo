@@ -1,6 +1,6 @@
 // config.js - Constantes e balanceamento (edite aqui, sem mexer na lógica)
 export const BUILD_PROFILE = "quality"; // o build troca para "performance" na versão leve
-export const VERSION = "8.0.0";
+export const VERSION = "8.1.0";
 export const PROP_KEY = "etheria:data";
 export const WORLD_RANK_KEY = "etheria:ranking";
 export const DATA_VERSION = 3;          // v3: hotbar de habilidades (loadout, instâncias, recargas salvas)
@@ -172,4 +172,20 @@ export const ANTISKILL = {
   negative: ["poison", "wither", "weakness", "slowness", "nausea", "mining_fatigue", "blindness", "hunger"],   // anuláveis no usuário da aura
   rpgPartial: ["stun", "paralyze", "degenerate"],                                                          // debuffs do RPG: duram no máx. 1 s sob a aura
   immuneEntities: ["etheria:veldora", "etheria:velzard", "etheria:velgrynd", "etheria:veldanava", "etheria:chronoa", "etheria:milim_nava", "etheria:guy_crimson", "etheria:rimuru_senhor_demonio", "etheria:yuuki_kagurazaka"],
+};
+
+// 8.1: SUPER VOO (estilo herói): em voo, segurar o movimento (~1 s) ou correr -> voa na direção da câmera, acelerando; estrondo sônico,
+// rastro, mergulho com IMPACTO (cratera + onda de choque), agarrar/arremessar mobs. systems/superflight.js
+export const TURBO = {
+  on: true,
+  holdTicks: 30,        // ticks (~1,5 s) segurando o movimento no ar para entrar no super voo (correndo: na hora)
+  start: 0.8,           // velocidade inicial (blocos/tick)
+  accel: 0.045,         // ganho por tick
+  max: 2.2,             // ~44 blocos/s
+  boom: 1.5,            // estrondo sônico ao passar desta velocidade
+  impactMin: 1.0,       // velocidade mínima de mergulho para o impacto
+  craterMax: 4,         // raio máximo da cratera (blocos)
+  craterBlocks: 90,     // limite de blocos removidos por impacto (celular)
+  staminaPerSec: 3,     // custo enquanto em super voo
+  carryMaxHp: 400,      // só agarra alvos com até esta vida (chefes grandes não)
 };

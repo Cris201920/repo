@@ -56,6 +56,7 @@ import { startResidents } from "./systems/residents.js";
 import { startNpcGreetings } from "./systems/worldnpc.js";
 import { startProgress } from "./systems/progress.js";
 import { startFlight, dropFlight } from "./systems/flight.js";
+import { startSuperFlight } from "./systems/superflight.js";
 import { startAntiSkill } from "./systems/antiskill.js";
 import { startPowers } from "./systems/powers.js";
 import { startCreator } from "./systems/creator.js";
@@ -159,6 +160,7 @@ system.run(() => {
   startNpcGreetings();
   startProgress();
   startFlight();
+  startSuperFlight();
   startAntiSkill();
   startPowers();
   startCreator();

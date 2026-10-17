@@ -18,6 +18,7 @@ import { RACES } from "../data/races.js";
 import { formOfPlayer } from "../data/lineages.js";
 import { wingedStage } from "./raceparts.js";
 import { takeoffFx, iceWingFx, iceWings } from "./flightfx.js";
+import { superStep, endSuper } from "./superflight.js";
 
 const st = new Map();   // playerId -> { air, held, ground, vx, vz, taps, lastJump, mode }
 export const flightOn = (d) => d.flight?.on !== false;                  // padrão: ligada ao desbloquear
@@ -43,6 +44,7 @@ export const toggleFlight = (player) => setFlightOn(player, !flightOn(getData(pl
 
 function land(p, safe) {
   const s = st.get(p.id); if (s) { s.air = false; s.held = 0; s.ground = 0; setMode(p, s, 0); }
+  try { endSuper(p); } catch { /* ignore */ }
   unEff(p, "levitation");
   if (safe) eff(p, "slow_falling", FLIGHT.safeTicks, 0);
 }
@@ -88,6 +90,10 @@ export function stepFlight(p) {
   if (moving) { const k = FLIGHT.accel; hx = s.vx + (ix / il) * cap * k; hz = s.vz + (iz / il) * cap * k; }
   const hl = Math.hypot(hx, hz); if (hl > cap) { hx *= cap / hl; hz *= cap / hl; }
   if (hl < 0.004) { hx = 0; hz = 0; }
+  // 8.1: SUPER VOO (systems/superflight.js) — segurar o movimento no ar (ou correr) -> voa para onde a câmera aponta
+  const sup = superStep(p, { moving, sprint, sneak, ground, s });
+  if (sup === "land") { land(p, true); return; }
+  if (sup === "fly") { setMode(p, s, 3); return; }
   // 6.58b: agachar no CELULAR é alternado (fica ligado). Só conta como "descer" se foi apertado DEPOIS de decolar e por até
   // FLIGHT.sneakMax ticks seguidos; para descer mais, solte e aperte de novo. Agachado ao decolar = ignorado até soltar.
   if (!sneak) { s.sneakArm = true; s.sneakT = 0; } else if (s.sneakArm) s.sneakT += step;
@@ -123,7 +129,7 @@ export function flightEligible(d) {
 export function flightProgress(p) {
   const d = getData(p); if (flightUnlocked(d) || !flightEligible(d)) return false;
   grantSkill(p, FLIGHT.skill, { noEquip: true });
-  say(p, "§b§l[Voo Livre] §r§7Seu poder permite voar! Ative/desative em §fHabilidades > Passivas§7 (ou §f!voo§7). Segure §fpular§7 para decolar; §fagachar§7 para descer.");
+  say(p, "§b§l[Voo Livre] §r§7Seu poder permite voar! Ative/desative em §fHabilidades > Passivas§7 (ou §f!voo§7). Segure §fpular§7 para decolar; §fagachar§7 para descer. §6Super Voo:§7 no ar, segure o movimento ~1,5 s (ou corra) e voe para onde olha; mergulhe no chão para o §fimpacto§7; golpeie um mob para §fagarrar§7 e de novo para §farremessar§7 (§f!cratera§7 liga/desliga a quebra de blocos).");
   return true;
 }
 /** descrição dos requisitos (menu). */
