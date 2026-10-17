@@ -2,6 +2,8 @@
 // Este módulo cuida só do TEMPO e do VISUAL de cada fase; a regra do jogo (custo, recarga, dano, reembolso) continua em skills.js e chega aqui
 // por um objeto `io` (guard, aimPoint, execute, onRelease, flush, onCancel, onFail). Nada aqui aplica dano nem gasta recurso por conta própria.
 // Mobile: laços de 1 tick só existem durante a formação (≤ ~18 ticks) e o trajeto (≤ 24 ticks); tudo passa por fxlib (orçamento por tick e níveis).
+import { chargeFrame, releaseFx, impactFx } from "./elementfx.js";
+import { grandFx } from "../data/fxgrand.js";
 import { system } from "@minecraft/server";
 import { spellBody } from "./spellvfx.js";
 import { SOUNDS } from "../config.js";
@@ -133,10 +135,12 @@ export function runStaged(player, sk, spec, io) {
     const v = { player, sk, ex, tier, pos: player.location, origin, from, to, at, dir, hand: fr.hand, dist: d, T: T_, hits: out.hits.length };
     play(ch.sfx?.release ?? [{ id: ex.snd ?? SOUNDS.cast, vol: 0.8, pitch: 1 }], player.location);
     safe(() => ch.release?.(c, v));
+    safe(() => releaseFx(c, v, sk, T_));   // 6.82: identidade do elemento (lançamento + rastro)
+    safe(() => grandFx(c, v, sk, (fn) => system.runTimeout(() => safe(() => fn(v.at)), Math.max(1, T_)), Math.max(1, T_)));   // 6.82: camada de grandeza também no caminho em fases
     safe(() => spellBody(c, v, sk, Math.max(1, T_)));   // 6.65: corpo 3D da magia, chega junto com o dano (mesmo T_)
     io.onRelease(out, v);
     const delayOf = (e) => (spec.timing === "pass" ? clamp(Math.ceil(dist(from, e.location) / Math.max(0.5, spec.speed)), 0, T_) : T_);
-    flight(c, ch, v, T_, () => { safe(() => ch.impact?.(c, v)); play(ch.sfx?.impact, at); });
+    flight(c, ch, v, T_, () => { safe(() => ch.impact?.(c, v)); safe(() => impactFx(c, v, sk)); play(ch.sfx?.impact, at); });
     io.flush(out.hits, delayOf, (e) => safe(() => ch.onHit?.(c, e, v)));
     if (ch.holdFx) hold(c, player, sk, ch, play);
   }
@@ -151,6 +155,7 @@ export function runStaged(player, sk, spec, io) {
       const f = mk(i);
       if (i === 0) f.v0 = { pos: f.feet, from: f.head, to: add(f.head, f.dir, 6), at: add(f.head, f.dir, 6), dir: f.dir, tier, sk };
       ch.form?.(c, f);
+      chargeFrame(c, sk, f);   // 6.82: carga com a identidade do elemento
     } catch { /* efeito de formação nunca derruba a habilidade */ }
     i++;
   };

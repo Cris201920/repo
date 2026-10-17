@@ -1,3 +1,4 @@
+import { bossImpact } from "./elementfx.js";
 import { playBossAnim, kindFor } from "./bossanim.js";
 // systems/mobai.js - IA individual dos mobs de Tensura: cada papel (e alguns mobs) tem ataques, alcance, recarga, telegrafia e som próprios.
 // Roda a cada 10 ticks só ao redor dos jogadores (máx. N mobs por varredura); sem entidades auxiliares permanentes.
@@ -174,7 +175,7 @@ function think(e, tick) {
     else if (a.act && e.typeId === CHR) setAct(e, a.act, a.wind + 16);
     else playBossAnim(e, kindFor(id), a.wind + 10);   // 6.37: animação de combate do chefe, sincronizada com a preparação
     try { a.tele(e, t, c); } catch { /* ignore */ }
-    after(a.wind, () => { s.busy = false; try { if (isValid(e) && isValid(t)) a.run(e, t, ctx(t, 1)); } catch { /* ignore */ } });
+    after(a.wind, () => { s.busy = false; try { if (isValid(e) && isValid(t)) { const c2 = ctx(t, 1); a.run(e, t, c2); try { bossImpact(c2, id, t.location, boss); } catch { /* ignore */ } } } catch { /* ignore */ } });   // 6.82: identidade do elemento no golpe
     return;
   }
   // 6.23 anti-"kiting"/"pilar": o chefe não achou golpe utilizável e o alvo está longe ou muito acima/abaixo -> fecha a distância (investida ou teleporte curto), no máx. 1x a cada 8 s

@@ -1,6 +1,6 @@
 // config.js - Constantes e balanceamento (edite aqui, sem mexer na lógica)
 export const BUILD_PROFILE = "quality"; // o build troca para "performance" na versão leve
-export const VERSION = "6.81.0";
+export const VERSION = "6.82.0";
 export const PROP_KEY = "etheria:data";
 export const WORLD_RANK_KEY = "etheria:ranking";
 export const DATA_VERSION = 3;          // v3: hotbar de habilidades (loadout, instâncias, recargas salvas)

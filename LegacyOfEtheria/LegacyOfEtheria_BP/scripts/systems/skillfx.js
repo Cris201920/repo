@@ -1,4 +1,5 @@
 // systems/skillfx.js - Executa as fases visuais de uma habilidade: cast -> travel -> impact.
+import { releaseFx, impactFx } from "./elementfx.js";
 import { system } from "@minecraft/server";
 import { ctx, after, skillPart } from "./fxlib.js";
 import { recipeFor } from "../data/fxrecipes.js";
@@ -24,7 +25,8 @@ export function playSkillFx(player, sk, geo) {
   const d = Math.hypot(v.to.x - v.from.x, v.to.y - v.from.y, v.to.z - v.from.z);
   after(2, () => { run(r.travel); part("travel"); if (E) run(E.trail); });
   const hitT = 2 + Math.min(10, Math.ceil(d / 3));
-  after(hitT, () => { run(r.impact); part("impact"); if (E) { run(E.impact); run(E.residue); } });
+  run((cx, vv) => releaseFx(cx, vv, sk, hitT));   // 6.82: identidade do elemento (lançamento + rastro)
+  after(hitT, () => { run(r.impact); part("impact"); if (E) { run(E.impact); run(E.residue); } run((cx, vv) => impactFx(cx, vv, sk)); });
   // 6.55: camada de grandeza (densidade por raridade + composição própria do elemento), no mesmo tempo do impacto real
   run((cx, vv) => grandFx(cx, vv, sk, (f) => after(hitT, () => f(vv.at)), hitT));
   // 6.65: corpo 3D da magia (modelo + textura animada do mod) na mesma trajetória e no mesmo impacto
