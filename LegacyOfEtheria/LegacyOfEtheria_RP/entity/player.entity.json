@@ -9,7 +9,8 @@
     "animated": "player_animated",
     "spectator": "player_spectator",
     "tr_part": "entity_alphatest",
-    "tr_glow": "entity_emissive_alpha"
+    "tr_glow": "entity_emissive_alpha",
+    "slime_gel": "entity_alphablend"
    },
    "textures": {
     "default": "textures/entity/steve",
@@ -94,7 +95,31 @@
     "etheria_race_angel_cherub_lord": "textures/entity/etheria_race_angel_cherub_lord",
     "etheria_race_angel_seraph_lord": "textures/entity/etheria_race_angel_seraph_lord",
     "etheria_race_fallen_dl": "textures/entity/etheria_race_fallen_dl",
-    "etheria_race_fallen_lord_lord": "textures/entity/etheria_race_fallen_lord_lord"
+    "etheria_race_fallen_lord_lord": "textures/entity/etheria_race_fallen_lord_lord",
+    "slime_form": "textures/entity/etheria_player_slime",
+    "mim_goblin": "textures/entity/etheria_tt_goblin",
+    "mim_hobgoblin": "textures/entity/etheria_tt_goblin_7",
+    "mim_direwolf": "textures/entity/etheria_tt_direwolf",
+    "mim_direwolf_alpha": "textures/entity/etheria_tt_direwolf_boss",
+    "mim_orc": "textures/entity/etheria_tt_orc",
+    "mim_orc_lord": "textures/entity/etheria_tt_orc_lord",
+    "mim_lizardman": "textures/entity/etheria_tt_lizardman",
+    "mim_ogre": "textures/entity/etheria_ogre",
+    "mim_taratect": "textures/entity/etheria_taratect",
+    "mim_black_spider": "textures/entity/etheria_tt_black_spider",
+    "mim_giant_bat": "textures/entity/etheria_tt_giant_bat",
+    "mim_giant_bear": "textures/entity/etheria_tt_giant_bear",
+    "mim_centipede": "textures/entity/etheria_tt_evil_centipede",
+    "mim_serpent": "textures/entity/etheria_tt_tempest_serpent",
+    "mim_giant_ant": "textures/entity/etheria_tt_giant_ant",
+    "mim_grave_lizard": "textures/entity/etheria_tt_grave_lizard",
+    "mim_imp": "textures/entity/etheria_imp",
+    "mim_elf": "textures/entity/etheria_tt_elf",
+    "mim_dwarf": "textures/entity/etheria_tt_dwarf",
+    "mim_skeleton_knight": "textures/entity/etheria_skeleton_knight",
+    "mim_arcane_slime": "textures/entity/etheria_tt_intelligent_slime",
+    "mim_knight": "textures/entity/etheria_npc_lm_knight",
+    "mim_adventurer": "textures/entity/etheria_npc_tp_adventurer"
    },
    "geometry": {
     "default": "geometry.humanoid.custom",
@@ -166,7 +191,31 @@
     "etheria_race_angel_cherub_lord": "geometry.etheria_race_angel_cherub_lord",
     "etheria_race_angel_seraph_lord": "geometry.etheria_race_angel_seraph_lord",
     "etheria_race_fallen_dl": "geometry.etheria_race_fallen_dl",
-    "etheria_race_fallen_lord_lord": "geometry.etheria_race_fallen_lord_lord"
+    "etheria_race_fallen_lord_lord": "geometry.etheria_race_fallen_lord_lord",
+    "slime_form": "geometry.etheria_player_slime",
+    "mim_goblin": "geometry.humanoid.custom",
+    "mim_hobgoblin": "geometry.humanoid.custom",
+    "mim_direwolf": "geometry.etheria_tt_direwolf",
+    "mim_direwolf_alpha": "geometry.etheria_tt_direwolf_boss",
+    "mim_orc": "geometry.etheria_tt_orc",
+    "mim_orc_lord": "geometry.etheria_tt_orc_lord",
+    "mim_lizardman": "geometry.etheria_tt_lizardman",
+    "mim_ogre": "geometry.etheria_ogre",
+    "mim_taratect": "geometry.etheria_taratect",
+    "mim_black_spider": "geometry.etheria_tt_black_spider",
+    "mim_giant_bat": "geometry.etheria_tt_giant_bat",
+    "mim_giant_bear": "geometry.etheria_tt_giant_bear",
+    "mim_centipede": "geometry.etheria_tt_evil_centipede",
+    "mim_serpent": "geometry.etheria_tt_tempest_serpent",
+    "mim_giant_ant": "geometry.etheria_tt_giant_ant",
+    "mim_grave_lizard": "geometry.etheria_tt_grave_lizard",
+    "mim_imp": "geometry.etheria_imp",
+    "mim_elf": "geometry.humanoid.custom",
+    "mim_dwarf": "geometry.etheria_tt_dwarf",
+    "mim_skeleton_knight": "geometry.etheria_skeleton_knight",
+    "mim_arcane_slime": "geometry.etheria_tt_intelligent_slime",
+    "mim_knight": "geometry.etheria_npc_lm_knight",
+    "mim_adventurer": "geometry.etheria_npc_tp_adventurer"
    },
    "scripts": {
     "scale": "query.property('etheria:lform') == 'true' ? 0.85 : (query.property('etheria:lform') == 'draconic' ? 0.55 : 0.9375)",
@@ -177,7 +226,7 @@
      "variable.hand_bob = 0.0;"
     ],
     "pre_animation": [
-     "variable.etheria_dragon = (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') ? 1.0 : 0.0;",
+     "variable.etheria_dragon = (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic' || (query.property('etheria:slime') || query.property('etheria:mimic') > 0)) ? 1.0 : 0.0;",
      "variable.etheria_land = (variable.etheria_air > 0.3 && query.is_on_ground) ? query.life_time : variable.etheria_land;",
      "variable.etheria_air = query.is_on_ground ? 0.0 : variable.etheria_air + query.delta_time;",
      "variable.helmet_layer_visible = !query.has_head_gear;",
@@ -744,6 +793,78 @@
      },
      {
       "drg_parts": "variable.etheria_dragon"
+     },
+     {
+      "slime_form": "query.property('etheria:slime') && query.property('etheria:mimic') == 0"
+     },
+     {
+      "mim_goblin": "query.property('etheria:mimic') == 1"
+     },
+     {
+      "mim_hobgoblin": "query.property('etheria:mimic') == 2"
+     },
+     {
+      "mim_direwolf": "query.property('etheria:mimic') == 3"
+     },
+     {
+      "mim_direwolf_alpha": "query.property('etheria:mimic') == 4"
+     },
+     {
+      "mim_orc": "query.property('etheria:mimic') == 5"
+     },
+     {
+      "mim_orc_lord": "query.property('etheria:mimic') == 6"
+     },
+     {
+      "mim_lizardman": "query.property('etheria:mimic') == 7"
+     },
+     {
+      "mim_ogre": "query.property('etheria:mimic') == 8"
+     },
+     {
+      "mim_taratect": "query.property('etheria:mimic') == 9"
+     },
+     {
+      "mim_black_spider": "query.property('etheria:mimic') == 10"
+     },
+     {
+      "mim_giant_bat": "query.property('etheria:mimic') == 11"
+     },
+     {
+      "mim_giant_bear": "query.property('etheria:mimic') == 12"
+     },
+     {
+      "mim_centipede": "query.property('etheria:mimic') == 13"
+     },
+     {
+      "mim_serpent": "query.property('etheria:mimic') == 14"
+     },
+     {
+      "mim_giant_ant": "query.property('etheria:mimic') == 15"
+     },
+     {
+      "mim_grave_lizard": "query.property('etheria:mimic') == 16"
+     },
+     {
+      "mim_imp": "query.property('etheria:mimic') == 17"
+     },
+     {
+      "mim_elf": "query.property('etheria:mimic') == 18"
+     },
+     {
+      "mim_dwarf": "query.property('etheria:mimic') == 19"
+     },
+     {
+      "mim_skeleton_knight": "query.property('etheria:mimic') == 20"
+     },
+     {
+      "mim_arcane_slime": "query.property('etheria:mimic') == 21"
+     },
+     {
+      "mim_knight": "query.property('etheria:mimic') == 22"
+     },
+     {
+      "mim_adventurer": "query.property('etheria:mimic') == 23"
      }
     ]
    },
@@ -992,7 +1113,31 @@
     "etheria_race_angel_cherub_lord": "animation.etheria.race_angel_cherub_lord",
     "etheria_race_angel_seraph_lord": "animation.etheria.race_angel_seraph_lord",
     "etheria_race_fallen_dl": "animation.etheria.race_fallen_dl",
-    "etheria_race_fallen_lord_lord": "animation.etheria.race_fallen_lord_lord"
+    "etheria_race_fallen_lord_lord": "animation.etheria.race_fallen_lord_lord",
+    "slime_form": "animation.etheria.slime_form",
+    "mim_goblin": "animation.humanoid.move",
+    "mim_hobgoblin": "animation.humanoid.move",
+    "mim_direwolf": "animation.etheria_tt_direwolf.main",
+    "mim_direwolf_alpha": "animation.etheria_tt_direwolf_boss.main",
+    "mim_orc": "animation.etheria_tt_orc.main",
+    "mim_orc_lord": "animation.etheria_tt_orc_lord.main",
+    "mim_lizardman": "animation.etheria_tt_lizardman.main",
+    "mim_ogre": "animation.etheria.biped_walk",
+    "mim_taratect": "animation.etheria_taratect.move.walk",
+    "mim_black_spider": "animation.etheria_tt_black_spider.main",
+    "mim_giant_bat": "animation.etheria_tt_giant_bat.main",
+    "mim_giant_bear": "animation.etheria_tt_giant_bear.main",
+    "mim_centipede": "animation.etheria_tt_evil_centipede.main",
+    "mim_serpent": "animation.etheria_tt_tempest_serpent.main",
+    "mim_giant_ant": "animation.etheria_tt_giant_ant.main",
+    "mim_grave_lizard": "animation.etheria_tt_grave_lizard.main",
+    "mim_imp": "animation.etheria.biped_walk",
+    "mim_elf": "animation.humanoid.move",
+    "mim_dwarf": "animation.etheria_tt_dwarf.main",
+    "mim_skeleton_knight": "animation.etheria.biped_walk",
+    "mim_arcane_slime": "animation.etheria_tt_intelligent_slime.main",
+    "mim_knight": "animation.etheria.biped_walk",
+    "mim_adventurer": "animation.etheria.biped_walk"
    },
    "render_controllers": [
     {
@@ -1005,7 +1150,7 @@
      "controller.render.player.first_person": "variable.is_first_person && !query.is_spectator"
     },
     {
-     "controller.render.player.third_person": "(!variable.is_first_person && !variable.map_face_icon && !query.is_spectator) && query.property('etheria:lform') != 'true' && query.property('etheria:lform') != 'draconic'"
+     "controller.render.player.third_person": "(!variable.is_first_person && !variable.map_face_icon && !query.is_spectator) && query.property('etheria:lform') != 'true' && query.property('etheria:lform') != 'draconic' && !(query.property('etheria:slime') || query.property('etheria:mimic') > 0)"
     },
     {
      "controller.render.player.map": "variable.map_face_icon"
@@ -1129,6 +1274,12 @@
     },
     {
      "controller.render.etheria_player_dragon_veldanava": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
+    },
+    {
+     "controller.render.etheria_player_slime": "!variable.is_first_person && !variable.map_face_icon && !query.is_spectator && query.property('etheria:slime') && query.property('etheria:mimic') == 0"
+    },
+    {
+     "controller.render.etheria_player_mimic": "!variable.is_first_person && !variable.map_face_icon && !query.is_spectator && query.property('etheria:mimic') > 0"
     }
    ],
    "enable_attachables": true,

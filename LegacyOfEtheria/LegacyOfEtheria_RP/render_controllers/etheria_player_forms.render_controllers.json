@@ -1,0 +1,83 @@
+{
+ "format_version": "1.8.0",
+ "render_controllers": {
+  "controller.render.etheria_player_slime": {
+   "geometry": "Geometry.slime_form",
+   "materials": [
+    {
+     "*": "Material.slime_gel"
+    }
+   ],
+   "textures": [
+    "Texture.slime_form"
+   ]
+  },
+  "controller.render.etheria_player_mimic": {
+   "arrays": {
+    "geometries": {
+     "Array.mg": [
+      "Geometry.mim_goblin",
+      "Geometry.mim_hobgoblin",
+      "Geometry.mim_direwolf",
+      "Geometry.mim_direwolf_alpha",
+      "Geometry.mim_orc",
+      "Geometry.mim_orc_lord",
+      "Geometry.mim_lizardman",
+      "Geometry.mim_ogre",
+      "Geometry.mim_taratect",
+      "Geometry.mim_black_spider",
+      "Geometry.mim_giant_bat",
+      "Geometry.mim_giant_bear",
+      "Geometry.mim_centipede",
+      "Geometry.mim_serpent",
+      "Geometry.mim_giant_ant",
+      "Geometry.mim_grave_lizard",
+      "Geometry.mim_imp",
+      "Geometry.mim_elf",
+      "Geometry.mim_dwarf",
+      "Geometry.mim_skeleton_knight",
+      "Geometry.mim_arcane_slime",
+      "Geometry.mim_knight",
+      "Geometry.mim_adventurer"
+     ]
+    },
+    "textures": {
+     "Array.mt": [
+      "Texture.mim_goblin",
+      "Texture.mim_hobgoblin",
+      "Texture.mim_direwolf",
+      "Texture.mim_direwolf_alpha",
+      "Texture.mim_orc",
+      "Texture.mim_orc_lord",
+      "Texture.mim_lizardman",
+      "Texture.mim_ogre",
+      "Texture.mim_taratect",
+      "Texture.mim_black_spider",
+      "Texture.mim_giant_bat",
+      "Texture.mim_giant_bear",
+      "Texture.mim_centipede",
+      "Texture.mim_serpent",
+      "Texture.mim_giant_ant",
+      "Texture.mim_grave_lizard",
+      "Texture.mim_imp",
+      "Texture.mim_elf",
+      "Texture.mim_dwarf",
+      "Texture.mim_skeleton_knight",
+      "Texture.mim_arcane_slime",
+      "Texture.mim_knight",
+      "Texture.mim_adventurer"
+     ]
+    }
+   },
+   "geometry": "Array.mg[math.max(0, query.property('etheria:mimic') - 1)]",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.mt[math.max(0, query.property('etheria:mimic') - 1)]"
+   ]
+  }
+ }
+}

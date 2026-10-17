@@ -1,3 +1,4 @@
+import { applySlimeForm } from "./slimeform.js";
 import { sageText } from "./voice.js";
 // systems/raceparts.js - TRAÇOS RACIAIS NO CORPO (asas, chifres, cauda): sem item. O jogador "já nasce" com eles.
 // O Behavior Pack sobrescreve minecraft:player com a propriedade "etheria:race" (enum, client_sync) e o Resource Pack desenha a geometria da raça
@@ -141,6 +142,7 @@ export function applyRaceLook(player, announce = false) {
     if (player.getProperty(LFORM_PROP) !== lf) player.setProperty(LFORM_PROP, lf);
     applyFormCollision(player, lf);
   } catch { /* propriedades de linhagem indisponíveis */ }
+  try { applySlimeForm(player, d); } catch { /* ignore */ }   // 6.80: forma slime / Mímico
   let look = null;
   try { look = d.raceChosen ? applyTensuraLook(player, d, lineageActive) : applyTensuraLook(player, { raceStage: null, race: null }, false); } catch { /* ignore */ }
   if (announce && d.raceChosen && (body !== "none" || (look && Object.keys(look).length))) {

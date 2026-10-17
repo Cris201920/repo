@@ -17,6 +17,7 @@ import { hasSkill } from "../skills.js";
 import { menu, cardMenu } from "./forms.js";
 import { openLineage, openClass, openAttributes, openTitles } from "./menus.js";
 import { openPowers } from "../powers.js";
+import { openSlimeForms } from "../slimeform.js";
 
 const SEP = "§8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬";
 const RACE_THEME = { slime: "sage", demon: "world", vampire: "world", undead: "ciel", angel: "raphael", human: "raphael", dragonoid: "raphael", dwarf: "raphael", elf: "ciel", lizardman: "sage" };
@@ -79,6 +80,7 @@ export function openRaceV2(player, back) {
     text: ok ? `§e§l★ ${n.name}\n§r§aDISPONÍVEL · toque para evoluir` : `§8§l${n.name}\n§r§7${isLordStage(n.id) ? "Lord Demônio · " : ""}${R.filter((x) => x.ok).length}/${R.length} requisitos · ${pct(evoProgress(d, n, H))}`,
     icon: "race_" + r.id, run: () => openEvolveV2(player, n.id, back),
   }));
+  if (d.race === "slime") B.push({ text: "§l§bForma do Slime\n§r§7slime · humana · Mímico", icon: "race_slime", run: () => openSlimeForms(player, () => openRaceV2(player, back), menu) });
   B.push({ text: "§l§5Lord Demônio\n§r§7caminho do Verdadeiro Lorde Demônio", icon: "race_" + r.id, run: () => openLordV2(player, back) });
   if (d.race === LINEAGE_RACE) { const Lg = lineageOf(d); B.push({ text: Lg ? `§l${Lg.color}Linhagem: ${Lg.name}\n§r§7${LINEAGE_FORMS[formOfPlayer(d)].name} · árvore e formas` : "§l§6Escolher linhagem dracônica\n§r§7Veldora, Velzard, Velgrynd, Veldanava", icon: Lg ? `lin_${Lg.id}` : "race_dragonoid", run: () => openLineage(player) }); }
   B.push({ text: "§l§eNível e evolução de nível\n§r§7o que cada nível libera", icon: "menu_status", run: () => openLevelV2(player, () => openRaceV2(player, back)) });

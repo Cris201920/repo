@@ -16,6 +16,7 @@ import { store, room, predTier, analyze } from "./stomach.js";
 import { MOBS } from "../data/mobs.gen.js";
 import { ALLY_TAG } from "../config.js";
 import { mote, streak, ringFlat, orbit, helix, after } from "./fxlib.js";
+import { onDevoured } from "./slimeform.js";
 
 // quantidade de devorados -> habilidade de mimetismo
 const MIMIC = [
@@ -94,6 +95,7 @@ function devourOne(player, e, sk, h) {
   successFx(player, loc);
   playSound(player, "mob.enderman.teleport", 0.6, 0.6);
   after(10, () => { try { analyze(player, typeId); } catch { /* ignore */ } });
+  try { onDevoured(player, typeId); } catch { /* ignore */ }   // 6.80: forma humana/Mímico do slime e sorte de Ultimate
   if (!stored && dead) { try { sageText(player, "O alvo se desfez antes da captura completa. Apenas a análise foi registrada.", { pri: 4, key: "pred.dead", cd: 200 }); } catch { /* ignore */ } }
   for (const [fam, skill, need] of MIMIC) {
     if (short.includes(fam) && d.stomach[short] >= need && !hasSkill(d, skill)) {
