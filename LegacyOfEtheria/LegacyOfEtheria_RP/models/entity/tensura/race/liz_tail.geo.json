@@ -24,7 +24,7 @@
      ]
     },
     {
-     "name": "Tail",
+     "name": "tr_lt0",
      "parent": "body",
      "pivot": [
       0,
@@ -56,8 +56,8 @@
      ]
     },
     {
-     "name": "bone",
-     "parent": "Tail",
+     "name": "tr_lt1",
+     "parent": "tr_lt0",
      "pivot": [
       0,
       15.27634,
@@ -88,8 +88,8 @@
      ]
     },
     {
-     "name": "bone2",
-     "parent": "bone",
+     "name": "tr_lt2",
+     "parent": "tr_lt1",
      "pivot": [
       -0.5,
       14.26778,
@@ -120,8 +120,8 @@
      ]
     },
     {
-     "name": "bone3",
-     "parent": "bone2",
+     "name": "tr_lt3",
+     "parent": "tr_lt2",
      "pivot": [
       -0.5,
       14.18928,
@@ -152,8 +152,8 @@
      ]
     },
     {
-     "name": "bone4",
-     "parent": "bone3",
+     "name": "tr_lt4",
+     "parent": "tr_lt3",
      "pivot": [
       -1,
       14.17517,
