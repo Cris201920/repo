@@ -15,7 +15,7 @@ for b in BODIES:
                 n += len(bone['cubes']); bone['cubes'] = []
     json.dump(d, open(p, 'w'), indent=1, ensure_ascii=False)
 print('cubos de cauda removidos:', n)
-p = f'{RP}/animations/etheria_race_parts.animation.json'
+p = os.path.join(os.path.dirname(__file__), 'race_src', 'etheria_race_parts.animation.json')
 s = open(p, encoding='utf-8').read()
 s = s.replace('query.is_on_ground ? 6 : 5', 'query.is_on_ground ? 14 : 5').replace('(17 + 15 * ', '(32 + 14 * ')
 open(p, 'w', encoding='utf-8').write(s)

@@ -19,7 +19,7 @@ def main():
     pp = os.path.join(BP, "entities/player.json"); P = json.load(open(pp))
     P["minecraft:entity"]["description"]["properties"]["etheria:tier"] = {"type": "int", "range": [0, 6], "default": 0, "client_sync": True}
     json.dump(P, open(pp, "w"), indent=1, ensure_ascii=False)
-    ap = os.path.join(RP, "animations/etheria_race_parts.animation.json"); AN = json.load(open(ap)); A = AN["animations"]; n = {"tier": 0, "burst": 0}
+    ap = os.path.join(ROOT, "tools/race_src/etheria_race_parts.animation.json"); AN = json.load(open(ap)); A = AN["animations"]; n = {"tier": 0, "burst": 0}
     for key, a in A.items():
         bones = a.get("bones", {})
         if key.startswith("animation.etheria.race_") and not key.startswith("animation.etheria.race_lin_"):

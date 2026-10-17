@@ -68,7 +68,7 @@ def lineage():       # forma humana das linhagens (wing_l/_r varrem em y)
             "wing_r": {"rotation": [0, f"(32 + {S(0)} * 28 * {A} + 10 * {K})", f"-({S(0)} * 18 * {A})"]}}
 
 def main():
-    ap = os.path.join(RP, "animations/etheria_race_parts.animation.json"); AN = json.load(open(ap)); n = {"etheria": 0, "drake": 0, "lin": 0}
+    ap = os.path.join(ROOT, "tools/race_src/etheria_race_parts.animation.json"); AN = json.load(open(ap)); n = {"etheria": 0, "drake": 0, "lin": 0}
     for key, a in AN["animations"].items():
         if not key.startswith("animation.etheria.race_"): continue
         bones = a.get("bones", {})
@@ -98,7 +98,7 @@ def tails():
     tp = os.path.join(RP, "animations/tensura_race.animation.json"); TA = json.load(open(tp))
     TA["animations"]["animation.tensura.race.tail"]["bones"].setdefault("tail", {})["scale"] = "query.property('tensura:tail') == 1 ? 1.5 : 1.0"
     json.dump(TA, open(tp, "w"), indent=1)
-    ap = os.path.join(RP, "animations/etheria_race_parts.animation.json"); AN = json.load(open(ap)); n = 0
+    ap = os.path.join(ROOT, "tools/race_src/etheria_race_parts.animation.json"); AN = json.load(open(ap)); n = 0
     for key in ("animation.etheria.race_beastkin", "animation.etheria.race_beastkin_lord"):
         for b, v in AN["animations"][key]["bones"].items():
             if re.match(r"^tail\d$", b) and "rotation" in v:
