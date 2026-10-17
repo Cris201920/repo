@@ -18,7 +18,9 @@
     "parent_setup": "variable.helmet_layer_visible = 0.0;"
    },
    "render_controllers": [
-    "controller.render.armor"
+    {
+     "controller.render.armor": "!(c.owning_entity->q.property('etheria:lform') == 'true' || c.owning_entity->q.property('etheria:lform') == 'draconic' || c.owning_entity->q.property('etheria:slime') || c.owning_entity->q.property('etheria:mimic') > 0)"
+    }
    ]
   }
  }

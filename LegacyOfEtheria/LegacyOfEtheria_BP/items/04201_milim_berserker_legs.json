@@ -22,7 +22,7 @@
     "protection": 7
    },
    "minecraft:durability": {
-    "max_durability": 660
+    "max_durability": 1980
    },
    "minecraft:repairable": {
     "repair_items": [

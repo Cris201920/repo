@@ -22,7 +22,7 @@
     "protection": 5
    },
    "minecraft:durability": {
-    "max_durability": 384
+    "max_durability": 1152
    },
    "minecraft:glint": true
   }

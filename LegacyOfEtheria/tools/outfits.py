@@ -199,7 +199,7 @@ def main():
             itx["texture_data"][f"etheria_{short}"] = {"textures": f"textures/items/etheria_{short}"}
             item = {"format_version": "1.21.60", "minecraft:item": {"description": {"identifier": iid, "menu_category": {"category": "equipment"}},
                 "components": {"minecraft:icon": {"textures": {"default": f"etheria_{short}"}}, "minecraft:display_name": {"value": f"{S['col']}{pname}"},
-                    "minecraft:max_stack_size": 1, "minecraft:wearable": {"slot": slot, "protection": prot}, "minecraft:durability": {"max_durability": dur},
+                    "minecraft:max_stack_size": 1, "minecraft:wearable": {"slot": slot, "protection": prot}, "minecraft:durability": {"max_durability": min(32000, dur * 3)},   # 7.2: durabilidade x3
                     "minecraft:repairable": {"repair_items": [{"items": [S["mat"]], "repair_amount": "context.other->query.remaining_durability + 0.25 * context.other->query.max_durability"}]},
                     "minecraft:enchantable": {"slot": {"helmet": "armor_head", "chest": "armor_torso", "legs": "armor_legs", "boots": "armor_feet"}[part], "value": 12}}}}
             json.dump(item, open(os.path.join(BP, f"items/0420{list(SETS).index(sid)}_{short}.json"), "w"), indent=1, ensure_ascii=False)
