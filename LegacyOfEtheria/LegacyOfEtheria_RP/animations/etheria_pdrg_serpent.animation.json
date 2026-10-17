@@ -1,0 +1,797 @@
+{
+ "format_version": "1.8.0",
+ "animations": {
+  "animation.etheria_pdrg_velzard.serpent": {
+   "loop": true,
+   "animation_length": 3600,
+   "bones": {
+    "d_All": {
+     "position": [
+      0,
+      "6 + math.sin(query.anim_time * 70) * 2.5",
+      "-4 * math.min(1, query.modified_move_speed * 2.5)"
+     ],
+     "rotation": [
+      "math.sin(query.anim_time * 50) * 2 - 8 * math.min(1, query.modified_move_speed * 2.5)",
+      "math.sin(query.anim_time * 35) * 5",
+      "math.sin(query.anim_time * 45) * 2"
+     ]
+    },
+    "d_body": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 0) * (0.9 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 0) * (1.4 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 90) * 1.0"
+     ]
+    },
+    "d_tail1": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 24) * (0.94 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 28) * (1.4 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 118) * 1.03"
+     ]
+    },
+    "d_tail2": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 48) * (0.98 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 56) * (1.41 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 146) * 1.06"
+     ]
+    },
+    "d_tail3": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 72) * (1.03 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 84) * (1.42 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 174) * 1.09"
+     ]
+    },
+    "d_tail4": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 96) * (1.07 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 112) * (1.44 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 202) * 1.12"
+     ]
+    },
+    "d_tail5": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 120) * (1.11 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 140) * (1.46 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 230) * 1.15"
+     ]
+    },
+    "x_serp1": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 144) * (1.15 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 168) * (1.49 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 258) * 1.18"
+     ]
+    },
+    "x_serp2": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 168) * (1.2 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 196) * (1.52 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 286) * 1.21"
+     ]
+    },
+    "x_serp3": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 192) * (1.24 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 224) * (1.55 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 314) * 1.24"
+     ]
+    },
+    "x_serp4": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 216) * (1.28 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 252) * (1.59 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 342) * 1.27"
+     ]
+    },
+    "x_serp5": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 240) * (1.32 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 280) * (1.64 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 370) * 1.3"
+     ]
+    },
+    "x_serp6": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 264) * (1.37 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 308) * (1.69 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 398) * 1.33"
+     ]
+    },
+    "x_serp7": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 288) * (1.41 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 336) * (1.74 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 426) * 1.36"
+     ]
+    },
+    "x_serp8": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 312) * (1.45 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 364) * (1.8 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 454) * 1.39"
+     ]
+    },
+    "x_serp9": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 336) * (1.49 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 392) * (1.87 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 482) * 1.42"
+     ]
+    },
+    "x_serp10": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 360) * (1.54 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 420) * (1.94 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 510) * 1.45"
+     ]
+    },
+    "x_serp11": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 384) * (1.58 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 448) * (2.01 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 538) * 1.48"
+     ]
+    },
+    "x_serp12": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 408) * (1.62 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 476) * (2.09 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 566) * 1.52"
+     ]
+    },
+    "x_serp13": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 432) * (1.66 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 504) * (2.17 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 594) * 1.55"
+     ]
+    },
+    "x_serp14": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 456) * (1.71 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 532) * (2.26 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 622) * 1.58"
+     ]
+    },
+    "x_serp15": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 480) * (1.75 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 560) * (2.36 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 650) * 1.61"
+     ]
+    },
+    "x_serp16": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 504) * (1.79 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 588) * (2.45 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 678) * 1.64"
+     ]
+    },
+    "x_serp17": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 528) * (1.83 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 616) * (2.56 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 706) * 1.67"
+     ]
+    },
+    "x_serp18": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 552) * (1.88 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 644) * (2.66 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 734) * 1.7"
+     ]
+    },
+    "x_serp19": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 576) * (1.92 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 672) * (2.78 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 762) * 1.73"
+     ]
+    },
+    "x_serp20": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 600) * (1.96 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 700) * (2.89 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 790) * 1.76"
+     ]
+    },
+    "x_serp21": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 624) * (2.0 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 728) * (3.01 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 818) * 1.79"
+     ]
+    },
+    "x_serp22": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 648) * (2.05 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 756) * (3.14 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 846) * 1.82"
+     ]
+    },
+    "x_serp23": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 672) * (2.09 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 784) * (3.27 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 874) * 1.85"
+     ]
+    },
+    "x_serp24": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 696) * (2.13 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 812) * (3.41 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 902) * 1.88"
+     ]
+    },
+    "x_serp25": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 720) * (2.17 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 840) * (3.55 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 930) * 1.91"
+     ]
+    },
+    "x_serp26": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 744) * (2.22 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 868) * (3.69 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 958) * 1.94"
+     ]
+    },
+    "x_serp27": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 768) * (2.26 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 896) * (3.84 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 986) * 1.97"
+     ]
+    },
+    "x_serp28": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 792) * (2.3 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 924) * (4.0 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 1014) * 2.0"
+     ]
+    },
+    "d_neck1": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 + 30) * 2.5",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) + 34) * 3.5",
+      0
+     ]
+    },
+    "d_neck2": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 + 60) * 2.5",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) + 68) * 3.5",
+      0
+     ]
+    },
+    "d_neck3": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 + 90) * 2.5",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) + 102) * 3.5",
+      0
+     ]
+    },
+    "d_head": {
+     "rotation": [
+      "math.sin(query.anim_time * 90 + 160) * 3",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) + 150) * -5",
+      "math.sin(query.anim_time * 60) * 3"
+     ]
+    },
+    "d_lower_jaw": {
+     "rotation": [
+      "math.max(0, math.sin(query.anim_time * 45)) * 10",
+      0,
+      0
+     ]
+    },
+    "d_left_arm": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 0) * 16",
+      0,
+      0
+     ]
+    },
+    "d_left_arm_lower": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 0 + 60) * 14",
+      0,
+      0
+     ]
+    },
+    "d_left_hand": {
+     "rotation": [
+      "math.sin(query.anim_time * 150 + 0) * 14",
+      0,
+      0
+     ]
+    },
+    "d_left_leg": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 0 + 90) * 14",
+      0,
+      0
+     ]
+    },
+    "d_left_leg_lower": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 0 + 150) * 12",
+      0,
+      0
+     ]
+    },
+    "d_right_arm": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 180) * 16",
+      0,
+      0
+     ]
+    },
+    "d_right_arm_lower": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 180 + 60) * 14",
+      0,
+      0
+     ]
+    },
+    "d_right_hand": {
+     "rotation": [
+      "math.sin(query.anim_time * 150 + 180) * 14",
+      0,
+      0
+     ]
+    },
+    "d_right_leg": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 180 + 90) * 14",
+      0,
+      0
+     ]
+    },
+    "d_right_leg_lower": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 180 + 150) * 12",
+      0,
+      0
+     ]
+    },
+    "x_mane1": {
+     "rotation": [
+      "math.sin(query.anim_time * 100 - 35) * 7",
+      "math.sin(query.anim_time * 70 - 50) * 9",
+      0
+     ]
+    },
+    "x_mane2": {
+     "rotation": [
+      "math.sin(query.anim_time * 100 - 70) * 7",
+      "math.sin(query.anim_time * 70 - 100) * 9",
+      0
+     ]
+    },
+    "x_mane3": {
+     "rotation": [
+      "math.sin(query.anim_time * 100 - 105) * 7",
+      "math.sin(query.anim_time * 70 - 150) * 9",
+      0
+     ]
+    },
+    "x_mane4": {
+     "rotation": [
+      "math.sin(query.anim_time * 100 - 140) * 7",
+      "math.sin(query.anim_time * 70 - 200) * 9",
+      0
+     ]
+    },
+    "x_mane5": {
+     "rotation": [
+      "math.sin(query.anim_time * 100 - 175) * 7",
+      "math.sin(query.anim_time * 70 - 250) * 9",
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria_pdrg_velgrynd.serpent": {
+   "loop": true,
+   "animation_length": 3600,
+   "bones": {
+    "d_All": {
+     "position": [
+      0,
+      "6 + math.sin(query.anim_time * 70) * 2.5",
+      "-4 * math.min(1, query.modified_move_speed * 2.5)"
+     ],
+     "rotation": [
+      "math.sin(query.anim_time * 50) * 2 - 8 * math.min(1, query.modified_move_speed * 2.5)",
+      "math.sin(query.anim_time * 35) * 5",
+      "math.sin(query.anim_time * 45) * 2"
+     ]
+    },
+    "d_body": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 0) * (0.9 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 0) * (1.4 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 90) * 1.0"
+     ]
+    },
+    "d_tail1": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 24) * (0.94 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 28) * (1.4 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 118) * 1.03"
+     ]
+    },
+    "d_tail2": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 48) * (0.98 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 56) * (1.41 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 146) * 1.06"
+     ]
+    },
+    "d_tail3": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 72) * (1.03 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 84) * (1.42 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 174) * 1.09"
+     ]
+    },
+    "d_tail4": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 96) * (1.07 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 112) * (1.44 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 202) * 1.12"
+     ]
+    },
+    "d_tail5": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 120) * (1.11 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 140) * (1.46 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 230) * 1.15"
+     ]
+    },
+    "x_serp1": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 144) * (1.15 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 168) * (1.49 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 258) * 1.18"
+     ]
+    },
+    "x_serp2": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 168) * (1.2 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 196) * (1.52 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 286) * 1.21"
+     ]
+    },
+    "x_serp3": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 192) * (1.24 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 224) * (1.55 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 314) * 1.24"
+     ]
+    },
+    "x_serp4": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 216) * (1.28 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 252) * (1.59 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 342) * 1.27"
+     ]
+    },
+    "x_serp5": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 240) * (1.32 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 280) * (1.64 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 370) * 1.3"
+     ]
+    },
+    "x_serp6": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 264) * (1.37 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 308) * (1.69 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 398) * 1.33"
+     ]
+    },
+    "x_serp7": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 288) * (1.41 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 336) * (1.74 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 426) * 1.36"
+     ]
+    },
+    "x_serp8": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 312) * (1.45 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 364) * (1.8 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 454) * 1.39"
+     ]
+    },
+    "x_serp9": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 336) * (1.49 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 392) * (1.87 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 482) * 1.42"
+     ]
+    },
+    "x_serp10": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 360) * (1.54 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 420) * (1.94 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 510) * 1.45"
+     ]
+    },
+    "x_serp11": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 384) * (1.58 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 448) * (2.01 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 538) * 1.48"
+     ]
+    },
+    "x_serp12": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 408) * (1.62 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 476) * (2.09 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 566) * 1.52"
+     ]
+    },
+    "x_serp13": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 432) * (1.66 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 504) * (2.17 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 594) * 1.55"
+     ]
+    },
+    "x_serp14": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 456) * (1.71 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 532) * (2.26 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 622) * 1.58"
+     ]
+    },
+    "x_serp15": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 480) * (1.75 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 560) * (2.36 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 650) * 1.61"
+     ]
+    },
+    "x_serp16": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 504) * (1.79 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 588) * (2.45 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 678) * 1.64"
+     ]
+    },
+    "x_serp17": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 528) * (1.83 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 616) * (2.56 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 706) * 1.67"
+     ]
+    },
+    "x_serp18": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 552) * (1.88 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 644) * (2.66 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 734) * 1.7"
+     ]
+    },
+    "x_serp19": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 576) * (1.92 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 672) * (2.78 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 762) * 1.73"
+     ]
+    },
+    "x_serp20": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 600) * (1.96 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 700) * (2.89 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 790) * 1.76"
+     ]
+    },
+    "x_serp21": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 624) * (2.0 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 728) * (3.01 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 818) * 1.79"
+     ]
+    },
+    "x_serp22": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 648) * (2.05 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 756) * (3.14 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 846) * 1.82"
+     ]
+    },
+    "x_serp23": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 672) * (2.09 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 784) * (3.27 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 874) * 1.85"
+     ]
+    },
+    "x_serp24": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 696) * (2.13 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 812) * (3.41 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 902) * 1.88"
+     ]
+    },
+    "x_serp25": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 720) * (2.17 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 840) * (3.55 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 930) * 1.91"
+     ]
+    },
+    "x_serp26": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 744) * (2.22 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 868) * (3.69 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 958) * 1.94"
+     ]
+    },
+    "x_serp27": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 768) * (2.26 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 896) * (3.84 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 986) * 1.97"
+     ]
+    },
+    "x_serp28": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 - 792) * (2.3 + 1.2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 924) * (4.0 + 2 * math.min(1, query.modified_move_speed * 2.5))",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) - 1014) * 2.0"
+     ]
+    },
+    "d_neck1": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 + 30) * 2.5",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) + 34) * 3.5",
+      0
+     ]
+    },
+    "d_neck2": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 + 60) * 2.5",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) + 68) * 3.5",
+      0
+     ]
+    },
+    "d_neck3": {
+     "rotation": [
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) * 0.8 + 90) * 2.5",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) + 102) * 3.5",
+      0
+     ]
+    },
+    "d_head": {
+     "rotation": [
+      "math.sin(query.anim_time * 90 + 160) * 3",
+      "math.sin(query.anim_time * (120 + 160 * math.min(1, query.modified_move_speed * 2.5)) + 150) * -5",
+      "math.sin(query.anim_time * 60) * 3"
+     ]
+    },
+    "d_lower_jaw": {
+     "rotation": [
+      "math.max(0, math.sin(query.anim_time * 45)) * 10",
+      0,
+      0
+     ]
+    },
+    "d_left_arm": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 0) * 16",
+      0,
+      0
+     ]
+    },
+    "d_left_arm_lower": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 0 + 60) * 14",
+      0,
+      0
+     ]
+    },
+    "d_left_hand": {
+     "rotation": [
+      "math.sin(query.anim_time * 150 + 0) * 14",
+      0,
+      0
+     ]
+    },
+    "d_left_leg": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 0 + 90) * 14",
+      0,
+      0
+     ]
+    },
+    "d_left_leg_lower": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 0 + 150) * 12",
+      0,
+      0
+     ]
+    },
+    "d_right_arm": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 180) * 16",
+      0,
+      0
+     ]
+    },
+    "d_right_arm_lower": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 180 + 60) * 14",
+      0,
+      0
+     ]
+    },
+    "d_right_hand": {
+     "rotation": [
+      "math.sin(query.anim_time * 150 + 180) * 14",
+      0,
+      0
+     ]
+    },
+    "d_right_leg": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 180 + 90) * 14",
+      0,
+      0
+     ]
+    },
+    "d_right_leg_lower": {
+     "rotation": [
+      "math.sin(query.anim_time * 110 + 180 + 150) * 12",
+      0,
+      0
+     ]
+    },
+    "x_mane1": {
+     "rotation": [
+      "math.sin(query.anim_time * 100 - 35) * 7",
+      "math.sin(query.anim_time * 70 - 50) * 9",
+      0
+     ]
+    },
+    "x_mane2": {
+     "rotation": [
+      "math.sin(query.anim_time * 100 - 70) * 7",
+      "math.sin(query.anim_time * 70 - 100) * 9",
+      0
+     ]
+    },
+    "x_mane3": {
+     "rotation": [
+      "math.sin(query.anim_time * 100 - 105) * 7",
+      "math.sin(query.anim_time * 70 - 150) * 9",
+      0
+     ]
+    },
+    "x_mane4": {
+     "rotation": [
+      "math.sin(query.anim_time * 100 - 140) * 7",
+      "math.sin(query.anim_time * 70 - 200) * 9",
+      0
+     ]
+    },
+    "x_mane5": {
+     "rotation": [
+      "math.sin(query.anim_time * 100 - 175) * 7",
+      "math.sin(query.anim_time * 70 - 250) * 9",
+      0
+     ]
+    }
+   }
+  }
+ }
+}

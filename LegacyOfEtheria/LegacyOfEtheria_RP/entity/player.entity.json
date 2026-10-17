@@ -726,10 +726,10 @@
       "drg_idle_veldanava": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic')"
      },
      {
-      "drg_walk": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05 && query.modified_move_speed <= 0.6"
+      "drg_walk": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05 && query.modified_move_speed <= 0.6 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
      },
      {
-      "drg_run": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.6"
+      "drg_run": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.6 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
      },
      {
       "drg_attack": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && variable.attack_time > 0"
@@ -753,10 +753,10 @@
       "drg_glide": "variable.etheria_dragon && (!query.is_on_ground && !query.is_in_water) && query.vertical_speed <= -1.0"
      },
      {
-      "drg_breathe": "variable.etheria_dragon && query.is_on_ground && query.modified_move_speed <= 0.05"
+      "drg_breathe": "variable.etheria_dragon && query.is_on_ground && query.modified_move_speed <= 0.05 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
      },
      {
-      "drg_land": "variable.etheria_dragon && query.is_on_ground && (query.life_time - variable.etheria_land) < 0.5"
+      "drg_land": "variable.etheria_dragon && query.is_on_ground && (query.life_time - variable.etheria_land) < 0.5 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
      },
      {
       "drg_roar": "variable.etheria_dragon && query.property('etheria:tfx') != 'none'"
@@ -867,13 +867,19 @@
       "mim_adventurer": "query.property('etheria:mimic') == 23"
      },
      {
-      "drg_gait_velzard": "query.property('etheria:lin') == 'velzard' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05"
+      "drg_serpent_velzard": "query.property('etheria:lin') == 'velzard' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic')"
+     },
+     {
+      "drg_serpent_velgrynd": "query.property('etheria:lin') == 'velgrynd' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic')"
+     },
+     {
+      "drg_gait_velzard": "false"
      },
      {
       "drg_gait_veldanava": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05"
      },
      {
-      "drg_gait_velgrynd": "query.property('etheria:lin') == 'velgrynd' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05"
+      "drg_gait_velgrynd": "false"
      }
     ]
    },
@@ -1149,7 +1155,9 @@
     "mim_adventurer": "animation.etheria.biped_walk",
     "drg_gait_velzard": "animation.etheria_pdrg_velzard.gait",
     "drg_gait_veldanava": "animation.etheria_pdrg_veldanava.gait",
-    "drg_gait_velgrynd": "animation.etheria_pdrg_velgrynd.gait"
+    "drg_gait_velgrynd": "animation.etheria_pdrg_velgrynd.gait",
+    "drg_serpent_velzard": "animation.etheria_pdrg_velzard.serpent",
+    "drg_serpent_velgrynd": "animation.etheria_pdrg_velgrynd.serpent"
    },
    "render_controllers": [
     {

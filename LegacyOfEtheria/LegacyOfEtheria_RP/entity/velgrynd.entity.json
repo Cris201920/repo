@@ -25,13 +25,7 @@
       "idle": "query.property('etheria:form') == 'dragon'"
      },
      {
-      "gait": "query.property('etheria:form') == 'dragon' && query.is_on_ground && query.modified_move_speed > 0.05"
-     },
-     {
-      "walk": "query.property('etheria:form') == 'dragon' && query.is_on_ground && query.modified_move_speed > 0.05 && query.modified_move_speed <= 0.6"
-     },
-     {
-      "run": "query.property('etheria:form') == 'dragon' && query.is_on_ground && query.modified_move_speed > 0.6"
+      "serpent": "query.property('etheria:form') == 'dragon'"
      },
      {
       "fly": "query.property('etheria:form') == 'dragon' && !query.is_on_ground && !query.is_in_water && query.is_alive"
@@ -61,8 +55,6 @@
    },
    "animations": {
     "idle": "animation.etheria_pdrg_velgrynd.idle",
-    "walk": "animation.etheria_pdrg.walk",
-    "run": "animation.etheria_pdrg.run",
     "fly": "animation.etheria_pdrg.fly",
     "attack": "animation.etheria_pdrg.attack",
     "bite": "animation.etheria_bdrg.bite",
@@ -84,7 +76,7 @@
     "h_breathe": "animation.etheria.breathe",
     "ctl_dragon": "controller.animation.etheria_tdr.dragon",
     "ctl_human": "controller.animation.etheria_tdr.human",
-    "gait": "animation.etheria_pdrg_velgrynd.gait"
+    "serpent": "animation.etheria_pdrg_velgrynd.serpent"
    },
    "render_controllers": [
     "controller.render.etheria_tdr"

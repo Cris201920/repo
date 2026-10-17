@@ -200,6 +200,140 @@ def leg(g, name, parent, hip, foot_z, s, thick, tile="side", claws=True, upper_l
     g.bone(name + "_lower", name, knee, low)
     return knee, foot
 
+# ------------------------------------------------------------------ 6.93: dragões-serpente orientais (Velzard / Velgrynd)
+def _v(a, b, k=1.0): return tuple(a[i] + b[i] * k for i in range(3))
+def _sub(a, b): return tuple(a[i] - b[i] for i in range(3))
+def _nrm(a):
+    L = math.sqrt(sum(x * x for x in a)) or 1e-6; return tuple(x / L for x in a)
+def _cross(a, b): return (a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0])
+def _dot(a, b): return sum(a[i] * b[i] for i in range(3))
+
+def seg(p0, p1, w, h, n, tile="side", top="back", bottom="belly"):
+    """caixa de p0 a p1 com a face de cima virada para n (costas): rotação completa (rx, ry, rz)"""
+    t = _nrm(_sub(p1, p0)); L = math.sqrt(sum(x * x for x in _sub(p1, p0)))
+    n = _nrm(_v(n, t, -_dot(n, t))); x = _cross(n, t)
+    R = [[x[0], n[0], t[0]], [x[1], n[1], t[1]], [x[2], n[2], t[2]]]
+    b = math.asin(max(-1, min(1, -R[2][0]))); a = math.atan2(R[2][1], R[2][2]); c = math.atan2(R[1][0], R[0][0])
+    return {"origin": [round(p0[0] - w / 2, 3), round(p0[1] - h / 2, 3), round(p0[2], 3)], "size": [round(w, 3), round(h, 3), round(L, 3)],
+            "pivot": [round(v, 3) for v in p0], "rotation": [round(-math.degrees(a), 2), round(-math.degrees(b), 2), round(math.degrees(c), 2)],
+            "uv": faces(tile, top=top, bottom=bottom, side=tile)}
+
+def coil_path(k):
+    """corpo em '6' na vertical (como nas artes/vídeo): cabeça no alto, pescoço desce pelas costas, volta completa, cauda para baixo"""
+    def bez(p, q, r, u, N):
+        return [tuple((1 - t) ** 3 * p[i] + 3 * (1 - t) ** 2 * t * q[i] + 3 * (1 - t) * t * t * r[i] + t ** 3 * u[i] for i in range(3)) for t in [j / N for j in range(N)]]
+    C, R = (66, 6), 34
+    loop0 = (-2, C[0] + R * math.sin(math.radians(40)), C[1] + R * math.cos(math.radians(40)))
+    pts = bez((0, 150, -4), (0, 166, 18), (-2, 124, 44), loop0, 30)
+    th0, th1 = 40, -400
+    for j in range(80):
+        th = th0 + (th1 - th0) * j / 80; u = j / 80
+        r = R * (1 + 0.12 * u)
+        pts.append((-2 + 14 * u, C[0] + r * math.sin(math.radians(th)), C[1] + r * math.cos(math.radians(th))))
+    e = pts[-1]
+    pts += bez(e, (12, e[1] - 22, e[2] + 14), (14, 18, 74), (10, 6, 112), 30)[1:] + [(8, 4, 124)]
+    pts = [(p[0] * k, p[1] * k, p[2] * k) for p in pts]
+    # reamostra em passos iguais
+    out = [pts[0]]; acc = 0.0; step = 12 * k
+    for i in range(1, len(pts)):
+        a, b = pts[i - 1], pts[i]; L = math.sqrt(sum((b[j] - a[j]) ** 2 for j in range(3)))
+        while acc + L >= step:
+            f = (step - acc) / L; a = tuple(a[j] + (b[j] - a[j]) * f for j in range(3)); out.append(a); L -= step - acc; acc = 0.0
+        acc += L
+    return out
+
+def coil_serpent(g, name, cfg):
+    s = cfg["s"]; vz = name == "velzard"; k = 0.86 * s
+    P = coil_path(k); M = len(P) - 1
+    def tan(i): return _nrm(_sub(P[min(i + 1, M)], P[max(i - 1, 0)]))
+    def dors(i):
+        t = tan(i); return _nrm((0, t[2], -t[1])) if abs(t[1]) + abs(t[2]) > 1e-3 else (0, 1, 0)
+    def wid(i):
+        if i < 4: return (14 + i * 1.5) * s
+        return max(5.0, 21 - max(0, i - 10) * 0.62) * s
+    names = ["d_neck3", "d_neck2", "d_neck1", "d_upper_body", "d_body"] + [f"d_tail{j}" for j in range(1, 6)] + [f"x_serp{j}" for j in range(1, M - 9)]
+    parent = {"d_neck3": "d_neck2", "d_neck2": "d_neck1", "d_neck1": "d_upper_body", "d_upper_body": "d_body", "d_body": "d_All"}
+    tailn = names[5:]
+    for j, nm in enumerate(tailn): parent[nm] = "d_body" if j == 0 else tailn[j - 1]
+    pivot = {"d_neck3": P[1], "d_neck2": P[2], "d_neck1": P[3], "d_upper_body": P[4], "d_body": P[5]}
+    seg_of = {"d_neck3": 0, "d_neck2": 1, "d_neck1": 2, "d_upper_body": 3, "d_body": 4}
+    for j, nm in enumerate(tailn): pivot[nm] = P[5 + j]; seg_of[nm] = 5 + j
+    order = ["d_body", "d_upper_body", "d_neck1", "d_neck2", "d_neck3"] + tailn
+    for nm in order:
+        i = seg_of[nm]; w = wid(i); n = dors(i); t = tan(i); lat = _cross(n, t)
+        a, b = P[i], P[i + 1]; mid = tuple((a[q] + b[q]) / 2 for q in range(3))
+        cs = [seg(a, _v(b, t, 1.5 * s), w, w * 0.92, n)]
+        if vz:   # espinhos escuros grandes nas costas (alternando tamanho) + espinhos laterais
+            if i % 2 == 0 and i > 1:
+                hs = max(5, w * 0.85)
+                base = _v(mid, n, w * 0.38)
+                cs.append(rod(base, _v(_v(base, n, hs), t, hs * 0.6), w * 0.42, w * 0.42, "spike")); cs.append(rod(_v(_v(base, n, hs * 0.55), t, hs * 0.3), _v(_v(base, n, hs * 1.15), t, hs * 0.8), w * 0.22, w * 0.22, "spike"))
+            if i % 4 == 1 and i > 4:
+                for sg in (1, -1):
+                    base = _v(mid, lat, sg * w * 0.42)
+                    cs.append(rod(base, _v(_v(_v(base, lat, sg * w * 0.55), t, w * 0.4), n, w * 0.25), w * 0.32, w * 0.32, "spike"))
+        else:    # Velgrynd: crista vermelha contínua + lâminas brancas nas laterais
+            base = _v(mid, n, w * 0.36)
+            cs.append(rod(base, _v(_v(base, n, max(4, w * 0.45)), t, w * 0.5), 2.6 * s, w * 0.75, "acc1"))
+            if i % 3 == 0 and i > 3:
+                for sg in (1, -1):
+                    base = _v(mid, lat, sg * w * 0.44)
+                    cs.append(rod(base, _v(_v(_v(base, lat, sg * w * 0.65), t, w * 0.55), n, w * 0.3), 2.2 * s, 3.6 * s, "spike"))
+        if nm == tailn[-1]:   # tufo da ponta da cauda
+            tip = P[M]; t2 = tan(M - 1); n2 = dors(M - 1); l2 = _cross(n2, t2)
+            for ang in (-50, -25, 0, 25, 50):
+                d = _nrm(_v(_v(t2, n2, math.sin(math.radians(ang))), l2, 0.25 * math.sin(math.radians(ang * 2))))
+                cs.append(rod(tip, _v(tip, d, (16 - abs(ang) / 8) * s), 3 * s, 5 * s, "acc1" if not vz else ("acc3" if ang % 50 else "acc1")))
+        g.bone(nm, parent[nm], pivot[nm], cs)
+    # pescoço: crina (Velzard azul) / espinhos (Velgrynd)
+    for j, nm in enumerate(("d_neck3", "d_neck2", "d_neck1")):
+        i = seg_of[nm]; n = dors(i); t = tan(i); p = _v(P[i], n, wid(i) * 0.4)
+        g.bone(f"x_mane{j + 1}", nm, p, taper([p, _v(_v(p, n, 7 * s), t, 12 * s), _v(_v(p, n, 9 * s), t, 26 * s), _v(_v(p, n, 6 * s), t, 40 * s)], 8 * s, 2.5 * s, "mane", hk=0.45) if vz
+               else [rod(p, _v(_v(p, n, 9 * s), t, 6 * s), 2.5 * s, 7 * s, "acc1")])
+    head(g, cfg, (0, P[0][1] + 2 * s, P[0][2] - 2 * s), s * 1.05, name)
+    if vz:   # mechas longas da juba saindo da nuca
+        hp = g.idx["d_head"]["pivot"]
+        for kk, sg in ((4, -1), (5, 1)):
+            p0 = (sg * 4 * s, hp[1] + 10 * s, hp[2] + 4 * s)
+            g.bone(f"x_mane{kk}", "d_head", p0, taper([p0, (sg * 8 * s, hp[1] + 18 * s, hp[2] + 24 * s), (sg * 12 * s, hp[1] + 12 * s, hp[2] + 46 * s), (sg * 14 * s, hp[1] + 0 * s, hp[2] + 64 * s)], 7 * s, 2.5 * s, "mane", hk=0.5))
+    # patinhas com garras: dianteiras no ombro (d_*_arm), traseiras no meio da volta (d_*_leg)
+    def limb(base_bone, i, side, sg, pre):
+        n = dors(i); t = tan(i); lat = _cross(n, t); w = wid(i)
+        sh = _v(_v(P[i], lat, sg * w * 0.42), n, -w * 0.15)
+        el = _v(_v(_v(sh, lat, sg * 9 * s), n, -6 * s), t, -5 * s)
+        wr = _v(_v(el, n, -9 * s), t, -7 * s)
+        g.bone(f"{pre}_{side}_{'arm' if pre == 'A' else 'leg'}".replace("A_", "d_").replace("L_", "d_"), base_bone, sh, [rod(sh, el, 5.5 * s, 6 * s, "side", top="back", bottom="belly")])
+        nm = f"d_{side}_{'arm' if pre == 'A' else 'leg'}"
+        g.bone(f"{nm}_lower", nm, el, [rod(el, wr, 4.5 * s, 5 * s, "side", top="back", bottom="belly")])
+        claws = [rod(wr, _v(_v(_v(wr, t, -6 * s), n, -3 * s), lat, kk * 2.6 * s), 1.6 * s, 1.8 * s, "claw") for kk in (-1, 0, 1)]
+        g.bone(f"d_{side}_hand" if pre == "A" else f"{nm}_foot", f"{nm}_lower", wr, [box(wr, (5 * s, 4 * s, 5 * s), "side", top="back")] + claws)
+        if pre == "A":
+            g.bone(f"d_{side}_hand_lower", f"d_{side}_hand", wr, []); g.bone(f"d_{side}_thumb", f"d_{side}_arm_lower", wr, [])
+    for side, sg in (("left", 1), ("right", -1)):
+        limb("d_upper_body", 4, side, sg, "A")
+        hi = 5 + 14; limb(tailn[14], hi, side, sg, "L")
+    # asas: Velgrynd = asas vermelhas de morcego; Velzard = asas de cristal de gelo
+    i = 4; n = dors(i); sh = _v(P[i], n, wid(i) * 0.45)
+    if vz:
+        for side, sg in (("left", -1), ("right", 1)):
+            b0 = (sh[0] + sg * 5 * s, sh[1], sh[2]); t_ = _v(b0, (sg * 10 * s, 14 * s, 6 * s)); m_ = _v(t_, (sg * 12 * s, 10 * s, 8 * s)); l_ = _v(m_, (sg * 8 * s, -6 * s, 8 * s))
+            cr = lambda q, h, w_: rod(q, (q[0] + sg * w_, q[1] + h, q[2] + 2 * s), 6 * s, 6 * s, "acc1")
+            g.bone(f"d_{side}_wing_base", "d_upper_body", b0, [cr(b0, 16 * s, 5 * s)])
+            g.bone(f"d_{side}_wing_top", f"d_{side}_wing_base", t_, [cr(t_, 24 * s, 9 * s), rod(t_, (t_[0] + sg * 4 * s, t_[1] + 14 * s, t_[2] + 8 * s), 4 * s, 4 * s, "acc3")])
+            g.bone(f"d_{side}_wing_mid", f"d_{side}_wing_top", m_, [cr(m_, 20 * s, 11 * s)])
+            g.bone(f"d_{side}_wing_low", f"d_{side}_wing_mid", l_, [cr(l_, 12 * s, 9 * s)])
+        # cristais de gelo flutuando em volta da espiral (presos aos segmentos)
+        for j in range(8, M - 4, 5):
+            nm = next(x for x in order if seg_of[x] == j) if any(seg_of[x] == j for x in order) else None
+            if not nm: continue
+            n = dors(j); t = tan(j); lat = _cross(n, t); c0 = _v(P[j], n, wid(j) * 0.9)
+            for sg in (1, -1):
+                q = _v(c0, lat, sg * wid(j) * 0.9)
+                g.add(nm, [rod(q, _v(_v(q, n, 10 * s), lat, sg * 4 * s), 5 * s, 5 * s, "acc1" if j % 2 else "acc3")])
+    else:
+        for side, sg in (("left", -1), ("right", 1)):
+            wing(g, side, (sh[0] + sg * 6 * s, sh[1], sh[2]), sg, cfg, scale=s * 0.62)
+
 def build(name, cfg):
     g = Geo(); s = cfg["s"]; quad = cfg["plan"] == "quad"
     g.bone("d_All", None, (0, 0, 0))
@@ -260,62 +394,10 @@ def build(name, cfg):
             for nb in ("d_neck1", "d_neck2", "d_neck3"):
                 pp = g.idx[nb]["pivot"]
                 g.add(nb, [rod((0, pp[1] + 9 * s, pp[2] - 2 * s + k * 6 * s), (0, pp[1] + 22 * s, pp[2] + 6 * s + k * 6 * s), 4 * s, 9 * s, "spike") for k in range(2)])
-    else:   # SERPENTE (Velzard / Velgrynd): corpo longuíssimo e grosso, patas curtas, cabeça grande
-        vz = name == "velzard"
-        p = [(0, 46 * s, 40 * s), (0, 52 * s, 6 * s), (0, 64 * s, -26 * s)]
-        g.bone("d_body", "d_All", p[0], [rod(p[0], p[1], 30 * s, 30 * s, "side", top="back", bottom="belly")])
-        g.bone("d_upper_body", "d_body", p[1], [rod(p[1], p[2], 28 * s, 28 * s, "side", top="back", bottom="belly")])
-        n0, n1, n2, n3 = p[2], (0, 82 * s, -46 * s), (0, 100 * s, -56 * s), (0, 114 * s, -60 * s)
-        g.bone("d_neck1", "d_upper_body", n0, [rod(n0, n1, 25 * s, 25 * s, "side", top="back", bottom="belly")])
-        g.bone("d_neck2", "d_neck1", n1, [rod(n1, n2, 22 * s, 22 * s, "side", top="back", bottom="belly")])
-        g.bone("d_neck3", "d_neck2", n2, [rod(n2, n3, 20 * s, 20 * s, "side", top="back", bottom="belly")])
-        head(g, cfg, (0, n3[1] + 2 * s, n3[2] - 2 * s), s * 1.25, name)
-        for side, sg in (("left", 1), ("right", -1)):   # patas curtas com garras
-            sh = (sg * 14 * s, 58 * s, -18 * s); elbow = (sg * 20 * s, 34 * s, -22 * s); wr = (sg * 21 * s, 10 * s, -20 * s)
-            g.bone(f"d_{side}_arm", "d_upper_body", sh, [rod(sh, elbow, 10 * s, 11 * s, "side", top="back", bottom="belly")])
-            g.bone(f"d_{side}_arm_lower", f"d_{side}_arm", elbow, [rod(elbow, wr, 8 * s, 9 * s, "side", top="back", bottom="belly")])
-            g.bone(f"d_{side}_hand", f"d_{side}_arm_lower", wr, [box((wr[0], 3 * s, wr[2] - 4 * s), (11 * s, 6 * s, 12 * s), "side", top="back")])
-            g.bone(f"d_{side}_hand_lower", f"d_{side}_hand", (wr[0], 3 * s, wr[2] - 9 * s), [rod((wr[0] + k * 3.4 * s, 2.5 * s, wr[2] - 9 * s), (wr[0] + k * 4 * s, 0.4, wr[2] - 16 * s), 2 * s, 2.2 * s, "claw") for k in (-1, 0, 1)])
-            g.bone(f"d_{side}_thumb", f"d_{side}_arm_lower", (wr[0], 8 * s, wr[2]), [])
-            leg(g, f"d_{side}_leg", "d_All", (sg * 13 * s, 46 * s, 30 * s), 30 * s, s, 13, upper_len=20)
-        pts = [(0, 46 * s, 40 * s)]
-        for i in range(11): pts.append((math.sin(i * 0.8) * 26 * s, max(14, 44 + 30 * math.sin(i * 0.7 + 0.9) - i * 1.8) * s, (40 + (i + 1) * 26) * s))
-        names = [f"d_tail{i}" for i in range(1, 6)] + [f"x_serp{i}" for i in range(1, 7)]
-        for i, nm in enumerate(names):
-            w = max(7, 30 - i * 2.2) * s
-            par = "d_body" if i == 0 else names[i - 1]
-            cs = [rod(pts[i], pts[i + 1], w, w, "side", top="back", bottom="belly")]
-            mid = [(pts[i][k] + pts[i + 1][k]) / 2 for k in range(3)]
-            cs += [box((mid[0], mid[1] - w * 0.5 + 1, mid[2] + o_ * 7 * s), (w * 0.75, 2.5 * s, 4 * s), "belly") for o_ in (-1, 0, 1)]   # anéis da barriga
-            if vz:   # espinhos triangulares escuros: topo + laterais alternadas
-                k_ = max(0.45, 1 - i * 0.06)
-                cs.append(rod((pts[i][0], pts[i][1] + w * 0.4, pts[i][2] + 6 * s), (pts[i][0], pts[i][1] + w * 0.4 + 22 * s * k_, pts[i][2] + 20 * s), 13 * s * k_, 13 * s * k_, "spike"))
-                cs.append(rod((pts[i][0], pts[i][1] + w * 0.4 + 10 * s * k_, pts[i][2] + 13 * s), (pts[i][0], pts[i][1] + w * 0.4 + 26 * s * k_, pts[i][2] + 24 * s), 6 * s * k_, 6 * s * k_, "spike"))
-                sd = 1 if i % 2 else -1
-                cs.append(rod((pts[i][0] + sd * w * 0.45, pts[i][1] + w * 0.1, pts[i][2] + 14 * s), (pts[i][0] + sd * (w * 0.45 + 16 * s), pts[i][1] + 6 * s, pts[i][2] + 22 * s), 9 * s, 9 * s, "spike"))
-            else:    # placas vermelhas nas costas + lâminas claras
-                cs.append(rod((pts[i][0], pts[i][1] + w * 0.5, pts[i][2] + 4 * s), (pts[i][0], pts[i][1] + w * 0.5 + 6 * s, pts[i][2] + 18 * s), w * 0.8, 3 * s, "acc1"))
-                if i % 2 == 0:
-                    for sd in (1, -1): cs.append(rod((pts[i][0] + sd * w * 0.45, pts[i][1], pts[i][2] + 10 * s), (pts[i][0] + sd * (w * 0.45 + 12 * s), pts[i][1] + 6 * s, pts[i][2] + 18 * s), 2.5 * s, 4 * s, "spike"))
-            if i == len(names) - 1: cs += [rod(pts[-1], (pts[-1][0], pts[-1][1] + 10 * s, pts[-1][2] + 18 * s), 9 * s, 4 * s, "acc1" if not vz else "acc1"), rod(pts[-1], (pts[-1][0], pts[-1][1] - 6 * s, pts[-1][2] + 18 * s), 9 * s, 4 * s, "acc1")]
-            g.bone(nm, par, pts[i], cs)
-        for nb in ("d_upper_body", "d_neck1", "d_neck2"):   # espinhos/placas também no pescoço
-            pp = g.idx[nb]["pivot"]
-            g.add(nb, [rod((0, pp[1] + 12 * s, pp[2] - 6 * s), (0, pp[1] + (24 if vz else 18) * s, pp[2] + 4 * s), (7 if vz else 14) * s, (7 if vz else 3) * s, "spike" if vz else "acc1")])
-        if vz:   # cristais de gelo no lugar das asas (ossos de asa -> aglomerados de cristal) + cristais extras
-            for side, sg in (("left", -1), ("right", 1)):
-                b0 = (sg * 12 * s, 70 * s, -16 * s); t = (sg * 24 * s, 86 * s, -10 * s); m = (sg * 36 * s, 96 * s, -2 * s); l = (sg * 44 * s, 90 * s, 6 * s)
-                cr = lambda q, h, w: rod(q, (q[0] + sg * w, q[1] + h, q[2] + 2 * s), 7 * s, 7 * s, "acc1")
-                g.bone(f"d_{side}_wing_base", "d_upper_body", b0, [cr(b0, 18 * s, 6 * s)])
-                g.bone(f"d_{side}_wing_top", f"d_{side}_wing_base", t, [cr(t, 26 * s, 10 * s), rod(t, (t[0] + sg * 4 * s, t[1] + 16 * s, t[2] + 8 * s), 5 * s, 5 * s, "acc3")])
-                g.bone(f"d_{side}_wing_mid", f"d_{side}_wing_top", m, [cr(m, 22 * s, 12 * s)])
-                g.bone(f"d_{side}_wing_low", f"d_{side}_wing_mid", l, [cr(l, 14 * s, 10 * s)])
-            g.bone("x_cryst", "d_body", (0, 60 * s, 20 * s), [rod((sg * 20 * s, 50 * s, z * s), (sg * 34 * s, 74 * s, (z + 6) * s), 8 * s, 8 * s, "acc1") for sg in (1, -1) for z in (10, 40)])
-        else:    # Velgrynd: asas VERMELHAS de morcego
-            for side, sg in (("left", -1), ("right", 1)):
-                wing(g, side, (sg * 12 * s, 72 * s, -20 * s), sg, cfg, scale=s * 0.9)
+    else:   # 6.93: SERPENTE oriental em espiral (Velzard / Velgrynd), ver coil_serpent()
+        coil_serpent(g, name, cfg)
     # ---------- 6.88.1: mais detalhes
-    if name == "velzard":   # mais cristais de gelo ao redor do corpo + 2 mechas extras na juba
+    if name == "velzard" and "x_cryst" in g.idx:   # mais cristais de gelo ao redor do corpo + 2 mechas extras na juba
         g.add("x_cryst", [rod((sg * (26 + k * 6) * s, 30 * s, (60 + k * 40) * s), (sg * (36 + k * 6) * s, (58 - k * 4) * s, (66 + k * 40) * s), (10 - k) * s, (10 - k) * s, "acc1" if k % 2 else "acc3") for sg in (1, -1) for k in range(4)])
         hp = g.idx["d_head"]["pivot"]
         for k, sg in ((4, -2), (5, 2)):
@@ -377,10 +459,10 @@ def anims():
              "d_neck1": {"rotation": [f"{S} * 70 - 30) * 2", f"{S} * 22) * 4", 0]}, "d_neck2": {"rotation": [f"{S} * 70 - 50) * 1.5", f"{S} * 22 - 30) * 4", 0]},
              "d_head": {"rotation": [f"{S} * 70 - 70) * 2", f"{S} * 18) * 8", 0]},
              "d_left_wing_base": {"rotation": [0, 0, f"(-8 + {S} * 60) * 3)" if quad else f"{S} * 120) * 10"]}, "d_right_wing_base": {"rotation": [0, 0, f"(8 - {S} * 60) * 3)" if quad else f"-{S} * 120) * 10"]}}
-        for i in range(1, 6): b[f"d_tail{i}"] = {"rotation": [f"{S} * 50 - {i * 20}) * {2 if quad else 5}", f"{S} * 40 - {i * 35}) * {4 + i * (2 if quad else 4)}", 0]}
+        for i in range(1, 6 if quad else 1): b[f"d_tail{i}"] = {"rotation": [f"{S} * 50 - {i * 20}) * {2 if quad else 5}", f"{S} * 40 - {i * 35}) * {4 + i * (2 if quad else 4)}", 0]}
         b["d_lower_jaw"] = {"rotation": [f"Math.max(0, {S} * 23) - 0.85) * 120", 0, 0]}   # abre a boca de vez em quando (respiro/rosnado)
         b["d_left_wing_top"] = {"rotation": [0, f"{S} * 80) * 3", f"{S} * 80 - 40) * 2"]}; b["d_right_wing_top"] = {"rotation": [0, f"-{S} * 80) * 3", f"-{S} * 80 - 40) * 2"]}
-        if not quad:   # corpo inteiro ondulando como serpente (segmentos extras)
+        if False:   # (6.93: ondulação das serpentes em etheria_pdrg_serpent.animation.json)
             for i in range(1, 7): b[f"x_serp{i}"] = {"rotation": [f"{S} * 45 - {i * 40}) * 6", f"{S} * 35 - {i * 45}) * 10", 0]}
         for k in range(1, 6): b[f"x_mane{k}"] = {"rotation": [f"{S} * 90 - {k * 30}) * 6", f"{S} * 60 - {k * 50}) * 8", 0]}
         A[f"animation.etheria_pdrg_{name}.idle"] = {"loop": True, "bones": b}
@@ -411,4 +493,6 @@ def wire():
 
 if __name__ == "__main__":
     for name, cfg in DRAGONS.items(): print(name, "ossos/cubos:", write(name, cfg))
-    anims(); wire(); print("ok")
+    anims(); wire()
+    import anim_time_fix, serpent_float   # noqa: E401  (anim_time_fix roda ao importar)
+    serpent_float.main(); print("ok")
