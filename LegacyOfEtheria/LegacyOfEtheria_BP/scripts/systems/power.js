@@ -139,7 +139,7 @@ function pressure(p, d, pw, now) {
   if (gap < 2) return;
   // penalidade proporcional (renovada a cada 10 ticks enquanto estiver perto): -1 gap = fraqueza I; 4+ = fraqueza II + lentidão I
   try { p.addEffect("weakness", 30, { amplifier: gap >= 4 ? 1 : 0, showParticles: false }); if (gap >= 4) p.addEffect("slowness", 30, { amplifier: 0, showParticles: false }); } catch { /* ignore */ }
-  x.press = `§4◆ §cPressão de ${MOBS[boss.typeId]?.name ?? "chefe"} §8(${rankLabel(br)} §8vs ${rankLabel(pw.rank)}§8)`; x.pressAt = now + 30;
+  x.press = `§4◆ §cPressão §8(${rankLabel(br)} §8vs ${rankLabel(pw.rank)}§8)`;   // 6.69: nome do chefe já está na barra dele x.pressAt = now + 30;
   if (now >= x.warnAt) {
     x.warnAt = now + 2400;
     const nm = MOBS[boss.typeId]?.name ?? "o alvo";

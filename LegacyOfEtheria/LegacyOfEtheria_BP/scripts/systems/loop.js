@@ -23,7 +23,7 @@ function hudText(p, d, s) {
   const hp = getHealth(p);
   let t = `§cHP ${Math.ceil(hp.cur)}/${Math.ceil(hp.max)}  §9MP ${Math.floor(d.mana)}/${s.maxMana}  §aST ${Math.floor(d.stamina)}/${s.maxStamina}`;
   if (d.settings.compact) return t;
-  t += `\n§6${fmt(d.coins)}$`;   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
+  t += `  §6${fmt(d.coins)}$`;   // 6.69: dinheiro na mesma linha (barra menor)   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
   const sel = hudSelectedLine(p, d, s); if (sel) t += "\n" + sel;                 // habilidade na mão: custo e estado
   const strip = hudSkillLines(p, d, s); if (strip.length) t += "\n" + strip.join("\n");   // faixa das equipadas (número = slot da hotbar)
   const buffs = listBuffs(p);

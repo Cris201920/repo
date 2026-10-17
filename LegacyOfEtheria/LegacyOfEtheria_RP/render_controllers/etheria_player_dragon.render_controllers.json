@@ -13,36 +13,78 @@
    ]
   },
   "controller.render.etheria_player_dragon_velzard": {
-   "geometry": "Geometry.drg_velzard",
+   "arrays": {
+    "geometries": {
+     "Array.g": [
+      "Geometry.drg_velzard_boss",
+      "Geometry.drg_velzard"
+     ]
+    },
+    "textures": {
+     "Array.t": [
+      "Texture.drg_velzard_boss",
+      "Texture.drg_velzard"
+     ]
+    }
+   },
+   "geometry": "Array.g[query.property('etheria:lform') == 'true' ? 1 : 0]",
    "materials": [
     {
      "*": "Material.default"
     }
    ],
    "textures": [
-    "Texture.drg_velzard"
+    "Array.t[query.property('etheria:lform') == 'true' ? 1 : 0]"
    ]
   },
   "controller.render.etheria_player_dragon_velgrynd": {
-   "geometry": "Geometry.drg_velgrynd",
+   "arrays": {
+    "geometries": {
+     "Array.g": [
+      "Geometry.drg_velgrynd_boss",
+      "Geometry.drg_velgrynd"
+     ]
+    },
+    "textures": {
+     "Array.t": [
+      "Texture.drg_velgrynd_boss",
+      "Texture.drg_velgrynd"
+     ]
+    }
+   },
+   "geometry": "Array.g[query.property('etheria:lform') == 'true' ? 1 : 0]",
    "materials": [
     {
      "*": "Material.default"
     }
    ],
    "textures": [
-    "Texture.drg_velgrynd"
+    "Array.t[query.property('etheria:lform') == 'true' ? 1 : 0]"
    ]
   },
   "controller.render.etheria_player_dragon_veldanava": {
-   "geometry": "Geometry.drg_veldanava",
+   "arrays": {
+    "geometries": {
+     "Array.g": [
+      "Geometry.drg_veldanava_boss",
+      "Geometry.drg_veldanava"
+     ]
+    },
+    "textures": {
+     "Array.t": [
+      "Texture.drg_veldanava_boss",
+      "Texture.drg_veldanava"
+     ]
+    }
+   },
+   "geometry": "Array.g[query.property('etheria:lform') == 'true' ? 1 : 0]",
    "materials": [
     {
      "*": "Material.default"
     }
    ],
    "textures": [
-    "Texture.drg_veldanava"
+    "Array.t[query.property('etheria:lform') == 'true' ? 1 : 0]"
    ]
   }
  }

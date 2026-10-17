@@ -76,7 +76,10 @@
     "drg_velgrynd": "textures/entity/etheria_pdrg_velgrynd",
     "drg_veldanava": "textures/entity/etheria_pdrg_veldanava",
     "etheria_race_dragonewt": "textures/entity/etheria_race_dragonewt",
-    "etheria_race_dragonewt_w": "textures/entity/etheria_race_dragonewt_w"
+    "etheria_race_dragonewt_w": "textures/entity/etheria_race_dragonewt_w",
+    "drg_veldanava_boss": "textures/entity/etheria_veldanava",
+    "drg_velgrynd_boss": "textures/entity/etheria_velgrynd",
+    "drg_velzard_boss": "textures/entity/etheria_velzard"
    },
    "geometry": {
     "default": "geometry.humanoid.custom",
@@ -130,7 +133,10 @@
     "drg_velgrynd": "geometry.etheria_pdrg_velgrynd",
     "drg_veldanava": "geometry.etheria_pdrg_veldanava",
     "etheria_race_dragonewt": "geometry.etheria_race_dragonewt",
-    "etheria_race_dragonewt_w": "geometry.etheria_race_dragonewt_w"
+    "etheria_race_dragonewt_w": "geometry.etheria_race_dragonewt_w",
+    "drg_veldanava_boss": "geometry.etheria_pdrg_veldanava_boss",
+    "drg_velgrynd_boss": "geometry.etheria_pdrg_velgrynd_boss",
+    "drg_velzard_boss": "geometry.etheria_pdrg_velzard_boss"
    },
    "scripts": {
     "scale": "query.property('etheria:lform') == 'true' ? 0.85 : (query.property('etheria:lform') == 'draconic' ? 0.55 : 0.9375)",
