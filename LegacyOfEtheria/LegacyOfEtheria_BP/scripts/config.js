@@ -1,6 +1,6 @@
 // config.js - Constantes e balanceamento (edite aqui, sem mexer na lógica)
 export const BUILD_PROFILE = "quality"; // o build troca para "performance" na versão leve
-export const VERSION = "6.86.0";
+export const VERSION = "6.87.0";
 export const PROP_KEY = "etheria:data";
 export const WORLD_RANK_KEY = "etheria:ranking";
 export const DATA_VERSION = 3;          // v3: hotbar de habilidades (loadout, instâncias, recargas salvas)
@@ -60,7 +60,11 @@ export const RARITY = {
   mythic:    { name: "Mítico",   color: "§c", mult: 2.6,  drop: 0.04 },
   divine:    { name: "Divino",   color: "§b", mult: 3.4,  drop: 0.01 },
 };
-export const STARTER_WEIGHT = { rare: 14, epic: 10, legendary: 3.5, mythic: 1.2 }; // sorteio da Única inicial (usa a raridade existente)
+export const STARTER_WEIGHT = { rare: 14, epic: 10, legendary: 3.5, mythic: 1.2 };
+// 6.87: Únicas mais difíceis para quem NÃO tem a linha do Predador (Predador/Gula/Beelzebuth). Quem tem o Predador mantém as regras antigas.
+//   mult: requisitos numéricos de descoberta (abates, análises, chefes, distância...) · levelAdd: nível extra · masteryAdd: +nível de maestria
+//   starterChance: chance de nascer com uma Única · starterRare: peso das Únicas lendárias/míticas no sorteio inicial
+export const UNIQUE_HARD = { mult: 1.8, levelAdd: 10, masteryAdd: 1, starterChance: 0.35, starterRare: { legendary: 0.4, mythic: 0.3 } }; // sorteio da Única inicial (usa a raridade existente)
 export const RARITY_ORDER = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "divine"];
 
 // Combate (tudo balanceável aqui)

@@ -12,7 +12,10 @@ import { ctx, disc, helix, column, burst, ringFlat, CIRCLE, T, after } from "./f
 import { toast, say, playSound } from "../core/utils.js";
 import { nextStages } from "../data/races.js";
 import { evolveCheck } from "./race.js";
-import { SOUNDS, RARITY, STARTER_WEIGHT } from "../config.js";
+import { SOUNDS, RARITY, STARTER_WEIGHT, UNIQUE_HARD, MAX_LEVEL } from "../config.js";
+const PRED_LINE = ["predator", "gluttony", "beelzebuth"];
+/** 6.87: quem tem a linha do Predador mantém as regras antigas; os demais têm Únicas mais difíceis */
+export const hardUnique = (d) => !PRED_LINE.some((k) => hasSkill(d, k));
 import { menu } from "./ui/forms.js";
 import { learn, remember, addBond, addExp } from "./sageknow.js";
 import { emit, EV } from "../core/bus.js";
@@ -29,9 +32,14 @@ const sum = (o) => Object.values(o ?? {}).reduce((a, b) => a + b, 0);
 
 /** Retorna [{ok, text}] das condições de descoberta de uma Única. */
 export function conditions(d, id) {
-  const u = SKILLS[id]?.unlock; if (!u) return [];
+  let u = SKILLS[id]?.unlock; if (!u) return [];
   const sg = sageCfg(d), s = stat(d), out = [];
   const add = (ok, text) => out.push({ ok, text });
+  const H = hardUnique(d), M = (n) => (H ? Math.ceil(n * UNIQUE_HARD.mult) : n);   // 6.87: requisitos maiores sem o Predador
+  u = H ? { ...u, level: u.level ? Math.min(MAX_LEVEL ?? 100, u.level + UNIQUE_HARD.levelAdd) : u.level, kills: u.kills && M(u.kills), analyses: u.analyses && M(u.analyses),
+    discoveries: u.discoveries && M(u.discoveries), mastery_total: u.mastery_total && M(u.mastery_total), bossKills: u.bossKills && M(u.bossKills), boss: u.boss && M(u.boss),
+    devoured: u.devoured && M(u.devoured), coins: u.coins && M(u.coins), hurt: u.hurt && M(u.hurt), idle: u.idle && M(u.idle), distance: u.distance && M(u.distance),
+    mastery: u.mastery && Object.fromEntries(Object.entries(u.mastery).map(([k, v]) => [k, v + UNIQUE_HARD.masteryAdd])) } : u;
   if (u.level) add(d.level >= u.level, `Nível ${u.level}`);
   if (u.kills) add(d.kills >= u.kills, `${u.kills} abates (${d.kills})`);
   if (u.analyses) add(sg.analyses >= u.analyses, `${u.analyses} análises (${sg.analyses})`);
@@ -96,8 +104,9 @@ function tickPlayer(p) {
 export function combine(player, id) {
   const d = getData(player), cb = COMBOS.find((c) => c.id === id);
   if (!cb || hasSkill(d, id)) return { ok: false, msg: "Combinação indisponível." };
-  const miss = cb.from.find((k) => !hasSkill(d, k) || masteryLevel(player, k) < cb.mastery);
-  if (miss) return { ok: false, msg: `Requer ${SKILLS[miss]?.name ?? miss} (maestria ${cb.mastery}).` };
+  const need = cb.mastery + (hardUnique(d) ? UNIQUE_HARD.masteryAdd : 0);   // 6.87
+  const miss = cb.from.find((k) => !hasSkill(d, k) || masteryLevel(player, k) < need);
+  if (miss) return { ok: false, msg: `Requer ${SKILLS[miss]?.name ?? miss} (maestria ${need}).` };
   const c = ctx(player, 2), p = player.location;
   sageSay(player, "cmb_done");
   disc(c, p, { col: "sage", circle: CIRCLE.sage, size: 5, life: 3, rot: 60 });
@@ -138,16 +147,23 @@ const NO_STARTER = new Set(["predator", "gluttony", "beelzebuth", "stomach"]);
 function starterPool() {
   return Object.values(SKILLS).filter((s) => s.cat === "Única" && !NO_STARTER.has(s.id) && !s.unlock?.combine && STARTER_WEIGHT[s.rarity]);
 }
-export function rollStarter() {
-  const pool = starterPool(); let tot = 0; for (const s of pool) tot += STARTER_WEIGHT[s.rarity];
-  let r = Math.random() * tot; for (const s of pool) { r -= STARTER_WEIGHT[s.rarity]; if (r <= 0) return s.id; }
+export function rollStarter(hard = false) {
+  const W = (s) => STARTER_WEIGHT[s.rarity] * (hard ? UNIQUE_HARD.starterRare[s.rarity] ?? 1 : 1);
+  const pool = starterPool(); let tot = 0; for (const s of pool) tot += W(s);
+  let r = Math.random() * tot; for (const s of pool) { r -= W(s); if (r <= 0) return s.id; }
   return pool[pool.length - 1].id;
 }
 /** Concede e apresenta a Única inicial. Só age se o personagem ainda não tem uma salva (não re-sorteia ao morrer/relogar). */
 export function grantStarter(player) {
   const d = getData(player);
   if (d.starterUnique) return false;
-  const id = rollStarter(), sk = SKILLS[id], R = RARITY[sk.rarity];
+  const hard = hardUnique(d);
+  if (hard && Math.random() >= UNIQUE_HARD.starterChance) {   // 6.87: nem todo mundo nasce com uma Única
+    d.starterUnique = "none"; saveNow(player);
+    try { sageText(player, "Análise concluída. Nenhuma Habilidade Única despertou no nascimento. Ela ainda pode ser descoberta pela experiência.", { pri: 2, key: "starter.none", cd: 0 }); } catch { /* ignore */ }
+    return false;
+  }
+  const id = rollStarter(hard), sk = SKILLS[id], R = RARITY[sk.rarity];
   d.starterUnique = id;                                    // FASE 7 (primeiro, por segurança): salva permanentemente
   grantSkill(player, id); applyDerivedStats(player); saveNow(player);
   if (sceneOn(player)) return true;   // 6.35: só a cena da Voz do Mundo
