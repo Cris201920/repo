@@ -10482,13 +10482,41 @@
   "animation.etheria.race_fallen_lord": {
    "loop": true,
    "bones": {
+    "horn_l_tip": {
+     "rotation": [
+      "math.sin(query.life_time * 50 + 1) * 4",
+      "1 * math.sin(query.life_time * 35) * 5",
+      "1 * math.sin(query.life_time * 60) * 3"
+     ]
+    },
+    "horn_l": {
+     "scale": [
+      1,
+      "1 + math.sin(query.life_time * 40) * 0.015",
+      1
+     ]
+    },
+    "horn_r_tip": {
+     "rotation": [
+      "math.sin(query.life_time * 50 + -1) * 4",
+      "-1 * math.sin(query.life_time * 35) * 5",
+      "-1 * math.sin(query.life_time * 60) * 3"
+     ]
+    },
+    "horn_r": {
+     "scale": [
+      1,
+      "1 + math.sin(query.life_time * 40) * 0.015",
+      1
+     ]
+    },
     "wing_l": {
      "rotation": [
       "math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * 5 * (query.is_on_ground ? 0 : 1) - 8 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0)",
       "1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1) - 12 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) + 6 * math.min(1, query.modified_move_speed * 3) * (1 - (query.is_on_ground ? 0 : 1)))",
       "1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) + 16 * (query.is_on_ground ? 0 : 1) + 14 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
      ],
-     "scale": 1.755
+     "scale": 1.35
     },
     "wingB_l": {
      "rotation": [
@@ -10510,7 +10538,7 @@
       "-1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1) - 12 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) + 6 * math.min(1, query.modified_move_speed * 3) * (1 - (query.is_on_ground ? 0 : 1)))",
       "-1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) + 16 * (query.is_on_ground ? 0 : 1) + 14 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
      ],
-     "scale": 1.755
+     "scale": 1.35
     },
     "wingB_r": {
      "rotation": [
@@ -10524,18 +10552,6 @@
       0,
       0,
       "-1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 95 - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) * 0.55 - 12 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 4 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0))"
-     ]
-    },
-    "lord_crown": {
-     "rotation": [
-      0,
-      0,
-      "query.life_time * 22"
-     ],
-     "position": [
-      0,
-      "math.sin(query.life_time * 90) * 0.3",
-      0
      ]
     }
    }
@@ -32902,7 +32918,7 @@
     }
    }
   },
-  "animation.etheria.race_fallen_lord_lord": {
+  "animation.etheria.race_fallen_dl": {
    "loop": true,
    "bones": {
     "wing_l": {
@@ -32911,7 +32927,7 @@
       "1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1) - 12 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) + 6 * math.min(1, query.modified_move_speed * 3) * (1 - (query.is_on_ground ? 0 : 1)))",
       "1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) + 16 * (query.is_on_ground ? 0 : 1) + 14 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
      ],
-     "scale": 2.194
+     "scale": 1.755
     },
     "wingB_l": {
      "rotation": [
@@ -32933,7 +32949,96 @@
       "-1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1) - 12 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) + 6 * math.min(1, query.modified_move_speed * 3) * (1 - (query.is_on_ground ? 0 : 1)))",
       "-1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) + 16 * (query.is_on_ground ? 0 : 1) + 14 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
      ],
-     "scale": 2.194
+     "scale": 1.755
+    },
+    "wingB_r": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 50 - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) * 0.45 - 10 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 6 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0))"
+     ]
+    },
+    "wingC_r": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 95 - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) * 0.55 - 12 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 4 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0))"
+     ]
+    },
+    "lord_crown": {
+     "rotation": [
+      0,
+      0,
+      "query.life_time * 22"
+     ],
+     "position": [
+      0,
+      "math.sin(query.life_time * 90) * 0.3",
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria.race_fallen_lord_lord": {
+   "loop": true,
+   "bones": {
+    "horn_l_tip": {
+     "rotation": [
+      "math.sin(query.life_time * 50 + 1) * 4",
+      "1 * math.sin(query.life_time * 35) * 5",
+      "1 * math.sin(query.life_time * 60) * 3"
+     ]
+    },
+    "horn_l": {
+     "scale": [
+      1.3,
+      "(1 + math.sin(query.life_time * 40) * 0.015) * 1.3",
+      1.3
+     ]
+    },
+    "horn_r_tip": {
+     "rotation": [
+      "math.sin(query.life_time * 50 + -1) * 4",
+      "-1 * math.sin(query.life_time * 35) * 5",
+      "-1 * math.sin(query.life_time * 60) * 3"
+     ]
+    },
+    "horn_r": {
+     "scale": [
+      1.3,
+      "(1 + math.sin(query.life_time * 40) * 0.015) * 1.3",
+      1.3
+     ]
+    },
+    "wing_l": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * 5 * (query.is_on_ground ? 0 : 1) - 8 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0)",
+      "1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1) - 12 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) + 6 * math.min(1, query.modified_move_speed * 3) * (1 - (query.is_on_ground ? 0 : 1)))",
+      "1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) + 16 * (query.is_on_ground ? 0 : 1) + 14 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ],
+     "scale": 1.688
+    },
+    "wingB_l": {
+     "rotation": [
+      0,
+      0,
+      "1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 50 - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) * 0.45 - 10 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 6 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0))"
+     ]
+    },
+    "wingC_l": {
+     "rotation": [
+      0,
+      0,
+      "1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 95 - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) * 0.55 - 12 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 4 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0))"
+     ]
+    },
+    "wing_r": {
+     "rotation": [
+      "math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * 5 * (query.is_on_ground ? 0 : 1) - 8 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0)",
+      "-1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1) - 12 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) + 6 * math.min(1, query.modified_move_speed * 3) * (1 - (query.is_on_ground ? 0 : 1)))",
+      "-1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) + 16 * (query.is_on_ground ? 0 : 1) + 14 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ],
+     "scale": 1.688
     },
     "wingB_r": {
      "rotation": [

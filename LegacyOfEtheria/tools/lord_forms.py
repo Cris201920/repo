@@ -10,6 +10,7 @@
 import json, os, copy, math, colorsys
 from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); RP = os.path.join(ROOT, "LegacyOfEtheria_RP")
+LN = lambda r: f"{r}_dl" if r == "fallen" else f"{r}_lord"   # "fallen_lord" já é uma raça (Lorde Caído)
 M = lambda r: os.path.join(RP, f"models/entity/etheria_race_{r}.geo.json"); T = lambda r: os.path.join(RP, f"textures/entity/etheria_race_{r}.png")
 # raça: (tinta (h, s, v) ou None, força da tinta, multiplicador de brilho, estilo, cor escura, cor de destaque, escala asas, escala chifres)
 LORDS = {
@@ -94,7 +95,7 @@ def insignia(style):
 def build(race, cfg):
     hsv, k, mul, style, dk, ac, wsc, hsc = cfg
     D = json.load(open(M(race))); G = D["minecraft:geometry"][0]
-    G["description"]["identifier"] = f"geometry.etheria_race_{race}_lord"
+    G["description"]["identifier"] = f"geometry.etheria_race_{LN(race)}"
     names = {b["name"] for b in G["bones"]}
     if "head" not in names:
         par = "body" if "body" in names else None
@@ -104,11 +105,11 @@ def build(race, cfg):
     G["bones"] = [b for b in G["bones"] if b["name"] != "lord_crown"]
     crown, axis = insignia(style); G["bones"].append(crown)
     G["description"]["visible_bounds_width"] = max(G["description"].get("visible_bounds_width", 6), 8)
-    json.dump(D, open(M(race + "_lord"), "w"), indent=1)
+    json.dump(D, open(M(LN(race)), "w"), indent=1)
     img = Image.open(T(race)).convert("RGBA"); tint(img, hsv, k, mul)
     gl = tuple(min(255, int(c * 1.25 + 30)) for c in ac)
     for p, c in ((DK, dk), (AC, ac), (GL, gl)): img.putpixel(p, c + (255,))
-    img.save(T(race + "_lord"))
+    img.save(T(LN(race)))
     return axis
 
 AP = os.path.join(RP, "animations/etheria_race_parts.animation.json"); AN = json.load(open(AP))
@@ -127,6 +128,40 @@ for race, cfg in LORDS.items():
     if "halo" in bones: scale("halo", 1.2)
     rot = {"z": [0, 0, "query.life_time * 22"], "y": [0, "query.life_time * 30", 0], "none": [0, 0, 0]}[axis]
     bones["lord_crown"] = {"rotation": rot, "position": [0, "math.sin(query.life_time * 90) * 0.3" if axis != "none" else 0, 0]}
-    AN["animations"][f"animation.etheria.race_{race}_lord"] = an
+    AN["animations"][f"animation.etheria.race_{LN(race)}"] = an
     print("lorde:", race)
 json.dump(AN, open(AP, "w"), indent=1)
+
+# ---------- player.entity / render controllers: <raça> some quando etheria:lord, <raça>_lord aparece ----------
+RACES = ["demon"] + list(LORDS)
+LNx = lambda r: "demon_lord" if r == "demon" else LN(r)
+PE = os.path.join(RP, "entity/player.entity.json"); E = json.load(open(PE)); Dd = E["minecraft:client_entity"]["description"]
+L = "query.property('etheria:lord')"
+for r in RACES:
+    k = f"etheria_race_{LNx(r)}"
+    Dd["textures"][k] = f"textures/entity/{k}"; Dd["geometry"][k] = f"geometry.{k}"; Dd["animations"][k] = f"animation.etheria.race_{LNx(r)}"
+LORDKEYS = {f"etheria_race_{LNx(r)}" for r in RACES} - {f"etheria_race_{r}" for r in RACES}
+def split(k, v, r, pre):
+    eq = f"query.property('etheria:race') == '{r}'"; v = v.replace(f" && !{L}", "").replace(f" && {L}", "")
+    assert v.count(eq) == 1, (k, v)
+    return [{k: v.replace(eq, f"{eq} && !{L}")}, {pre + LNx(r): v.replace(eq, f"{eq} && {L}")}]
+for pre, lst_get, lst_set in (("etheria_race_", lambda: Dd["scripts"]["animate"], lambda x: Dd["scripts"].__setitem__("animate", x)),
+                              ("controller.render.etheria_race_", lambda: Dd["render_controllers"], lambda x: Dd.__setitem__("render_controllers", x))):
+    new = []
+    for it in lst_get():
+        if isinstance(it, dict) and len(it) == 1:
+            (k, v), = it.items(); r = k[len(pre):] if k.startswith(pre) else None
+            if r is not None and "etheria_race_" + r in LORDKEYS: continue
+            if r in RACES: new.extend(split(k, v, r, pre)); continue
+        new.append(it)
+    lst_set(new)
+s2 = json.dumps(E, indent=1, ensure_ascii=False)
+s2 = s2.replace("(query.property('etheria:race') == 'demon' || query.property('etheria:race') == 'demon_lord')", "(query.property('etheria:race') == 'demon')")
+assert "== 'demon_lord'" not in s2
+open(PE, "w").write(s2 + "\n")
+RCP = os.path.join(RP, "render_controllers/etheria_race_parts.render_controllers.json"); R = json.load(open(RCP))
+for r in RACES:
+    n = LNx(r); R["render_controllers"][f"controller.render.etheria_race_{n}"] = {"geometry": f"Geometry.etheria_race_{n}", "materials": [{"*": "Material.default"}], "textures": [f"Texture.etheria_race_{n}"]}
+json.dump(R, open(RCP, "w"), indent=1)
+json.dump(AN, open(AP, "w"), indent=1)
+print("player.entity ok")

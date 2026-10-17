@@ -342,6 +342,28 @@
     "Texture.etheria_race_lizardman_lord"
    ]
   },
+  "controller.render.etheria_race_dragonewt_lord": {
+   "geometry": "Geometry.etheria_race_dragonewt_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_dragonewt_lord"
+   ]
+  },
+  "controller.render.etheria_race_dragonewt_w_lord": {
+   "geometry": "Geometry.etheria_race_dragonewt_w_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_dragonewt_w_lord"
+   ]
+  },
   "controller.render.etheria_race_ogre_lord": {
    "geometry": "Geometry.etheria_race_ogre_lord",
    "materials": [
@@ -419,6 +441,17 @@
     "Texture.etheria_race_angel_seraph_lord"
    ]
   },
+  "controller.render.etheria_race_fallen_dl": {
+   "geometry": "Geometry.etheria_race_fallen_dl",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_fallen_dl"
+   ]
+  },
   "controller.render.etheria_race_fallen_lord_lord": {
    "geometry": "Geometry.etheria_race_fallen_lord_lord",
    "materials": [
@@ -428,28 +461,6 @@
    ],
    "textures": [
     "Texture.etheria_race_fallen_lord_lord"
-   ]
-  },
-  "controller.render.etheria_race_dragonewt_lord": {
-   "geometry": "Geometry.etheria_race_dragonewt_lord",
-   "materials": [
-    {
-     "*": "Material.default"
-    }
-   ],
-   "textures": [
-    "Texture.etheria_race_dragonewt_lord"
-   ]
-  },
-  "controller.render.etheria_race_dragonewt_w_lord": {
-   "geometry": "Geometry.etheria_race_dragonewt_w_lord",
-   "materials": [
-    {
-     "*": "Material.default"
-    }
-   ],
-   "textures": [
-    "Texture.etheria_race_dragonewt_w_lord"
    ]
   }
  }
