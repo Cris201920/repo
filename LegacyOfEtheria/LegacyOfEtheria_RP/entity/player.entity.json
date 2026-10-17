@@ -1147,7 +1147,7 @@
      "controller.render.player.third_person_spectator": "!variable.is_first_person && !variable.map_face_icon && query.is_spectator"
     },
     {
-     "controller.render.player.first_person": "variable.is_first_person && !query.is_spectator"
+     "controller.render.player.first_person": "variable.is_first_person && !query.is_spectator && !query.property('etheria:slime') && query.property('etheria:mimic') == 0"
     },
     {
      "controller.render.player.third_person": "(!variable.is_first_person && !variable.map_face_icon && !query.is_spectator) && query.property('etheria:lform') != 'true' && query.property('etheria:lform') != 'draconic' && !(query.property('etheria:slime') || query.property('etheria:mimic') > 0)"

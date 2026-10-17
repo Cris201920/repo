@@ -62,7 +62,7 @@ function blast(pl, sk, s, H, at, R, mult, o = {}) {
 }
 /** fases 1 e 2 comuns: gesto, círculo mágico sob os pés e energia convergindo nas mãos */
 function prepare(c, pl, o) {
-  castGesture(pl, "charge", 0.15);
+  castGesture(pl, "ultimate", 0.25);   // 6.86: animação própria das Ultimates
   const f = pl.location, hand = up(f, 1.3);
   layer(c, f, { tile: o.circle ?? CIRCLE.arcane, size: o.size ?? 6, rot: 50, life: (o.dur ?? 30) / 20 + 0.6, col: o.col, a: 0.95, grow: 0.15 });
   layer(c, f, { tile: CIRCLE.sage, size: (o.size ?? 6) * 0.6, rot: -80, life: (o.dur ?? 30) / 20 + 0.4, col: o.col2 ?? o.col, a: 0.8, y: 0.12 });

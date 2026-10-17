@@ -158,7 +158,7 @@ export function startGrandSpells() {
     const f = GRAND[sk.id]; if (!f) return "magia sem coreografia";
     const A = H.aim(pl, sk.exec.range ?? 30), at = A.target ? { ...A.target.location } : A.point, R = sk.exec.radius ?? 8, c = tc(pl, sk), dim = pl.dimension;
     H.mark(up(pl.location, 1.3), at, at);
-    castGesture(pl, "charge", 0.15); after(14, () => castGesture(pl, "target"));
+    castGesture(pl, "grand", 0.25);   // 6.86: animação própria das magias gigantes
     layer(c, pl.location, { tile: CIRCLE.arcane, size: 4.5, rot: 70, life: 1.4, col: "white", a: 0.8 });
     const hit = (p, r, mult, o = {}) => {
       for (const e of H.around(dim, p, r, pl)) {
