@@ -78,11 +78,13 @@ export const BODY_BY_LOOK = { lesser_daemon: "demon", greater_daemon: "demon", a
   angel: "angel", angel_guardian: "angel", archangel: "angel_arch", fallen_angel: "fallen", divine_elf: "elf", ogre: "ogre", mystic_oni: "ogre", kijin: "ogre",
   beastfolk: "beastkin", okami: "beastkin", beast_lord: "beastkin", spirit_beast: "beastkin", lizardman: "lizardman", dragonewt: "dragonewt" };
 export const HIDE = { demon: ["wings", "horns"], vampire: ["wings"], dragonoid: ["wings", "horns"], angel: ["wings"], angel_arch: ["wings", "halo"],
-  fallen: ["wings"], elf: ["wings"], ogre: ["horns"],
+  fallen: ["wings"], fallen_lord: ["wings"], angel_cherub: ["wings"], angel_seraph: ["wings"], elf: ["wings"], ogre: ["horns"],
   beastkin: ["ears", "tail"], lizardman: ["horns"], dragonewt: ["horns"], dragonewt_w: ["wings", "horns"] };
 // 7.3: estas raças usam a CAUDA DO MOD (arch/liz) com animação própria; a cauda do corpo Etheria fica escondida (animação da raça)
 // 1 lilás curva · 2 verde de lagarto · 3 vermelha de lagarto · 4 laranja curva · 5 preta de lagarto · 6 gelo de lagarto
 export const MOD_TAIL = { demon: 5, dragonoid: 2, dragonewt: 2, dragonewt_w: 2, lizardman: 2 };
+// 7.7: a cor da cauda segue a RAÇA (não muda a cada evolução): Dragonoide vermelha, Homem-Lagarto verde, Demônio e Lorde Demônio preta
+export const RACE_TAIL = { demon: 5, dragonoid: 3, lizard: 2 };
 export const LIN_TAIL = { veldora: 5, velzard: 6, velgrynd: 3, veldanava: 2 };   // 6 = lagarto azul-gelo (recolorida da verde)   // 7.4: Dragonoides com linhagem (corpo da linhagem)
 export const WINGED_BODY = new Set(["dragonewt_w", "demon", "vampire", "dragonoid", "angel", "angel_arch", "angel_cherub", "angel_seraph", "fallen", "fallen_lord", "elf"]);
 /** corpo do Etheria do estágio ("none" se o estágio usa só as peças do Tensura) */
@@ -111,8 +113,11 @@ function applyTensuraLook(player, d, lineageActive) {
   const hide = lineageActive ? [] : (HIDE[bodyOfStage(d.raceStage)] ?? []);
   if (hide.length) { look = { ...look }; for (const k of hide) look[k] = 0; }
   let linId = null; try { linId = lineageActive ? lineageOf(d)?.id : null; } catch { /* ignore */ }
-  const mt = lineageActive ? (isDragonForm(formOfPlayer(d)) ? 0 : (LIN_TAIL[linId] ?? 2)) : (MOD_TAIL[bodyOfStage(d.raceStage)] ?? 0);
-  if (mt && !look.tail) look = { ...look, tail: mt };
+  const bd = lineageActive ? "none" : bodyOfStage(d.raceStage), lordDemon = !lineageActive && (isLordStage(d.raceStage ?? "") || d.raceStage === "demon_4");
+  const mt = lineageActive ? (isDragonForm(formOfPlayer(d)) ? 0 : (LIN_TAIL[linId] ?? 2))
+    : MOD_TAIL[bd] ? (lordDemon || bd === "demon" ? 5 : (RACE_TAIL[d.race] ?? MOD_TAIL[bd]))
+    : (lordDemon && look.tail && !(HIDE[bd] ?? []).includes("tail") ? 5 : 0);
+  if (mt) look = { ...look, tail: mt };
   for (const part of TPARTS) {
     const v = look[part] ?? 0;
     try { if (player.getProperty(`tensura:${part}`) !== v) player.setProperty(`tensura:${part}`, v); }

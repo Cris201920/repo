@@ -212,7 +212,8 @@
       "-10 + 18 * (query.is_sneaking ? 1 : 0) - 22 * (query.is_on_ground ? 0 : 1) + math.sin(query.anim_time * 160 - 0) * (2 + 3 * (query.is_on_ground ? 0 : 1)) + 0 * (query.is_on_ground ? 0 : 1) * math.sin(query.anim_time * 300 - 0)",
       "math.sin(query.anim_time * (120 + 180 * math.min(1, query.modified_move_speed * 3)) - 0) * (5 + 12 * math.min(1, query.modified_move_speed * 3))",
       "math.sin(query.anim_time * (120 + 180 * math.min(1, query.modified_move_speed * 3)) - 90) * 1"
-     ]
+     ],
+     "scale": "query.property('tensura:tail') == 1 ? 1.5 : 1.0"
     },
     "tail_mid": {
      "rotation": [
