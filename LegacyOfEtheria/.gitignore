@@ -25,3 +25,6 @@ LegacyOfEtheria_RP/textures/entity/etheria_michael_halberd.png
 
 # 6.65 - texturas animadas das magias (do jar do Tensura, uso pessoal)
 LegacyOfEtheria_RP/textures/entity/spell/
+
+# 6.90 HUD igual à do mod (recortes do jar do Tensura, uso pessoal; gere com tools/mod_hud.py <jar>)
+LegacyOfEtheria_RP/textures/ui/etheria/modhud/

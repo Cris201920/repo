@@ -4959,7 +4959,7 @@
   "anchor_to": "top_left",
   "offset": [
    4,
-   4
+   74
   ],
   "layer": 70,
   "bindings": [
@@ -5259,6 +5259,420 @@
           "binding_name": "#hud_subtitle_text_string",
           "binding_name_override": "#text",
           "binding_type": "global"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "hud_actionbar_text": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "$atext": "$actionbar_text",
+  "controls": [
+   {
+    "eth_mod_hud": {
+     "type": "panel",
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      3,
+      3
+     ],
+     "size": [
+      150,
+      67
+     ],
+     "layer": 40,
+     "bindings": [
+      {
+       "binding_type": "view",
+       "source_property_name": "(('%.5s' * $atext) = 'ETHUD')",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "frame": {
+        "type": "image",
+        "texture": "textures/ui/etheria/modhud/frame",
+        "size": [
+         150,
+         67
+        ],
+        "layer": 1
+       }
+      },
+      {
+       "bar_hp": {
+        "type": "image",
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         44,
+         5
+        ],
+        "size": [
+         101,
+         9
+        ],
+        "layer": 4,
+        "texture": "textures/ui/etheria/modhud/hp_00",
+        "bindings": [
+         {
+          "binding_type": "view",
+          "source_property_name": "('textures/ui/etheria/modhud/hp_' + (('%.7s' * $atext) - ('%.5s' * $atext)))",
+          "target_property_name": "#texture"
+         }
+        ]
+       }
+      },
+      {
+       "bar_xp": {
+        "type": "image",
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         44,
+         19
+        ],
+        "size": [
+         85,
+         9
+        ],
+        "layer": 4,
+        "texture": "textures/ui/etheria/modhud/xp_00",
+        "bindings": [
+         {
+          "binding_type": "view",
+          "source_property_name": "('textures/ui/etheria/modhud/xp_' + (('%.11s' * $atext) - ('%.9s' * $atext)))",
+          "target_property_name": "#texture"
+         }
+        ]
+       }
+      },
+      {
+       "bar_mp": {
+        "type": "image",
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         5,
+         46
+        ],
+        "size": [
+         67,
+         9
+        ],
+        "layer": 4,
+        "texture": "textures/ui/etheria/modhud/mp_00",
+        "bindings": [
+         {
+          "binding_type": "view",
+          "source_property_name": "('textures/ui/etheria/modhud/mp_' + (('%.9s' * $atext) - ('%.7s' * $atext)))",
+          "target_property_name": "#texture"
+         }
+        ]
+       }
+      },
+      {
+       "bar_st": {
+        "type": "image",
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         5,
+         57
+        ],
+        "size": [
+         57,
+         9
+        ],
+        "layer": 4,
+        "texture": "textures/ui/etheria/modhud/st_00",
+        "bindings": [
+         {
+          "binding_type": "view",
+          "source_property_name": "('textures/ui/etheria/modhud/st_' + (('%.13s' * $atext) - ('%.11s' * $atext)))",
+          "target_property_name": "#texture"
+         }
+        ]
+       }
+      },
+      {
+       "glass": {
+        "type": "image",
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         0,
+         0
+        ],
+        "size": [
+         150,
+         67
+        ],
+        "texture": "textures/ui/etheria/modhud/glass",
+        "layer": 6
+       }
+      },
+      {
+       "hp_txt": {
+        "type": "label",
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         44,
+         6
+        ],
+        "size": [
+         101,
+         9
+        ],
+        "layer": 8,
+        "text": "#text",
+        "text_alignment": "center",
+        "font_scale_factor": 0.75,
+        "shadow": true,
+        "color": [
+         1,
+         1,
+         1
+        ],
+        "localize": false,
+        "bindings": [
+         {
+          "binding_type": "view",
+          "source_property_name": "(('%.24s' * $atext) - ('%.13s' * $atext))",
+          "target_property_name": "#text"
+         }
+        ]
+       }
+      },
+      {
+       "mp_txt": {
+        "type": "label",
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         5,
+         47
+        ],
+        "size": [
+         67,
+         9
+        ],
+        "layer": 8,
+        "text": "#text",
+        "text_alignment": "center",
+        "font_scale_factor": 0.75,
+        "shadow": true,
+        "color": [
+         1,
+         1,
+         1
+        ],
+        "localize": false,
+        "bindings": [
+         {
+          "binding_type": "view",
+          "source_property_name": "(('%.35s' * $atext) - ('%.24s' * $atext))",
+          "target_property_name": "#text"
+         }
+        ]
+       }
+      },
+      {
+       "st_txt": {
+        "type": "label",
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         5,
+         58
+        ],
+        "size": [
+         57,
+         9
+        ],
+        "layer": 8,
+        "text": "#text",
+        "text_alignment": "center",
+        "font_scale_factor": 0.75,
+        "shadow": true,
+        "color": [
+         1,
+         1,
+         1
+        ],
+        "localize": false,
+        "bindings": [
+         {
+          "binding_type": "view",
+          "source_property_name": "(('%.46s' * $atext) - ('%.35s' * $atext))",
+          "target_property_name": "#text"
+         }
+        ]
+       }
+      },
+      {
+       "lv_cap": {
+        "type": "label",
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         5,
+         8
+        ],
+        "size": [
+         35,
+         9
+        ],
+        "layer": 8,
+        "text": "#text",
+        "text_alignment": "center",
+        "font_scale_factor": 0.75,
+        "shadow": true,
+        "color": [
+         0.85,
+         0.85,
+         0.85
+        ],
+        "localize": false,
+        "bindings": [
+         {
+          "binding_type": "view",
+          "source_property_name": "('Nv')",
+          "target_property_name": "#text"
+         }
+        ]
+       }
+      },
+      {
+       "lv_txt": {
+        "type": "label",
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         5,
+         18
+        ],
+        "size": [
+         35,
+         14
+        ],
+        "layer": 8,
+        "text": "#text",
+        "text_alignment": "center",
+        "font_scale_factor": 1.5,
+        "shadow": true,
+        "color": [
+         1,
+         0.85,
+         0.3
+        ],
+        "localize": false,
+        "bindings": [
+         {
+          "binding_type": "view",
+          "source_property_name": "(('%.49s' * $atext) - ('%.46s' * $atext))",
+          "target_property_name": "#text"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "msg_hud": {
+     "type": "image",
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "size": [
+      "100%c + 12px",
+      "100%c + 5px"
+     ],
+     "offset": [
+      0,
+      "50%-68px"
+     ],
+     "texture": "textures/ui/hud_tip_text_background",
+     "alpha": "@hud.anim_actionbar_text_background_alpha_out",
+     "bindings": [
+      {
+       "binding_type": "view",
+       "source_property_name": "((('%.5s' * $atext) = 'ETHUD') and (not (('%.50s' * $atext) = ('%.49s' * $atext))))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "actionbar_message": {
+        "type": "label",
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": "$tool_tip_text",
+        "layer": 31,
+        "text": "#text",
+        "localize": false,
+        "alpha": "@hud.anim_actionbar_text_alpha_out",
+        "bindings": [
+         {
+          "binding_type": "view",
+          "source_property_name": "($atext - ('%.49s' * $atext))",
+          "target_property_name": "#text"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "msg_plain": {
+     "type": "image",
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "size": [
+      "100%c + 12px",
+      "100%c + 5px"
+     ],
+     "offset": [
+      0,
+      "50%-68px"
+     ],
+     "texture": "textures/ui/hud_tip_text_background",
+     "alpha": "@hud.anim_actionbar_text_background_alpha_out",
+     "bindings": [
+      {
+       "binding_type": "view",
+       "source_property_name": "(not (('%.5s' * $atext) = 'ETHUD'))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "actionbar_message": {
+        "type": "label",
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": "$tool_tip_text",
+        "layer": 31,
+        "text": "#text",
+        "localize": false,
+        "alpha": "@hud.anim_actionbar_text_alpha_out",
+        "bindings": [
+         {
+          "binding_type": "view",
+          "source_property_name": "$atext",
+          "target_property_name": "#text"
          }
         ]
        }

@@ -19,17 +19,17 @@ import { inventory } from "../core/utils.js";
 let tickCount = 0;
 const short = (n) => (n.length > 9 ? n.slice(0, 8) + "." : n);
 
-// 6.89: barras gráficas (font/glyph_E3.png) no lugar dos corações vanilla, que ficam escondidos
-const G = (i) => String.fromCharCode(0xE300 + i);
-const BAR = { hp: [G(0x10), G(0x11)], mp: [G(0x13), G(0x14)], st: [G(0x15), G(0x16)] };
-function bar(kind, cur, max, n) {
-  const f = max > 0 ? Math.max(0, Math.min(1, cur / max)) * n : 0, full = Math.floor(f), half = f - full >= 0.5 ? 1 : 0;
-  return "§r" + G(0x17) + BAR[kind][0].repeat(full) + (half ? BAR[kind][1] : "") + G(0x12).repeat(n - full - half) + G(0x18);
-}
-export function barLine(p, d, s) {
-  const hp = getHealth(p);
-  return `${G(0)}${bar("hp", hp.cur, hp.max, 10)} §c${Math.ceil(hp.cur)}§7/${Math.ceil(hp.max)}   §r${G(1)}${bar("mp", d.mana, s.maxMana, 10)} §9${Math.floor(d.mana)}§7/${s.maxMana}`
-    + `\n§r${G(2)}${bar("st", d.stamina, s.maxStamina, 6)} §a${Math.floor(d.stamina)}§7/${s.maxStamina}`;
+// 6.90: HUD igual à do mod (ui/hud_screen.json, tools/mod_hud.py). A actionbar começa com um cabeçalho ASCII de 49 caracteres
+// que a JSON UI lê (barras e números) e corta do texto exibido: ETHUD + hp/mp/xp/st (00..40) + 3 textos de 11 + nível(3).
+const STEPS = 40;
+const step = (c, m) => String(m > 0 ? Math.round(Math.max(0, Math.min(1, c / m)) * STEPS) : 0).padStart(2, "0");
+const num = (n) => (n >= 100000 ? `${Math.floor(n / 1000)}k` : String(Math.floor(n)));
+const field = (t, w) => { t = t.slice(0, w); const l = Math.floor((w - t.length) / 2); return " ".repeat(l) + t + " ".repeat(w - t.length - l); };
+export function hudHeader(p, d, s) {
+  const hp = getHealth(p), need = xpToNext(d.level);
+  return "ETHUD" + step(hp.cur, hp.max) + step(d.mana, s.maxMana) + step(d.level >= MAX_LEVEL ? 1 : d.xp, d.level >= MAX_LEVEL ? 1 : need) + step(d.stamina, s.maxStamina)
+    + field(`${num(Math.ceil(hp.cur))}/${num(Math.ceil(hp.max))}`, 11) + field(`${num(d.mana)}/${num(s.maxMana)}`, 11) + field(`${num(d.stamina)}/${num(s.maxStamina)}`, 11)
+    + field(String(d.level), 3);
 }
 
 function hideVanillaHearts(p) {
@@ -37,9 +37,9 @@ function hideVanillaHearts(p) {
 }
 
 function hudText(p, d, s) {
-  let t = barLine(p, d, s);
+  let t = hudHeader(p, d, s);
   if (d.settings.compact) return t;
-  t += `   §6${fmt(d.coins)}$`;   // 6.69: dinheiro na mesma linha (barra menor)   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
+  t += `§6${fmt(d.coins)}$`;   // 6.69: dinheiro na mesma linha (barra menor)   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
   const sel = hudSelectedLine(p, d, s); if (sel) t += "\n" + sel;                 // habilidade na mão: custo e estado
   const strip = hudSkillLines(p, d, s); if (strip.length) t += "\n" + strip.join("\n");   // faixa das equipadas (número = slot da hotbar)
   const buffs = listBuffs(p);
