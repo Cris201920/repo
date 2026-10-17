@@ -6,33 +6,34 @@
    "bones": {
     "body": {
      "rotation": [
-      "1.2 * math.sin((query.life_time * 75 + v.ph) * v.sp)",
+      "1.2 * math.sin((query.anim_time * 75 + v.ph) * v.sp)",
       0,
       0
      ]
     },
     "head": {
      "rotation": [
-      "-1.5 * math.sin((query.life_time * 75 + v.ph) * v.sp) + 2 * math.sin(query.life_time * 23 + v.ph)",
-      "6 * math.sin(query.life_time * 17 + v.ph * 2)",
+      "-1.5 * math.sin((query.anim_time * 75 + v.ph) * v.sp) + 2 * math.sin(query.anim_time * 23 + v.ph)",
+      "6 * math.sin(query.anim_time * 17 + v.ph * 2)",
       0
      ]
     },
     "rightArm": {
      "rotation": [
-      "-2 * math.sin((query.life_time * 75 + v.ph) * v.sp)",
+      "-2 * math.sin((query.anim_time * 75 + v.ph) * v.sp)",
       0,
-      "2.5 + 2 * math.sin((query.life_time * 75 + v.ph) * v.sp)"
+      "2.5 + 2 * math.sin((query.anim_time * 75 + v.ph) * v.sp)"
      ]
     },
     "leftArm": {
      "rotation": [
-      "-2 * math.sin((query.life_time * 75 + v.ph) * v.sp)",
+      "-2 * math.sin((query.anim_time * 75 + v.ph) * v.sp)",
       0,
-      "-2.5 - 2 * math.sin((query.life_time * 75 + v.ph) * v.sp)"
+      "-2.5 - 2 * math.sin((query.anim_time * 75 + v.ph) * v.sp)"
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.life.stance": {
    "loop": true,
@@ -46,14 +47,14 @@
     },
     "rightArm": {
      "rotation": [
-      "-28 + 3 * math.sin((query.life_time * 75 + v.ph) * v.sp)",
+      "-28 + 3 * math.sin((query.anim_time * 75 + v.ph) * v.sp)",
       -8,
       6
      ]
     },
     "leftArm": {
      "rotation": [
-      "-20 + 3 * math.sin((query.life_time * 75 + v.ph) * v.sp)",
+      "-20 + 3 * math.sin((query.anim_time * 75 + v.ph) * v.sp)",
       10,
       -6
      ]
@@ -79,7 +80,8 @@
       0
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.life.swing": {
    "loop": false,
@@ -260,26 +262,27 @@
    "bones": {
     "rightArm": {
      "rotation": [
-      "-22 + 12 * math.sin(query.life_time * 160 + v.ph)",
+      "-22 + 12 * math.sin(query.anim_time * 160 + v.ph)",
       -10,
-      "8 + 4 * math.sin(query.life_time * 90)"
+      "8 + 4 * math.sin(query.anim_time * 90)"
      ]
     },
     "leftArm": {
      "rotation": [
-      "-8 + 6 * math.sin(query.life_time * 120 + v.ph + 60)",
+      "-8 + 6 * math.sin(query.anim_time * 120 + v.ph + 60)",
       6,
       -5
      ]
     },
     "head": {
      "rotation": [
-      "3 * math.sin(query.life_time * 140 + v.ph)",
+      "3 * math.sin(query.anim_time * 140 + v.ph)",
       0,
       0
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.life.wave": {
    "loop": false,

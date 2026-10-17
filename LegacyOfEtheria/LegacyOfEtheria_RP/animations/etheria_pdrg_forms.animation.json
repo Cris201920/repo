@@ -19,107 +19,108 @@
     "x_halo": {
      "position": [
       0,
-      "1.2 * math.sin(query.life_time * 110)",
+      "1.2 * math.sin(query.anim_time * 110)",
       0
      ],
      "rotation": [
       0,
-      "query.life_time * 35",
+      "query.anim_time * 35",
       0
      ]
     },
     "x_whisk_l": {
      "rotation": [
-      "math.sin(query.life_time * 140) * 10",
-      "math.sin(query.life_time * 95) * 14",
+      "math.sin(query.anim_time * 140) * 10",
+      "math.sin(query.anim_time * 95) * 14",
       0
      ]
     },
     "x_whisk_r": {
      "rotation": [
-      "math.sin(query.life_time * 140 + 60) * 10",
-      "-math.sin(query.life_time * 95 + 40) * 14",
+      "math.sin(query.anim_time * 140 + 60) * 10",
+      "-math.sin(query.anim_time * 95 + 40) * 14",
       0
      ]
     },
     "x_cryst": {
      "scale": [
-      "1 + 0.05 * math.sin(query.life_time * 200)",
-      "1 + 0.05 * math.sin(query.life_time * 200)",
-      "1 + 0.05 * math.sin(query.life_time * 200)"
+      "1 + 0.05 * math.sin(query.anim_time * 200)",
+      "1 + 0.05 * math.sin(query.anim_time * 200)",
+      "1 + 0.05 * math.sin(query.anim_time * 200)"
      ]
     },
     "x_serp1": {
      "rotation": [
-      "math.sin(query.life_time * 120 - 40) * 5",
-      "math.sin(query.life_time * 150 - 50) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
+      "math.sin(query.anim_time * 120 - 40) * 5",
+      "math.sin(query.anim_time * 150 - 50) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
       0
      ]
     },
     "x_serp2": {
      "rotation": [
-      "math.sin(query.life_time * 120 - 80) * 5",
-      "math.sin(query.life_time * 150 - 100) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
+      "math.sin(query.anim_time * 120 - 80) * 5",
+      "math.sin(query.anim_time * 150 - 100) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
       0
      ]
     },
     "x_serp3": {
      "rotation": [
-      "math.sin(query.life_time * 120 - 120) * 5",
-      "math.sin(query.life_time * 150 - 150) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
+      "math.sin(query.anim_time * 120 - 120) * 5",
+      "math.sin(query.anim_time * 150 - 150) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
       0
      ]
     },
     "x_serp4": {
      "rotation": [
-      "math.sin(query.life_time * 120 - 160) * 5",
-      "math.sin(query.life_time * 150 - 200) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
+      "math.sin(query.anim_time * 120 - 160) * 5",
+      "math.sin(query.anim_time * 150 - 200) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
       0
      ]
     },
     "x_serp5": {
      "rotation": [
-      "math.sin(query.life_time * 120 - 200) * 5",
-      "math.sin(query.life_time * 150 - 250) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
+      "math.sin(query.anim_time * 120 - 200) * 5",
+      "math.sin(query.anim_time * 150 - 250) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
       0
      ]
     },
     "x_serp6": {
      "rotation": [
-      "math.sin(query.life_time * 120 - 240) * 5",
-      "math.sin(query.life_time * 150 - 300) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
+      "math.sin(query.anim_time * 120 - 240) * 5",
+      "math.sin(query.anim_time * 150 - 300) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
       0
      ]
     },
     "x_mane1": {
      "rotation": [
-      "math.sin(query.life_time * 80 - 25) * 4",
+      "math.sin(query.anim_time * 80 - 25) * 4",
       0,
-      "math.sin(query.life_time * 100 - 30) * 7"
+      "math.sin(query.anim_time * 100 - 30) * 7"
      ]
     },
     "x_mane2": {
      "rotation": [
-      "math.sin(query.life_time * 80 - 50) * 4",
+      "math.sin(query.anim_time * 80 - 50) * 4",
       0,
-      "math.sin(query.life_time * 100 - 60) * 7"
+      "math.sin(query.anim_time * 100 - 60) * 7"
      ]
     },
     "x_mane3": {
      "rotation": [
-      "math.sin(query.life_time * 80 - 75) * 4",
+      "math.sin(query.anim_time * 80 - 75) * 4",
       0,
-      "math.sin(query.life_time * 100 - 90) * 7"
+      "math.sin(query.anim_time * 100 - 90) * 7"
      ]
     },
     "x_true_halo": {
      "rotation": [
       0,
       0,
-      "query.life_time * 25"
+      "query.anim_time * 25"
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria_pdrg.emerge": {
    "loop": false,

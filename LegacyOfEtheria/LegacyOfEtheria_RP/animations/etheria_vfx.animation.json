@@ -6,26 +6,27 @@
    "bones": {
     "root": {
      "scale": [
-      "query.property('etheria:sz') * (1 + 0.05 * math.sin(query.life_time * 1100))",
-      "query.property('etheria:sz') * (1 + 0.05 * math.sin(query.life_time * 1100))",
-      "query.property('etheria:sz') * (1 + 0.05 * math.sin(query.life_time * 1100))"
+      "query.property('etheria:sz') * (1 + 0.05 * math.sin(query.anim_time * 1100))",
+      "query.property('etheria:sz') * (1 + 0.05 * math.sin(query.anim_time * 1100))",
+      "query.property('etheria:sz') * (1 + 0.05 * math.sin(query.anim_time * 1100))"
      ]
     },
     "core": {
      "rotation": [
-      "query.life_time * 140",
-      "query.life_time * 210",
+      "query.anim_time * 140",
+      "query.anim_time * 210",
       0
      ]
     },
     "shell": {
      "rotation": [
       0,
-      "-query.life_time * 120",
-      "query.life_time * 70"
+      "-query.anim_time * 120",
+      "query.anim_time * 70"
      ]
     }
-   }
+   },
+   "animation_length": 3600
   }
  }
 }

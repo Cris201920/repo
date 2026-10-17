@@ -6,7 +6,7 @@
    "bones": {
     "body": {
      "rotation": [
-      "(6 + 2 * math.sin(query.life_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "(6 + 2 * math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
       "4 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
       "3 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
      ]
@@ -20,14 +20,14 @@
     },
     "rightArm": {
      "rotation": [
-      "-4 * math.sin(query.life_time * 90)",
+      "-4 * math.sin(query.anim_time * 90)",
       0,
       "8"
      ]
     },
     "leftArm": {
      "rotation": [
-      "-4 * math.sin(query.life_time * 90)",
+      "-4 * math.sin(query.anim_time * 90)",
       0,
       "-8"
      ]
@@ -46,7 +46,8 @@
       -2
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.rstyle.beast": {
    "loop": true,
@@ -100,7 +101,7 @@
    "bones": {
     "body": {
      "rotation": [
-      "(-4 + math.sin(query.life_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "(-4 + math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
       "6 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
       0
      ]
@@ -126,47 +127,49 @@
       -6
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.rstyle.light": {
    "loop": true,
    "bones": {
     "body": {
      "rotation": [
-      "(-2 + math.sin(query.life_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "(-2 + math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
       0,
       "1.5 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
      ]
     },
     "head": {
      "rotation": [
-      "-4 + 1.5 * math.sin(query.life_time * 90)",
+      "-4 + 1.5 * math.sin(query.anim_time * 90)",
       0,
       0
      ]
     },
     "rightArm": {
      "rotation": [
-      "-6 + 2 * math.sin(query.life_time * 90)",
+      "-6 + 2 * math.sin(query.anim_time * 90)",
       0,
-      "10 + 3 * math.sin(query.life_time * 90)"
+      "10 + 3 * math.sin(query.anim_time * 90)"
      ]
     },
     "leftArm": {
      "rotation": [
-      "-6 + 2 * math.sin(query.life_time * 90)",
+      "-6 + 2 * math.sin(query.anim_time * 90)",
       0,
-      "-10 - 3 * math.sin(query.life_time * 90)"
+      "-10 - 3 * math.sin(query.anim_time * 90)"
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.rstyle.demonic": {
    "loop": true,
    "bones": {
     "body": {
      "rotation": [
-      "(8 + 2 * math.sin(query.life_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "(8 + 2 * math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
       "3 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
       0
      ]
@@ -175,7 +178,7 @@
      "rotation": [
       8,
       0,
-      "3 * math.sin(query.life_time * 40)"
+      "3 * math.sin(query.anim_time * 40)"
      ]
     },
     "rightArm": {
@@ -192,7 +195,8 @@
       -5
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.rstyle.slime": {
    "loop": true,
@@ -205,14 +209,14 @@
      ],
      "position": [
       0,
-      "math.abs(math.sin(query.modified_distance_moved * 38.17)) * 1.2 * math.min(1, query.modified_move_speed * 4) + 0.3 * math.sin(query.life_time * 90)",
+      "math.abs(math.sin(query.modified_distance_moved * 38.17)) * 1.2 * math.min(1, query.modified_move_speed * 4) + 0.3 * math.sin(query.anim_time * 90)",
       0
      ]
     },
     "head": {
      "position": [
       0,
-      "math.abs(math.sin(query.modified_distance_moved * 38.17)) * 1.2 * math.min(1, query.modified_move_speed * 4) + 0.3 * math.sin(query.life_time * 90)",
+      "math.abs(math.sin(query.modified_distance_moved * 38.17)) * 1.2 * math.min(1, query.modified_move_speed * 4) + 0.3 * math.sin(query.anim_time * 90)",
       0
      ]
     },
@@ -240,7 +244,8 @@
       0
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.rstyle.undead": {
    "loop": true,
@@ -261,14 +266,14 @@
     },
     "rightArm": {
      "rotation": [
-      "-38 + 4 * math.sin(query.life_time * 90)",
+      "-38 + 4 * math.sin(query.anim_time * 90)",
       -6,
       4
      ]
     },
     "leftArm": {
      "rotation": [
-      "-30 + 4 * math.sin(query.life_time * 90)",
+      "-30 + 4 * math.sin(query.anim_time * 90)",
       6,
       -4
      ]
@@ -287,14 +292,15 @@
       -3
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.rstyle.goblin": {
    "loop": true,
    "bones": {
     "body": {
      "rotation": [
-      "(14 + 2 * math.sin(query.life_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "(14 + 2 * math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
       "5 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
       0
      ]
@@ -302,7 +308,7 @@
     "head": {
      "rotation": [
       -10,
-      "4 * math.sin(query.life_time * 70)",
+      "4 * math.sin(query.anim_time * 70)",
       0
      ]
     },
@@ -320,7 +326,8 @@
       -10
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.cast.charge": {
    "animation_length": 1.2,

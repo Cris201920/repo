@@ -8,14 +8,14 @@
      "rotation": [
       "Math.cos(query.modified_distance_moved*38.17)*55*query.modified_move_speed",
       0,
-      "2+1.5*Math.cos(query.life_time*90)"
+      "2+1.5*Math.cos(query.anim_time*90)"
      ]
     },
     "leftArm": {
      "rotation": [
       "-Math.cos(query.modified_distance_moved*38.17)*55*query.modified_move_speed",
       0,
-      "-2-1.5*Math.cos(query.life_time*90)"
+      "-2-1.5*Math.cos(query.anim_time*90)"
      ]
     },
     "rightLeg": {
@@ -32,7 +32,8 @@
       0
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.quad_walk": {
    "loop": true,
@@ -122,12 +123,13 @@
    "bones": {
     "body": {
      "scale": [
-      "1+0.09*Math.sin(query.life_time*200)",
-      "1-0.12*Math.sin(query.life_time*200)",
-      "1+0.09*Math.sin(query.life_time*200)"
+      "1+0.09*Math.sin(query.anim_time*200)",
+      "1-0.12*Math.sin(query.anim_time*200)",
+      "1+0.09*Math.sin(query.anim_time*200)"
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.float": {
    "loop": true,
@@ -135,18 +137,19 @@
     "root": {
      "position": [
       0,
-      "6+2*Math.sin(query.life_time*100)",
+      "6+2*Math.sin(query.anim_time*100)",
       0
      ]
     },
     "shards": {
      "rotation": [
       0,
-      "query.life_time*50",
+      "query.anim_time*50",
       0
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.flap": {
    "loop": true,
@@ -155,17 +158,18 @@
      "rotation": [
       0,
       0,
-      "-14*Math.sin(query.life_time*300)"
+      "-14*Math.sin(query.anim_time*300)"
      ]
     },
     "wingR": {
      "rotation": [
       0,
       0,
-      "14*Math.sin(query.life_time*300)"
+      "14*Math.sin(query.anim_time*300)"
      ]
     }
-   }
+   },
+   "animation_length": 3600
   },
   "animation.etheria.breathe": {
    "loop": true,
@@ -173,11 +177,12 @@
     "body": {
      "scale": [
       1,
-      "1+0.015*Math.sin(query.life_time*120)",
+      "1+0.015*Math.sin(query.anim_time*120)",
       1
      ]
     }
-   }
+   },
+   "animation_length": 3600
   }
  }
 }

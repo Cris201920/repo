@@ -19,11 +19,27 @@ import { inventory } from "../core/utils.js";
 let tickCount = 0;
 const short = (n) => (n.length > 9 ? n.slice(0, 8) + "." : n);
 
-function hudText(p, d, s) {
+// 6.89: barras gráficas (font/glyph_E3.png) no lugar dos corações vanilla, que ficam escondidos
+const G = (i) => String.fromCharCode(0xE300 + i);
+const BAR = { hp: [G(0x10), G(0x11)], mp: [G(0x13), G(0x14)], st: [G(0x15), G(0x16)] };
+function bar(kind, cur, max, n) {
+  const f = max > 0 ? Math.max(0, Math.min(1, cur / max)) * n : 0, full = Math.floor(f), half = f - full >= 0.5 ? 1 : 0;
+  return "§r" + G(0x17) + BAR[kind][0].repeat(full) + (half ? BAR[kind][1] : "") + G(0x12).repeat(n - full - half) + G(0x18);
+}
+export function barLine(p, d, s) {
   const hp = getHealth(p);
-  let t = `§cHP ${Math.ceil(hp.cur)}/${Math.ceil(hp.max)}  §9MP ${Math.floor(d.mana)}/${s.maxMana}  §aST ${Math.floor(d.stamina)}/${s.maxStamina}`;
+  return `${G(0)}${bar("hp", hp.cur, hp.max, 10)} §c${Math.ceil(hp.cur)}§7/${Math.ceil(hp.max)}   §r${G(1)}${bar("mp", d.mana, s.maxMana, 10)} §9${Math.floor(d.mana)}§7/${s.maxMana}`
+    + `\n§r${G(2)}${bar("st", d.stamina, s.maxStamina, 6)} §a${Math.floor(d.stamina)}§7/${s.maxStamina}`;
+}
+
+function hideVanillaHearts(p) {
+  try { p.runCommand("hud @s hide health"); } catch { /* comando ausente em versões antigas */ }
+}
+
+function hudText(p, d, s) {
+  let t = barLine(p, d, s);
   if (d.settings.compact) return t;
-  t += `  §6${fmt(d.coins)}$`;   // 6.69: dinheiro na mesma linha (barra menor)   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
+  t += `   §6${fmt(d.coins)}$`;   // 6.69: dinheiro na mesma linha (barra menor)   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
   const sel = hudSelectedLine(p, d, s); if (sel) t += "\n" + sel;                 // habilidade na mão: custo e estado
   const strip = hudSkillLines(p, d, s); if (strip.length) t += "\n" + strip.join("\n");   // faixa das equipadas (número = slot da hotbar)
   const buffs = listBuffs(p);
@@ -38,6 +54,7 @@ function perPlayer(p) {
   if (d.mana < s.maxMana) { d.mana = Math.min(s.maxMana, d.mana + s.manaRegen); markDirty(p); }
   if (d.stamina < s.maxStamina) { d.stamina = Math.min(s.maxStamina, d.stamina + s.staminaRegen * (inCombat(p) ? REGEN.combat_pause_ticks / 250 : 1)); markDirty(p); }
   if (tickCount % 3 === 0) { applyDerivedStats(p); applyPassiveEffects(p); }
+  if (tickCount % 10 === 1) { if (d.settings.hud) hideVanillaHearts(p); else try { p.runCommand("hud @s reset health"); } catch { /* ignore */ } }
   if (Object.keys(d.quests.active).length) tickQuests(p);
   // tooltip automático do item na mão (itens criados por receita não têm lore)
   try {
