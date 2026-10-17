@@ -8,7 +8,7 @@ import { say, playSound } from "../core/utils.js";
 import { ORIGIN_ROOM as R, SPAWN_ORIGINS, ORIGIN_LIST, REGION_CITIES } from "../data/origins.js";
 import { fx, ring } from "./fx.js";
 import { __test as settle, ensureSettlement } from "./settlements.js";
-import { ensureTempest, ensureTempestCore, setTempestWorldSpawn, tempestBackground, tempestHasSite } from "./tempest.js";
+import { ensureTempest, ensureTempestCore, setTempestWorldSpawn, tempestBackground, tempestHasSite, locateTempestLazy } from "./tempest.js";
 import { locationOfPlace, markVisited, announceLocation } from "./travel.js";
 import { SETTLEMENT_LIST } from "../data/factions.js";
 import { menu } from "./ui/forms.js";
@@ -225,8 +225,13 @@ export function startOrigin() {
         const d = getData(p);
         if (d.origin) return;   // já nasceu: reentrar/morrer não reconstrói nem teleporta
         // jogadores antigos (já têm raça ou progresso) ficam onde estão: origem "legacy"; Tempest é gerada longe da base deles
-        if (d.raceChosen || d.level > 1) { d.origin = "legacy"; markDirty(p); if (!tempestHasSite()) tempestBackground(); return; }
-        birthInTempest(p);
+        if (d.raceChosen || d.level > 1) { d.origin = "legacy"; markDirty(p); if (!tempestHasSite()) locateTempestLazy(); return; }
+        // 7.1: não nasce mais em Tempest (gerar a cidade no início causava lag). Nasce no spawn normal; a cidade fica num ponto
+        // aleatório do mapa (700-1300 blocos) e é construída aos poucos quando alguém chega perto. !tempest mostra a rota.
+        d.origin = "wild"; markDirty(p); saveNow(p);
+        if (!tempestHasSite()) system.runTimeout(locateTempestLazy, 200);
+        if (!d.raceChosen) system.runTimeout(() => { if (p.isValid && !getData(p).raceChosen) openRacePick(p); }, 100);
+        system.runTimeout(() => { if (p.isValid) say(p, "§6[Etheria] §fA §eCidade de Tempest§f existe em algum lugar deste mundo. Use §e!tempest§f para ver a direção, ou explore até encontrá-la."); }, 400);
       } catch (e) { console.warn(`[Etheria] nascimento: ${e}`); }
     }, 20);
   });

@@ -66,7 +66,8 @@ function sample(dim, cx, cz) {
 function findSite(done) {
   if (searching) return; searching = true;
   const dim = ow(); let sp; try { sp = world.getDefaultSpawnLocation(); } catch { sp = { x: 0, z: 0 }; }
-  const cands = []; for (const r of SEARCH_R) for (let a = 0; a < 8; a++) cands.push({ x: Math.round(sp.x + Math.cos(a * Math.PI / 4 + r) * r), z: Math.round(sp.z + Math.sin(a * Math.PI / 4 + r) * r) });
+  const rot = Math.random() * Math.PI * 2;   // 7.1: direção aleatória (cada mundo tem Tempest num lugar diferente)
+  const cands = []; for (const r of SEARCH_R) for (let a = 0; a < 8; a++) cands.push({ x: Math.round(sp.x + Math.cos(a * Math.PI / 4 + rot) * r), z: Math.round(sp.z + Math.sin(a * Math.PI / 4 + rot) * r) });
   let i = 0, best = null;
   const next = () => {
     if (i >= cands.length) {
@@ -182,8 +183,10 @@ export { autoGenerate as tempestBackground };
 export function startTempest() {
   // 6.36: o LOCAL da cidade é decidido por systems/origin.js no primeiro spawn (mundo novo -> em volta do jogador, ensureTempestCore;
   // mundo antigo sem Tempest -> terreno distante, autoGenerate). Aqui só se CONTINUA uma cidade que já tem posição salva.
-  world.afterEvents.playerSpawn.subscribe((ev) => { if (ev.initialSpawn && load()) system.runTimeout(autoGenerate, 60); });
-  system.runTimeout(() => { if (world.getAllPlayers().length && load()) autoGenerate(); }, 80);
+  // 7.1: a geração automática da cidade INTEIRA só continua para a cidade natal antiga (S.home); a cidade aleatória é feita por proximidade
+  const resume = () => load() && S.home && !S.lazy;
+  world.afterEvents.playerSpawn.subscribe((ev) => { if (ev.initialSpawn && resume()) system.runTimeout(autoGenerate, 60); });
+  system.runTimeout(() => { if (world.getAllPlayers().length && resume()) autoGenerate(); }, 80);
   system.runInterval(() => {
     if (busy || searching || world.getAllPlayers().length === 0) return;
     tick++;
@@ -332,6 +335,12 @@ export function coreTiles() {
   return TILES.filter((t) => Math.abs(t.ox - st.ox) <= 64 && Math.abs(t.oz - st.oz) <= 64);
 }
 export const tempestHasSite = () => !!load();
+/** 7.1: só ESCOLHE o local da cidade (aleatório, 700-1300 blocos do spawn) sem construir nada. Os ladrilhos são colocados aos poucos
+ *  pelo intervalo de proximidade (nearestPending) quando alguém chega perto — nada de gerar a cidade inteira ao entrar no mundo. */
+export function locateTempestLazy() {
+  if (load() || searching || busy) return;
+  findSite((s) => { if (!s || load()) return; S = { x: s.x, y: s.y, z: s.z, done: {}, npcs: {}, ann: 0, lazy: 1 }; save(); });
+}
 /**
  * Garante o NÚCLEO da cidade e devolve cb(pontoSeguro | null). Se a cidade ainda não tem posição, ela é criada em volta de p (uma única vez:
  * a posição fica salva; chamadas seguintes reaproveitam). Nada é colocado duas vezes (S.done).
