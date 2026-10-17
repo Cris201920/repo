@@ -16,6 +16,8 @@ export const RACE_PROP = "etheria:race";
 export const LIN_PROP = "etheria:lin", LFORM_PROP = "etheria:lform";
 // 6.57: estilo de corpo (postura/andar) por raça -> animações etheria_rstyle_* no player.entity (tools/race_styles.py)
 export const RSTYLE_PROP = "etheria:rstyle";
+export const LORD_PROP = "etheria:lord";
+const LORD_FALLBACK = { elf: "elf", vampire: "vampire", ogre: "ogre", beastkin: "beastkin", lizard: "lizardman", dragonoid: "dragonoid" };   // Lorde de estágio sem corpo próprio: corpo da família da raça
 const RSTYLE = { ogre: "heavy", dwarf: "heavy", beastkin: "beast", dragonoid: "draconic", lizardman: "draconic", elf: "light", angel: "light",
   demon: "demonic", vampire: "demonic", slime: "slime", undead: "undead", goblin: "goblin" };
 export function styleOf(d) {
@@ -70,19 +72,19 @@ export const ETHERIA_BODY = { angel_4: "angel_cherub", angel_5: "angel_seraph", 
   dragonoid_2a: "dragonewt_w", dragonoid_2b: "dragonewt_w" };   // 6.55: dragonatos adultos (Guerreiro/Arcano) têm asas, como na obra   // 6.48: dragonato jovem (chifres, espinho e cauda; sem asas)
 // 6.48: as peças DETALHADAS do Etheria (asas de penas/membrana articuladas, chifres de kijin, asas de fada) substituem as placas simples do
 // Tensura em todo estágio que as tem. A peça equivalente do Tensura é escondida para não duplicar (HIDE).
-export const BODY_BY_LOOK = { lesser_daemon: "demon", greater_daemon: "demon", arch_daemon: "demon", daemon_lord: "demon_lord", devil_lord: "demon_lord",
+export const BODY_BY_LOOK = { lesser_daemon: "demon", greater_daemon: "demon", arch_daemon: "demon", daemon_lord: "demon", devil_lord: "demon",
   vampire: "vampire", vampire_lord: "vampire", divine_vampire: "vampire", true_dragonewt: "dragonoid", divine_dragon: "dragonoid",
   angel: "angel", angel_guardian: "angel", archangel: "angel_arch", fallen_angel: "fallen", divine_elf: "elf", ogre: "ogre", mystic_oni: "ogre", kijin: "ogre",
   beastfolk: "beastkin", okami: "beastkin", beast_lord: "beastkin", spirit_beast: "beastkin", lizardman: "lizardman", dragonewt: "dragonewt" };
-export const HIDE = { demon: ["wings", "horns", "tail"], demon_lord: ["wings", "horns", "tail"], vampire: ["wings"], dragonoid: ["wings", "horns", "tail"], angel: ["wings"], angel_arch: ["wings", "halo"],
+export const HIDE = { demon: ["wings", "horns", "tail"], vampire: ["wings"], dragonoid: ["wings", "horns", "tail"], angel: ["wings"], angel_arch: ["wings", "halo"],
   fallen: ["wings"], elf: ["wings"], ogre: ["horns"],
   beastkin: ["ears", "tail"], lizardman: ["tail", "horns"], dragonewt: ["horns", "tail"], dragonewt_w: ["wings", "horns", "tail"] };
-export const WINGED_BODY = new Set(["dragonewt_w", "demon", "demon_lord", "vampire", "dragonoid", "angel", "angel_arch", "angel_cherub", "angel_seraph", "fallen", "fallen_lord", "elf"]);
+export const WINGED_BODY = new Set(["dragonewt_w", "demon", "vampire", "dragonoid", "angel", "angel_arch", "angel_cherub", "angel_seraph", "fallen", "fallen_lord", "elf"]);
 /** corpo do Etheria do estágio ("none" se o estágio usa só as peças do Tensura) */
 export function bodyOfStage(stage) {
   if (!stage) return "none";
+  if (/_ld$/.test(stage)) { const b = bodyOfStage(stage.slice(0, -3)); return b !== "none" ? b : (LORD_FALLBACK[stage.split("_")[0]] ?? "demon"); }   // 6.79: Lorde de cada raça usa o corpo da própria raça (versão _lord via etheria:lord)
   if (ETHERIA_BODY[stage]) return ETHERIA_BODY[stage];
-  if (isLordStage(stage)) return "demon_lord";   // 6.78: forma Lorde Demônio (asas negras maiores, 2 pares de chifres, coroa de espinhos)
   const k = STAGE_LOOK_MAP[mapKey(stage)];
   return (typeof k === "string" && BODY_BY_LOOK[k]) || "none";
 }
@@ -125,6 +127,8 @@ export function applyRaceLook(player, announce = false) {
   try { if ((body === "dragonoid" || body === "dragonewt" || body === "dragonewt_w") && d.raceChosen && lineageOf(d)) body = "none"; } catch { /* ignore */ }
   try {
     if (player.getProperty(RACE_PROP) !== body) player.setProperty(RACE_PROP, body);
+    const lord = !!(d.raceChosen && body !== "none" && isLordStage(d.raceStage));   // 6.79: forma Lorde Demônio da raça (modelo <raça>_lord no RP)
+    try { if (player.getProperty(LORD_PROP) !== lord) player.setProperty(LORD_PROP, lord); } catch { /* BP antigo */ }
   } catch (e) {
     if (!warned) { warned = true; console.warn(`[Etheria] propriedade ${RACE_PROP} indisponível (player.json do BP não carregou?): ${e}`); }
     return null;

@@ -25,7 +25,7 @@
       "fallen",
       "fallen_lord",
       "dragonewt",
-      "dragonewt_w", "demon_lord"
+      "dragonewt_w"
      ],
      "default": "none",
      "client_sync": true
@@ -151,7 +151,8 @@
      ],
      "default": 0,
      "client_sync": true
-    }
+    },
+    "etheria:lord": {"type": "bool", "default": false, "client_sync": true}
    }
   },
   "component_groups": {

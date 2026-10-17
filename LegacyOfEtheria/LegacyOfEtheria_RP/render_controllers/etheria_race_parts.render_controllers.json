@@ -308,6 +308,149 @@
    "textures": [
     "Texture.etheria_race_demon_lord"
    ]
+  },
+  "controller.render.etheria_race_vampire_lord": {
+   "geometry": "Geometry.etheria_race_vampire_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_vampire_lord"
+   ]
+  },
+  "controller.render.etheria_race_dragonoid_lord": {
+   "geometry": "Geometry.etheria_race_dragonoid_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_dragonoid_lord"
+   ]
+  },
+  "controller.render.etheria_race_lizardman_lord": {
+   "geometry": "Geometry.etheria_race_lizardman_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_lizardman_lord"
+   ]
+  },
+  "controller.render.etheria_race_ogre_lord": {
+   "geometry": "Geometry.etheria_race_ogre_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_ogre_lord"
+   ]
+  },
+  "controller.render.etheria_race_beastkin_lord": {
+   "geometry": "Geometry.etheria_race_beastkin_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_beastkin_lord"
+   ]
+  },
+  "controller.render.etheria_race_elf_lord": {
+   "geometry": "Geometry.etheria_race_elf_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_elf_lord"
+   ]
+  },
+  "controller.render.etheria_race_angel_lord": {
+   "geometry": "Geometry.etheria_race_angel_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_angel_lord"
+   ]
+  },
+  "controller.render.etheria_race_angel_arch_lord": {
+   "geometry": "Geometry.etheria_race_angel_arch_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_angel_arch_lord"
+   ]
+  },
+  "controller.render.etheria_race_angel_cherub_lord": {
+   "geometry": "Geometry.etheria_race_angel_cherub_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_angel_cherub_lord"
+   ]
+  },
+  "controller.render.etheria_race_angel_seraph_lord": {
+   "geometry": "Geometry.etheria_race_angel_seraph_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_angel_seraph_lord"
+   ]
+  },
+  "controller.render.etheria_race_fallen_lord_lord": {
+   "geometry": "Geometry.etheria_race_fallen_lord_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_fallen_lord_lord"
+   ]
+  },
+  "controller.render.etheria_race_dragonewt_lord": {
+   "geometry": "Geometry.etheria_race_dragonewt_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_dragonewt_lord"
+   ]
+  },
+  "controller.render.etheria_race_dragonewt_w_lord": {
+   "geometry": "Geometry.etheria_race_dragonewt_w_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_dragonewt_w_lord"
+   ]
   }
  }
 }
