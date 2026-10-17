@@ -152,18 +152,20 @@ def art(uid, el):
         for k in range(5): ang = k * 1.3; d.line([(128, 128), (128 + math.cos(ang) * 58, 128 + math.sin(ang) * 58)], fill=K, width=4)
     glow(bg, l, 4, 0.8)
     return bg
-def pixelize(im, el, n=32):
+# moldura pela RARIDADE, no mesmo padrão dos ícones de habilidade do addon (anel claro externo + anel escuro + gema no canto)
+RAR_FRAME = {"divine": ((175, 243, 249), (57, 139, 146)), "mythic": ((250, 166, 160), (147, 46, 39)), "legendary": ((255, 226, 140), (146, 111, 33))}
+def pixelize(im, el, n=32, rar="divine"):
     sm = im.resize((n, n), Image.LANCZOS).convert("RGB").quantize(colors=28, method=Image.MEDIANCUT, dither=Image.NONE).convert("RGBA")
-    px = sm.load(); fr = FRAME[el]; dark = tuple(int(c * 0.35) for c in fr)
+    px = sm.load(); fr, dark = RAR_FRAME[rar]
     for i in range(n):                                       # moldura: borda colorida, linha escura interna, cantos
         for (x, y) in ((i, 0), (i, n - 1), (0, i), (n - 1, i)): px[x, y] = fr + (255,)
         for (x, y) in ((i, 1), (i, n - 2), (1, i), (n - 2, i)):
             if 1 <= x <= n - 2 and 1 <= y <= n - 2: px[x, y] = dark + (255,)
     for (x, y) in ((0, 0), (n - 1, 0), (0, n - 1), (n - 1, n - 1)): px[x, y] = (0, 0, 0, 0)
-    for (x, y) in ((n - 4, n - 3), (n - 3, n - 4), (n - 3, n - 3), (n - 2, n - 3), (n - 3, n - 2)): px[x, y] = (255, 230, 140, 255)   # gema do canto
+    for (x, y) in ((n - 4, n - 3), (n - 3, n - 4), (n - 3, n - 3), (n - 2, n - 3), (n - 3, n - 2)): px[x, y] = fr + (255,)   # gema do canto
     return sm
 for uid, name, el in ULT:
-    big = art(uid, el); px = pixelize(big, el, 32)
+    big = art(uid, el); px = pixelize(big, el, 32, "divine" if uid.startswith("ult_") else "mythic")
     short = uid
     px.resize((64, 64), Image.NEAREST).save(os.path.join(RP, f"textures/items/etheria_sk_{short}.png"))
     px.save(os.path.join(RP, f"textures/ui/etheria/skill_{short}.png"))
