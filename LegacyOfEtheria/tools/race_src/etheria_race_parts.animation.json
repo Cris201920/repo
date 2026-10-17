@@ -54,48 +54,10 @@
      "scale": 0
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wingF0_l": {
      "rotation": [
@@ -681,48 +643,10 @@
    "loop": true,
    "bones": {
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     }
    },
    "animation_length": 3600
@@ -880,48 +804,10 @@
      "scale": 0
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "tail7": {
      "scale": 0
@@ -2071,48 +1957,10 @@
    "loop": true,
    "bones": {
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     }
    },
    "animation_length": 3600
@@ -2233,48 +2081,10 @@
      ]
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.35 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.35 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     }
    },
    "animation_length": 3600
@@ -3319,48 +3129,10 @@
      ]
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.35 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.35 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     }
    },
    "animation_length": 3600
@@ -4405,92 +4177,16 @@
      ]
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing2_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 30) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph - 30) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing2B_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 80) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing2C_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 125) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing2_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 30) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph - 30) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing2B_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 80) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing2C_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 125) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     }
    },
    "animation_length": 3600
@@ -6507,136 +6203,22 @@
      ]
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing2_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 30) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph - 30) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing2B_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 80) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing2C_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 125) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing2_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 30) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph - 30) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing2B_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 80) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing2C_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 125) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing3_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 60) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph - 60) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing3B_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 110) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing3C_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 155) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing3_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 60) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph - 60) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.2 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing3B_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 110) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing3C_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 155) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     }
    },
    "animation_length": 3600
@@ -9613,48 +9195,10 @@
    "loop": true,
    "bones": {
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.35 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.35 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     }
    },
    "animation_length": 3600
@@ -10687,48 +10231,10 @@
      ]
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.35 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.35 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     }
    },
    "animation_length": 3600
@@ -12816,20 +12322,6 @@
   "animation.etheria.race_lin_veldora_base": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "horn_l_tip": {
      "rotation": [
       "math.sin(query.anim_time * 50 + 1) * 4",
@@ -13304,20 +12796,6 @@
   "animation.etheria.race_lin_veldora_draconic": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "horn_l_tip": {
      "rotation": [
       "math.sin(query.anim_time * 50 + 1) * 4",
@@ -13820,20 +13298,6 @@
   "animation.etheria.race_lin_veldora_true": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "horn_l_tip": {
      "rotation": [
       "math.sin(query.anim_time * 50 + 1) * 4",
@@ -14336,25 +13800,11 @@
   "animation.etheria.race_lin_velzard_base": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
     "wingA_l": {
      "rotation": [
       0,
       0,
       "(math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0))"
-     ]
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "(math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
      ]
     },
     "wingF0_l": {
@@ -14455,25 +13905,11 @@
       "(math.sin((query.anim_time*55)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0))"
      ]
     },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "wingA_r": {
      "rotation": [
       0,
       0,
       "-((math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0)))"
-     ]
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-((math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
      ]
     },
     "wingF0_r": {
@@ -15916,25 +15352,11 @@
   "animation.etheria.race_lin_velzard_draconic": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
     "wingA_l": {
      "rotation": [
       0,
       0,
       "(math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0))"
-     ]
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "(math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
      ]
     },
     "wingF0_l": {
@@ -16035,25 +15457,11 @@
       "(math.sin((query.anim_time*55)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0))"
      ]
     },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "wingA_r": {
      "rotation": [
       0,
       0,
       "-((math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0)))"
-     ]
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-((math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
      ]
     },
     "wingF0_r": {
@@ -16154,25 +15562,11 @@
       "-((math.sin((query.anim_time*55)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0)))"
      ]
     },
-    "wing1_l": {
-     "rotation": [
-      0,
-      "(-22+14*math.min(1,query.modified_move_speed*3)+22*(query.is_sneaking?1:0)-18*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))-6*(1-query.is_on_ground)+math.sin((query.anim_time*48))*3*(1-(1-query.is_on_ground)))",
-      "(math.sin((query.anim_time*48))*4*(1-(1-query.is_on_ground))*(1-(query.is_sneaking?1:0))+math.sin((query.anim_time*228))*34*(1-query.is_on_ground)+14*(query.is_sneaking?1:0)-10*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
-     ]
-    },
     "wing1A_l": {
      "rotation": [
       0,
       0,
       "(math.sin((query.anim_time*48)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0))"
-     ]
-    },
-    "wing1B_l": {
-     "rotation": [
-      0,
-      0,
-      "(math.sin((query.anim_time*48)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
      ]
     },
     "wing1F0_l": {
@@ -16273,25 +15667,11 @@
       "(math.sin((query.anim_time*48)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0))"
      ]
     },
-    "wing1_r": {
-     "rotation": [
-      0,
-      "-((-22+14*math.min(1,query.modified_move_speed*3)+22*(query.is_sneaking?1:0)-18*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))-6*(1-query.is_on_ground)+math.sin((query.anim_time*48))*3*(1-(1-query.is_on_ground))))",
-      "-((math.sin((query.anim_time*48))*4*(1-(1-query.is_on_ground))*(1-(query.is_sneaking?1:0))+math.sin((query.anim_time*228))*34*(1-query.is_on_ground)+14*(query.is_sneaking?1:0)-10*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
-     ]
-    },
     "wing1A_r": {
      "rotation": [
       0,
       0,
       "-((math.sin((query.anim_time*48)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0)))"
-     ]
-    },
-    "wing1B_r": {
-     "rotation": [
-      0,
-      0,
-      "-((math.sin((query.anim_time*48)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
      ]
     },
     "wing1F0_r": {
@@ -18742,25 +18122,11 @@
   "animation.etheria.race_lin_velzard_true": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
     "wingA_l": {
      "rotation": [
       0,
       0,
       "(math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0))"
-     ]
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "(math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
      ]
     },
     "wingF0_l": {
@@ -18861,25 +18227,11 @@
       "(math.sin((query.anim_time*55)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0))"
      ]
     },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "wingA_r": {
      "rotation": [
       0,
       0,
       "-((math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0)))"
-     ]
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-((math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
      ]
     },
     "wingF0_r": {
@@ -18980,25 +18332,11 @@
       "-((math.sin((query.anim_time*55)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0)))"
      ]
     },
-    "wing1_l": {
-     "rotation": [
-      0,
-      "(-22+14*math.min(1,query.modified_move_speed*3)+22*(query.is_sneaking?1:0)-18*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))-6*(1-query.is_on_ground)+math.sin((query.anim_time*48))*3*(1-(1-query.is_on_ground)))",
-      "(math.sin((query.anim_time*48))*4*(1-(1-query.is_on_ground))*(1-(query.is_sneaking?1:0))+math.sin((query.anim_time*228))*34*(1-query.is_on_ground)+14*(query.is_sneaking?1:0)-10*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
-     ]
-    },
     "wing1A_l": {
      "rotation": [
       0,
       0,
       "(math.sin((query.anim_time*48)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0))"
-     ]
-    },
-    "wing1B_l": {
-     "rotation": [
-      0,
-      0,
-      "(math.sin((query.anim_time*48)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
      ]
     },
     "wing1F0_l": {
@@ -19099,25 +18437,11 @@
       "(math.sin((query.anim_time*48)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0))"
      ]
     },
-    "wing1_r": {
-     "rotation": [
-      0,
-      "-((-22+14*math.min(1,query.modified_move_speed*3)+22*(query.is_sneaking?1:0)-18*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))-6*(1-query.is_on_ground)+math.sin((query.anim_time*48))*3*(1-(1-query.is_on_ground))))",
-      "-((math.sin((query.anim_time*48))*4*(1-(1-query.is_on_ground))*(1-(query.is_sneaking?1:0))+math.sin((query.anim_time*228))*34*(1-query.is_on_ground)+14*(query.is_sneaking?1:0)-10*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
-     ]
-    },
     "wing1A_r": {
      "rotation": [
       0,
       0,
       "-((math.sin((query.anim_time*48)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0)))"
-     ]
-    },
-    "wing1B_r": {
-     "rotation": [
-      0,
-      0,
-      "-((math.sin((query.anim_time*48)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
      ]
     },
     "wing1F0_r": {
@@ -21568,20 +20892,6 @@
   "animation.etheria.race_lin_velgrynd_base": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "horn_l_tip": {
      "rotation": [
       "math.sin(query.anim_time * 50 + 1) * 4",
@@ -22056,20 +21366,6 @@
   "animation.etheria.race_lin_velgrynd_draconic": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "horn_l_tip": {
      "rotation": [
       "math.sin(query.anim_time * 50 + 1) * 4",
@@ -22572,20 +21868,6 @@
   "animation.etheria.race_lin_velgrynd_true": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "horn_l_tip": {
      "rotation": [
       "math.sin(query.anim_time * 50 + 1) * 4",
@@ -23088,25 +22370,11 @@
   "animation.etheria.race_lin_veldanava_base": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
     "wingA_l": {
      "rotation": [
       0,
       0,
       "(math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0))"
-     ]
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "(math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
      ]
     },
     "wingF0_l": {
@@ -23207,25 +22475,11 @@
       "(math.sin((query.anim_time*55)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0))"
      ]
     },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "wingA_r": {
      "rotation": [
       0,
       0,
       "-((math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0)))"
-     ]
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-((math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
      ]
     },
     "wingF0_r": {
@@ -24563,25 +23817,11 @@
   "animation.etheria.race_lin_veldanava_draconic": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
     "wingA_l": {
      "rotation": [
       0,
       0,
       "(math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0))"
-     ]
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "(math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
      ]
     },
     "wingF0_l": {
@@ -24682,25 +23922,11 @@
       "(math.sin((query.anim_time*55)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0))"
      ]
     },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "wingA_r": {
      "rotation": [
       0,
       0,
       "-((math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0)))"
-     ]
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-((math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
      ]
     },
     "wingF0_r": {
@@ -24801,25 +24027,11 @@
       "-((math.sin((query.anim_time*55)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0)))"
      ]
     },
-    "wing1_l": {
-     "rotation": [
-      0,
-      "(-22+14*math.min(1,query.modified_move_speed*3)+22*(query.is_sneaking?1:0)-18*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))-6*(1-query.is_on_ground)+math.sin((query.anim_time*48))*3*(1-(1-query.is_on_ground)))",
-      "(math.sin((query.anim_time*48))*4*(1-(1-query.is_on_ground))*(1-(query.is_sneaking?1:0))+math.sin((query.anim_time*228))*34*(1-query.is_on_ground)+14*(query.is_sneaking?1:0)-10*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
-     ]
-    },
     "wing1A_l": {
      "rotation": [
       0,
       0,
       "(math.sin((query.anim_time*48)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0))"
-     ]
-    },
-    "wing1B_l": {
-     "rotation": [
-      0,
-      0,
-      "(math.sin((query.anim_time*48)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
      ]
     },
     "wing1F0_l": {
@@ -24920,25 +24132,11 @@
       "(math.sin((query.anim_time*48)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0))"
      ]
     },
-    "wing1_r": {
-     "rotation": [
-      0,
-      "-((-22+14*math.min(1,query.modified_move_speed*3)+22*(query.is_sneaking?1:0)-18*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))-6*(1-query.is_on_ground)+math.sin((query.anim_time*48))*3*(1-(1-query.is_on_ground))))",
-      "-((math.sin((query.anim_time*48))*4*(1-(1-query.is_on_ground))*(1-(query.is_sneaking?1:0))+math.sin((query.anim_time*228))*34*(1-query.is_on_ground)+14*(query.is_sneaking?1:0)-10*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
-     ]
-    },
     "wing1A_r": {
      "rotation": [
       0,
       0,
       "-((math.sin((query.anim_time*48)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0)))"
-     ]
-    },
-    "wing1B_r": {
-     "rotation": [
-      0,
-      0,
-      "-((math.sin((query.anim_time*48)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
      ]
     },
     "wing1F0_r": {
@@ -27284,25 +26482,11 @@
   "animation.etheria.race_lin_veldanava_true": {
    "loop": true,
    "bones": {
-    "wing_l": {
-     "rotation": [
-      0,
-      "-(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "math.sin(variable.wb_ph) * 18 * variable.wb_a"
-     ]
-    },
     "wingA_l": {
      "rotation": [
       0,
       0,
       "(math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0))"
-     ]
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "(math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
      ]
     },
     "wingF0_l": {
@@ -27403,25 +26587,11 @@
       "(math.sin((query.anim_time*55)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0))"
      ]
     },
-    "wing_r": {
-     "rotation": [
-      0,
-      "(32 + math.sin(variable.wb_ph) * 28 * variable.wb_a + 10 * variable.wb_k)",
-      "-(math.sin(variable.wb_ph) * 18 * variable.wb_a)"
-     ]
-    },
     "wingA_r": {
      "rotation": [
       0,
       0,
       "-((math.sin((query.anim_time*55)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0)))"
-     ]
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-((math.sin((query.anim_time*55)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
      ]
     },
     "wingF0_r": {
@@ -27522,25 +26692,11 @@
       "-((math.sin((query.anim_time*55)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*260)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0)))"
      ]
     },
-    "wing1_l": {
-     "rotation": [
-      0,
-      "(-22+14*math.min(1,query.modified_move_speed*3)+22*(query.is_sneaking?1:0)-18*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))-6*(1-query.is_on_ground)+math.sin((query.anim_time*48))*3*(1-(1-query.is_on_ground)))",
-      "(math.sin((query.anim_time*48))*4*(1-(1-query.is_on_ground))*(1-(query.is_sneaking?1:0))+math.sin((query.anim_time*228))*34*(1-query.is_on_ground)+14*(query.is_sneaking?1:0)-10*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
-     ]
-    },
     "wing1A_l": {
      "rotation": [
       0,
       0,
       "(math.sin((query.anim_time*48)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0))"
-     ]
-    },
-    "wing1B_l": {
-     "rotation": [
-      0,
-      0,
-      "(math.sin((query.anim_time*48)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
      ]
     },
     "wing1F0_l": {
@@ -27641,25 +26797,11 @@
       "(math.sin((query.anim_time*48)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0))"
      ]
     },
-    "wing1_r": {
-     "rotation": [
-      0,
-      "-((-22+14*math.min(1,query.modified_move_speed*3)+22*(query.is_sneaking?1:0)-18*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))-6*(1-query.is_on_ground)+math.sin((query.anim_time*48))*3*(1-(1-query.is_on_ground))))",
-      "-((math.sin((query.anim_time*48))*4*(1-(1-query.is_on_ground))*(1-(query.is_sneaking?1:0))+math.sin((query.anim_time*228))*34*(1-query.is_on_ground)+14*(query.is_sneaking?1:0)-10*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
-     ]
-    },
     "wing1A_r": {
      "rotation": [
       0,
       0,
       "-((math.sin((query.anim_time*48)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0)))"
-     ]
-    },
-    "wing1B_r": {
-     "rotation": [
-      0,
-      0,
-      "-((math.sin((query.anim_time*48)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
      ]
     },
     "wing1F0_r": {
@@ -27760,25 +26902,11 @@
       "-((math.sin((query.anim_time*48)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*228)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0)))"
      ]
     },
-    "wing2_l": {
-     "rotation": [
-      0,
-      "(--14+14*math.min(1,query.modified_move_speed*3)+22*(query.is_sneaking?1:0)-18*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))-6*(1-query.is_on_ground)+math.sin((query.anim_time*41))*3*(1-(1-query.is_on_ground)))",
-      "(math.sin((query.anim_time*41))*4*(1-(1-query.is_on_ground))*(1-(query.is_sneaking?1:0))+math.sin((query.anim_time*197))*34*(1-query.is_on_ground)+14*(query.is_sneaking?1:0)-10*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
-     ]
-    },
     "wing2A_l": {
      "rotation": [
       0,
       0,
       "(math.sin((query.anim_time*41)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*197)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0))"
-     ]
-    },
-    "wing2B_l": {
-     "rotation": [
-      0,
-      0,
-      "(math.sin((query.anim_time*41)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*197)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0)))"
      ]
     },
     "wing2F0_l": {
@@ -27879,25 +27007,11 @@
       "(math.sin((query.anim_time*41)-100)*2*(1-(1-query.is_on_ground))+math.sin((query.anim_time*197)-100)*8*(1-query.is_on_ground)+5*(query.is_sneaking?1:0))"
      ]
     },
-    "wing2_r": {
-     "rotation": [
-      0,
-      "-((--14+14*math.min(1,query.modified_move_speed*3)+22*(query.is_sneaking?1:0)-18*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))-6*(1-query.is_on_ground)+math.sin((query.anim_time*41))*3*(1-(1-query.is_on_ground))))",
-      "-((math.sin((query.anim_time*41))*4*(1-(1-query.is_on_ground))*(1-(query.is_sneaking?1:0))+math.sin((query.anim_time*197))*34*(1-query.is_on_ground)+14*(query.is_sneaking?1:0)-10*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
-     ]
-    },
     "wing2A_r": {
      "rotation": [
       0,
       0,
       "-((math.sin((query.anim_time*41)-25)*3*(1-(1-query.is_on_ground))+math.sin((query.anim_time*197)-35)*18*(1-query.is_on_ground)+10*(query.is_sneaking?1:0)))"
-     ]
-    },
-    "wing2B_r": {
-     "rotation": [
-      0,
-      0,
-      "-((math.sin((query.anim_time*41)-50)*4*(1-(1-query.is_on_ground))+math.sin((query.anim_time*197)-70)*22*(1-query.is_on_ground)+8*(query.is_sneaking?1:0)-6*(math.sin(math.max(0,variable.attack_time)*180)*(math.max(0,variable.attack_time)>0?1:0))))"
      ]
     },
     "wing2F0_r": {
@@ -31303,288 +30417,16 @@
      "scale": 0
     },
     "dwU_root_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 40) * 6 * variable.wb_a",
-      "-1 * (36 * variable.wb_gd + 20 * variable.wb_s + 16 * 1.0 * math.sin(variable.wb_ph - 70) * variable.wb_a * variable.wb_k + 4 * variable.wb_f)",
-      "1 * (38.0 * math.sin(variable.wb_ph) * variable.wb_a - 6 * variable.wb_k - 14 * variable.wb_f - 34.0 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "dwU_arm_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (14.0 * math.sin(variable.wb_ph - 50) * variable.wb_a - 20 * variable.wb_s)"
-     ]
-    },
-    "dwU_fore_l": {
-     "rotation": [
-      0,
-      "-1 * (10 * math.sin(variable.wb_ph - 95) * variable.wb_a + 35 * variable.wb_s)",
-      "1 * (18.0 * math.sin(variable.wb_ph - 90) * variable.wb_a - 30 * variable.wb_s + 4 * variable.wb_f)"
-     ]
-    },
-    "dwU_f0_l": {
-     "rotation": [
-      0,
-      0,
-      "-3 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m0_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 60) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f1_l": {
-     "rotation": [
-      0,
-      0,
-      "-2 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m1_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 95) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f2_l": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m2_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 130) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f3_l": {
-     "rotation": [
-      0,
-      0,
-      "0 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
     },
     "dwU_root_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 40) * 6 * variable.wb_a",
-      "1 * (36 * variable.wb_gd + 20 * variable.wb_s + 16 * 1.0 * math.sin(variable.wb_ph - 70) * variable.wb_a * variable.wb_k + 4 * variable.wb_f)",
-      "-1 * (38.0 * math.sin(variable.wb_ph) * variable.wb_a - 6 * variable.wb_k - 14 * variable.wb_f - 34.0 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "dwU_arm_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (14.0 * math.sin(variable.wb_ph - 50) * variable.wb_a - 20 * variable.wb_s)"
-     ]
-    },
-    "dwU_fore_r": {
-     "rotation": [
-      0,
-      "1 * (10 * math.sin(variable.wb_ph - 95) * variable.wb_a + 35 * variable.wb_s)",
-      "-1 * (18.0 * math.sin(variable.wb_ph - 90) * variable.wb_a - 30 * variable.wb_s + 4 * variable.wb_f)"
-     ]
-    },
-    "dwU_f0_r": {
-     "rotation": [
-      0,
-      0,
-      "3 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m0_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 60) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f1_r": {
-     "rotation": [
-      0,
-      0,
-      "2 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m1_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 95) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f2_r": {
-     "rotation": [
-      0,
-      0,
-      "1 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m2_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 130) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f3_r": {
-     "rotation": [
-      0,
-      0,
-      "0 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
     },
     "dwD_root_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 110) * 6 * variable.wb_a",
-      "-1 * (36 * variable.wb_gd + 20 * variable.wb_s + 16 * 0.72 * math.sin(variable.wb_ph - 140) * variable.wb_a * variable.wb_k + 4 * variable.wb_f)",
-      "1 * (27.36 * math.sin(variable.wb_ph - 70) * variable.wb_a - 6 * variable.wb_k - 14 * variable.wb_f - 24.48 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "dwD_arm_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (10.08 * math.sin(variable.wb_ph - 120) * variable.wb_a - 20 * variable.wb_s)"
-     ]
-    },
-    "dwD_fore_l": {
-     "rotation": [
-      0,
-      "-1 * (10 * math.sin(variable.wb_ph - 165) * variable.wb_a + 35 * variable.wb_s)",
-      "1 * (12.959999999999999 * math.sin(variable.wb_ph - 160) * variable.wb_a - 30 * variable.wb_s + 4 * variable.wb_f)"
-     ]
-    },
-    "dwD_f0_l": {
-     "rotation": [
-      0,
-      0,
-      "-3 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m0_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 130) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f1_l": {
-     "rotation": [
-      0,
-      0,
-      "-2 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m1_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 165) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f2_l": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m2_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 200) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f3_l": {
-     "rotation": [
-      0,
-      0,
-      "0 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
     },
     "dwD_root_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 110) * 6 * variable.wb_a",
-      "1 * (36 * variable.wb_gd + 20 * variable.wb_s + 16 * 0.72 * math.sin(variable.wb_ph - 140) * variable.wb_a * variable.wb_k + 4 * variable.wb_f)",
-      "-1 * (27.36 * math.sin(variable.wb_ph - 70) * variable.wb_a - 6 * variable.wb_k - 14 * variable.wb_f - 24.48 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "dwD_arm_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (10.08 * math.sin(variable.wb_ph - 120) * variable.wb_a - 20 * variable.wb_s)"
-     ]
-    },
-    "dwD_fore_r": {
-     "rotation": [
-      0,
-      "1 * (10 * math.sin(variable.wb_ph - 165) * variable.wb_a + 35 * variable.wb_s)",
-      "-1 * (12.959999999999999 * math.sin(variable.wb_ph - 160) * variable.wb_a - 30 * variable.wb_s + 4 * variable.wb_f)"
-     ]
-    },
-    "dwD_f0_r": {
-     "rotation": [
-      0,
-      0,
-      "3 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m0_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 130) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f1_r": {
-     "rotation": [
-      0,
-      0,
-      "2 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m1_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 165) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f2_r": {
-     "rotation": [
-      0,
-      0,
-      "1 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m2_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 200) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f3_r": {
-     "rotation": [
-      0,
-      0,
-      "0 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
     },
     "tail7": {
      "scale": 0
@@ -31637,48 +30479,10 @@
      "scale": 0
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.45 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.45 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "lord_pauldron_l": {
      "scale": [
@@ -31882,48 +30686,10 @@
    "loop": true,
    "bones": {
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.3 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.3 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "lord_crown": {
      "rotation": [
@@ -31993,48 +30759,10 @@
      "scale": 0
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.3 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.3 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "lord_crown": {
      "rotation": [
@@ -32252,288 +30980,16 @@
      ]
     },
     "dwU_root_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 40) * 6 * variable.wb_a",
-      "-1 * (36 * variable.wb_gd + 20 * variable.wb_s + 16 * 1.0 * math.sin(variable.wb_ph - 70) * variable.wb_a * variable.wb_k + 4 * variable.wb_f)",
-      "1 * (38.0 * math.sin(variable.wb_ph) * variable.wb_a - 6 * variable.wb_k - 14 * variable.wb_f - 34.0 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "dwU_arm_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (14.0 * math.sin(variable.wb_ph - 50) * variable.wb_a - 20 * variable.wb_s)"
-     ]
-    },
-    "dwU_fore_l": {
-     "rotation": [
-      0,
-      "-1 * (10 * math.sin(variable.wb_ph - 95) * variable.wb_a + 35 * variable.wb_s)",
-      "1 * (18.0 * math.sin(variable.wb_ph - 90) * variable.wb_a - 30 * variable.wb_s + 4 * variable.wb_f)"
-     ]
-    },
-    "dwU_f0_l": {
-     "rotation": [
-      0,
-      0,
-      "-3 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m0_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 60) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f1_l": {
-     "rotation": [
-      0,
-      0,
-      "-2 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m1_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 95) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f2_l": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m2_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 130) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f3_l": {
-     "rotation": [
-      0,
-      0,
-      "0 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
     },
     "dwU_root_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 40) * 6 * variable.wb_a",
-      "1 * (36 * variable.wb_gd + 20 * variable.wb_s + 16 * 1.0 * math.sin(variable.wb_ph - 70) * variable.wb_a * variable.wb_k + 4 * variable.wb_f)",
-      "-1 * (38.0 * math.sin(variable.wb_ph) * variable.wb_a - 6 * variable.wb_k - 14 * variable.wb_f - 34.0 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "dwU_arm_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (14.0 * math.sin(variable.wb_ph - 50) * variable.wb_a - 20 * variable.wb_s)"
-     ]
-    },
-    "dwU_fore_r": {
-     "rotation": [
-      0,
-      "1 * (10 * math.sin(variable.wb_ph - 95) * variable.wb_a + 35 * variable.wb_s)",
-      "-1 * (18.0 * math.sin(variable.wb_ph - 90) * variable.wb_a - 30 * variable.wb_s + 4 * variable.wb_f)"
-     ]
-    },
-    "dwU_f0_r": {
-     "rotation": [
-      0,
-      0,
-      "3 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m0_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 60) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f1_r": {
-     "rotation": [
-      0,
-      0,
-      "2 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m1_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 95) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f2_r": {
-     "rotation": [
-      0,
-      0,
-      "1 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwU_m2_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 130) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwU_f3_r": {
-     "rotation": [
-      0,
-      0,
-      "0 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 120) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
     },
     "dwD_root_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 110) * 6 * variable.wb_a",
-      "-1 * (36 * variable.wb_gd + 20 * variable.wb_s + 16 * 0.72 * math.sin(variable.wb_ph - 140) * variable.wb_a * variable.wb_k + 4 * variable.wb_f)",
-      "1 * (27.36 * math.sin(variable.wb_ph - 70) * variable.wb_a - 6 * variable.wb_k - 14 * variable.wb_f - 24.48 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "dwD_arm_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (10.08 * math.sin(variable.wb_ph - 120) * variable.wb_a - 20 * variable.wb_s)"
-     ]
-    },
-    "dwD_fore_l": {
-     "rotation": [
-      0,
-      "-1 * (10 * math.sin(variable.wb_ph - 165) * variable.wb_a + 35 * variable.wb_s)",
-      "1 * (12.959999999999999 * math.sin(variable.wb_ph - 160) * variable.wb_a - 30 * variable.wb_s + 4 * variable.wb_f)"
-     ]
-    },
-    "dwD_f0_l": {
-     "rotation": [
-      0,
-      0,
-      "-3 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m0_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 130) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f1_l": {
-     "rotation": [
-      0,
-      0,
-      "-2 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m1_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 165) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f2_l": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m2_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 200) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f3_l": {
-     "rotation": [
-      0,
-      0,
-      "0 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
     },
     "dwD_root_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 110) * 6 * variable.wb_a",
-      "1 * (36 * variable.wb_gd + 20 * variable.wb_s + 16 * 0.72 * math.sin(variable.wb_ph - 140) * variable.wb_a * variable.wb_k + 4 * variable.wb_f)",
-      "-1 * (27.36 * math.sin(variable.wb_ph - 70) * variable.wb_a - 6 * variable.wb_k - 14 * variable.wb_f - 24.48 * variable.wb_s)"
-     ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "dwD_arm_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (10.08 * math.sin(variable.wb_ph - 120) * variable.wb_a - 20 * variable.wb_s)"
-     ]
-    },
-    "dwD_fore_r": {
-     "rotation": [
-      0,
-      "1 * (10 * math.sin(variable.wb_ph - 165) * variable.wb_a + 35 * variable.wb_s)",
-      "-1 * (12.959999999999999 * math.sin(variable.wb_ph - 160) * variable.wb_a - 30 * variable.wb_s + 4 * variable.wb_f)"
-     ]
-    },
-    "dwD_f0_r": {
-     "rotation": [
-      0,
-      0,
-      "3 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m0_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 130) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f1_r": {
-     "rotation": [
-      0,
-      0,
-      "2 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m1_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 165) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f2_r": {
-     "rotation": [
-      0,
-      0,
-      "1 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
-    },
-    "dwD_m2_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 200) * (1.5 + 3.5 * variable.wb_a)",
-      0,
-      0
-     ]
-    },
-    "dwD_f3_r": {
-     "rotation": [
-      0,
-      0,
-      "0 * (2.5 * variable.wb_gd + 7 * variable.wb_s + 2.5 * math.sin(variable.wb_ph - 190) * variable.wb_a + 1.5 * variable.wb_k)"
-     ]
     },
     "tail7": {
      "scale": 0
@@ -32672,48 +31128,10 @@
    "loop": true,
    "bones": {
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.4 * (0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.4 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "lord_crown": {
      "rotation": [
@@ -32747,48 +31165,10 @@
      "scale": 1.2
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.688 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.688 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "lord_crown": {
      "rotation": [
@@ -32822,48 +31202,10 @@
      "scale": 1.2
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.688 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.688 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "lord_crown": {
      "rotation": [
@@ -32897,92 +31239,16 @@
      "scale": 1.2
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.38 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.38 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing2_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 30) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph - 30) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.38 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing2B_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 80) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing2C_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 125) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing2_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 30) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph - 30) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.38 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing2B_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 80) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing2C_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 125) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "lord_crown": {
      "rotation": [
@@ -33016,136 +31282,22 @@
      "scale": 1.2
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.344 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.344 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing2_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 30) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph - 30) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.344 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing2B_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 80) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing2C_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 125) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing2_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 30) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph - 30) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.344 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing2B_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 80) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing2C_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 125) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing3_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 60) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph - 60) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.344 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing3B_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 110) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing3C_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 155) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing3_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph - 60) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph - 60) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.344 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wing3B_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 110) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wing3C_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 155) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "lord_crown": {
      "rotation": [
@@ -33166,48 +31318,10 @@
    "loop": true,
    "bones": {
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.755 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.755 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "lord_crown": {
      "rotation": [
@@ -33256,48 +31370,10 @@
      ]
     },
     "wing_l": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.688 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_l": {
-     "rotation": [
-      0,
-      0,
-      "1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "wing_r": {
-     "rotation": [
-      "math.sin(variable.wb_ph) * 5 * variable.wb_k - 8 * variable.wb_f",
-      "-1 * (18 * variable.wb_s - 8 * variable.wb_k - 12 * variable.wb_f + 6 * variable.wb_mv * variable.wb_gd)",
-      "-1 * (math.sin(variable.wb_ph) * 44 * variable.wb_a + 8 * variable.wb_k + 14 * variable.wb_f - 16 * variable.wb_s)"
-     ],
      "scale": "1.688 * (0.85 + 0.07 * query.property('etheria:tier'))"
-    },
-    "wingB_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 50) * 25 * variable.wb_a - 10 * variable.wb_s - 6 * variable.wb_f)"
-     ]
-    },
-    "wingC_r": {
-     "rotation": [
-      0,
-      0,
-      "-1 * (math.sin(variable.wb_ph - 95) * 30 * variable.wb_a - 12 * variable.wb_s - 4 * variable.wb_f)"
-     ]
     },
     "lord_crown": {
      "rotation": [

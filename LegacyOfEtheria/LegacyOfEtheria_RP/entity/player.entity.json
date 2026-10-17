@@ -239,19 +239,7 @@
      "variable.first_person_rotation_factor = math.sin((1 - variable.attack_time) * 180.0);",
      "variable.hand_bob = query.life_time < 0.01 ? 0.0 : variable.hand_bob + ((query.is_on_ground && query.is_alive ? math.clamp(math.sqrt(math.pow(query.position_delta(0), 2.0) + math.pow(query.position_delta(2), 2.0)), 0.0, 0.1) : 0.0) - variable.hand_bob) * 0.02;",
      "variable.map_angle = math.clamp(1 - variable.player_x_rotation / 45.1, 0.0, 1.0);",
-     "variable.item_use_normalized = query.main_hand_item_use_duration / query.main_hand_item_max_duration;",
-     "variable.wb_air = query.is_on_ground ? 0.0 : 1.0;",
-     "variable.wb_fall = (!query.is_on_ground && query.vertical_speed < -1.0) ? 1.0 : 0.0;",
-     "variable.wb_sn = (query.is_sneaking && query.is_on_ground) ? 1.0 : 0.0;",
-     "variable.wb_mv = math.min(1, query.modified_move_speed * 3);",
-     "variable.wb_dt = math.min(0.1, query.delta_time);",
-     "variable.wb_ph = math.mod(variable.wb_ph + variable.wb_dt * (variable.wb_air ? (variable.wb_fall ? 140 : 560) : (150 + 190 * variable.wb_mv)), 360);",
-     "variable.wb_t = math.min(1, variable.wb_dt * 6);",
-     "variable.wb_k = math.lerp(variable.wb_k, variable.wb_air * (1 - variable.wb_fall), variable.wb_t);",
-     "variable.wb_f = math.lerp(variable.wb_f, variable.wb_fall, variable.wb_t);",
-     "variable.wb_s = math.lerp(variable.wb_s, variable.wb_sn, variable.wb_t);",
-     "variable.wb_gd = math.lerp(variable.wb_gd, 1 - variable.wb_air, variable.wb_t);",
-     "variable.wb_a = math.lerp(variable.wb_a, variable.wb_air ? (variable.wb_fall ? 0.15 : 1.0) : (variable.wb_sn ? 0.0 : 0.4 + 0.3 * variable.wb_mv), variable.wb_t);"
+     "variable.item_use_normalized = query.main_hand_item_use_duration / query.main_hand_item_max_duration;"
     ],
     "animate": [
      "root",
@@ -932,6 +920,9 @@
      },
      {
       "etheria_tfx_lord_dragonewt_w": "(query.property('etheria:race') == 'dragonewt_w' && query.property('etheria:lin') == 'none') && query.property('etheria:tfx') == 'lord'"
+     },
+     {
+      "tr_ewings": "query.property('etheria:tier') > 0"
      }
     ]
    },
@@ -1222,7 +1213,8 @@
     "etheria_tfx_evo_dragonewt": "animation.etheria.tfx_evo_dragonewt",
     "etheria_tfx_lord_dragonewt": "animation.etheria.tfx_lord_dragonewt",
     "etheria_tfx_evo_dragonewt_w": "animation.etheria.tfx_evo_dragonewt_w",
-    "etheria_tfx_lord_dragonewt_w": "animation.etheria.tfx_lord_dragonewt_w"
+    "etheria_tfx_lord_dragonewt_w": "animation.etheria.tfx_lord_dragonewt_w",
+    "tr_ewings": "animation.tensura.race.ewings"
    },
    "render_controllers": [
     {

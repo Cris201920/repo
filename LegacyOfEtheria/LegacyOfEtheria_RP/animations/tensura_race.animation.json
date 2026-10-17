@@ -6,45 +6,45 @@
    "bones": {
     "left_wing": {
      "rotation": [
-      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
-      "(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
-      "(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
+      "(8 + (28 - 8) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * (3 + 5 * (query.is_on_ground ? 0 : 1))",
+      "((26 + (12 - 26) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 36 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "((27 + (46 - 27) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 14 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "right_wing": {
      "rotation": [
-      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
-      "-(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
-      "-(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
+      "(8 + (28 - 8) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * (3 + 5 * (query.is_on_ground ? 0 : 1))",
+      "-((26 + (12 - 26) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 36 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "-((27 + (46 - 27) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 14 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "left_wing_mid": {
      "rotation": [
-      "math.lerp(0, -2, variable.wb_k)",
-      "(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
-      "(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
+      "(0 + (-2 - 0) * (query.is_on_ground ? 0 : 1))",
+      "((-22 + (22 - -22) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 26 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "(math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ]
     },
     "right_wing_mid": {
      "rotation": [
-      "math.lerp(0, -2, variable.wb_k)",
-      "-(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
-      "-(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
+      "(0 + (-2 - 0) * (query.is_on_ground ? 0 : 1))",
+      "-((-22 + (22 - -22) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 26 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "-(math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ]
     },
     "left_wing_end": {
      "rotation": [
-      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
-      "(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      "(0 + (-6 - 0) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 6 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1)",
+      "((62 + (-6 - 62) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 28 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
       0
      ]
     },
     "right_wing_end": {
      "rotation": [
-      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
-      "-(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      "(0 + (-6 - 0) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 6 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1)",
+      "-((62 + (-6 - 62) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 28 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
       0
      ]
     }
@@ -56,45 +56,45 @@
    "bones": {
     "left_wing": {
      "rotation": [
-      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
-      "(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
-      "(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
+      "(8 + (28 - 8) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * (3 + 5 * (query.is_on_ground ? 0 : 1))",
+      "((26 + (12 - 26) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 36 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "((27 + (46 - 27) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 14 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "right_wing": {
      "rotation": [
-      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
-      "-(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
-      "-(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
+      "(8 + (28 - 8) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * (3 + 5 * (query.is_on_ground ? 0 : 1))",
+      "-((26 + (12 - 26) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 36 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "-((27 + (46 - 27) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 14 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "left_wing_mid": {
      "rotation": [
-      "math.lerp(0, -2, variable.wb_k)",
-      "(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
-      "(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
+      "(0 + (-2 - 0) * (query.is_on_ground ? 0 : 1))",
+      "((-22 + (22 - -22) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 26 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "(math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ]
     },
     "right_wing_mid": {
      "rotation": [
-      "math.lerp(0, -2, variable.wb_k)",
-      "-(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
-      "-(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
+      "(0 + (-2 - 0) * (query.is_on_ground ? 0 : 1))",
+      "-((-22 + (22 - -22) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 26 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "-(math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ]
     },
     "left_wing_end": {
      "rotation": [
-      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
-      "(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      "(0 + (-6 - 0) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 6 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1)",
+      "((62 + (-6 - 62) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 28 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
       0
      ]
     },
     "right_wing_end": {
      "rotation": [
-      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
-      "-(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      "(0 + (-6 - 0) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 6 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1)",
+      "-((62 + (-6 - 62) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 28 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
       0
      ]
     }
@@ -106,45 +106,45 @@
    "bones": {
     "left_wing": {
      "rotation": [
-      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
-      "(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
-      "(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
+      "(8 + (28 - 8) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * (3 + 5 * (query.is_on_ground ? 0 : 1))",
+      "((26 + (12 - 26) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 36 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "((27 + (46 - 27) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 14 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "right_wing": {
      "rotation": [
-      "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
-      "-(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
-      "-(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
+      "(8 + (28 - 8) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * (3 + 5 * (query.is_on_ground ? 0 : 1))",
+      "-((26 + (12 - 26) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 36 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "-((27 + (46 - 27) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 14 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ],
      "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "left_wing_mid": {
      "rotation": [
-      "math.lerp(0, -2, variable.wb_k)",
-      "(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
-      "(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
+      "(0 + (-2 - 0) * (query.is_on_ground ? 0 : 1))",
+      "((-22 + (22 - -22) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 26 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "(math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ]
     },
     "right_wing_mid": {
      "rotation": [
-      "math.lerp(0, -2, variable.wb_k)",
-      "-(math.lerp(-22, 22, variable.wb_k) + math.sin(variable.wb_ph - 50) * 26 * variable.wb_a)",
-      "-(math.sin(variable.wb_ph - 50) * 5 * variable.wb_a)"
+      "(0 + (-2 - 0) * (query.is_on_ground ? 0 : 1))",
+      "-((-22 + (22 - -22) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 26 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      "-(math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))"
      ]
     },
     "left_wing_end": {
      "rotation": [
-      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
-      "(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      "(0 + (-6 - 0) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 6 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1)",
+      "((62 + (-6 - 62) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 28 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
       0
      ]
     },
     "right_wing_end": {
      "rotation": [
-      "math.lerp(0, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 6 * variable.wb_a",
-      "-(math.lerp(62, -6, variable.wb_k) + math.sin(variable.wb_ph - 95) * 28 * variable.wb_a)",
+      "(0 + (-6 - 0) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 6 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1)",
+      "-((62 + (-6 - 62) * (query.is_on_ground ? 0 : 1)) + math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 28 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
       0
      ]
     }
@@ -427,6 +427,418 @@
       "math.clamp(query.anim_time / 1.2, 0, 1)",
       "math.clamp(query.anim_time / 1.2, 0, 1)",
       "math.clamp(query.anim_time / 1.2, 0, 1)"
+     ]
+    }
+   }
+  },
+  "animation.tensura.race.ewings": {
+   "loop": true,
+   "animation_length": 3600,
+   "bones": {
+    "wing_l": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 5 * (query.is_on_ground ? 0 : 1)",
+      "1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1))",
+      "1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 44 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 8 * (query.is_on_ground ? 0 : 1) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wingB_l": {
+     "rotation": [
+      0,
+      0,
+      "1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 25 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 10 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wingC_l": {
+     "rotation": [
+      0,
+      0,
+      "1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 30 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 12 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing_r": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 5 * (query.is_on_ground ? 0 : 1)",
+      "-1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1))",
+      "-1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * 44 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 8 * (query.is_on_ground ? 0 : 1) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wingB_r": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * 25 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 10 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wingC_r": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * 30 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 12 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing2_l": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 30) * 5 * (query.is_on_ground ? 0 : 1)",
+      "1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1))",
+      "1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 30) * 44 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 8 * (query.is_on_ground ? 0 : 1) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing2B_l": {
+     "rotation": [
+      0,
+      0,
+      "1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 80) * 25 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 10 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing2C_l": {
+     "rotation": [
+      0,
+      0,
+      "1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 125) * 30 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 12 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing2_r": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 30) * 5 * (query.is_on_ground ? 0 : 1)",
+      "-1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1))",
+      "-1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 30) * 44 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 8 * (query.is_on_ground ? 0 : 1) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing2B_r": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 80) * 25 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 10 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing2C_r": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 125) * 30 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 12 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing3_l": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 60) * 5 * (query.is_on_ground ? 0 : 1)",
+      "1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1))",
+      "1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 60) * 44 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 8 * (query.is_on_ground ? 0 : 1) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing3B_l": {
+     "rotation": [
+      0,
+      0,
+      "1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 110) * 25 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 10 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing3C_l": {
+     "rotation": [
+      0,
+      0,
+      "1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 155) * 30 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 12 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing3_r": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 60) * 5 * (query.is_on_ground ? 0 : 1)",
+      "-1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1))",
+      "-1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 60) * 44 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 8 * (query.is_on_ground ? 0 : 1) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing3B_r": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 110) * 25 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 10 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "wing3C_r": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 155) * 30 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 12 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwU_root_l": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 40) * 6 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1)",
+      "-1 * (36 * (1 - (query.is_on_ground ? 0 : 1)) + 20 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 16.0 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 70) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) * (query.is_on_ground ? 0 : 1))",
+      "1 * (38.0 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 6 * (query.is_on_ground ? 0 : 1) - 34.0 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwU_arm_l": {
+     "rotation": [
+      0,
+      0,
+      "1 * (14.0 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 20 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwU_fore_l": {
+     "rotation": [
+      0,
+      "-1 * (10 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 35 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))",
+      "1 * (18.0 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 90) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 30 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwU_f0_l": {
+     "rotation": [
+      0,
+      0,
+      "-3 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 120) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwU_m0_l": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 60) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwU_f1_l": {
+     "rotation": [
+      0,
+      0,
+      "-2 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 120) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwU_m1_l": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwU_f2_l": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 120) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwU_m2_l": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 130) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwU_f3_l": {
+     "rotation": [
+      0,
+      0,
+      "0 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 120) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwU_root_r": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 40) * 6 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1)",
+      "1 * (36 * (1 - (query.is_on_ground ? 0 : 1)) + 20 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 16.0 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 70) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) * (query.is_on_ground ? 0 : 1))",
+      "-1 * (38.0 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 0) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 6 * (query.is_on_ground ? 0 : 1) - 34.0 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwU_arm_r": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (14.0 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 50) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 20 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwU_fore_r": {
+     "rotation": [
+      0,
+      "1 * (10 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 35 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))",
+      "-1 * (18.0 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 90) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 30 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwU_f0_r": {
+     "rotation": [
+      0,
+      0,
+      "3 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 120) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwU_m0_r": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 60) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwU_f1_r": {
+     "rotation": [
+      0,
+      0,
+      "2 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 120) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwU_m1_r": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 95) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwU_f2_r": {
+     "rotation": [
+      0,
+      0,
+      "1 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 120) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwU_m2_r": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 130) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwU_f3_r": {
+     "rotation": [
+      0,
+      0,
+      "0 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 120) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwD_root_l": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 110) * 6 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1)",
+      "-1 * (36 * (1 - (query.is_on_ground ? 0 : 1)) + 20 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 11.52 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 140) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) * (query.is_on_ground ? 0 : 1))",
+      "1 * (27.36 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 70) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 6 * (query.is_on_ground ? 0 : 1) - 24.48 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwD_arm_l": {
+     "rotation": [
+      0,
+      0,
+      "1 * (10.08 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 120) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 20 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwD_fore_l": {
+     "rotation": [
+      0,
+      "-1 * (10 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 165) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 35 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))",
+      "1 * (12.959999999999999 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 160) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 30 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwD_f0_l": {
+     "rotation": [
+      0,
+      0,
+      "-3 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 190) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwD_m0_l": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 130) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwD_f1_l": {
+     "rotation": [
+      0,
+      0,
+      "-2 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 190) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwD_m1_l": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 165) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwD_f2_l": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 190) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwD_m2_l": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 200) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwD_f3_l": {
+     "rotation": [
+      0,
+      0,
+      "0 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 190) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwD_root_r": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 110) * 6 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1)",
+      "1 * (36 * (1 - (query.is_on_ground ? 0 : 1)) + 20 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 11.52 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 140) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) * (query.is_on_ground ? 0 : 1))",
+      "-1 * (27.36 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 70) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 6 * (query.is_on_ground ? 0 : 1) - 24.48 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwD_arm_r": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (10.08 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 120) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 20 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwD_fore_r": {
+     "rotation": [
+      0,
+      "1 * (10 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 165) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 35 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))",
+      "-1 * (12.959999999999999 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 160) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) - 30 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
+     ]
+    },
+    "dwD_f0_r": {
+     "rotation": [
+      0,
+      0,
+      "3 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 190) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwD_m0_r": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 130) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwD_f1_r": {
+     "rotation": [
+      0,
+      0,
+      "2 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 190) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwD_m1_r": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 165) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwD_f2_r": {
+     "rotation": [
+      0,
+      0,
+      "1 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 190) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
+     ]
+    },
+    "dwD_m2_r": {
+     "rotation": [
+      "math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 200) * (1.5 + 3.5 * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1))",
+      0,
+      0
+     ]
+    },
+    "dwD_f3_r": {
+     "rotation": [
+      0,
+      0,
+      "0 * (2.5 * (1 - (query.is_on_ground ? 0 : 1)) + 7 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) + 2.5 * math.sin(query.anim_time * (query.is_on_ground ? (150 + 190 * math.min(1, query.modified_move_speed * 3)) : 560) - 190) * (query.is_on_ground ? (query.is_sneaking ? 0 : (0.4 + 0.3 * math.min(1, query.modified_move_speed * 3))) : 1) + 1.5 * (query.is_on_ground ? 0 : 1))"
      ]
     }
    }
