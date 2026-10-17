@@ -1,6 +1,6 @@
 """HUD igual à do mod Tensura (moldura + barras de HP/mana/aura) em JSON UI, alimentada pela actionbar.
 Texturas recortadas do jar do mod (uso pessoal, fora do git): python3 tools/mod_hud.py <tensura-1.19.2-*.jar>
-A actionbar começa com um cabeçalho ASCII de 49 caracteres (ver HUD_HEADER em systems/loop.js):
+O título (setTitle) carrega um cabeçalho ASCII de 49 caracteres (hudHeader em systems/loop.js):
   ETHUD hp mp xp st (00..40) | hpTxt(11) mpTxt(11) stTxt(11) | nivel(3)"""
 import io, json, os, sys, zipfile
 from PIL import Image
@@ -31,45 +31,42 @@ def textures(jar):
             c.save(os.path.join(OUT, f"{k}_{s:02d}.png"))
     return {k: img(f).size for k, (f, _) in BARS.items()}
 
-def sub(a, b): return f"(('%.{b}s' * $atext) - ('%.{a}s' * $atext))"
-HAS = "(('%.5s' * $atext) = 'ETHUD')"
+B = "#hud_title_text_string"
+def sub(a, b): return f"(('%.{b}s' * {B}) - ('%.{a}s' * {B}))"
+HAS = f"(not (({B} - 'ETHUD') = {B}))"
+GLOBAL = {"binding_name": B, "binding_type": "global"}
 
 def label(text_expr, offset, size, scale=0.75, color=(1, 1, 1)):
     return {"type": "label", "anchor_from": "top_left", "anchor_to": "top_left", "offset": offset, "size": size, "layer": 8,
             "text": "#text", "text_alignment": "center", "font_scale_factor": scale, "shadow": True, "color": list(color), "localize": False,
-            "bindings": [{"binding_type": "view", "source_property_name": text_expr, "target_property_name": "#text"}]}
+            "bindings": [GLOBAL, {"binding_type": "view", "source_property_name": text_expr, "target_property_name": "#text"}]}
 
 def ui(sizes):
+    """Painel no root_panel lendo o título (canal já usado pelo Sábio). O título com ETHUD não aparece na tela (hud_title_text)."""
     ctl = [{"frame": {"type": "image", "texture": "textures/ui/etheria/modhud/frame", "size": [150, 67], "layer": 1}}]
     for k, (_, (x, y)) in BARS.items():
         a, b = FIELDS[k]; w, h = sizes[k]
         ctl.append({f"bar_{k}": {"type": "image", "anchor_from": "top_left", "anchor_to": "top_left", "offset": [x, y], "size": [w, h], "layer": 4,
                     "texture": f"textures/ui/etheria/modhud/{k}_00",
-                    "bindings": [{"binding_type": "view", "source_property_name": f"('textures/ui/etheria/modhud/{k}_' + {sub(a, b)})", "target_property_name": "#texture"}]}})
+                    "bindings": [GLOBAL, {"binding_type": "view", "source_property_name": f"('textures/ui/etheria/modhud/{k}_' + {sub(a, b)})", "target_property_name": "#texture"}]}})
     ctl.append({"glass": {"type": "image", "anchor_from": "top_left", "anchor_to": "top_left", "offset": [0, 0], "size": [150, 67], "texture": "textures/ui/etheria/modhud/glass", "layer": 6}})
     ctl.append({"hp_txt": label(sub(*FIELDS["hpTxt"]), [44, 6], [101, 9])})
     ctl.append({"mp_txt": label(sub(*FIELDS["mpTxt"]), [5, 47], [67, 9])})
     ctl.append({"st_txt": label(sub(*FIELDS["stTxt"]), [5, 58], [57, 9])})
-    ctl.append({"lv_cap": label("('Nv')", [5, 8], [35, 9], 0.75, (0.85, 0.85, 0.85))})
+    ctl.append({"lv_cap": {"type": "label", "anchor_from": "top_left", "anchor_to": "top_left", "offset": [5, 8], "size": [35, 9], "layer": 8, "text": "Nv",
+                           "text_alignment": "center", "font_scale_factor": 0.75, "shadow": True, "color": [0.85, 0.85, 0.85], "localize": False}})
     ctl.append({"lv_txt": label(sub(*FIELDS["lv"]), [5, 18], [35, 14], 1.5, (1, 0.85, 0.3))})
-    bars = {"type": "panel", "anchor_from": "top_left", "anchor_to": "top_left", "offset": [3, 3], "size": [150, 67], "layer": 40,
-            "bindings": [{"binding_type": "view", "source_property_name": HAS, "target_property_name": "#visible"}], "controls": ctl}
-
-    def msg(expr, vis):
-        return {"type": "image", "anchor_from": "center", "anchor_to": "center", "size": ["100%c + 12px", "100%c + 5px"], "offset": [0, "50%-68px"],
-                "texture": "textures/ui/hud_tip_text_background", "alpha": "@hud.anim_actionbar_text_background_alpha_out",
-                "bindings": [{"binding_type": "view", "source_property_name": vis, "target_property_name": "#visible"}],
-                "controls": [{"actionbar_message": {"type": "label", "anchor_from": "center", "anchor_to": "center", "color": "$tool_tip_text", "layer": 31,
-                              "text": "#text", "localize": False, "alpha": "@hud.anim_actionbar_text_alpha_out",
-                              "bindings": [{"binding_type": "view", "source_property_name": expr, "target_property_name": "#text"}]}}]}
-    return {"type": "panel", "size": ["100%", "100%"], "$atext": "$actionbar_text",
-            "controls": [{"eth_mod_hud": bars},
-                         {"msg_hud": msg(f"($atext - ('%.{HEADER_LEN}s' * $atext))", f"({HAS} and (not (('%.{HEADER_LEN + 1}s' * $atext) = ('%.{HEADER_LEN}s' * $atext))))")},
-                         {"msg_plain": msg("$atext", f"(not {HAS})")}]}
+    return {"type": "panel", "anchor_from": "top_left", "anchor_to": "top_left", "offset": [3, 3], "size": [150, 67], "layer": 40,
+            "bindings": [GLOBAL, {"binding_type": "view", "source_property_name": HAS, "target_property_name": "#visible"}], "controls": ctl}
 
 if __name__ == "__main__":
     sizes = textures(sys.argv[1])
     p = os.path.join(RP, "ui", "hud_screen.json"); D = json.load(open(p))
-    D["hud_actionbar_text"] = ui(sizes)
+    D.pop("hud_actionbar_text", None)                # 6.90 tentou pela actionbar ($actionbar_text não funciona em bindings)
+    D["eth_mod_hud"] = ui(sizes)
+    ins = D["root_panel"]["modifications"][0]["value"]
+    if not any("eth_mod_hud@hud.eth_mod_hud" in x for x in ins): ins.insert(0, {"eth_mod_hud@hud.eth_mod_hud": {}})
+    vb = [x for x in D["hud_title_text"]["bindings"] if x.get("target_property_name") == "#visible"][0]
+    vb["source_property_name"] = "(((#hud_title_text_string - '§w§n§t') = #hud_title_text_string) and ((#hud_title_text_string - 'ETHUD') = #hud_title_text_string))"
     D["eth_sage_toast"]["offset"] = [4, 74]          # abaixo da HUD do mod
     json.dump(D, open(p, "w"), indent=1, ensure_ascii=False); print("ok", sizes)

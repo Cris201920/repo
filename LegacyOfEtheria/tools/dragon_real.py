@@ -335,6 +335,20 @@ def build(name, cfg):
     g.bone("x_true", "d_head", (0, hp[1] + 12 * s, hp[2]), crown)
     ring_c = (0, 120 * s, 20 * s) if quad else (0, 90 * s, 10 * s)
     g.bone("x_true_halo", "x_true", ring_c, [rod((math.cos(a) * 34 * s, ring_c[1] + math.sin(a) * 34 * s, ring_c[2]), (math.cos(a + 0.4) * 34 * s, ring_c[1] + math.sin(a + 0.4) * 34 * s, ring_c[2]), 2.5 * s, 2.5 * s, "glow") for a in [k * 0.4 for k in range(16)]])
+    # cristais/espinhos presos ao corpo mas espalhados pela cauda ficavam parados no ar quando a cauda ondula:
+    # cada peça passa para o segmento da cauda (d_tail*/x_serp*) onde ela está
+    chain = [b for b in g.bones if b["name"].startswith(("d_tail", "x_serp"))]
+    for b in list(g.bones):
+        if b["name"] != "x_cryst" or b.get("parent") not in ("d_body", "d_upper_body"): continue
+        keep = []
+        for c in b.get("cubes", []):
+            cz = c["origin"][2] + c["size"][2] / 2
+            seg = [t for t in chain if t["pivot"][2] <= cz]
+            if not seg: keep.append(c); continue
+            t = seg[-1]; nb = next((x for x in g.bones if x["name"] == f"x_cryst_{t['name']}"), None)
+            if nb is None: nb = {"name": f"x_cryst_{t['name']}", "parent": t["name"], "pivot": list(t["pivot"]), "cubes": []}; g.bones.append(nb)
+            nb["cubes"].append(c)
+        b["cubes"] = keep
     return g
 
 def write(name, cfg):

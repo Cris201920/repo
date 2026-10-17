@@ -1,5 +1,5 @@
 // core/utils.js - Funções utilitárias sem dependência de sistemas
-import { ItemStack } from "@minecraft/server";
+import { ItemStack, system } from "@minecraft/server";
 
 export const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 export const rand = (a, b) => a + Math.random() * (b - a);
@@ -66,7 +66,12 @@ export function playSound(player, id, volume = 1, pitch = 1) {
 export function say(player, msg) { try { player.sendMessage(msg); } catch { /* ignore */ } }
 /** quem está com a tela da Voz do Mundo ativa não recebe outros títulos (systems/sageannounce.js preenche) */
 export const titleGuard = { busy: (_p) => false };
+// 6.91: a HUD do mod usa o título como canal de dados; quem mostra um título de verdade reserva a tela por alguns ticks
+const titleHold = new Map();
+export function holdTitle(player, ticks) { try { titleHold.set(player.id, system.currentTick + ticks); } catch { /* ignore */ } }
+export const titleFree = (player) => !titleGuard.busy(player) && (titleHold.get(player.id) ?? 0) <= system.currentTick;
 export function toast(player, title, sub = "") {
   if (titleGuard.busy(player)) { try { player.sendMessage(`${title}${sub ? " §r" + sub : ""}`); } catch { /* ignore */ } return; }
+  holdTitle(player, 55);
   try { player.onScreenDisplay.setTitle(title, { stayDuration: 40, fadeInDuration: 5, fadeOutDuration: 10, subtitle: sub }); } catch { /* ignore */ }
 }

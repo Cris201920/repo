@@ -7,7 +7,7 @@
 // Octagrama: o desafio inicia a luta de chefe que já existe (mesmas recompensas do chefe).
 import { world, system } from "@minecraft/server";
 import { getData, markDirty, saveNow } from "../core/db.js";
-import { say, toast, fmt, pick, playSound, isValid } from "../core/utils.js";
+import { say, toast, fmt, pick, playSound, isValid, holdTitle } from "../core/utils.js";
 import { menu } from "./ui/forms.js";
 import { CHARACTERS } from "../data/characters.js";
 import { QUESTS } from "../data/quests.js";
@@ -169,6 +169,7 @@ function startChallenge(player, e) {
   try { e.removeTag(CALM); e.removeTag(IDLE); e.addTag(DUEL); e.removeEffect("slowness"); e.triggerEvent("etheria:provoke"); } catch { /* ignore */ }
   let n = 3;
   const h = system.runInterval(() => {
+    holdTitle(player, 20);
     try { player.onScreenDisplay.setTitle(n > 0 ? `§c${n}` : "§c§lLUTE!", { fadeInDuration: 0, stayDuration: 14, fadeOutDuration: 4 }); } catch { /* ignore */ }
     if (n-- <= 0) { system.clearRun(h); try { if (isValid(e)) e.applyDamage(1, { cause: "entityAttack", damagingEntity: player }); } catch { /* ignore */ } }
   }, 20);

@@ -2,7 +2,7 @@
 import { world, system } from "@minecraft/server";
 import { MASTER_TICK, REGEN, MAX_LEVEL, xpToNext, RARITY } from "../config.js";
 import { getData, markDirty } from "../core/db.js";
-import { fmt } from "../core/utils.js";
+import { fmt, titleFree } from "../core/utils.js";
 import { SKILLS } from "../data/skills.js";
 import { getStats, getHealth, applyDerivedStats, applyPassiveEffects } from "./stats.js";
 import { tickEffects, listBuffs } from "./effects.js";
@@ -19,8 +19,8 @@ import { inventory } from "../core/utils.js";
 let tickCount = 0;
 const short = (n) => (n.length > 9 ? n.slice(0, 8) + "." : n);
 
-// 6.90: HUD igual à do mod (ui/hud_screen.json, tools/mod_hud.py). A actionbar começa com um cabeçalho ASCII de 49 caracteres
-// que a JSON UI lê (barras e números) e corta do texto exibido: ETHUD + hp/mp/xp/st (00..40) + 3 textos de 11 + nível(3).
+// 6.91: HUD igual à do mod (ui/hud_screen.json, tools/mod_hud.py). O título leva um cabeçalho ASCII de 49 caracteres
+// que a JSON UI lê (barras e números); o título com ETHUD nunca aparece na tela: ETHUD + hp/mp/xp/st (00..40) + 3 textos de 11 + nível(3).
 const STEPS = 40;
 const step = (c, m) => String(m > 0 ? Math.round(Math.max(0, Math.min(1, c / m)) * STEPS) : 0).padStart(2, "0");
 const num = (n) => (n >= 100000 ? `${Math.floor(n / 1000)}k` : String(Math.floor(n)));
@@ -37,9 +37,8 @@ function hideVanillaHearts(p) {
 }
 
 function hudText(p, d, s) {
-  let t = hudHeader(p, d, s);
-  if (d.settings.compact) return t;
-  t += `§6${fmt(d.coins)}$`;   // 6.69: dinheiro na mesma linha (barra menor)   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
+  let t = `§6${fmt(d.coins)}$`;
+  if (d.settings.compact) return t;   // 6.69: dinheiro na mesma linha (barra menor)   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
   const sel = hudSelectedLine(p, d, s); if (sel) t += "\n" + sel;                 // habilidade na mão: custo e estado
   const strip = hudSkillLines(p, d, s); if (strip.length) t += "\n" + strip.join("\n");   // faixa das equipadas (número = slot da hotbar)
   const buffs = listBuffs(p);
@@ -69,7 +68,17 @@ function perPlayer(p) {
 }
 
 /** Desenha a HUD agora. Não sobrescreve legenda de voz, texto digitado do Grande Sábio nem mensagem rápida de habilidade. */
+const lastHead = new Map();
+function sendHudTitle(p, d, s) {
+  if (!titleFree(p)) return;
+  const h = hudHeader(p, d, s), o = lastHead.get(p.id);
+  if (o && o.h === h && system.currentTick - o.t < 20) return;   // reenviado 1x/s: volta sozinho depois de outro título
+  try { p.onScreenDisplay.setTitle(h, { fadeInDuration: 0, stayDuration: 200, fadeOutDuration: 0 }); lastHead.set(p.id, { h, t: system.currentTick }); } catch { /* ignore */ }
+}
+
 export function renderHud(p, d = getData(p), s = getStats(p)) {
+  if (d.settings.hud) sendHudTitle(p, d, s);
+  else if (lastHead.has(p.id)) { lastHead.delete(p.id); try { p.onScreenDisplay.setTitle(" ", { fadeInDuration: 0, stayDuration: 1, fadeOutDuration: 0 }); } catch { /* ignore */ } }
   if (!d.settings.hud || subtitleActive(p) || flashActive(p) || typingActive(p)) return;
   try { p.onScreenDisplay.setActionBar(hudOverride(p) ?? hudText(p, d, s)); } catch { /* ignore */ }   // Modo Assess substitui a HUD inteira
 }
