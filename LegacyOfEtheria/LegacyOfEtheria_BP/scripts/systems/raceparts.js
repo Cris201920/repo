@@ -77,9 +77,12 @@ export const BODY_BY_LOOK = { lesser_daemon: "demon", greater_daemon: "demon", a
   vampire: "vampire", vampire_lord: "vampire", divine_vampire: "vampire", true_dragonewt: "dragonoid", divine_dragon: "dragonoid",
   angel: "angel", angel_guardian: "angel", archangel: "angel_arch", fallen_angel: "fallen", divine_elf: "elf", ogre: "ogre", mystic_oni: "ogre", kijin: "ogre",
   beastfolk: "beastkin", okami: "beastkin", beast_lord: "beastkin", spirit_beast: "beastkin", lizardman: "lizardman", dragonewt: "dragonewt" };
-export const HIDE = { demon: ["wings", "horns", "tail"], vampire: ["wings"], dragonoid: ["wings", "horns", "tail"], angel: ["wings"], angel_arch: ["wings", "halo"],
+export const HIDE = { demon: ["wings", "horns"], vampire: ["wings"], dragonoid: ["wings", "horns"], angel: ["wings"], angel_arch: ["wings", "halo"],
   fallen: ["wings"], elf: ["wings"], ogre: ["horns"],
-  beastkin: ["ears", "tail"], lizardman: ["tail", "horns"], dragonewt: ["horns", "tail"], dragonewt_w: ["wings", "horns", "tail"] };
+  beastkin: ["ears", "tail"], lizardman: ["horns"], dragonewt: ["horns"], dragonewt_w: ["wings", "horns"] };
+// 7.3: estas raças usam a CAUDA DO MOD (arch/liz) com animação própria; a cauda do corpo Etheria fica escondida (animação da raça)
+// 1 lilás curva · 2 verde de lagarto · 3 vermelha de lagarto · 4 laranja curva · 5 preta de lagarto
+export const MOD_TAIL = { demon: 5, dragonoid: 2, dragonewt: 2, dragonewt_w: 2, lizardman: 2 };
 export const WINGED_BODY = new Set(["dragonewt_w", "demon", "vampire", "dragonoid", "angel", "angel_arch", "angel_cherub", "angel_seraph", "fallen", "fallen_lord", "elf"]);
 /** corpo do Etheria do estágio ("none" se o estágio usa só as peças do Tensura) */
 export function bodyOfStage(stage) {
@@ -106,6 +109,8 @@ function applyTensuraLook(player, d, lineageActive) {
   if (!lineageActive && !Object.prototype.hasOwnProperty.call(STAGE_LOOK_MAP, mapKey(d.raceStage))) look = {};
   const hide = lineageActive ? [] : (HIDE[bodyOfStage(d.raceStage)] ?? []);
   if (hide.length) { look = { ...look }; for (const k of hide) look[k] = 0; }
+  const mt = lineageActive ? 0 : (MOD_TAIL[bodyOfStage(d.raceStage)] ?? 0);
+  if (mt && !look.tail) look = { ...look, tail: mt };
   for (const part of TPARTS) {
     const v = look[part] ?? 0;
     try { if (player.getProperty(`tensura:${part}`) !== v) player.setProperty(`tensura:${part}`, v); }

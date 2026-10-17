@@ -681,7 +681,7 @@
       "tr_w_fly": "query.property('tensura:wings') > 0 && !query.is_on_ground"
      },
      {
-      "tr_tail": "query.property('tensura:tail') > 0 && !(query.property('tensura:wings') > 0)"
+      "tr_tail": "query.property('tensura:tail') > 0"
      },
      {
       "tr_halo": "query.property('tensura:halo') > 0"
