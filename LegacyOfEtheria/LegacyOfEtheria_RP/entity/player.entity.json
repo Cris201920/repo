@@ -79,9 +79,9 @@
     "drg_veldanava": "textures/entity/etheria_pdrg_veldanava",
     "etheria_race_dragonewt": "textures/entity/etheria_race_dragonewt",
     "etheria_race_dragonewt_w": "textures/entity/etheria_race_dragonewt_w",
-    "drg_veldanava_boss": "textures/entity/etheria_veldanava",
-    "drg_velgrynd_boss": "textures/entity/etheria_velgrynd",
-    "drg_velzard_boss": "textures/entity/etheria_velzard",
+    "drg_veldanava_boss": "textures/entity/etheria_pdrg_veldanava",
+    "drg_velgrynd_boss": "textures/entity/etheria_pdrg_velgrynd",
+    "drg_velzard_boss": "textures/entity/etheria_pdrg_velzard",
     "etheria_race_vampire_lord": "textures/entity/etheria_race_vampire_lord",
     "etheria_race_dragonoid_lord": "textures/entity/etheria_race_dragonoid_lord",
     "etheria_race_lizardman_lord": "textures/entity/etheria_race_lizardman_lord",
@@ -865,6 +865,15 @@
      },
      {
       "mim_adventurer": "query.property('etheria:mimic') == 23"
+     },
+     {
+      "drg_gait_velzard": "query.property('etheria:lin') == 'velzard' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05"
+     },
+     {
+      "drg_gait_veldanava": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05"
+     },
+     {
+      "drg_gait_velgrynd": "query.property('etheria:lin') == 'velgrynd' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05"
      }
     ]
    },
@@ -1137,7 +1146,10 @@
     "mim_skeleton_knight": "animation.etheria.biped_walk",
     "mim_arcane_slime": "animation.etheria_tt_intelligent_slime.main",
     "mim_knight": "animation.etheria.biped_walk",
-    "mim_adventurer": "animation.etheria.biped_walk"
+    "mim_adventurer": "animation.etheria.biped_walk",
+    "drg_gait_velzard": "animation.etheria_pdrg_velzard.gait",
+    "drg_gait_veldanava": "animation.etheria_pdrg_veldanava.gait",
+    "drg_gait_velgrynd": "animation.etheria_pdrg_velgrynd.gait"
    },
    "render_controllers": [
     {

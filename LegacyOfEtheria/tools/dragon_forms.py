@@ -1,4 +1,5 @@
 # 6.67 - FORMAS DE DRAGÃO DO JOGADOR NO VISUAL DO ANIME (Veldanava, Velgrynd, Velzard). Veldora fica com o modelo original (pedido do jogador).
+# (6.88) Velzard, Velgrynd e Veldanava agora são gerados por tools/dragon_real.py — NÃO rode este arquivo para eles (sobrescreveria os modelos reais).
 # Base: o modelo original (tools/dragon_src) com os MESMOS ossos -> andar/correr/voar/planar/pouso/ataque/rugido continuam valendo.
 # Textura PRÓPRIA do jogador (textures/entity/etheria_pdrg_<linhagem>.png; os chefes não mudam): cada face de cada cubo é repintada conforme
 # a direção (costas / lado / barriga) e a parte do corpo (asa, membrana, cabeça, garras), com o padrão do dragão e o sombreado do original.
