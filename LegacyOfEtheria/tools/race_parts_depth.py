@@ -14,7 +14,7 @@ def src(name):
     return json.load(open(s))
 
 def faces(c):
-    (sx, sy, sz), (u, v), m = c["size"], c["uv"], c.get("mirror", False)
+    (sx, sy, sz), (u, v), m = c.get("_uvsize", c["size"]), c["uv"], c.get("mirror", False)
     if sx == 0:   # plano X: east/west
         a, b = {"uv": [u, v + sz], "uv_size": [sz, sy]}, {"uv": [u + sz, v + sz], "uv_size": [sz, sy]}
         if m: a, b = {"uv": [u + sz + sz, v + sz], "uv_size": [-sz, sy]}, {"uv": [u + sz, v + sz], "uv_size": [-sz, sy]}
@@ -27,19 +27,30 @@ def thicken(geo):
     for b in geo["bones"]:
         out = []
         for c in b.get("cubes", []):
-            if 0 not in c["size"]: out.append(c); continue
+            if 0 not in c["size"]: c.pop("_uvsize", None); out.append(c); continue
             ax, f = faces(c)
             for o in LAYERS:
-                n = {k: v for k, v in c.items() if k not in ("uv", "mirror")}
+                n = {k: v for k, v in c.items() if k not in ("uv", "mirror", "_uvsize")}
                 n["origin"] = list(c["origin"]); n["origin"][ax] += o; n["uv"] = f
                 out.append(n)
         if out: b["cubes"] = out
 
 def save(name, d): json.dump(d, open(os.path.join(MD, name), "w"), indent=1)
 
+WING_K, WING_H = 1.7, 1.35   # 6.72: envergadura maior (comprimento x1.7, altura x1.35 a partir da raiz)
+def grow(geo):
+    for b in geo["bones"]:
+        if "W" not in b["name"] and "wing" not in b["name"]: continue
+        rx = 3 if b["name"].startswith(("left", "miscL")) else -3
+        sc = lambda p: [p[0], 21 + (p[1] - 21) * WING_H, 2 + (p[2] - 2) * WING_K]
+        b["pivot"] = sc(b["pivot"])
+        for c in b.get("cubes", []):
+            c["_uvsize"] = list(c["size"]); c["origin"] = sc(c["origin"]); c["size"] = [c["size"][0], c["size"][1] * WING_H, c["size"][2] * WING_K]
 for name in ["wings.geo.json", "arch_tail.geo.json", "ears.geo.json"]:
     d = src(name)
-    for g in d["minecraft:geometry"]: thicken(g)
+    for g in d["minecraft:geometry"]:
+        if name == "wings.geo.json": grow(g)
+        thicken(g)
     save(name, d)
 d = src("liz_tail.geo.json")
 ren = {"Tail": "tr_lt0", "bone": "tr_lt1", "bone2": "tr_lt2", "bone3": "tr_lt3", "bone4": "tr_lt4"}
@@ -72,6 +83,18 @@ an["animation.tensura.race.w_idle"] = {"loop": True, "bones": {**wings(
     "tail": {"rotation": [f"-35 + {br} * 3", f"math.sin({T} * 70) * 6", 0]},
     "tail_mid": {"rotation": [f"35 + math.sin({T} * 100 - 40) * 4", f"math.sin({T} * 70 - 40) * 8", 0]},
     "tail_end": {"rotation": [f"47.5 + math.sin({T} * 100 - 80) * 5", f"math.sin({T} * 70 - 80) * 10", 0]}}}
+# andando: meio abertas, balançando com o passo e uma batidinha leve
+wk = f"math.sin(query.anim_time * 330)"
+an["animation.tensura.race.w_walk"] = {"loop": True, "bones": {**wings(
+    {"wing": (8, 26, 27), "wing_mid": (0, -22, 0), "wing_end": (0, 62, 0)},
+    {"wing": (f"{wk} * 3", f"{wk} * 8", f"{wk} * 5 + {br} * 2"), "wing_mid": (0, f"math.sin(query.anim_time * 330 - 45) * 8", 0),
+     "wing_end": (0, f"math.sin(query.anim_time * 330 - 90) * 12", 0)})}}
+# agachado: recolhidas, com respiração mínima
+an["animation.tensura.race.w_fold"] = {"loop": True, "bones": {**wings(
+    {"wing": (-181, 84, -171), "wing_mid": (0, 95, 0), "wing_end": (0, 47.5, 0)},
+    {"wing": (f"{br} * 1.5", f"{br} * 2", 0), "wing_mid": (0, 0, 0), "wing_end": (0, f"math.sin({T} * 100 - 60) * 3", 0)}),
+    "left_wing": {"rotation": [f"-181 + {br} * 1.5", f"84 + {br} * 2", -171], "position": [0, 0, 1.5]},
+    "right_wing": {"rotation": [f"-181 + {br} * 1.5", f"-(84 + {br} * 2)", 171], "position": [0, 0, 1.5]}}}
 # voo: batida com subida rápida/descida forte e follow-through; mais rápida subindo, planando caindo
 fs = f"(query.vertical_speed > 0.05 ? 520 : (query.vertical_speed < -0.15 ? 200 : 380))"
 fl = f"math.sin({T} * {fs})"
