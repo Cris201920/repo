@@ -60,7 +60,7 @@ export function mote(c, pos, o = {}) {
   setv("dx", d[0]); setv("dy", d[1]); setv("dz", d[2]); setv("spd", o.spd ?? 0);
   setv("ax", o.acc?.[0] ?? 0); setv("ay", o.acc?.[1] ?? 0); setv("az", o.acc?.[2] ?? 0); setv("drag", o.drag ?? 0.5);
   setv("r", k[0]); setv("g", k[1]); setv("b", k[2]); setv("a", o.a ?? 1);
-  setv("size", o.size ?? 0.25); setv("life", o.life ?? 0.8); setv("grow", o.grow ?? -0.4);
+  setv("size", (o.size ?? 0.25) * (c.sz ?? 1)); setv("life", o.life ?? 0.8); setv("grow", o.grow ?? -0.4);
   setv("tu", (o.tile ?? 0) % 8); setv("tv", Math.floor((o.tile ?? 0) / 8));
   try { c.dim.spawnParticle("etheria:mote", pos, MAP); } catch { /* ignore */ }
 }
@@ -70,7 +70,7 @@ export function streak(c, a, b, o = {}) {
   const v = sub(b, a), len = Math.hypot(v.x, v.y, v.z) || 0.01, k = col(o.col ?? "white");
   setv("dx", v.x / len); setv("dy", v.y / len); setv("dz", v.z / len);
   setv("r", k[0]); setv("g", k[1]); setv("b", k[2]); setv("a", o.a ?? 1);
-  setv("sx", o.w ?? 0.12); setv("sy", o.len ?? len); setv("life", o.life ?? 0.25); setv("tu", (o.tile ?? T.line) % 8); setv("tv", Math.floor((o.tile ?? T.line) / 8));
+  setv("sx", (o.w ?? 0.12) * (c.sz ?? 1)); setv("sy", o.len ?? len); setv("life", o.life ?? 0.25); setv("tu", (o.tile ?? T.line) % 8); setv("tv", Math.floor((o.tile ?? T.line) / 8));
   try { c.dim.spawnParticle("etheria:streak", { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, z: (a.z + b.z) / 2 }, MAP); } catch { /* ignore */ }
 }
 /** Disco/círculo mágico deitado no chão. */
@@ -78,7 +78,7 @@ export function disc(c, pos, o = {}) {
   if (!canSpawn(c)) return;
   const k = col(o.col ?? "arcane"), t = o.circle ?? 0;
   setv("r", k[0]); setv("g", k[1]); setv("b", k[2]); setv("a", o.a ?? 0.9);
-  setv("size", o.size ?? 3); setv("life", o.life ?? 1.2); setv("rot", o.rot ?? 30); setv("grow", o.grow ?? 0);
+  setv("size", (o.size ?? 3) * (c.sz ?? 1)); setv("life", o.life ?? 1.2); setv("rot", o.rot ?? 30); setv("grow", o.grow ?? 0);
   setv("tu", t % 4); setv("tv", Math.floor(t / 4));
   try { c.dim.spawnParticle("etheria:disc", { x: pos.x, y: pos.y + (o.y ?? 0.06), z: pos.z }, MAP); } catch { /* ignore */ }
 }
@@ -89,7 +89,7 @@ export function layer(c, pos, o = {}) {
   if (c.k <= 0) return;
   const k = col(o.col ?? "sage"), t = o.tile ?? 0;
   setv("r", k[0]); setv("g", k[1]); setv("b", k[2]); setv("a", o.a ?? 0.9);
-  setv("size", o.size ?? 3); setv("life", o.life ?? 1.5); setv("rot", o.rot ?? 30); setv("grow", o.grow ?? 0); setv("rise", o.rise ?? 0);
+  setv("size", (o.size ?? 3) * (c.sz ?? 1)); setv("life", o.life ?? 1.5); setv("rot", o.rot ?? 30); setv("grow", o.grow ?? 0); setv("rise", o.rise ?? 0);
   setv("amp", o.amp ?? 0); setv("freq", o.freq ?? 1); setv("tu", t % 4); setv("tv", Math.floor(t / 4));
   const id = o.plane === "xy" ? "etheria:layer_xy" : o.plane === "yz" ? "etheria:layer_yz" : "etheria:layer";
   try { c.dim.spawnParticle(id, { x: pos.x, y: pos.y + (o.y ?? 0.05), z: pos.z }, MAP); } catch { /* ignore */ }
@@ -99,34 +99,34 @@ export function layer(c, pos, o = {}) {
 const rd = () => { const u = Math.random() * 2 - 1, a = Math.random() * Math.PI * 2, s = Math.sqrt(1 - u * u); return [Math.cos(a) * s, u, Math.sin(a) * s]; };
 export function burst(c, p, o = {}) {
   const n = nn(c, o.n ?? 10);
-  for (let i = 0; i < n; i++) { const d = rd(); if (o.up) d[1] = Math.abs(d[1]) * o.up + 0.2; mote(c, p, { ...o, dir: d, spd: (o.spd ?? 2) * rand(0.6, 1.2), life: (o.life ?? 0.7) * rand(0.8, 1.2) }); }
+  for (let i = 0; i < n; i++) { const d = rd(); if (o.up) d[1] = Math.abs(d[1]) * o.up + 0.2; mote(c, p, { ...o, dir: d, spd: (o.spd ?? 2) * (c.sz ?? 1) * rand(0.6, 1.2), life: (o.life ?? 0.7) * rand(0.8, 1.2) }); }
 }
 export function implode(c, p, o = {}) {
-  const n = nn(c, o.n ?? 12), r = o.radius ?? 3, life = o.life ?? 0.7;
+  const n = nn(c, o.n ?? 12), r = (o.radius ?? 3) * (c.sz ?? 1), life = o.life ?? 0.7;
   for (let i = 0; i < n; i++) {
     const d = rd(), q = { x: p.x + d[0] * r, y: p.y + d[1] * r * (o.flat ?? 0.6), z: p.z + d[2] * r };
     const dir = norm(sub(p, q)); mote(c, q, { ...o, dir: [dir.x, dir.y, dir.z], spd: r / life, life, drag: 0, grow: o.grow ?? -0.5 });
   }
 }
 export function ringFlat(c, p, o = {}) {
-  const n = nn(c, o.n ?? 14), r = o.radius ?? 2;
+  const n = nn(c, o.n ?? 14), r = (o.radius ?? 2) * (c.sz ?? 1);
   for (let i = 0; i < n; i++) {
     const a = (i / n) * Math.PI * 2, d = [Math.cos(a), o.lift ?? 0.05, Math.sin(a)];
     mote(c, { x: p.x + d[0] * (o.start ?? r * 0.15), y: p.y + 0.1, z: p.z + d[2] * (o.start ?? r * 0.15) }, { ...o, dir: d, spd: (o.spd ?? r / (o.life ?? 0.5)), drag: 0 });
   }
 }
 export function column(c, p, o = {}) {
-  const n = nn(c, o.n ?? 8), h = o.h ?? 4;
+  const n = nn(c, o.n ?? 8), h = (o.h ?? 4) * (c.sz ?? 1);
   for (let i = 0; i < n; i++) {
-    const a = Math.random() * Math.PI * 2, rr = Math.random() * (o.r ?? 0.6);
+    const a = Math.random() * Math.PI * 2, rr = Math.random() * (o.r ?? 0.6) * (c.sz ?? 1);
     mote(c, { x: p.x + Math.cos(a) * rr, y: p.y + Math.random() * 0.4, z: p.z + Math.sin(a) * rr }, { ...o, dir: [0, 1, 0], spd: (o.spd ?? h / (o.life ?? 0.8)), drag: 0 });
   }
 }
 export function fan(c, origin, dir, o = {}) {
-  const n = nn(c, o.n ?? 10), ang = ((o.angle ?? 60) * Math.PI) / 180, base = Math.atan2(dir.z, dir.x);
+  const n = nn(c, o.n ?? 10), ang = ((o.angle ?? 60) * Math.PI) / 180, base = Math.atan2(dir.z, dir.x), fz = c.sz ?? 1;
   for (let i = 0; i < n; i++) {
     const a = base + (Math.random() - 0.5) * ang, e = (Math.random() - 0.5) * (o.spread ?? 0.3);
-    mote(c, origin, { ...o, dir: [Math.cos(a), e, Math.sin(a)], spd: (o.spd ?? 6) * rand(0.6, 1.1), life: (o.life ?? 0.5) * rand(0.8, 1.2) });
+    mote(c, origin, { ...o, dir: [Math.cos(a), e, Math.sin(a)], spd: (o.spd ?? 6) * fz * rand(0.6, 1.1), life: (o.life ?? 0.5) * rand(0.8, 1.2) });
   }
 }
 /** Arco de corte: pontos num arco à frente do jogador com direção tangente. */
@@ -152,7 +152,7 @@ export function bolt(c, a, b, o = {}) {
 }
 /** Hélice que sobe ao redor de um ponto, distribuída no tempo. */
 export function helix(c, p, o = {}) {
-  const steps = nn(c, o.steps ?? 16), turns = o.turns ?? 2, r = o.r ?? 1, h = o.h ?? 2.5, dur = o.dur ?? 14;
+  const steps = nn(c, o.steps ?? 16), turns = o.turns ?? 2, r = (o.r ?? 1) * (c.sz ?? 1), h = (o.h ?? 2.5) * (c.sz ?? 1), dur = o.dur ?? 14;
   for (let i = 0; i < steps; i++) {
     const t = i / steps;
     after(t * dur, () => {
@@ -240,10 +240,10 @@ export function fxp(c, id, pos, o = {}) {
   const inf = PART_INFO[id]; if (!inf || !canFx(c)) return false;
   const k = inf.c && o.col ? col(o.col) : null;
   try {
-    if (k || o.s) {   // sem tinta nem escala: spawn simples (sem mapa), nada de variável velha vazando
+    if (k || o.s || (c.sz ?? 1) !== 1) {   // sem tinta nem escala: spawn simples (sem mapa), nada de variável velha vazando
       FXMAP.setFloat("variable.ft_on", k ? 1 : 0);
       FXMAP.setFloat("variable.ft_r", k ? k[0] : 1); FXMAP.setFloat("variable.ft_g", k ? k[1] : 1); FXMAP.setFloat("variable.ft_b", k ? k[2] : 1);
-      FXMAP.setFloat("variable.ft_s", o.s ?? 1);
+      FXMAP.setFloat("variable.ft_s", (o.s ?? 1) * (c.sz ?? 1));
       c.dim.spawnParticle(id, pos, FXMAP);
     } else c.dim.spawnParticle(id, pos);
     return true;
@@ -337,7 +337,7 @@ export function vfx(c, kind, pos, o = {}) {
   setv("dx", d[0]); setv("dy", d[1]); setv("dz", d[2]); setv("spd", o.spd ?? 0);
   setv("ax", o.acc?.[0] ?? 0); setv("ay", o.acc?.[1] ?? 0); setv("az", o.acc?.[2] ?? 0); setv("drag", o.drag ?? 0.6);
   setv("r", k[0]); setv("g", k[1]); setv("b", k[2]); setv("a", o.a ?? 1);
-  setv("size", o.size ?? 0.4); setv("life", o.life ?? 0.6); setv("grow", o.grow ?? 0); setv("tile", o.tile ?? 0);
+  setv("size", (o.size ?? 0.4) * (c.sz ?? 1)); setv("life", o.life ?? 0.6); setv("grow", o.grow ?? 0); setv("tile", o.tile ?? 0);
   setv("sx", o.sx ?? 0.5); setv("sy", o.sy ?? 1); setv("seed", Math.floor(Math.random() * 4));
   try { c.dim.spawnParticle(`etheria:vfx_${kind}`, pos, MAP); } catch { /* ignore */ }
 }
@@ -364,6 +364,6 @@ export function tx(c, name, pos, o = {}) {
   setv("dx", d[0]); setv("dy", d[1]); setv("dz", d[2]); setv("spd", o.spd ?? 0);
   setv("ax", o.acc?.[0] ?? 0); setv("ay", o.acc?.[1] ?? 0); setv("az", o.acc?.[2] ?? 0); setv("drag", o.drag ?? 0.6);
   setv("r", k[0]); setv("g", k[1]); setv("b", k[2]); setv("a", o.a ?? 1);
-  setv("size", o.size ?? 0.6); setv("life", o.life ?? 0.5); setv("grow", o.grow ?? 0); setv("rot", o.rot ?? 40); setv("flat", o.flat ? 1 : 0);
+  setv("size", (o.size ?? 0.6) * (c.sz ?? 1)); setv("life", o.life ?? 0.5); setv("grow", o.grow ?? 0); setv("rot", o.rot ?? 40); setv("flat", o.flat ? 1 : 0);
   try { c.dim.spawnParticle(`etheria:tx_${name}`, pos, MAP); } catch { /* ignore */ }
 }

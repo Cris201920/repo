@@ -49,10 +49,10 @@ export function spellBody(c, v, sk, hitT) {
   if (FLY.has(kind)) {
     const name = big && el === "fire" ? "hell_flare" : PROJ[el] ?? "aura_purple";
     const a = v.from, b = v.to, n = Math.max(2, hitT), d = { x: b.x - a.x, y: b.y - a.y, z: b.z - a.z }, L = Math.hypot(d.x, d.y, d.z) || 1;
-    const dir = { x: d.x / L, y: d.y / L, z: d.z / L }, rot = yawPitch(dir), sz = (big ? 2.2 : 1.3) * (VFX[name].kind === "shell" ? 1 : 1.4);
+    const dir = { x: d.x / L, y: d.y / L, z: d.z / L }, rot = yawPitch(dir), sz = (big ? 2.2 : 1.3) * (VFX[name].kind === "shell" ? 1 : 1.4) * (c.sz ?? 1);
     const e = spawn(dim, name, a, sz, dir); if (!e) return;
     steps(n, (k) => { if (!ok(e)) return; const t = k / n; e.teleport({ x: a.x + d.x * t, y: a.y + d.y * t, z: a.z + d.z * t }, { rotation: rot }); },
-      () => { kill(e); dome(dim, DOME[el] ?? "aura_purple", v.at ?? b, big ? 2.6 : 1.3, 2); });
+      () => { kill(e); dome(dim, DOME[el] ?? "aura_purple", v.at ?? b, (big ? 2.6 : 1.3) * (c.sz ?? 1), 2); });
   } else if (AREA.has(kind)) {
     const R = Math.max(2, Math.min(24, sk.exec?.radius ?? 5));
     system.runTimeout(() => dome(dim, big && el === "fire" ? "hell_flare" : DOME[el] ?? "aura_purple", v.at ?? v.pos, R, big ? 10 : 6), Math.max(1, hitT));

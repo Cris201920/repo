@@ -7,6 +7,8 @@ import { ctx, after, mote, streak, disc, layer, burst, implode, ringFlat, column
 import { dome, vfxSpawn, vfxSize, vfxKill, vfxOk } from "./spellvfx.js";
 import { addBuff } from "./effects.js";
 import { castGesture } from "./castanim.js";
+import { TIER_FX, tierOf } from "../data/tiers.js";
+const tc = (pl, sk) => { const c = ctx(pl, 3); c.sz = TIER_FX[tierOf(sk)] * 0.75; return c; };   // 6.84: maior conforme o tier (as posições já são de grande escala)
 import { bossDmg, bossHurt, bossNear } from "./bossabilities.js";
 
 const V = (x, y, z) => ({ x, y, z });
@@ -154,7 +156,7 @@ export const GRAND = {
 export function startGrandSpells() {
   registerExec("grand", (pl, sk, s, d, H) => {
     const f = GRAND[sk.id]; if (!f) return "magia sem coreografia";
-    const A = H.aim(pl, sk.exec.range ?? 30), at = A.target ? { ...A.target.location } : A.point, R = sk.exec.radius ?? 8, c = ctx(pl, 3), dim = pl.dimension;
+    const A = H.aim(pl, sk.exec.range ?? 30), at = A.target ? { ...A.target.location } : A.point, R = sk.exec.radius ?? 8, c = tc(pl, sk), dim = pl.dimension;
     H.mark(up(pl.location, 1.3), at, at);
     castGesture(pl, "charge", 0.15); after(14, () => castGesture(pl, "target"));
     layer(c, pl.location, { tile: CIRCLE.arcane, size: 4.5, rot: 70, life: 1.4, col: "white", a: 0.8 });

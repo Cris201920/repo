@@ -102,7 +102,7 @@ registerExec("storm", (player, sk, s) => {
   const mult = 1.6 / Math.sqrt(ex.strikes), last = ex.strikes - 1;
   const bolts = sk.element === "shadow" || sk.element === "lightning";
   const hitAt = (p, m) => {
-    for (const e of around(dim, p, 2.2, player)) hitOne(player, e, sk, s, m);
+    for (const e of around(dim, p, 2.2 * (sk._tierArea ?? 1), player)) hitOne(player, e, sk, s, m);   // 6.84: raio de cada golpe cresce com o tier
     if (ex.healAllies) for (const pl of dim.getPlayers({ location: center, maxDistance: ex.radius + 1 })) heal(pl, ex.healAllies);
   };
   every(every_, ex.strikes, (i) => {

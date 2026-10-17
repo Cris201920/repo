@@ -1,4 +1,5 @@
 // systems/skillfx.js - Executa as fases visuais de uma habilidade: cast -> travel -> impact.
+import { TIER_FX, tierOf } from "../data/tiers.js";
 import { releaseFx, impactFx } from "./elementfx.js";
 import { system } from "@minecraft/server";
 import { ctx, after, skillPart } from "./fxlib.js";
@@ -13,6 +14,7 @@ import { spellBody } from "./spellvfx.js";
 export function playSkillFx(player, sk, geo) {
   if (sk?.exec?.kind === "ultimate" || sk?.exec?.kind === "grand") return;   // 6.81: Skills Ultimate têm coreografia própria (systems/ultimates.js)
   const c = ctx(player); if (c.k <= 0) return;
+  c.sz = TIER_FX[tierOf(sk)];   // 6.84: todo o visual maior conforme o tier
   const r = recipeFor(sk), ml = masteryLevel(player, sk.id), tier = ml >= 7 ? 3 : ml >= 3 ? 2 : 1;
   const dir = geo.dir ?? norm(player.getViewDirection());
   const v = { pos: geo.pos ?? player.location, from: geo.from ?? player.getHeadLocation(), to: geo.to ?? geo.at ?? player.location, at: geo.at ?? geo.to ?? player.location, dir, tier, sk };

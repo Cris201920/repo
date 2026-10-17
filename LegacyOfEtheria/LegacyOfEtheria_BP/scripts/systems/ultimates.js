@@ -13,6 +13,8 @@ import { ctx, after, mote, streak, disc, layer, burst, implode, ringFlat, column
 import { dome, vfxSpawn, vfxSize, vfxKill, vfxOk } from "./spellvfx.js";
 import { addBuff } from "./effects.js";
 import { castGesture } from "./castanim.js";
+import { TIER_FX, tierOf } from "../data/tiers.js";
+const tc = (pl, sk) => { const c = ctx(pl, 3); c.sz = TIER_FX[tierOf(sk)] * 0.75; return c; };   // 6.84: maior conforme o tier (as posições já são de grande escala)
 import { getData, markDirty } from "../core/db.js";
 import { getStats } from "./stats.js";
 import { isLordStage } from "../data/races.js";
@@ -78,7 +80,7 @@ const ULT = {};
 
 // 1. AZATHOTH: dimensão de vazio no alvo (puxa), absorção, esfera final que distorce o espaço
 ULT.ult_azathoth = (pl, sk, s, d, H) => {
-  const c = ctx(pl, 3), A = H.aim(pl, sk.exec.range), at = A.target ? up(A.target.location, 1) : A.point, R = sk.exec.radius, dim = pl.dimension;
+  const c = tc(pl, sk), A = H.aim(pl, sk.exec.range), at = A.target ? up(A.target.location, 1) : A.point, R = sk.exec.radius, dim = pl.dimension;
   H.mark(up(pl.location, 1.3), at, at);
   prepare(c, pl, { col: "void", col2: "black", circle: CIRCLE.void, size: 7, dur: 30, chargeSnd: "mob.enderdragon.growl" });
   after(8, () => { const e = body(dim, "gravity_sphere", at, R * 0.9, 20, 70); disc(c, at, { col: "void", circle: CIRCLE.space, size: R * 2.2, life: 3.5, rot: 40, y: -0.9 }); });
@@ -110,7 +112,7 @@ ULT.ult_azathoth = (pl, sk, s, d, H) => {
 
 // 2. SHUB-NIGGURATH: círculos de criação, chuva de armas, cópias de habilidades adquiridas
 ULT.ult_shub_niggurath = (pl, sk, s, d, H) => {
-  const c = ctx(pl, 3), dim = pl.dimension, f = pl.location, R = sk.exec.radius;
+  const c = tc(pl, sk), dim = pl.dimension, f = pl.location, R = sk.exec.radius;
   prepare(c, pl, { col: "green", col2: "gold", circle: CIRCLE.evolve, size: 8, dur: 24, chargeSnd: "block.enchanting_table.use" });
   const fw = flat(pl.getViewDirection()), side = V(-fw.z, 0, fw.x);
   const circles = [add(add(f, fw, 2.5), V(0, 4, 0)), add(add(f, side, 3.5), V(0, 3.2, 0)), add(add(f, side, -3.5), V(0, 3.2, 0))];
@@ -142,7 +144,7 @@ ULT.ult_shub_niggurath = (pl, sk, s, d, H) => {
 
 // 3. URIEL: barreira gigantesca + prisão dimensional no alvo
 ULT.ult_uriel = (pl, sk, s, d, H) => {
-  const c = ctx(pl, 3), dim = pl.dimension, R = sk.exec.radius, center = { ...pl.location }, sec = sk.exec.sec ?? 10;
+  const c = tc(pl, sk), dim = pl.dimension, R = sk.exec.radius, center = { ...pl.location }, sec = sk.exec.sec ?? 10;
   prepare(c, pl, { col: "holy", col2: "ice", circle: CIRCLE.holy, size: 6, dur: 16, chargeSnd: "beacon.activate" });
   after(14, () => {
     castGesture(pl, "aoe");
@@ -172,7 +174,7 @@ ULT.ult_uriel = (pl, sk, s, d, H) => {
 
 // 4. RAPHAEL: análise automática, aceleração do pensamento, aprimoramento
 ULT.ult_raphael = (pl, sk, s, d, H) => {
-  const c = ctx(pl, 2), dim = pl.dimension, sec = sk.exec.sec ?? 20;
+  const c = tc(pl, sk), dim = pl.dimension, sec = sk.exec.sec ?? 20;
   prepare(c, pl, { col: "sage", col2: "mana", circle: CIRCLE.sage, size: 5, dur: 12, chargeSnd: "beacon.power_select" });
   const foes = H.around(dim, pl.location, sk.exec.radius, pl).slice(0, 8);
   after(10, () => {
@@ -204,7 +206,7 @@ ULT.ult_raphael = (pl, sk, s, d, H) => {
 registerPost((pl, sk, s, d) => {
   if (sk?.id !== "beelzebuth") return;
   const H = helpers();
-  const c = ctx(pl, 3), dim = pl.dimension, fw = pl.getViewDirection(), from = add(up(pl.location, 1.4), fw, 2), to = add(from, fw, 22);
+  const c = tc(pl, sk), dim = pl.dimension, fw = pl.getViewDirection(), from = add(up(pl.location, 1.4), fw, 2), to = add(from, fw, 22);
   layer(c, from, { plane: "xy", tile: CIRCLE.devour, size: 4.5, rot: 160, life: 1.8, col: "shadow", a: 1 });
   layer(c, from, { plane: "xy", tile: CIRCLE.void, size: 3, rot: -200, life: 1.6, col: "black" });
   const sph = body(dim, "chaos_eater", from, 3.4, 8, 46);
@@ -223,7 +225,7 @@ registerPost((pl, sk, s, d) => {
 
 // 6. FAUST (VELDORA): tempestade dracônica + raio que atravessa o campo
 ULT.ult_faust = (pl, sk, s, d, H) => {
-  const c = ctx(pl, 3), dim = pl.dimension, R = sk.exec.radius, sec = sk.exec.sec ?? 8;
+  const c = tc(pl, sk), dim = pl.dimension, R = sk.exec.radius, sec = sk.exec.sec ?? 8;
   prepare(c, pl, { col: "bolt", col2: "wind", circle: CIRCLE.bolt, size: 7, dur: 20, chargeSnd: "mob.enderdragon.growl" });
   every(sec * 20, 3, (t) => {     // céu escuro, chuva e vento girando ao redor do conjurador
     if (!valid(pl)) return;
@@ -256,7 +258,7 @@ ULT.ult_faust = (pl, sk, s, d, H) => {
 
 // 7. SATANAEL: acumulação de ira, esfera de destruição, explosão cinematográfica
 ULT.ult_satanael = (pl, sk, s, d, H) => {
-  const c = ctx(pl, 3), dim = pl.dimension, R = sk.exec.radius, A = H.aim(pl, sk.exec.range), at = A.target ? A.target.location : A.point;
+  const c = tc(pl, sk), dim = pl.dimension, R = sk.exec.radius, A = H.aim(pl, sk.exec.range), at = A.target ? A.target.location : A.point;
   H.mark(up(pl.location, 1.3), at, at);
   prepare(c, pl, { col: "blood", col2: "ember", circle: CIRCLE.blood, size: 8, dur: 60, chargeSnd: "mob.ravager.roar" });
   const hold = up(pl.location, 5.5), sph = body(dim, "hell_flare", hold, 6, 56, 80);
@@ -289,7 +291,7 @@ ULT.ult_satanael = (pl, sk, s, d, H) => {
 
 // 8. LUCIFER: aura demoníaca, distorção, três clones, cópia da habilidade mais forte
 ULT.ult_lucifer = (pl, sk, s, d, H) => {
-  const c = ctx(pl, 3), dim = pl.dimension, sec = sk.exec.sec ?? 6, R = sk.exec.radius;
+  const c = tc(pl, sk), dim = pl.dimension, sec = sk.exec.sec ?? 6, R = sk.exec.radius;
   prepare(c, pl, { col: "shadow", col2: "violet", circle: CIRCLE.shadow, size: 7, dur: 18, chargeSnd: "mob.evocation_illager.prepare_summon" });
   after(14, () => { castGesture(pl, "summon"); try { addBuff(pl, "ult_lucifer", sec + 4, { stats: { strength: 15, intelligence: 15, critDmg: 30 } }); } catch { /* ignore */ } });
   every((sec + 1) * 20, 4, (t) => {
@@ -315,7 +317,7 @@ ULT.ult_lucifer = (pl, sk, s, d, H) => {
 
 // 9. METATRON: lanças de luz caindo do céu + grande explosão luminosa (cura aliados)
 ULT.ult_metatron = (pl, sk, s, d, H) => {
-  const c = ctx(pl, 3), dim = pl.dimension, R = sk.exec.radius, center = { ...pl.location }, N = sk.exec.lances ?? 24;
+  const c = tc(pl, sk), dim = pl.dimension, R = sk.exec.radius, center = { ...pl.location }, N = sk.exec.lances ?? 24;
   prepare(c, pl, { col: "light", col2: "gold", circle: CIRCLE.holy, size: 7, dur: 20, chargeSnd: "beacon.power_select" });
   after(16, () => { castGesture(pl, "beam"); layer(c, up(center, 14), { tile: CIRCLE.holy, size: R * 1.6, rot: 20, life: 3.4, col: "gold", a: 0.9 }); snd(c, "beacon.activate", { at: center, pitch: 1.4 }); });
   for (let i = 0; i < N; i++) after(20 + i * 2, () => {
@@ -340,7 +342,7 @@ ULT.ult_metatron = (pl, sk, s, d, H) => {
 
 // 10. CTHUGHA: forma de fogo, coluna de chamas colossal, chuva de meteoros
 ULT.ult_cthugha = (pl, sk, s, d, H) => {
-  const c = ctx(pl, 3), dim = pl.dimension, sec = sk.exec.sec ?? 10, A = H.aim(pl, sk.exec.range), at = A.target ? { ...A.target.location } : A.point, R = sk.exec.radius;
+  const c = tc(pl, sk), dim = pl.dimension, sec = sk.exec.sec ?? 10, A = H.aim(pl, sk.exec.range), at = A.target ? { ...A.target.location } : A.point, R = sk.exec.radius;
   H.mark(up(pl.location, 1.3), at, at);
   prepare(c, pl, { col: "fire", col2: "ember", circle: CIRCLE.fire, size: 7, dur: 18, chargeSnd: "mob.blaze.breathe" });
   after(16, () => { try { addBuff(pl, "ult_cthugha", sec, { stats: { strength: 12, intelligence: 12, res_fire: 100 } }); pl.addEffect("fire_resistance", sec * 20, { amplifier: 0, showParticles: false }); } catch { /* ignore */ } });
@@ -369,7 +371,7 @@ ULT.ult_cthugha = (pl, sk, s, d, H) => {
 
 // 11. MICHAEL: correntes e selos de luz, grande campo de contenção
 ULT.ult_michael = (pl, sk, s, d, H) => {
-  const c = ctx(pl, 3), dim = pl.dimension, R = sk.exec.radius, sec = sk.exec.sec ?? 8, center = { ...pl.location };
+  const c = tc(pl, sk), dim = pl.dimension, R = sk.exec.radius, sec = sk.exec.sec ?? 8, center = { ...pl.location };
   prepare(c, pl, { col: "gold", col2: "holy", circle: CIRCLE.holy, size: 7, dur: 16, chargeSnd: "random.anvil_land" });
   const foes = H.around(dim, center, R, pl);
   after(14, () => {
@@ -395,7 +397,7 @@ ULT.ult_michael = (pl, sk, s, d, H) => {
 
 // 12. HASTUR: campo de dominação com ondas periódicas
 ULT.ult_hastur = (pl, sk, s, d, H) => {
-  const c = ctx(pl, 3), dim = pl.dimension, R = sk.exec.radius, sec = sk.exec.sec ?? 8;
+  const c = tc(pl, sk), dim = pl.dimension, R = sk.exec.radius, sec = sk.exec.sec ?? 8;
   prepare(c, pl, { col: "arcane", col2: "violet", circle: CIRCLE.gravity, size: 7, dur: 14, chargeSnd: "mob.warden.sonic_charge" });
   after(12, () => { castGesture(pl, "aoe"); layer(c, pl.location, { tile: CIRCLE.gravity, size: R * 2, rot: 25, life: sec + 0.5, col: "arcane", a: 0.85 }); });
   every(sec * 20, 4, (t) => {

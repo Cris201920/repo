@@ -2,6 +2,7 @@
 // Este módulo cuida só do TEMPO e do VISUAL de cada fase; a regra do jogo (custo, recarga, dano, reembolso) continua em skills.js e chega aqui
 // por um objeto `io` (guard, aimPoint, execute, onRelease, flush, onCancel, onFail). Nada aqui aplica dano nem gasta recurso por conta própria.
 // Mobile: laços de 1 tick só existem durante a formação (≤ ~18 ticks) e o trajeto (≤ 24 ticks); tudo passa por fxlib (orçamento por tick e níveis).
+import { TIER_FX, tierOf } from "../data/tiers.js";
 import { chargeFrame, releaseFx, impactFx } from "./elementfx.js";
 import { grandFx } from "../data/fxgrand.js";
 import { system } from "@minecraft/server";
@@ -102,7 +103,8 @@ function hold(c, player, sk, ch, play) {
  */
 export function runStaged(player, sk, spec, io) {
   stageMetrics.started++;
-  const c = ctx(player), ch = partChoreo(spec.ch, sk), ex = sk.exec;   // + partículas portadas (fxlib.partChoreo) em formação/liberação/impacto/escudo
+  const c = ctx(player), ch = partChoreo(spec.ch, sk), ex = sk.exec;
+  c.sz = TIER_FX[tierOf(sk)];   // 6.84: todo o visual maior conforme o tier   // + partículas portadas (fxlib.partChoreo) em formação/liberação/impacto/escudo
   const ml = masteryLevel(player, sk.id), tier = ml >= 7 ? 3 : ml >= 3 ? 2 : 1;
   const n = Math.max(2, Math.round(spec.windup * (1 - 0.03 * ml)));   // maestria acelera a formação (até -30%)
   let aimAt = -99, aimPt;

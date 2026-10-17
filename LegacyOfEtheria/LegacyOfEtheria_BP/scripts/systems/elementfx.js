@@ -22,7 +22,7 @@ export function classOf(sk) {
   if (sk.cat === "Única" && r < 2) r = 2;
   return r;
 }
-const SCALE = [0.7, 1, 1.4, 2];
+const SCALE = [0.7, 1, 1.4, 2];   // densidade; o tamanho vem de c.sz (data/tiers.js TIER_FX)
 const CIRC = { fire: CIRCLE.fire, ice: CIRCLE.ice, lightning: CIRCLE.bolt, wind: CIRCLE.wind, water: CIRCLE.water, earth: CIRCLE.earth, light: CIRCLE.holy, shadow: CIRCLE.shadow, blood: CIRCLE.blood, arcane: CIRCLE.arcane, nature: CIRCLE.evolve, physical: CIRCLE.gravity };
 const COL = { fire: ["fire", "ember"], ice: ["ice", "frost"], lightning: ["bolt", "white"], wind: ["wind", "white"], water: ["water", "foam"], earth: ["earth", "dust"], light: ["light", "gold"],
   shadow: ["shadow", "black"], blood: ["blood", "ember"], arcane: ["arcane", "violet"], nature: ["green", "toxic"], physical: ["steel", "white"] };
