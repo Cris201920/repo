@@ -917,6 +917,21 @@
      },
      {
       "drg_gait_velgrynd": "false"
+     },
+     {
+      "tr_tfx_evo": "(query.property('etheria:tfx') == 'evo' || query.property('etheria:tfx') == 'lord') && (query.property('tensura:wings') > 0 || query.property('tensura:tail') > 0)"
+     },
+     {
+      "etheria_tfx_evo_dragonewt": "(query.property('etheria:race') == 'dragonewt' && query.property('etheria:lin') == 'none') && query.property('etheria:tfx') == 'evo'"
+     },
+     {
+      "etheria_tfx_lord_dragonewt": "(query.property('etheria:race') == 'dragonewt' && query.property('etheria:lin') == 'none') && query.property('etheria:tfx') == 'lord'"
+     },
+     {
+      "etheria_tfx_evo_dragonewt_w": "(query.property('etheria:race') == 'dragonewt_w' && query.property('etheria:lin') == 'none') && query.property('etheria:tfx') == 'evo'"
+     },
+     {
+      "etheria_tfx_lord_dragonewt_w": "(query.property('etheria:race') == 'dragonewt_w' && query.property('etheria:lin') == 'none') && query.property('etheria:tfx') == 'lord'"
      }
     ]
    },
@@ -1202,7 +1217,12 @@
     "drg_v_run": "animation.etheria_q_veldanava.run",
     "drg_v_fly": "animation.etheria_q_veldanava.fly",
     "drg_v_glide": "animation.etheria_q_veldanava.glide",
-    "drg_v_attack": "animation.etheria_q_veldanava.player_attack"
+    "drg_v_attack": "animation.etheria_q_veldanava.player_attack",
+    "tr_tfx_evo": "animation.tensura.race.tfx_evo",
+    "etheria_tfx_evo_dragonewt": "animation.etheria.tfx_evo_dragonewt",
+    "etheria_tfx_lord_dragonewt": "animation.etheria.tfx_lord_dragonewt",
+    "etheria_tfx_evo_dragonewt_w": "animation.etheria.tfx_evo_dragonewt_w",
+    "etheria_tfx_lord_dragonewt_w": "animation.etheria.tfx_lord_dragonewt_w"
    },
    "render_controllers": [
     {

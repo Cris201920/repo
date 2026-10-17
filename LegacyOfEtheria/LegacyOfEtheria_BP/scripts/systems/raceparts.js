@@ -18,6 +18,13 @@ export const LIN_PROP = "etheria:lin", LFORM_PROP = "etheria:lform";
 // 6.57: estilo de corpo (postura/andar) por raça -> animações etheria_rstyle_* no player.entity (tools/race_styles.py)
 export const RSTYLE_PROP = "etheria:rstyle";
 export const LORD_PROP = "etheria:lord";
+export const TIER_PROP = "etheria:tier";
+/** estágio da raça (1-5; +1 no Lorde Demônio; 0 sem raça) */
+export function tierOf(d) {
+  if (!d?.raceChosen || !d.raceStage) return 0;
+  const m = /_(\d)/.exec(d.raceStage); const t = m ? Number(m[1]) : 1;
+  return Math.min(6, t + (isLordStage(d.raceStage) ? 1 : 0));
+}
 const LORD_FALLBACK = { elf: "elf", vampire: "vampire", ogre: "ogre", beastkin: "beastkin", lizard: "lizardman", dragonoid: "dragonoid" };   // Lorde de estágio sem corpo próprio: corpo da família da raça
 const RSTYLE = { ogre: "heavy", dwarf: "heavy", beastkin: "beast", dragonoid: "draconic", lizardman: "draconic", elf: "light", angel: "light",
   demon: "demonic", vampire: "demonic", slime: "slime", undead: "undead", goblin: "goblin" };
@@ -142,6 +149,8 @@ export function applyRaceLook(player, announce = false) {
     if (player.getProperty(RACE_PROP) !== body) player.setProperty(RACE_PROP, body);
     const lord = !!(d.raceChosen && body !== "none" && isLordStage(d.raceStage));   // 6.79: forma Lorde Demônio da raça (modelo <raça>_lord no RP)
     try { if (player.getProperty(LORD_PROP) !== lord) player.setProperty(LORD_PROP, lord); } catch { /* BP antigo */ }
+    const tier = tierOf(d);   // 7.8: asas crescem a cada evolução (tools/evo_wings.py)
+    try { if (player.getProperty(TIER_PROP) !== tier) player.setProperty(TIER_PROP, tier); } catch { /* BP antigo */ }
   } catch (e) {
     if (!warned) { warned = true; console.warn(`[Etheria] propriedade ${RACE_PROP} indisponível (player.json do BP não carregou?): ${e}`); }
     return null;
@@ -194,7 +203,7 @@ export function startAngelGlide() {
         if ((body === "dragonoid" || body === "dragonewt" || body === "dragonewt_w") && lineageOf(d)) body = "none";
         const want = lookOfStage(d.raceStage), hidden = HIDE[body] ?? [];
         const wingsWant = lineageOf(d) ? 0 : (hidden.includes("wings") ? 0 : (want.wings ?? 0));
-        if (p.getProperty(RACE_PROP) !== body || (p.getProperty("tensura:wings") ?? 0) !== wingsWant || (p.getProperty(RSTYLE_PROP) ?? "none") !== styleOf(d)) applyRaceLook(p);
+        if (p.getProperty(RACE_PROP) !== body || (p.getProperty("tensura:wings") ?? 0) !== wingsWant || (p.getProperty(RSTYLE_PROP) ?? "none") !== styleOf(d) || (p.getProperty(TIER_PROP) ?? 0) !== tierOf(d)) applyRaceLook(p);
       } catch { /* ignore */ }
     }
   }, 200);

@@ -170,6 +170,15 @@
      ],
      "default": 0,
      "client_sync": true
+    },
+    "etheria:tier": {
+     "type": "int",
+     "range": [
+      0,
+      6
+     ],
+     "default": 0,
+     "client_sync": true
     }
    }
   },

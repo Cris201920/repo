@@ -9,14 +9,16 @@
       "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
       "(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
       "(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
-     ]
+     ],
+     "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "right_wing": {
      "rotation": [
       "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
       "-(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
       "-(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
-     ]
+     ],
+     "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "left_wing_mid": {
      "rotation": [
@@ -57,14 +59,16 @@
       "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
       "(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
       "(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
-     ]
+     ],
+     "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "right_wing": {
      "rotation": [
       "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
       "-(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
       "-(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
-     ]
+     ],
+     "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "left_wing_mid": {
      "rotation": [
@@ -105,14 +109,16 @@
       "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
       "(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
       "(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
-     ]
+     ],
+     "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "right_wing": {
      "rotation": [
       "math.lerp(8, 28, variable.wb_k) + math.sin(variable.wb_ph) * (3 + 5 * variable.wb_k)",
       "-(math.lerp(26, 12, variable.wb_k) + math.sin(variable.wb_ph) * 36 * variable.wb_a)",
       "-(math.lerp(27, 46, variable.wb_k) + math.sin(variable.wb_ph) * 14 * variable.wb_a)"
-     ]
+     ],
+     "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "left_wing_mid": {
      "rotation": [
@@ -158,7 +164,8 @@
       0,
       0,
       1.5
-     ]
+     ],
+     "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "right_wing": {
      "rotation": [
@@ -170,7 +177,8 @@
       0,
       0,
       1.5
-     ]
+     ],
+     "scale": "(0.85 + 0.07 * query.property('etheria:tier'))"
     },
     "left_wing_mid": {
      "rotation": [
@@ -376,6 +384,50 @@
    "particle_effects": {
     "0.0": {
      "effect": "aura_nature"
+    }
+   }
+  },
+  "animation.tensura.race.tfx_evo": {
+   "loop": false,
+   "animation_length": 3.0,
+   "bones": {
+    "left_wing": {
+     "scale": [
+      "math.clamp(query.anim_time / 1.2, 0, 1)",
+      "math.clamp(query.anim_time / 1.2, 0, 1)",
+      "math.clamp(query.anim_time / 1.2, 0, 1)"
+     ],
+     "rotation": [
+      0,
+      "1 * math.sin((query.anim_time - 0.9) * 420) * 38 * math.clamp((query.anim_time - 0.9) / 0.4, 0, 1) * math.clamp((3.0 - query.anim_time) / 0.7, 0, 1)",
+      0
+     ]
+    },
+    "right_wing": {
+     "scale": [
+      "math.clamp(query.anim_time / 1.2, 0, 1)",
+      "math.clamp(query.anim_time / 1.2, 0, 1)",
+      "math.clamp(query.anim_time / 1.2, 0, 1)"
+     ],
+     "rotation": [
+      0,
+      "-1 * math.sin((query.anim_time - 0.9) * 420) * 38 * math.clamp((query.anim_time - 0.9) / 0.4, 0, 1) * math.clamp((3.0 - query.anim_time) / 0.7, 0, 1)",
+      0
+     ]
+    },
+    "tail": {
+     "scale": [
+      "math.clamp(query.anim_time / 1.2, 0, 1)",
+      "math.clamp(query.anim_time / 1.2, 0, 1)",
+      "math.clamp(query.anim_time / 1.2, 0, 1)"
+     ]
+    },
+    "tr_lt0": {
+     "scale": [
+      "math.clamp(query.anim_time / 1.2, 0, 1)",
+      "math.clamp(query.anim_time / 1.2, 0, 1)",
+      "math.clamp(query.anim_time / 1.2, 0, 1)"
+     ]
     }
    }
   }
