@@ -4,13 +4,19 @@
 # pulso até a ponta do último dedo e o painel do braço até a cintura. A borda de fuga é curva (arcos recortados entre as pontas),
 # como asa de morcego/dragão. Textura nova pintada na área livre (linhas 128+): degradê do bordo para o centro, veias saindo do
 # pulso, borda escura. Membrana em 2 lâminas (volume). Dedos afinam da base para a ponta, garra do polegar no pulso.
-import json, os, copy, shutil, math, random
+# 6.78: cauda mais grossa. Com o argumento "lord" gera a FORMA LORDE DEMÔNIO (etheria_race_demon_lord): asas maiores e negras com veias
+# carmesim, segundo par de chifres, coroa de espinhos flutuando atrás da cabeça, ombreiras de espinhos, cauda ainda mais grossa com
+# espinhos dorsais e lâmina maior. Rodar: python3 tools/demon_wings.py && python3 tools/demon_wings.py lord
+import json, os, copy, shutil, math, random, sys
 from PIL import Image, ImageDraw
+LORD = len(sys.argv) > 1 and sys.argv[1] == "lord"; VAR = "demon_lord" if LORD else "demon"
+PAL = dict(base=(70, 16, 92), vein=(30, 4, 30), hi=(200, 34, 60)) if LORD else dict(base=(150, 22, 36), vein=(52, 6, 14), hi=(150, 30, 44))
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); RP = os.path.join(ROOT, "LegacyOfEtheria_RP")
-GP = os.path.join(RP, "models/entity/etheria_race_demon.geo.json"); TP = os.path.join(RP, "textures/entity/etheria_race_demon.png")
+GP0 = os.path.join(RP, "models/entity/etheria_race_demon.geo.json"); TP0 = os.path.join(RP, "textures/entity/etheria_race_demon.png")
+GP = os.path.join(RP, f"models/entity/etheria_race_{VAR}.geo.json"); TP = os.path.join(RP, f"textures/entity/etheria_race_{VAR}.png")
 SD = os.path.join(os.path.dirname(os.path.abspath(__file__)), "race_geo_src")
 os.makedirs(SD, exist_ok=True)
-for a, b in ((GP, "demon.geo.json"), (TP, "demon.png")):
+for a, b in ((GP0, "demon.geo.json"), (TP0, "demon.png")):
     if not os.path.exists(os.path.join(SD, b)): shutil.copy(a, os.path.join(SD, b))
 D = json.load(open(os.path.join(SD, "demon.geo.json"))); G = D["minecraft:geometry"][0]; B = {b["name"]: b for b in G["bones"]}
 TEX = Image.open(os.path.join(SD, "demon.png")).convert("RGBA"); TEX = TEX.copy()
@@ -62,12 +68,12 @@ def paint(poly, vein_from, edge_pts):
             elif dist == 1: light *= 0.72                                    # bordo engrossado
             elif dist in (2, 3): light *= 1.12                               # brilho logo atrás do bordo (volume)
             light *= 1 - blot[x, y] / 1400
-            px[x, y] = (min(255, int(150 * light)), min(255, int(22 * light)), min(255, int(36 * light)), 255)
+            px[x, y] = tuple(min(255, int(c * light)) for c in PAL["base"]) + (255,)
     dr = ImageDraw.Draw(img)
     def vein(p0, p1, wid=1):
         mid = ((p0[0] + p1[0]) / 2 + random.uniform(-1.6, 1.6), (p0[1] + p1[1]) / 2 + random.uniform(-1.6, 1.6))
-        dr.line([(p0[0] + 1, p0[1]), (mid[0] + 1, mid[1]), (p1[0] + 1, p1[1])], fill=(150, 30, 44, 255), width=1)   # brilho ao lado
-        dr.line([p0, mid, p1], fill=(52, 6, 14, 255), width=wid)
+        dr.line([(p0[0] + 1, p0[1]), (mid[0] + 1, mid[1]), (p1[0] + 1, p1[1])], fill=PAL["hi"] + (255,), width=1)   # brilho ao lado
+        dr.line([p0, mid, p1], fill=PAL["vein"] + (255,), width=wid)
         return mid
     for e in edge_pts:                                                       # veias principais + ramificações
         a = toP(e); m = vein(vf, a, 1)
@@ -155,11 +161,61 @@ for sd, mirror in (("l", False), ("r", True)):
         Bb["cubes"].append(c)                                                # espinho curvo no cotovelo 
     C = B[f"wingC_{sd}"]
     C["cubes"] += claw(B[f"wingF0_{sd}"]["cubes"][2], C["pivot"][0] - 0.45, C["pivot"][1] + 1.6, 2.2, sg, 25)
-G["description"]["visible_bounds_width"] = 8
+# ---------- cauda mais grossa (lorde: ainda mais, com espinhos dorsais) ----------
+TK = 2.2 if LORD else 1.7
+for i in range(7):
+    tb = B[f"tail{i}"]; c = tb["cubes"][0]; o, sz = c["origin"], c["size"]
+    nx, nz = sz[0] * TK, sz[2] * TK; c["origin"] = [o[0] - (nx - sz[0]) / 2, o[1], o[2] - (nz - sz[2]) / 2]; c["size"] = [nx, sz[1] + 0.3, nz]
+    if i == 6:
+        sp = tb["cubes"][1]; k = 1.6 if LORD else 1.3
+        sp["size"] = [sp["size"][0] * k, sp["size"][1] * k, 0.9]; sp["origin"] = [-sp["size"][0] / 2, sp["origin"][1] - 1.0, sp["origin"][2]]
+    if LORD and i < 6:   # espinhos dorsais
+        sd_ = copy.deepcopy(c); h = 1.6 - i * 0.18
+        sd_["origin"] = [-0.3, o[1] + 0.6, o[2] + nz - (nz - sz[2]) / 2 - 0.2]; sd_["size"] = [0.6, h, 0.6]
+        sd_["pivot"] = [0, o[1] + 0.6, sd_["origin"][2]]; sd_["rotation"] = [55, 0, 0]
+        tb["cubes"].append(sd_)
+if LORD:
+    U = lambda u, v: {"uv": {f: {"uv": [u, v], "uv_size": [1, 1]} for f in ("north", "south", "east", "west", "up", "down")}}
+    dk, gd = U(1, 1), U(17, 1)                                     # negro (barra da asa) e dourado (garras)
+    def cube(src, o, sz, piv=None, rot=None):
+        c = copy.deepcopy(src); c["origin"] = list(o); c["size"] = list(sz)
+        if piv: c["pivot"] = list(piv); c["rotation"] = list(rot)
+        return c
+    # segundo par de chifres: maiores, curvos para trás (cópia girada do chifre principal)
+    for sd, sg in (("l", 1), ("r", -1)):
+        h = copy.deepcopy(B[f"horn_{sd}"]); t = copy.deepcopy(B[f"horn_{sd}_tip"])
+        h["name"] = f"horn2_{sd}"; t["name"] = f"horn2_{sd}_tip"; t["parent"] = h["name"]
+        h["pivot"] = [sg * 3.2, 31.5, -1.5]; h["rotation"] = [-58, sg * -18, sg * 10]
+        for c in h["cubes"] + t["cubes"]: c["origin"][2] += 2.4; c["origin"][1] -= 0.6
+        t["pivot"] = [t["pivot"][0], t["pivot"][1] - 0.6, t["pivot"][2] + 2.4]
+        G["bones"] += [h, t]
+    # coroa de espinhos flutuando atrás da cabeça
+    crown = {"name": "lord_crown", "parent": "head", "pivot": [0, 30.5, 5.2], "cubes": []}
+    r = 4.4
+    for k in range(12):                      # anel negro (segmentos tangentes) + 6 espinhos para fora com ponta dourada
+        a = k * 30; cx, cy = math.sin(math.radians(a)) * r, 30.5 + math.cos(math.radians(a)) * r
+        crown["cubes"].append(cube(dk, (cx - 1.2, cy - 0.35, 5.0), (2.4, 0.7, 0.7), (cx, cy, 5.35), (0, 0, -a)))
+        if k % 2 == 0:
+            ln = 2.6 if k % 4 == 0 else 1.7
+            crown["cubes"].append(cube(dk, (cx - 0.35, cy + 0.2, 5.05), (0.7, ln, 0.6), (cx, cy, 5.35), (0, 0, -a)))
+            crown["cubes"].append(cube(gd, (cx - 0.2, cy + 0.2 + ln, 5.15), (0.4, 0.6, 0.4), (cx, cy, 5.35), (0, 0, -a)))
+    G["bones"].append(crown)
+    # ombreiras de espinhos
+    for sd, sg in (("l", 1), ("r", -1)):
+        pb = {"name": f"lord_pauldron_{sd}", "parent": "body", "pivot": [sg * 5, 24, 0], "cubes": []}
+        for j, (dy, dz, ln, ang) in enumerate(((0.2, -1.2, 2.6, 30), (0.0, 0.2, 3.2, 22), (-0.2, 1.5, 2.4, 14))):
+            x0 = sg * 5.2 - 0.4
+            pb["cubes"].append(cube(gd if j == 1 else dk, (x0, 24 + dy, dz), (0.8, ln, 0.8), (sg * 5.2, 24 + dy, dz + 0.4), (0, 0, -sg * ang)))
+        pb["cubes"].append(cube(dk, (sg * 5.6 - 1.6 if sg > 0 else sg * 5.6 - 1.6, 23.2, -2.2), (3.2, 1.2, 4.4)))
+        G["bones"].append(pb)
+G["description"]["identifier"] = f"geometry.etheria_race_{VAR}"
+G["description"]["visible_bounds_width"] = 9 if LORD else 8
 json.dump(D, open(GP, "w"), indent=1); TEX.save(TP)
 # animação dos dedos e da membrana
 AP = os.path.join(RP, "animations/etheria_race_parts.animation.json"); AN = json.load(open(AP))
-bones = AN["animations"]["animation.etheria.race_demon"]["bones"]
+if LORD:
+    AN["animations"]["animation.etheria.race_demon_lord"] = copy.deepcopy(AN["animations"]["animation.etheria.race_demon"])
+bones = AN["animations"][f"animation.etheria.race_{VAR}"]["bones"]
 for k in [k for k in bones if k.startswith(("wingF", "wingM", "wingW"))]: del bones[k]
 # leque: f = quanto cada par de dedos vizinhos fecha (graus). Chão: fecha um pouco (agachado fecha muito); ar: abre e pulsa com a batida.
 # O último dedo fica fixo e os outros giram (4-i)*f; a membrana entre dedos escala na vertical sin(24-f)/sin(24) para continuar presa.
@@ -168,11 +224,16 @@ f = f"(query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_ti
 amp = "(query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))"
 spd = "(query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640))"
 for sd, sg in (("l", 1), ("r", -1)):
-    bones[f"wing_{sd}"]["scale"] = 1.2
+    bones[f"wing_{sd}"]["scale"] = 1.45 if LORD else 1.2
+    if LORD:
+        bones[f"horn_{sd}"] = {**bones.get(f"horn_{sd}", {}), "scale": 1.3}
+        bones[f"lord_pauldron_{sd}"] = {"scale": [1, "1 + math.sin(query.life_time * 40) * 0.02", 1]}
     for i in range(5):
         if i < 4: bones[f"wingF{i}_{sd}"] = {"rotation": [0, 0, f"{-sg} * {4 - i} * {f}"]}
         wb = f"wingW{i}_{sd}" if i < 4 else f"wingWC_{sd}"
         bones[wb] = {"rotation": [f"math.sin(query.life_time * {spd} - {80 + i * 25}) * {amp}", 0, 0]}   # ondulação (pega vento)
         if i < 4: bones[wb]["scale"] = [1, f"math.sin(24 - {f}) / 0.40674", 1]
+if LORD:   # coroa gira devagar e flutua
+    bones["lord_crown"] = {"rotation": [0, 0, "query.life_time * 25"], "position": [0, "math.sin(query.life_time * 90) * 0.35", 0]}
 json.dump(AN, open(AP, "w"), indent=1)
 print("demônio ok; textura usada até a linha", shelf["y"] + shelf["h"])

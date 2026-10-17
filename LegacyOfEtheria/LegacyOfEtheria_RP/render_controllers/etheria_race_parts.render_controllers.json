@@ -297,6 +297,17 @@
    "textures": [
     "Texture.etheria_race_dragonewt_w"
    ]
+  },
+  "controller.render.etheria_race_demon_lord": {
+   "geometry": "Geometry.etheria_race_demon_lord",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.etheria_race_demon_lord"
+   ]
   }
  }
 }
