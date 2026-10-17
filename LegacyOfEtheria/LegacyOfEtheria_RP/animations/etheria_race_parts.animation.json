@@ -86,7 +86,8 @@
       "math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * 5 * (query.is_on_ground ? 0 : 1) - 8 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0)",
       "1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1) - 12 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) + 6 * math.min(1, query.modified_move_speed * 3) * (1 - (query.is_on_ground ? 0 : 1)))",
       "1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) + 16 * (query.is_on_ground ? 0 : 1) + 14 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
-     ]
+     ],
+     "scale": 1.2
     },
     "wingB_l": {
      "rotation": [
@@ -107,7 +108,8 @@
       "math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * 5 * (query.is_on_ground ? 0 : 1) - 8 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0)",
       "-1 * (18 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0) - 8 * (query.is_on_ground ? 0 : 1) - 12 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) + 6 * math.min(1, query.modified_move_speed * 3) * (1 - (query.is_on_ground ? 0 : 1)))",
       "-1 * (math.sin(query.life_time * (query.is_on_ground ? (200 + 140 * math.min(1, query.modified_move_speed * 3)) : (query.vertical_speed < -1.0 ? 90 : 640)) - 0) * (query.is_on_ground ? (10 + 10 * math.min(1, query.modified_move_speed * 3)) * (1 - ((query.is_sneaking && query.is_on_ground) ? 1 : 0)) : (query.vertical_speed < -1.0 ? 5 : 44)) + 16 * (query.is_on_ground ? 0 : 1) + 14 * ((!query.is_on_ground && query.vertical_speed < -1.0) ? 1 : 0) - 16 * ((query.is_sneaking && query.is_on_ground) ? 1 : 0))"
-     ]
+     ],
+     "scale": 1.2
     },
     "wingB_r": {
      "rotation": [

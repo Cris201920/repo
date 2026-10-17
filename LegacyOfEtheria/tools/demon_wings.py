@@ -41,25 +41,40 @@ def paint(poly, vein_from, edge_pts):
     W, H = xmax - xmin, ymax - ymin; w, h = math.ceil(W * PX), math.ceil(H * PX); u, v = alloc(w, h)
     toP = lambda p: ((p[0] - xmin) * PX, (ymax - p[1]) * PX)
     mask = Image.new("L", (w, h), 0); ImageDraw.Draw(mask).polygon([toP(p) for p in poly], fill=255)
+    from PIL import ImageFilter
+    lv = [mask]                                                              # distância até a borda (camadas de erosão)
+    for _ in range(6): lv.append(lv[-1].filter(ImageFilter.MinFilter(3)))
+    lvl = [l.load() for l in lv]
+    blot = Image.new("L", (w, h), 0); bd = ImageDraw.Draw(blot)              # manchas de pele (baixa frequência)
+    for _ in range(max(2, w * h // 260)):
+        cx, cy, r = random.uniform(0, w), random.uniform(0, h), random.uniform(1.5, 4.5)
+        bd.ellipse([cx - r, cy - r, cx + r, cy + r], fill=random.randint(40, 110))
+    blot = blot.filter(ImageFilter.GaussianBlur(1.6)).load()
     img = Image.new("RGBA", (w, h), (0, 0, 0, 0)); px = img.load(); mk = mask.load()
     vf = toP(vein_from); diag = math.hypot(w, h)
     for y in range(h):
         for x in range(w):
             if not mk[x, y]: continue
-            d = math.hypot(x - vf[0], y - vf[1]) / diag                     # perto do pulso = mais escuro (couro grosso)
-            t = min(1, d * 1.5); n = random.randint(-6, 6)
-            r = int(62 + 70 * t + n); g = int(9 + 12 * t + n // 3); b = int(18 + 18 * t + n // 2)
-            px[x, y] = (r, g, b, 255)
+            dist = sum(1 for l in lvl[1:] if l[x, y])                        # 0 = borda ... 6 = miolo
+            t = min(1, math.hypot(x - vf[0], y - vf[1]) / diag * 1.5)       # pulso escuro -> centro mais claro (couro mais fino)
+            light = 0.55 + 0.45 * t
+            if dist == 0: light = 0.35                                       # contorno
+            elif dist == 1: light *= 0.72                                    # bordo engrossado
+            elif dist in (2, 3): light *= 1.12                               # brilho logo atrás do bordo (volume)
+            light *= 1 - blot[x, y] / 1400
+            px[x, y] = (min(255, int(150 * light)), min(255, int(22 * light)), min(255, int(36 * light)), 255)
     dr = ImageDraw.Draw(img)
-    for e in edge_pts:                                                       # veias: do pulso até pontos da borda de fuga
-        a = toP(e); mid = ((vf[0] + a[0]) / 2 + random.uniform(-2, 2), (vf[1] + a[1]) / 2 + random.uniform(-2, 2))
-        dr.line([vf, mid, a], fill=(40, 4, 10, 255), width=1)
-    # borda escura (contorno do polígono)
-    edge = mask.filter(__import__("PIL.ImageFilter", fromlist=["x"]).MinFilter(3))
-    em = edge.load()
-    for y in range(h):
-        for x in range(w):
-            if mk[x, y] and not em[x, y]: px[x, y] = (34, 3, 8, 255)
+    def vein(p0, p1, wid=1):
+        mid = ((p0[0] + p1[0]) / 2 + random.uniform(-1.6, 1.6), (p0[1] + p1[1]) / 2 + random.uniform(-1.6, 1.6))
+        dr.line([(p0[0] + 1, p0[1]), (mid[0] + 1, mid[1]), (p1[0] + 1, p1[1])], fill=(150, 30, 44, 255), width=1)   # brilho ao lado
+        dr.line([p0, mid, p1], fill=(52, 6, 14, 255), width=wid)
+        return mid
+    for e in edge_pts:                                                       # veias principais + ramificações
+        a = toP(e); m = vein(vf, a, 1)
+        for f in (0.55,):
+            q = (vf[0] + (a[0] - vf[0]) * f, vf[1] + (a[1] - vf[1]) * f); ang = math.atan2(a[1] - vf[1], a[0] - vf[0]) + random.choice((-1, 1)) * random.uniform(0.35, 0.6)
+            ln = math.hypot(a[0] - vf[0], a[1] - vf[1]) * random.uniform(0.18, 0.3)
+            vein(q, (q[0] + math.cos(ang) * ln, q[1] + math.sin(ang) * ln))
     img.putalpha(mask)
     TEX.paste(img, (u, v), img)
     return u, v, w, h, xmin, ymin, W, H
@@ -133,7 +148,12 @@ for sd, mirror in (("l", False), ("r", True)):
             par = B[f"{n}_{sd}"]; wb = {"name": f"wingW{n[5:] or 'C'}_{sd}", "parent": par["name"], "pivot": list(par["pivot"]), "cubes": cubes}
             G["bones"].insert(G["bones"].index(par) + 1, wb)
         else: B[f"{n}_{sd}"]["cubes"] += cubes
-    C = B[f"wingC_{sd}"]; sg = -1 if mirror else 1
+    sg = -1 if mirror else 1
+    Bb = B[f"wingB_{sd}"]; ex = Bb["pivot"][0]; dk = B[f"wingB_{sd}"]["cubes"][2]; gd = B[f"wingB_{sd}"]["cubes"][1]
+    for o, sz, rz, src in (((ex - 0.7, 21.6, 1.9), (1.4, 2.4, 1.4), 38, dk), ((ex - 0.45, 23.6, 2.15), (0.9, 2.0, 0.9), 58, dk), ((ex - 0.25, 25.2, 2.35), (0.5, 1.3, 0.5), 75, dk)):
+        c = copy.deepcopy(src); c["origin"] = [o[0], o[1], o[2]]; c["size"] = list(sz); c["pivot"] = [ex, 21.6, 2.6]; c["rotation"] = [0, 0, sg * rz]
+        Bb["cubes"].append(c)                                                # espinho curvo no cotovelo 
+    C = B[f"wingC_{sd}"]
     C["cubes"] += claw(B[f"wingF0_{sd}"]["cubes"][2], C["pivot"][0] - 0.45, C["pivot"][1] + 1.6, 2.2, sg, 25)
 G["description"]["visible_bounds_width"] = 8
 json.dump(D, open(GP, "w"), indent=1); TEX.save(TP)
@@ -148,6 +168,7 @@ f = f"(query.is_on_ground ? (query.is_sneaking ? 14 : 6 + math.sin(query.life_ti
 amp = "(query.is_on_ground ? 2.5 : (query.vertical_speed < -1.0 ? 4 : 9))"
 spd = "(query.is_on_ground ? 120 : (query.vertical_speed < -1.0 ? 90 : 640))"
 for sd, sg in (("l", 1), ("r", -1)):
+    bones[f"wing_{sd}"]["scale"] = 1.2
     for i in range(5):
         if i < 4: bones[f"wingF{i}_{sd}"] = {"rotation": [0, 0, f"{-sg} * {4 - i} * {f}"]}
         wb = f"wingW{i}_{sd}" if i < 4 else f"wingWC_{sd}"
