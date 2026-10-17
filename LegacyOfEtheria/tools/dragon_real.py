@@ -41,8 +41,15 @@ def tile_img(kind, a, b, c=None, seed=1):
         for y in range(TS): t = abs(math.sin(y / TS * math.pi)); d.line([(0, y), (TS, y)], fill=tuple(int(a[i] * (1 - t * 0.4) + b[i] * t * 0.4) for i in range(3)) + (255,))
     elif kind == "stars":
         for _ in range(4): x, y = rnd.randint(1, TS - 2), rnd.randint(1, TS - 2); d.point((x, y), fill=b + (255,)); d.point((x + 1, y), fill=b + (180,)); d.point((x, y + 1), fill=b + (180,))
-    elif kind == "eye":
-        d.ellipse([2, 4, 13, 11], fill=b + (255,)); d.line([(7, 4), (7, 11)], fill=(10, 10, 10, 255), width=2)
+    elif kind == "eye":   # olho de dragão: órbita escura, íris em degradê, pupila em fenda, brilho
+        T = TS
+        d.rectangle([0, 0, T, T], fill=a + (255,))
+        d.ellipse([1, T * 0.18, T - 2, T * 0.82], fill=(12, 8, 12, 255))
+        for r in range(int(T * 0.3), 0, -1):
+            k = r / (T * 0.3); col = tuple(int(b[i] * (1.15 - 0.45 * k)) for i in range(3))
+            d.ellipse([T / 2 - r * 1.45, T / 2 - r, T / 2 + r * 1.45, T / 2 + r], fill=tuple(min(255, v) for v in col) + (255,))
+        d.polygon([(T / 2, T * 0.2), (T / 2 + 2.2, T / 2), (T / 2, T * 0.8), (T / 2 - 2.2, T / 2)], fill=(8, 4, 8, 255))
+        d.ellipse([T * 0.28, T * 0.3, T * 0.28 + 4, T * 0.3 + 3], fill=(255, 255, 255, 235))
     elif kind == "solid":
         pass
     if kind in ("scales", "plates", "metal", "membrane", "feathers"):   # volume: borda superior clara, base mais escura, ruído fino
@@ -60,7 +67,7 @@ DRAGONS = {
   "velzard": dict(plan="serpent", s=1.0, neck=1.0, wings="crystal",
     tiles=dict(back=("scales", (222, 216, 242), (186, 180, 218)), side=("scales", (238, 234, 252), (204, 198, 230)), belly=("plates", (250, 248, 255), (214, 210, 236)),
                wing=("crystal", (176, 222, 252), (120, 190, 250)), wbone=("crystal", (200, 236, 255), (140, 200, 250)), horn=("metal", (250, 150, 30), (255, 210, 120)),
-               claw=("solid", (70, 62, 76), (0, 0, 0)), eye=("eye", (30, 20, 30), (255, 200, 60)), glow=("solid", (190, 245, 255), (0, 0, 0)), acc1=("crystal", (150, 216, 255), (100, 170, 255)),
+               claw=("solid", (70, 62, 76), (0, 0, 0)), eye=("eye", (60, 50, 80), (120, 215, 255)), glow=("solid", (190, 245, 255), (0, 0, 0)), acc1=("crystal", (150, 216, 255), (100, 170, 255)),
                acc2=("metal", (255, 140, 20), (255, 200, 90)), mane=("membrane", (90, 140, 240), (50, 90, 200), (140, 180, 255)), teeth=("solid", (240, 240, 250), (0, 0, 0)),
                mouth=("solid", (200, 40, 50), (0, 0, 0)), acc3=("solid", (205, 240, 255), (0, 0, 0)), spike=("metal", (60, 44, 42), (100, 76, 66)))),
   # VELDANAVA (referência do jogador): dragão azul-TURQUESA, pescoço longo e arqueado com crista de escamas espinhosas, barriga creme em
@@ -68,7 +75,7 @@ DRAGONS = {
   "veldanava": dict(plan="quad", s=1.12, neck=1.45, wings="feather",
     tiles=dict(back=("scales", (62, 140, 158), (38, 100, 120)), side=("scales", (84, 160, 176), (52, 118, 138)), belly=("plates", (236, 220, 206), (196, 174, 160)),
                wing=("feathers", (196, 226, 230), (150, 196, 206), (104, 160, 176)), wbone=("metal", (70, 140, 156), (120, 190, 200)), horn=("metal", (52, 120, 140), (150, 210, 220)),
-               claw=("solid", (40, 60, 70), (0, 0, 0)), eye=("eye", (20, 30, 30), (255, 220, 120)), glow=("solid", (170, 240, 245), (0, 0, 0)), acc1=("metal", (60, 140, 156), (120, 196, 206)),
+               claw=("solid", (40, 60, 70), (0, 0, 0)), eye=("eye", (30, 70, 84), (255, 214, 90)), glow=("solid", (170, 240, 245), (0, 0, 0)), acc1=("metal", (60, 140, 156), (120, 196, 206)),
                acc2=("solid", (170, 240, 245), (0, 0, 0)), mane=("feathers", (90, 170, 186), (60, 130, 150), (40, 100, 120)), teeth=("solid", (240, 236, 226), (0, 0, 0)),
                mouth=("solid", (90, 40, 50), (0, 0, 0)), acc3=("solid", (200, 240, 245), (0, 0, 0)), spike=("metal", (44, 112, 132), (96, 174, 190)))),
   # VELGRYND (referência do jogador): serpente de corpo CREME/branco com placas VERMELHAS nas costas, lâminas claras saindo do corpo,
@@ -76,7 +83,7 @@ DRAGONS = {
   "velgrynd": dict(plan="serpent", s=1.0, neck=1.0, wings="bat",
     tiles=dict(back=("scales", (200, 32, 40), (140, 16, 24)), side=("scales", (242, 232, 218), (208, 194, 174)), belly=("plates", (246, 238, 226), (214, 200, 180)),
                wing=("membrane", (214, 44, 48), (150, 20, 28), (110, 10, 18)), wbone=("metal", (150, 20, 28), (220, 60, 60)), horn=("metal", (236, 226, 210), (255, 250, 240)),
-               claw=("solid", (40, 30, 36), (0, 0, 0)), eye=("eye", (30, 10, 10), (255, 220, 70)), glow=("solid", (255, 150, 40), (0, 0, 0)), acc1=("metal", (200, 32, 40), (240, 90, 90)),
+               claw=("solid", (40, 30, 36), (0, 0, 0)), eye=("eye", (120, 20, 26), (255, 196, 40)), glow=("solid", (255, 150, 40), (0, 0, 0)), acc1=("metal", (200, 32, 40), (240, 90, 90)),
                acc2=("solid", (90, 150, 255), (0, 0, 0)), mane=("membrane", (214, 44, 48), (150, 20, 28), (110, 10, 18)), teeth=("solid", (245, 240, 230), (0, 0, 0)),
                mouth=("solid", (60, 10, 10), (0, 0, 0)), acc3=("solid", (255, 236, 160), (0, 0, 0)), spike=("metal", (240, 236, 226), (255, 255, 255)))),
 }
@@ -150,11 +157,11 @@ def head(g, cfg, pivot, s, kind):
     x, y, z = pivot
     cs = [rod((0, y + 2 * s, z + 2 * s), (0, y, z - 26 * s), 20 * s, 18 * s, "side", top="back", bottom="belly")]                        # crânio
     cs.append(rod((0, y - 2 * s, z - 24 * s), (0, y - 5 * s, z - (44 if kind != "serpent" else 48) * s), 13 * s, 11 * s, "side", top="back", bottom="belly"))   # focinho
-    cs += [box((sg * 6.5 * s, y + 5 * s, z - 18 * s), (4 * s, 3 * s, 7 * s), "eye") for sg in (1, -1)]                                       # olhos
+    cs += [box((sg * 10.3 * s, y + 4.5 * s, z - 15 * s), (1.2 * s, 5 * s, 9 * s), "eye") for sg in (1, -1)]                                  # olhos na face do crânio (antes ficavam dentro)
     cs += [box((sg * 8 * s, y + 8 * s, z - 16 * s), (5 * s, 3 * s, 14 * s), "back") for sg in (1, -1)]                                       # sobrancelhas
-    cs += [box((sg * 4 * s, y - 4 * s, z - 44 * s), (2 * s, 3 * s, 2 * s), "mouth") for sg in (1, -1)]                                       # narinas
+    cs += [box((sg * 3.5 * s, y - 1 * s, z - 44.2 * s), (2 * s, 1.6 * s, 2 * s), "claw") for sg in (1, -1)]                                  # narinas (escuras, pequenas)
     cs += [box((sg * 5.5 * s, y - 9 * s, z - (24 + k * 4.5) * s), (1.4 * s, 3 * s, 1.4 * s), "teeth") for sg in (1, -1) for k in range(4)]   # dentes de cima
-    cs += [box((sg * 7.4 * s, y + 5 * s, z - 18 * s), (1, 2 * s, 4 * s), "glow") for sg in (1, -1)]                                        # brilho dos olhos
+    cs += [box((sg * 10.2 * s, y + 7.6 * s, z - 15 * s), (2.2 * s, 1.4 * s, 11 * s), "back") for sg in (1, -1)]                             # pálpebra/arcada sobre o olho
     cs += [rod((sg * 8 * s, y + 10 * s, z - 12 * s), (sg * 13 * s, y + 14 * s, z - 4 * s), 2.5 * s, 2.5 * s, "spike") for sg in (1, -1)]       # espinhos da sobrancelha
     cs += [rod((sg * 9 * s, y - 2 * s, z - 8 * s), (sg * 15 * s, y - 6 * s, z + 2 * s), 2 * s, 2 * s, "spike") for sg in (1, -1)]            # espinhos da mandíbula
     if kind == "velzard":   # crista laranja grande varrida para trás + chifre fino na testa
