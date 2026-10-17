@@ -168,3 +168,13 @@ for name in ["horn_single", "horn_single_small", "horn_dual", "horn_dual_small",
         b["cubes"] = cs + add
     save(name + ".geo.json", d)
 print("horns ok")
+
+# ---------- 6.73: asas das raças angelicais maiores (escala na raiz de cada par; as animações de batida existentes ficam) ----------
+import re as _re
+pp = os.path.join(RP, "animations/etheria_race_parts.animation.json"); P = json.load(open(pp))
+for r in ["angel", "angel_arch", "angel_cherub", "angel_seraph", "fallen", "fallen_lord"]:
+    bones = P["animations"][f"animation.etheria.race_{r}"]["bones"]
+    for n, b in bones.items():
+        if _re.fullmatch(r"wing\d?_[lr]", n): b["scale"] = 1.2 if r in ("angel_cherub", "angel_seraph") else 1.35   # vários pares: menos
+json.dump(P, open(pp, "w"), indent=1)
+print("anjos ok")
