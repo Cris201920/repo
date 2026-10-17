@@ -16,6 +16,7 @@ const KIND = {
   summon: "summon", creation: "summon", creator_forge: "summon",
 };
 const play = (p, id, blend = 0.2) => playAnim(p, `animation.etheria.cast.${id}`, { channel: "etheria_cast", blendOut: blend });   // 6.58: repetível
+export const castGesture = (p, id, blend = 0.2) => play(p, id, blend);
 export const gestureOf = (sk) => KIND[sk?.exec?.kind] ?? null;
 export function startCastAnim() {
   on(EV.SKILL_CAST_START, ({ player, sk }) => { if (gestureOf(sk)) play(player, "charge", 0.15); });

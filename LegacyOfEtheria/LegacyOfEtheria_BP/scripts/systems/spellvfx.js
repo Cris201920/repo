@@ -64,3 +64,5 @@ export function spellBody(c, v, sk, hitT) {
   }
 }
 export const vfxLive = () => live.size;
+// 6.81: usado pelas Skills Ultimate (systems/ultimates.js) para corpos 3D próprios
+export { spawn as vfxSpawn, setSz as vfxSize, kill as vfxKill, ok as vfxOk };

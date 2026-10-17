@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_ult_azathoth",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_ult_azathoth"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "\u00a76Azathoth, Deus do Vazio"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_ult_azathoth",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

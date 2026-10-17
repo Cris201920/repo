@@ -132,7 +132,9 @@ def(A("berserk_rage", { name: "Fúria Berserker", cat: "Classe", element: "blood
   desc: "+10 Força e 8% de roubo de vida por 15s, mas -5 de Defesa.", exec: { kind: "buff", sec: 15, buff: { id: "berserk_rage", stats: { strength: 10, lifesteal: 8, defense: -5 } }, snd: "mob.ravager.roar" } }));
 
 import { PACK } from "./skillpack.gen.js";
+import { ULTIMATES } from "./ultimates.js";
 for (const s of PACK) def(s);
+for (const s of ULTIMATES) def(s);   // 6.81: as 12 Skills Ultimate (systems/ultimates.js)
 import { AGILITY_SKILLS } from "./agility.js";
 for (const s of AGILITY_SKILLS) def(s);   // Agilidades Supremas (uma linha por raça)
 

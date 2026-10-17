@@ -1300,6 +1300,39 @@
   },
   "etheria_charybdis_core": {
    "textures": "textures/items/etheria_charybdis_core"
+  },
+  "etheria_sk_ult_azathoth": {
+   "textures": "textures/items/etheria_sk_ult_azathoth"
+  },
+  "etheria_sk_ult_shub_niggurath": {
+   "textures": "textures/items/etheria_sk_ult_shub_niggurath"
+  },
+  "etheria_sk_ult_uriel": {
+   "textures": "textures/items/etheria_sk_ult_uriel"
+  },
+  "etheria_sk_ult_raphael": {
+   "textures": "textures/items/etheria_sk_ult_raphael"
+  },
+  "etheria_sk_ult_faust": {
+   "textures": "textures/items/etheria_sk_ult_faust"
+  },
+  "etheria_sk_ult_satanael": {
+   "textures": "textures/items/etheria_sk_ult_satanael"
+  },
+  "etheria_sk_ult_lucifer": {
+   "textures": "textures/items/etheria_sk_ult_lucifer"
+  },
+  "etheria_sk_ult_metatron": {
+   "textures": "textures/items/etheria_sk_ult_metatron"
+  },
+  "etheria_sk_ult_cthugha": {
+   "textures": "textures/items/etheria_sk_ult_cthugha"
+  },
+  "etheria_sk_ult_michael": {
+   "textures": "textures/items/etheria_sk_ult_michael"
+  },
+  "etheria_sk_ult_hastur": {
+   "textures": "textures/items/etheria_sk_ult_hastur"
   }
  }
 }

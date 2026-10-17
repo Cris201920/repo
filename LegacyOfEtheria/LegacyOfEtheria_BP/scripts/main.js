@@ -8,6 +8,7 @@ import { startLoop } from "./systems/loop.js";
 import { startCombat } from "./systems/combat.js";
 import { startPower } from "./systems/power.js";
 import { startCastAnim } from "./systems/castanim.js";
+import { startUltimates } from "./systems/ultimates.js";
 import { startBarrier } from "./systems/barrier.js";
 import { startDrops } from "./systems/drops.js";
 import { startBosses } from "./systems/bosses.js";
@@ -132,7 +133,7 @@ system.run(() => {
   for (const p of world.getAllPlayers()) { initPlayer(p, false); updateRanking(p); }
   startAutosave();
   startCombat();
-  startPower(); startBarrier(); startCastAnim();   // 6.55: classe de poder, auras, pressão e Barreira passiva
+  startPower(); startBarrier(); startCastAnim(); startUltimates();   // 6.55: classe de poder, auras, pressão e Barreira passiva
   startDrops();
   startBosses();
   startMobAI();
