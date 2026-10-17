@@ -197,13 +197,15 @@ def(A("draconic_tempest", { name: "Tempestade Dracônica", cat: "Racial", elemen
   desc: "Desencadeia uma tempestade de raios e vento ao seu redor.", exec: { kind: "aoe_self", radius: 12, power: 5.4, stat: "intelligence", knock: 2.2, snd: "ambient.weather.thunder" } }));
 // Velzard (gelo)
 def(P("frost_scales", { name: "Escamas Glaciais", cat: "Racial", rarity: "rare", level: 1, sp: 0, desc: "+3 Defesa e 25% de resistência ao gelo.", stats: { defense: 3, res_ice: 25 } }));
-def(A("frost_breath", { name: "Sopro Congelante", cat: "Racial", element: "ice", rarity: "rare", mana: 18, cd: 6, level: 1, sp: 0,
+def(A("frost_breath", { name: "Respiração Congelante", cat: "Racial", element: "ice", rarity: "rare", mana: 18, cd: 6, level: 1, sp: 0,
   desc: "Cone de frio extremo que deixa os alvos lentos.", exec: { kind: "cone", range: 8, angle: 60, power: 1.8, stat: "intelligence", debuff: { id: "chill", sec: 6 }, snd: "random.glass" } }));
-def(A("absolute_freeze", { name: "Congelamento Absoluto", cat: "Racial", element: "ice", rarity: "epic", mana: 38, cd: 12, level: 1, sp: 0,
+def(A("absolute_freeze", { name: "Parada Absoluta", cat: "Racial", element: "ice", rarity: "epic", mana: 38, cd: 12, level: 1, sp: 0,
   desc: "Congela uma área: os inimigos ficam atordoados.", exec: { kind: "target_aoe", range: 22, radius: 6, power: 2.4, stat: "intelligence", debuff: { id: "stun", sec: 3 }, snd: "random.glass" } }));
 def(P("temperature_control", { name: "Controle de Temperatura", cat: "Racial", rarity: "epic", level: 1, sp: 0, desc: "30% de resistência ao gelo, 20% ao fogo, +30 de mana e +4 Inteligência.", stats: { intelligence: 4, mana: 30, res_ice: 30, res_fire: 20 } }));
-def(A("glacial_domain", { name: "Domínio Glacial", cat: "Racial", element: "ice", rarity: "legendary", mana: 85, cd: 40, level: 1, sp: 0,
-  desc: "Um inverno súbito congela tudo ao redor.", exec: { kind: "aoe_self", radius: 12, power: 5.0, stat: "intelligence", debuff: { id: "stun", sec: 3 }, knock: 0.6, snd: "random.glass" } }));
+def(A("glacial_domain", { name: "Mundo Eterno", cat: "Racial", element: "ice", rarity: "legendary", mana: 85, cd: 40, level: 1, sp: 0,
+  desc: "Mundo Eterno: o frio absoluto para o tempo ao redor e congela tudo (Gabriel, Senhor da Paciência).", exec: { kind: "aoe_self", radius: 12, power: 5.0, stat: "intelligence", debuff: { id: "stun", sec: 3 }, knock: 0.6, snd: "random.glass" } }));
+def(A("blizzard", { name: "Nevasca", cat: "Racial", element: "ice", rarity: "legendary", mana: 60, cd: 24, level: 1, sp: 0,
+  desc: "Velzard: uma nevasca de gelo dracônico envolve a área e castiga os inimigos sem parar.", exec: { kind: "field", range: 22, radius: 8, sec: 5, power: 2.6, stat: "intelligence", snd: "random.glass" } }));
 // Velgrynd (fogo)
 def(P("ember_scales", { name: "Escamas de Brasa", cat: "Racial", rarity: "rare", level: 1, sp: 0, desc: "+2 Força e 30% de resistência ao fogo.", stats: { strength: 2, res_fire: 30 } }));
 def(A("flame_dash", { name: "Investida Flamejante", cat: "Racial", element: "fire", rarity: "rare", mana: 14, cd: 5, level: 1, sp: 0, stamina: 12,
@@ -213,6 +215,8 @@ def(A("inferno_breath", { name: "Sopro do Inferno", cat: "Racial", element: "fir
 def(P("crimson_heat", { name: "Calor Carmesim", cat: "Racial", rarity: "epic", level: 1, sp: 0, desc: "+5 Força, +4 Agilidade, 30% de resistência ao fogo e velocidade aumentada.", stats: { strength: 5, agility: 4, res_fire: 30 }, effects: [{ id: "speed", amp: 0 }] }));
 def(A("dragon_inferno", { name: "Inferno Dracônico", cat: "Racial", element: "fire", rarity: "legendary", mana: 85, cd: 40, level: 1, sp: 0,
   desc: "Chuva de fogo dracônico sobre o alvo.", exec: { kind: "target_aoe", range: 24, radius: 9, power: 6.0, stat: "intelligence", burn: 10, snd: "mob.enderdragon.growl" } }));
+def(A("gravity_collapse", { name: "Colapso de Gravidade", cat: "Racial", element: "fire", rarity: "legendary", mana: 70, cd: 28, level: 1, sp: 0,
+  desc: "Velgrynd: comprime o espaço num ponto e cria um buraco negro artificial que puxa e esmaga os inimigos.", exec: { kind: "field", range: 24, radius: 7, sec: 4, power: 3.2, pull: 0.9, stat: "intelligence", snd: "mob.warden.sonic_charge" } }));
 // Veldanava (primordial)
 def(P("divine_scales", { name: "Escamas Divinas", cat: "Racial", rarity: "epic", level: 1, sp: 0, desc: "+3 Defesa, +3 Inteligência, 15% de resistência mágica e +5% de XP.", stats: { defense: 3, intelligence: 3, res_magic: 15, xp: 5 } }));
 def(A("creation_light", { name: "Luz da Criação", cat: "Racial", element: "light", rarity: "epic", mana: 40, cd: 12, level: 1, sp: 0,

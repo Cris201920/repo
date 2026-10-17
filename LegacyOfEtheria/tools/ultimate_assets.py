@@ -108,6 +108,12 @@ def art(uid, el):
         d.polygon([(128, 70), (160, 130), (150, 200), (106, 200), (96, 130)], fill=(255, 210, 80, 255)); d.polygon([(128, 120), (142, 170), (114, 170)], fill=W)
         d.ellipse([104, 140, 120, 156], fill=K); d.ellipse([136, 140, 152, 156], fill=K)
         glow(bg, l, 6, 1.0); l = L(); d = ImageDraw.Draw(l)
+    elif uid == "ult_cthulhu":                               # cristal de gelo divino com tentáculos de geada
+        for k in range(6):
+            a = k * math.pi / 3; d.line([(128, 128), (128 + math.cos(a) * 100, 128 + math.sin(a) * 100)], fill=(150, 220, 255, 255), width=10)
+        glow(bg, l, 10, 1.4); l = L(); d = ImageDraw.Draw(l)
+        d.polygon([(128, 28), (176, 110), (152, 228), (104, 228), (80, 110)], fill=(200, 240, 255, 255)); d.polygon([(128, 60), (156, 112), (128, 200), (100, 112)], fill=(110, 190, 255, 255))
+        glow(bg, l, 6, 1.0); l = L(); d = ImageDraw.Draw(l)
     elif uid == "ult_michael":                               # espada da justiça com correntes
         d.polygon([(120, 30), (128, 12), (136, 30), (136, 178), (120, 178)], fill=(235, 240, 255, 255)); d.line([(128, 30), (128, 176)], fill=(170, 190, 230, 255), width=3)
         d.rectangle([80, 176, 176, 190], fill=G); d.rectangle([122, 190, 134, 230], fill=(150, 100, 40, 255)); d.ellipse([116, 226, 140, 246], fill=G)

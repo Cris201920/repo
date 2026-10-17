@@ -340,6 +340,33 @@ ULT.ult_metatron = (pl, sk, s, d, H) => {
   return true;
 };
 
+// 12. CTHULHU (Velzard): Mundo Eterno (tempo parado), Fixação Completa (cristal no alvo), Whiteout Absorb (drena tudo)
+ULT.ult_cthulhu = (pl, sk, s, d, H) => {
+  const c = tc(pl, sk), dim = pl.dimension, sec = sk.exec.sec ?? 6, A = H.aim(pl, sk.exec.range), at = A.target ? { ...A.target.location } : A.point, R = sk.exec.radius;
+  H.mark(up(pl.location, 1.3), at, at);
+  prepare(c, pl, { col: "ice", col2: "frost", circle: CIRCLE.ice, size: 7, dur: 18, chargeSnd: "random.glass" });
+  after(16, () => {               // Mundo Eterno: o tempo para ao redor
+    const f = { ...pl.location };
+    disc(c, f, { col: "ice", circle: CIRCLE.ice, size: R, life: sec, rot: 20 });
+    shockwaves(c, f, R, "frost", 3, 4);
+    blast(pl, sk, s, H, f, R, 0.8, { debuff: "stun", sec });
+    every(sec * 20, 6, () => ringFlat(c, f, { col: "frost", n: 18, radius: R, life: 0.5, tile: T.shard }));
+    snd(c, "random.glass", { at: f, vol: 1.5, pitch: 0.5 });
+  });
+  after(26, () => {               // Fixação Completa: cristal gigante aprisiona o alvo
+    castGesture(pl, "target");
+    every(24, 3, () => column(c, at, { col: "ice", n: 12, h: 9, r: 1.6, tile: T.shard, life: 0.8, size: 0.7 }));
+    after(4, () => { blast(pl, sk, s, H, at, 3.5, 2.2, { debuff: "stun", sec: sec + 2, push: 0, lift: 0 }); impactCam(dim, at, [180, 230, 255], 30, 0.35); snd(c, "random.glass", { at, vol: 1.6, pitch: 0.7 }); });
+  });
+  after(50, () => {               // Whiteout Absorb: drena energia e vida de todos para o usuário
+    implode(c, pl.location, { col: "frost", n: 40, radius: R, life: 0.8 });
+    blast(pl, sk, s, H, pl.location, R, 1.6, { falloff: true });
+    try { pl.addEffect("instant_health", 1, { amplifier: 2 }); pl.addEffect("absorption", 200, { amplifier: 3 }); } catch { /* ignore */ }
+    try { const dd = getData(pl); dd.mana = Math.min(getStats(pl).maxMana, dd.mana + 120); } catch { /* ignore */ }
+  });
+  return true;
+};
+
 // 10. CTHUGHA: forma de fogo, coluna de chamas colossal, chuva de meteoros
 ULT.ult_cthugha = (pl, sk, s, d, H) => {
   const c = tc(pl, sk), dim = pl.dimension, sec = sk.exec.sec ?? 10, A = H.aim(pl, sk.exec.range), at = A.target ? { ...A.target.location } : A.point, R = sk.exec.radius;

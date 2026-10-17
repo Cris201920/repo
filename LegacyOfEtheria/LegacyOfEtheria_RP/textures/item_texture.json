@@ -1357,6 +1357,15 @@
   },
   "etheria_sk_stomach": {
    "textures": "textures/items/etheria_sk_stomach"
+  },
+  "etheria_sk_gravity_collapse": {
+   "textures": "textures/items/etheria_sk_gravity_collapse"
+  },
+  "etheria_sk_blizzard": {
+   "textures": "textures/items/etheria_sk_blizzard"
+  },
+  "etheria_sk_ult_cthulhu": {
+   "textures": "textures/items/etheria_sk_ult_cthulhu"
   }
  }
 }

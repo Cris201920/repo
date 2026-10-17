@@ -25,6 +25,8 @@ const sound = (e, kind, vol = 1, pitch = 1) => {
   const id = `etheria.mob.${e.typeId.slice(8)}_${kind}`;
   for (const q of near(e, e.location, 32)) { try { q.playSound(id, { location: e.location, volume: vol, pitch }); } catch { /* ignore */ } }
 };
+const announce = (e, name) => { const col = e.typeId.includes("velzard") ? "§3" : "§c", who = e.nameTag || (MOBS[e.typeId]?.name ?? "");
+  for (const q of near(e, e.location, 40)) { try { q.sendMessage(`${col}${who}§7: §f§l${name}!`); } catch { /* ignore */ } } };
 const eye = (e) => ({ x: e.location.x, y: e.location.y + 1.2, z: e.location.z });
 const cx = (t, pl) => ctx(pl ?? t, 1);
 const flat = (a, b) => { const d = { x: b.x - a.x, y: 0, z: b.z - a.z }; return norm(d); };
@@ -107,6 +109,42 @@ const A = {
     run(e, t, c) { eff(e, "slow_falling", 80, 0); dashTo(e, t, 2.0, 1.1); sound(e, "ambient", 1.2, 1.1);
       after(30, () => { if (!isValid(e)) return; setAct(e, "land", 20); ringFlat(c, e.location, { col: "earth", n: 28, radius: 7, life: 0.6 }); burst(c, e.location, { col: "dust", n: 16, up: 2 });
         for (const pl of near(e, e.location, 7)) { hurtP(pl, e, H(e, 0.8)); push(pl, e.location, 1.5, 0.5); } sound(e, "attack", 1.3, 0.7); }); } },
+  // ---- 6.97: técnicas da obra (wiki) ----
+  dragon_haki: { act: "roar", min: 0, max: 14, cd: 18, wind: 16, tele: (e, t, c) => implode(c, eye(e), { col: e.typeId.includes("velzard") ? "frost" : "fire", n: 16, radius: 3 }),
+    run(e, t, c) { announce(e, "Haki do Espírito do Dragão"); ringFlat(c, e.location, { col: e.typeId.includes("velzard") ? "ice" : "fire", n: 36, radius: 14, life: 0.9, tile: T.ring });
+      for (const pl of near(e, e.location, 14)) { eff(pl, "weakness", 8, 2); eff(pl, "slowness", 4, 1); eff(pl, "nausea", 4, 0); hurtP(pl, e, H(e, 0.5)); push(pl, e.location, 1.2, 0.3); } sound(e, "ambient", 1.6, 0.6); } },
+  gravity_collapse: { act: "ability", min: 4, max: 22, cd: 16, wind: 22, tele: (e, t, c) => { implode(c, t.location, { col: "void", n: 20, radius: 6 }); ringFlat(c, t.location, { col: "fire", n: 16, radius: 5 }); },
+    run(e, t, c) { announce(e, "Colapso de Gravidade"); const at = { ...t.location };
+      for (let i = 0; i < 6; i++) after(i * 4, () => { if (!isValid(e)) return; implode(c, at, { col: i % 2 ? "void" : "fire", n: 18, radius: 7 });
+        for (const pl of near(e, at, 9)) { push(pl, at, 0.9, 0.05, true); hurtP(pl, e, H(e, 0.28)); eff(pl, "slowness", 2, 2); } });
+      after(26, () => { if (!isValid(e)) return; burst(c, at, { col: "black", n: 30, spd: 6, up: 1 }); ringFlat(c, at, { col: "fire", n: 30, radius: 8, life: 0.6, tile: T.flame });
+        for (const pl of near(e, at, 6)) { hurtP(pl, e, H(e, 1.2)); push(pl, at, 1.6, 0.6); } sound(e, "attack", 1.6, 0.6); }); } },
+  parallel_existence: { act: "ability", min: 4, max: 24, cd: 20, wind: 14, tele: (e, t, c) => burst(c, eye(e), { col: "fire", n: 16, spd: 2, up: 1 }),
+    run(e, t, c) { announce(e, "Existência Paralela"); const d = flat(e.location, t.location), side = { x: -d.z, z: d.x };
+      for (const sg of [-1, 1]) { const o = { x: e.location.x + side.x * 5 * sg, y: e.location.y + 2, z: e.location.z + side.z * 5 * sg };
+        column(c, o, { col: "fire", n: 14, h: 4, r: 1, tile: T.flame });
+        for (let k = 0; k < 3; k++) after(8 + k * 6, () => { if (!isValid(e) || !isValid(t)) return; streak(c, o, eye(t), { col: k % 2 ? "gold" : "fire", w: 0.3, life: 0.35 }); hurtP(t, e, H(e, 0.4)); try { t.setOnFire(3, true); } catch { /* ignore */ } }); }
+      sound(e, "attack", 1.3, 1.1); } },
+  spatial_domination: { min: 6, max: 26, cd: 12, wind: 8, tele: (e, t, c) => burst(c, e.location, { col: "void", n: 14, up: 1 }),
+    run(e, t, c) { announce(e, "Dominação Espacial"); blinkBehind(e, t); burst(c, e.location, { col: "fire", n: 16, up: 1 });
+      after(4, () => { if (isValid(e) && isValid(t) && dist(e.location, t.location) < 7) { hurtP(t, e, H(e, 0.9)); push(t, e.location, 1.3, 0.4); } }); sound(e, "attack", 1, 1.4); } },
+  blizzard: { act: "ability", min: 0, max: 18, cd: 14, wind: 16, tele: (e, t, c) => ringFlat(c, t.location, { col: "frost", n: 16, radius: 4 }),
+    run(e, t, c) { announce(e, "Nevasca"); const at = { ...t.location };
+      for (let i = 0; i < 8; i++) after(i * 5, () => { if (!isValid(e)) return; ringFlat(c, at, { col: i % 2 ? "ice" : "frost", n: 24, radius: 8, life: 0.6, tile: T.shard });
+        column(c, at, { col: "white", n: 8, h: 6, r: 6 }); for (const pl of near(e, at, 8)) { hurtP(pl, e, H(e, 0.22)); eff(pl, "slowness", 3, 2); } });
+      sound(e, "attack", 1.2, 1.2); } },
+  snow_crystal: { min: 0, max: 30, cd: 24, wind: 6, cond: (e) => { try { const h = e.getComponent("minecraft:health"); return h.currentValue < h.effectiveMax * 0.7; } catch { return false; } },
+    tele: () => {}, run(e, t, c) { announce(e, "Cristal de Neve"); eff(e, "resistance", 6, 3); for (let i = 0; i < 6; i++) after(i * 10, () => { if (isValid(e)) ringFlat(c, eye(e), { col: "ice", n: 14, radius: 3, life: 0.5, tile: T.shard }); }); sound(e, "ambient", 1, 1.5); } },
+  air_wall: { min: 0, max: 7, cd: 12, wind: 8, tele: (e, t, c) => ringFlat(c, e.location, { col: "white", n: 12, radius: 3 }),
+    run(e, t, c) { announce(e, "Parede de Ar"); ringFlat(c, e.location, { col: "frost", n: 30, radius: 7, life: 0.5, tile: T.ring }); for (const pl of near(e, e.location, 7)) { push(pl, e.location, 2.2, 0.5); hurtP(pl, e, H(e, 0.4)); } sound(e, "attack", 1.1, 1.3); } },
+  whiteout_absorb: { act: "ability", min: 0, max: 14, cd: 20, wind: 14, tele: (e, t, c) => implode(c, eye(e), { col: "white", n: 20, radius: 6 }),
+    run(e, t, c) { announce(e, "Whiteout Absorb"); implode(c, e.location, { col: "frost", n: 40, radius: 12, life: 0.8 }); let got = 0;
+      for (const pl of near(e, e.location, 12)) { hurtP(pl, e, H(e, 0.6)); eff(pl, "hunger", 6, 2); eff(pl, "weakness", 6, 1); got++; }
+      if (got) try { e.addEffect("regeneration", 100, { amplifier: 2 + Math.min(2, got) }); } catch { /* ignore */ } sound(e, "attack", 1.2, 0.7); } },
+  eternal_world: { act: "roar", min: 0, max: 16, cd: 30, wind: 24, tele: (e, t, c) => { ringFlat(c, e.location, { col: "ice", n: 24, radius: 10 }); implode(c, eye(e), { col: "white", n: 16, radius: 4 }); },
+    run(e, t, c) { announce(e, "Mundo Eterno: Parada do Tempo"); ringFlat(c, e.location, { col: "white", n: 40, radius: 16, life: 1.4, tile: T.shard });
+      for (const pl of near(e, e.location, 16)) { eff(pl, "slowness", 2, 250); eff(pl, "mining_fatigue", 4, 3); eff(pl, "weakness", 4, 2); hurtP(pl, e, H(e, 0.3)); }
+      after(40, () => { if (!isValid(e)) return; for (const pl of near(e, e.location, 16)) hurtP(pl, e, H(e, 0.8)); burst(c, eye(e), { col: "ice", n: 30, spd: 6 }); }); sound(e, "ambient", 1.6, 0.5); } },
 };
 // papéis -> habilidades (ordem = prioridade)
 const ROLES = {
@@ -125,10 +163,10 @@ const BY_ID = { sea_dragon: ["tide", "water_blade", "roar", "slam"], tt_hinata: 
 const DRAGON_A = {
   veldanava: ["bite", "claw", "tail_sweep", "storm", "breath", "ice_breath", "roar", "dragon_flight", "heal_self"],
   veldora: ["bite", "claw", "tail_sweep", "storm", "breath", "roar", "dragon_flight", "heal_self"],
-  velzard: ["bite", "claw", "tail_sweep", "ice_breath", "roar", "dragon_flight", "heal_self"],
-  velgrynd: ["bite", "claw", "tail_sweep", "breath", "fire_wave", "roar", "dragon_flight", "heal_self"],
+  velzard: ["bite", "claw", "tail_sweep", "ice_breath", "blizzard", "air_wall", "whiteout_absorb", "eternal_world", "dragon_haki", "snow_crystal", "roar", "dragon_flight", "heal_self"],
+  velgrynd: ["bite", "claw", "tail_sweep", "breath", "fire_wave", "gravity_collapse", "parallel_existence", "spatial_domination", "dragon_haki", "roar", "dragon_flight", "heal_self"],
 };
-const HUMAN_A = { veldanava: ["chain_bolt", "arcane_burst", "blink", "leap"], veldora: ["chain_bolt", "blink", "leap"], velzard: ["arcane_burst", "blink", "leap"], velgrynd: ["fire_wave", "blink", "leap"] };
+const HUMAN_A = { veldanava: ["chain_bolt", "arcane_burst", "blink", "leap"], veldora: ["chain_bolt", "blink", "leap"], velzard: ["arcane_burst", "blizzard", "air_wall", "snow_crystal", "blink", "leap"], velgrynd: ["fire_wave", "spatial_domination", "gravity_collapse", "parallel_existence", "leap"] };
 const baseAbilities = (e) => {
   const id = e.typeId.slice(8);
   if (e.typeId === CHR) return chronoAbilities(e);
