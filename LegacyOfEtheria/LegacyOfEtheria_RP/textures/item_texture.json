@@ -1354,6 +1354,9 @@
   },
   "etheria_sk_gs_absolute_destruction": {
    "textures": "textures/items/etheria_sk_gs_absolute_destruction"
+  },
+  "etheria_sk_stomach": {
+   "textures": "textures/items/etheria_sk_stomach"
   }
  }
 }

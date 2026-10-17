@@ -134,7 +134,7 @@ export function startDiscovery() {
 }
 
 // ------------------------------------------------------------------ Única inicial (sorteada uma única vez no primeiro início)
-const NO_STARTER = new Set(["predator", "gluttony", "beelzebuth"]);
+const NO_STARTER = new Set(["predator", "gluttony", "beelzebuth", "stomach"]);
 function starterPool() {
   return Object.values(SKILLS).filter((s) => s.cat === "Única" && !NO_STARTER.has(s.id) && !s.unlock?.combine && STARTER_WEIGHT[s.rarity]);
 }

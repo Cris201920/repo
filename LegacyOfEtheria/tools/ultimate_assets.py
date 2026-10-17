@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw, ImageFilter
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); RP = os.path.join(ROOT, "LegacyOfEtheria_RP"); BP = os.path.join(ROOT, "LegacyOfEtheria_BP")
 src = open(os.path.join(BP, "scripts/data/ultimates.js")).read()
 ULT = re.findall(r'[UG]\("((?:ult|gs)_\w+)", \{ name: "([^"]+)", element: "(\w+)"', src)
+ULT = ULT + [("stomach", "Estômago do Predador", "shadow")]
 PAL = {"void": ((20, 6, 40), (150, 80, 255)), "arcane": ((30, 18, 60), (170, 130, 255)), "holy": ((60, 48, 10), (255, 230, 140)), "lightning": ((16, 26, 56), (255, 240, 120)),
        "fire": ((60, 12, 4), (255, 140, 40)), "shadow": ((14, 6, 24), (170, 70, 220)), "light": ((60, 56, 30), (255, 250, 210)), "ice": ((10, 30, 60), (170, 230, 255))}
 FRAME = {"void": (150, 90, 255), "arcane": (175, 120, 255), "holy": (255, 205, 90), "lightning": (110, 210, 255), "fire": (255, 110, 70), "shadow": (200, 80, 230), "light": (255, 225, 120), "ice": (140, 220, 255)}
@@ -150,6 +151,12 @@ def art(uid, el):
         glow(bg, l, 12, 1.5); l = L(); d = ImageDraw.Draw(l)
         radial(d, 128, 128, 60, (255, 230, 220, 255), (160, 0, 20, 255))
         for k in range(5): ang = k * 1.3; d.line([(128, 128), (128 + math.cos(ang) * 58, 128 + math.sin(ang) * 58)], fill=K, width=4)
+    elif uid == "stomach":                                   # bocarra do Predador com o redemoinho do estômago
+        for k in range(7): d.arc([40 + k * 10, 40 + k * 10, 216 - k * 10, 216 - k * 10], k * 50, k * 50 + 200, fill=(150 + k * 12, 70, 230, 255), width=7)
+        glow(bg, l, 9, 1.3); l = L(); d = ImageDraw.Draw(l)
+        radial(d, 128, 128, 40, (10, 0, 20, 255), (90, 20, 140, 255))
+        for k in range(10): ang = k * math.pi / 5; x, y = 128 + math.cos(ang) * 64, 128 + math.sin(ang) * 64; d.polygon([(x, y), (128 + math.cos(ang + 0.15) * 44, 128 + math.sin(ang + 0.15) * 44), (128 + math.cos(ang - 0.15) * 44, 128 + math.sin(ang - 0.15) * 44)], fill=(240, 235, 255, 255))
+        for x in (104, 152): d.ellipse([x - 9, 92, x + 9, 110], fill=(255, 230, 90, 255))
     glow(bg, l, 4, 0.8)
     return bg
 # moldura pela RARIDADE, no mesmo padrão dos ícones de habilidade do addon (anel claro externo + anel escuro + gema no canto)
@@ -182,7 +189,7 @@ for lang in ("pt_BR", "en_US"):
     L += [f"item.etheria:sk_{uid}={name}" for uid, name, _ in ULT]
     open(p, "w", encoding="utf-8").write("\n".join(L) + "\n")
 # prévia
-sheet = Image.new("RGBA", (6 * 140, 3 * 160), (34, 36, 48, 255)); dd = ImageDraw.Draw(sheet)
+sheet = Image.new("RGBA", (6 * 140, 4 * 160), (34, 36, 48, 255)); dd = ImageDraw.Draw(sheet)
 for i, (uid, name, el) in enumerate(ULT):
     ic = Image.open(os.path.join(RP, f"textures/items/etheria_sk_{uid}.png")).resize((128, 128), Image.NEAREST)
     x, y = (i % 6) * 140 + 6, (i // 6) * 160 + 6; sheet.alpha_composite(ic, (x, y)); dd.text((x, y + 132), name.split(",")[0], fill=(230, 230, 230))

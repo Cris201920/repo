@@ -7,14 +7,14 @@
 // PROCESSAR uma criatura usa a tabela REAL de drops dela (data/mobs.gen.js) — nada de recompensa inventada — e pode extrair as habilidades
 // absorvíveis da família dela (systems/mobskills.js FAMILY_SKILLS), com requisitos: quantidade devorada, análise feita, nível da habilidade,
 // e nunca Únicas/Lendárias/Míticas/Divinas.
-import { ItemStack, system } from "@minecraft/server";
+import { ItemStack, system, world } from "@minecraft/server";
 import { getData, markDirty, saveNow } from "../core/db.js";
 import { say, playSound } from "../core/utils.js";
 import { MOBS } from "../data/mobs.gen.js";
 import { ITEMS } from "../data/items.gen.js";
 import { SKILLS } from "../data/skills.js";
 import { menu as baseMenu } from "./ui/forms.js";
-import { hasSkill, grantSkill } from "./skills.js";
+import { hasSkill, grantSkill, registerExec } from "./skills.js";
 import { familyOf } from "./mobskills.js";
 import { sageText } from "./voice.js";
 import { remember } from "./sageknow.js";
@@ -29,7 +29,7 @@ const NO_ABSORB = new Set(["legendary", "mythic", "divine"]);
 export const predTier = (d) => (hasSkill(d, "beelzebuth") ? "beelzebuth" : hasSkill(d, "gluttony") ? "gluttony" : hasSkill(d, "predator") ? "predator" : null);
 export function stom(d) {
   const s = (d.stom ??= { mobs: {}, items: {}, blocks: {}, analyzed: {}, log: [] });
-  s.mobs ??= {}; s.items ??= {}; s.blocks ??= {}; s.analyzed ??= {}; s.log ??= [];
+  s.mobs ??= {}; s.items ??= {}; s.blocks ??= {}; s.analyzed ??= {}; s.log ??= []; s.digested ??= {}; s.digest ??= true;
   return s;
 }
 const sum = (o) => Object.values(o).reduce((a, b) => a + b, 0);
@@ -89,16 +89,18 @@ export function analyze(player, id) {
   return analysisLines(d, id);
 }
 /** processa n criaturas: drops reais rolados por unidade + tentativa de extrair habilidade da família */
-export function processMob(player, id, n = 1) {
+export function processMob(player, id, n = 1, o = {}) {
   const d = getData(player), m = MOBS[id], t = take(player, "mobs", id, n); if (!t) return "Nada para processar.";
   const out = {};
   for (let i = 0; i < t; i++) for (const [it, a, b, ch] of m?.drops ?? []) if (Math.random() < ch) out[it] = (out[it] ?? 0) + a + Math.floor(Math.random() * (b - a + 1));
-  for (const [it, q] of Object.entries(out)) if (!give(player, it, q)) store(player, "items", it, q);
+  for (const [it, q] of Object.entries(out)) if (o.keep || !give(player, it, q)) store(player, "items", it, q);
   const c = ctx(player), L = { x: player.location.x, y: player.location.y + 1, z: player.location.z };
   orbit(c, () => ({ x: player.location.x, y: player.location.y + 1, z: player.location.z }), { col: "violet", tile: T.orb, n: 3, r: 0.7, dur: 24, step: 2, size: 0.16, speed: 3 });
   implode(c, L, { col: "shadow", tile: T.smoke, n: 10, radius: 1.6, life: 0.5, size: 0.3 });
   let learned = null;
-  const s = stom(d), need = EXTRACT_NEED[m?.rar] ?? 5, devouredTotal = (s.mobs[id] ?? 0) + t;
+  const s = stom(d), need = EXTRACT_NEED[m?.rar] ?? 5;
+  s.digested[id] = (s.digested[id] ?? 0) + t;
+  const devouredTotal = Math.max((s.mobs[id] ?? 0) + t, s.digested[id]);
   if (s.analyzed[id] && devouredTotal >= need) {
     for (const k of familyOf(id).list) {
       const sk = SKILLS[k]; if (!sk || NO_ABSORB.has(sk.rarity) || sk.cat === "Única" || hasSkill(d, k) || d.level < (sk.level ?? 1)) continue;
@@ -110,6 +112,34 @@ export function processMob(player, id, n = 1) {
     try { sageText(player, `Processamento concluído. Habilidade obtida: ${learned.name}.`, { pri: 2, key: "stom.skill", cd: 40 }); } catch { /* ignore */ } }
   const got = Object.entries(out).map(([it, q]) => `${nameOf(it)} x${q}`).join(", ");
   return `§7Processado: §f${nameOf(id)} x${t}§7 → ${got || "nenhum material desta vez"}${learned ? `\n§d✦ Habilidade obtida: ${learned.name}` : ""}`;
+}
+// ---------------------------------------------------------------- 6.85: DIGESTÃO AUTOMÁTICA
+// A cada ciclo o Estômago digere criaturas guardadas: analisa (se ainda não analisou), quebra em materiais (drops reais, guardados no próprio
+// Estômago) e, ao digerir o bastante de uma espécie (EXTRACT_NEED pela raridade), extrai uma habilidade da família dela.
+// Velocidade: Predador 1 a cada 10 s · Gula 2 · Beelzebuth 4. Liga/desliga no menu do Estômago.
+const DIGEST_EVERY = 200, DIGEST_N = { predator: 1, gluttony: 2, beelzebuth: 4 };
+function digestTick(player) {
+  const d = getData(player), tier = predTier(d); if (!tier) return;
+  if (!hasSkill(d, "stomach")) { try { grantSkill(player, "stomach"); } catch { /* ignore */ } }
+  const s = stom(d); if (!s.digest) return;
+  const ids = Object.keys(s.mobs); if (!ids.length) return;
+  let left = DIGEST_N[tier] ?? 1;
+  for (const id of ids) {
+    if (left <= 0) break;
+    const n = Math.min(left, s.mobs[id] ?? 0); if (!n) continue;
+    const first = !s.analyzed[id];
+    if (first) { try { analyze(player, id); } catch { /* ignore */ } }
+    const before = Object.keys(d.predSkills ?? {}).length;
+    processMob(player, id, n, { keep: true });
+    left -= n;
+    const got = Object.keys(d.predSkills ?? {}).length > before;
+    if (got) { const last = Object.entries(d.predSkills).sort((a, b) => b[1].at - a[1].at)[0]; say(player, `§5[Estômago] §fDigestão de ${nameOf(id)} concluída: habilidade §d${SKILLS[last?.[0]]?.name ?? "?"}§f extraída.`); }
+    else if (first) say(player, `§5[Estômago] §7Digerindo ${nameOf(id)}... análise registrada §8(${s.digested[id] ?? 0}/${EXTRACT_NEED[MOBS[id]?.rar] ?? 5} para extrair habilidade)`);
+  }
+}
+export function startStomach() {
+  registerExec("stomach", (player) => { system.run(() => { try { openStomachUI(player); } catch { /* ignore */ } }); return true; });
+  system.runInterval(() => { for (const p of world.getAllPlayers()) { try { digestTick(p); } catch { /* ignore */ } } }, DIGEST_EVERY);
 }
 export function release(player, k, id, n) {
   const t = Math.min(stom(getData(player))[k][id] ?? 0, n); if (!t) return "Nada para liberar.";
@@ -127,6 +157,7 @@ export function openStomachUI(player, back) {
   const name = { predator: "Predador", gluttony: "Gula", beelzebuth: "Beelzebuth" }[tier];
   const body = [`§5${name} §7· capacidade ${bar(used(d), capOf(d))} §f${used(d)}/${capOf(d)}`,
     `§7Criaturas: §f${sum(s.mobs)}§7 · Itens: §f${sum(s.items)}§7 · Materiais: §f${sum(s.blocks)}§7 · Analisadas: §f${Object.keys(s.analyzed).length}`,
+    `§7Digestão automática: ${s.digest ? "§aligada" : "§cdesligada"} §8(${({ predator: 1, gluttony: 2, beelzebuth: 4 })[tier]} criatura(s) a cada 10 s)§7 · Digeridas: §f${sum(s.digested)}`,
     `§7Devorados no total: §f${d.devoured ?? 0}§7 · Habilidades obtidas pelo Predador: §f${Object.keys(d.predSkills ?? {}).length + Object.keys(d.absorbed ?? {}).length}`,
     tier === "predator" ? `§7Evolução para §5Gula§7: ${Math.min(d.devoured ?? 0, STOMACH_EVOLVE)}/${STOMACH_EVOLVE} devorados e nível 35 §8(capacidade 1024, devora até 4 alvos, chefes)`
       : tier === "gluttony" ? `§7Evolução para §5Beelzebuth§7: ${Math.min(d.devoured ?? 0, BEELZEBUTH_EVOLVE.devoured)}/${BEELZEBUTH_EVOLVE.devoured} devorados e nível ${BEELZEBUTH_EVOLVE.level} §8(capacidade 4096, seres lendários)` : "§5Beelzebuth: §7forma máxima da Gula."].join("\n");
@@ -135,6 +166,7 @@ export function openStomachUI(player, back) {
     { text: `§lCriaturas §8(${Object.keys(s.mobs).length})`, icon: "menu_inventory", run: () => openList(player, "mobs", self) },
     { text: `§lItens §8(${Object.keys(s.items).length})`, icon: "menu_inventory", run: () => openList(player, "items", self) },
     { text: `§lMateriais §8(${Object.keys(s.blocks).length})`, icon: "menu_inventory", run: () => openList(player, "blocks", self) },
+    { text: s.digest ? "§lDigestão: §aLIGADA\n§r§7toque para pausar" : "§lDigestão: §cPAUSADA\n§r§7toque para retomar", icon: "menu_skills", run: () => { s.digest = !s.digest; markDirty(player); self(); } },
     { text: "§lHabilidades obtidas", icon: "menu_skills", run: () => openSkills(player, self) },
     { text: "§lHistórico de absorções", icon: "menu_quests", run: () => openLog(player, self) },
     ...(back ? [{ text: "Voltar", run: back }] : []),
@@ -161,7 +193,7 @@ function openEntry(player, k, id, back) {
     if (n) B.push({ text: `§lLiberar tudo (${n})`, run: () => done(release(player, k, id, n)) });
   }
   B.push({ text: "Voltar", run: back });
-  menu(player, "§l§5" + nameOf(id).toUpperCase(), k === "mobs" ? analysisLines(d, id).join("\n") + `\n\n§7No estômago: §f${n}` : `§7Quantidade: §f${n}\n§7Id: §8${id}`, B);
+  menu(player, "§l§5" + nameOf(id).toUpperCase(), k === "mobs" ? analysisLines(d, id).join("\n") + `\n\n§7No estômago: §f${n}§7 · Digeridas: §f${stom(d).digested[id] ?? 0}/${EXTRACT_NEED[MOBS[id]?.rar] ?? 5}` : `§7Quantidade: §f${n}\n§7Id: §8${id}`, B);
 }
 function openSkills(player, back) {
   const d = getData(player), L = [];

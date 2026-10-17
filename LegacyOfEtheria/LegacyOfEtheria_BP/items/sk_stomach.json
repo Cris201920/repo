@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_stomach",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_stomach"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "\u00a76Est\u00f4mago do Predador"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_stomach",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

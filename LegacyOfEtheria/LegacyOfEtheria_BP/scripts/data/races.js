@@ -44,7 +44,7 @@ export const RACES = {
     S("human_3b", "Arquimago Humano", "human_2b", { minLevel: 60, cost: 4000, attrs: { strength: 0, defense: 2, intelligence: 10, agility: 3, vitality: 2 }, skills: ["mana_burst"] }),
   ]),
   slime: build("slime", { name: "Slime", color: "§b", desc: "Frágil no início, mas nasce com o Predador e o Great Sage. Devora para crescer.", bonus: "Predador, Mimetismo, +3 Inteligência", penalty: "Força e defesa baixas" , traits: { res_physical: 10, manaRegen: 15, res_magic: 5 }}, [
-    S("slime_1", "Slime", null, { attrs: { strength: -2, defense: 0, intelligence: 3, agility: 1, vitality: 2 }, skills: ["predator"] }),
+    S("slime_1", "Slime", null, { attrs: { strength: -2, defense: 0, intelligence: 3, agility: 1, vitality: 2 }, skills: ["predator", "stomach"] }),
     S("slime_2", "Slime Demoníaco", "slime_1", { minLevel: 25, cost: 1000, attrs: { strength: 2, defense: 2, intelligence: 6, agility: 3, vitality: 4 }, skills: ["soul_drain"] }),
     S("slime_3a", "Slime Soberano", "slime_2", { minLevel: 55, cost: 5000, kills: 100, attrs: { strength: 6, defense: 6, intelligence: 10, agility: 4, vitality: 8 }, stats: { hp: 20 }, skills: ["barrier"] }),
     S("slime_3b", "Slime Sábio", "slime_2", { minLevel: 55, cost: 5000, attrs: { strength: 2, defense: 4, intelligence: 14, agility: 5, vitality: 5 }, skills: ["mana_burst"] }),

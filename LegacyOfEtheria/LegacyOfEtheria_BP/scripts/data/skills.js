@@ -16,6 +16,8 @@ function def(s) { SKILLS[s.id] = s; }
 def(A("predator", { name: "Predador", cat: "Única", element: "shadow", rarity: "mythic", mana: 15, cd: 6, level: 1, sp: 0,
   desc: "Habilidade Única. Ataca e devora alvos enfraquecidos (≤30% de vida), guardando-os no estômago. Concede Mimetismo.",
   exec: { kind: "devour", range: 5, power: 1.0, stat: "intelligence", threshold: 0.3, max: 1 } }));
+def(A("stomach", { name: "Estômago do Predador", cat: "Única", element: "shadow", rarity: "mythic", mana: 0, cd: 1, level: 1, sp: 0,
+  desc: "Abre o Estômago: guarda o que o Predador devora e DIGERE sozinho — analisa cada criatura, quebra em materiais e extrai as habilidades dela.", exec: { kind: "stomach" } }));
 def(A("gluttony", { name: "Glutonaria", cat: "Única", element: "shadow", rarity: "divine", mana: 30, cd: 8, level: 1, sp: 0,
   desc: "Evolução do Predador (Glutonaria). Devora vários alvos ao redor (≤40% de vida).",
   exec: { kind: "devour", range: 8, aoe: 6, max: 4, power: 1.6, stat: "intelligence", threshold: 0.4 } }));
