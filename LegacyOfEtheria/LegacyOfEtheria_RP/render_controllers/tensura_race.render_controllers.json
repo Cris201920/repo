@@ -92,7 +92,8 @@
       "Texture.tr_tail_2",
       "Texture.tr_tail_3",
       "Texture.tr_tail_4",
-      "Texture.tr_tail_5"
+      "Texture.tr_tail_5",
+      "Texture.tr_tail_6"
      ]
     },
     "geometries": {
@@ -102,6 +103,7 @@
       "Geometry.tr_liz_tail",
       "Geometry.tr_liz_tail",
       "Geometry.tr_arch_tail",
+      "Geometry.tr_liz_tail",
       "Geometry.tr_liz_tail"
      ]
     }

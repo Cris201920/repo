@@ -86,7 +86,7 @@
      "type": "int",
      "range": [
       0,
-      5
+      6
      ],
      "default": 0,
      "client_sync": true
@@ -152,9 +152,25 @@
      "default": 0,
      "client_sync": true
     },
-    "etheria:lord": {"type": "bool", "default": false, "client_sync": true},
-    "etheria:slime": {"type": "bool", "default": false, "client_sync": true},
-    "etheria:mimic": {"type": "int", "range": [0, 23], "default": 0, "client_sync": true}
+    "etheria:lord": {
+     "type": "bool",
+     "default": false,
+     "client_sync": true
+    },
+    "etheria:slime": {
+     "type": "bool",
+     "default": false,
+     "client_sync": true
+    },
+    "etheria:mimic": {
+     "type": "int",
+     "range": [
+      0,
+      23
+     ],
+     "default": 0,
+     "client_sync": true
+    }
    }
   },
   "component_groups": {

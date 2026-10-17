@@ -119,7 +119,8 @@
     "mim_skeleton_knight": "textures/entity/etheria_skeleton_knight",
     "mim_arcane_slime": "textures/entity/etheria_tt_intelligent_slime",
     "mim_knight": "textures/entity/etheria_npc_lm_knight",
-    "mim_adventurer": "textures/entity/etheria_npc_tp_adventurer"
+    "mim_adventurer": "textures/entity/etheria_npc_tp_adventurer",
+    "tr_tail_6": "textures/entity/tensura/race/tail_6"
    },
    "geometry": {
     "default": "geometry.humanoid.custom",
