@@ -47,6 +47,13 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.35": [
+     {
+      "effect": "spark"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velzard.claw": {
@@ -102,6 +109,13 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.4": [
+     {
+      "effect": "spark"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velzard.tail": {
@@ -332,6 +346,13 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.3": [
+     {
+      "effect": "ring"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velzard.roar": {
@@ -721,6 +742,16 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.25": [
+     {
+      "effect": "shock"
+     },
+     {
+      "effect": "elem"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velzard.ability": {
@@ -767,6 +798,21 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.1": [
+     {
+      "effect": "elem"
+     }
+    ],
+    "0.6": [
+     {
+      "effect": "elem"
+     },
+     {
+      "effect": "shock"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velzard.takeoff": {
@@ -1093,6 +1139,16 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.35": [
+     {
+      "effect": "ring"
+     },
+     {
+      "effect": "dust"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velzard.landing": {
@@ -1414,6 +1470,16 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.45": [
+     {
+      "effect": "ring"
+     },
+     {
+      "effect": "dust"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velzard.hurt": {
@@ -1749,6 +1815,13 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.0": [
+     {
+      "effect": "spark"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velzard.death": {
@@ -2110,6 +2183,21 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.3": [
+     {
+      "effect": "fog"
+     }
+    ],
+    "1.9": [
+     {
+      "effect": "shock"
+     },
+     {
+      "effect": "dust"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velzard.player_attack": {
@@ -2212,6 +2300,13 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.35": [
+     {
+      "effect": "spark"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velgrynd.claw": {
@@ -2267,6 +2362,13 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.4": [
+     {
+      "effect": "spark"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velgrynd.tail": {
@@ -2497,6 +2599,13 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.3": [
+     {
+      "effect": "ring"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velgrynd.roar": {
@@ -2886,6 +2995,16 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.25": [
+     {
+      "effect": "shock"
+     },
+     {
+      "effect": "elem"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velgrynd.ability": {
@@ -2932,6 +3051,21 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.1": [
+     {
+      "effect": "elem"
+     }
+    ],
+    "0.6": [
+     {
+      "effect": "elem"
+     },
+     {
+      "effect": "shock"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velgrynd.takeoff": {
@@ -3258,6 +3392,16 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.35": [
+     {
+      "effect": "ring"
+     },
+     {
+      "effect": "dust"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velgrynd.landing": {
@@ -3579,6 +3723,16 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.45": [
+     {
+      "effect": "ring"
+     },
+     {
+      "effect": "dust"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velgrynd.hurt": {
@@ -3914,6 +4068,13 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.0": [
+     {
+      "effect": "spark"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velgrynd.death": {
@@ -4275,6 +4436,21 @@
       0
      ]
     }
+   },
+   "particle_effects": {
+    "0.3": [
+     {
+      "effect": "fog"
+     }
+    ],
+    "1.9": [
+     {
+      "effect": "shock"
+     },
+     {
+      "effect": "dust"
+     }
+    ]
    }
   },
   "animation.etheria_serp_velgrynd.player_attack": {
@@ -4899,6 +5075,1436 @@
      "rotation": [
       0,
       "math.pow(math.max(0, math.sin(query.anim_time * 35 + 200)), 3) * math.sin(query.anim_time * 200 - 200) * 16",
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria_q_veldanava.walk": {
+   "loop": true,
+   "bones": {
+    "d_body": {
+     "position": [
+      0,
+      "math.abs(math.sin(((query.modified_distance_moved * 26) * 1.0))) * 1.2 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ],
+     "rotation": [
+      "-0.0 * math.min(1, query.modified_move_speed * 3)",
+      "math.sin(((query.modified_distance_moved * 26) * 1.0)) * 3 * math.min(1, query.modified_move_speed * 3)",
+      "math.sin(((query.modified_distance_moved * 26) * 1.0)) * 2 * math.min(1, query.modified_move_speed * 3)"
+     ]
+    },
+    "d_neck1": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.0) * 2) * 2 * math.min(1, query.modified_move_speed * 3)",
+      "-math.sin(((query.modified_distance_moved * 26) * 1.0)) * 3 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_head": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.0) * 2 + 40) * 2 * math.min(1, query.modified_move_speed * 3)",
+      "-math.sin(((query.modified_distance_moved * 26) * 1.0)) * 2 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_left_arm": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.0) + 0) * 24.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_left_arm_lower": {
+     "rotation": [
+      "-math.max(0, -math.cos(((query.modified_distance_moved * 26) * 1.0) + 0)) * 30.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_right_leg": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.0) + 0) * 24.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_right_leg_lower": {
+     "rotation": [
+      "-math.max(0, -math.cos(((query.modified_distance_moved * 26) * 1.0) + 0)) * 30.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_right_arm": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.0) + 180) * 24.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_right_arm_lower": {
+     "rotation": [
+      "-math.max(0, -math.cos(((query.modified_distance_moved * 26) * 1.0) + 180)) * 30.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_left_leg": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.0) + 180) * 24.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_left_leg_lower": {
+     "rotation": [
+      "-math.max(0, -math.cos(((query.modified_distance_moved * 26) * 1.0) + 180)) * 30.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_left_hand": {
+     "rotation": [
+      "math.max(0, math.cos((query.modified_distance_moved * 26) * 1.0 + 0)) * 25 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_right_hand": {
+     "rotation": [
+      "math.max(0, math.cos((query.modified_distance_moved * 26) * 1.0 + 180)) * 25 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_tail1": {
+     "rotation": [
+      0,
+      "math.sin(((query.modified_distance_moved * 26) * 1.0) - 40) * 6.0 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_tail2": {
+     "rotation": [
+      0,
+      "math.sin(((query.modified_distance_moved * 26) * 1.0) - 80) * 8.0 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_tail3": {
+     "rotation": [
+      0,
+      "math.sin(((query.modified_distance_moved * 26) * 1.0) - 120) * 10.0 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_tail4": {
+     "rotation": [
+      0,
+      "math.sin(((query.modified_distance_moved * 26) * 1.0) - 160) * 12.0 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_tail5": {
+     "rotation": [
+      0,
+      "math.sin(((query.modified_distance_moved * 26) * 1.0) - 200) * 14.0 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria_q_veldanava.run": {
+   "loop": true,
+   "bones": {
+    "d_body": {
+     "position": [
+      0,
+      "math.abs(math.sin(((query.modified_distance_moved * 26) * 1.35))) * 1.92 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ],
+     "rotation": [
+      "-1.2000000000000002 * math.min(1, query.modified_move_speed * 3)",
+      "math.sin(((query.modified_distance_moved * 26) * 1.35)) * 3 * math.min(1, query.modified_move_speed * 3)",
+      "math.sin(((query.modified_distance_moved * 26) * 1.35)) * 2 * math.min(1, query.modified_move_speed * 3)"
+     ]
+    },
+    "d_neck1": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.35) * 2) * 2 * math.min(1, query.modified_move_speed * 3)",
+      "-math.sin(((query.modified_distance_moved * 26) * 1.35)) * 3 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_head": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.35) * 2 + 40) * 2 * math.min(1, query.modified_move_speed * 3)",
+      "-math.sin(((query.modified_distance_moved * 26) * 1.35)) * 2 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_left_arm": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.35) + 0) * 38.400000000000006 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_left_arm_lower": {
+     "rotation": [
+      "-math.max(0, -math.cos(((query.modified_distance_moved * 26) * 1.35) + 0)) * 48.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_right_leg": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.35) + 0) * 38.400000000000006 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_right_leg_lower": {
+     "rotation": [
+      "-math.max(0, -math.cos(((query.modified_distance_moved * 26) * 1.35) + 0)) * 48.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_right_arm": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.35) + 180) * 38.400000000000006 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_right_arm_lower": {
+     "rotation": [
+      "-math.max(0, -math.cos(((query.modified_distance_moved * 26) * 1.35) + 180)) * 48.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_left_leg": {
+     "rotation": [
+      "math.sin(((query.modified_distance_moved * 26) * 1.35) + 180) * 38.400000000000006 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_left_leg_lower": {
+     "rotation": [
+      "-math.max(0, -math.cos(((query.modified_distance_moved * 26) * 1.35) + 180)) * 48.0 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_left_hand": {
+     "rotation": [
+      "math.max(0, math.cos((query.modified_distance_moved * 26) * 1.35 + 0)) * 25 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_right_hand": {
+     "rotation": [
+      "math.max(0, math.cos((query.modified_distance_moved * 26) * 1.35 + 180)) * 25 * math.min(1, query.modified_move_speed * 3)",
+      0,
+      0
+     ]
+    },
+    "d_tail1": {
+     "rotation": [
+      0,
+      "math.sin(((query.modified_distance_moved * 26) * 1.35) - 40) * 9.600000000000001 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_tail2": {
+     "rotation": [
+      0,
+      "math.sin(((query.modified_distance_moved * 26) * 1.35) - 80) * 12.8 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_tail3": {
+     "rotation": [
+      0,
+      "math.sin(((query.modified_distance_moved * 26) * 1.35) - 120) * 16.0 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_tail4": {
+     "rotation": [
+      0,
+      "math.sin(((query.modified_distance_moved * 26) * 1.35) - 160) * 19.200000000000003 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    },
+    "d_tail5": {
+     "rotation": [
+      0,
+      "math.sin(((query.modified_distance_moved * 26) * 1.35) - 200) * 22.400000000000002 * math.min(1, query.modified_move_speed * 3)",
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria_q_veldanava.fly": {
+   "loop": true,
+   "animation_length": 1.3846,
+   "bones": {
+    "d_left_wing_base": {
+     "rotation": [
+      0,
+      "-1 * math.sin(query.anim_time * 260 - 20) * 6",
+      "-1 * (math.sin(query.anim_time * 260) * 42 + 0)"
+     ]
+    },
+    "d_left_wing_top": {
+     "rotation": [
+      0,
+      0,
+      "-1 * math.sin(query.anim_time * 260 - 40) * 24"
+     ]
+    },
+    "d_left_wing_mid": {
+     "rotation": [
+      0,
+      0,
+      "-1 * math.sin(query.anim_time * 260 - 80) * 18"
+     ]
+    },
+    "d_left_wing_low": {
+     "rotation": [
+      "math.sin(query.anim_time * 260 - 100) * 8",
+      0,
+      0
+     ]
+    },
+    "d_right_wing_base": {
+     "rotation": [
+      0,
+      "1 * math.sin(query.anim_time * 260 - 20) * 6",
+      "1 * (math.sin(query.anim_time * 260) * 42 + 0)"
+     ]
+    },
+    "d_right_wing_top": {
+     "rotation": [
+      0,
+      0,
+      "1 * math.sin(query.anim_time * 260 - 40) * 24"
+     ]
+    },
+    "d_right_wing_mid": {
+     "rotation": [
+      0,
+      0,
+      "1 * math.sin(query.anim_time * 260 - 80) * 18"
+     ]
+    },
+    "d_right_wing_low": {
+     "rotation": [
+      "math.sin(query.anim_time * 260 - 100) * 8",
+      0,
+      0
+     ]
+    },
+    "d_All": {
+     "position": [
+      0,
+      "-math.sin(query.anim_time * 260) * 2",
+      0
+     ]
+    },
+    "d_body": {
+     "rotation": [
+      "-8 + math.sin(query.anim_time * 260 + 180) * 2",
+      0,
+      0
+     ]
+    },
+    "d_left_leg": {
+     "rotation": [
+      45,
+      0,
+      0
+     ]
+    },
+    "d_left_leg_lower": {
+     "rotation": [
+      -40,
+      0,
+      0
+     ]
+    },
+    "d_left_arm": {
+     "rotation": [
+      -35,
+      0,
+      0
+     ]
+    },
+    "d_left_arm_lower": {
+     "rotation": [
+      50,
+      0,
+      0
+     ]
+    },
+    "d_right_leg": {
+     "rotation": [
+      45,
+      0,
+      0
+     ]
+    },
+    "d_right_leg_lower": {
+     "rotation": [
+      -40,
+      0,
+      0
+     ]
+    },
+    "d_right_arm": {
+     "rotation": [
+      -35,
+      0,
+      0
+     ]
+    },
+    "d_right_arm_lower": {
+     "rotation": [
+      50,
+      0,
+      0
+     ]
+    },
+    "d_neck1": {
+     "rotation": [
+      "10 + math.sin(query.anim_time * 260 - 60) * 2",
+      0,
+      0
+     ]
+    },
+    "d_neck2": {
+     "rotation": [
+      -6,
+      0,
+      0
+     ]
+    },
+    "d_head": {
+     "rotation": [
+      "-4 + math.sin(query.anim_time * 260 - 90) * 2",
+      0,
+      0
+     ]
+    },
+    "d_tail1": {
+     "rotation": [
+      "math.sin(query.anim_time * 260 - 40) * 3",
+      "math.sin(query.anim_time * 260 - 50) * 3",
+      0
+     ]
+    },
+    "d_tail2": {
+     "rotation": [
+      "math.sin(query.anim_time * 260 - 80) * 3",
+      "math.sin(query.anim_time * 260 - 100) * 4",
+      0
+     ]
+    },
+    "d_tail3": {
+     "rotation": [
+      "math.sin(query.anim_time * 260 - 120) * 3",
+      "math.sin(query.anim_time * 260 - 150) * 5",
+      0
+     ]
+    },
+    "d_tail4": {
+     "rotation": [
+      "math.sin(query.anim_time * 260 - 160) * 3",
+      "math.sin(query.anim_time * 260 - 200) * 6",
+      0
+     ]
+    },
+    "d_tail5": {
+     "rotation": [
+      "math.sin(query.anim_time * 260 - 200) * 3",
+      "math.sin(query.anim_time * 260 - 250) * 7",
+      0
+     ]
+    }
+   },
+   "particle_effects": {
+    "0.415": [
+     {
+      "effect": "ring"
+     }
+    ]
+   }
+  },
+  "animation.etheria_q_veldanava.glide": {
+   "loop": true,
+   "animation_length": 1.3846,
+   "bones": {
+    "d_left_wing_base": {
+     "rotation": [
+      0,
+      "-1 * math.sin(query.anim_time * 260 - 20) * 6",
+      "-1 * (math.sin(query.anim_time * 260) * 3 + -30)"
+     ]
+    },
+    "d_left_wing_top": {
+     "rotation": [
+      0,
+      0,
+      "-1 * math.sin(query.anim_time * 260 - 40) * 2"
+     ]
+    },
+    "d_left_wing_mid": {
+     "rotation": [
+      0,
+      0,
+      "-1 * math.sin(query.anim_time * 260 - 80) * 2"
+     ]
+    },
+    "d_left_wing_low": {
+     "rotation": [
+      "math.sin(query.anim_time * 260 - 100) * 3",
+      0,
+      0
+     ]
+    },
+    "d_right_wing_base": {
+     "rotation": [
+      0,
+      "1 * math.sin(query.anim_time * 260 - 20) * 6",
+      "1 * (math.sin(query.anim_time * 260) * 3 + -30)"
+     ]
+    },
+    "d_right_wing_top": {
+     "rotation": [
+      0,
+      0,
+      "1 * math.sin(query.anim_time * 260 - 40) * 2"
+     ]
+    },
+    "d_right_wing_mid": {
+     "rotation": [
+      0,
+      0,
+      "1 * math.sin(query.anim_time * 260 - 80) * 2"
+     ]
+    },
+    "d_right_wing_low": {
+     "rotation": [
+      "math.sin(query.anim_time * 260 - 100) * 3",
+      0,
+      0
+     ]
+    },
+    "d_body": {
+     "rotation": [
+      -4,
+      0,
+      0
+     ]
+    },
+    "d_left_leg": {
+     "rotation": [
+      45,
+      0,
+      0
+     ]
+    },
+    "d_left_leg_lower": {
+     "rotation": [
+      -40,
+      0,
+      0
+     ]
+    },
+    "d_left_arm": {
+     "rotation": [
+      -35,
+      0,
+      0
+     ]
+    },
+    "d_left_arm_lower": {
+     "rotation": [
+      50,
+      0,
+      0
+     ]
+    },
+    "d_right_leg": {
+     "rotation": [
+      45,
+      0,
+      0
+     ]
+    },
+    "d_right_leg_lower": {
+     "rotation": [
+      -40,
+      0,
+      0
+     ]
+    },
+    "d_right_arm": {
+     "rotation": [
+      -35,
+      0,
+      0
+     ]
+    },
+    "d_right_arm_lower": {
+     "rotation": [
+      50,
+      0,
+      0
+     ]
+    },
+    "d_tail1": {
+     "rotation": [
+      0,
+      "math.sin(query.anim_time * 260 - 50) * 1.6",
+      0
+     ]
+    },
+    "d_tail2": {
+     "rotation": [
+      0,
+      "math.sin(query.anim_time * 260 - 100) * 2.2",
+      0
+     ]
+    },
+    "d_tail3": {
+     "rotation": [
+      0,
+      "math.sin(query.anim_time * 260 - 150) * 2.8",
+      0
+     ]
+    },
+    "d_tail4": {
+     "rotation": [
+      0,
+      "math.sin(query.anim_time * 260 - 200) * 3.4",
+      0
+     ]
+    },
+    "d_tail5": {
+     "rotation": [
+      0,
+      "math.sin(query.anim_time * 260 - 250) * 4.0",
+      0
+     ]
+    }
+   }
+  },
+  "animation.etheria_q_veldanava.takeoff": {
+   "loop": false,
+   "animation_length": 1.0,
+   "bones": {
+    "d_All": {
+     "position": [
+      0,
+      "-4 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.4, 0, 1)) + 10 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.35) / 0.65, 0, 1))) / 2)",
+      0
+     ]
+    },
+    "d_body": {
+     "rotation": [
+      "6 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.4, 0, 1)) - 10 * math.sin(180 * math.clamp((query.anim_time - 0.35) / 0.65, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_left_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (30 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.35, 0, 1)) - 60 * math.sin(180 * math.clamp((query.anim_time - 0.3) / 0.39999999999999997, 0, 1)))"
+     ]
+    },
+    "d_left_wing_top": {
+     "rotation": [
+      0,
+      0,
+      "-1 * -25 * math.sin(180 * math.clamp((query.anim_time - 0.35) / 0.4, 0, 1))"
+     ]
+    },
+    "d_left_leg": {
+     "rotation": [
+      "-20 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.4, 0, 1)) + 40 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.45) / 0.55, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_left_leg_lower": {
+     "rotation": [
+      "30 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.4, 0, 1)) - 40 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.45) / 0.55, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_left_arm": {
+     "rotation": [
+      "20 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.4, 0, 1)) - 35 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.45) / 0.55, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_right_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "1 * (30 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.35, 0, 1)) - 60 * math.sin(180 * math.clamp((query.anim_time - 0.3) / 0.39999999999999997, 0, 1)))"
+     ]
+    },
+    "d_right_wing_top": {
+     "rotation": [
+      0,
+      0,
+      "1 * -25 * math.sin(180 * math.clamp((query.anim_time - 0.35) / 0.4, 0, 1))"
+     ]
+    },
+    "d_right_leg": {
+     "rotation": [
+      "-20 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.4, 0, 1)) + 40 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.45) / 0.55, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_right_leg_lower": {
+     "rotation": [
+      "30 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.4, 0, 1)) - 40 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.45) / 0.55, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_right_arm": {
+     "rotation": [
+      "20 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.4, 0, 1)) - 35 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.45) / 0.55, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    }
+   },
+   "particle_effects": {
+    "0.35": [
+     {
+      "effect": "ring"
+     },
+     {
+      "effect": "dust"
+     }
+    ]
+   }
+  },
+  "animation.etheria_q_veldanava.landing": {
+   "loop": false,
+   "animation_length": 0.8,
+   "bones": {
+    "d_All": {
+     "position": [
+      0,
+      "-5 * math.sin(180 * math.clamp((query.anim_time - 0.4) / 0.4, 0, 1))",
+      0
+     ]
+    },
+    "d_body": {
+     "rotation": [
+      "-8 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.45, 0, 1)) + 5 * math.sin(180 * math.clamp((query.anim_time - 0.4) / 0.4, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_left_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "-1 * (35 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.5, 0, 1)))"
+     ]
+    },
+    "d_left_leg": {
+     "rotation": [
+      "-25 * math.sin(180 * math.clamp((query.anim_time - 0.35) / 0.45000000000000007, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_left_leg_lower": {
+     "rotation": [
+      "35 * math.sin(180 * math.clamp((query.anim_time - 0.35) / 0.45000000000000007, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_left_arm": {
+     "rotation": [
+      "-20 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.4, 0, 1)) + 20 * math.sin(180 * math.clamp((query.anim_time - 0.4) / 0.4, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_right_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "1 * (35 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.5, 0, 1)))"
+     ]
+    },
+    "d_right_leg": {
+     "rotation": [
+      "-25 * math.sin(180 * math.clamp((query.anim_time - 0.35) / 0.45000000000000007, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_right_leg_lower": {
+     "rotation": [
+      "35 * math.sin(180 * math.clamp((query.anim_time - 0.35) / 0.45000000000000007, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_right_arm": {
+     "rotation": [
+      "-20 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.4, 0, 1)) + 20 * math.sin(180 * math.clamp((query.anim_time - 0.4) / 0.4, 0, 1))",
+      0,
+      0
+     ]
+    }
+   },
+   "particle_effects": {
+    "0.45": [
+     {
+      "effect": "ring"
+     },
+     {
+      "effect": "dust"
+     }
+    ]
+   }
+  },
+  "animation.etheria_q_veldanava.bite": {
+   "loop": false,
+   "animation_length": 0.7,
+   "bones": {
+    "d_neck1": {
+     "rotation": [
+      "-16 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.3, 0, 1)) + 22 * math.sin(180 * math.clamp((query.anim_time - 0.25) / 0.30000000000000004, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_neck2": {
+     "rotation": [
+      "-16 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.3, 0, 1)) + 22 * math.sin(180 * math.clamp((query.anim_time - 0.25) / 0.30000000000000004, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_neck3": {
+     "rotation": [
+      "-16 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.3, 0, 1)) + 22 * math.sin(180 * math.clamp((query.anim_time - 0.25) / 0.30000000000000004, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_head": {
+     "rotation": [
+      "-12 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.3, 0, 1)) + 16 * math.sin(180 * math.clamp((query.anim_time - 0.25) / 0.30000000000000004, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_lower_jaw": {
+     "rotation": [
+      "45 * math.sin(180 * math.clamp((query.anim_time - 0.05) / 0.37, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_upper_body": {
+     "rotation": [
+      "5 * math.sin(180 * math.clamp((query.anim_time - 0.25) / 0.30000000000000004, 0, 1))",
+      0,
+      0
+     ]
+    }
+   },
+   "particle_effects": {
+    "0.35": [
+     {
+      "effect": "spark"
+     }
+    ]
+   }
+  },
+  "animation.etheria_q_veldanava.claw": {
+   "loop": false,
+   "animation_length": 0.8,
+   "bones": {
+    "d_body": {
+     "rotation": [
+      "-18 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.8, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_left_arm": {
+     "rotation": [
+      "-90 * math.sin(180 * math.clamp((query.anim_time - 0.15) / 0.30000000000000004, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_right_arm": {
+     "rotation": [
+      "-90 * math.sin(180 * math.clamp((query.anim_time - 0.3) / 0.3, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_left_hand": {
+     "rotation": [
+      "30 * math.sin(180 * math.clamp((query.anim_time - 0.15) / 0.30000000000000004, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_right_hand": {
+     "rotation": [
+      "30 * math.sin(180 * math.clamp((query.anim_time - 0.3) / 0.3, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_left_leg": {
+     "rotation": [
+      "14 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.8, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_right_leg": {
+     "rotation": [
+      "14 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.8, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_head": {
+     "rotation": [
+      "-10 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.8, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_lower_jaw": {
+     "rotation": [
+      "25 * math.sin(180 * math.clamp((query.anim_time - 0.1) / 0.6, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_left_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "-1 * 18 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.8, 0, 1))"
+     ]
+    },
+    "d_right_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "1 * 18 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.8, 0, 1))"
+     ]
+    }
+   },
+   "particle_effects": {
+    "0.4": [
+     {
+      "effect": "spark"
+     }
+    ]
+   }
+  },
+  "animation.etheria_q_veldanava.tail": {
+   "loop": false,
+   "animation_length": 1.0,
+   "bones": {
+    "d_All": {
+     "rotation": [
+      0,
+      "40 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.0, 0, 1))",
+      0
+     ]
+    },
+    "d_neck1": {
+     "rotation": [
+      0,
+      "-15 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.0, 0, 1))",
+      0
+     ]
+    },
+    "d_tail1": {
+     "rotation": [
+      0,
+      "math.sin(math.clamp(query.anim_time * 540 - 30, 0, 360)) * 20 * (1 - query.anim_time)",
+      0
+     ]
+    },
+    "d_tail2": {
+     "rotation": [
+      0,
+      "math.sin(math.clamp(query.anim_time * 540 - 60, 0, 360)) * 20 * (1 - query.anim_time)",
+      0
+     ]
+    },
+    "d_tail3": {
+     "rotation": [
+      0,
+      "math.sin(math.clamp(query.anim_time * 540 - 90, 0, 360)) * 20 * (1 - query.anim_time)",
+      0
+     ]
+    },
+    "d_tail4": {
+     "rotation": [
+      0,
+      "math.sin(math.clamp(query.anim_time * 540 - 120, 0, 360)) * 20 * (1 - query.anim_time)",
+      0
+     ]
+    },
+    "d_tail5": {
+     "rotation": [
+      0,
+      "math.sin(math.clamp(query.anim_time * 540 - 150, 0, 360)) * 20 * (1 - query.anim_time)",
+      0
+     ]
+    }
+   },
+   "particle_effects": {
+    "0.3": [
+     {
+      "effect": "ring"
+     }
+    ]
+   }
+  },
+  "animation.etheria_q_veldanava.roar": {
+   "loop": false,
+   "animation_length": 1.6,
+   "bones": {
+    "d_neck1": {
+     "rotation": [
+      "-20 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.5, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_neck2": {
+     "rotation": [
+      "-10 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.5, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_head": {
+     "rotation": [
+      "-30 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.5, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_lower_jaw": {
+     "rotation": [
+      "50 * math.sin(180 * math.clamp((query.anim_time - 0.1) / 1.2999999999999998, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_body": {
+     "rotation": [
+      "-10 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.6, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_All": {
+     "rotation": [
+      0,
+      0,
+      "2 * math.sin(query.anim_time * 2400) * math.sin(180 * math.clamp((query.anim_time - 0.2) / 1.1, 0, 1))"
+     ]
+    },
+    "d_left_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "-1 * 30 * math.sin(180 * math.clamp((query.anim_time - 0.1) / 1.4, 0, 1))"
+     ]
+    },
+    "d_left_wing_top": {
+     "rotation": [
+      0,
+      0,
+      "-1 * 20 * math.sin(180 * math.clamp((query.anim_time - 0.1) / 1.4, 0, 1))"
+     ]
+    },
+    "d_right_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "1 * 30 * math.sin(180 * math.clamp((query.anim_time - 0.1) / 1.4, 0, 1))"
+     ]
+    },
+    "d_right_wing_top": {
+     "rotation": [
+      0,
+      0,
+      "1 * 20 * math.sin(180 * math.clamp((query.anim_time - 0.1) / 1.4, 0, 1))"
+     ]
+    }
+   },
+   "particle_effects": {
+    "0.25": [
+     {
+      "effect": "shock"
+     },
+     {
+      "effect": "elem"
+     }
+    ]
+   }
+  },
+  "animation.etheria_q_veldanava.ability": {
+   "loop": false,
+   "animation_length": 1.2,
+   "bones": {
+    "d_All": {
+     "position": [
+      0,
+      "6 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.2, 0, 1))",
+      0
+     ]
+    },
+    "d_head": {
+     "rotation": [
+      "-25 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.2, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_lower_jaw": {
+     "rotation": [
+      "30 * math.sin(180 * math.clamp((query.anim_time - 0.2) / 0.9000000000000001, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_left_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "-1 * 45 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.2, 0, 1))"
+     ]
+    },
+    "d_left_wing_mid": {
+     "rotation": [
+      0,
+      0,
+      "-1 * -20 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.2, 0, 1))"
+     ]
+    },
+    "d_right_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "1 * 45 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.2, 0, 1))"
+     ]
+    },
+    "d_right_wing_mid": {
+     "rotation": [
+      0,
+      0,
+      "1 * -20 * math.sin(180 * math.clamp((query.anim_time - 0) / 1.2, 0, 1))"
+     ]
+    }
+   },
+   "particle_effects": {
+    "0.1": [
+     {
+      "effect": "elem"
+     }
+    ],
+    "0.6": [
+     {
+      "effect": "elem"
+     },
+     {
+      "effect": "shock"
+     }
+    ]
+   }
+  },
+  "animation.etheria_q_veldanava.hurt": {
+   "loop": false,
+   "animation_length": 0.45,
+   "bones": {
+    "d_head": {
+     "rotation": [
+      "-20 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.45, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_neck2": {
+     "rotation": [
+      "-10 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.45, 0, 1))",
+      0,
+      0
+     ]
+    },
+    "d_body": {
+     "rotation": [
+      0,
+      0,
+      "8 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.45, 0, 1))"
+     ]
+    },
+    "d_left_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "-1 * 12 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.45, 0, 1))"
+     ]
+    },
+    "d_right_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "1 * 12 * math.sin(180 * math.clamp((query.anim_time - 0) / 0.45, 0, 1))"
+     ]
+    }
+   },
+   "particle_effects": {
+    "0.0": [
+     {
+      "effect": "spark"
+     }
+    ]
+   }
+  },
+  "animation.etheria_q_veldanava.death": {
+   "loop": "hold_on_last_frame",
+   "animation_length": 2.8,
+   "bones": {
+    "d_All": {
+     "rotation": [
+      0,
+      0,
+      "85 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.8) / 1.4000000000000001, 0, 1))) / 2)"
+     ],
+     "position": [
+      0,
+      "-6 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.6) / 1.6, 0, 1))) / 2)",
+      0
+     ]
+    },
+    "d_neck1": {
+     "rotation": [
+      "25 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.5) / 1.5, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_head": {
+     "rotation": [
+      "20 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.5) / 1.5, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_lower_jaw": {
+     "rotation": [
+      "30 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.2) / 1.0, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_left_leg": {
+     "rotation": [
+      "60 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.3) / 0.8999999999999999, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_left_leg_lower": {
+     "rotation": [
+      "-50 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.3) / 0.8999999999999999, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_left_arm": {
+     "rotation": [
+      "-40 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.3) / 0.8999999999999999, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_left_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "-1 * -40 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.6) / 1.7999999999999998, 0, 1))) / 2)"
+     ]
+    },
+    "d_left_wing_top": {
+     "rotation": [
+      0,
+      0,
+      "-1 * -20 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.8) / 1.5999999999999999, 0, 1))) / 2)"
+     ]
+    },
+    "d_right_leg": {
+     "rotation": [
+      "60 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.3) / 0.8999999999999999, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_right_leg_lower": {
+     "rotation": [
+      "-50 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.3) / 0.8999999999999999, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_right_arm": {
+     "rotation": [
+      "-40 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.3) / 0.8999999999999999, 0, 1))) / 2)",
+      0,
+      0
+     ]
+    },
+    "d_right_wing_base": {
+     "rotation": [
+      0,
+      0,
+      "1 * -40 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.6) / 1.7999999999999998, 0, 1))) / 2)"
+     ]
+    },
+    "d_right_wing_top": {
+     "rotation": [
+      0,
+      0,
+      "1 * -20 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.8) / 1.5999999999999999, 0, 1))) / 2)"
+     ]
+    },
+    "d_tail1": {
+     "rotation": [
+      0,
+      "0 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.6) / 1.6, 0, 1))) / 2)",
+      0
+     ]
+    },
+    "d_tail2": {
+     "rotation": [
+      0,
+      "6 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.6) / 1.6, 0, 1))) / 2)",
+      0
+     ]
+    },
+    "d_tail3": {
+     "rotation": [
+      0,
+      "-6 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.6) / 1.6, 0, 1))) / 2)",
+      0
+     ]
+    },
+    "d_tail4": {
+     "rotation": [
+      0,
+      "0 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.6) / 1.6, 0, 1))) / 2)",
+      0
+     ]
+    },
+    "d_tail5": {
+     "rotation": [
+      0,
+      "6 * ((1 - math.cos(180 * math.clamp((query.anim_time - 0.6) / 1.6, 0, 1))) / 2)",
+      0
+     ]
+    }
+   },
+   "particle_effects": {
+    "0.3": [
+     {
+      "effect": "fog"
+     }
+    ],
+    "1.9": [
+     {
+      "effect": "shock"
+     },
+     {
+      "effect": "dust"
+     }
+    ]
+   }
+  },
+  "animation.etheria_q_veldanava.player_attack": {
+   "loop": true,
+   "bones": {
+    "d_neck1": {
+     "rotation": [
+      "14 * math.sin(variable.attack_time * 180)",
+      0,
+      0
+     ]
+    },
+    "d_neck3": {
+     "rotation": [
+      "10 * math.sin(variable.attack_time * 180)",
+      0,
+      0
+     ]
+    },
+    "d_head": {
+     "rotation": [
+      "30 * math.sin(variable.attack_time * 180)",
+      0,
+      0
+     ]
+    },
+    "d_lower_jaw": {
+     "rotation": [
+      "45 * math.sin(variable.attack_time * 180) * (1 - variable.attack_time)",
+      0,
+      0
+     ]
+    },
+    "d_right_arm": {
+     "rotation": [
+      "-60 * math.sin(variable.attack_time * 180)",
+      0,
+      0
+     ]
+    },
+    "d_upper_body": {
+     "rotation": [
+      "8 * math.sin(variable.attack_time * 180)",
+      0,
       0
      ]
     }

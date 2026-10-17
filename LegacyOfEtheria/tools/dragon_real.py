@@ -153,6 +153,83 @@ def wing(g, side, base, sg, cfg, scale=1.0, pre="d", feathered=False, crystal=Fa
     D = 0.7 if small else 1.0
     g.add(n("top"), panel(pt, pm, 46 * S * D)); g.add(n("mid"), panel(pm, pl, 56 * S * D)); g.add(n("low"), panel(pl, tip, 40 * S * D, 3))
 
+# ------------------------------------------------------------------ 6.96: membrana pintada (polígonos exatos) para asas de morcego
+class Painter:
+    def __init__(self, px=2): self.PX, self.x, self.y, self.h, self.jobs = px, 0, 40, 0, []
+    def alloc(self, w, h):
+        if self.x + w > 510: self.x, self.y, self.h = 0, self.y + self.h + 1, 0
+        assert self.y + h <= 511, "atlas cheio"
+        x, y = self.x, self.y; self.x += w + 1; self.h = max(self.h, h); return x, y
+    def panel(self, poly, z, wrist, pal):
+        xs = [p[0] for p in poly]; ys = [p[1] for p in poly]; xmin, ymin = min(xs), min(ys); W, H = max(xs) - xmin, max(ys) - ymin
+        w, h = max(2, math.ceil(W * self.PX)), max(2, math.ceil(H * self.PX)); u, v = self.alloc(w, h)
+        self.jobs.append((poly, wrist, pal, u, v, w, h, xmin, ymin + H))
+        out = []
+        for dz in (-0.25, 0.25):
+            out.append({"origin": [round(xmin, 3), round(ymin, 3), round(z + dz, 3)], "size": [round(W, 3), round(H, 3), 0],
+                        "uv": {"north": {"uv": [u, v], "uv_size": [w, h]}, "south": {"uv": [u + w, v], "uv_size": [-w, h]}}})
+        return out
+    def paint(self, img):
+        from PIL import ImageFilter
+        rnd = random.Random(5)
+        for poly, wrist, pal, u, v, w, h, xmin, ymax in self.jobs:
+            toP = lambda p: ((p[0] - xmin) * self.PX, (ymax - p[1]) * self.PX)
+            mask = Image.new("L", (w, h), 0); ImageDraw.Draw(mask).polygon([toP(p) for p in poly], fill=255)
+            lv = [mask]
+            for _ in range(4): lv.append(lv[-1].filter(ImageFilter.MinFilter(3)))
+            L = [l.load() for l in lv]; mk = mask.load(); im = Image.new("RGBA", (w, h), (0, 0, 0, 0)); px = im.load()
+            wf = toP(wrist); diag = math.hypot(w, h) or 1
+            for y in range(h):
+                for x in range(w):
+                    if not mk[x, y]: continue
+                    d = sum(1 for l in L[1:] if l[x, y]); t = min(1, math.hypot(x - wf[0], y - wf[1]) / diag * 1.3)
+                    col = [pal["deep"][i] + (pal["base"][i] - pal["deep"][i]) * t for i in range(3)]; k = 1.0
+                    if d == 0: col = list(pal["edge"])
+                    elif d == 1: k = 0.8
+                    elif d == 2: k = 1.1
+                    k *= 1 + 0.06 * math.sin((x * 0.8 + y * 0.3) * 0.7)
+                    px[x, y] = tuple(max(0, min(255, int(c * k))) for c in col) + (255,)
+            dr = ImageDraw.Draw(im)
+            if pal.get("feather"):   # penas: raques saindo do pulso + barbas claras nas pontas
+                for k in range(0, 360, 5):
+                    a = math.radians(k); ln = diag * 1.2
+                    p1 = (wf[0] + math.cos(a) * ln, wf[1] + math.sin(a) * ln)
+                    dr.line([wf, p1], fill=pal["vein"] + (150,), width=1)
+                    for f in (0.55, 0.75, 0.92):
+                        q = (wf[0] + math.cos(a) * ln * f * 0.8, wf[1] + math.sin(a) * ln * f * 0.8)
+                        dr.line([q, (q[0] + math.cos(a + 0.5) * 3, q[1] + math.sin(a + 0.5) * 3)], fill=tuple(min(255, c + 40) for c in pal["base"]) + (200,), width=1)
+            for _ in range(0 if pal.get("feather") else 5):
+                a = rnd.uniform(0, 2 * math.pi); ln = diag * rnd.uniform(0.3, 0.75)
+                p1 = (wf[0] + math.cos(a) * ln, wf[1] + math.sin(a) * ln); m = ((wf[0] + p1[0]) / 2 + rnd.uniform(-3, 3), (wf[1] + p1[1]) / 2 + rnd.uniform(-3, 3))
+                dr.line([wf, m, p1], fill=pal["vein"] + (220,), width=1)
+            a_ = im.split()[3]; im.putalpha(Image.composite(a_, Image.new("L", (w, h), 0), mask))
+            img.paste(im, (u, v), im)
+
+def _curve(p, q, toward, bow=0.3, n=8):
+    m = ((p[0] + q[0]) / 2, (p[1] + q[1]) / 2); c = (m[0] + (toward[0] - m[0]) * bow, m[1] + (toward[1] - m[1]) * bow)
+    return [((1 - t) ** 2 * p[0] + 2 * (1 - t) * t * c[0] + t * t * q[0], (1 - t) ** 2 * p[1] + 2 * (1 - t) * t * c[1] + t * t * q[1]) for t in [i / n for i in range(n + 1)]]
+
+def membrane_wing(g, side, base, sg, S, painter, pal, parent="d_upper_body"):
+    """asa de dragão com membrana pintada: braço -> antebraço -> 3 dedos; mesmos ossos d_*_wing_base/top/mid/low"""
+    z = base[2] + 4 * S
+    P2 = lambda p: (p[0], p[1])
+    pb = (base[0], base[1]); pt = (pb[0] + sg * 18 * S, pb[1] + 18 * S); pm = (pt[0] + sg * 24 * S, pt[1] + 8 * S)
+    f1 = (pm[0] + sg * 30 * S, pm[1] + 16 * S); f2 = (pm[0] + sg * 40 * S, pm[1] - 6 * S); f3 = (pm[0] + sg * 26 * S, pm[1] - 32 * S); B = (pb[0] + sg * 2 * S, pb[1] - 24 * S)
+    P3 = lambda p: (p[0], p[1], z)
+    n = lambda k: f"d_{side}_wing_{k}"
+    claw = lambda p, d: rod(P3(p), (p[0] + d[0], p[1] + d[1], z), 2 * S, 2 * S, "claw")
+    g.bone(n("base"), parent, base, [rod(base, P3(pt), 4.5 * S, 4.5 * S, "wbone"), rod(P3(pb), P3(pt), 3 * S, 3 * S, "wbone")])
+    top = [rod(P3(pt), P3(pm), 3.6 * S, 3.6 * S, "wbone"), claw(pm, (sg * -2 * S, 6 * S)), claw(pt, (sg * 1 * S, -4 * S))]
+    top += painter.panel([pb, pt, pm, f3] + _curve(f3, B, pm, 0.28)[1:], z, pm, pal)
+    g.bone(n("top"), n("base"), P3(pt), top)
+    mid = []
+    for f in (f1, f2, f3):
+        mid += [rod(P3(pm), P3(f), 2.4 * S, 2.4 * S, "wbone"), claw(f, (sg * 2 * S, -3 * S))]
+    mid += painter.panel([pm, f1] + _curve(f1, f2, pm, 0.32)[1:], z - 0.2, pm, pal)
+    mid += painter.panel([pm, f2] + _curve(f2, f3, pm, 0.32)[1:], z + 0.2, pm, pal)
+    g.bone(n("mid"), n("top"), P3(pm), mid)
+    g.bone(n("low"), n("mid"), P3(pm), [])
+
 def head(g, cfg, pivot, s, kind):
     x, y, z = pivot
     cs = [rod((0, y + 2 * s, z + 2 * s), (0, y, z - 26 * s), 20 * s, 18 * s, "side", top="back", bottom="belly")]                        # crânio
@@ -332,17 +409,20 @@ def coil_serpent(g, name, cfg):
             g.bone(f"d_{side}_wing_mid", f"d_{side}_wing_top", m_, [cr(m_, 20 * s, 11 * s)])
             g.bone(f"d_{side}_wing_low", f"d_{side}_wing_mid", l_, [cr(l_, 12 * s, 9 * s)])
         # cristais de gelo flutuando em volta da espiral (presos aos segmentos)
-        for j in range(8, M - 4, 5):
+        for j in range(8, M - 4, 7):
             nm = next(x for x in order if seg_of[x] == j) if any(seg_of[x] == j for x in order) else None
             if not nm: continue
-            n = dors(j); t = tan(j); lat = _cross(n, t); c0 = _v(P[j], n, wid(j) * 0.9)
-            for sg in (1, -1):
-                q = _v(c0, lat, sg * wid(j) * 0.9)
-                g.add(nm, [rod(q, _v(_v(q, n, 10 * s), lat, sg * 4 * s), 5 * s, 5 * s, "acc1" if j % 2 else "acc3")])
+            n = dors(j); t = tan(j); lat = _cross(n, t); c0 = _v(P[j], n, wid(j) * 0.2)
+            for sg in (1, -1):   # aglomerado de gelo cravado na lateral do corpo
+                q = _v(c0, lat, sg * wid(j) * 0.4)
+                g.add(nm, [rod(q, _v(_v(q, n, 7 * s), lat, sg * 6 * s), 4.5 * s, 4.5 * s, "acc1"), rod(q, _v(_v(q, n, 3 * s), lat, sg * 7 * s), 3 * s, 3 * s, "acc3")])
     else:
+        g.painter = Painter()
+        pal = dict(base=(226, 56, 60), deep=(118, 14, 26), vein=(64, 6, 14), edge=(44, 4, 10))
         for side, sg in (("left", -1), ("right", 1)):
-            wing(g, side, (sh[0] + sg * 6 * s, sh[1], sh[2]), sg, cfg, scale=s * 0.62)
+            membrane_wing(g, side, (sh[0] + sg * 6 * s, sh[1], sh[2]), sg, s * 0.85, g.painter, pal)
 
+WSWEEP, WRAISE = 38, 22
 def build(name, cfg):
     g = Geo(); s = cfg["s"]; quad = cfg["plan"] == "quad"
     g.bone("d_All", None, (0, 0, 0))
@@ -376,10 +456,16 @@ def build(name, cfg):
         for i in range(1, 5): g.add(f"d_tail{i}", [rod((0, tail[i - 1][1] + widths[i - 1] * s * 0.45, tail[i - 1][2] + 6 * s), (0, tail[i - 1][1] + (widths[i - 1] * 0.45 + hspk * 0.7) * s, tail[i - 1][2] + 12 * s), 2.8 * s, 5 * s, spk)])
         # asas
         feathered = cfg.get("wings") == "feather"; crystal = False
-        for side, sg in (("left", -1), ("right", 1)):
+        if feathered:   # 6.96: penas pintadas em painéis (borda recortada), dedos/raques ósseos
+            g.painter = Painter(1.45)
+            pal = dict(base=(206, 240, 238), deep=(78, 150, 160), vein=(40, 96, 110), edge=(30, 70, 84), feather=True)
+            for side, sg in (("left", -1), ("right", 1)):
+                membrane_wing(g, side, (sg * 12 * s, 92 * s, -24 * s), sg, s * 1.95, g.painter, pal)
+        else:
+          for side, sg in (("left", -1), ("right", 1)):
             wing(g, side, (sg * 12 * s, 92 * s, -24 * s), sg, cfg, scale=s * (1.35 if feathered else 1.0), feathered=feathered, crystal=crystal)
         if feathered:   # asas erguidas (pose de repouso apontando para cima, como na referência)
-            for side, sg in (("left", -1), ("right", 1)): g.idx[f"d_{side}_wing_base"]["rotation"] = [0, 0, sg * 52]
+            for side, sg in (("left", -1), ("right", 1)): g.idx[f"d_{side}_wing_base"]["rotation"] = [0, sg * WSWEEP, sg * WRAISE]   # erguidas e varridas para trás
         if False:   # (segundo par desativado)
             for side, sg in (("left", -1), ("right", 1)):
                 b = (sg * 14 * s, 84 * s, -14 * s)
@@ -424,15 +510,13 @@ def build(name, cfg):
         g.add("d_tail5", [rod((0, tp[1], tp[2] + 20 * s), (sg * 10 * s, tp[1] + 6 * s, tp[2] + 36 * s), 3 * s, 6 * s, "spike") for sg in (-1, 0, 1)])
         hp = g.idx["d_head"]["pivot"]
         g.add("d_lower_jaw", [rod((sg * 6 * s, hp[1] - 10 * s, hp[2] - 10 * s), (sg * 14 * s, hp[1] - 18 * s, hp[2] + 4 * s), 2.5 * s, 2.5 * s, "spike") for sg in (1, -1)])
-        for side, sg in (("left", -1), ("right", 1)):
-            pv = g.idx[f"d_{side}_wing_mid"]["pivot"]
-            g.add(f"d_{side}_wing_mid", [box((pv[0] + sg * (10 + k * 10) * s, pv[1] - (70 + k * 6) * s, pv[2] + 2), (8 * s, 26 * s, 1.6), "wing") for k in range(4)])
     # forma verdadeira (só aparece com lform == true): coroa + anel de energia
     hp = g.idx["d_head"]["pivot"]
     crown = [rod((math.sin(a) * 9 * s, hp[1] + 12 * s, hp[2] - 2 * s + math.cos(a) * 9 * s), (math.sin(a) * 11 * s, hp[1] + 22 * s, hp[2] - 2 * s + math.cos(a) * 11 * s), 2.2 * s, 2.2 * s, "glow") for a in [k * 0.9 for k in range(7)]]
+    if not quad: return g   # 6.96: serpentes sem coroa flutuante
     g.bone("x_true", "d_head", (0, hp[1] + 12 * s, hp[2]), crown)
     ring_c = (0, 120 * s, 20 * s) if quad else (0, 90 * s, 10 * s)
-    g.bone("x_true_halo", "x_true", ring_c, [rod((math.cos(a) * 34 * s, ring_c[1] + math.sin(a) * 34 * s, ring_c[2]), (math.cos(a + 0.4) * 34 * s, ring_c[1] + math.sin(a + 0.4) * 34 * s, ring_c[2]), 2.5 * s, 2.5 * s, "glow") for a in [k * 0.4 for k in range(16)]])
+    if False: g.bone("x_true_halo", "x_true", ring_c, [rod((math.cos(a) * 34 * s, ring_c[1] + math.sin(a) * 34 * s, ring_c[2]), (math.cos(a + 0.4) * 34 * s, ring_c[1] + math.sin(a + 0.4) * 34 * s, ring_c[2]), 2.5 * s, 2.5 * s, "glow") for a in [k * 0.4 for k in range(16)]])
     # cristais/espinhos presos ao corpo mas espalhados pela cauda ficavam parados no ar quando a cauda ondula:
     # cada peça passa para o segmento da cauda (d_tail*/x_serp*) onde ela está
     chain = [b for b in g.bones if b["name"].startswith(("d_tail", "x_serp"))]
@@ -455,7 +539,9 @@ def write(name, cfg):
     desc = lambda ident: {"identifier": ident, "texture_width": 512, "texture_height": 512, "visible_bounds_width": 30, "visible_bounds_height": 20, "visible_bounds_offset": [0, 6, 0]}
     for ident, fn in ((f"geometry.etheria_pdrg_{name}", f"etheria_pdrg_{name}"), (f"geometry.etheria_pdrg_{name}_boss", f"etheria_pdrg_{name}_boss")):
         json.dump({"format_version": "1.12.0", "minecraft:geometry": [{"description": desc(ident), "bones": g.bones}]}, open(os.path.join(RP, f"models/entity/{fn}.geo.json"), "w"), indent=1)
-    atlas(name, cfg).save(os.path.join(RP, f"textures/entity/etheria_pdrg_{name}.png"))
+    img = atlas(name, cfg)
+    if getattr(g, "painter", None): g.painter.paint(img)
+    img.save(os.path.join(RP, f"textures/entity/etheria_pdrg_{name}.png"))
     return len(g.bones), sum(len(b.get("cubes", [])) for b in g.bones)
 
 # ------------------------------------------------------------------ animações de repouso + passada das patas dianteiras

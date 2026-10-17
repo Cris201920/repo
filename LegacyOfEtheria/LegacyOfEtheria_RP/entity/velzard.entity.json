@@ -80,7 +80,15 @@
    },
    "render_controllers": [
     "controller.render.etheria_tdr"
-   ]
+   ],
+   "particle_effects": {
+    "shock": "etheria:fx_is_shockwave",
+    "ring": "etheria:fx_is_ring_smoke",
+    "spark": "etheria:fx_is_spark",
+    "fog": "etheria:fx_is_fog",
+    "dust": "etheria:earth_chunk",
+    "elem": "etheria:fx_is_snowflake"
+   }
   }
  }
 }

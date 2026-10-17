@@ -726,13 +726,13 @@
       "drg_idle_veldanava": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic')"
      },
      {
-      "drg_walk": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05 && query.modified_move_speed <= 0.6 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
+      "drg_walk": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05 && query.modified_move_speed <= 0.6 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd' && query.property('etheria:lin') != 'veldanava'"
      },
      {
-      "drg_run": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.6 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
+      "drg_run": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.6 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd' && query.property('etheria:lin') != 'veldanava'"
      },
      {
-      "drg_attack": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && variable.attack_time > 0 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
+      "drg_attack": "(query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && variable.attack_time > 0 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd' && query.property('etheria:lin') != 'veldanava'"
      },
      {
       "tfxb_evo": "query.property('etheria:tfx') == 'evo'"
@@ -747,13 +747,13 @@
       "tfxb_true": "query.property('etheria:tfx') == 'true'"
      },
      {
-      "drg_fly": "variable.etheria_dragon && (!query.is_on_ground && !query.is_in_water) && query.vertical_speed > -1.0"
+      "drg_fly": "variable.etheria_dragon && (!query.is_on_ground && !query.is_in_water) && query.vertical_speed > -1.0 && query.property('etheria:lin') != 'veldanava'"
      },
      {
-      "drg_glide": "variable.etheria_dragon && (!query.is_on_ground && !query.is_in_water) && query.vertical_speed <= -1.0"
+      "drg_glide": "variable.etheria_dragon && (!query.is_on_ground && !query.is_in_water) && query.vertical_speed <= -1.0 && query.property('etheria:lin') != 'veldanava'"
      },
      {
-      "drg_breathe": "variable.etheria_dragon && query.is_on_ground && query.modified_move_speed <= 0.05 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
+      "drg_breathe": "variable.etheria_dragon && query.is_on_ground && query.modified_move_speed <= 0.05 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd' && query.property('etheria:lin') != 'veldanava'"
      },
      {
       "drg_land": "variable.etheria_dragon && query.is_on_ground && (query.life_time - variable.etheria_land) < 0.5 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
@@ -873,15 +873,6 @@
       "drg_serpent_velgrynd": "query.property('etheria:lin') == 'velgrynd' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic')"
      },
      {
-      "drg_gait_velzard": "false"
-     },
-     {
-      "drg_gait_veldanava": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05"
-     },
-     {
-      "drg_gait_velgrynd": "false"
-     },
-     {
       "drg_serp_attack_velzard": "query.property('etheria:lin') == 'velzard' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && variable.attack_time > 0"
      },
      {
@@ -889,6 +880,30 @@
      },
      {
       "drg_amb_veldanava": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic')"
+     },
+     {
+      "drg_v_walk": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.05 && query.modified_move_speed <= 0.6"
+     },
+     {
+      "drg_v_run": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.6"
+     },
+     {
+      "drg_v_fly": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && !query.is_in_water && query.vertical_speed > -1.0"
+     },
+     {
+      "drg_v_glide": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && !query.is_in_water && query.vertical_speed <= -1.0"
+     },
+     {
+      "drg_v_attack": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && variable.attack_time > 0"
+     },
+     {
+      "drg_gait_velzard": "false"
+     },
+     {
+      "drg_gait_veldanava": "false"
+     },
+     {
+      "drg_gait_velgrynd": "false"
      }
     ]
    },
@@ -1169,7 +1184,12 @@
     "drg_serpent_velgrynd": "animation.etheria_pdrg_velgrynd.serpent",
     "drg_serp_attack_velzard": "animation.etheria_serp_velzard.player_attack",
     "drg_serp_attack_velgrynd": "animation.etheria_serp_velgrynd.player_attack",
-    "drg_amb_veldanava": "animation.etheria_pdrg_veldanava.ambient"
+    "drg_amb_veldanava": "animation.etheria_pdrg_veldanava.ambient",
+    "drg_v_walk": "animation.etheria_q_veldanava.walk",
+    "drg_v_run": "animation.etheria_q_veldanava.run",
+    "drg_v_fly": "animation.etheria_q_veldanava.fly",
+    "drg_v_glide": "animation.etheria_q_veldanava.glide",
+    "drg_v_attack": "animation.etheria_q_veldanava.player_attack"
    },
    "render_controllers": [
     {
@@ -1323,7 +1343,8 @@
     "aura_bats": "tensura:race_aura_bats",
     "aura_earth": "tensura:race_aura_earth",
     "aura_soul": "tensura:race_aura_soul",
-    "aura_nature": "tensura:race_aura_nature"
+    "aura_nature": "tensura:race_aura_nature",
+    "ring": "etheria:fx_is_ring_smoke"
    }
   }
  }

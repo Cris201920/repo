@@ -19,17 +19,19 @@ import { inventory } from "../core/utils.js";
 let tickCount = 0;
 const short = (n) => (n.length > 9 ? n.slice(0, 8) + "." : n);
 
-// 6.91: HUD igual à do mod (ui/hud_screen.json, tools/mod_hud.py). O título leva um cabeçalho ASCII de 49 caracteres
-// que a JSON UI lê (barras e números); o título com ETHUD nunca aparece na tela: ETHUD + hp/mp/xp/st (00..40) + 3 textos de 11 + nível(3).
-const STEPS = 40;
-const step = (c, m) => String(m > 0 ? Math.round(Math.max(0, Math.min(1, c / m)) * STEPS) : 0).padStart(2, "0");
+// 6.96: HUD igual à do mod (ui/hud_screen.json, tools/mod_hud.py). O título leva um cabeçalho de 9 caracteres que a JSON UI lê
+// (o jogo só aceitou recortes até o 9º caractere): "Q#" + hp/mp/xp/st (1 caractere, 0-9a-z) + nível(3). Os números ficam na actionbar.
+const CODES = "0123456789abcdefghijklmnopqrstuvwxyz", STEPS = CODES.length - 1;
+const step = (c, m) => { const f = Number(c) / Number(m); return CODES[Number.isFinite(f) ? Math.round(Math.max(0, Math.min(1, f)) * STEPS) : 0]; };
 const num = (n) => (n >= 100000 ? `${Math.floor(n / 1000)}k` : String(Math.floor(n)));
-const field = (t, w) => { t = t.slice(0, w); const l = Math.floor((w - t.length) / 2); return " ".repeat(l) + t + " ".repeat(w - t.length - l); };
 export function hudHeader(p, d, s) {
-  const hp = getHealth(p), need = xpToNext(d.level);
-  return "ETHUD" + step(hp.cur, hp.max) + step(d.mana, s.maxMana) + step(d.level >= MAX_LEVEL ? 1 : d.xp, d.level >= MAX_LEVEL ? 1 : need) + step(d.stamina, s.maxStamina)
-    + field(`${num(Math.ceil(hp.cur))}/${num(Math.ceil(hp.max))}`, 11) + field(`${num(d.mana)}/${num(s.maxMana)}`, 11) + field(`${num(d.stamina)}/${num(s.maxStamina)}`, 11)
-    + field(String(d.level), 3);
+  const hp = getHealth(p), max = d.level >= MAX_LEVEL;
+  return "Q#" + step(hp.cur, hp.max) + step(d.mana, s.maxMana) + step(max ? 1 : (d.xp || 0), max ? 1 : xpToNext(d.level)) + step(d.stamina, s.maxStamina)
+    + String(Math.min(999, d.level)).padStart(3, " ");
+}
+function numbersLine(p, d, s) {
+  const hp = getHealth(p);
+  return `§c${num(Math.ceil(hp.cur))}§7/${num(Math.ceil(hp.max))}  §b${num(d.mana)}§7/${num(s.maxMana)}  §6${num(d.stamina)}§7/${num(s.maxStamina)}`;
 }
 
 function hideVanillaHearts(p) {
@@ -37,7 +39,7 @@ function hideVanillaHearts(p) {
 }
 
 function hudText(p, d, s) {
-  let t = `§6${fmt(d.coins)}$`;
+  let t = `${numbersLine(p, d, s)}  §e${fmt(d.coins)}$`;
   if (d.settings.compact) return t;   // 6.69: dinheiro na mesma linha (barra menor)   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
   const sel = hudSelectedLine(p, d, s); if (sel) t += "\n" + sel;                 // habilidade na mão: custo e estado
   const strip = hudSkillLines(p, d, s); if (strip.length) t += "\n" + strip.join("\n");   // faixa das equipadas (número = slot da hotbar)

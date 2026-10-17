@@ -36,7 +36,7 @@
    },
    {
     "binding_type": "view",
-    "source_property_name": "(((#hud_title_text_string - '§w§n§t') = #hud_title_text_string) and ((#hud_title_text_string - 'ETHUD') = #hud_title_text_string))",
+    "source_property_name": "(((#hud_title_text_string - '§w§n§t') = #hud_title_text_string) and ((#hud_title_text_string - 'Q#') = #hud_title_text_string))",
     "target_property_name": "#visible"
    }
   ],
@@ -5291,7 +5291,7 @@
    },
    {
     "binding_type": "view",
-    "source_property_name": "(not ((#hud_title_text_string - 'ETHUD') = #hud_title_text_string))",
+    "source_property_name": "(not ((#hud_title_text_string - 'Q#') = #hud_title_text_string))",
     "target_property_name": "#visible"
    }
   ],
@@ -5321,7 +5321,7 @@
       9
      ],
      "layer": 4,
-     "texture": "textures/ui/etheria/modhud/hp_00",
+     "texture": "textures/ui/etheria/modhud/hp_0",
      "bindings": [
       {
        "binding_name": "#hud_title_text_string",
@@ -5329,7 +5329,7 @@
       },
       {
        "binding_type": "view",
-       "source_property_name": "('textures/ui/etheria/modhud/hp_' + (('%.7s' * #hud_title_text_string) - ('%.5s' * #hud_title_text_string)))",
+       "source_property_name": "('textures/ui/etheria/modhud/hp_' + (('%.3s' * #hud_title_text_string) - ('%.2s' * #hud_title_text_string)))",
        "target_property_name": "#texture"
       }
      ]
@@ -5349,7 +5349,7 @@
       9
      ],
      "layer": 4,
-     "texture": "textures/ui/etheria/modhud/xp_00",
+     "texture": "textures/ui/etheria/modhud/xp_0",
      "bindings": [
       {
        "binding_name": "#hud_title_text_string",
@@ -5357,7 +5357,7 @@
       },
       {
        "binding_type": "view",
-       "source_property_name": "('textures/ui/etheria/modhud/xp_' + (('%.11s' * #hud_title_text_string) - ('%.9s' * #hud_title_text_string)))",
+       "source_property_name": "('textures/ui/etheria/modhud/xp_' + (('%.5s' * #hud_title_text_string) - ('%.4s' * #hud_title_text_string)))",
        "target_property_name": "#texture"
       }
      ]
@@ -5377,7 +5377,7 @@
       9
      ],
      "layer": 4,
-     "texture": "textures/ui/etheria/modhud/mp_00",
+     "texture": "textures/ui/etheria/modhud/mp_0",
      "bindings": [
       {
        "binding_name": "#hud_title_text_string",
@@ -5385,7 +5385,7 @@
       },
       {
        "binding_type": "view",
-       "source_property_name": "('textures/ui/etheria/modhud/mp_' + (('%.9s' * #hud_title_text_string) - ('%.7s' * #hud_title_text_string)))",
+       "source_property_name": "('textures/ui/etheria/modhud/mp_' + (('%.4s' * #hud_title_text_string) - ('%.3s' * #hud_title_text_string)))",
        "target_property_name": "#texture"
       }
      ]
@@ -5405,7 +5405,7 @@
       9
      ],
      "layer": 4,
-     "texture": "textures/ui/etheria/modhud/st_00",
+     "texture": "textures/ui/etheria/modhud/st_0",
      "bindings": [
       {
        "binding_name": "#hud_title_text_string",
@@ -5413,7 +5413,7 @@
       },
       {
        "binding_type": "view",
-       "source_property_name": "('textures/ui/etheria/modhud/st_' + (('%.13s' * #hud_title_text_string) - ('%.11s' * #hud_title_text_string)))",
+       "source_property_name": "('textures/ui/etheria/modhud/st_' + (('%.6s' * #hud_title_text_string) - ('%.5s' * #hud_title_text_string)))",
        "target_property_name": "#texture"
       }
      ]
@@ -5434,117 +5434,6 @@
      ],
      "texture": "textures/ui/etheria/modhud/glass",
      "layer": 6
-    }
-   },
-   {
-    "hp_txt": {
-     "type": "label",
-     "anchor_from": "top_left",
-     "anchor_to": "top_left",
-     "offset": [
-      44,
-      6
-     ],
-     "size": [
-      101,
-      9
-     ],
-     "layer": 8,
-     "text": "#text",
-     "text_alignment": "center",
-     "font_scale_factor": 0.75,
-     "shadow": true,
-     "color": [
-      1,
-      1,
-      1
-     ],
-     "localize": false,
-     "bindings": [
-      {
-       "binding_name": "#hud_title_text_string",
-       "binding_type": "global"
-      },
-      {
-       "binding_type": "view",
-       "source_property_name": "(('%.24s' * #hud_title_text_string) - ('%.13s' * #hud_title_text_string))",
-       "target_property_name": "#text"
-      }
-     ]
-    }
-   },
-   {
-    "mp_txt": {
-     "type": "label",
-     "anchor_from": "top_left",
-     "anchor_to": "top_left",
-     "offset": [
-      5,
-      47
-     ],
-     "size": [
-      67,
-      9
-     ],
-     "layer": 8,
-     "text": "#text",
-     "text_alignment": "center",
-     "font_scale_factor": 0.75,
-     "shadow": true,
-     "color": [
-      1,
-      1,
-      1
-     ],
-     "localize": false,
-     "bindings": [
-      {
-       "binding_name": "#hud_title_text_string",
-       "binding_type": "global"
-      },
-      {
-       "binding_type": "view",
-       "source_property_name": "(('%.35s' * #hud_title_text_string) - ('%.24s' * #hud_title_text_string))",
-       "target_property_name": "#text"
-      }
-     ]
-    }
-   },
-   {
-    "st_txt": {
-     "type": "label",
-     "anchor_from": "top_left",
-     "anchor_to": "top_left",
-     "offset": [
-      5,
-      58
-     ],
-     "size": [
-      57,
-      9
-     ],
-     "layer": 8,
-     "text": "#text",
-     "text_alignment": "center",
-     "font_scale_factor": 0.75,
-     "shadow": true,
-     "color": [
-      1,
-      1,
-      1
-     ],
-     "localize": false,
-     "bindings": [
-      {
-       "binding_name": "#hud_title_text_string",
-       "binding_type": "global"
-      },
-      {
-       "binding_type": "view",
-       "source_property_name": "(('%.46s' * #hud_title_text_string) - ('%.35s' * #hud_title_text_string))",
-       "target_property_name": "#text"
-      }
-     ]
     }
    },
    {
@@ -5604,7 +5493,7 @@
       },
       {
        "binding_type": "view",
-       "source_property_name": "(('%.49s' * #hud_title_text_string) - ('%.46s' * #hud_title_text_string))",
+       "source_property_name": "(('%.9s' * #hud_title_text_string) - ('%.6s' * #hud_title_text_string))",
        "target_property_name": "#text"
       }
      ]
