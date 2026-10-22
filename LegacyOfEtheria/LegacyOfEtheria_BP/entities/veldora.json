@@ -166,8 +166,8 @@
    },
    "etheria_form_dragon": {
     "minecraft:collision_box": {
-     "width": 3.8,
-     "height": 5.8
+     "width": 6.4,
+     "height": 9.5
     },
     "minecraft:movement": {
      "value": 0.31
