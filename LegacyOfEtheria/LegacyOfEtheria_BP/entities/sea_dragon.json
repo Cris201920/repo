@@ -16,8 +16,8 @@
     ]
    },
    "minecraft:collision_box": {
-    "width": 5.0,
-    "height": 3.6
+    "width": 6.0,
+    "height": 4.0
    },
    "minecraft:health": {
     "value": 420,

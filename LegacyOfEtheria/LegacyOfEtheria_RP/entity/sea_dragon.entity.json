@@ -17,7 +17,7 @@
     "overlay_color": "#8ef0c8"
    },
    "scripts": {
-    "scale": "2.1",
+    "scale": "2.6",
     "animate": [
      {
       "swim": "query.is_alive"
