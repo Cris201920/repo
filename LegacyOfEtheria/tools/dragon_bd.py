@@ -592,7 +592,7 @@ def extents(bones):
     P = np.array(P); return P.min(0), P.max(0)
 
 # ================================================================== tamanhos (escala do chefe na forma de dragão, colisão da forma de dragão)
-SIZE = {"velzard": (1.1, (6.0, 6.0)), "velgrynd": (1.1, (6.0, 6.0)), "veldanava": (round(4.0 / GELO_SCALE, 3), (12.0, 12.0))}
+SIZE = {"velzard": (1.1, (6.0, 6.0)), "velgrynd": (1.1, (6.0, 6.0)), "veldanava": (round(4.0 / GELO_SCALE, 3), (10.0, 10.0))}
 
 def build_all():
     rep = {}
@@ -611,10 +611,10 @@ def sizes():
     for name, (sc, (cw, ch)) in SIZE.items():
         ep = os.path.join(RP, f"entity/{name}.entity.json"); E = json.load(open(ep)); s_ = E["minecraft:client_entity"]["description"].setdefault("scripts", {})
         old = s_.get("scale", "1.0")
-        s_["scale"] = re.sub(r"== 'dragon' \\? [0-9.]+", f"== 'dragon' ? {sc}", old) if "'dragon'" in str(old) else str(sc)
+        s_["scale"] = re.sub(r"== 'dragon' \? [0-9.]+", f"== 'dragon' ? {sc}", old) if "'dragon'" in str(old) else str(sc)
         json.dump(E, open(ep, "w"), indent=1, ensure_ascii=False)
         bp = os.path.join(BP, f"entities/{name}.json"); Bj = json.load(open(bp)); txt = json.dumps(Bj)
-        cols = re.findall(r'"minecraft:collision_box": \\{"width": ([0-9.]+), "height": ([0-9.]+)\\}', txt)
+        cols = re.findall(r'"minecraft:collision_box": \{"width": ([0-9.]+), "height": ([0-9.]+)\}', txt)
         if cols:
             big = max(cols, key=lambda x: float(x[0]))
             txt = txt.replace(f'"minecraft:collision_box": {{"width": {big[0]}, "height": {big[1]}}}', f'"minecraft:collision_box": {{"width": {cw}, "height": {ch}}}')
