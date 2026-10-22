@@ -147,6 +147,8 @@ for (const s of PACK) def(s);
 } }
 for (const s of ULTIMATES) def(s);
 for (const s of GRANDS) def(s);
+import { COLOSSALS } from "./colossal.js";
+for (const s of COLOSSALS) def(s);   // 8.6: magias colossais (systems/colossal.js)
 import { applyTierArea } from "./tiers.js";   // 6.83: magias gigantes (systems/grandspells.js)   // 6.81: as 12 Skills Ultimate (systems/ultimates.js)
 import { AGILITY_SKILLS } from "./agility.js";
 for (const s of AGILITY_SKILLS) def(s);   // Agilidades Supremas (uma linha por raça)

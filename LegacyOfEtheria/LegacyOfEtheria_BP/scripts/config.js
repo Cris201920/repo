@@ -110,6 +110,9 @@ export const SOUNDS = {
   evolve: "etheria.sage.ceremony.true_demon_lord", rare: "etheria.sage.tier.unique", learn: "etheria.sage.sfx.skill", open: "etheria.sage.sfx.open", fail: "etheria.sage.sfx.fail", mythic: "etheria.sage.tier.ultimate",
 };
 
+// 8.6: MAGIAS COLOSSAIS (systems/colossal.js): partículas/tick de cada lançamento no nível "Alto" (escala com o nível de detalhe),
+// máx. de alvos por golpe (os mais próximos), tremor máximo da câmera e alcance do tremor. Nenhuma quebra blocos.
+export const COLOSSAL = { perTick: 70, maxTargets: 14, shake: 0.4, shakeRadius: 48 };
 export const FX_LEVELS = ["extreme", "ultra", "high", "medium", "low", "off"];
 export const FX_LABELS = { extreme: "EXTREMO (versão visual mais completa)", ultra: "Ultra (todos os detalhes)", high: "Alto (bonito)", medium: "Médio (menos partículas)", low: "Reduzido (simplificado)", off: "Desligado" };
 export const DEFAULT_FX = BUILD_PROFILE === "performance" ? "low" : "high";

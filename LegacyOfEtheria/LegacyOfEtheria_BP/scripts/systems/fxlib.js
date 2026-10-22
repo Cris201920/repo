@@ -36,10 +36,18 @@ export const nn = (c, n) => (c.k <= 0 ? 0 : Math.max(1, Math.round(n * c.k)));
 export const after = (ticks, fn) => system.runTimeout(() => { try { fn(); } catch { /* ignore */ } }, Math.max(1, Math.round(ticks)));
 const col = (n) => (Array.isArray(n) ? n : PAL[n] ?? PAL.white);
 
+// 8.6: orçamento PRÓPRIO opcional por contexto (c.cap partículas/tick, ex.: magias colossais) além do teto global; c.peak guarda o pico do contexto
+function ownCap(c) {
+  if (!c.cap) return true;
+  if (c.ct !== system.currentTick) { c.ct = system.currentTick; c.cu = 0; }
+  if (c.cu >= c.cap) { c.drop = (c.drop ?? 0) + 1; return false; }
+  c.cu++; if (c.cu > (c.peak ?? 0)) c.peak = c.cu; return true;
+}
 function canSpawn(c) {
   if (c.k <= 0) return false;
   if (system.currentTick !== tickMark) { lastUsed = used; if (used > peakUsed) peakUsed = used; tickMark = system.currentTick; used = 0; }
   if (used >= CAP[c.lv]) return false;
+  if (c.cap && !ownCap(c)) return false;
   used++; totalUsed++; return true;
 }
 function setv(n, v) { MAP.setFloat("variable." + n, v); }
@@ -86,7 +94,7 @@ export function disc(c, pos, o = {}) {
 /** Camada do círculo do Sábio: placa texturizada (atlas etheria_sage) horizontal ou vertical, com rotação, pulso e subida próprios.
  *  o: {tile,size,rot(°/s),life(s),a,grow,rise,amp,freq,col,plane:'xz'|'xy'|'yz',y} */
 export function layer(c, pos, o = {}) {
-  if (c.k <= 0) return;
+  if (c.k <= 0 || !ownCap(c)) return;
   const k = col(o.col ?? "sage"), t = o.tile ?? 0;
   setv("r", k[0]); setv("g", k[1]); setv("b", k[2]); setv("a", o.a ?? 0.9);
   setv("size", (o.size ?? 3) * (c.sz ?? 1)); setv("life", o.life ?? 1.5); setv("rot", o.rot ?? 30); setv("grow", o.grow ?? 0); setv("rise", o.rise ?? 0);
