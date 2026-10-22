@@ -17,6 +17,7 @@ FEATHER_SRC = [os.environ.get("TENSURA_FEATHER", ""), "/tmp/claude-0/-home-user-
 
 # ------------------------------------------------------------------ paletas (posição 0..1 da luminância -> cor)
 VOID = [(0, (6, 2, 12)), (0.25, (34, 8, 62)), (0.5, (92, 26, 160)), (0.75, (178, 84, 250)), (1, (236, 205, 255))]
+VOID_DRAGON = [(0, (4, 2, 10)), (0.4, (30, 8, 60)), (0.72, (96, 28, 170)), (0.9, (176, 88, 250)), (1, (228, 186, 255))]
 VOID_DARK = [(0, (4, 2, 8)), (0.35, (24, 8, 44)), (0.65, (70, 22, 120)), (1, (170, 110, 240))]
 QUEEN = [(0, (10, 2, 18)), (0.3, (58, 10, 88)), (0.6, (150, 30, 170)), (0.85, (240, 110, 220)), (1, (255, 225, 250))]
 FALLEN = [(0, (6, 4, 6)), (0.5, (30, 26, 32)), (0.85, (70, 62, 74)), (1, (120, 110, 124))]
@@ -61,7 +62,7 @@ def recolor(src, stops, keep_skin=True, gold=None, gamma=1.0, stretch=False):
 # ------------------------------------------------------------------ chefes
 # id: nome, modelo RP de base (entity/*.entity.json), textura de origem, paleta, vida, dano, região, nível mínimo, etc.
 BOSSES = {
-    "void_dragon":   dict(name="Dragão do Vazio", base="veldanava", tex="etheria_pdrg_veldanava", key="dragon", pal=VOID, hp=24000, dmg=48, spd=0.32,
+    "void_dragon":   dict(name="Dragão do Vazio", base="veldanava", tex="etheria_pdrg_veldanava", key="dragon", pal=VOID_DRAGON, hp=24000, dmg=48, spd=0.32,
                           region="end", lv=55, gamma=1.25, stretch=True, fly=True, dragon=True, box=(5.0, 5.0), scale="1.6", fam="void", egg=("#0c0414", "#b054fa"), xp=9000, coins=[2500, 4000], role="dragon"),
     "void_knight":   dict(name="Cavaleiro do Vazio", base="cavaleiro_negro", tex="etheria_cavaleiro_negro", pal=VOID_DARK, gold=None, hp=8000, dmg=30, spd=0.31,
                           region="end", lv=35, box=(0.8, 2.4), scale="1.3", fam="void", egg=("#14081f", "#e2b83a"), xp=3500, coins=[900, 1500], role="melee"),
