@@ -4952,8 +4952,8 @@
  "eth_sage_toast": {
   "type": "panel",
   "size": [
-   210,
-   40
+   176,
+   34
   ],
   "anchor_from": "top_left",
   "anchor_to": "top_left",
@@ -4978,8 +4978,8 @@
     "ico": {
      "type": "panel",
      "size": [
-      30,
-      30
+      24,
+      24
      ],
      "anchor_from": "top_left",
      "anchor_to": "top_left",
@@ -5220,14 +5220,14 @@
      "type": "image",
      "texture": "textures/ui/etheria/sg_toast_box",
      "size": [
-      "100%c + 10px",
-      14
+      "100%c + 8px",
+      12
      ],
      "anchor_from": "top_left",
      "anchor_to": "top_left",
      "offset": [
-      6,
-      28
+      5,
+      22
      ],
      "layer": 2,
      "keep_ratio": false,
@@ -5244,7 +5244,7 @@
         "anchor_from": "left_middle",
         "anchor_to": "left_middle",
         "offset": [
-         5,
+         4,
          0
         ],
         "color": [
@@ -5260,7 +5260,8 @@
           "binding_name_override": "#text",
           "binding_type": "global"
          }
-        ]
+        ],
+        "font_scale_factor": 0.85
        }
       }
      ]

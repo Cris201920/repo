@@ -28,7 +28,7 @@
     },
     "minecraft:delay_filter": {
      "min": 30,
-     "max": 90,
+     "max": 70,
      "identifier": "etheria:sea_dragon",
      "spawn_chance": 45
     }

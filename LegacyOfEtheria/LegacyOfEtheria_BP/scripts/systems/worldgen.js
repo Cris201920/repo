@@ -45,7 +45,7 @@ function fillChests(dim, key, o) {
 }
 function spawnMobs(dim, key, o) {
   const def = WGEN[key]; let n = 0;
-  for (const [t, x, y, z] of def.mobs) { try { dim.spawnEntity(t, { x: o.x + x + 0.5, y: o.y + y, z: o.z + z + 0.5 }); n++; } catch { /* ignore */ } }
+  for (const [t, x, y, z] of def.mobs) { try { const e = dim.spawnEntity(t, { x: o.x + x + 0.5, y: o.y + y, z: o.z + z + 0.5 }); try { e.addTag("etheria_smob"); } catch { /* ignore */ } n++; } catch { /* ignore */ } }   // 7.x: guardas da estrutura (o limitador de lag não os remove)
   return n;
 }
 

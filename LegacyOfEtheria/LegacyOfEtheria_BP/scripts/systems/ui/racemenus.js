@@ -15,7 +15,7 @@ import { getStats, getHealth } from "../stats.js";
 import { chooseRace, evolve, evolveCheck } from "../race.js";
 import { hasSkill } from "../skills.js";
 import { menu, cardMenu } from "./forms.js";
-import { openLineage, openClass, openAttributes, openTitles } from "./menus.js";
+import { openLineage, openClass, openAttributes, openTitles, openBeastForms } from "./menus.js";
 import { openPowers } from "../powers.js";
 import { openSlimeForms } from "../slimeform.js";
 import { ultReqs } from "../ultimates.js";
@@ -83,6 +83,7 @@ export function openRaceV2(player, back) {
     icon: "race_" + r.id, run: () => openEvolveV2(player, n.id, back),
   }));
   if (d.race === "slime") B.push({ text: "§l§bForma do Slime\n§r§7slime · humana · Mímico", icon: "race_slime", run: () => openSlimeForms(player, () => openRaceV2(player, back), menu) });
+  if (d.race === "beastkin") B.push({ text: "§l§6Transformações de Carrion\n§r§7Forma Fera · Rei Besta · Besta Real", icon: "race_beastkin", run: () => openBeastForms(player, () => openRaceV2(player, back)) });   // 7.x
   B.push({ text: "§l§5Lord Demônio\n§r§7caminho do Verdadeiro Lorde Demônio", icon: "race_" + r.id, run: () => openLordV2(player, back) });
   if (d.race === LINEAGE_RACE) { const Lg = lineageOf(d); B.push({ text: Lg ? `§l${Lg.color}Linhagem: ${Lg.name}\n§r§7${LINEAGE_FORMS[formOfPlayer(d)].name} · árvore e formas` : "§l§6Escolher linhagem dracônica\n§r§7Veldora, Velzard, Velgrynd, Veldanava", icon: Lg ? `lin_${Lg.id}` : "race_dragonoid", run: () => openLineage(player) }); }
   B.push({ text: "§l§6Skills Ultimate e Magias Gigantes\n§r§7como despertar cada uma", icon: "menu_status", run: () => openUltimates(player, () => openRaceV2(player, back)) });

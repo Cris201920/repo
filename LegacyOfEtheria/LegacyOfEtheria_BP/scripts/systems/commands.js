@@ -15,6 +15,7 @@ import { BOSSES } from "../data/bosses.js";
 import { ensureLore } from "./items.js";
 import { refreshName } from "./race.js";
 import { applyRaceLook } from "./raceparts.js";
+import { startLordEvolution, stopLordEvolution } from "./lordevo.js";
 import { say, giveItem, inventory } from "../core/utils.js";
 import { spawnNear, STRUCT_IDS } from "./structures.js";
 import { octCmd } from "./octagrama.js";
@@ -130,6 +131,12 @@ function run(p, cmd, args, trusted = false) {
   if (!p.hasTag(ADMIN_TAG)) return say(p, `§cSem permissão para !${cmd}. Admin: /tag @s add ${ADMIN_TAG}`);
   const d = getData(p);
   switch (cmd) {
+    case "lordteste": {   // 7.x admin: toca a sequência de 60 s do Lord Demônio sem mudar a raça (prévia); "!lordteste parar" interrompe
+      if ((args[0] ?? "") === "parar") { stopLordEvolution(p.id, "comando"); return say(p, "§7Sequência interrompida."); }
+      if (!startLordEvolution(p, { change: () => { try { applyRaceLook(p); } catch { /* ignore */ } } })) return say(p, "§cJá existe uma sequência em andamento.");
+      return say(p, "§5[Etheria] §7Prévia da evolução de Lord Demônio (60 s, sem mudar a raça). §f!lordteste parar§7 interrompe.");
+    }
+    case "kills": { const n = parseInt(args[0]); if (n >= 0) { d.kills = n; markDirty(p); saveNow(p); say(p, `§eAbates: ${n}`); } return; }   // 7.x: para testar o Lord Demônio (300 abates)
     case "xp": { const n = parseInt(args[0]); if (n > 0) addXp(p, n); else say(p, "§cUso: !xp 100"); return; }
     case "level": { const n = Math.min(MAX_LEVEL, parseInt(args[0])); if (n >= 1) { d.level = n; d.xp = 0; applyDerivedStats(p); refreshName(p); saveNow(p); say(p, `§eNível definido: ${n}`); } return; }
     case "coins": { const n = parseInt(args[0]); if (!isNaN(n)) { d.coins += n; markDirty(p); saveNow(p); say(p, `§eMoedas: ${d.coins}`); } return; }

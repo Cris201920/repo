@@ -709,8 +709,8 @@
  "eth_form": {
   "type": "panel",
   "size": [
-   "100%",
-   "100%"
+   "90%",
+   "90%"
   ],
   "layer": 2,
   "controls": [
@@ -4757,7 +4757,9 @@
      ]
     }
    }
-  ]
+  ],
+  "anchor_from": "center",
+  "anchor_to": "center"
  },
  "eth_text_content": {
   "type": "stack_panel",

@@ -19,8 +19,8 @@
      "max": 120
     },
     "minecraft:delay_filter": {
-     "min": 2,
-     "max": 6,
+     "min": 6,
+     "max": 14,
      "identifier": "etheria:taratect_small_poison",
      "spawn_chance": 100
     },
@@ -30,7 +30,7 @@
     },
     "minecraft:spawns_on_surface": {},
     "minecraft:density_limit": {
-     "surface": 4
+     "surface": 3
     }
    },
    {
@@ -46,8 +46,8 @@
      "max": 120
     },
     "minecraft:delay_filter": {
-     "min": 2,
-     "max": 6,
+     "min": 6,
+     "max": 14,
      "identifier": "etheria:taratect_small_poison",
      "spawn_chance": 100
     },
@@ -57,7 +57,7 @@
     },
     "minecraft:spawns_underground": {},
     "minecraft:density_limit": {
-     "underground": 4
+     "underground": 3
     }
    }
   ]

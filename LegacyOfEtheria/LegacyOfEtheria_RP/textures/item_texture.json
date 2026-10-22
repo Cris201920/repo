@@ -1366,6 +1366,15 @@
   },
   "etheria_sk_ult_cthulhu": {
    "textures": "textures/items/etheria_sk_ult_cthulhu"
+  },
+  "etheria_sk_beast_form": {
+   "textures": "textures/items/etheria_sk_beast_form"
+  },
+  "etheria_sk_beast_king": {
+   "textures": "textures/items/etheria_sk_beast_king"
+  },
+  "etheria_sk_royal_beast": {
+   "textures": "textures/items/etheria_sk_royal_beast"
   }
  }
 }

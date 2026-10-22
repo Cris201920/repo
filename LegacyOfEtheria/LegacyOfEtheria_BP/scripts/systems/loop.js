@@ -17,7 +17,8 @@ import { hudExtra, hudOverride } from "./hudhooks.js";
 import { inventory } from "../core/utils.js";
 
 let tickCount = 0;
-const short = (n) => (n.length > 9 ? n.slice(0, 8) + "." : n);
+const short = (n) => (n.length > 8 ? n.slice(0, 7) + "." : n);
+const HUD_MAX_LINES = 5;
 
 // 6.96: HUD igual à do mod (ui/hud_screen.json, tools/mod_hud.py). O título leva um cabeçalho de 9 caracteres que a JSON UI lê
 // (o jogo só aceitou recortes até o 9º caractere): "Q#" + hp/mp/xp/st (1 caractere, 0-9a-z) + nível(3). Os números ficam na actionbar.
@@ -31,7 +32,7 @@ export function hudHeader(p, d, s) {
 }
 function numbersLine(p, d, s) {
   const hp = getHealth(p);
-  return `§c${num(Math.ceil(hp.cur))}§7/${num(Math.ceil(hp.max))}  §b${num(d.mana)}§7/${num(s.maxMana)}  §6${num(d.stamina)}§7/${num(s.maxStamina)}`;
+  return `§c${num(Math.ceil(hp.cur))}§8/${num(Math.ceil(hp.max))} §b${num(d.mana)}§8/${num(s.maxMana)} §6${num(d.stamina)}§8/${num(s.maxStamina)}`;   // 7.x: linha mais curta
 }
 
 function hideVanillaHearts(p) {
@@ -39,15 +40,15 @@ function hideVanillaHearts(p) {
 }
 
 function hudText(p, d, s) {
-  let t = `${numbersLine(p, d, s)}  §e${fmt(d.coins)}$`;
+  let t = `${numbersLine(p, d, s)} §e${fmt(d.coins)}$`;
   if (d.settings.compact) return t;   // 6.69: dinheiro na mesma linha (barra menor)   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
   const sel = hudSelectedLine(p, d, s); if (sel) t += "\n" + sel;                 // habilidade na mão: custo e estado
   const strip = hudSkillLines(p, d, s); if (strip.length) t += "\n" + strip.join("\n");   // faixa das equipadas (número = slot da hotbar)
   const buffs = listBuffs(p);
-  if (buffs.length) t += "\n" + buffs.slice(0, 4).map((b) => `${b.debuff ? "§c" : "§a"}${short(b.name)} ${b.left}s`).join(" ");
+  if (buffs.length) t += "\n" + buffs.slice(0, 3).map((b) => `${b.debuff ? "§c" : "§a"}${short(b.name)} ${b.left}s`).join(" ");
   if (d.settings.tracker) { const q = trackerLine(p); if (q) t += "\n" + q; }
   for (const l of hudExtra(p)) t += "\n" + l;     // alvo travado do Sábio, painel de debug...
-  return t;
+  const L = t.split("\n"); return L.length > HUD_MAX_LINES ? L.slice(0, HUD_MAX_LINES).join("\n") : t;   // 7.x: barra de ação menor (no máx. 5 linhas)
 }
 
 function perPlayer(p) {

@@ -271,7 +271,7 @@ export function skillLines(player, id) {
   const lv = masteryLevel(player, id), cmb = COMBOS.filter((c) => c.from.includes(id)), L = [`§l${sk.name}`];
   L.push(row("CATEGORIA", sk.cat), row("RARIDADE", sk.rarity ? `${RARITY[sk.rarity]?.color ?? ""}${RARITY[sk.rarity]?.name ?? sk.rarity}` : undefined));
   L.push(row("NÍVEL / MASTERY", hasSkill(d, id) ? `Req. Nv.${sk.level ?? 1} · Maestria ${lv}/${MASTERY_MAX}${awakened(d, id) ? " §6(Despertada)" : ""}` : `Req. Nv.${sk.level ?? 1}`));
-  L.push(row("CUSTO", sk.type === "active" ? `${sk.mana} mana${sk.stamina ? ` · ${sk.stamina} stamina` : ""}` : "Passiva"), row("COOLDOWN", sk.type === "active" ? `${sk.cd}s` : undefined));
+  L.push(row("CUSTO", sk.type === "active" ? `${sk.mana} mana${sk.stamina ? ` · ${sk.stamina} stamina` : ""}` : sk.trigger ? `Passiva · ${sk.mana} mana ao disparar` : "Passiva"), row("COOLDOWN", sk.type === "active" || sk.trigger ? `${sk.cd}s` : undefined));
   const eff = []; if (sk.element) eff.push(ELEM_NAME[sk.element] ?? sk.element); if (sk.exec?.kind) eff.push(sk.exec.kind); if (sk.exec?.power) eff.push(`poder ×${sk.exec.power}`);
   for (const [k, v] of Object.entries(sk.stats ?? {})) eff.push(`${STAT_LABELS[k] ?? k} ${v > 0 ? "+" : ""}${v}`);
   L.push(row("EFEITOS", eff.length ? eff.join(", ") : undefined));

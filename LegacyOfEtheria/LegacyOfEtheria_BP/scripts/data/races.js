@@ -99,12 +99,12 @@ export const RACES = {
     S("dragonoid_3a", "Draco Ancestral", "dragonoid_2a", { minLevel: 65, cost: 6000, attrs: { strength: 10, defense: 8, intelligence: 2, agility: 1, vitality: 8 }, stats: { hp: 20 }, skills: ["dragon_breath", "dragon_transform"] }),
     S("dragonoid_3b", "Dragão Arcano", "dragonoid_2b", { minLevel: 65, cost: 6000, attrs: { strength: 4, defense: 6, intelligence: 10, agility: 1, vitality: 6 }, skills: ["dragon_breath", "dragon_transform"] }),
   ]),
-  beastkin: build("beastkin", { name: "Beastkin", color: "§e", desc: "Povo-fera: instintos aguçados, velocidade e ferocidade.", bonus: "+3 Agilidade, +2 Força, velocidade", penalty: "Pouca inteligência" , traits: { crit: 6, stamina: 15, physical: 6 }}, [
-    S("beastkin_1", "Beastkin", null, { attrs: { strength: 2, defense: -1, intelligence: -1, agility: 3, vitality: 1 }, skills: ["beast_instinct"] }),
-    S("beastkin_2a", "Lobo-Guerreiro", "beastkin_1", { minLevel: 20, cost: 600, attrs: { strength: 4, defense: 0, intelligence: -1, agility: 5, vitality: 2 }, skills: ["wind_dash"] }),
-    S("beastkin_2b", "Caçador Beastkin", "beastkin_1", { minLevel: 20, cost: 600, attrs: { strength: 2, defense: 0, intelligence: 0, agility: 7, vitality: 1 }, skills: ["keen_eye"] }),
-    S("beastkin_3a", "Licantropo", "beastkin_2a", { minLevel: 50, cost: 3500, attrs: { strength: 9, defense: 2, intelligence: 0, agility: 7, vitality: 5 }, skills: ["blood_slash"] }),
-    S("beastkin_3b", "Predador", "beastkin_2b", { minLevel: 50, cost: 3500, attrs: { strength: 5, defense: 1, intelligence: 0, agility: 12, vitality: 3 }, skills: ["shadow_step"] }),
+  beastkin: build("beastkin", { name: "Beastkin", color: "§e", desc: "Povo-fera de Carrion, o Rei Besta: instintos aguçados, velocidade, ferocidade e TRANSFORMAÇÕES (Forma Fera, Rei Besta, Besta Real).", bonus: "+4 Agilidade, +4 Força, velocidade, 3 transformações", penalty: "Pouca inteligência" , traits: { crit: 8, critDmg: 12, stamina: 25, physical: 10, lifesteal: 1.5, hp: 6 }}, [
+    S("beastkin_1", "Beastkin", null, { attrs: { strength: 4, defense: 0, intelligence: -1, agility: 4, vitality: 2 }, skills: ["beast_instinct"] }),   // 7.x: Carrion mais forte
+    S("beastkin_2a", "Lobo-Guerreiro", "beastkin_1", { minLevel: 20, cost: 600, attrs: { strength: 7, defense: 2, intelligence: -1, agility: 7, vitality: 4 }, stats: { hp: 10 }, skills: ["wind_dash"] }),
+    S("beastkin_2b", "Caçador Beastkin", "beastkin_1", { minLevel: 20, cost: 600, attrs: { strength: 5, defense: 1, intelligence: 0, agility: 10, vitality: 3 }, stats: { hp: 8 }, skills: ["keen_eye"] }),
+    S("beastkin_3a", "Licantropo", "beastkin_2a", { minLevel: 50, cost: 3500, attrs: { strength: 14, defense: 6, intelligence: 0, agility: 10, vitality: 9 }, stats: { hp: 25 }, skills: ["blood_slash"] }),
+    S("beastkin_3b", "Predador", "beastkin_2b", { minLevel: 50, cost: 3500, attrs: { strength: 10, defense: 4, intelligence: 0, agility: 16, vitality: 6 }, stats: { hp: 18 }, skills: ["shadow_step"] }),
   ]),
   undead: build("undead", { name: "Morto-vivo", color: "§8", desc: "Retornaram da morte. Resistentes, mas amaldiçoados.", bonus: "+3 Vitalidade, roubo de vida", penalty: "Pouca agilidade" , traits: { lifesteal: 4, res_ice: 15, res_void: 10 }}, [
     S("undead_1", "Morto-vivo", null, { attrs: { strength: 0, defense: 2, intelligence: 1, agility: -1, vitality: 3 }, skills: ["undead_resilience"] }),

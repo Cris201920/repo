@@ -144,8 +144,8 @@ export function openLearn(player, page) {
 }
 export function openSkillDetail(player, id, page) {
   const d = getData(player), sk = SKILLS[id], why = canLearn(d, sk);
-  const body = `${R(sk.rarity).color}${R(sk.rarity).name} §7• ${sk.cat} • ${sk.type === "active" ? "Ativa" : "Passiva"}\n\n§f${sk.desc}\n\n` +
-    (sk.type === "active" ? `§9Mana: ${sk.mana}  §7Recarga: ${sk.cd}s\n` : "") + `§7Nível: ${sk.level}  Custo: ${sk.sp} pt\n` + (sk.req?.length ? `§7Requer: ${sk.req.map((r) => SKILLS[r].name).join(", ")}\n` : "") + (why ? `\n§c${why}` : "");
+  const body = `${R(sk.rarity).color}${R(sk.rarity).name} §7• ${sk.cat} • ${sk.type === "active" ? "Ativa" : sk.trigger ? "Passiva (automática)" : "Passiva"}\n\n§f${sk.desc}\n\n` +
+    (sk.type === "active" || sk.trigger ? `§9Mana: ${sk.mana}  §7Recarga: ${sk.cd}s\n` : "") + `§7Nível: ${sk.level}  Custo: ${sk.sp} pt\n` + (sk.req?.length ? `§7Requer: ${sk.req.map((r) => SKILLS[r].name).join(", ")}\n` : "") + (why ? `\n§c${why}` : "");
   const b = [];
   if (!why) b.push({ text: "§a§lAprender", icon: "skill_" + id, run: () => { msg(player, learnSkill(player, id)); openLearn(player, page); } });
   b.push(back(() => openLearn(player, page)));
@@ -537,3 +537,21 @@ function openForms(player) {
   b.push(back(() => openLineage(player)));
   menu(player, "§d§lFormas Dracônicas", body.join("\n"), b);
 }
+
+// ---------------------------------------------------------------- 7.x: TRANSFORMAÇÕES DA RAÇA BEASTKIN (Carrion)
+import { BEAST_FORMS, BEAST_FORM_IDS } from "../../data/beastforms.js";
+import { formLockReason, syncBeastForms, beastFormOf } from "../beastforms.js";
+export function openBeastForms(player, backFn) {
+  syncBeastForms(player, true);
+  const d = getData(player), cur = beastFormOf(player);
+  const lines = ["§6§lTRANSFORMAÇÕES DE CARRION", "§7Formas da raça Beastkin. Cada uma vira um item na hotbar (Habilidades > Equipar); use para transformar.", ""];
+  for (const id of BEAST_FORM_IDS) {
+    const f = BEAST_FORMS[id], why = formLockReason(d, id), have = d.unlockedSkills.includes(id);
+    lines.push(`${R(f.rarity)?.color ?? "§f"}§l${f.name}§r ${cur === id ? "§a(ATIVA)" : have ? "§a[x]" : "§8[ ]"}`, `§7${f.desc}`, `§9Mana ${f.mana} §a· Stamina ${f.stamina} §7· Duração ${f.sec}s · Recarga ${f.cd}s`, why && !have ? `§c${why}` : "", "");
+  }
+  menu(player, "§l§6TRANSFORMAÇÕES", lines.filter((x, i, a) => x !== "" || a[i - 1] !== "").join("\n"), [
+    { text: "§lEquipar na hotbar", icon: "menu_class", run: () => openEquip(player) },
+    back(backFn ?? (() => openRace(player))),
+  ]);
+}
+

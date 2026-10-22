@@ -136,6 +136,15 @@ def(A("berserk_rage", { name: "Fúria Berserker", cat: "Classe", element: "blood
 import { PACK } from "./skillpack.gen.js";
 import { ULTIMATES, GRANDS } from "./ultimates.js";
 for (const s of PACK) def(s);
+// 7.x: DOMO DE PROTEÇÃO vira PASSIVA (pedido do jogador). Mesmo id (saves antigos continuam com ela; o item da hotbar some sozinho),
+// mesmos números da ficha (Raro • Intrínseca • Mana 22 • Recarga 20 s • Nível 12 • 2 pt). Disparo automático em systems/domepassive.js.
+{ const rb = SKILLS.range_barrier; if (rb) {
+  const buff = rb.exec?.buff?.stats ?? { defense: 8, res_magic: 15, res_projectile: 30 };
+  SKILLS.range_barrier = { id: "range_barrier", name: "Domo de Proteção", type: "passive", cat: "Intrínseca", element: rb.element ?? "arcane", rarity: "rare",
+    mana: 22, cd: 20, level: 12, sp: 2, req: rb.req ?? [], trigger: "auto",
+    desc: "Domo de proteção: absorção e resistência por 15s. PASSIVA: abre sozinho quando você leva um golpe forte (25% da vida) ou fica com a vida baixa (40%). Gasta 22 de mana no disparo.",
+    passive: { sec: 15, absorb: rb.exec?.absorb ?? 6, hpBelow: 0.4, bigHit: 0.25, stats: buff } };
+} }
 for (const s of ULTIMATES) def(s);
 for (const s of GRANDS) def(s);
 import { applyTierArea } from "./tiers.js";   // 6.83: magias gigantes (systems/grandspells.js)   // 6.81: as 12 Skills Ultimate (systems/ultimates.js)
@@ -278,5 +287,9 @@ def(P("orc_hide", { name: "Couro Orc", cat: "Racial", rarity: "rare", level: 1, 
 // Lendário
 def(A("legend_resolve", { name: "Resolução Lendária", cat: "Única", element: "light", rarity: "mythic", mana: 70, cd: 60, level: 1, sp: 0,
   desc: "Habilidade lendária: fortalece tudo por 20s e cura uma grande parte da vida.", exec: { kind: "buff", sec: 20, absorb: 10, buff: { id: "legend_resolve", stats: { strength: 12, defense: 12, intelligence: 12, agility: 6 } }, snd: "beacon.power_select" } }));
+// 7.x: TRANSFORMAÇÕES DA RAÇA BEASTKIN (Carrion): dados em data/beastforms.js, executor "beastform" em systems/beastforms.js
+import { BEAST_FORMS } from "./beastforms.js";
+for (const [id, f] of Object.entries(BEAST_FORMS)) def(A(id, { name: f.name, cat: "Racial", element: "physical", rarity: f.rarity, mana: f.mana, stamina: f.stamina, cd: f.cd, level: 1, sp: 0,
+  desc: f.desc, exec: { kind: "beastform", form: id, snd: "mob.ravager.roar" } }));
 // 6.84: área real maior conforme o tier (data/tiers.js) — depois de TODAS as definições
 for (const s of Object.values(SKILLS)) applyTierArea(s);

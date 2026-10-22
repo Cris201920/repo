@@ -189,3 +189,20 @@ export const TURBO = {
   staminaPerSec: 3,     // custo enquanto em super voo
   carryMaxHp: 400,      // só agarra alvos com até esta vida (chefes grandes não)
 };
+
+// 7.x: SPAWNS / LAG — poucos mobs do addon ativos ao mesmo tempo. Os mobs nascem pelas regras naturais (BP/spawn_rules, ajustadas por
+// tools/spawn_tune.py) e com as estruturas do mundo; o chefe "errante" por script ficou raro e sem arena instantânea.
+export const SPAWN = {
+  roamFirst: [6000, 9600],     // 1º chefe errante: 5-8 min depois de entrar (antes 2-3,5 min)
+  roamEvery: [7200, 12000],    // depois, a cada 6-10 min por jogador (antes 2-4 min)
+  roamWorldMax: 3,             // chefes errantes vivos no mundo (antes 6)
+  roamNear: 150,               // 1 por jogador neste raio
+  roamSkipNear: 96,            // não chama outro se já houver chefe/lendário natural por perto
+  roamAbandon: 6000,           // some depois de 5 min sem ninguém perto (antes 20 min)
+  roamAbandonDist: 96,         // (antes 128)
+  roamArena: false,            // arena instantânea só no Altar de Invocação / !boss (colocar estrutura grande é o que mais trava)
+  capPerPlayer: 18,            // mobs comuns/incomuns/raros do addon num raio de 64 blocos de cada jogador
+  capWorld: 48,                // total carregado no mundo
+  capKeepDist: 40,             // nunca remove o que está a menos disto de algum jogador (sem sumir na sua frente)
+  capEvery: 200,               // verificação a cada 10 s
+};

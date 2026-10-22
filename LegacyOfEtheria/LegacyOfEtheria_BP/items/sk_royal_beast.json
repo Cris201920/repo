@@ -1,0 +1,26 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_royal_beast",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_royal_beast"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§6Besta Real"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_royal_beast",
+    "duration": 0.05
+   }
+  }
+ }
+}

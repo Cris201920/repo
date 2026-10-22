@@ -19,10 +19,10 @@
      "max": 120
     },
     "minecraft:delay_filter": {
-     "min": 8,
-     "max": 20,
+     "min": 12,
+     "max": 30,
      "identifier": "etheria:taratect_lesser_kumo",
-     "spawn_chance": 70
+     "spawn_chance": 60
     },
     "minecraft:difficulty_filter": {
      "min": "easy",
@@ -30,7 +30,7 @@
     },
     "minecraft:spawns_on_surface": {},
     "minecraft:density_limit": {
-     "surface": 3
+     "surface": 2
     }
    },
    {
@@ -46,10 +46,10 @@
      "max": 120
     },
     "minecraft:delay_filter": {
-     "min": 8,
-     "max": 20,
+     "min": 12,
+     "max": 30,
      "identifier": "etheria:taratect_lesser_kumo",
-     "spawn_chance": 70
+     "spawn_chance": 60
     },
     "minecraft:difficulty_filter": {
      "min": "easy",
@@ -57,7 +57,7 @@
     },
     "minecraft:spawns_underground": {},
     "minecraft:density_limit": {
-     "underground": 3
+     "underground": 2
     }
    }
   ]

@@ -19,10 +19,10 @@
      "max": 128
     },
     "minecraft:delay_filter": {
-     "min": 60,
-     "max": 120,
+     "min": 120,
+     "max": 300,
      "identifier": "etheria:carrera",
-     "spawn_chance": 30
+     "spawn_chance": 25
     },
     "minecraft:difficulty_filter": {
      "min": "easy",
@@ -50,10 +50,10 @@
      "max": 128
     },
     "minecraft:delay_filter": {
-     "min": 60,
-     "max": 120,
+     "min": 120,
+     "max": 300,
      "identifier": "etheria:carrera",
-     "spawn_chance": 30
+     "spawn_chance": 25
     },
     "minecraft:difficulty_filter": {
      "min": "easy",

@@ -69,6 +69,8 @@ function build(id, d) {
 }
 export const EXTRA = {};
 for (const [id, d] of Object.entries(D)) EXTRA[id] = build(id, d);
+// 7.x: Carrion mais forte (pedido do jogador): golpes 25% mais fortes, ritmo 10% mais rápido e Investida Selvagem (rampage) na assinatura
+for (const k of ["carrion", "carrion_royal_beast"]) { const o = EXTRA[k]; if (!o) continue; for (const ph of o.phases) { ph.dmg = Math.round(ph.dmg * 1.25 * 100) / 100; ph.gcd = Math.round(ph.gcd * 0.9 * 100) / 100; } if (BA_IDS.has("rampage") && !o.sig.includes("rampage")) o.sig.push("rampage"); }
 // variantes Kumo = mesmo perfil do boss base (nome com a marca "Variante Kumo" vem da entidade)
 for (const base of ["zoa_ele", "queen", "ede_saine", "zana_horowa"]) { const o = EXTRA["taratect_" + base]; EXTRA["taratect_" + base + "_kumo"] = { ...o, tier: Math.max(2, o.tier - 1) }; }
 EXTRA.taratect_orthocadinaht_kumo = undefined; delete EXTRA.taratect_orthocadinaht_kumo;   // já tem perfil próprio em bossprofiles.js

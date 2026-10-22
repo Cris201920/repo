@@ -76,7 +76,7 @@ function finish(dim, origin, s) {
     const inv = b.getComponent("minecraft:inventory")?.container;
     for (const [it, c] of s.loot) inv?.addItem(new ItemStack(`etheria:${it}`, c));
     for (const [m, c] of s.mobs) for (let i = 0; i < c; i++) {
-      try { dim.spawnEntity(`etheria:${m}`, { x: cx + (Math.random() * 10 - 5), y: origin.y + 2, z: cz + (Math.random() * 10 - 5) }); } catch { /* ignore */ }
+      try { const e = dim.spawnEntity(`etheria:${m}`, { x: cx + (Math.random() * 10 - 5), y: origin.y + 2, z: cz + (Math.random() * 10 - 5) }); try { e.addTag("etheria_smob"); } catch { /* ignore */ } } catch { /* ignore */ }
     }
   } catch { /* ignore */ }
 }

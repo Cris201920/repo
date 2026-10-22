@@ -1,12 +1,13 @@
 // systems/bossspawn.js - aparição GARANTIDA de bosses/personagens raros (as regras naturais de spawn têm chance baixa demais e concorrem com ~150 mobs).
-// A cada 3-6 minutos (aleatório), cada jogador na superfície do Overworld atrai um boss adequado ao nível dele, 40-70 blocos à frente/ao redor,
-// no topo do terreno. Máx. 1 boss errante por jogador e 4 no mundo; os que ficam abandonados por 20 min sem ninguém perto somem.
+// 7.x (lag): a cada 6-10 minutos (aleatório; o 1º em 5-8 min), cada jogador na superfície do Overworld atrai um boss adequado ao nível dele, 40-70 blocos
+// ao redor, no topo do terreno, SEM colocar arena na hora. Máx. 1 por jogador e 3 no mundo; não chama se já houver chefe/lendário natural por perto;
+// os abandonados somem em 5 min sem ninguém a 96 blocos. Números em config.js (SPAWN). O Altar e o !boss continuam com a arena exclusiva.
 // Admin: !boss [id] força a aparição (id parcial vale), !boss lista.
 import { world, system } from "@minecraft/server";
 import { MOBS } from "../data/mobs.gen.js";
 import { getData } from "../core/db.js";
 import { say, toast, playSound, isValid, rand, pick } from "../core/utils.js";
-import { ADMIN_TAG } from "../config.js";
+import { ADMIN_TAG, SPAWN } from "../config.js";
 import { placeArena, keyOfBoss } from "./arenas.js";
 import { auditCmd } from "./bossreg.js";
 import { menu } from "./ui/forms.js";
@@ -21,7 +22,7 @@ const RAR_COLOR = { special: "§b", legendary: "§6", boss: "§c" };
 const next = new Map();   // playerId -> tick
 const spawnedAt = new Map(); // entityId -> tick
 
-const interval = () => Math.floor(rand(2400, 4800));            // 6.99: 2-4 min (antes 3-6)
+const interval = () => Math.floor(rand(SPAWN.roamEvery[0], SPAWN.roamEvery[1]));   // 7.x: 6-10 min (antes 2-4) — menos lag
 const level = (p) => { try { return getData(p).level ?? 1; } catch { return 1; } };
 
 // 6.55: chefes de alto nível sem arena/reino/estrutura próprios entram no sorteio errante a partir de um nível mínimo (sempre alcançáveis no Sobrevivência)
@@ -56,12 +57,12 @@ function surfaceSpot(p) {
 
 const roaming = () => { try { return world.getDimension("minecraft:overworld").getEntities({ tags: [TAG] }).filter(isValid); } catch { return []; } };
 
-export function summonRoaming(p, id) {
+export function summonRoaming(p, id, arena = true) {
   const def = id ? POOL.find((b) => b.id === id) ?? { id, name: MOBS["etheria:" + id]?.name ?? id, rar: "boss" } : choose(level(p));
   const loc = surfaceSpot(p); if (!loc) return false;
   const announce = (e) => { const c = RAR_COLOR[def.rar] ?? "§c"; say(p, `${c}§l⚠ ${def.name} §r§7surgiu por perto! Prepare-se.`); toast(p, `${c}${def.name}`, "§7Um inimigo poderoso apareceu"); playSound(p, "mob.wither.spawn", 0.6, 1.3); };
   const make = (at) => { try { const e = p.dimension.spawnEntity("etheria:" + def.id, at); e.addTag(TAG); spawnedAt.set(e.id, system.currentTick); announce(e); return true; } catch { return false; } };
-  const key = keyOfBoss(def.id);
+  const key = arena ? keyOfBoss(def.id) : null;   // 7.x: o errante natural não coloca arena na hora (estrutura grande = travada)
   if (!key) return make(loc);
   // 6.24: boss com arena exclusiva -> a estrutura é colocada na hora e ele nasce nela
   let ok = true, returned = false;
@@ -70,21 +71,26 @@ export function summonRoaming(p, id) {
   return ok;
 }
 
+/** já existe um chefe/lendário (natural ou não) perto do jogador? então não chama outro */
+const BIG = new Set(Object.entries(MOBS).filter(([, m]) => m.rar === "boss" || m.rar === "legendary" || m.rar === "special").map(([id]) => id));
+function bigNear(p) {
+  try { return p.dimension.getEntities({ location: p.location, maxDistance: SPAWN.roamSkipNear }).some((e) => BIG.has(e.typeId)); } catch { return false; }
+}
 function tickSpawner() {
   const now = system.currentTick, live = roaming();
   for (const p of world.getAllPlayers()) {
     if (!isValid(p)) continue;
-    if (!next.has(p.id)) { next.set(p.id, now + Math.floor(rand(2400, 4200))); continue; }   // 2-3,5 min depois de entrar
+    if (!next.has(p.id)) { next.set(p.id, now + Math.floor(rand(SPAWN.roamFirst[0], SPAWN.roamFirst[1]))); continue; }   // 5-8 min depois de entrar
     if (now < next.get(p.id)) continue;
     if (p.dimension.id !== "minecraft:overworld") { next.set(p.id, now + 1200); continue; }
-    const mine = live.filter((e) => { try { const dx = e.location.x - p.location.x, dz = e.location.z - p.location.z; return dx * dx + dz * dz < 150 * 150; } catch { return false; } });
-    if (mine.length >= 1 || live.length >= 6) { next.set(p.id, now + 1200); continue; }
-    next.set(p.id, now + interval()); summonRoaming(p);
+    const mine = live.filter((e) => { try { const dx = e.location.x - p.location.x, dz = e.location.z - p.location.z; return dx * dx + dz * dz < SPAWN.roamNear * SPAWN.roamNear; } catch { return false; } });
+    if (mine.length >= 1 || live.length >= SPAWN.roamWorldMax || bigNear(p)) { next.set(p.id, now + 2400); continue; }
+    next.set(p.id, now + interval()); summonRoaming(p, undefined, SPAWN.roamArena);
   }
   for (const e of live) {   // limpeza de bosses abandonados
     const t0 = spawnedAt.get(e.id) ?? now; if (!spawnedAt.has(e.id)) spawnedAt.set(e.id, now);
-    if (now - t0 < 24000) continue;
-    let far = true; try { far = e.dimension.getPlayers({ location: e.location, maxDistance: 128 }).length === 0; } catch { /* ignore */ }
+    if (now - t0 < SPAWN.roamAbandon) continue;
+    let far = true; try { far = e.dimension.getPlayers({ location: e.location, maxDistance: SPAWN.roamAbandonDist }).length === 0; } catch { /* ignore */ }
     if (far) { try { e.remove(); } catch { /* ignore */ } spawnedAt.delete(e.id); }
   }
 }
