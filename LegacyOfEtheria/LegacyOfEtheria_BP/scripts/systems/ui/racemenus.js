@@ -7,14 +7,16 @@ import { bar, fmt, say, countItem } from "../../core/utils.js";
 import { ATTRIBUTES, STAT_LABELS, MAX_LEVEL, ATTR_POINTS_PER_LEVEL, SKILL_POINT_EVERY, xpToNext } from "../../config.js";
 import { SKILLS } from "../../data/skills.js";
 import { RACES, RACE_LIST, stageOf, raceOf, nextStages, isLordStage } from "../../data/races.js";
-import { raceSheet, raceStyle, evoReqs, evoProgress, RACE_LOOK, STAGE_LOOK } from "../../data/racecard.js";
+import { raceSheet, raceStyle, evoReqs, evoProgress, evoChanges, RACE_LOOK, STAGE_LOOK } from "../../data/racecard.js";
+import { skillLine, rarityOf } from "../../data/skillfmt.js";
+import { sageSay, sageStage } from "../voice.js";
 import { CLASSES } from "../../data/classes.js";
 import { LINEAGE_RACE, LINEAGES, LINEAGE_FORMS, lineageOf, formOfPlayer, raceDepth, bossTotal } from "../../data/lineages.js";
 import { AGILITY_LINES, AGI_GATES } from "../../data/agility.js";
 import { getStats, getHealth } from "../stats.js";
 import { chooseRace, evolve, evolveCheck } from "../race.js";
 import { hasSkill } from "../skills.js";
-import { menu, cardMenu } from "./forms.js";
+import { menu, cardMenu, sageThemeOf } from "./forms.js";
 import { openLineage, openClass, openAttributes, openTitles, openBeastForms } from "./menus.js";
 import { openPowers } from "../powers.js";
 import { openSlimeForms } from "../slimeform.js";
@@ -25,6 +27,9 @@ const SEP = "§8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬";
 const RACE_THEME = { slime: "sage", demon: "world", vampire: "world", undead: "ciel", angel: "raphael", human: "raphael", dragonoid: "raphael", dwarf: "raphael", elf: "ciel", lizardman: "sage" };
 const themeOf = (raceId) => RACE_THEME[raceId] ?? "tree";
 const skillName = (s) => SKILLS[s]?.name ?? s;
+const skillCol = (s) => `${rarityOf(SKILLS[s]).color}${skillName(s)}`;
+const SAGE = "§a§l[Grande Sábio]§r";
+const sageTh = (player) => sageThemeOf(sageStage(getData(player)));
 const have = (player) => (id) => countItem(player, id);
 const pct = (f) => `${Math.floor(Math.min(1, f) * 100)}%`;
 const reqBar = (R) => { const ok = R.filter((r) => r.ok).length; return `${bar(ok, Math.max(1, R.length), 10, ok === R.length ? "§a" : "§e")} §7${ok}/${R.length}`; };
@@ -69,13 +74,14 @@ export function openRaceV2(player, back) {
     `${r.color}§l${r.name.toUpperCase()} §r§7· estágio §f${depthOf(r, st)}/${maxDepth(r)}`,
     `§f${st.name}${isLordStage(st.id) ? " §5(Lord Demônio)" : ""}`,
     ready.length ? "§e§l★ EVOLUÇÃO DISPONÍVEL" : next.length ? "§7Próxima evolução: escolha um caminho à direita" : "§6Forma final alcançada",
+    ...(ready.length ? [`${SAGE} §fCondições de evolução atendidas: §e${ready.map((x) => x.n.name).join("§f, §e")}§f.`] : []),
     SEP,
     `§eNível ${d.level}${d.level >= MAX_LEVEL ? " §6(MÁX.)" : ""}  ${d.level >= MAX_LEVEL ? "" : `${bar(d.xp, need, 10, "§e")} §7${fmt(d.xp)}/${fmt(need)} XP`}`,
     SEP,
     "§l§fTRILHA DE EVOLUÇÃO", trail(player, d, r),
     SEP,
     `§a+ ${r.bonus}`, `§c- ${r.penalty}`,
-    `§bHabilidades raciais: §f${st.skills.map(skillName).join(", ") || "—"}`,
+    `§bHabilidades raciais: ${st.skills.map(skillCol).join("§7, ") || "§f—"}`,
     ...(look ? [`§7Aparência: §f${look}`] : []),
   ].join("\n");
   const B = info.map(({ n, R, ready: ok }) => ({
@@ -101,13 +107,14 @@ export function openEvolveV2(player, id, back) {
   const R = evoReqs(d, n, H), ready = !evolveCheck(player, n);
   const keys = Object.keys(ATTRIBUTES);
   const cmp = keys.map((k) => { const a = st.attrs?.[k] ?? 0, b = n.attrs?.[k] ?? 0; return b === a ? null : `§7${ATTRIBUTES[k].label}: §f${a} §8» ${b > a ? "§a▲" : "§c▼"} §f${b}`; }).filter(Boolean);
-  const newSkills = (n.skills ?? []).filter((s) => !hasSkill(d, s)).map(skillName);
+  const ch = evoChanges(st, n, (s) => hasSkill(d, s));
+  if (ready) sageSay(player, "evo_ready", { cd: 1200 });
   const body = [
     `${r.color}§l${n.name.toUpperCase()}`, `§7${st.name} §8» §f${n.name}${isLordStage(n.id) ? " §5(Lord Demônio)" : ""}`,
     ready ? "§e§l★ PRONTA PARA EVOLUIR" : "§8○ BLOQUEADA",
     SEP, `§l§fREQUISITOS  ${reqBar(R)}`, ...reqRows(R),
-    SEP, "§l§fO QUE MUDA", ...(cmp.length ? cmp : ["§7Atributos iguais aos atuais"]),
-    `§7Novas habilidades: §f${newSkills.join(", ") || "—"}`,
+    SEP, `${SAGE} §aAnálise da evolução:`, "§l§fO QUE MUDA", ...(cmp.length ? cmp : ["§7Atributos iguais aos atuais"]), ...ch.stats,
+    "§6§lNOVAS HABILIDADES", ...(ch.skills.length ? ch.skills.filter((s) => SKILLS[s]).map((s) => skillLine(SKILLS[s])) : ["§7—"]),
     ...(n.next?.length ? [`§7Depois: §f${n.next.map((x) => r.stages[x].name).join("§7 ou §f")}`] : []),
     "§8Os bônus do novo estágio substituem os do atual.",
   ].join("\n");
@@ -115,6 +122,28 @@ export function openEvolveV2(player, id, back) {
   if (ready) B.push({ text: "§a§lEVOLUIR AGORA\n§r§7inicia a cerimônia de evolução", icon: "race_" + d.race, run: () => { try { player.playSound("random.levelup", { volume: 0.6, pitch: 1.2 }); } catch { /* ignore */ } system.runTimeout(() => { const res = evolve(player, id); if (!res.ok) say(player, `§c${res.msg}`); }, 8); } });
   B.push({ text: "§7« Árvore da raça", icon: "back", run: () => openRaceV2(player, back) });
   menu(player, `${ready ? "§e" : "§d"}§lEVOLUIR: ${n.name.toUpperCase()}`, body, B, isLordStage(n.id) ? "world" : themeOf(r.id));
+}
+
+// ------------------------------------------------------------------ EVOLUÇÃO PELO GRANDE SÁBIO (atalho do Livro e do chat)
+export function openSageEvolution(player, back) {
+  const d = getData(player);
+  if (!d.raceChosen) return openRacePickV2(player, 0);
+  const r = raceOf(d), st = stageOf(d), next = nextStages(d), H = have(player), again = () => openSageEvolution(player, back);
+  const L = [`${SAGE} §aAnálise de evolução do hospedeiro.`, `${r.color}§l${st.name}§r §7· estágio §f${depthOf(r, st)}/${maxDepth(r)} §7· Nível §f${d.level}`, SEP];
+  const B = [];
+  if (!next.length) L.push("§6Forma final da raça alcançada.", "§7Restam o caminho do Lord Demônio e as Skills Ultimate.");
+  for (const n of next) {
+    const R = evoReqs(d, n, H), ok = !evolveCheck(player, n), ch = evoChanges(st, n, (s) => hasSkill(d, s));
+    L.push(`${ok ? "§e★" : "§8○"} §l${n.name}§r ${ok ? "§e(pronta)" : reqBar(R)}${isLordStage(n.id) ? " §5Lord Demônio" : ""}`);
+    if (ch.attrs.length || ch.stats.length) L.push(` ${[...ch.attrs, ...ch.stats].join(" ")}`);
+    if (ch.skills.length) L.push(` §7Novas: ${ch.skills.map(skillCol).join("§7, ")}`);
+    L.push("");
+    B.push({ text: ok ? `§e§l★ ${n.name}\n§r§aPRONTA · ver análise` : `§l${n.name}\n§r§7${R.filter((x) => x.ok).length}/${R.length} requisitos · ${pct(evoProgress(d, n, H))}`, icon: "race_" + r.id, run: () => openEvolveV2(player, n.id, back) });
+  }
+  if (next.some((n) => !evolveCheck(player, n))) { L.push(`${SAGE} §fCondições de evolução atendidas. Recomendo prosseguir.`); sageSay(player, "evo_ready", { cd: 1200 }); }
+  B.push({ text: "§l§dÁrvore da raça\n§r§7trilha completa e Lord Demônio", icon: "race_" + r.id, run: () => openRaceV2(player, () => again()) });
+  B.push({ text: "§7« Voltar", icon: "back", run: () => back?.() });
+  menu(player, "§a§lANÁLISE DE EVOLUÇÃO", L.join("\n"), B, sageTh(player));
 }
 
 // ------------------------------------------------------------------ LORD DEMÔNIO
@@ -153,12 +182,14 @@ export function openRacePickV2(player, idx = 0) {
   const n = RACE_LIST.length, i = ((idx % n) + n) % n, r = RACE_LIST[i], st = r.stages[r.root];
   const A = Object.entries(st.attrs ?? {}).filter(([, v]) => v).map(([k, v]) => ` §f- ${v > 0 ? "+" : ""}${v} ${ATTRIBUTES[k]?.label ?? k}`);
   const S = Object.entries(st.stats ?? {}).filter(([, v]) => v).map(([k, v]) => ` §f- ${v > 0 ? "+" : ""}${v} ${STAT_LABELS[k] ?? k}`);
+  sageSay(player, "birth_analyzing", { cd: 600 });
   const body = [
+    `${SAGE} §aAnálise da raça:`,
     `§7${r.desc}`,
     "§bAtributos", ...(A.length ? A : [" §f- equilibrados"]), ...S,
     "§bTraço racial", ` §f${r.bonus}`,
     "§cFraqueza", ` §f${r.penalty}`,
-    "§bHabilidades", ` §f${st.skills.map(skillName).join(", ") || "—"}`,
+    "§bHabilidades", ` ${st.skills.map(skillCol).join("§7, ") || "§f—"}`,
     "§bEvolui para", ` §f${st.next.map((x) => r.stages[x].name).join(", ") || "—"}`,
     `§8${i + 1}/${n} · escolha permanente`,
   ].join("\n");
@@ -168,12 +199,23 @@ export function openRacePickV2(player, idx = 0) {
     { text: "§l>", run: () => openRacePickV2(player, i + 1) },
   ]);
 }
-function openRaceConfirmV2(player, id) {
-  const r = RACES[id], st = r.stages[r.root], idx = RACE_LIST.findIndex((x) => x.id === id);
-  cardMenu(player, id, `${r.color}${r.name}`, [`§7Estilo: §f${raceStyle(RACE_LIST, st)}`, `§a+ ${r.bonus}`, `§c- ${r.penalty}`, "", "§cEsta escolha é permanente.", "§7Em seguida você escolhe a classe inicial."].join("\n"), [
-    { text: "§l<", run: () => openRacePickV2(player, idx) },
-    { text: "§2§lConfirmar", run: () => { if (chooseRace(player, id)) { say(player, `§aVocê agora é ${r.name}!`); system.runTimeout(() => openClass(player, true), 50); } } },
-  ]);
+/** 7.x: "Resultado da análise" do Grande Sábio antes de confirmar a raça: ficha, habilidades iniciais (formato Tensura) e linhas de evolução */
+export function openRaceConfirmV2(player, id) {
+  const r = RACES[id]; if (!r) return openRacePickV2(player, 0);
+  const st = r.stages[r.root], idx = RACE_LIST.findIndex((x) => x.id === id);
+  sageSay(player, "birth_done", { cd: 200 });
+  const sheet = raceSheet(RACE_LIST, r, st, skillName).split("\n").filter((l) => !l.startsWith("§b§lHabilidades")).join("\n");
+  const body = [
+    `${SAGE} §aResultado da análise:`, `${r.color}§l${r.name.toUpperCase()}`, `§f${r.desc}`,
+    SEP, sheet,
+    SEP, "§6§lHABILIDADES INICIAIS", ...(st.skills.filter((s) => SKILLS[s]).map((s) => skillLine(SKILLS[s])) || []), ...(st.skills.length ? [] : ["§7—"]),
+    SEP, "§6§lLINHAS DE EVOLUÇÃO", treeOf(r),
+    SEP, `${SAGE} §fConfirmar o renascimento como ${r.color}${r.name}§f?`, "§cEsta escolha é permanente. §7Em seguida você escolhe a classe inicial.",
+  ].join("\n");
+  menu(player, `§a§lANÁLISE: ${r.name.toUpperCase()}`, body, [
+    { text: "§a§lConfirmar renascimento\n§r§7escolha permanente", icon: "race_" + id, run: () => { if (chooseRace(player, id)) { say(player, `§aVocê agora é ${r.name}!`); system.runTimeout(() => openClass(player, true), 50); } } },
+    { text: "§7« Voltar às raças", icon: "back", run: () => openRacePickV2(player, idx) },
+  ], sageTh(player));
 }
 export function openRaceListV2(player, view = false, back) {
   const d = getData(player);

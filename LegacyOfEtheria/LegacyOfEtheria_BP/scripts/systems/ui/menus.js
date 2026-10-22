@@ -3,7 +3,7 @@ import { openInfusion } from "../infusion.js";
 import { system } from "@minecraft/server";
 // systems/ui/menus.js - Menus principais do jogador (celular: botões grandes, textos curtos, sempre com "Voltar")
 import { ModalFormData } from "@minecraft/server-ui";
-import { ATTRIBUTES, MAX_LEVEL, MAX_SLOTS, RARITY, STAT_LABELS, FX_LEVELS, FX_LABELS, xpToNext } from "../../config.js";
+import { ATTRIBUTES, MAX_LEVEL, MAX_SLOTS, RARITY, RARITY_ORDER, STAT_LABELS, FX_LEVELS, FX_LABELS, xpToNext } from "../../config.js";
 import { getData, markDirty, saveNow } from "../../core/db.js";
 import { bar, fmt, say } from "../../core/utils.js";
 import { SKILLS, SKILL_LIST } from "../../data/skills.js";
@@ -25,7 +25,8 @@ import { joinGuild, claimRewards, claimable } from "../guild.js";
 import { getRanking } from "../ranking.js";
 import { listBuffs } from "../effects.js";
 import { nameOf } from "../items.js";
-import { menu, show } from "./forms.js";
+import { menu, show, sageThemeOf } from "./forms.js";
+import { skillCard, skillTags, skillLine, shortDesc, tierOf, tierCount, rarityTag, tierTag, modeOf, TIER_ORDER } from "../../data/skillfmt.js";
 import { openPowers, openAgility } from "../powers.js";
 import { FLIGHT } from "../../config.js";
 import { flightOn, setFlightOn, flightRequirements } from "../flight.js";
@@ -103,9 +104,11 @@ export function openTitles(player) {
 }
 
 // ---------------------------------------------------------------- habilidades
+const sageTh = (d) => sageThemeOf(sageStage(d));
 export function openSkills(player) {
   const d = getData(player);
-  menu(player, "§l§bHABILIDADES", `§bPontos de habilidade: ${d.skillPoints}\n§7Equipadas: §f${d.equippedSkills.length}/${MAX_SLOTS}\n\n${hotbarSummary(player)}`, [
+  menu(player, "§l§bHABILIDADES", `§a§l[Grande Sábio]§r §f${d.unlockedSkills.length} habilidade(s) registrada(s).\n${tierCount(d.unlockedSkills) || "§7Nenhuma ainda."}\n§bPontos de habilidade: ${d.skillPoints} §7· Equipadas: §f${d.equippedSkills.length}/${MAX_SLOTS}\n\n${hotbarSummary(player)}`, [
+    { text: "§l§aRegistro do Sábio\n§r§7suas habilidades: raridade, tipo e números", icon: "menu_skills", run: () => openOwnedSkills(player, 0) },
     { text: "§lHotbar de habilidades", icon: "menu_skills", run: () => openHotbar(player, () => openSkills(player)) },
     { text: "§lLançar (toque rápido)", icon: "skill_fireball", run: () => openQuickCast(player) },
     { text: "§lAprender habilidades", icon: "skill_fireball", run: () => openLearn(player, 0) },
@@ -115,7 +118,21 @@ export function openSkills(player) {
     { text: "§l§bAgilidades Supremas\n§r§7a linha de mobilidade da sua raça", icon: "menu_skills", run: () => openAgility(player, () => openSkills(player)) },
     { text: "§l§5Infusão da Espada\n§r§7grave uma habilidade na espada da mão", icon: "menu_skills", run: () => openInfusion(player, () => openSkills(player)) },
     back(() => openMain(player)),
-  ]);
+  ], sageTh(d));
+}
+/** Registro do Sábio: habilidades adquiridas, da classe mais alta (Ultimate) à Comum, no formato do Tensura */
+const rank = (sk) => TIER_ORDER.indexOf(tierOf(sk)) * 10 - RARITY_ORDER.indexOf(sk.rarity);
+export function openOwnedSkills(player, page = 0, onBack) {
+  const d = getData(player), list = d.unlockedSkills.map((id) => SKILLS[id]).filter(Boolean).sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name));
+  const per = 8, pages = Math.max(1, Math.ceil(list.length / per)), pg = Math.max(0, Math.min(page, pages - 1));
+  const again = (n) => openOwnedSkills(player, n, onBack);
+  const b = list.slice(pg * per, pg * per + per).map((sk) => ({ text: `${R(sk.rarity).color}§l${sk.name}\n§r${rarityTag(sk)} §8• ${tierTag(sk)} §8• §0${modeOf(sk)}`, icon: "skill_" + sk.id, run: () => openSkillDetail(player, sk.id, 0, () => again(pg)) }));
+  if (pg > 0) b.push({ text: "« Página anterior", run: () => again(pg - 1) });
+  if (pg < pages - 1) b.push({ text: "Próxima página »", run: () => again(pg + 1) });
+  b.push(back(onBack ?? (() => openSkills(player))));
+  const body = [`§a§l[Grande Sábio]§r §fRegistro de habilidades do hospedeiro.`, tierCount(d.unlockedSkills) || "§7Nenhuma habilidade registrada.",
+    "§8Raridade • Tipo • Ativa/Passiva · toque para ver Mana, Recarga, Nível, Custo e requisito.", `§7Página ${pg + 1}/${pages}`].join("\n");
+  menu(player, "§l§aREGISTRO DO SÁBIO", body, b, sageTh(d));
 }
 export function openQuickCast(player) {
   const d = getData(player);
@@ -134,22 +151,23 @@ export function openLearn(player, page) {
   const slice = list.slice(page * per, page * per + per);
   const b = slice.map((sk) => {
     const why = canLearn(d, sk);
-    const tag = hasSkill(d, sk.id) ? "§a[x] aprendida" : why ? `§c${why}` : "§eAprender";
-    return { text: `${R(sk.rarity).color}${sk.name}${sk.type === "passive" ? " §7(passiva)" : ""}\n§r${tag}`, icon: "skill_" + sk.id, run: () => openSkillDetail(player, sk.id, page) };
+    const tag = hasSkill(d, sk.id) ? "§2✔" : !why ? "§2Aprender" : d.level < sk.level ? `§cNv.${sk.level}` : d.skillPoints < sk.sp ? `§c${sk.sp} pt` : `§c${why}`;
+    return { text: `${R(sk.rarity).color}${sk.name}${sk.type === "passive" ? " §7(passiva)" : ""}\n§r${rarityTag(sk)} §8• ${tierTag(sk)} §8· ${tag}`, icon: "skill_" + sk.id, run: () => openSkillDetail(player, sk.id, page) };
   });
   if (page > 0) b.push({ text: "« Página anterior", run: () => openLearn(player, page - 1) });
   if (page < pages - 1) b.push({ text: "Próxima página »", run: () => openLearn(player, page + 1) });
   b.push(back(() => openSkills(player)));
-  menu(player, "§l§bAPRENDER", `§bPontos: ${d.skillPoints}   §7Página ${page + 1}/${pages}`, b);
+  menu(player, "§l§bAPRENDER", `§a§l[Grande Sábio]§r §fHabilidades que você pode adquirir com pontos.\n§bPontos: ${d.skillPoints}   §7Página ${page + 1}/${pages}`, b, sageTh(d));
 }
-export function openSkillDetail(player, id, page) {
-  const d = getData(player), sk = SKILLS[id], why = canLearn(d, sk);
-  const body = `${R(sk.rarity).color}${R(sk.rarity).name} §7• ${sk.cat} • ${sk.type === "active" ? "Ativa" : sk.trigger ? "Passiva (automática)" : "Passiva"}\n\n§f${sk.desc}\n\n` +
-    (sk.type === "active" || sk.trigger ? `§9Mana: ${sk.mana}  §7Recarga: ${sk.cd}s\n` : "") + `§7Nível: ${sk.level}  Custo: ${sk.sp} pt\n` + (sk.req?.length ? `§7Requer: ${sk.req.map((r) => SKILLS[r].name).join(", ")}\n` : "") + (why ? `\n§c${why}` : "");
+/** ficha da habilidade no formato do Sábio. onBack opcional (padrão: lista de aprender na página `page`) */
+export function openSkillDetail(player, id, page = 0, onBack) {
+  const d = getData(player), sk = SKILLS[id]; if (!sk) return;
+  const own = hasSkill(d, id), why = own ? null : sk.sp > 0 ? canLearn(d, sk) : "Não é adquirida com pontos.";
+  const body = ["§a§l[Grande Sábio]§r §aResultado da análise:", ...skillCard(sk, own), ...(why ? ["", `§c${why}`] : [])].join("\n");
   const b = [];
-  if (!why) b.push({ text: "§a§lAprender", icon: "skill_" + id, run: () => { msg(player, learnSkill(player, id)); openLearn(player, page); } });
-  b.push(back(() => openLearn(player, page)));
-  menu(player, `§l${sk.name}`, body, b);
+  if (!own && !why) b.push({ text: "§a§lAprender", icon: "skill_" + id, run: () => { msg(player, learnSkill(player, id)); (onBack ?? (() => openLearn(player, page)))(); } });
+  b.push(back(onBack ?? (() => openLearn(player, page))));
+  menu(player, `§l${sk.name}`, body, b, sageTh(d));
 }
 export function openEquip(player) {
   const d = getData(player);
@@ -165,7 +183,7 @@ export function openEquip(player) {
 function openPassives(player) {
   const d = getData(player);
   const list = d.unlockedSkills.map((id) => SKILLS[id]).filter((s) => s && s.type === "passive");
-  const lines = list.map((s) => `${R(s.rarity).color}${s.name} §7- ${s.desc}`);
+  const lines = list.map((s) => `${skillLine(s)}\n §7${shortDesc(s)}`);
   const b = [];
   if (hasSkill(d, FLIGHT.skill)) {
     const on = flightOn(d);

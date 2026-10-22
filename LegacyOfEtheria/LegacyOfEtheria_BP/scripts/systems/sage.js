@@ -7,6 +7,8 @@ import { getData, markDirty, saveNow } from "../core/db.js";
 import { say, toast, playSound, removeItem, countItem, fmt, bar, isValid, healthComp } from "../core/utils.js";
 import { SAGE_BASE, SAGE_EVO, SAGE_LEARN, RARITY, STAT_LABELS, AUTO_EQUIP } from "../config.js";
 import { menu as baseMenu, sageThemeOf, sageMenu } from "./ui/forms.js";
+import { openSkills } from "./ui/menus.js";
+import { openRaceV2, openSageEvolution } from "./ui/racemenus.js";
 import { MOBS } from "../data/mobs.gen.js";
 import { SET_DEFS } from "../data/armor.gen.js";
 import { recipeLines } from "./forge.js";
@@ -353,13 +355,14 @@ export function openSage(player) {
   let tod = 6000; try { tod = world.getTimeOfDay(); } catch { /* ignore */ }
   const hello = tod < 6000 || tod >= 23000 ? "Bom dia." : tod < 12000 ? "Boa tarde." : "Boa noite.";
   const name = ["SÁBIO", "SÁBIO", "GRANDE SÁBIO", "RAPHAEL", "CIEL"][s];
+  // 7.x: atalhos para as telas do hospedeiro (Raça, Habilidades, Evolução); Observações, Alocação e Crescimento do Sábio ficam em MAIS…
   sageMenu(player, name, hello, [
     { label: "CONFIGURAÇÕES", run: () => openVoice(player) },
     { label: "ANALISAR", run: () => openAnalysis(player) },
-    { label: "ALOCAÇÃO", run: () => openSkillsMenu(player, false) },
-    { label: "CRESCIMENTO", run: () => openEvolution(player) },
+    { label: "HABILIDADES", run: () => openSkills(player) },
+    { label: "EVOLUÇÃO", run: () => openSageEvolution(player, () => openSage(player)) },
     { label: "REGISTROS", run: () => openEncyclopedia(player) },
-    { label: "OBSERVAÇÕES", run: () => openObservations(player) },
+    { label: "RAÇA", run: () => openRaceV2(player, () => openSage(player)) },
     { label: "MODO DE BATALHA", run: () => openBattleMode(player) },
     { label: "MAIS…", run: () => openSageFull(player) },
   ]);
@@ -392,7 +395,8 @@ export function openSageFull(player) {
     { text: "§lCRIATURAS", icon: "menu_quests", run: () => openCategory(player, "creatures") },
     { text: "§lITENS\n§r§8arma na mão · estômago do Predador", icon: "menu_inventory", run: () => openItems(player) },
     { text: "§lEQUIPAMENTO\n§r§8arma, armadura e bônus de conjunto", icon: "menu_inventory", run: () => analyzeGear(player) },
-    { text: "§lEVOLUÇÃO", icon: "menu_race", run: () => openEvolution(player) },
+    { text: "§lCRESCIMENTO DO SÁBIO\n§r§8Sábio → Grande Sábio → Raphael → Ciel", icon: "menu_race", run: () => openEvolution(player) },
+    { text: "§lOBSERVAÇÕES", icon: "menu_quests", run: () => openObservations(player) },
     { text: `§lMODO ASSESS\n§r§8${assessActive(player) ? `§a${assessLabel(assessState(player))}§8 · toque para sair` : "percepção ampliada · auras · filtro"}`, icon: "menu_skills", run: () => assessToggle(player) },
     { text: `§lALVO\n§r§8${isLocked(player) ? `travado: §f${lockInfo(player)?.name ?? "?"}§8 · toque para soltar` : "travar o alvo da mira"}`, icon: "menu_skills", run: () => { if (isLocked(player)) releaseTarget(player); else lockTarget(player); } },
     { text: "§lPROCESSOS", icon: "menu_status", run: () => openProcesses(player) },
@@ -633,7 +637,10 @@ function handleChat(p, msg) {
   if (s < name[1]) { say(p, `§7[Sistema] ${name[0] === "grande sabio" ? "O Grande Sábio" : name[0] === "ciel" ? "Ciel" : "Raphael"} ainda não despertou.`); return true; }
   sageSay(p, "cmd_ok", { cd: 600 });
   const has = (re) => re.test(rest), tgt = () => lookTarget(p, learnBonus(getData(p)).range);
-  if (has(/evolu/) && !has(/habilidade/)) return openEvolution(p), true;
+  if (has(/crescimento|evolu\w* (do |de )?(sabio|voce|sua)/)) return openEvolution(p), true;
+  if (has(/evolu/) && !has(/habilidade/)) return openSageEvolution(p, () => openSage(p)), true;
+  if (has(/\bra(c|ç)a/)) return openRaceV2(p, () => openSage(p)), true;
+  if (has(/habilidade|skill/) && !has(/analis/)) return openSkills(p), true;
   if (has(/opco|menu|quais sao minhas/)) return openSage(p), true;
   if (has(/otimiz/) && s >= 3) return openOptimize(p), true;
   if (has(/assess|escane|percep/)) return assessToggle(p), true;

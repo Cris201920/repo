@@ -189,7 +189,7 @@ function submitAnn(p, o) { const s = st(p); if (!s.cur) startNow(p, o); else s.q
 export function announceSkill(p, entry) {
   if (!ok(p)) return;
   const s = st(p);
-  if (!enabled(p)) { try { p.sendMessage(`${TIER_COL[entry.tier] ?? "§f"}[${TXT[lang(p)].tier[entry.tier] ?? entry.tier}] §f${entry.name}`); } catch { /* ignore */ } return; }
+  if (!enabled(p)) return;   // sem a cena: a nota do Sábio no chat (sagecore.noteSkills) já mostra a ficha
   if (canAbsorb(s) && !s.cur.o.entries.some((e) => e.id === entry.id)) { s.cur.o.entries.push(entry); s.cur.A.durationMs = Math.max(s.cur.A.durationMs, nowMs(s) + 800); rebuild(p); return; }
   const q = s.queue.find((o) => !o.ceremony && !o.evolution && !o.analysis) ?? (s.queue.find((o) => o.ceremony && LISTS_SKILLS[o.ceremony]));
   if (q && !q.entries.some((e) => e.id === entry.id)) { q.entries.push(entry); return; }
@@ -268,6 +268,8 @@ export function announceInfo(p, header, name, hint = "", tier = "intrinsic") {
   if (!ok(p)) return;
   sageToast(p, `${TIER_COL[tier] ?? "§a"}${header}§f: ${name}${hint ? ` §7${hint}` : ""}`);
 }
+/** nota do Grande Sábio no chat (sem cena; a mesma linha não se repete em 30 s) */
+export function sageNote(p, text) { if (ok(p) && text) chat(p, `§8[§a§lGrande Sábio§r§8] §f${text}`); }
 export function announceAnalysis(p, name) { if (ok(p)) chat(p, `§8[§bSÁBIO§8] §b${name} §7— ${TXT[lang(p)].sub.analysis}`); }
 
 // ------------------------------------------------------------------ desenho (a cada tick)

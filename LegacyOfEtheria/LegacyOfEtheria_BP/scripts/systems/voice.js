@@ -64,7 +64,7 @@ export function sageText(player, text, opts = {}) {
   const d = getData(player), stage = sageStage(d), sg = sageCfg(d);
   if (sg.subs === false) return false;
   const dur = Math.min(140, 30 + Math.round(t.length * 1.1));
-  return enqueue(player, { key: opts.key ?? ("txt." + t.slice(0, 40)), who: ["SÁBIO", "SÁBIO", "GRANDE SÁBIO", "RAPHAEL", "CIEL"][stage] ?? "SÁBIO", sound: null, text: t, dur, pri: opts.pri ?? 5, cd: opts.cd ?? 200, at: system.currentTick, tone: ["§b", "§b", "§3", "§d", "§e"][stage] ?? "§b", sage: true, stage, textOnly: true });
+  return enqueue(player, { key: opts.key ?? ("txt." + t.slice(0, 40)), who: ["SÁBIO", "SÁBIO", "GRANDE SÁBIO", "RAPHAEL", "CIEL"][stage] ?? "SÁBIO", sound: null, text: t, dur, pri: opts.pri ?? 5, cd: opts.cd ?? 200, at: system.currentTick, tone: ["§b", "§b", "§3", "§d", "§e"][stage] ?? "§b", sage: true, stage, textOnly: true, important: !!opts.important });
 }
 /** Estado da fila de voz (modo debug): tamanho da fila, fala atual e última fala. */
 export function voiceInfo(p) { const x = st.get(p.id); return { queue: x?.q.length ?? 0, current: x?.cur?.key ?? null, last: x?.last ?? null, lastAt: x?.lastAt ?? 0 }; }

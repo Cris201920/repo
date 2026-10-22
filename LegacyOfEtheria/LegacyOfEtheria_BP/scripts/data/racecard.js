@@ -1,5 +1,5 @@
 // data/racecard.js - Ficha de raça (estilo "Human: Stats / Magicule / Spirit"): números derivados das mesmas fórmulas de stats.js, sem inventar valores.
-import { STAT_LABELS } from "../config.js";
+import { STAT_LABELS, ATTRIBUTES } from "../config.js";
 
 // aparência: o que cada raça mostra no corpo (desenhado na própria entidade do jogador, só em 3ª pessoa: tools/racepart.py + systems/raceparts.js)
 export const RACE_LOOK = {
@@ -132,4 +132,12 @@ export function treeLines(race, d, have) {
     for (const n of st.next) walk(n, depth + 1);
   };
   walk(race.root, 0); return out;
+}
+
+/** o que muda de um estágio para outro (texto do Grande Sábio): atributos, traços e habilidades novas (owned: id -> já tem?) */
+export function evoChanges(from, to, owned = () => false) {
+  const attrs = Object.keys(ATTRIBUTES).map((k) => { const a = from?.attrs?.[k] ?? 0, b = to?.attrs?.[k] ?? 0; return a === b ? null : `${b > a ? "§a▲" : "§c▼"} §f${ATTRIBUTES[k].label} ${b - a > 0 ? "+" : ""}${b - a}`; }).filter(Boolean);
+  const keys = new Set([...Object.keys(from?.stats ?? {}), ...Object.keys(to?.stats ?? {})].filter((k) => TRAIT_KEYS.includes(k)));
+  const stats = [...keys].map((k) => { const a = from?.stats?.[k] ?? 0, b = to?.stats?.[k] ?? 0; return a === b ? null : `${b > a ? "§a▲" : "§c▼"} §f${STAT_LABELS[k]} ${b - a > 0 ? "+" : ""}${b - a}`; }).filter(Boolean);
+  return { attrs, stats, skills: (to?.skills ?? []).filter((s) => !owned(s)) };
 }
