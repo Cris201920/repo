@@ -4,14 +4,26 @@
   "description": {
    "identifier": "etheria:pico",
    "is_spawnable": true,
-   "is_summonable": true
+   "is_summonable": true,
+   "properties": {
+    "etheria:fly": {
+     "type": "int",
+     "range": [
+      0,
+      4
+     ],
+     "default": 0,
+     "client_sync": true
+    }
+   }
   },
   "components": {
    "minecraft:type_family": {
     "family": [
      "angel",
      "monster",
-     "mob"
+     "mob",
+     "etheria_flyer"
     ]
    },
    "minecraft:collision_box": {
@@ -107,7 +119,8 @@
     "minecraft:type_family": {
      "family": [
       "etheria_summon",
-      "mob"
+      "mob",
+      "etheria_flyer"
      ]
     },
     "minecraft:behavior.nearest_attackable_target": {

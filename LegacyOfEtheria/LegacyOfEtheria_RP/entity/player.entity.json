@@ -748,12 +748,6 @@
       "tfxb_true": "query.property('etheria:tfx') == 'true'"
      },
      {
-      "drg_fly": "variable.etheria_dragon && (!query.is_on_ground && !query.is_in_water) && query.vertical_speed > -1.0 && query.property('etheria:lin') != 'veldanava' && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
-     },
-     {
-      "drg_glide": "variable.etheria_dragon && (!query.is_on_ground && !query.is_in_water) && query.vertical_speed <= -1.0 && query.property('etheria:lin') != 'veldanava' && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd'"
-     },
-     {
       "drg_breathe": "variable.etheria_dragon && query.is_on_ground && query.modified_move_speed <= 0.05 && query.property('etheria:lin') != 'velzard' && query.property('etheria:lin') != 'velgrynd' && query.property('etheria:lin') != 'veldanava'"
      },
      {
@@ -889,12 +883,6 @@
       "drg_v_run": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && query.is_on_ground && query.modified_move_speed > 0.6"
      },
      {
-      "drg_v_fly": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && !query.is_in_water && query.vertical_speed > -1.0"
-     },
-     {
-      "drg_v_glide": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && !query.is_in_water && query.vertical_speed <= -1.0"
-     },
-     {
       "drg_v_attack": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && variable.attack_time > 0"
      },
      {
@@ -932,6 +920,30 @@
      },
      {
       "drg_serp_fly_velgrynd": "query.property('etheria:lin') == 'velgrynd' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && !query.is_in_water"
+     },
+     {
+      "drg_ref_hover": "query.property('etheria:lin') == 'veldora' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && (query.property('etheria:fly') == 1)"
+     },
+     {
+      "drg_v_ref_hover": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && (query.property('etheria:fly') == 1)"
+     },
+     {
+      "drg_ref_rise": "query.property('etheria:lin') == 'veldora' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && (query.property('etheria:fly') == 2)"
+     },
+     {
+      "drg_v_ref_rise": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && (query.property('etheria:fly') == 2)"
+     },
+     {
+      "drg_ref_glide": "query.property('etheria:lin') == 'veldora' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && (query.property('etheria:fly') == 0 || query.property('etheria:fly') == 3)"
+     },
+     {
+      "drg_v_ref_glide": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && (query.property('etheria:fly') == 0 || query.property('etheria:fly') == 3)"
+     },
+     {
+      "drg_ref_dive": "query.property('etheria:lin') == 'veldora' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && (query.property('etheria:fly') == 4)"
+     },
+     {
+      "drg_v_ref_dive": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && (query.property('etheria:fly') == 4)"
      }
     ]
    },
@@ -1226,7 +1238,15 @@
     "tr_ewings": "animation.tensura.race.ewings",
     "tr_superfly": "animation.tensura.race.superfly",
     "drg_serp_fly_velzard": "animation.etheria_pdrg_velzard.serpent_fly",
-    "drg_serp_fly_velgrynd": "animation.etheria_pdrg_velgrynd.serpent_fly"
+    "drg_serp_fly_velgrynd": "animation.etheria_pdrg_velgrynd.serpent_fly",
+    "drg_ref_hover": "animation.etheria_pdrg.ref_hover",
+    "drg_v_ref_hover": "animation.etheria_pdrg_veldanava.ref_hover",
+    "drg_ref_rise": "animation.etheria_pdrg.ref_rise",
+    "drg_v_ref_rise": "animation.etheria_pdrg_veldanava.ref_rise",
+    "drg_ref_glide": "animation.etheria_pdrg.ref_glide",
+    "drg_v_ref_glide": "animation.etheria_pdrg_veldanava.ref_glide",
+    "drg_ref_dive": "animation.etheria_pdrg.ref_dive",
+    "drg_v_ref_dive": "animation.etheria_pdrg_veldanava.ref_dive"
    },
    "render_controllers": [
     {

@@ -32,6 +32,15 @@
      ],
      "default": "none",
      "client_sync": true
+    },
+    "etheria:fly": {
+     "type": "int",
+     "range": [
+      0,
+      4
+     ],
+     "default": 0,
+     "client_sync": true
     }
    }
   },
@@ -42,7 +51,8 @@
      "true_dragon",
      "monster",
      "mob",
-     "etheria_boss"
+     "etheria_boss",
+     "etheria_flyer"
     ]
    },
    "minecraft:health": {
@@ -161,7 +171,8 @@
       "monster",
       "mob",
       "etheria_boss",
-      "tdr_human"
+      "tdr_human",
+      "etheria_flyer"
      ]
     }
    },
@@ -183,7 +194,8 @@
       "monster",
       "mob",
       "etheria_boss",
-      "tdr_dragon"
+      "tdr_dragon",
+      "etheria_flyer"
      ]
     }
    }

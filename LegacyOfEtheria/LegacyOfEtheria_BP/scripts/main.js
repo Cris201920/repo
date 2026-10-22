@@ -70,6 +70,7 @@ import "./systems/skillkinds.js";
 import { startVoice, sageSay, dropVoice, sageCfg, sageText } from "./systems/voice.js";
 import { startDiscovery, grantStarter } from "./systems/discovery.js";
 import { startArmorFx } from "./systems/armorfx.js";
+import { startMobFlight } from "./systems/mobflight.js";
 import { startSageCore, dropCore } from "./systems/sagecore.js";
 import { startForge } from "./systems/forge.js";
 import { startProtect } from "./systems/protect.js";
@@ -181,6 +182,7 @@ system.run(() => {
   startVoice();
   startWeaponFx();
   startArmorFx();
+  try { startMobFlight(); } catch { /* ignore */ }
   startSageCore();
   startForge();
   startDiscovery();

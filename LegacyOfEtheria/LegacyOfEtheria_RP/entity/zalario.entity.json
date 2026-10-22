@@ -4,13 +4,16 @@
   "description": {
    "identifier": "etheria:zalario",
    "materials": {
-    "default": "entity_alphatest"
+    "default": "entity_alphatest",
+    "wings": "entity_alphatest"
    },
    "textures": {
-    "default": "textures/entity/etheria_zalario"
+    "default": "textures/entity/etheria_zalario",
+    "wings": "textures/entity/etheria_race_angel_arch"
    },
    "geometry": {
-    "default": "geometry.etheria_zalario_skin"
+    "default": "geometry.etheria_zalario_skin",
+    "wings": "geometry.etheria_mobwing_angel_arch"
    },
    "spawn_egg": {
     "base_color": "#f2f2f8",
@@ -25,7 +28,13 @@
     "life_idle": "animation.etheria.life.idle",
     "life_swing": "animation.etheria.life.swing",
     "life_hurt": "animation.etheria.life.hurt",
-    "life_stance": "animation.etheria.life.stance"
+    "life_stance": "animation.etheria.life.stance",
+    "mw_hide": "animation.etheria.mobwing.hide_zalario",
+    "mw_ground": "animation.etheria.mobwing.ground",
+    "mw_hover": "animation.etheria.mobwing.hover",
+    "mw_rise": "animation.etheria.mobwing.rise",
+    "mw_glide": "animation.etheria.mobwing.glide",
+    "mw_dive": "animation.etheria.mobwing.dive"
    },
    "scripts": {
     "pre_animation": [
@@ -52,6 +61,22 @@
      },
      {
       "life_stance": "query.has_target && !query.is_moving && variable.attack_time <= 0"
+     },
+     "mw_hide",
+     {
+      "mw_ground": "query.property('etheria:fly') == 0"
+     },
+     {
+      "mw_hover": "query.property('etheria:fly') == 1"
+     },
+     {
+      "mw_rise": "query.property('etheria:fly') == 2"
+     },
+     {
+      "mw_glide": "query.property('etheria:fly') == 3"
+     },
+     {
+      "mw_dive": "query.property('etheria:fly') == 4"
      }
     ],
     "initialize": [
@@ -59,7 +84,8 @@
     ]
    },
    "render_controllers": [
-    "controller.render.default"
+    "controller.render.default",
+    "controller.render.etheria_mob_wings"
    ]
   }
  }
