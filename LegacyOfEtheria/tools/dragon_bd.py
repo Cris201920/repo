@@ -7,7 +7,7 @@ tools/dragon_src/bd/dragon_gelo.bdengine (dragão branco alado). Mapeamento:
     asas abertas e simétricas (a asa direita do modelo, espelhada)
 Cada display de bloco/item vira um cubo Bedrock (matriz 4x4 -> centro, tamanho e rotação por decomposição QR). Os cubos são
 presos a ossos ao longo da coluna (mesmos nomes que o resto do pipeline espera: d_*, x_serp*) e pintados num atlas próprio
-1024x1024 (ladrilhos com detalhe: escamas, placas, chifres, crina/nadadeiras recortadas, olhos).
+512x512 (ladrilhos de 64 px com detalhe: escamas, placas, chifres, crina/nadadeiras recortadas, olhos).
 Depois chama serpent_float.main() e dragon_acts.main() (animações) e grava escalas/colisão.
 Uso: python3 tools/dragon_bd.py   (idempotente)"""
 import gzip, json, math, os, random, re, sys
@@ -17,7 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 ROOT = os.path.dirname(HERE); RP = os.path.join(ROOT, "LegacyOfEtheria_RP"); BP = os.path.join(ROOT, "LegacyOfEtheria_BP")
 SRC = os.path.join(HERE, "dragon_src", "bd")
 NAMES = ("velzard", "velgrynd", "veldanava")      # dragões convertidos daqui (dragon_real.py / dragon_hd.py pulam estes)
-TW = 1024; T = 64                                  # atlas 1024, ladrilho 64
+TW = 512; T = 64                                   # atlas 512, ladrilho 64
 
 # ================================================================== leitura do .bdengine
 def load_scene(path):
