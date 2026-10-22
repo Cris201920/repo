@@ -75,6 +75,7 @@ import { startVoice, sageSay, dropVoice, sageCfg, sageText } from "./systems/voi
 import { startDiscovery, grantStarter } from "./systems/discovery.js";
 import { startArmorFx } from "./systems/armorfx.js";
 import { startMobFlight } from "./systems/mobflight.js";
+import { startTameDragons } from "./systems/tamedragons.js";
 import { startSageCore, dropCore } from "./systems/sagecore.js";
 import { startForge } from "./systems/forge.js";
 import { startProtect } from "./systems/protect.js";
@@ -190,6 +191,7 @@ system.run(() => {
   startWeaponFx(); startTrident();   // 8.5: tridente dos dragões marinhos (arremesso)
   startArmorFx();
   try { startMobFlight(); } catch { /* ignore */ }
+  try { startTameDragons(); } catch (e) { console.warn(`[Etheria] dragões domáveis: ${e}`); }   // 8.8: montaria com voo
   startSageCore();
   startForge();
   startDiscovery();

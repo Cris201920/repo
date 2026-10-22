@@ -11,6 +11,7 @@ import { isValid, say } from "../core/utils.js";
 const SPEED = 0.62, CLIMB = 0.55, GRAV = 0.08;
 const flying = new Map();   // id do dragão -> tick em que decolou
 let tick = 0;
+export const isFlying = (id) => flying.has(id);
 export const isTameDragon = (e) => { try { return !!TAME_DRAGONS[e.typeId]; } catch { return false; } };
 
 const mount = (p) => { try { const r = p.getComponent("minecraft:riding")?.entityRidingOn; return r && isTameDragon(r) && isValid(r) ? r : undefined; } catch { return undefined; } };

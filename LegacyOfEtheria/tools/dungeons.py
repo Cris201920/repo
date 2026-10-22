@@ -437,7 +437,7 @@ def preview(out):
         sheet.alpha_composite(p, (x0 + 10, 330)); dr.rectangle([x0 + 9, 329, x0 + 160, 480], outline=(200, 200, 200))
         dr.text((x0 + 10, 490), nm, fill=(255, 255, 255), font=fnt); dr.text((x0 + 170, 352), f"local: {where}", fill=(200, 200, 200), font=fnt)
         dr.text((x0 + 170, 370), f"chefe: {boss}", fill=(255, 120, 120), font=fnt); dr.text((x0 + 170, 388), f"baús: {nc}", fill=(255, 220, 0), font=fnt)
-        dr.text((x0 + 170, 406), "planta: corte do salão", fill=(170, 170, 170), font=fnt); dr.text((x0 + 170, 422), "vermelho=chefe, laranja=guardas", fill=(170, 170, 170), font=fnt)
+        dr.text((x0 + 170, 406), "planta: corte do salão", fill=(170, 170, 170), font=fnt); dr.text((x0 + 170, 430), "vermelho = chefe", fill=(255, 90, 90), font=fnt); dr.text((x0 + 170, 448), "laranja = guardas", fill=(255, 160, 60), font=fnt)
     sheet.save(out); print("prévia:", out)
 
 if __name__ == "__main__":

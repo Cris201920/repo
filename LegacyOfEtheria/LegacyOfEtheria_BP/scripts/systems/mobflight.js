@@ -6,7 +6,8 @@ import { world, system } from "@minecraft/server";
 const FAM = "etheria_flyer", PROP = "etheria:fly", DIMS = ["overworld", "nether", "the_end"];
 const FLYERS = new Set(["etheria:feldway_angel", "etheria:zalario", "etheria:dino", "etheria:pico", "etheria:garasha",
   "etheria:veldanava", "etheria:velzard", "etheria:velgrynd",
-  "etheria:void_dragon", "etheria:fallen_angel", "etheria:angel_guardian"]);   // 8.7: chefes por região que voam
+  "etheria:void_dragon", "etheria:fallen_angel", "etheria:angel_guardian",   // 8.7: chefes por região que voam
+  "etheria:dragon_carmim", "etheria:dragon_gelo", "etheria:dragon_tempestade"]);   // 8.8: dragões domáveis
 const hitAt = new Map();   // id -> tick do último golpe (mergulho no ataque)
 let tick = 0;
 
