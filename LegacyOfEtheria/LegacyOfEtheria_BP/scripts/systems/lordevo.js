@@ -13,12 +13,12 @@ import { ctx, burst, implode, ringFlat, column, disc, bolt, helix, CIRCLE, T } f
 import { holdCinematic, setCam } from "./cinematic.js";
 import { playTransform } from "./raceparts.js";
 import { sageText } from "./voice.js";
-import { announceCeremony, sceneOn } from "./sageannounce.js";
+import { announcing, sceneOn } from "./sageannounce.js";
 import { addHudOverride } from "./hudhooks.js";
 import { getData } from "../core/db.js";
 import { CINEMATIC } from "../config.js";
 
-export const LORD_EVO = { len: 1200, step: 2, p1: 200, p2: 600, p3: 1000 };
+export const LORD_EVO = { len: 1800, step: 2, p1: 140, p2: 140, p3: 140 };   // 7 s de almas no mundo + cerimônia de tela cheia (~50 s) até acabar; len = limite de segurança
 const TAG = "etheria_lordevo", C1 = "void", C2 = "blood";
 const runs = new Map();   // playerId -> estado
 export const lordEvolving = (p) => { try { return runs.has(p.id); } catch { return false; } };
@@ -30,11 +30,7 @@ const snd = (p, id, v = 1, pi = 1) => { try { p.playSound(id, { volume: v, pitch
 // falas por fase: texto do Sábio (fila com prioridade; se a Voz do Mundo estiver na tela, tenta de novo) + linha no chat (sempre aparece)
 export const LORD_LINES = [
   [0, "Aviso. Condições para o despertar como Lorde Demônio confirmadas. Iniciando o Festival da Colheita."],
-  [200, "Processo evolutivo iniciado. Fragmentando o corpo espiritual..."],
-  [400, "Absorvendo as almas oferecidas. Progresso: 50%."],
-  [600, "Reconstrução do corpo físico em andamento. Não interrompa o processo."],
-  [800, "Energia mágica excedente detectada. Estabilizando o núcleo..."],
-  [1000, "Evolução concluída. Renascimento como Lorde Demônio confirmado."],
+  [60, "Absorvendo as almas oferecidas."],
 ];
 function speak(S, i, txt, tries = 0) {
   const p = S.player; if (!ok(p) || S.done) return;
@@ -73,6 +69,7 @@ function release(S, why) {
   if (!S.applied) { S.applied = true; try { S.change?.(); } catch (e) { console.warn(`[Etheria] Lord Demônio change: ${e}`); } }   // a evolução nunca se perde
   const p = S.player;
   if (ok(p)) {
+    if (why === "end") { cmd(p, "camera @s fade time 0.05 0.25 0.9 color 255 255 255"); snd(p, "random.explode", 0.8, 0.8); }
     if (S.cam) cmd(p, "camera @s clear");
     if (S.lockPerm) cmd(p, "inputpermission set @s movement enabled");
     for (const e of ["slowness", "jump_boost", "darkness", "slow_falling"]) { try { p.removeEffect(e); } catch { /* ignore */ } }
@@ -84,7 +81,7 @@ function release(S, why) {
 }
 
 // ---------------------------------------------------------------- câmera: órbita lenta que se aproxima; afasta no renascimento
-const CAM = [[0, 30, 6.0, 2.6, 0.5], [200, 110, 5.2, 2.4, 9], [400, 200, 4.6, 2.2, 9], [600, 280, 3.8, 2.0, 9], [800, 350, 3.2, 1.9, 9], [996, 360, 3.0, 1.8, 0.2], [1004, 380, 8.0, 4.2, 0.5], [1100, 420, 5.5, 2.4, 4]];
+const CAM = [[0, 30, 6.0, 2.6, 0.5], [60, 110, 4.6, 2.2, 6], [130, 170, 3.2, 1.9, 4]];
 
 function frame(S) {
   const p = S.player, t = S.t, f = S.low ? 0.5 : 1, fx = (k = 1) => ctx(p, k);
@@ -97,7 +94,6 @@ function frame(S) {
     disc(fx(), feet, { col: C1, circle: CIRCLE.void, size: 4.5, life: LORD_EVO.p1 / 20 });
     try { p.addEffect("darkness", LORD_EVO.p1 + 40, { amplifier: 0, showParticles: false }); } catch { /* ignore */ }
     snd(p, "beacon.activate", 1, 0.5); snd(p, "mob.wither.ambient", 0.6, 0.6);
-    try { if (sceneOn(p)) announceCeremony(p, "harvest_festival"); } catch { /* ignore */ }   // áudio já existente da Voz do Mundo
     for (const q of near(S, 48)) { try { q.sendMessage(`§5§l[Voz do Mundo] §r§d${p.name}§7 iniciou a evolução para §5§lLorde Demônio§r§7...`); } catch { /* ignore */ } }
   }
   if (t < LORD_EVO.p1) {
@@ -106,28 +102,14 @@ function frame(S) {
     if (t % 20 === 0) ringFlat(fx(), feet, { col: C1, n: 18, radius: 4 - k * 2, life: 0.8, tile: T.ring });
     if (t % 60 === 30) cmd(p, "camera @s fade time 0.3 0.4 0.5 color 0 0 0");          // tela escurece em pulsos
     if (t % 40 === 0) snd(p, "random.orb", 0.6, 0.5 + k * 0.3);
+    // almas negras de chama rosa girando e subindo ao redor do corpo (cena do vídeo)
+    if (t % 2 === 0) {
+      const a = t * 0.22, r = 2.6 - k * 0.8;
+      for (let i = 0; i < 3; i++) { const b = a + i * 2.094, q = { x: L.x + Math.cos(b) * r, y: L.y + 0.6 + ((t * 0.03 + i * 0.7) % 2.2), z: L.z + Math.sin(b) * r };
+        burst(fx(), q, { col: "pink", tile: T.flame, n: Math.max(1, Math.round(2 * f)), spd: 0.15, up: 0.4 }); implode(fx(), q, { col: C1, tile: T.smoke, n: Math.max(1, Math.round(2 * f)), radius: 0.7, life: 0.4 }); }
+    }
   }
-  // ---------------- fase 2: fragmentos e relâmpagos subindo
-  if (t === LORD_EVO.p1) { cmd(p, "camera @s fade time 0.2 0.6 0.8 color 20 0 30"); disc(fx(), { ...feet, y: feet.y + 0.05 }, { col: C2, circle: CIRCLE.arcane, size: 6, life: (LORD_EVO.p2 - t) / 20 }); snd(p, "ambient.weather.thunder", 0.7, 1.2); }
-  if (t >= LORD_EVO.p1 && t < LORD_EVO.p2) {
-    const k = (t - LORD_EVO.p1) / (LORD_EVO.p2 - LORD_EVO.p1);
-    if (t % 4 === 0) column(fx(), feet, { col: t % 8 ? C2 : C1, tile: T.shard, n: Math.round((4 + k * 6) * f), h: 3 + k * 6, r: 1.6 - k * 0.6 });
-    if (t % 16 === 0) { const a = Math.random() * 6.283, r = 2 + Math.random() * 2.5; bolt(fx(), { x: L.x + Math.cos(a) * r, y: L.y, z: L.z + Math.sin(a) * r }, { x: L.x + Math.cos(a) * r * 0.4, y: L.y + 9 + k * 6, z: L.z + Math.sin(a) * r * 0.4 }, { col: C2, w: 0.3, jitter: 1 }); }
-    if (t % 24 === 0) ringFlat(fx(), { ...feet, y: feet.y + k * 4 }, { col: C1, n: 20, radius: 2.4, life: 0.7, tile: T.ring });
-    if (t % 50 === 0) snd(p, "ambient.weather.lightning.impact", 0.5, 1.3);
-  }
-  // ---------------- fase 3: corpo se transformando (tremor + partículas densas)
-  if (t === LORD_EVO.p2) { cmd(p, "camera @s fade time 0.3 0.8 0.8 color 0 0 0"); playTransform(p, "evo", 3300); snd(p, "mob.warden.sonic_charge", 0.8, 0.7); }
-  if (t >= LORD_EVO.p2 && t < LORD_EVO.p3) {
-    const k = (t - LORD_EVO.p2) / (LORD_EVO.p3 - LORD_EVO.p2);
-    if (t % 40 === 0) cmd(p, `camerashake add @s ${(0.08 + k * 0.4).toFixed(2)} 2.1 positional`);
-    if (t % 4 === 0) burst(fx(), mid, { col: t % 8 ? C1 : C2, tile: T.ember, n: Math.round((6 + k * 10) * f), spd: 0.9 + k, up: 1 });
-    if (t % 6 === 0) implode(fx(), mid, { col: C2, tile: T.spark, n: Math.round((6 + k * 8) * f), radius: 2.6, life: 0.5 });
-    if (t % 30 === 0) helix(fx(), L, { col: C1, tile: T.ring, steps: 18, turns: 2, r: 1.2, h: 2.4, dur: 14, size: 0.12, life: 0.6 });
-    if (t === 800) playTransform(p, "evo", 3300);
-    if (t % 40 === 20) snd(p, "mob.wither.ambient", 0.4 + k * 0.5, 0.5 + k * 0.4);
-  }
-  // ---------------- fase 4: explosão final e renascimento
+  // ---------------- despertar: a evolução é aplicada e a cerimônia de tela cheia assume (Festival da Colheita → Verdadeiro Lorde Demônio → nome → habilidades)
   if (!S.applied && t >= LORD_EVO.p3) {
     S.applied = true;
     cmd(p, "camera @s fade time 0.05 0.25 0.9 color 255 255 255");
@@ -142,6 +124,7 @@ function frame(S) {
     try { for (const q of world.getAllPlayers()) q.sendMessage(`§5§l[Voz do Mundo] §r§fConfirmado: §d${p.name}§f despertou como §5§lLorde Demônio§r§f.`); } catch { /* ignore */ }
   } else if (S.applied && t > LORD_EVO.p3) {
     if (t - S.tfxAt >= 66 && t < LORD_EVO.len - 10) { playTransform(p, "lord", 3300); S.tfxAt = t; }   // a animação "lord" cobre a fase final inteira
+    if (t > LORD_EVO.p3 + 120 && !announcing(p)) return release(S, "end");   // a cerimônia acabou: devolve o controle
     if (t % 8 === 0) { burst(fx(), mid, { col: C1, n: Math.round(6 * f), spd: 0.8, up: 1.2 }); ringFlat(fx(), feet, { col: C2, n: 12, radius: 1.8, life: 0.7 }); }
   }
 }
@@ -188,8 +171,8 @@ export function startLordEvo() {
   } catch { /* ignore */ }
   addHudOverride((p) => {
     const k = lordProgress(p); if (k < 0) return null;
-    const n = Math.round(k * 20), left = Math.max(0, Math.ceil((1 - k) * LORD_EVO.len / 20));
-    const ph = k < 1 / 6 ? "Aviso" : k < 0.5 ? "Fragmentação" : k < 5 / 6 ? "Reconstrução" : "Renascimento";
+    const n = Math.round(k * 20), left = Math.max(0, Math.ceil((LORD_EVO.len / 20) * (1 - k)));
+    const ph = k < LORD_EVO.p1 / LORD_EVO.len ? "Absorção das almas" : "Despertar";
     return `§5§lLORD DEMÔNIO §r§d${ph}\n§5${"|".repeat(n)}§8${"|".repeat(20 - n)} §f${left}s`;
   });
 }
