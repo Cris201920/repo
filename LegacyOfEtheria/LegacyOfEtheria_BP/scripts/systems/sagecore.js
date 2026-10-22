@@ -4,7 +4,8 @@
 //   - systems/sageannounce.js : cena da Voz do Mundo (habilidade, evolução, nível, análise, cerimônias);
 //   - systems/voice.js        : fila automática de falas (dicas, alertas, análises) com voz em português, legenda e indicador circular no canto.
 // Os nomes exportados abaixo continuam existindo para os outros sistemas (sage.js, sageproc.js, sageassess.js...), mas tudo é encaminhado ao sistema novo.
-import { announceSkill, announceEvolution, announceCeremony, announceLordAwakening, announceAnalysis, raceKey } from "./sageannounce.js";
+import { announceSkill, announceEvolution, announceCeremony, announceLordAwakening, announceAnalysis, raceKey, sageNote } from "./sageannounce.js";
+import { tierOfSkill, skillLine } from "../data/skillfmt.js";
 import { RACES } from "../data/races.js";
 import { system } from "@minecraft/server";
 import { getData, markDirty } from "../core/db.js";
@@ -73,16 +74,21 @@ export function resistsAnalysis(p, target, power) {
 }
 
 // ------------------------------------------------------------------ anúncio de habilidades -> cena da Voz do Mundo
-export function tierOfSkill(id) {
-  const sk = SKILLS[id]; if (!sk) return "common";
-  if (sk.rarity === "divine" || sk.cat === "Ultimate" || sk.cat === "Manas") return "ultimate";
-  if (sk.cat === "Única") return "unique";
-  if (/resist|imunidade|imune/i.test(`${sk.id} ${sk.name}`) || (sk.type === "passive" && Object.keys(sk.stats ?? {}).some((k) => k.startsWith("res_")) && !sk.exec)) return "resistance";
-  if (sk.cat === "Racial" || sk.cat === "Intrínseca") return "intrinsic";
-  if (sk.cat === "Extra" || ["epic", "legendary", "mythic"].includes(sk.rarity)) return "extra";
-  return "common";
+export { tierOfSkill };
+// cena (nome + classe) e, junto, UMA nota do Sábio no chat com a ficha no formato Tensura; aquisições em sequência viram uma nota só
+const notePend = new Map();   // pid -> { ids, timer }
+function noteSkills(p, id) {
+  let n = notePend.get(p.id); if (!n) notePend.set(p.id, n = { ids: [], timer: 0 });
+  if (n.ids.includes(id)) return; n.ids.push(id);
+  if (n.timer) return;
+  n.timer = system.runTimeout(() => {
+    notePend.delete(p.id); if (!alive(p)) return;
+    const ids = n.ids.filter((x) => SKILLS[x]), show = ids.slice(0, 4);
+    if (!ids.length) return;
+    sageNote(p, `${ids.length > 1 ? `${ids.length} habilidades adquiridas.` : "Habilidade adquirida."}\n${show.map((x) => ` ${skillLine(SKILLS[x])}`).join("\n")}${ids.length > show.length ? `\n §7… e mais ${ids.length - show.length} §8(Habilidades > Registro do Sábio)` : ""}`);
+  }, 30);
 }
-export function queueSkillAnnounce(p, id) { if (alive(p) && SKILLS[id]) announceSkill(p, { id, name: SKILLS[id].name, tier: tierOfSkill(id) }); }
+export function queueSkillAnnounce(p, id) { if (alive(p) && SKILLS[id]) { announceSkill(p, { id, name: SKILLS[id].name, tier: tierOfSkill(id) }); noteSkills(p, id); } }
 export function announceSkills(p, ids) { for (const id of ids ?? []) queueSkillAnnounce(p, id); }
 
 // ------------------------------------------------------------------ evolução -> cena da Voz do Mundo
