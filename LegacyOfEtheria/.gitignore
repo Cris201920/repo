@@ -28,3 +28,15 @@ LegacyOfEtheria_RP/textures/entity/spell/
 
 # 6.90 HUD igual à do mod (recortes do jar do Tensura, uso pessoal; gere com tools/mod_hud.py <jar>)
 LegacyOfEtheria_RP/textures/ui/etheria/modhud/
+
+# 8.5 - armas da etapa 5 derivadas de pacotes de terceiros (Yamato/Mirror/Two Eagles/sword_RE/sea-dragons-trident; uso pessoal, gere com tools/weapons85.py <pkg>)
+LegacyOfEtheria_RP/textures/attachable/w_yamato.png
+LegacyOfEtheria_RP/textures/attachable/w_mirror_sword_*.png
+LegacyOfEtheria_RP/textures/attachable/w_eagle_*.png
+LegacyOfEtheria_RP/textures/attachable/w_re_*.png
+LegacyOfEtheria_RP/textures/attachable/w_sea_dragons_trident.png
+LegacyOfEtheria_RP/textures/items/etheria_yamato.png
+LegacyOfEtheria_RP/textures/items/etheria_mirror_sword_*.png
+LegacyOfEtheria_RP/textures/items/etheria_eagle_*.png
+LegacyOfEtheria_RP/textures/items/etheria_re_*.png
+LegacyOfEtheria_RP/textures/items/etheria_sea_dragons_trident.png
