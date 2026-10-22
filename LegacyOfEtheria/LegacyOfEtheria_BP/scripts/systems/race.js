@@ -17,6 +17,7 @@ import { emit, EV } from "../core/bus.js";
 import { applyRaceLook, playTransform } from "./raceparts.js";
 import { playCinematic, tierOfStage } from "./cinematic.js";
 import { demonStart } from "./realms.js";
+import { startLordEvolution, lordEvolving } from "./lordevo.js";
 
 /** Exibe "[Estágio] Nome" acima do jogador. */
 export function refreshName(player) {
@@ -76,6 +77,7 @@ export function evolve(player, stageId) {
   if (opts.length === 0) return { ok: false, msg: "Evolução inválida." };
   const st = opts[0], why = evolveCheck(player, st);
   if (why) { sysSay(player, "raceevo", "fail"); return { ok: false, msg: why }; }
+  if (isLordStage(st.id)) return beginLord(player, st);   // 7.x: Lord Demônio = sequência de 1 minuto (systems/lordevo.js)
   const scene = sceneOn(player);   // 6.35: com a cena da Voz do Mundo, sem título/voz/chat antigos
   if (!scene) sysSay(player, "raceevo", "start", { cd: 0 });
   if (st.item && !removeItem(player, st.item[0], st.item[1])) return { ok: false, msg: "Itens insuficientes." };
@@ -97,6 +99,38 @@ export function evolve(player, stageId) {
   try { emit(EV.PLAYER_EVOLVES, { player, kind: "race", stage: st.id, name: st.name }); } catch { /* ignore */ }   // o Sábio registra e anuncia (sageadapter.js)
   return { ok: true, msg: `Você evoluiu para ${st.name}!` };
 }
+
+// ---------------------------------------------------------------- 7.x: LORD DEMÔNIO EM 1 MINUTO
+// O pagamento é feito na hora e a evolução fica PENDENTE (d.lordEvo) até o renascimento (50 s). finishLord é idempotente: aplica a
+// evolução uma única vez — no renascimento, na interrupção (morte/saída/dimensão) ou ao voltar ao mundo se o jogo caiu no meio.
+function beginLord(player, st) {
+  const d = getData(player);
+  if (d.lordEvo || lordEvolving(player)) return { ok: false, msg: "A evolução para Lord Demônio já está em andamento." };
+  if (st.item && !removeItem(player, st.item[0], st.item[1])) return { ok: false, msg: "Itens insuficientes." };
+  d.coins -= st.cost; d.lordEvo = { stage: st.id, from: d.raceStage, at: Date.now() }; saveNow(player);
+  if (!startLordEvolution(player, { change: () => finishLord(player, st.id) })) finishLord(player, st.id);   // sem sequência: aplica na hora
+  return { ok: true, msg: "A evolução para Lord Demônio começou: 1 minuto. Fique parado." };
+}
+/** conclui a evolução pendente para Lord Demônio (idempotente) */
+export function finishLord(player, stageId) {
+  let d; try { d = getData(player); } catch { return false; }
+  const id = stageId ?? d.lordEvo?.stage;
+  if (!id || d.lordEvo?.stage !== id) return false;
+  const st = raceOf(d).stages[id]; delete d.lordEvo;
+  if (!st) { saveNow(player); return false; }
+  d.raceStage = st.id;
+  try { applyRaceLook(player); } catch { /* ignore */ }
+  grantStage(player, st);
+  applyDerivedStats(player); refreshName(player);
+  checkAchievements(player); updateRanking(player); saveNow(player);
+  playSound(player, SOUNDS.evolve, 1, 1);
+  if (!sceneOn(player)) { toast(player, "§5§lLORD DEMÔNIO", `§f${st.name}`); lordDemonSage(player); }
+  try { evolutionScene(player, st, { skipHarvest: true }); } catch { /* ignore */ }
+  try { emit(EV.PLAYER_EVOLVES, { player, kind: "race", stage: st.id, name: st.name }); } catch { /* ignore */ }
+  return true;
+}
+/** jogador voltou com uma evolução pendente (o jogo caiu no meio): conclui */
+export function resumeLord(player) { try { const d = getData(player); if (d.lordEvo && !lordEvolving(player)) return finishLord(player, d.lordEvo.stage); } catch { /* ignore */ } return false; }
 
 export function classCheck(player, cls) {
   const d = getData(player);

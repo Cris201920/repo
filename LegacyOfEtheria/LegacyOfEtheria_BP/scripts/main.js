@@ -19,7 +19,11 @@ import { startTrueDragons } from "./systems/truedragon.js";
 import { startUse } from "./systems/use.js";
 import { startNpcs } from "./systems/npcs.js";
 import { registerCommands } from "./systems/commands.js";
-import { refreshName } from "./systems/race.js";
+import { refreshName, resumeLord } from "./systems/race.js";
+import { startLordEvo } from "./systems/lordevo.js";
+import { startDomePassive } from "./systems/domepassive.js";
+import { startPopCap } from "./systems/popcap.js";
+import { startBeastForms } from "./systems/beastforms.js";
 import { dropSkillState } from "./systems/skills.js";
 import { clearBuffs } from "./systems/effects.js";
 import { openRacePick } from "./systems/ui/menus.js";
@@ -127,6 +131,7 @@ function initPlayer(player, first) {
     saveNow(player);
   }
   try { onPlayerReady(player, first); } catch (e) { console.warn(`[Etheria] hotbar de habilidades: ${e}`); }
+  system.runTimeout(() => { try { if (player.isValid) resumeLord(player); } catch { /* ignore */ } }, 80);   // evolução de Lord Demônio pendente (jogo caiu no meio)
 }
 
 world.afterEvents.playerSpawn.subscribe((ev) => initPlayer(ev.player, ev.initialSpawn));
@@ -164,7 +169,8 @@ system.run(() => {
   startAntiSkill();
   startPowers();
   startCreator();
-  startCinematic();
+  startCinematic(); startLordEvo();
+  startDomePassive(); startPopCap(); startBeastForms();
   startChronoa();
   startAngelGlide(); startLineage(); startOrigin(); startInfusion(); startBossAnims();
   startPredator();
