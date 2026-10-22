@@ -75,6 +75,7 @@ import { startSageCore, dropCore } from "./systems/sagecore.js";
 import { startForge } from "./systems/forge.js";
 import { startProtect } from "./systems/protect.js";
 import { startWeaponFx } from "./systems/weaponfx.js";
+import { startTrident } from "./systems/trident.js";
 import { startSkillBar, onPlayerReady, dropSkillBar } from "./systems/skillbar/index.js";
 
 /** Coloca o item num slot específico se estiver vazio; senão usa o primeiro espaço livre do inventário (nunca sobrescreve). */
@@ -180,7 +181,7 @@ system.run(() => {
   GreatSage.initialize();
   startProtect();
   startVoice();
-  startWeaponFx();
+  startWeaponFx(); startTrident();   // 8.5: tridente dos dragões marinhos (arremesso)
   startArmorFx();
   try { startMobFlight(); } catch { /* ignore */ }
   startSageCore();

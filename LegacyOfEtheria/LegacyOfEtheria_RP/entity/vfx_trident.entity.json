@@ -1,0 +1,28 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:vfx_trident",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/attachable/w_sea_dragons_trident"
+   },
+   "geometry": {
+    "default": "geometry.etheria_vfx_trident"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ],
+   "animations": {
+    "pitch": "animation.etheria.vfx_trident.pitch"
+   },
+   "scripts": {
+    "animate": [
+     "pitch"
+    ]
+   }
+  }
+ }
+}

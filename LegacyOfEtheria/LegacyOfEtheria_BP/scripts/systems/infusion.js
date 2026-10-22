@@ -9,6 +9,7 @@ import { ITEMS } from "../data/items.gen.js";
 import { SKILLS } from "../data/skills.js";
 import { ELEMENT_VFX, familyOf } from "../data/elementvfx.js";
 import { ctx, vfx, vbolt } from "./fxlib.js";
+import { imbueRitual } from "./swordvfx.js";
 import { menu } from "./ui/forms.js";
 
 export const PROP = "etheria:infusion";
@@ -75,6 +76,7 @@ export function applyInfusion(p, iid) {
   const d = getData(p); d.coins -= TIERS[INFUSIONS[iid].tier].cost; markDirty(p);
   writeItem(h, iid);
   try { const c = ctx(p); const E = ELEMENT_VFX[INFUSIONS[iid].fam]; const v = { pos: p.location, at: p.location, from: p.getHeadLocation(), to: p.location, dir: p.getViewDirection(), tier: 2 }; E?.prep(c, v); E?.impact(c, v); } catch { /* ignore */ }
+  try { const I = INFUSIONS[iid]; imbueRitual(ctx(p), p, I.col, "white", { fire: "fire", wind: "wind", blue: "water", light: "holy", dark: "void", black_lightning: "bolt" }[I.fam] ?? "arcane"); } catch { /* ignore */ }   // 8.5
   playSound(p, "random.levelup", 0.7, 1.3);
   return null;
 }
@@ -158,5 +160,7 @@ function openOne(p, id, back) {
   ]);
 }
 
-export function startInfusion() { system.runInterval(bladeGlow, 8); }
+// 8.5: o brilho da lâmina infundida agora é contínuo e mais forte (systems/weaponfx.js -> imbueTick); bladeGlow fica só como reserva.
+export function startInfusion() { /* brilho em weaponfx.js */ }
+export const __bladeGlow = bladeGlow;
 export const __test = { WEAPON_CATS };

@@ -1,7 +1,7 @@
 # tools/combat_anims.py - 8.5 ETAPA 5: GOLPES DE COMBO do jogador em 3ª pessoa (estilo do vídeo de referência de combate).
 # Cada golpe é uma animação curta ligada à propriedade NUMÉRICA etheria:combo do jogador (o script systems/weaponfx.js muda o valor
 # a cada golpe e volta para 0 depois): 1 corte lateral (direita -> esquerda) · 2 corte diagonal de revés (alto-esquerda -> baixo-direita)
-# · 3 estocada · 4 golpe pesado de cima (duas mãos) · 5 tridente: mirar (segurando o uso) · 6 tridente: arremesso.
+# · 3 estocada · 4 golpe pesado de cima (duas mãos) · 5 arremesso do tridente.
 # Regras que funcionam no jogo do usuário: arquivo pequeno, só quadros-chave (sem query.vertical_speed nem variáveis do pre_animation nos
 # ossos), condição por query.property, "override_previous_animation" para o golpe substituir o balanço padrão do braço enquanto dura.
 # Idempotente: reescreve RP/animations/etheria_combo.animation.json, registra as animações no player.entity.json (RP) e a propriedade
@@ -49,8 +49,8 @@ A = {
       leftArm=[(0, REST_L), (0.16, [-192, -14, 0]), (0.3, [-40, -18, 0]), (0.42, [-36, -16, 0]), (0.6, REST_L)],
       rightItem=[(0, [0, 0, 0]), (0.16, [60, 0, 0]), (0.3, [25, 0, 0]), (0.6, [0, 0, 0])],
       body=[(0, [0, 0, 0]), (0.16, [-12, 0, 0]), (0.3, [20, 0, 0]), (0.42, [18, 0, 0]), (0.6, [0, 0, 0])])),
-  # 6: arremesso do tridente (do braço erguido para a frente)
-  "c6": (0.45, kf(
+  # 5: arremesso do tridente (do braço erguido para a frente)
+  "c5": (0.45, kf(
       rightArm=[(0, [-172, 0, 12]), (0.12, [-70, 0, 0]), (0.22, [-55, 0, 0]), (0.45, REST_R)],
       rightItem=[(0, [-160, 0, 0]), (0.12, [40, 0, 0]), (0.45, [0, 0, 0])],
       body=[(0, [0, -18, 0]), (0.12, [10, 14, 0]), (0.45, [0, 0, 0])],
@@ -59,27 +59,22 @@ A = {
 anims = {}
 for k, (L, bones) in A.items():
     anims[f"animation.etheria.combo.{k}"] = {"loop": False, "animation_length": L, "override_previous_animation": True, "bones": bones}
-# 5: mirar o tridente (pose mantida enquanto o botão de uso está pressionado; laço longo com anim_time, tremor leve)
-anims["animation.etheria.combo.c5"] = {"loop": True, "animation_length": 3600, "override_previous_animation": True, "bones": {
-    "rightArm": {"rotation": ["-172 + math.sin(query.anim_time * 900) * 1.5", 0, 12]},
-    "rightItem": {"rotation": [-160, 0, 0]},
-    "body": {"rotation": [0, -18, 0]},
-    "leftArm": {"rotation": [-60, 0, -15]}}}
 os.makedirs(os.path.join(RP, "animations"), exist_ok=True)
 json.dump({"format_version": "1.10.0", "animations": anims}, open(os.path.join(RP, "animations/etheria_combo.animation.json"), "w"), indent=1)
 
 # ------------------------------------------------------------------ RP: player.entity.json
 pe = os.path.join(RP, "entity/player.entity.json"); d = json.load(open(pe)); de = d["minecraft:client_entity"]["description"]
-for i in range(1, 7): de["animations"][f"eth_cmb{i}"] = f"animation.etheria.combo.c{i}"
+for i in range(1, 6): de["animations"][f"eth_cmb{i}"] = f"animation.etheria.combo.c{i}"
+de["animations"].pop("eth_cmb6", None)
 anim = de["scripts"]["animate"]
 anim[:] = [a for a in anim if not (isinstance(a, dict) and any(k.startswith("eth_cmb") for k in a))]
 GATE = "!variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
-for i in range(1, 7): anim.append({f"eth_cmb{i}": f"query.property('{PROP}') == {i} && {GATE}"})
+for i in range(1, 6): anim.append({f"eth_cmb{i}": f"query.property('{PROP}') == {i} && {GATE}"})
 open(pe, "w").write(json.dumps(d, indent=1, ensure_ascii=False) + "\n")
 
 # ------------------------------------------------------------------ BP: propriedade numérica no player.json
 pb = os.path.join(BP, "entities/player.json"); b = json.load(open(pb))
 props = b["minecraft:entity"]["description"].setdefault("properties", {})
-props[PROP] = {"type": "int", "range": [0, 6], "default": 0, "client_sync": True}
+props[PROP] = {"type": "int", "range": [0, 5], "default": 0, "client_sync": True}
 open(pb, "w").write(json.dumps(b, indent=1, ensure_ascii=False))
 print(len(anims), "animações de combo;", len(props), "propriedades no jogador")

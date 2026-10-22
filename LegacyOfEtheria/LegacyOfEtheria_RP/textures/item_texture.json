@@ -1375,6 +1375,60 @@
   },
   "etheria_sk_royal_beast": {
    "textures": "textures/items/etheria_sk_royal_beast"
+  },
+  "etheria_yamato": {
+   "textures": "textures/items/etheria_yamato"
+  },
+  "etheria_mirror_sword_gold": {
+   "textures": "textures/items/etheria_mirror_sword_gold"
+  },
+  "etheria_mirror_sword_blood": {
+   "textures": "textures/items/etheria_mirror_sword_blood"
+  },
+  "etheria_eagle_claw": {
+   "textures": "textures/items/etheria_eagle_claw"
+  },
+  "etheria_eagle_fang": {
+   "textures": "textures/items/etheria_eagle_fang"
+  },
+  "etheria_re_dagger": {
+   "textures": "textures/items/etheria_re_dagger"
+  },
+  "etheria_re_sword_1": {
+   "textures": "textures/items/etheria_re_sword_1"
+  },
+  "etheria_re_sword_2": {
+   "textures": "textures/items/etheria_re_sword_2"
+  },
+  "etheria_re_sword_3": {
+   "textures": "textures/items/etheria_re_sword_3"
+  },
+  "etheria_re_sword_4": {
+   "textures": "textures/items/etheria_re_sword_4"
+  },
+  "etheria_re_sword_5": {
+   "textures": "textures/items/etheria_re_sword_5"
+  },
+  "etheria_re_sword_6": {
+   "textures": "textures/items/etheria_re_sword_6"
+  },
+  "etheria_re_sword_7": {
+   "textures": "textures/items/etheria_re_sword_7"
+  },
+  "etheria_re_sword_8": {
+   "textures": "textures/items/etheria_re_sword_8"
+  },
+  "etheria_re_sword_9": {
+   "textures": "textures/items/etheria_re_sword_9"
+  },
+  "etheria_re_sword_10": {
+   "textures": "textures/items/etheria_re_sword_10"
+  },
+  "etheria_re_scythe": {
+   "textures": "textures/items/etheria_re_scythe"
+  },
+  "etheria_sea_dragons_trident": {
+   "textures": "textures/items/etheria_sea_dragons_trident"
   }
  }
 }

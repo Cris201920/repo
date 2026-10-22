@@ -1,0 +1,28 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sea_dragons_trident",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sea_dragons_trident"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§6Tridente dos Dragões Marinhos"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:hand_equipped": true,
+   "minecraft:glint": true,
+   "minecraft:cooldown": {
+    "category": "etheria_trident",
+    "duration": 2.0
+   }
+  }
+ }
+}

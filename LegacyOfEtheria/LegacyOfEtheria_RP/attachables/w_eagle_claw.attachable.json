@@ -1,0 +1,34 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:attachable": {
+  "description": {
+   "identifier": "etheria:eagle_claw",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/attachable/w_eagle_claw"
+   },
+   "geometry": {
+    "default": "geometry.etheria_w_eagle_claw"
+   },
+   "render_controllers": [
+    "controller.render.etheria_weapon"
+   ],
+   "animations": {
+    "eth_fp": "animation.etheria.w.eagle_claw.fp",
+    "eth_tp": "animation.etheria.w.eagle_claw.tp"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "eth_fp": "c.is_first_person"
+     },
+     {
+      "eth_tp": "!c.is_first_person"
+     }
+    ]
+   }
+  }
+ }
+}

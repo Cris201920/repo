@@ -670,5 +670,149 @@
    0.323
   ],
   "length": 0.85
+ },
+ "eagle_claw": {
+  "shift": [
+   -0.003,
+   -9.534,
+   4.014
+  ],
+  "length": 10.56
+ },
+ "eagle_fang": {
+  "shift": [
+   0.0,
+   -7.146,
+   5.983
+  ],
+  "length": 15.74
+ },
+ "mirror_sword_blood": {
+  "shift": [
+   0.0,
+   -15.889,
+   10.225
+  ],
+  "length": 26.45
+ },
+ "mirror_sword_gold": {
+  "shift": [
+   0.0,
+   -15.889,
+   10.225
+  ],
+  "length": 26.45
+ },
+ "re_dagger": {
+  "shift": [
+   -6.0,
+   0.761,
+   25.951
+  ],
+  "length": 33.64
+ },
+ "re_scythe": {
+  "shift": [
+   0.0,
+   2.513,
+   24.788
+  ],
+  "length": 40.05
+ },
+ "re_sword_1": {
+  "shift": [
+   0.0,
+   1.0,
+   35.0
+  ],
+  "length": 46
+ },
+ "re_sword_10": {
+  "shift": [
+   0.0,
+   1.0,
+   35.0
+  ],
+  "length": 45
+ },
+ "re_sword_2": {
+  "shift": [
+   -0.0,
+   1.053,
+   25.536
+  ],
+  "length": 35.54
+ },
+ "re_sword_3": {
+  "shift": [
+   0.0,
+   -0.5,
+   37.0
+  ],
+  "length": 47
+ },
+ "re_sword_4": {
+  "shift": [
+   0.0,
+   0.667,
+   35.0
+  ],
+  "length": 45
+ },
+ "re_sword_5": {
+  "shift": [
+   -0.0,
+   1.117,
+   21.786
+  ],
+  "length": 30.04
+ },
+ "re_sword_6": {
+  "shift": [
+   -0.0,
+   1.065,
+   21.536
+  ],
+  "length": 29.79
+ },
+ "re_sword_7": {
+  "shift": [
+   -0.0,
+   1.058,
+   19.536
+  ],
+  "length": 27.54
+ },
+ "re_sword_8": {
+  "shift": [
+   0.0,
+   1.0,
+   24.0
+  ],
+  "length": 32
+ },
+ "re_sword_9": {
+  "shift": [
+   0.0,
+   1.0,
+   39.0
+  ],
+  "length": 55
+ },
+ "yamato": {
+  "shift": [
+   -0.0,
+   -10.178,
+   2.964
+  ],
+  "length": 7.8
+ },
+ "sea_dragons_trident": {
+  "shift": [
+   5.6,
+   -11.136,
+   0.098
+  ],
+  "length": 2.1
  }
 }

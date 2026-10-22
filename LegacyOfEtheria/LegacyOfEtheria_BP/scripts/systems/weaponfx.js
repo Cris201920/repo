@@ -1,11 +1,15 @@
 // systems/weaponfx.js - Identidade visual por arma: rastro de golpe, impacto próprio, golpe pesado (4º golpe encadeado),
 // animação de equipar e reação a habilidades do mesmo elemento. Cada arma tem cores/sprite/padrão de impacto próprios.
 import { world, system } from "@minecraft/server";
-import { ctx, mote, streak, disc, burst, implode, ringFlat, column, fan, arc, helix, orbit, after, T, CIRCLE } from "./fxlib.js";
+import { ctx, mote, streak, disc, burst, implode, ringFlat, column, fan, arc, helix, orbit, after, sl, T, CIRCLE } from "./fxlib.js";
 import { registerPost } from "./skills.js";
 import { getStats } from "./stats.js";
 import { norm } from "../core/utils.js";
 import { SWORD_FX } from "../data/swordfx.gen.js";
+import { LOOK85 } from "../data/weapons85.gen.js";
+import { slashMove, hitFx, xcut, moveFor, MOVE_ANIM, setCombo, comboOf, imbueTick, basis } from "./swordvfx.js";
+import { infusionOf, INFUSIONS } from "./infusion.js";
+import { vfxSpawn, vfxSize, vfxKill, vfxOk } from "./spellvfx.js";
 import { ITEMS } from "../data/items.gen.js";
 import { getData } from "../core/db.js";
 import { isValid } from "../core/utils.js";
@@ -34,7 +38,7 @@ const W = {
   reid_dragon_sword: ["gold", "fire", "fang", "dragon", "fire", "fire"], tt_battle_axe: ["steel", "dust", "chunk", "crush", "earth", "physical"],
   tt_orc_axe: ["blood", "earth", "chunk", "crush", "blood", "physical"], tt_orc_cleaver: ["blood", "black", "fang", "crush", "blood", "blood"],
 };
-const look = (typeId) => { const k = (typeId ?? "").replace("etheria:", ""), r = W[k] ?? SWORD_FX[k]; return r ? { A: r[0], B: r[1], tile: T[r[2]], pat: r[3], circle: CIRCLE[r[4]] ?? 0, el: r[5] } : null; };
+const look = (typeId) => { const k = (typeId ?? "").replace("etheria:", ""), r = W[k] ?? SWORD_FX[k] ?? LOOK85[k]; return r ? { A: r[0], B: r[1], tile: T[r[2]], pat: r[3], circle: CIRCLE[r[4]] ?? 0, el: r[5] } : null; };
 /** Identidade visual da arma (elemento e padrão de golpe) para a análise do Sábio; null se a arma não tem identidade própria. */
 export const weaponLook = look;
 const up = (p, y = 1) => ({ x: p.x, y: p.y + y, z: p.z });
@@ -82,29 +86,41 @@ function bladePts(p) {
 }
 
 const combo = new Map(); // playerId -> { n, at }
-/** Chamado a cada golpe corpo a corpo. Retorna multiplicador de dano (golpe pesado = 1.25). */
+const GENERIC = { A: "steel", B: "white", tile: T.spark, pat: "slash", circle: 0, el: "physical" };   // armas sem identidade própria
+/** 3D: lâmina de aura que voa para a frente no golpe pesado das armas lendárias+ (corpos 3D das magias, systems/spellvfx.js). */
+const AURA = { void: "dimension_cut", shadow: "dimension_cut", wind: "wind_blade", water: "water_blade", ice: "water_blade", arcane: "space_cut", blood: "poison_blade" };
+function auraBlade(p, L) {
+  const B = basis(p.getViewDirection()), a = { x: p.location.x + B.F.x * 0.8, y: p.location.y + 1.1, z: p.location.z + B.F.z * 0.8 };
+  const e = vfxSpawn(p.dimension, AURA[L.el] ?? "aura_slash", a, 1.2, B.F); if (!e) return;
+  for (let k = 1; k <= 6; k++) after(k, () => { if (!vfxOk(e)) return; try { e.teleport({ x: a.x + B.F.x * 1.3 * k, y: a.y, z: a.z + B.F.z * 1.3 * k }); } catch { /* ignore */ } vfxSize(e, 1.2 + k * 0.25); });
+  after(7, () => vfxKill(e));
+}
+/** Chamado a cada golpe corpo a corpo. Retorna multiplicador de dano (golpe pesado = 1.25 nas armas com identidade). */
 export function weaponHit(player, target, info) {
-  const L = look(info?.id); if (!L) return 1;
+  const L0 = look(info?.id), L = L0 ?? GENERIC;
   const now = system.currentTick, c0 = combo.get(player.id), n = c0 && now - c0.at < 50 ? c0.n + 1 : 1;
   combo.set(player.id, { n, at: now });
-  const heavy = n % 4 === 0, tier = tierOf(info.id), pat = patOf(L), c = ctx(player), dir = norm(player.getViewDirection()), from = player.location, tp = target.location;
+  const step = ((n - 1) % 4) + 1, heavy = step === 4, tier = tierOf(info?.id), pat = patOf(L), c = ctx(player), dir = norm(player.getViewDirection()), from = player.location, tp = target.location;
+  const move = moveFor(info?.wtype, step);
+  setCombo(player, MOVE_ANIM[move], move === "heavy" ? 13 : 11);   // 8.5: golpe diferente no modelo em 3ª pessoa
   sfx(player, `${pat}_${heavy ? "heavy" : "hit"}`, 0.9, 0.95 + Math.random() * 0.1, tp);
-  // rastro do golpe: largura/comprimento/camadas crescem com a raridade
-  const w = (heavy ? 0.28 : 0.16) + tier * 0.025;
-  arc(c, from, dir, { col: L.A, radius: (heavy ? 3 : 2.2) + tier * 0.12, angle: heavy ? 200 : 130, n: (heavy ? 9 : 6) + Math.min(4, tier), tilt: heavy ? 1.6 : 0.8, w, life: (heavy ? 0.4 : 0.25) + tier * 0.02, delay: 0.3 });
-  if (heavy || tier >= 3) arc(c, from, dir, { col: L.B, radius: 2.6, angle: 160, n: 7, tilt: -1, w: 0.12, life: 0.3, delay: 0.3, y: 1.0 });
-  impact(c, L, tp, heavy, from);
+  // 8.5: meia-lua no plano do golpe (lateral, revés, estocada, pesado) + impacto em camadas
+  slashMove(c, player, move, L, tier);
+  after(move === "thrust" ? 4 : 5, () => { if (isValid(target)) hitFx(c, target.location, L, tier, heavy, dir); });
+  if (L0) impact(c, L, tp, heavy, from);
   // camadas por raridade no impacto
-  if (tier >= 2) ringFlat(c, { x: tp.x, y: tp.y + 0.1, z: tp.z }, { col: L.B, tile: T.ring, radius: 1.2 + tier * 0.15, n: 8 + tier, life: 0.35 });
-  if (tier >= 4) disc(c, tp, { col: L.A, circle: L.circle, size: 1.6 + tier * 0.3, life: 0.6, rot: 90 });
+  if (tier >= 4 && step >= 3) disc(c, tp, { col: L.A, circle: L.circle, size: 1.4 + tier * 0.25, life: 0.6, rot: 90 });   // 8.5: círculo só na carga/golpe pesado
   if (tier >= 6) column(c, tp, { col: "white", tile: T.line, n: 8, h: 5, life: 0.8, r: 0.4 });
   // sequência do golpe especial: carga (3º golpe) → energia concentrada → corte pesado (4º) → dissipação
-  if (n % 4 === 3) { const b = bladePts(player); sfx(player, `${pat}_charge`, 0.8); implode(c, b.tip, { col: L.A, tile: L.tile, n: 8 + tier * 2, radius: 1.8, life: 0.45, size: 0.22 }); mote(c, b.tip, { col: L.B, tile: T.star, size: 0.7, life: 0.5, a: 0.9 }); try { player.onScreenDisplay.setActionBar("§e⚡ ENERGIA CONCENTRADA"); } catch { /* ignore */ } }
+  if (step === 3) { const b = bladePts(player); sfx(player, `${pat}_charge`, 0.8); implode(c, b.tip, { col: L.A, tile: L.tile, n: 8 + tier * 2, radius: 1.8, life: 0.45, size: 0.22 }); sl(c, "glow", b.tip, { col: L.B, size: 0.5, life: 0.5, grow: 0.6, tile: 4 }); try { player.onScreenDisplay.setActionBar("§e⚡ ENERGIA CONCENTRADA"); } catch { /* ignore */ } }
   if (heavy) {
     try { player.onScreenDisplay.setActionBar("§6§lGOLPE PESADO"); } catch { /* ignore */ }
-    after(6, () => { if (isValid(player)) { burst(c, up(tp, 1), { col: L.B, tile: T.spark, n: 10 + tier * 2, spd: 2.2, size: 0.18, life: 0.7, up: 1 }); ringFlat(c, tp, { col: L.A, tile: T.diamond, n: 12, radius: 3, life: 0.6 }); } });   // dissipação
+    const B = basis(dir);
+    after(6, () => { if (isValid(target)) xcut(c, { x: target.location.x, y: target.location.y + 1.1, z: target.location.z }, B, { A: L.A, size: 1.1 + tier * 0.06 }); });
+    if (tier >= 4) after(4, () => { if (isValid(player)) auraBlade(player, L); });
+    after(10, () => { if (isValid(player)) { burst(c, up(tp, 1), { col: L.B, tile: T.spark, n: 10 + tier * 2, spd: 2.2, size: 0.18, life: 0.7, up: 1 }); ringFlat(c, tp, { col: L.A, tile: T.diamond, n: 12, radius: 3, life: 0.6 }); } });   // dissipação
   }
-  return heavy ? 1.25 : 1;
+  return L0 && heavy ? 1.25 : 1;
 }
 
 // ------------------------------------------------------------------ rastro que ACOMPANHA o movimento da lâmina (amostragem a cada 2 ticks)
@@ -115,8 +131,10 @@ function trailTick(p, L, tier) {
   const d = Math.hypot(tip.x - prev.x, tip.y - prev.y, tip.z - prev.z);
   if (d < 0.35 || d > 4.5) return;                       // só quando a lâmina realmente se move (giro/golpe); ignora teleporte
   const c = ctx(p), k = Math.min(1, d / 1.6);
-  streak(c, prev, tip, { col: L.A, w: 0.07 + tier * 0.02 + k * 0.06, life: 0.3 + tier * 0.03, a: 0.9, tile: T.line });
-  if (tier >= 3) streak(c, { x: prev.x, y: prev.y + 0.08, z: prev.z }, { x: tip.x, y: tip.y + 0.08, z: tip.z }, { col: L.B, w: 0.04, life: 0.22, a: 0.8, tile: T.line });
+  if (comboOf(p) > 0) return;   // 8.5: durante o golpe a meia-lua do combo já desenha o corte
+  const md = { x: (prev.x + tip.x) / 2, y: (prev.y + tip.y) / 2, z: (prev.z + tip.z) / 2 }, dv = [(tip.x - prev.x) / d, (tip.y - prev.y) / d, (tip.z - prev.z) / d];
+  sl(c, "ribbon", md, { dir: dv, sx: 0.12 + tier * 0.02 + k * 0.1, sy: d * 0.62, col: L.A, a: 0.6, life: 0.3 + tier * 0.03, tile: 0 });
+  sl(c, "ribbon", md, { dir: dv, sx: 0.04 + k * 0.03, sy: d * 0.62, col: tier >= 3 ? L.B : "white", a: 0.9, life: 0.22, tile: 1 });
   if (tier >= 5 && Math.random() < 0.6) mote(c, tip, { col: L.B, tile: L.tile, size: 0.14, life: 0.5, dir: [0, 0.4, 0], spd: 0.4 });
   if (d > 0.9 && (swingCd.get(p.id) ?? 0) < system.currentTick) { swingCd.set(p.id, system.currentTick + 8); sfx(p, `${patOf(L)}_swing`, 0.45 + 0.1 * tier, 0.95 + Math.random() * 0.1); }   // som de corte no ar (com recarga)
 }
@@ -156,7 +174,17 @@ function auraTick(p) {   // aura de empunhadura: só armas épicas+ e só com de
   if (tier >= 4 && lv !== "medium") mote(c, tip, { col: L.B, tile: T.star, size: 0.16, life: 0.5, a: 0.7 });
   if (tier >= 5 && Math.random() < 0.3) { const q = p.location; mote(c, { x: q.x + (Math.random() - 0.5) * 1.2, y: q.y + 0.1, z: q.z + (Math.random() - 0.5) * 1.2 }, { col: L.A, tile: T.ring, size: 0.4, life: 0.8, a: 0.4 }); }
 }
+// 8.5: brilho de magia na lâmina (infusão gravada = forte; arma elemental rara+ = suave)
+let imbN = 0;
+function imbueHeld(p) {
+  const id = held.get(p.id); if (!id || fxOff(p) || comboOf(p) > 0) return;
+  let it; try { it = p.getComponent("minecraft:inventory").container.getItem(p.selectedSlotIndex); } catch { return; }
+  const iid = it ? infusionOf(it) : null, L = look(id), tier = tierOf(id);
+  if (iid) { const I = INFUSIONS[iid]; imbueTick(ctx(p), p, I.col, L?.B ?? "white", true, imbN); return; }
+  if (L && L.el !== "physical" && tier >= 2) imbueTick(ctx(p), p, L.A, L.B, false, imbN);
+}
 export function startWeaponFx() {
+  system.runInterval(() => { imbN++; for (const p of world.getAllPlayers()) { try { imbueHeld(p); } catch { /* ignore */ } } }, 2);
   system.runInterval(() => { for (const p of world.getAllPlayers()) tickHeld(p); }, 10);
   system.runInterval(() => { for (const p of world.getAllPlayers()) { try { auraTick(p); } catch { /* ignore */ } } }, 8);
   system.runInterval(() => {

@@ -3773,5 +3773,290 @@ export const ITEMS = {
   },
   "price": 300,
   "sell": 75
+ },
+ "etheria:yamato": {
+  "id": "etheria:yamato",
+  "name": "Yamato",
+  "rarity": "legendary",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 26,
+   "agility": 12,
+   "crit": 14,
+   "void": 8
+  },
+  "onHit": {
+   "kind": "bleed",
+   "sec": 4,
+   "chance": 0.3,
+   "name": "Corte Dimensional"
+  },
+  "price": 12000,
+  "sell": 3000
+ },
+ "etheria:mirror_sword_gold": {
+  "id": "etheria:mirror_sword_gold",
+  "name": "Espada Espelhada Dourada",
+  "rarity": "epic",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 20,
+   "crit": 10,
+   "light": 8
+  },
+  "price": 4800,
+  "sell": 1200
+ },
+ "etheria:mirror_sword_blood": {
+  "id": "etheria:mirror_sword_blood",
+  "name": "Espada Espelhada Sangrenta",
+  "rarity": "epic",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 21,
+   "crit": 8,
+   "blood": 10
+  },
+  "onHit": {
+   "kind": "bleed",
+   "sec": 5,
+   "chance": 0.25,
+   "name": "Reflexo Sangrento"
+  },
+  "price": 4800,
+  "sell": 1200
+ },
+ "etheria:eagle_claw": {
+  "id": "etheria:eagle_claw",
+  "name": "Garra da Águia",
+  "rarity": "epic",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 19,
+   "agility": 10,
+   "wind": 8
+  },
+  "price": 4800,
+  "sell": 1200
+ },
+ "etheria:eagle_fang": {
+  "id": "etheria:eagle_fang",
+  "name": "Presa da Águia",
+  "rarity": "epic",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 20,
+   "crit": 9,
+   "wind": 6
+  },
+  "price": 4800,
+  "sell": 1200
+ },
+ "etheria:re_dagger": {
+  "id": "etheria:re_dagger",
+  "name": "Adaga Gêmea",
+  "rarity": "rare",
+  "kind": "weapon",
+  "wtype": "dagger",
+  "stats": {
+   "atk": 11,
+   "agility": 8,
+   "crit": 6
+  },
+  "price": 2200,
+  "sell": 550
+ },
+ "etheria:re_sword_1": {
+  "id": "etheria:re_sword_1",
+  "name": "Lâmina Ametista Sombria",
+  "rarity": "epic",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 18,
+   "void": 6
+  },
+  "price": 4800,
+  "sell": 1200
+ },
+ "etheria:re_sword_2": {
+  "id": "etheria:re_sword_2",
+  "name": "Lâmina de Brasa Negra",
+  "rarity": "epic",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 18,
+   "fire": 6
+  },
+  "onHit": {
+   "kind": "burn",
+   "sec": 3,
+   "chance": 0.2,
+   "name": "Brasa"
+  },
+  "price": 4800,
+  "sell": 1200
+ },
+ "etheria:re_sword_3": {
+  "id": "etheria:re_sword_3",
+  "name": "Lâmina Esmeralda Sombria",
+  "rarity": "rare",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 16,
+   "wind": 5
+  },
+  "price": 2200,
+  "sell": 550
+ },
+ "etheria:re_sword_4": {
+  "id": "etheria:re_sword_4",
+  "name": "Lâmina da Noite Azul",
+  "rarity": "epic",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 18,
+   "ice": 6
+  },
+  "onHit": {
+   "kind": "slow",
+   "sec": 3,
+   "chance": 0.2,
+   "name": "Gelo Noturno"
+  },
+  "price": 4800,
+  "sell": 1200
+ },
+ "etheria:re_sword_5": {
+  "id": "etheria:re_sword_5",
+  "name": "Espada Violeta",
+  "rarity": "rare",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 15,
+   "arcane": 5
+  },
+  "price": 2200,
+  "sell": 550
+ },
+ "etheria:re_sword_6": {
+  "id": "etheria:re_sword_6",
+  "name": "Espada de Jade",
+  "rarity": "rare",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 15,
+   "earth": 5
+  },
+  "price": 2200,
+  "sell": 550
+ },
+ "etheria:re_sword_7": {
+  "id": "etheria:re_sword_7",
+  "name": "Espada Carmesim",
+  "rarity": "rare",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 16,
+   "blood": 5
+  },
+  "onHit": {
+   "kind": "bleed",
+   "sec": 4,
+   "chance": 0.2,
+   "name": "Corte Carmesim"
+  },
+  "price": 2200,
+  "sell": 550
+ },
+ "etheria:re_sword_8": {
+  "id": "etheria:re_sword_8",
+  "name": "Espada de Ferro Antigo",
+  "rarity": "uncommon",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 11,
+   "strength": 3
+  },
+  "price": 900,
+  "sell": 225
+ },
+ "etheria:re_sword_9": {
+  "id": "etheria:re_sword_9",
+  "name": "Espada Estelar",
+  "rarity": "epic",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 20,
+   "light": 6
+  },
+  "price": 4800,
+  "sell": 1200
+ },
+ "etheria:re_sword_10": {
+  "id": "etheria:re_sword_10",
+  "name": "Espada de Prata",
+  "rarity": "uncommon",
+  "kind": "weapon",
+  "wtype": "sword",
+  "stats": {
+   "atk": 12,
+   "strength": 3
+  },
+  "price": 900,
+  "sell": 225
+ },
+ "etheria:re_scythe": {
+  "id": "etheria:re_scythe",
+  "name": "Foice de Osso",
+  "rarity": "rare",
+  "kind": "weapon",
+  "wtype": "scythe",
+  "stats": {
+   "atk": 17,
+   "shadow": 5
+  },
+  "onHit": {
+   "kind": "bleed",
+   "sec": 4,
+   "chance": 0.2,
+   "name": "Ceifa"
+  },
+  "price": 2200,
+  "sell": 550
+ },
+ "etheria:sea_dragons_trident": {
+  "id": "etheria:sea_dragons_trident",
+  "name": "Tridente dos Dragões Marinhos",
+  "rarity": "legendary",
+  "kind": "weapon",
+  "wtype": "spear",
+  "stats": {
+   "atk": 24,
+   "strength": 8,
+   "water": 12,
+   "lightning": 8
+  },
+  "onHit": {
+   "kind": "slow",
+   "sec": 3,
+   "chance": 0.2,
+   "name": "Maré"
+  },
+  "price": 12000,
+  "sell": 3000
  }
 };

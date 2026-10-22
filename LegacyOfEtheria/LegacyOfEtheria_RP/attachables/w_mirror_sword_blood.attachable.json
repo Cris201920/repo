@@ -1,0 +1,34 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:attachable": {
+  "description": {
+   "identifier": "etheria:mirror_sword_blood",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/attachable/w_mirror_sword_blood"
+   },
+   "geometry": {
+    "default": "geometry.etheria_w_mirror_sword_blood"
+   },
+   "render_controllers": [
+    "controller.render.etheria_weapon"
+   ],
+   "animations": {
+    "eth_fp": "animation.etheria.w.mirror_sword_blood.fp",
+    "eth_tp": "animation.etheria.w.mirror_sword_blood.tp"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "eth_fp": "c.is_first_person"
+     },
+     {
+      "eth_tp": "!c.is_first_person"
+     }
+    ]
+   }
+  }
+ }
+}
