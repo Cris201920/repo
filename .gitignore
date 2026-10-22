@@ -10,3 +10,6 @@ LegacyOfEtheria/tools/tensura_race_src/
 race_parts_*.png
 previews/
 LegacyOfEtheria/tools/race_geo_src/
+# 8.7: ícones de pena derivados do jar do Tensura (uso pessoal; regerar com tools/region_bosses.py — sem o jar ele desenha uma pena simples)
+LegacyOfEtheria/LegacyOfEtheria_RP/textures/items/etheria_pena_celestial.png
+LegacyOfEtheria/LegacyOfEtheria_RP/textures/items/etheria_pena_sombria.png
