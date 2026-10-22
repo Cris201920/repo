@@ -4058,5 +4058,48 @@ export const ITEMS = {
   },
   "price": 12000,
   "sell": 3000
+ },
+ "etheria:archangel_lance": {
+  "id": "etheria:archangel_lance",
+  "name": "Lança do Arcanjo",
+  "rarity": "legendary",
+  "kind": "weapon",
+  "wtype": "spear",
+  "stats": {
+   "atk": 25,
+   "strength": 12,
+   "intelligence": 10,
+   "crit": 6,
+   "light": 16
+  },
+  "onHit": {
+   "kind": "heal",
+   "amount": 3,
+   "chance": 0.2,
+   "name": "Luz do Arcanjo"
+  },
+  "price": 16000,
+  "sell": 4000
+ },
+ "etheria:shadow_scythe": {
+  "id": "etheria:shadow_scythe",
+  "name": "Foice Sombria",
+  "rarity": "legendary",
+  "kind": "weapon",
+  "wtype": "scythe",
+  "stats": {
+   "atk": 26,
+   "strength": 16,
+   "intelligence": 6,
+   "lifesteal": 8
+  },
+  "onHit": {
+   "kind": "bleed",
+   "sec": 6,
+   "chance": 0.3,
+   "name": "Ceifa Sombria"
+  },
+  "price": 16000,
+  "sell": 4000
  }
 };

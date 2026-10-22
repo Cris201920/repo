@@ -1,0 +1,39 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:shadow_scythe_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "SFF",
+   " B ",
+   " N "
+  ],
+  "key": {
+   "S": {
+    "item": "etheria:fragmento_do_inferno"
+   },
+   "F": {
+    "item": "etheria:pena_sombria"
+   },
+   "B": {
+    "item": "minecraft:blaze_rod"
+   },
+   "N": {
+    "item": "minecraft:netherite_scrap"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:fragmento_do_inferno"
+   }
+  ],
+  "result": {
+   "item": "etheria:shadow_scythe",
+   "count": 1
+  }
+ }
+}

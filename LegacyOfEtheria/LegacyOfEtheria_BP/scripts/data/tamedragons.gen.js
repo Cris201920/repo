@@ -1,0 +1,2 @@
+// GERADO por tools/tame_dragons.py (8.8, Etapa 7b): dragões domáveis (montaria com voo em systems/tamedragons.js).
+export const TAME_DRAGONS = {"etheria:dragon_carmim": {"name": "Dragão Carmim", "food": ["etheria:carne_draconica"], "fire": true}, "etheria:dragon_gelo": {"name": "Dragão de Gelo", "food": ["etheria:peixe_glacial"], "fire": false}, "etheria:dragon_tempestade": {"name": "Dragão da Tempestade", "food": ["etheria:carne_draconica", "etheria:peixe_glacial"], "fire": false}};

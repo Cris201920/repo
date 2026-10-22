@@ -1,0 +1,28 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shapeless": {
+  "description": {
+   "identifier": "etheria:peixe_glacial_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "ingredients": [
+   {
+    "item": "minecraft:cooked_cod"
+   },
+   {
+    "item": "minecraft:packed_ice"
+   }
+  ],
+  "unlock": [
+   {
+    "item": "minecraft:packed_ice"
+   }
+  ],
+  "result": {
+   "item": "etheria:peixe_glacial",
+   "count": 2
+  }
+ }
+}

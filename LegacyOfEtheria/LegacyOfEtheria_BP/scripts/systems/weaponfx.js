@@ -16,6 +16,7 @@ import { isValid } from "../core/utils.js";
 
 // id -> [corA, corB, sprite, padrão de impacto, círculo, elemento da arma]
 const W = {
+  archangel_lance: ["holy", "gold", "star", "light", "holy", "light"], shadow_scythe: ["blood", "black", "skull", "reap", "shadow", "shadow"],   // 8.8: armas dos anjos (tools/tame_dragons.py)
   iron_blade: ["steel", "white", "spark", "slash", "arcane", "physical"], knight_sword: ["steel", "gold", "diamond", "slash", "holy", "physical"],
   flame_sword: ["fire", "ember", "flame", "embers", "fire", "fire"], void_sword: ["void", "violet", "orb", "rift", "void", "void"],
   celestial_blade: ["holy", "white", "star", "light", "holy", "light"], shadow_dagger: ["black", "violet", "wing", "shadow", "shadow", "shadow"],

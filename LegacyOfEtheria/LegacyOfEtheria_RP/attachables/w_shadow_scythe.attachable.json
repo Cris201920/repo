@@ -1,0 +1,36 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:attachable": {
+  "description": {
+   "identifier": "etheria:shadow_scythe",
+   "materials": {
+    "default": "entity_alphatest",
+    "enchanted": "entity_alphatest_glint"
+   },
+   "textures": {
+    "default": "textures/attachable/w_shadow_scythe",
+    "enchanted": "textures/misc/enchanted_item_glint"
+   },
+   "geometry": {
+    "default": "geometry.etheria_w_reaper_scythe"
+   },
+   "render_controllers": [
+    "controller.render.item_default"
+   ],
+   "animations": {
+    "eth_fp": "animation.etheria.w.reaper_scythe.fp",
+    "eth_tp": "animation.etheria.w.reaper_scythe.tp"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "eth_fp": "c.is_first_person"
+     },
+     {
+      "eth_tp": "!c.is_first_person"
+     }
+    ]
+   }
+  }
+ }
+}

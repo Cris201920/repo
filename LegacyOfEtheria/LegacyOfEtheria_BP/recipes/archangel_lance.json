@@ -1,0 +1,39 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shaped": {
+  "description": {
+   "identifier": "etheria:archangel_lance_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "pattern": [
+   "HPN",
+   " DP",
+   "D  "
+  ],
+  "key": {
+   "H": {
+    "item": "etheria:halo_quebrado"
+   },
+   "P": {
+    "item": "etheria:pena_celestial"
+   },
+   "N": {
+    "item": "etheria:nucleo_de_luz"
+   },
+   "D": {
+    "item": "minecraft:diamond"
+   }
+  },
+  "unlock": [
+   {
+    "item": "etheria:halo_quebrado"
+   }
+  ],
+  "result": {
+   "item": "etheria:archangel_lance",
+   "count": 1
+  }
+ }
+}

@@ -1,0 +1,115 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:dragon_carmim",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "dragon": "textures/entity/etheria_dragon_carmim",
+    "human": "textures/entity/etheria_veldanava_human"
+   },
+   "geometry": {
+    "dragon": "geometry.etheria_pdrg_veldanava_boss",
+    "human": "geometry.etheria_veldanava_human"
+   },
+   "spawn_egg": {
+    "base_color": "#5a0a0e",
+    "overlay_color": "#f0a040"
+   },
+   "scripts": {
+    "scale": "0.26",
+    "animate": [
+     {
+      "idle": "query.property('etheria:form') == 'dragon'"
+     },
+     {
+      "ambient": "query.property('etheria:form') == 'dragon' && query.is_alive"
+     },
+     {
+      "walk": "query.property('etheria:form') == 'dragon' && query.is_on_ground && query.modified_move_speed > 0.05 && query.modified_move_speed <= 0.6"
+     },
+     {
+      "run": "query.property('etheria:form') == 'dragon' && query.is_on_ground && query.modified_move_speed > 0.6"
+     },
+     {
+      "attack": "query.property('etheria:form') == 'dragon' && variable.attack_time > 0"
+     },
+     {
+      "ctl_dragon": "query.property('etheria:form') == 'dragon'"
+     },
+     {
+      "h_look": "query.property('etheria:form') == 'human'"
+     },
+     {
+      "h_walk": "query.property('etheria:form') == 'human'"
+     },
+     {
+      "h_breathe": "query.property('etheria:form') == 'human'"
+     },
+     {
+      "h_attack": "query.property('etheria:form') == 'human' && variable.attack_time >= 0"
+     },
+     {
+      "ctl_human": "query.property('etheria:form') == 'human'"
+     },
+     {
+      "rf_hover": "query.property('etheria:form') == 'dragon' && !query.is_on_ground && (query.property('etheria:fly') == 1)"
+     },
+     {
+      "rf_rise": "query.property('etheria:form') == 'dragon' && !query.is_on_ground && (query.property('etheria:fly') == 2)"
+     },
+     {
+      "rf_glide": "query.property('etheria:form') == 'dragon' && !query.is_on_ground && (query.property('etheria:fly') == 3 || query.property('etheria:fly') == 0)"
+     },
+     {
+      "rf_dive": "query.property('etheria:form') == 'dragon' && !query.is_on_ground && (query.property('etheria:fly') == 4)"
+     }
+    ]
+   },
+   "animations": {
+    "idle": "animation.etheria_pdrg_veldanava.idle",
+    "walk": "animation.etheria_q_veldanava.walk",
+    "run": "animation.etheria_q_veldanava.run",
+    "fly": "animation.etheria_q_veldanava.fly",
+    "attack": "animation.etheria_q_veldanava.player_attack",
+    "bite": "animation.etheria_q_veldanava.bite",
+    "claw": "animation.etheria_q_veldanava.claw",
+    "tail": "animation.etheria_q_veldanava.tail",
+    "roar": "animation.etheria_q_veldanava.roar",
+    "ability": "animation.etheria_q_veldanava.ability",
+    "takeoff": "animation.etheria_q_veldanava.takeoff",
+    "landing": "animation.etheria_q_veldanava.landing",
+    "hurt": "animation.etheria_q_veldanava.hurt",
+    "death": "animation.etheria_q_veldanava.death",
+    "h_cast": "animation.etheria_tdr.h_cast",
+    "h_transform": "animation.etheria_tdr.h_transform",
+    "h_hurt": "animation.etheria_tdr.h_hurt",
+    "h_death": "animation.etheria_tdr.h_death",
+    "h_look": "animation.etheria.look",
+    "h_walk": "animation.etheria.biped_walk",
+    "h_attack": "animation.etheria.attack_biped",
+    "h_breathe": "animation.etheria.breathe",
+    "ctl_dragon": "controller.animation.etheria_tdr.dragon",
+    "ctl_human": "controller.animation.etheria_tdr.human",
+    "ambient": "animation.etheria_pdrg_veldanava.ambient",
+    "rf_hover": "animation.etheria_pdrg_veldanava.ref_hover",
+    "rf_rise": "animation.etheria_pdrg_veldanava.ref_rise",
+    "rf_glide": "animation.etheria_pdrg_veldanava.ref_glide",
+    "rf_dive": "animation.etheria_pdrg_veldanava.ref_dive"
+   },
+   "render_controllers": [
+    "controller.render.etheria_tdr"
+   ],
+   "particle_effects": {
+    "shock": "etheria:fx_is_shockwave",
+    "ring": "etheria:fx_is_ring_smoke",
+    "spark": "etheria:fx_is_spark",
+    "fog": "etheria:fx_is_fog",
+    "dust": "etheria:earth_chunk",
+    "elem": "etheria:fx_is_wisp"
+   }
+  }
+ }
+}

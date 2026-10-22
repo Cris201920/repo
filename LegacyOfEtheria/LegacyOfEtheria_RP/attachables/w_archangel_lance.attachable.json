@@ -1,0 +1,36 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:attachable": {
+  "description": {
+   "identifier": "etheria:archangel_lance",
+   "materials": {
+    "default": "entity_alphatest",
+    "enchanted": "entity_alphatest_glint"
+   },
+   "textures": {
+    "default": "textures/attachable/w_archangel_lance",
+    "enchanted": "textures/misc/enchanted_item_glint"
+   },
+   "geometry": {
+    "default": "geometry.etheria_w_caedros_ashen_halberd"
+   },
+   "render_controllers": [
+    "controller.render.item_default"
+   ],
+   "animations": {
+    "eth_fp": "animation.etheria.w.caedros_ashen_halberd.fp",
+    "eth_tp": "animation.etheria.w.caedros_ashen_halberd.tp"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "eth_fp": "c.is_first_person"
+     },
+     {
+      "eth_tp": "!c.is_first_person"
+     }
+    ]
+   }
+  }
+ }
+}

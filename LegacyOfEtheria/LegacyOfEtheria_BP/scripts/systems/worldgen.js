@@ -5,6 +5,7 @@
 // Tempest, Luminus (boss) e as cidades existentes NÃO são tocadas por este sistema.
 import { world, system, ItemStack } from "@minecraft/server";
 import { WGEN } from "../data/wgen.gen.js";
+import { DUNGEONS, DG_LOOT } from "../data/dungeons.gen.js";
 import { SETTLEMENT_LIST } from "../data/factions.js";
 import { isProtectedPos } from "./arenas.js";
 import { loadRegion, placeFile, enqueue, clampOrigin } from "./placer.js";
@@ -13,6 +14,7 @@ import { tempestInfo } from "./tempest.js";
 import { say, toast } from "../core/utils.js";
 
 const REC = "etheria:wgrec", SEEN = "etheria:wgseen", MAX_REC = 80, CELL = 320, TICK = 600;
+Object.assign(WGEN, DUNGEONS);   // 8.8: masmorras dos chefes por região (local escolhido por systems/dungeons.js; ficam fora do sorteio comum abaixo)
 export const wgKeys = () => Object.keys(WGEN);
 export { WGEN };
 export const results = new Map();   // chave -> {ok, at, err, tick, chests, mobs}
@@ -31,12 +33,18 @@ const LOOT = {
 };
 const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
 
+/** 8.8: baú com loot table própria (BP/loot_tables/etheria/<tabela>.json) via /loot; se o comando falhar, usa a lista equivalente de DG_LOOT */
+function lootTable(dim, inv, table, x, y, z) {
+  try { const r = dim.runCommand(`loot insert ${x} ${y} ${z} loot "etheria/${table}"`); if (!r || r.successCount > 0) return; } catch { /* sem /loot: lista */ }
+  for (const [id, a, c, p] of DG_LOOT[table] ?? []) if (Math.random() < p) { try { inv.addItem(new ItemStack(id, rnd(a, c))); } catch { /* ignore */ } }
+}
 function fillChests(dim, key, o) {
   const def = WGEN[key]; let ok = 0, bad = 0;
   for (const [x, y, z, tier] of def.chests) {
     try {
       const b = blockAt(dim, o.x + x, o.y + y, o.z + z), inv = b?.getComponent("minecraft:inventory")?.container;
       if (!inv) { bad++; continue; }
+      if (typeof tier === "string") { lootTable(dim, inv, tier, o.x + x, o.y + y, o.z + z); ok++; continue; }
       for (const [id, a, c, p] of LOOT[tier] ?? LOOT[1]) if (Math.random() < p) { try { inv.addItem(new ItemStack(id, rnd(a, c))); } catch { /* item inexistente: ignora */ } }
       ok++;
     } catch { bad++; }
@@ -137,7 +145,7 @@ function tryGenerate(p) {
   for (let i = 0; i < 4; i++) { const a = Math.random() * 6.283, d = 80 + Math.random() * 70; tries.push([Math.floor(l.x + Math.cos(a) * d), Math.floor(l.z + Math.sin(a) * d)]); }
   const keys = wgKeys();
   for (const [x, z] of tries) {
-    const bag = keys.filter((k) => !WGEN[k].manual && k !== "veldanava_dominio" && (!WGEN[k].rare || Math.random() < 0.18) && (WGEN[k].rare || !quiet));   // 6.46: Veldanava só na dimensão própria
+    const bag = keys.filter((k) => !WGEN[k].manual && !WGEN[k].dg && k !== "veldanava_dominio" && (!WGEN[k].rare || Math.random() < 0.18) && (WGEN[k].rare || !quiet));   // 6.46: Veldanava só na dimensão própria
     if (!bag.length) continue;
     const key = pickKey(bag), why = conflict(dim, x, z, key); if (why) continue;
     const s = checkSite(dim, x, z, key); if (!s.ok) continue;

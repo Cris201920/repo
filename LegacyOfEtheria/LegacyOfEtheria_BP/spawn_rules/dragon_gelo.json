@@ -1,0 +1,59 @@
+{
+ "format_version": "1.8.0",
+ "minecraft:spawn_rules": {
+  "description": {
+   "identifier": "etheria:dragon_gelo",
+   "population_control": "animal"
+  },
+  "conditions": [
+   {
+    "minecraft:spawns_on_surface": {},
+    "minecraft:brightness_filter": {
+     "min": 7,
+     "max": 15,
+     "adjust_for_weather": false
+    },
+    "minecraft:weight": {
+     "default": 2
+    },
+    "minecraft:herd": {
+     "min_size": 1,
+     "max_size": 1
+    },
+    "minecraft:density_limit": {
+     "surface": 1
+    },
+    "minecraft:distance_filter": {
+     "min": 32,
+     "max": 96
+    },
+    "minecraft:delay_filter": {
+     "min": 300,
+     "max": 600,
+     "identifier": "etheria:dragon_gelo",
+     "spawn_chance": 20
+    },
+    "minecraft:biome_filter": {
+     "all_of": [
+      {
+       "test": "has_biome_tag",
+       "value": "overworld"
+      },
+      {
+       "any_of": [
+        {
+         "test": "has_biome_tag",
+         "value": "frozen"
+        },
+        {
+         "test": "has_biome_tag",
+         "value": "ice"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

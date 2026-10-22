@@ -40,3 +40,6 @@ LegacyOfEtheria_RP/textures/items/etheria_mirror_sword_*.png
 LegacyOfEtheria_RP/textures/items/etheria_eagle_*.png
 LegacyOfEtheria_RP/textures/items/etheria_re_*.png
 LegacyOfEtheria_RP/textures/items/etheria_sea_dragons_trident.png
+# 8.8: armas dos anjos recoloridas de texturas derivadas do jar do Tensura (uso pessoal; regerar com tools/tame_dragons.py)
+LegacyOfEtheria_RP/textures/attachable/w_archangel_lance.png
+LegacyOfEtheria_RP/textures/attachable/w_shadow_scythe.png

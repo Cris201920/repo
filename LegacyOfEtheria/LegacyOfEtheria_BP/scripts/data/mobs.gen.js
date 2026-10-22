@@ -7946,6 +7946,51 @@ export const MOBS = {
   "drops": [],
   "region": "ocean",
   "minLv": 28
+ },
+ "etheria:dragon_carmim": {
+  "name": "Dragão Carmim",
+  "xp": 140,
+  "coins": [
+   10,
+   24
+  ],
+  "hp": 90,
+  "role": "dragon",
+  "rar": "rare",
+  "dmg": 9,
+  "drops": [],
+  "region": "overworld",
+  "minLv": 8
+ },
+ "etheria:dragon_gelo": {
+  "name": "Dragão de Gelo",
+  "xp": 140,
+  "coins": [
+   10,
+   24
+  ],
+  "hp": 80,
+  "role": "dragon",
+  "rar": "rare",
+  "dmg": 8,
+  "drops": [],
+  "region": "overworld",
+  "minLv": 8
+ },
+ "etheria:dragon_tempestade": {
+  "name": "Dragão da Tempestade",
+  "xp": 140,
+  "coins": [
+   10,
+   24
+  ],
+  "hp": 85,
+  "role": "dragon",
+  "rar": "rare",
+  "dmg": 9,
+  "drops": [],
+  "region": "overworld",
+  "minLv": 8
  }
 };
 export const BOSS_DROPS = {

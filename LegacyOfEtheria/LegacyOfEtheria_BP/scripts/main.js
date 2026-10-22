@@ -56,6 +56,7 @@ import { startPlacer } from "./systems/placer.js";
 import { startAnnouncements } from "./systems/sageannounce.js";
 import { startAgility } from "./systems/agility.js";
 import { startWorldgen } from "./systems/worldgen.js";
+import { startDungeons } from "./systems/dungeons.js";
 import { startOctagrama } from "./systems/octagrama.js";
 import { startRealms } from "./systems/realms.js";
 import { startCharacters } from "./systems/characters.js";
@@ -164,6 +165,7 @@ system.run(() => {
   startAgility();
   startArenas();
   startWorldgen();
+  try { startDungeons(); } catch (e) { console.warn(`[Etheria] masmorras: ${e}`); }   // 8.8: masmorras dos chefes por região
   startOctagrama();
   startRealms();
   startCharacters();

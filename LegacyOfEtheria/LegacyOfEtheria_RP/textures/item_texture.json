@@ -1471,6 +1471,18 @@
   },
   "etheria_lagrima_cristalina": {
    "textures": "textures/items/etheria_lagrima_cristalina"
+  },
+  "etheria_carne_draconica": {
+   "textures": "textures/items/etheria_carne_draconica"
+  },
+  "etheria_peixe_glacial": {
+   "textures": "textures/items/etheria_peixe_glacial"
+  },
+  "etheria_archangel_lance": {
+   "textures": "textures/items/etheria_archangel_lance"
+  },
+  "etheria_shadow_scythe": {
+   "textures": "textures/items/etheria_shadow_scythe"
   }
  }
 }
