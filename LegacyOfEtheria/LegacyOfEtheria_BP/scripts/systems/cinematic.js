@@ -20,7 +20,9 @@ export const TIERS = {
   supreme: { len: 190, chg: 124, rings: 6, waves: 5, shock: 18, circles: 3, bolts: 6, cam: 5 },
 };
 const active = new Map();     // playerId -> {player, t, applied, change, h, cam, lock, cleanup}
-export const isCinematic = (p) => { try { return active.has(p.id); } catch { return false; } };
+const held = new Set();       // 7.x: sequências externas (ex.: evolução de 60 s do Lord Demônio, systems/lordevo.js) que também bloqueiam habilidades
+export const holdCinematic = (id, on) => { if (on) held.add(id); else held.delete(id); };
+export const isCinematic = (p) => { try { return active.has(p.id) || held.has(p.id); } catch { return false; } };
 export const cinematicCount = () => active.size;
 const cmd = (p, c) => { try { p.runCommand(c); return true; } catch { return false; } };
 const ok = (p) => { try { return p.isValid; } catch { return false; } };
@@ -43,7 +45,7 @@ export function cineColors(player, kind) {
 
 // ---------------------------------------------------------------- câmera
 const solid = (b) => { try { return !!b && !b.isAir && !b.isLiquid; } catch { return false; } };
-function safeCam(dim, base, pos) {
+export function safeCam(dim, base, pos) {
   let p = { ...pos };
   for (let i = 0; i < 7; i++) {
     let a, b; try { a = dim.getBlock({ x: Math.floor(p.x), y: Math.floor(p.y), z: Math.floor(p.z) }); b = dim.getBlock({ x: Math.floor(p.x), y: Math.floor(p.y) + 1, z: Math.floor(p.z) }); } catch { break; }
@@ -59,7 +61,7 @@ function camFrames(tier, len, chg) {
   return [c(0, 30, 5.2, 2.0, 0.4), c(Math.round(chg * 0.3), 120, 4.4, 2.2, chg * 0.3 / 20), c(Math.round(chg * 0.6), 210, 3.8, 2.6, chg * 0.3 / 20), c(chg - 4, 300, 3.2, 2.0, chg * 0.4 / 20),
     c(chg + 6, 360, 7.0, 3.8, 0.35), c(len - 24, 0, 3.4, 1.6, 1.3)];
 }
-function setCam(S, f) {
+export function setCam(S, f) {
   if (!S.camOn) return;
   const p = S.player, L = S.base0, a = (f.ang * Math.PI) / 180, dx = S.dir.x * Math.cos(a) - S.dir.z * Math.sin(a), dz = S.dir.x * Math.sin(a) + S.dir.z * Math.cos(a);
   const pos = safeCam(p.dimension, p.location, { x: L.x + dx * f.R, y: L.y + f.h, z: L.z + dz * f.R }), c = `${pos.x.toFixed(2)} ${pos.y.toFixed(2)} ${pos.z.toFixed(2)}`;
@@ -90,7 +92,7 @@ function addFx(S, id, ticks, amp) { try { S.player.addEffect(id, ticks, { amplif
  */
 export function playCinematic(player, o) {
   try {
-    if (!CINEMATIC.enabled || !ok(player) || active.has(player.id) || active.size >= MAX_ACTIVE) return false;
+    if (!CINEMATIC.enabled || !ok(player) || active.has(player.id) || held.has(player.id) || active.size >= MAX_ACTIVE) return false;
     let d; try { d = getData(player); } catch { d = {}; }
     if (d.settings?.cinematic === false) return false;
     const tier = o.tier ?? "common", sp = TIERS[tier] ?? TIERS.common, k = Math.max(0.5, Math.min(2, CINEMATIC.length ?? 1));

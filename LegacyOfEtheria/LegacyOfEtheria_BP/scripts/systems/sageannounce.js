@@ -205,11 +205,11 @@ export function announceCeremony(p, type, evolution) {
   submitAnn(p, { ceremony: type, evolution, entries, notice: false });
 }
 /** Lorde Demônio: Festival da Colheita e, em seguida, Verdadeiro Lorde Demônio, que relata as habilidades adquiridas */
-export function announceLordAwakening(p, evolution) {
+export function announceLordAwakening(p, evolution, skipHarvest = false) {
   if (!ok(p)) return;
   const s = st(p); if (s.pendTimer) { system.clearRun(s.pendTimer); s.pendTimer = 0; }
   if (!enabled(p)) { announceCeremony(p, "true_demon_lord"); return; }
-  submitAnn(p, { ceremony: "harvest_festival", entries: [], notice: false });
+  if (!skipHarvest) submitAnn(p, { ceremony: "harvest_festival", entries: [], notice: false });
   submitAnn(p, { ceremony: "true_demon_lord", evolution, entries: s.pending.splice(0), notice: false });
 }
 export function announceEvolution(p, from, to, fromId, toId) {

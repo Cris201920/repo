@@ -87,11 +87,11 @@ export function announceSkills(p, ids) { for (const id of ids ?? []) queueSkillA
 
 // ------------------------------------------------------------------ evolução -> cena da Voz do Mundo
 const TDL = (id) => /^demon_4$/.test(id) || /_ld$/.test(id);
-export function evolutionScene(p, stage) {
+export function evolutionScene(p, stage, opt = {}) {
   if (!alive(p)) return;
   const id = stage?.id ?? "", from = RACES[stage?.race]?.stages?.[stage?.from]?.name ?? "?";
   const evo = { from, to: stage?.name ?? "?", fromKey: raceKey(stage?.from, from), toKey: raceKey(stage?.id, stage?.name) };
-  if (TDL(id)) announceLordAwakening(p, evo);
+  if (TDL(id)) announceLordAwakening(p, evo, !!opt.skipHarvest);   // a evolução de 60 s já abriu o Festival da Colheita no início
   else if (id === "human_2a") announceCeremony(p, "hero_egg", evo);
   else if (id === "human_3a") announceCeremony(p, "true_hero", evo);
   else announceEvolution(p, evo.from, evo.to, stage?.from, stage?.id);
