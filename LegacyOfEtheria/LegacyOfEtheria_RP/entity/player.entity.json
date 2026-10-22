@@ -944,6 +944,24 @@
      },
      {
       "drg_v_ref_dive": "query.property('etheria:lin') == 'veldanava' && (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic') && !query.is_on_ground && (query.property('etheria:fly') == 4)"
+     },
+     {
+      "eth_cmb1": "query.property('etheria:combo') == 1 && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "eth_cmb2": "query.property('etheria:combo') == 2 && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "eth_cmb3": "query.property('etheria:combo') == 3 && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "eth_cmb4": "query.property('etheria:combo') == 4 && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "eth_cmb5": "query.property('etheria:combo') == 5 && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "eth_cmb6": "query.property('etheria:combo') == 6 && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
      }
     ]
    },
@@ -1246,7 +1264,13 @@
     "drg_ref_glide": "animation.etheria_pdrg.ref_glide",
     "drg_v_ref_glide": "animation.etheria_pdrg_veldanava.ref_glide",
     "drg_ref_dive": "animation.etheria_pdrg.ref_dive",
-    "drg_v_ref_dive": "animation.etheria_pdrg_veldanava.ref_dive"
+    "drg_v_ref_dive": "animation.etheria_pdrg_veldanava.ref_dive",
+    "eth_cmb1": "animation.etheria.combo.c1",
+    "eth_cmb2": "animation.etheria.combo.c2",
+    "eth_cmb3": "animation.etheria.combo.c3",
+    "eth_cmb4": "animation.etheria.combo.c4",
+    "eth_cmb5": "animation.etheria.combo.c5",
+    "eth_cmb6": "animation.etheria.combo.c6"
    },
    "render_controllers": [
     {

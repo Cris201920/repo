@@ -367,3 +367,16 @@ export function tx(c, name, pos, o = {}) {
   setv("size", (o.size ?? 0.6) * (c.sz ?? 1)); setv("life", o.life ?? 0.5); setv("grow", o.grow ?? 0); setv("rot", o.rot ?? 40); setv("flat", o.flat ? 1 : 0);
   try { c.dim.spawnParticle(`etheria:tx_${name}`, pos, MAP); } catch { /* ignore */ }
 }
+/** 8.5: partículas de espada (RP/particles/etheria_sl_*.json, tools/sword_vfx.py). kind: ribbon | flash | ring | spark | glow | drop.
+ *  o: {dir,spd,acc,drag,col,a,size,life,grow,tile,sx,sy,rot} — mesmo orçamento por tick e mesma proteção perto da câmera de mote(). */
+export function sl(c, kind, pos, o = {}) {
+  if ((kind === "glow" || kind === "flash" || kind === "drop") && nearEye(pos, o.size ?? 0.3)) return;
+  if (!canSpawn(c)) return;
+  const d = o.dir ?? [0, 1, 0], k = col(o.col ?? "white");
+  setv("dx", d[0]); setv("dy", d[1]); setv("dz", d[2]); setv("spd", o.spd ?? 0);
+  setv("ax", o.acc?.[0] ?? 0); setv("ay", o.acc?.[1] ?? 0); setv("az", o.acc?.[2] ?? 0); setv("drag", o.drag ?? 0.6);
+  setv("r", k[0]); setv("g", k[1]); setv("b", k[2]); setv("a", o.a ?? 1);
+  setv("size", (o.size ?? 0.3) * (c.sz ?? 1)); setv("life", o.life ?? 0.4); setv("grow", o.grow ?? 0); setv("tile", o.tile ?? 0); setv("rot", o.rot ?? 0);
+  setv("sx", (o.sx ?? 0.2) * (c.sz ?? 1)); setv("sy", o.sy ?? 0.5);
+  try { c.dim.spawnParticle(`etheria:sl_${kind}`, pos, MAP); } catch { /* ignore */ }
+}
