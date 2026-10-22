@@ -22,6 +22,7 @@ VOID_DARK = [(0, (4, 2, 8)), (0.35, (24, 8, 44)), (0.65, (70, 22, 120)), (1, (17
 QUEEN = [(0, (10, 2, 18)), (0.3, (58, 10, 88)), (0.6, (150, 30, 170)), (0.85, (240, 110, 220)), (1, (255, 225, 250))]
 FALLEN = [(0, (6, 4, 6)), (0.5, (30, 26, 32)), (0.85, (70, 62, 74)), (1, (120, 110, 124))]
 CRIMSON = [(0, (30, 0, 4)), (0.45, (120, 8, 20)), (0.8, (210, 30, 40)), (1, (255, 120, 110))]
+SHADOW = [(0, (4, 2, 4)), (0.45, (26, 20, 30)), (0.75, (70, 12, 22)), (1, (190, 36, 46))]
 GOLD = [(0, (54, 30, 6)), (0.35, (150, 96, 22)), (0.7, (236, 190, 70)), (1, (255, 250, 220))]
 CRYSTAL = [(0, (18, 16, 58)), (0.3, (88, 52, 170)), (0.55, (190, 90, 210)), (0.8, (150, 200, 250)), (1, (230, 252, 255))]
 EMBER = [(0, (28, 4, 0)), (0.4, (140, 30, 6)), (0.75, (240, 110, 20)), (1, (255, 230, 150))]
@@ -80,7 +81,7 @@ BOSSES = {
 # ------------------------------------------------------------------ materiais (itens novos) e drops
 MATERIALS = {   # id: (nome, cor, ícone de origem, paleta | "feather")
     "pena_celestial": ("Pena Celestial", "§f", "feather", GOLD),
-    "pena_sombria": ("Pena Sombria", "§8", "feather", CRIMSON),
+    "pena_sombria": ("Pena Sombria", "§8", "feather", SHADOW),
     "nucleo_de_luz": ("Núcleo de Luz", "§e", "etheria_celestial_crystal", GOLD),
     "fragmento_do_inferno": ("Fragmento do Inferno", "§c", "etheria_demonite_shard", EMBER),
     "halo_quebrado": ("Halo Quebrado", "§6", "etheria_ring_vigor", GOLD),
