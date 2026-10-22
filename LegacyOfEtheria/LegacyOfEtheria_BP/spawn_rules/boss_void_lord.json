@@ -31,6 +31,10 @@
     "minecraft:spawns_on_surface": {},
     "minecraft:density_limit": {
      "surface": 1
+    },
+    "minecraft:biome_filter": {
+     "test": "has_biome_tag",
+     "value": "the_end"
     }
    },
    {
@@ -58,6 +62,10 @@
     "minecraft:spawns_underground": {},
     "minecraft:density_limit": {
      "underground": 1
+    },
+    "minecraft:biome_filter": {
+     "test": "has_biome_tag",
+     "value": "the_end"
     }
    }
   ]

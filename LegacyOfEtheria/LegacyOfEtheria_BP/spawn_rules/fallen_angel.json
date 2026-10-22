@@ -1,0 +1,73 @@
+{
+ "format_version": "1.8.0",
+ "minecraft:spawn_rules": {
+  "description": {
+   "identifier": "etheria:fallen_angel",
+   "population_control": "monster"
+  },
+  "conditions": [
+   {
+    "minecraft:weight": {
+     "default": 2
+    },
+    "minecraft:herd": {
+     "min_size": 1,
+     "max_size": 1
+    },
+    "minecraft:distance_filter": {
+     "min": 32,
+     "max": 96
+    },
+    "minecraft:delay_filter": {
+     "min": 120,
+     "max": 300,
+     "identifier": "etheria:fallen_angel",
+     "spawn_chance": 25
+    },
+    "minecraft:difficulty_filter": {
+     "min": "easy",
+     "max": "hard"
+    },
+    "minecraft:spawns_on_surface": {},
+    "minecraft:density_limit": {
+     "surface": 1
+    },
+    "minecraft:biome_filter": {
+     "test": "has_biome_tag",
+     "value": "nether"
+    }
+   },
+   {
+    "minecraft:weight": {
+     "default": 2
+    },
+    "minecraft:herd": {
+     "min_size": 1,
+     "max_size": 1
+    },
+    "minecraft:distance_filter": {
+     "min": 32,
+     "max": 96
+    },
+    "minecraft:delay_filter": {
+     "min": 120,
+     "max": 300,
+     "identifier": "etheria:fallen_angel",
+     "spawn_chance": 25
+    },
+    "minecraft:difficulty_filter": {
+     "min": "easy",
+     "max": "hard"
+    },
+    "minecraft:spawns_underground": {},
+    "minecraft:density_limit": {
+     "underground": 1
+    },
+    "minecraft:biome_filter": {
+     "test": "has_biome_tag",
+     "value": "nether"
+    }
+   }
+  ]
+ }
+}

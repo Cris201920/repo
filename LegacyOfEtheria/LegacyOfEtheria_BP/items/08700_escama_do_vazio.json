@@ -1,0 +1,22 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:escama_do_vazio",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_escama_do_vazio"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§5Escama do Vazio"
+   },
+   "minecraft:max_stack_size": 64
+  }
+ }
+}

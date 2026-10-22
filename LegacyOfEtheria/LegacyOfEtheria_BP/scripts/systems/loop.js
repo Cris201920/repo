@@ -13,7 +13,7 @@ import { fx, level as fxLevel } from "./fx.js";
 import { ensureLore } from "./items.js";
 import { subtitleActive } from "./voice.js";
 import { typingActive } from "./sagecore.js";
-import { hudExtra, hudOverride } from "./hudhooks.js";
+import { hudExtra, hudOverride, hudTop } from "./hudhooks.js";
 import { inventory } from "../core/utils.js";
 
 let tickCount = 0;
@@ -41,14 +41,15 @@ function hideVanillaHearts(p) {
 
 function hudText(p, d, s) {
   let t = `${numbersLine(p, d, s)} §e${fmt(d.coins)}$`;
-  if (d.settings.compact) return t;   // 6.69: dinheiro na mesma linha (barra menor)   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
+  if (d.settings.compact) { const T0 = hudTop(p); return T0.length ? [t, ...T0].join("\n") : t; }   // 6.69: dinheiro na mesma linha (barra menor)   // 6.36: nível/XP saem da barra (o nível aparece na cena da Voz do Mundo e no menu de status)
   const sel = hudSelectedLine(p, d, s); if (sel) t += "\n" + sel;                 // habilidade na mão: custo e estado
   const strip = hudSkillLines(p, d, s); if (strip.length) t += "\n" + strip.join("\n");   // faixa das equipadas (número = slot da hotbar)
   const buffs = listBuffs(p);
   if (buffs.length) t += "\n" + buffs.slice(0, 3).map((b) => `${b.debuff ? "§c" : "§a"}${short(b.name)} ${b.left}s`).join(" ");
   if (d.settings.tracker) { const q = trackerLine(p); if (q) t += "\n" + q; }
   for (const l of hudExtra(p)) t += "\n" + l;     // alvo travado do Sábio, painel de debug...
-  const L = t.split("\n"); return L.length > HUD_MAX_LINES ? L.slice(0, HUD_MAX_LINES).join("\n") : t;   // 7.x: barra de ação menor (no máx. 5 linhas)
+  const L = t.split("\n"), T0 = hudTop(p); if (T0.length) L.splice(1, 0, ...T0);   // 8.7: barra de vida do alvo logo abaixo dos números
+  return L.length > HUD_MAX_LINES ? L.slice(0, HUD_MAX_LINES).join("\n") : L.join("\n");   // 7.x: barra de ação menor (no máx. 5 linhas)
 }
 
 function perPlayer(p) {

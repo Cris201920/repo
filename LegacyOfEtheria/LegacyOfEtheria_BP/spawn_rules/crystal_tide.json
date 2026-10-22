@@ -1,0 +1,50 @@
+{
+ "format_version": "1.8.0",
+ "minecraft:spawn_rules": {
+  "description": {
+   "identifier": "etheria:crystal_tide",
+   "population_control": "water_animal"
+  },
+  "conditions": [
+   {
+    "minecraft:weight": {
+     "default": 2
+    },
+    "minecraft:herd": {
+     "min_size": 1,
+     "max_size": 1
+    },
+    "minecraft:distance_filter": {
+     "min": 32,
+     "max": 96
+    },
+    "minecraft:delay_filter": {
+     "min": 120,
+     "max": 300,
+     "identifier": "etheria:crystal_tide",
+     "spawn_chance": 25
+    },
+    "minecraft:difficulty_filter": {
+     "min": "easy",
+     "max": "hard"
+    },
+    "minecraft:spawns_underwater": {},
+    "minecraft:density_limit": {
+     "underwater": 1
+    },
+    "minecraft:biome_filter": {
+     "all_of": [
+      {
+       "test": "has_biome_tag",
+       "value": "ocean"
+      },
+      {
+       "test": "has_biome_tag",
+       "value": "deep"
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

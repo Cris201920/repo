@@ -1447,6 +1447,30 @@
   },
   "etheria_sk_cs_coin_circle": {
    "textures": "textures/items/etheria_sk_cs_coin_circle"
+  },
+  "etheria_pena_celestial": {
+   "textures": "textures/items/etheria_pena_celestial"
+  },
+  "etheria_pena_sombria": {
+   "textures": "textures/items/etheria_pena_sombria"
+  },
+  "etheria_nucleo_de_luz": {
+   "textures": "textures/items/etheria_nucleo_de_luz"
+  },
+  "etheria_fragmento_do_inferno": {
+   "textures": "textures/items/etheria_fragmento_do_inferno"
+  },
+  "etheria_halo_quebrado": {
+   "textures": "textures/items/etheria_halo_quebrado"
+  },
+  "etheria_escama_do_vazio": {
+   "textures": "textures/items/etheria_escama_do_vazio"
+  },
+  "etheria_diadema_do_vazio": {
+   "textures": "textures/items/etheria_diadema_do_vazio"
+  },
+  "etheria_lagrima_cristalina": {
+   "textures": "textures/items/etheria_lagrima_cristalina"
   }
  }
 }

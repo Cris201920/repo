@@ -1,0 +1,16 @@
+{
+ "format_version": "1.8.0",
+ "render_controllers": {
+  "controller.render.etheria_held_trident": {
+   "geometry": "Geometry.trident",
+   "materials": [
+    {
+     "*": "Material.trident"
+    }
+   ],
+   "textures": [
+    "Texture.trident"
+   ]
+  }
+ }
+}

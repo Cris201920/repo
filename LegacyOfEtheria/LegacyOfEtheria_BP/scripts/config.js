@@ -208,4 +208,8 @@ export const SPAWN = {
   capWorld: 48,                // total carregado no mundo
   capKeepDist: 40,             // nunca remove o que está a menos disto de algum jogador (sem sumir na sua frente)
   capEvery: 200,               // verificação a cada 10 s
+  regionEveryMult: 1.5,        // 8.7: no Vazio/Inferno/Oceano o chefe errante da região vem a cada 9-15 min (mais raro)
+  barEvery: 5,                 // 8.7: barra de vida do alvo atualizada a cada 5 ticks (só com alvo em combate/mirado)
+  barRange: 24,                // alcance da mira para mostrar a barra
+  barHold: 160,                // depois do último golpe, a barra fica 8 s
 };

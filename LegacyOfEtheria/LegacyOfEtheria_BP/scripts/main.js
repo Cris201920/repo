@@ -48,6 +48,8 @@ import { startFactions } from "./systems/factions.js";
 import { startBossFight } from "./systems/bossfight.js";
 import { startWorldWar } from "./systems/worldwar.js";
 import { startBossSpawn } from "./systems/bossspawn.js";
+import { startRegionBosses } from "./systems/regionbosses.js";
+import { startMobBar } from "./systems/mobbar.js";
 import { startCharybdis } from "./systems/charybdis.js";
 import { startArenas } from "./systems/arenas.js";
 import { startPlacer } from "./systems/placer.js";
@@ -156,6 +158,7 @@ system.run(() => {
   startStructures();
   startTempest(); startSettlements(); startTravelWatch(); startFactions(); startWorldWar();
   startBossSpawn(); startCharybdis();   // 6.55: Núcleo de Caríbdis
+  startRegionBosses(); startMobBar();   // 8.7: chefes por região (Anjo Guardião, escolta do Rei Goblin) e barra de vida do alvo
   startPlacer();
   startAnnouncements();
   startAgility();

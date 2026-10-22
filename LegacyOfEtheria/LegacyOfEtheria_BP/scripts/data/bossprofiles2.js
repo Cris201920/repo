@@ -2,6 +2,7 @@
 // Feldway, Carrion, Beretta, Benimaru, Shion, Rimuru Tempest, Lorde Branco, Dino, Zalario, Ifrit, Golem de Aço, Colosso Espiritual, Hinata e Shizue.
 // Cada um tem fases por vida, lista de habilidades por fase (ids reais de mobai.js/bossabilities.js), efeitos de fase, dano/recarga por fase e mecânica própria.
 // Entrada: id -> [nome, cor, tier, aura, fala, mecânica, assinatura[], minion|null, [lista1, lista2, lista3], [nomes das 3 fases], [msg fase2, msg fase3]]
+import { REGION_D } from "./regionbosses.js";   // 8.7: chefes por região (Vazio, Inferno, Oceano, Anjo Guardião)
 const P = (hp, name, msg, list, o = {}) => ({ hp, name, msg, list, fx: o.fx ?? [], gcd: o.gcd ?? 1, dmg: o.dmg ?? 1, minions: o.minions ?? null });
 const BA_IDS = new Set(['summon_minions', 'devour_minion', 'war_stomp', 'ground_pound', 'rampage', 'calamity', 'maelstrom', 'tsunami', 'crimson_domain', 'overlord_aura', 'crimson_nova', 'red_rain', 'dragon_nuke', 'pink_barrage', 'dash_barrage', 'predator_maw', 'megiddo', 'sovereign_wave', 'puppet_strings', 'abyss_rain', 'crimson_lance', 'blood_pact', 'laser_barrage', 'wind_blades', 'triple_kick', 'water_shield', 'tidal_pull', 'slime_split', 'sage_barrier', 'water_prison', 'judgement', 'holy_barrier', 'holy_cross', 'sin_mark', 'soul_harvest', 'demon_horde', 'web_trap', 'spider_swarm', 'storm_domain', 'absolute_zero', 'inferno_pillars', 'genesis', 'anti_skill', 'creation']);   // habilidades de bossabilities.js (as demais vêm de mobai.js)
 const SP = "etheria:tt_black_spider";
@@ -67,6 +68,7 @@ function build(id, d) {
   if (aura) o.aura = aura; if (minion) o.minion = minion;
   return o;
 }
+Object.assign(D, REGION_D);
 export const EXTRA = {};
 for (const [id, d] of Object.entries(D)) EXTRA[id] = build(id, d);
 // 7.x: Carrion mais forte (pedido do jogador): golpes 25% mais fortes, ritmo 10% mais rápido e Investida Selvagem (rampage) na assinatura

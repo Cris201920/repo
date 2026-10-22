@@ -1,6 +1,37 @@
 // GERADO por tools/build.py a partir de tools/content.py - não edite à mão.
 export const MOBS = {
- "etheria:sea_dragon": {"name": "Dragão Marinho", "xp": 900, "coins": [80, 160], "hp": 420, "role": "frost", "rar": "rare", "dmg": 22, "drops": [["etheria:dragon_essence", 1, 2, 0.55], ["minecraft:prismarine_crystals", 2, 6, 0.8], ["minecraft:heart_of_the_sea", 1, 1, 0.08]]},
+ "etheria:sea_dragon": {
+  "name": "Dragão Marinho",
+  "xp": 900,
+  "coins": [
+   80,
+   160
+  ],
+  "hp": 420,
+  "role": "frost",
+  "rar": "rare",
+  "dmg": 22,
+  "drops": [
+   [
+    "etheria:dragon_essence",
+    1,
+    2,
+    0.55
+   ],
+   [
+    "minecraft:prismarine_crystals",
+    2,
+    6,
+    0.8
+   ],
+   [
+    "minecraft:heart_of_the_sea",
+    1,
+    1,
+    0.08
+   ]
+  ]
+ },
  "etheria:goblin": {
   "name": "Goblin",
   "xp": 12,
@@ -3612,7 +3643,8 @@ export const MOBS = {
     0.2
    ]
   ]
- }, "etheria:shion": {
+ },
+ "etheria:shion": {
   "name": "Shion",
   "xp": 2200,
   "coins": [
@@ -4333,7 +4365,8 @@ export const MOBS = {
     0.06
    ]
   ]
- }, "etheria:pico": {
+ },
+ "etheria:pico": {
   "name": "Pico, a Anjo Lançadora",
   "xp": 1100,
   "coins": [
@@ -4712,7 +4745,8 @@ export const MOBS = {
     0.2
    ]
   ]
- }, "etheria:tt_direwolf_boss": {
+ },
+ "etheria:tt_direwolf_boss": {
   "name": "Lobo Terrível Alfa",
   "xp": 180,
   "coins": [
@@ -7822,6 +7856,96 @@ export const MOBS = {
     0.3
    ]
   ]
+ },
+ "etheria:void_dragon": {
+  "name": "Dragão do Vazio",
+  "xp": 9000,
+  "coins": [
+   2500,
+   4000
+  ],
+  "hp": 24000,
+  "role": "dragon",
+  "rar": "boss",
+  "dmg": 48,
+  "drops": [],
+  "region": "end",
+  "minLv": 55
+ },
+ "etheria:void_knight": {
+  "name": "Cavaleiro do Vazio",
+  "xp": 3500,
+  "coins": [
+   900,
+   1500
+  ],
+  "hp": 8000,
+  "role": "melee",
+  "rar": "boss",
+  "dmg": 30,
+  "drops": [],
+  "region": "end",
+  "minLv": 35
+ },
+ "etheria:void_queen": {
+  "name": "Rainha do Vazio",
+  "xp": 6000,
+  "coins": [
+   1600,
+   2600
+  ],
+  "hp": 14000,
+  "role": "caster",
+  "rar": "boss",
+  "dmg": 36,
+  "drops": [],
+  "region": "end",
+  "minLv": 45
+ },
+ "etheria:fallen_angel": {
+  "name": "Anjo Caído",
+  "xp": 4500,
+  "coins": [
+   1200,
+   2000
+  ],
+  "hp": 10000,
+  "role": "melee",
+  "rar": "boss",
+  "dmg": 34,
+  "drops": [],
+  "region": "nether",
+  "minLv": 40
+ },
+ "etheria:angel_guardian": {
+  "name": "Anjo Guardião",
+  "xp": 3000,
+  "coins": [
+   800,
+   1400
+  ],
+  "hp": 6000,
+  "role": "guardian",
+  "rar": "boss",
+  "dmg": 24,
+  "drops": [],
+  "region": "overworld",
+  "minLv": 30
+ },
+ "etheria:crystal_tide": {
+  "name": "Guardiã Cristalina das Marés",
+  "xp": 2600,
+  "coins": [
+   700,
+   1200
+  ],
+  "hp": 5000,
+  "role": "caster",
+  "rar": "boss",
+  "dmg": 22,
+  "drops": [],
+  "region": "ocean",
+  "minLv": 28
  }
 };
 export const BOSS_DROPS = {

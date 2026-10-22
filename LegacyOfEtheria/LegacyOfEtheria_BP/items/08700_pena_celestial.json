@@ -1,0 +1,22 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:pena_celestial",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_pena_celestial"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§fPena Celestial"
+   },
+   "minecraft:max_stack_size": 64
+  }
+ }
+}

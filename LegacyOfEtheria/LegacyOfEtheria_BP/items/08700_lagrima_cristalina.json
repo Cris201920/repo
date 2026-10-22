@@ -1,0 +1,22 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:lagrima_cristalina",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_lagrima_cristalina"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§bLágrima Cristalina"
+   },
+   "minecraft:max_stack_size": 64
+  }
+ }
+}

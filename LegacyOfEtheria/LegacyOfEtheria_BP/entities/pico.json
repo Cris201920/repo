@@ -47,7 +47,7 @@
    },
    "minecraft:nameable": {},
    "minecraft:loot": {
-    "table": "loot_tables/empty.json"
+    "table": "loot_tables/entities/etheria_pico.json"
    },
    "minecraft:behavior.float": {
     "priority": 0
