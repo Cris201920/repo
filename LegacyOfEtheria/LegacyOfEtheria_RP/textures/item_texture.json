@@ -1429,6 +1429,24 @@
   },
   "etheria_sea_dragons_trident": {
    "textures": "textures/items/etheria_sea_dragons_trident"
+  },
+  "etheria_sk_cs_runic_seal": {
+   "textures": "textures/items/etheria_sk_cs_runic_seal"
+  },
+  "etheria_sk_cs_heaven_pillar": {
+   "textures": "textures/items/etheria_sk_cs_heaven_pillar"
+  },
+  "etheria_sk_cs_ringed_sun": {
+   "textures": "textures/items/etheria_sk_cs_ringed_sun"
+  },
+  "etheria_sk_cs_tempest_judgement": {
+   "textures": "textures/items/etheria_sk_cs_tempest_judgement"
+  },
+  "etheria_sk_cs_cataclysm_wave": {
+   "textures": "textures/items/etheria_sk_cs_cataclysm_wave"
+  },
+  "etheria_sk_cs_coin_circle": {
+   "textures": "textures/items/etheria_sk_cs_coin_circle"
   }
  }
 }

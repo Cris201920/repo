@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_cs_heaven_pillar",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_cs_heaven_pillar"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§6Pilar do Firmamento"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_cs_heaven_pillar",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

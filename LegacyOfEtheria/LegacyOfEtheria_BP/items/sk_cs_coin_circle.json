@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "etheria:sk_cs_coin_circle",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:icon": {
+    "textures": {
+     "default": "etheria_sk_cs_coin_circle"
+    }
+   },
+   "minecraft:display_name": {
+    "value": "§6Círculo das Mil Moedas"
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:cooldown": {
+    "category": "etheria_cd_cs_coin_circle",
+    "duration": 0.05
+   },
+   "minecraft:glint": true
+  }
+ }
+}

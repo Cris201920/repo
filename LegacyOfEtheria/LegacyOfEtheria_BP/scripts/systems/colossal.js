@@ -154,7 +154,7 @@ export const COLOSSAL_FX = {
         const g = Math.min(1, t / 40), rad = (0.5 + g * SZ * 2) * 0.4375;   // raio visível do corpo 3D
         if (t <= CH) vfxSize(sun, 0.5 + g * SZ * 2); else tp(sun, ctr);
         rings.forEach(([ti, yw, w], j) => {   // anéis contínuos: segmentos entre pontos vizinhos girando
-          const P = tiltRing(ctr, rad * (1.35 + j * 0.25) + 0.6, nn(c, 14), ti, yw, t * 0.12 * w);
+          const P = tiltRing(ctr, rad * (1.35 + j * 0.25) + 0.6, Math.min(16, nn(c, 14)), ti, yw, t * 0.12 * w);
           P.forEach((p, i) => streak(c, p, P[(i + 1) % P.length], { col: j === 1 ? "fire" : "gold", w: 0.35, life: 0.1, tile: T.line }));
           if (t % 3 === 0) mote(c, P[0], { col: "white", size: 0.9, life: 0.15, tile: T.star });
         });
@@ -197,7 +197,7 @@ export const COLOSSAL_FX = {
       if (t > CH && t < FIN && (t - CH) % 7 === 0) {      // raio sobre um inimigo (ou ponto aleatório)
         const foes = o.foes(at, R), e = foes.length ? foes[Math.floor(Math.random() * foes.length)] : null;
         const g = e ? ground(dim, e.location) : ground(dim, onRing(at, R * Math.sqrt(Math.random()) * 0.9, rnd(0, TAU), 2));
-        bolt(c, up(g, H), g, { col: "white", w: 0.7, seg: 9, branch: 0.3, life: 0.3 }); bolt(c, up(g, H), g, { col: "bolt", w: 1.3, seg: 6, life: 0.2, a: 0.7 });
+        bolt(c, up(g, H), g, { col: "white", w: 0.7, seg: Math.max(3, Math.min(9, nn(c, 9))), branch: c.k < 0.6 ? 0 : 0.3, life: 0.3 }); bolt(c, up(g, H), g, { col: "bolt", w: 1.3, seg: Math.max(3, Math.min(6, nn(c, 6))), life: 0.2, a: 0.7 });
         burst(c, up(g, 0.3), { col: "bolt", n: 10, spd: 7, life: 0.4, tile: T.zig }); ringFlat(c, g, { col: "white", n: 12, radius: 3.5, life: 0.3, tile: T.ring });
         disc(c, g, { col: [0.1, 0.08, 0.12], circle: CIRCLE.bolt, size: 2.2, life: 2.5, rot: 0, a: 0.7 });
         o.hit(g, 3.5, 0.22, { push: 0.5, lift: 0.5, debuff: "paralyze", sec: 1 });
@@ -207,7 +207,7 @@ export const COLOSSAL_FX = {
       if (t === FIN + 1) burst(c, up(at, 1), { col: "bolt", n: 24, spd: 12, life: 0.6, tile: T.zig });
       if (t >= FIN + 1 && t <= FIN + 3) ringFlat(c, at, { col: t === FIN + 1 ? "white" : "bolt", n: 22, radius: R * (0.3 + (t - FIN) * 0.3), life: 0.5, tile: T.ring, size: 0.5 });
       if (t === FIN) {
-        for (let k = 0; k < 4; k++) { const a = (k / 4) * TAU; bolt(c, up(at, H), onRing(at, k ? 1.5 : 0, a), { col: k ? "bolt" : "white", w: k ? 0.7 : 1.4, seg: 8, branch: 0.25, life: 0.35 }); }
+        for (let k = 0; k < 4; k++) { const a = (k / 4) * TAU; bolt(c, up(at, H), onRing(at, k ? 1.5 : 0, a), { col: k ? "bolt" : "white", w: k ? 0.7 : 1.4, seg: Math.max(3, Math.min(8, nn(c, 8))), branch: c.k < 0.6 ? 0 : 0.25, life: 0.35 }); }
         dome(dim, "lightning_sphere", at, R * 0.6, 8);
         o.hit(at, R, 1, { falloff: true, push: 1, lift: 0.6, debuff: "paralyze", sec: 2 });
         shake(dim, at, 0.35, undefined, [235, 240, 255]); snd(c, "ambient.weather.thunder", { at, vol: 3, pitch: 0.7 }); snd(c, "random.explode", { at, vol: 2, pitch: 1.1 });
