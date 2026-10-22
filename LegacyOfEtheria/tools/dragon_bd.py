@@ -393,6 +393,7 @@ G_WING = {"base": list(range(165, 169)) + [214, 223, 224], "top": list(range(169
           "low": list(range(185, 189)) + [220, 231, 232, 254]}
 G_WING_OLD = set(range(157, 165)) | set(range(173, 181)) | set(range(193, 214)) | set(range(237, 248))   # asa esquerda original (dobrada): trocada pelo espelho da direita
 
+WING_SWEEP, WING_DROP = 30, -8
 def winged(roles_of):
     C = raw_cubes(os.path.join(SRC, "dragon_gelo.bdengine"))
     for c in C: c["i"] = c["k"]                                    # aqui os grupos usam o índice do cubo
@@ -437,6 +438,11 @@ def winged(roles_of):
         if c["k"] in rigid_k:
             o = next(x for x in C if x["k"] == c["k"]); c["c"] = nc + Rb @ (o["c"] - oc); c["R"] = Rb @ o["R"]; c["s"] = o["s"]
     byk2 = {c["k"]: c for c in M}
+    # pose de repouso da asa direita: varre para trás e abaixa um pouco (em torno do ombro)
+    arm0 = byk2[165]; shp = min(ends(arm0), key=lambda p: abs(p[0] - nc[0]))
+    Rw = rot((0, 0, 1), WING_DROP) @ rot(UP, -WING_SWEEP)
+    for part in G_WING.values():
+        for k in part: byk2[k].update(rigid(byk2[k], Rw, shp))
     # asa esquerda = espelho da direita (em relação ao plano x = 0 da coluna nova)
     x0 = float(nc[0]); wl = []
     for part, ks in G_WING.items():
@@ -505,3 +511,122 @@ def winged(roles_of):
     order = ["d_body", "d_upper_body", "d_neck1", "d_neck2", "d_neck3"] + [f"d_tail{j}" for j in range(1, 6)]
     bones += [B[n] for n in order] + [head, jaw] + legs + [wings[(sd, p)] for sd in ("left", "right") for p in ("base", "top", "mid", "low")]
     return bones, M, L
+
+# ================================================================== papéis (qual ladrilho cada cubo usa) e paletas
+def serp_role(c, u):
+    i, b = c["i"], c["block"]
+    if i in S_HORN: return "horn"
+    if b == "gold_ingot": return "eye"
+    if b == "gold_nugget": return "tooth"
+    if b.endswith("_pane"): return "whisker"
+    if b == "mutton": return "clawsprite"
+    if b == "feather": return "feather"
+    if i in S_FIN or "wall_fan" in b: return "fin"
+    if b == "fire_coral": return "mane"
+    if b == "dead_brain_coral_fan": return "mane2"
+    if b == "horn_coral": return "mane3"
+    if any(i in g[0] + g[1] + g[2] for g in S_LIMBS): return "claw" if max(c["s"]) < 7 else "limb"
+    if i in S_HEAD:
+        if b == "black_concrete": return "headdark"
+        if b == "nether_wart_block": return "mouth"
+        if b in BELLY_BLOCKS: return "belly"
+        return "head"
+    if b == "black_concrete": return "back"
+    if b in BELLY_BLOCKS: return "belly"
+    return f"body{min(3, int(u * 4))}"
+
+def serp_spec(p):
+    return {"body0": ("scales", p["b0"], sh(p["b0"], 0.6)), "body1": ("scales", p["b1"], sh(p["b1"], 0.6)), "body2": ("scales", p["b2"], sh(p["b2"], 0.6)),
+            "body3": ("scales", p["b3"], sh(p["b3"], 0.6)), "back": ("ridge", p["back"], sh(p["back"], 0.6), p["edge"]), "belly": ("plates", p["belly"], p["belly2"]),
+            "head": ("scales", p["head"], sh(p["head"], 0.6)), "headdark": ("ridge", p["hdark"], sh(p["hdark"], 0.6), p["edge"]), "horn": ("horn", p["horn"], p["horn2"]),
+            "eye": ("eye", p["eye0"], p["eye"]), "tooth": ("horn", p["tooth"], (255, 255, 255)), "whisker": ("horn", p["whisk"], p["whisk2"]),
+            "mane": (p["mk"], p["m1"], p["m1b"], p["mc"]), "mane2": (p["mk"], p["m2"], p["m2b"], p["mc"]), "mane3": (p["mk"], p["m3"], p["m3b"], p["mc"]),
+            "feather": ("feather", p["feather"], p["feather2"]), "fin": ("fan", p["fin"], p["fin2"]), "clawsprite": ("clawsprite", p["claw"], p["claw2"]),
+            "claw": ("horn", p["claw"], p["claw2"]), "limb": ("scales", p["b3"], sh(p["b3"], 0.6)), "mouth": ("solid", p["mouth"], (0, 0, 0))}
+PAL = {
+  # VELGRYND: carmesim profundo perto da cabeça -> escarlate -> laranja-rubi na cauda; costas vinho com borda dourada; barriga creme;
+  # chifres marfim-dourado; crina de chamas douradas/laranja; olhos âmbar; bigodes dourados
+  "velgrynd": dict(b0=(226, 86, 46), b1=(214, 58, 42), b2=(196, 36, 40), b3=(176, 24, 36), back=(122, 14, 26), edge=(244, 196, 84), belly=(247, 233, 206), belly2=(212, 188, 150),
+                   head=(198, 30, 38), hdark=(120, 12, 22), horn=(248, 238, 210), horn2=(226, 178, 86), eye0=(70, 10, 14), eye=(255, 196, 40), tooth=(250, 244, 226),
+                   whisk=(238, 190, 76), whisk2=(255, 236, 150), mk="flame", m1=(255, 186, 56), m1b=(255, 96, 30), m2=(250, 120, 40), m2b=(214, 38, 30), m3=(255, 222, 110), m3b=(255, 150, 46),
+                   mc=(255, 244, 190), feather=(255, 232, 170), feather2=(214, 150, 60), fin=(232, 62, 40), fin2=(255, 204, 84), claw=(60, 32, 26), claw2=(226, 188, 120), mouth=(110, 18, 30)),
+  # VELZARD: branco-lilás perto da cabeça -> azul-gelo na cauda; costas azul-gelo com borda branca; barriga branca; chifres de cristal;
+  # crina de cristais de gelo; olhos ciano; bigodes azul-claros
+  "velzard": dict(b0=(190, 220, 250), b1=(208, 224, 250), b2=(224, 224, 250), b3=(236, 232, 252), back=(112, 156, 226), edge=(236, 248, 255), belly=(250, 250, 255), belly2=(204, 212, 238),
+                  head=(238, 234, 252), hdark=(128, 150, 216), horn=(176, 218, 255), horn2=(236, 248, 255), eye0=(40, 50, 92), eye=(120, 232, 255), tooth=(246, 249, 255),
+                  whisk=(150, 204, 255), whisk2=(232, 246, 255), mk="crystal", m1=(206, 236, 255), m1b=(120, 180, 250), m2=(232, 246, 255), m2b=(160, 200, 255), m3=(196, 176, 244), m3b=(140, 196, 255),
+                  mc=(255, 255, 255), feather=(246, 249, 255), feather2=(170, 200, 240), fin=(184, 222, 255), fin2=(110, 160, 232), claw=(70, 82, 124), claw2=(206, 224, 255), mouth=(92, 60, 124)),
+}
+def gelo_role(c, u):
+    k, b = c["k"] % 10000, c["block"]
+    if "wing" in c:
+        if b == "pointed_dripstone": return "gold"
+        if b == "cobweb" or min(c["s"]) < 1.5: return "membrane"
+        return "wbone"
+    if k in G_EYES: return "eye" if b == "soul_fire" else "gold"
+    if k in G_HORNS or b == "pumpkin_stem": return "horn"
+    if b == "black_candle" or b == "pointed_dripstone": return "claw"
+    if b == "reinforced_deepslate": return "ridge"
+    if "wall_fan" in b: return "fin"
+    if b == "pearlescent_froglight": return "belly"
+    if b in ("white_candle",): return "horn"
+    if k in G_HEAD or k in G_JAW: return "head"
+    return "scales"
+VELDANAVA_SPEC = {"scales": ("scales", (248, 248, 252), (206, 212, 228)), "belly": ("plates", (252, 246, 232), (222, 196, 140)), "head": ("scales", (252, 252, 255), (210, 216, 232)),
+                  "ridge": ("ridge", (240, 200, 92), (168, 118, 38), (255, 244, 190)), "fin": ("fan", (96, 224, 214), (34, 150, 160)), "horn": ("horn", (250, 236, 196), (228, 182, 80)),
+                  "gold": ("horn", (238, 192, 80), (255, 236, 160)), "claw": ("horn", (226, 180, 70), (255, 230, 150)), "eye": ("glow", (90, 255, 236), (220, 255, 250)),
+                  "wbone": ("horn", (246, 246, 250), (230, 196, 110)), "membrane": ("membrane", (250, 252, 255), (150, 226, 222), (226, 186, 84))}
+GELO_SCALE = 1.5                     # escala embutida no modelo da Veldanava (o chefe ganha o resto no scripts.scale)
+
+def scale_bones(bones, k):
+    for b in bones:
+        b["pivot"] = np.array(b["pivot"], float) * k
+        for c in b.get("cubes", []): c["c"] = c["c"] * k; c["s"] = c["s"] * k
+    return bones
+
+def extents(bones):
+    P = []
+    for b in bones:
+        for c in b.get("cubes", []):
+            h = np.abs(c["R"]) @ (c["s"] / 2); P += [c["c"] - h, c["c"] + h]
+    P = np.array(P); return P.min(0), P.max(0)
+
+# ================================================================== tamanhos (escala do chefe na forma de dragão, colisão da forma de dragão)
+SIZE = {"velzard": (1.1, (6.0, 6.0)), "velgrynd": (1.1, (6.0, 6.0)), "veldanava": (round(4.0 / GELO_SCALE, 3), (12.0, 12.0))}
+
+def build_all():
+    rep = {}
+    sb, sm, sl = serpent(serp_role)
+    for name in ("velgrynd", "velzard"):
+        mn, mx = extents(sb); sc = SIZE[name][0]
+        bw = math.ceil(max(mx[0] - mn[0], mx[2] - mn[2]) / 16 * 1.15) + 4; bh = math.ceil((mx[1] - mn[1]) / 16 * 1.15) + 4
+        rep[name] = write_geo(name, sb, Atlas(serp_spec(PAL[name]), seed=len(name)), (bw, bh, round(bh / 2, 1))) + (round((mx[2] - mn[2]) / 16, 1), round((mx[1] - mn[1]) / 16, 1))
+    gb, gm, gl = winged(gelo_role); scale_bones(gb, GELO_SCALE)
+    mn, mx = extents(gb)
+    bw = math.ceil(max(mx[0] - mn[0], mx[2] - mn[2]) / 16 * 1.15) + 4; bh = math.ceil((mx[1] - mn[1]) / 16 * 1.15) + 4
+    rep["veldanava"] = write_geo("veldanava", gb, Atlas(VELDANAVA_SPEC, seed=9), (bw, bh, round(bh / 2, 1))) + (round((mx[0] - mn[0]) / 16, 1), round((mx[2] - mn[2]) / 16, 1), round((mx[1] - mn[1]) / 16, 1))
+    return rep
+
+def sizes():
+    for name, (sc, (cw, ch)) in SIZE.items():
+        ep = os.path.join(RP, f"entity/{name}.entity.json"); E = json.load(open(ep)); s_ = E["minecraft:client_entity"]["description"].setdefault("scripts", {})
+        old = s_.get("scale", "1.0")
+        s_["scale"] = re.sub(r"== 'dragon' \\? [0-9.]+", f"== 'dragon' ? {sc}", old) if "'dragon'" in str(old) else str(sc)
+        json.dump(E, open(ep, "w"), indent=1, ensure_ascii=False)
+        bp = os.path.join(BP, f"entities/{name}.json"); Bj = json.load(open(bp)); txt = json.dumps(Bj)
+        cols = re.findall(r'"minecraft:collision_box": \\{"width": ([0-9.]+), "height": ([0-9.]+)\\}', txt)
+        if cols:
+            big = max(cols, key=lambda x: float(x[0]))
+            txt = txt.replace(f'"minecraft:collision_box": {{"width": {big[0]}, "height": {big[1]}}}', f'"minecraft:collision_box": {{"width": {cw}, "height": {ch}}}')
+            json.dump(json.loads(txt), open(bp, "w"), indent=1, ensure_ascii=False)
+
+def main():
+    rep = build_all()
+    for k, v in rep.items(): print(k, "ossos/cubos/tamanho(blocos, escala 1):", v)
+    sizes()
+    import serpent_float, dragon_acts
+    serpent_float.main(); dragon_acts.main()
+    print("ok")
+
+if __name__ == "__main__":
+    main()
