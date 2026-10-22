@@ -4,7 +4,7 @@
 - Dragão Marinho: dano, morte (vira de barriga e afunda) e debatida fora d'água
 - Veldanava: ambiente (olha em volta, espreguiça as asas, eriça as penas, mexe as garras, respira, balança a cauda)
 Rodar depois de dragon_real.py / sea_dragon.py (dragon_real chama no final)."""
-import json, os, sys
+import json, math, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from serpent_float import chain
 RP = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "LegacyOfEtheria_RP")
@@ -15,41 +15,48 @@ def smooth(a, b): return f"((1 - math.cos(180 * {ease(a, b)})) / 2)"
 def R(x=0, y=0, z=0): return {"rotation": [x, y, z]}
 
 def serp_acts(l):
+    """8.4: serpentes de corpo longo e esticado (dragon_bd.py): ações sem 'enrolar' a coluna (curvas pequenas e alternadas)"""
     ch = chain(l); N = len(ch); tail0 = N // 3
     A = {}
-    b = {n: R(f"-18 * {bell(0, 0.3)} + 24 * {bell(0.25, 0.55)}") for n in ("d_neck1", "d_neck2", "d_neck3")}
-    b["d_head"] = R(f"-14 * {bell(0, 0.3)} + 18 * {bell(0.25, 0.55)}"); b["d_lower_jaw"] = R(f"44 * {bell(0.05, 0.42)}")
-    b["d_body"] = R(f"5 * {bell(0.25, 0.55)}")
+    b = {n: R(f"-16 * {bell(0, 0.3)} + 22 * {bell(0.25, 0.55)}", f"{(1, -1, 1)[k] * 4} * {bell(0, 0.3)}") for k, n in enumerate(("d_neck1", "d_neck2", "d_neck3"))}
+    b["d_head"] = R(f"-14 * {bell(0, 0.3)} + 18 * {bell(0.25, 0.55)}"); b["d_lower_jaw"] = R(f"48 * {bell(0.05, 0.42)}")
+    b["d_upper_body"] = R(f"-6 * {bell(0, 0.3)} + 8 * {bell(0.25, 0.55)}")
+    for i, n in enumerate(ch[:8]): b[n] = R(0, f"{4 if i % 2 else -4} * {bell(0.2, 0.6)}")
     A["bite"] = (0.7, b)
     b = {"d_left_arm": R(f"-75 * {bell(0, 0.28)} + 55 * {bell(0.22, 0.5)}"), "d_right_arm": R(f"-75 * {bell(0.08, 0.36)} + 55 * {bell(0.3, 0.58)}"),
-         "d_left_hand": R(f"35 * {bell(0.2, 0.45)}"), "d_right_hand": R(f"35 * {bell(0.28, 0.55)}"), "d_upper_body": R(0, f"14 * {bell(0.1, 0.55)}"),
-         "d_head": R(f"-10 * {bell(0, 0.5)}"), "d_lower_jaw": R(f"20 * {bell(0, 0.5)}")}
+         "d_left_hand": R(f"35 * {bell(0.2, 0.45)}"), "d_right_hand": R(f"35 * {bell(0.28, 0.55)}"), "d_upper_body": R(f"-8 * {bell(0, 0.5)}", f"14 * {bell(0.1, 0.55)}"),
+         "d_head": R(f"-10 * {bell(0, 0.5)}"), "d_lower_jaw": R(f"24 * {bell(0, 0.5)}")}
     A["claw"] = (0.6, b)
-    b = {n: R(0, f"16 * math.sin(math.clamp({T} * 540 - {(i - tail0) * 16}, 0, 360)) * (1 - {T})", 0) for i, n in enumerate(ch) if i >= tail0}
-    b["d_All"] = R(0, f"28 * {bell(0, 1.0)}"); b["d_head"] = R(0, f"-20 * {bell(0, 1.0)}")
+    b = {n: R(0, f"18 * math.sin(math.clamp({T} * 540 - {(i - tail0) * 18}, 0, 360)) * (1 - {T})") for i, n in enumerate(ch) if i >= tail0}
+    b["d_All"] = R(0, f"30 * {bell(0, 1.0)}"); b["d_head"] = R(0, f"-22 * {bell(0, 1.0)}"); b["d_neck2"] = R(0, f"-10 * {bell(0, 1.0)}")
     A["tail"] = (1.0, b)
-    b = {n: R(f"-14 * {bell(0, 1.3)}") for n in ("d_neck1", "d_neck2", "d_neck3")}
-    b["d_head"] = R(f"-30 * {bell(0, 1.3)}"); b["d_lower_jaw"] = R(f"50 * {bell(0.1, 1.25)}")
-    b["d_All"] = {"position": [0, f"4 * {bell(0, 1.4)}", 0], "rotation": [0, 0, f"2.5 * math.sin({T} * 2400) * {bell(0.2, 1.2)}"]}
-    for i, n in enumerate(ch): b[n] = R(f"2.2 * {bell(0, 1.4)}")                  # a espiral aperta
+    b = {n: R(f"-12 * {bell(0, 1.3)}") for n in ("d_neck1", "d_neck2", "d_neck3")}
+    b["d_head"] = R(f"-28 * {bell(0, 1.3)}"); b["d_lower_jaw"] = R(f"52 * {bell(0.1, 1.25)}"); b["d_upper_body"] = R(f"-10 * {bell(0, 1.3)}")
+    b["d_All"] = {"position": [0, f"6 * {bell(0, 1.4)}", 0], "rotation": [0, 0, f"2.5 * math.sin({T} * 2400) * {bell(0.2, 1.2)}"]}
+    for i, n in enumerate(ch): b[n] = R(f"{round(3.5 * math.sin(i * 0.9), 2)} * {bell(0, 1.4)}", f"math.sin({T} * 900 - {i * 30}) * 3 * {bell(0.2, 1.3)}")   # o corpo ondula, arrepiado
     for s in ("left", "right"): b[f"d_{s}_arm"] = R(f"-40 * {bell(0.1, 1.2)}"); b[f"d_{s}_hand"] = R(f"30 * {bell(0.1, 1.2)}")
+    for s_, sg in (("l", 1), ("r", -1)): b[f"x_whisk_{s_}"] = R(f"-25 * {bell(0.1, 1.3)}", f"{sg} * 20 * {bell(0.1, 1.3)}")
     A["roar"] = (1.4, b)
-    b = {"d_All": {"rotation": [0, f"360 * {smooth(0, 1.2)}", 0], "position": [0, f"6 * {bell(0, 1.2)}", 0]},
+    b = {"d_All": {"rotation": [0, f"360 * {smooth(0, 1.2)}", 0], "position": [0, f"8 * {bell(0, 1.2)}", 0]},
          "d_left_arm": R(0, 0, f"45 * {bell(0, 1.2)}"), "d_right_arm": R(0, 0, f"-45 * {bell(0, 1.2)}"), "d_head": R(f"-20 * {bell(0, 1.2)}"), "d_lower_jaw": R(f"30 * {bell(0.2, 1.1)}")}
+    for i, n in enumerate(ch): b[n] = R(0, f"-4 * {bell(0, 1.2)}")                    # a cauda acompanha o giro
     A["ability"] = (1.2, b)
-    b = {"d_All": {"position": [0, f"12 * {smooth(0, 0.8)}", 0], "rotation": [f"-10 * {bell(0, 0.8)}", 0, 0]}}
-    for i, n in enumerate(ch): b[n] = R(f"-2.5 * {bell(0, 0.8)}")
+    b = {"d_All": {"position": [0, f"14 * {smooth(0, 0.8)}", 0], "rotation": [f"-12 * {bell(0, 0.8)}", 0, 0]}}
+    for i, n in enumerate(ch): b[n] = R(f"math.sin({T} * 700 - {i * 35}) * 5 * {bell(0, 0.8)}")
     A["takeoff"] = (0.8, b)
-    b = {"d_All": {"position": [0, f"-6 * {bell(0, 0.6)}", 0]}}
-    for i, n in enumerate(ch): b[n] = R(f"2.5 * {bell(0, 0.6)}")
+    b = {"d_All": {"position": [0, f"-6 * {bell(0, 0.6)}", 0], "rotation": [f"8 * {bell(0, 0.6)}", 0, 0]}}
+    for i, n in enumerate(ch): b[n] = R(f"math.sin({T} * 700 - {i * 35}) * 4 * {bell(0, 0.6)}")
     A["landing"] = (0.6, b)
-    b = {"d_head": R(f"-22 * {bell(0, 0.4)}"), "d_neck3": R(f"-10 * {bell(0, 0.4)}"), "d_All": R(0, 0, f"6 * {bell(0, 0.4)}")}
-    for i, n in enumerate(ch): b[n] = R(0, f"{3 if i % 2 else -3} * {bell(0, 0.4)}")
+    b = {"d_head": R(f"-24 * {bell(0, 0.4)}", f"10 * {bell(0, 0.4)}"), "d_neck3": R(f"-10 * {bell(0, 0.4)}"), "d_neck1": R(0, f"-8 * {bell(0, 0.4)}"),
+         "d_All": {"rotation": [f"-4 * {bell(0, 0.4)}", 0, f"6 * {bell(0, 0.4)}"], "position": [0, f"3 * {bell(0, 0.4)}", 0]}, "d_lower_jaw": R(f"30 * {bell(0, 0.3)}")}
+    for i, n in enumerate(ch): b[n] = R(0, f"math.sin({T} * 1800 - {i * 30}) * 7 * (1 - {ease(0, 0.4)})")   # o tranco corre pelo corpo
     A["hurt"] = (0.4, b)
-    b = {"d_All": {"rotation": [0, 0, f"80 * {smooth(0.6, 2.2)}"], "position": [0, f"-14 * {smooth(0.8, 2.3)}", 0]},
-         "d_lower_jaw": R(f"35 * {smooth(0.2, 1.4)}"), "d_head": R(f"25 * {smooth(0.4, 1.8)}"), "d_neck1": R(f"14 * {smooth(0.4, 1.8)}")}
-    for i, n in enumerate(ch): b[n] = R(f"-5.5 * {smooth(0.2, 2.0)}", f"{(i % 5 - 2) * 0.8} * {smooth(0.4, 2.0)}")   # desenrola
-    for s in ("left", "right"): b[f"d_{s}_arm"] = R(f"40 * {smooth(0.4, 1.6)}")
+    b = {"d_All": {"rotation": [f"10 * {smooth(0.3, 1.2)}", 0, f"80 * {smooth(0.6, 2.2)}"], "position": [0, f"-12 * {smooth(0.8, 2.3)}", 0]},
+         "d_lower_jaw": R(f"35 * {smooth(0.2, 1.4)}"), "d_head": R(f"28 * {smooth(0.4, 1.8)}"), "d_neck1": R(f"16 * {smooth(0.4, 1.8)}"), "d_neck2": R(f"12 * {smooth(0.4, 1.8)}"),
+         "d_neck3": R(f"8 * {smooth(0.4, 1.8)}")}
+    for i, n in enumerate(ch): b[n] = R(f"{0.9 if i % 3 else -0.6} * {smooth(0.2, 2.0)} + math.sin({T} * 1200 - {i * 40}) * 5 * {bell(0, 0.9)}", f"{(i % 5 - 2) * 1.6} * {smooth(0.4, 2.0)}")
+    for s in ("left", "right"): b[f"d_{s}_arm"] = R(f"40 * {smooth(0.4, 1.6)}"); b[f"d_{s}_leg"] = R(f"45 * {smooth(0.4, 1.6)}")
+    for s_ in ("l", "r"): b[f"x_whisk_{s_}"] = R(f"50 * {smooth(0.5, 2.0)}")
     A["death"] = (2.4, b)
     out = {}
     for k, (L, bones) in A.items():
@@ -192,7 +199,12 @@ def veldanava_ambient():
         b[f"d_{s}_wing_mid"] = R(f"math.sin({T} * 300) * 3 * {rf}", 0, f"{sg} * 16 * {st}"); b[f"d_{s}_wing_low"] = R(f"math.sin({T} * 320 + 40) * 5 * {rf}", 0, f"{sg} * 10 * {st}")
         b[f"d_{s}_hand"] = R(f"10 * {cl}"); b[f"d_{s}_hand_lower"] = R(f"18 * {cl}")
     for i in range(3, 6): b[f"d_tail{i}"] = R(0, f"{sw} * math.sin({T} * 200 - {i * 40}) * {6 + i * 2}")
-    return {"animation.etheria_pdrg_veldanava.ambient": {"loop": True, "animation_length": 3600, "bones": b}}
+    idle = {"d_body": {"position": [0, f"math.sin({T} * 70) * 0.6", 0]}, "d_upper_body": {"rotation": [f"math.sin({T} * 70) * 1.2", 0, 0]},
+            "d_neck1": {"rotation": [f"math.sin({T} * 70 - 30) * 2", 0, 0]}, "d_neck2": {"rotation": [f"math.sin({T} * 70 - 50) * 1.5", 0, 0]}}
+    for i in range(1, 6): idle[f"d_tail{i}"] = {"rotation": [f"math.sin({T} * 50 - {i * 20}) * 2", f"math.sin({T} * 40 - {i * 35}) * {3 + i * 1.5}", 0]}
+    return {"animation.etheria_pdrg_veldanava.ambient": {"loop": True, "animation_length": 3600, "bones": b},
+            "animation.etheria_pdrg_veldanava.idle": {"loop": True, "animation_length": 3600, "bones": idle},
+            "animation.etheria_pdrg_veldanava.gait": {"loop": True, "animation_length": 3600, "bones": {}}}
 
 def main():
     A = {}

@@ -49,48 +49,6 @@
       "1 + 0.05 * math.sin(query.anim_time * 200)"
      ]
     },
-    "x_serp1": {
-     "rotation": [
-      "math.sin(query.anim_time * 120 - 40) * 5",
-      "math.sin(query.anim_time * 150 - 50) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
-      0
-     ]
-    },
-    "x_serp2": {
-     "rotation": [
-      "math.sin(query.anim_time * 120 - 80) * 5",
-      "math.sin(query.anim_time * 150 - 100) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
-      0
-     ]
-    },
-    "x_serp3": {
-     "rotation": [
-      "math.sin(query.anim_time * 120 - 120) * 5",
-      "math.sin(query.anim_time * 150 - 150) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
-      0
-     ]
-    },
-    "x_serp4": {
-     "rotation": [
-      "math.sin(query.anim_time * 120 - 160) * 5",
-      "math.sin(query.anim_time * 150 - 200) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
-      0
-     ]
-    },
-    "x_serp5": {
-     "rotation": [
-      "math.sin(query.anim_time * 120 - 200) * 5",
-      "math.sin(query.anim_time * 150 - 250) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
-      0
-     ]
-    },
-    "x_serp6": {
-     "rotation": [
-      "math.sin(query.anim_time * 120 - 240) * 5",
-      "math.sin(query.anim_time * 150 - 300) * (9 + 10 * math.min(1, query.modified_move_speed * 3))",
-      0
-     ]
-    },
     "x_mane1": {
      "rotation": [
       "math.sin(query.anim_time * 80 - 25) * 4",

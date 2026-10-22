@@ -22,7 +22,7 @@ TARGETS = {   # nome -> (geometrias, textura, ladrilhos)
     "sea_dragon": (["etheria_sea_dragon"], "etheria_sea_dragon", sdm.CFG["tiles"]),
 }
 # escala de render (forma de dragão) e caixa de colisão da forma de dragão
-SIZE = {"veldora": (1.7, (6.4, 9.5)), "velzard": (1.75, (5.6, 8.4)), "velgrynd": (1.75, (5.8, 8.6)), "veldanava": (1.45, (6.6, 9.8)), "sea_dragon": (2.1, (5.0, 3.6))}
+SIZE = {"veldora": (1.7, (6.4, 9.5)), "velzard": (1.75, (5.6, 8.4)), "velgrynd": (1.75, (5.8, 8.6)), "veldanava": (1.45, (6.6, 9.8)), "sea_dragon": (2.6, (6.0, 4.0))}
 
 # ------------------------------------------------------------------ ladrilhos HD
 def shade(c, k): return tuple(max(0, min(255, int(v * k))) for v in c)
@@ -160,6 +160,7 @@ def detail(geo, style="spine"):
 def main():
     report = {}
     for name, (geos, tex, tiles) in TARGETS.items():
+        if name in drl.BD_NAMES: continue      # 8.4: modelos do usuário (dragon_bd.py) - não sobrescrever
         n = 0
         for gname in geos:
             gp = os.path.join(RP, f"models/entity/{gname}.geo.json"); sp = os.path.join(SRC, f"{gname}.geo.json")
@@ -175,6 +176,7 @@ def main():
     json.dump(V, open(vp, "w"), indent=1)
     # escalas (RP) e colisão da forma de dragão (BP)
     for name, (sc, (cw, ch)) in SIZE.items():
+        if name in drl.BD_NAMES: continue      # tamanhos desses em dragon_bd.SIZE
         ep = os.path.join(RP, f"entity/{name}.entity.json"); E = json.load(open(ep)); sc_ = E["minecraft:client_entity"]["description"].setdefault("scripts", {})
         old = sc_.get("scale", "1.0")
         sc_["scale"] = re.sub(r"== 'dragon' \? [0-9.]+", f"== 'dragon' ? {sc}", old) if "'dragon'" in str(old) else str(sc)

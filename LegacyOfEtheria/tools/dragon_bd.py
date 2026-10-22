@@ -308,7 +308,7 @@ def serpent(roles_of):
         root = min(ends(next(c for c in C if c["i"] == up[0])), key=lambda p: old.nearest(p)[1])
         s0, _ = old.nearest(root)
         for i in up + lo + hand: assign[i] = s0
-    FAT = 1.35
+    FAT = 1.5
     M = remap(C, old, new, assign, fat=FAT)
     # posiciona: x centrado, cauda/barriga perto do chão, origem no peito
     L = old.L; pz = new.at(0.74 * L)
@@ -538,7 +538,7 @@ def serp_role(c, u):
 def serp_spec(p):
     return {"body0": ("scales", p["b0"], sh(p["b0"], 0.6)), "body1": ("scales", p["b1"], sh(p["b1"], 0.6)), "body2": ("scales", p["b2"], sh(p["b2"], 0.6)),
             "body3": ("scales", p["b3"], sh(p["b3"], 0.6)), "back": ("ridge", p["back"], sh(p["back"], 0.6), p["edge"]), "belly": ("plates", p["belly"], p["belly2"]),
-            "head": ("scales", p["head"], sh(p["head"], 0.6)), "headdark": ("ridge", p["hdark"], sh(p["hdark"], 0.6), p["edge"]), "horn": ("horn", p["horn"], p["horn2"]),
+            "head": ("scales", p["head"], sh(p["head"], 0.6)), "headdark": ("scales", p["hdark"], sh(p["hdark"], 0.6)), "horn": ("horn", p["horn"], p["horn2"]),
             "eye": ("eye", p["eye0"], p["eye"]), "tooth": ("horn", p["tooth"], (255, 255, 255)), "whisker": ("horn", p["whisk"], p["whisk2"]),
             "mane": (p["mk"], p["m1"], p["m1b"], p["mc"]), "mane2": (p["mk"], p["m2"], p["m2b"], p["mc"]), "mane3": (p["mk"], p["m3"], p["m3b"], p["mc"]),
             "feather": ("feather", p["feather"], p["feather2"]), "fin": ("fan", p["fin"], p["fin2"]), "clawsprite": ("clawsprite", p["claw"], p["claw2"]),
@@ -575,7 +575,7 @@ def gelo_role(c, u):
 VELDANAVA_SPEC = {"scales": ("scales", (248, 248, 252), (206, 212, 228)), "belly": ("plates", (252, 246, 232), (222, 196, 140)), "head": ("scales", (252, 252, 255), (210, 216, 232)),
                   "ridge": ("ridge", (240, 200, 92), (168, 118, 38), (255, 244, 190)), "fin": ("fan", (96, 224, 214), (34, 150, 160)), "horn": ("horn", (250, 236, 196), (228, 182, 80)),
                   "gold": ("horn", (238, 192, 80), (255, 236, 160)), "claw": ("horn", (226, 180, 70), (255, 230, 150)), "eye": ("glow", (90, 255, 236), (220, 255, 250)),
-                  "wbone": ("horn", (246, 246, 250), (230, 196, 110)), "membrane": ("membrane", (250, 252, 255), (150, 226, 222), (226, 186, 84))}
+                  "wbone": ("horn", (246, 246, 250), (230, 196, 110)), "membrane": ("membrane", (252, 252, 255), (206, 240, 236), (232, 206, 140))}
 GELO_SCALE = 1.5                     # escala embutida no modelo da Veldanava (o chefe ganha o resto no scripts.scale)
 
 def scale_bones(bones, k):
@@ -624,6 +624,13 @@ def main():
     rep = build_all()
     for k, v in rep.items(): print(k, "ossos/cubos/tamanho(blocos, escala 1):", v)
     sizes()
+    # idle/gait antigos (com query.life_time) destes três saem de etheria_pdrg_real; os novos vêm de serpent_float/dragon_acts
+    rp = os.path.join(RP, "animations/etheria_pdrg_real.animation.json")
+    if os.path.exists(rp):
+        A = json.load(open(rp))
+        for n in NAMES:
+            for k in ("idle", "gait"): A["animations"].pop(f"animation.etheria_pdrg_{n}.{k}", None)
+        json.dump(A, open(rp, "w"), indent=1)
     import serpent_float, dragon_acts
     serpent_float.main(); dragon_acts.main()
     print("ok")

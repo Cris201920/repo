@@ -19,7 +19,7 @@
     "overlay_color": "#ff7a2a"
    },
    "scripts": {
-    "scale": "query.property('etheria:form') == 'dragon' ? 1.75 : 1.05",
+    "scale": "query.property('etheria:form') == 'dragon' ? 1.1 : 1.05",
     "animate": [
      {
       "idle": "query.property('etheria:form') == 'dragon'"
@@ -55,7 +55,7 @@
    },
    "animations": {
     "idle": "animation.etheria_pdrg_velgrynd.idle",
-    "fly": "animation.etheria_pdrg.fly",
+    "fly": "animation.etheria_pdrg_velgrynd.serpent_fly",
     "attack": "animation.etheria_serp_velgrynd.player_attack",
     "bite": "animation.etheria_serp_velgrynd.bite",
     "claw": "animation.etheria_serp_velgrynd.claw",

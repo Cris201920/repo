@@ -13,6 +13,7 @@
 import json, os, math, random
 from PIL import Image, ImageDraw, ImageFilter
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); RP = os.path.join(ROOT, "LegacyOfEtheria_RP")
+BD_NAMES = ("velzard", "velgrynd", "veldanava")              # 8.4: convertidos dos .bdengine do usuário por dragon_bd.py
 TS = 32                                                     # ladrilho 32x32 num atlas 512x512 (mais definição)
 
 # ------------------------------------------------------------------ texturas
@@ -549,6 +550,7 @@ def anims():
     ap = os.path.join(RP, "animations/etheria_pdrg_real.animation.json"); A = {}
     S = "math.sin(query.life_time"
     for name, cfg in DRAGONS.items():
+        if name in BD_NAMES: continue          # 8.4: idle/gait desses vêm de serpent_float.py / dragon_acts.py
         quad = cfg["plan"] == "quad"
         b = {"d_body": {"position": [0, f"{S} * 70) * 0.6", 0]}, "d_upper_body": {"rotation": [f"{S} * 70) * 1.2", 0, 0]},
              "d_neck1": {"rotation": [f"{S} * 70 - 30) * 2", f"{S} * 22) * 4", 0]}, "d_neck2": {"rotation": [f"{S} * 70 - 50) * 1.5", f"{S} * 22 - 30) * 4", 0]},
@@ -587,7 +589,9 @@ def wire():
     open(pe, "w").write(json.dumps(E, indent=1, ensure_ascii=False) + "\n")
 
 if __name__ == "__main__":
-    for name, cfg in DRAGONS.items(): print(name, "ossos/cubos:", write(name, cfg))
+    for name, cfg in DRAGONS.items():
+        if name in BD_NAMES: print(name, "pulado: modelo do usuário (dragon_bd.py)"); continue   # 8.4: não sobrescreve
+        print(name, "ossos/cubos:", write(name, cfg))
     anims(); wire()
     import anim_time_fix, serpent_float   # noqa: E401  (anim_time_fix roda ao importar)
     serpent_float.main()
