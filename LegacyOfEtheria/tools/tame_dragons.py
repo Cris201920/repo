@@ -23,7 +23,7 @@ FIRE_GOLD = [(0, (50, 14, 0)), (0.5, (220, 110, 20)), (1, (255, 226, 120))]
 FOOD = {"carne_draconica": ("Carne Dracônica", "Draconic Meat", "§c"), "peixe_glacial": ("Peixe Glacial", "Glacial Fish", "§b")}
 DRAGONS = {
     "dragon_carmim": {"name": "Dragão Carmim", "en": "Crimson Dragon", "base": "void_dragon", "src": "etheria_pdrg_veldanava", "pal": CRIMSON, "gold": FIRE_GOLD,
-                      "scale": 0.26, "box": [1.6, 1.8], "hp": 90, "thp": 160, "dmg": 9, "spd": 0.27, "seat": [0, 1.25, 0.25], "fire": True,
+                      "scale": 0.26, "gamma": 1.7, "box": [1.6, 1.8], "hp": 90, "thp": 160, "dmg": 9, "spd": 0.27, "seat": [0, 1.25, 0.25], "fire": True,
                       "food": ["carne_draconica"], "egg": ["#5a0a0e", "#f0a040"], "effect": None,
                       "biome": {"any_of": [{"test": "has_biome_tag", "value": "mesa"}, {"test": "has_biome_tag", "value": "savanna"}, {"test": "has_biome_tag", "value": "desert"}]},
                       "loot": [("etheria:dragon_essence", 1, 2, 0.6), ("minecraft:blaze_powder", 1, 3, 0.7), ("minecraft:leather", 1, 3, 1)]},
@@ -170,7 +170,7 @@ def main():
     n = 0; pt, en = [], []
     it = json.load(open(os.path.join(RP, "textures/item_texture.json"), encoding="utf-8"))
     for did, d in DRAGONS.items():
-        im = recolor(os.path.join(RP, "textures/entity", d["src"] + ".png"), d["pal"], keep_skin=False, gold=d["gold"], stretch=True)
+        im = recolor(os.path.join(RP, "textures/entity", d["src"] + ".png"), d["pal"], keep_skin=False, gold=d["gold"], stretch=True, gamma=d.get("gamma", 1.0))
         save_png(os.path.join(RP, "textures/entity", f"etheria_{did}.png"), im)
         n += W(os.path.join(BP, "entities", did + ".json"), bp_dragon(did, d))
         n += W(os.path.join(RP, "entity", did + ".entity.json"), rp_dragon(did, d))
