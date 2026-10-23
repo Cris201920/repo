@@ -8,7 +8,7 @@ import { ATTRIBUTES, STAT_LABELS, MAX_LEVEL, ATTR_POINTS_PER_LEVEL, SKILL_POINT_
 import { SKILLS } from "../../data/skills.js";
 import { RACES, RACE_LIST, stageOf, raceOf, nextStages, isLordStage } from "../../data/races.js";
 import { raceSheet, raceStyle, evoReqs, evoProgress, evoChanges, RACE_LOOK, STAGE_LOOK, RACE_DIFF, raceCardRanges, padTo } from "../../data/racecard.js";
-import { skillLine, rarityOf } from "../../data/skillfmt.js";
+import { skillLine, rarityOf, tierOf } from "../../data/skillfmt.js";
 import { sageSay, sageStage } from "../voice.js";
 import { CLASSES } from "../../data/classes.js";
 import { LINEAGE_RACE, LINEAGES, LINEAGE_FORMS, lineageOf, formOfPlayer, raceDepth, bossTotal } from "../../data/lineages.js";
@@ -177,19 +177,49 @@ function treeOf(r) {
   walk(r.root, "", true, true);
   return L.join("\n");
 }
-// 8.9: REENCARNAÇÃO no estilo do vídeo de referência (pacote Sábio UI): cena de abertura (Sorteio. / O último desejo. / A Ampulheta /
-// Aptidão encontrada. + faixa vermelha com a aptidão sorteada) -> carrossel de cartões (retrato de corpo inteiro, selo de dificuldade,
+// 8.9: REENCARNAÇÃO no estilo do vídeo de referência: cena de abertura -> carrossel de cartões (retrato de corpo inteiro, selo de dificuldade,
 // Mana/Aura/Alinhamento, Habilidades intrínsecas, descrição, < ESCOLHER >) -> "Confirmar?" no mesmo cartão -> esfera "Reencarnação completa.".
-// O pacote principal (sem o opcional) recebe os MESMOS formulários e os mostra nas telas de sempre (cartão / formulário temático).
+// 8.13: ABERTURA COMPLETA na ordem do vídeo (tools/gen_sage_ui.py -> eth_sg_intro_form): disco de runas "0%"->"100%", esfera
+// "Morte confirmada." / "Alma capturada. Está intacta." / "Sequência de reencarnação iniciada." e uma RODADA por revelação (até 3):
+// quadro "Sorteio." + assinatura desenhada -> forma no céu -> TRIÂNGULO (habilidade única/ultimate; sem única, a intrínseca principal)
+// ou FAIXA VERMELHA (cada resistência inicial da raça: habilidades de resistência e as resistências raciais res_* do estágio inicial).
+// Cada rodada vai num botão de dados: marcador da rodada (§u§k) + tipo (§m§t triângulo, §m§r resistência, §m§a aptidão) + classe + nome.
+export const INTRO_OPEN = 7.6, INTRO_ROUND = 7.4, INTRO_MAX = 3;   // = tools/gen_sage_ui.py (o validador confere)
+const KIND = { tri: "§m§t", res: "§m§r", apt: "§m§a" };
+const TIERM = { unique: "§n§1", ultimate: "§n§2", intrinsic: "§n§3" };
+const RES_NAME = { res_physical: "Resistência Física", res_magic: "Resistência Mágica", res_fire: "Resistência ao Fogo", res_ice: "Resistência ao Gelo",
+  res_lightning: "Resistência a Raios", res_void: "Resistência ao Vazio" };
+const TIER_SND = { unique: "etheria.sage.tier.unique", ultimate: "etheria.sage.tier.ultimate", intrinsic: "etheria.sage.tier.intrinsic", res: "etheria.sage.tier.resistance", apt: "etheria.sage.tier.common" };
+/** revelações da abertura para a raça sorteada (dados reais: habilidades do estágio inicial e resistências raciais) */
+export function introReveals(r) {
+  const st = r.stages[r.root], ids = st.skills.filter((s) => SKILLS[s]), tier = (id) => tierOf(SKILLS[id]);
+  const out = [];
+  const top = ids.filter((id) => tier(id) === "unique" || tier(id) === "ultimate");
+  const tri = top.length ? top : ids.filter((id) => tier(id) === "intrinsic").slice(0, 1);
+  for (const id of tri) out.push({ kind: "tri", tier: tier(id), name: SKILLS[id].name });
+  const res = ids.filter((id) => tier(id) === "resistance").map((id) => SKILLS[id].name);
+  for (const [k, v] of Object.entries(st.stats ?? {}).filter(([k, v]) => RES_NAME[k] && v > 0).sort((a, b) => b[1] - a[1])) res.push(`${RES_NAME[k]} ${v}%`);
+  for (const n of res) out.push({ kind: "res", name: n });
+  if (!out.length && ids.length) out.push({ kind: "apt", name: SKILLS[ids[0]].name });
+  if (out.length > INTRO_MAX) {   // o vídeo tem 3 desejos: o que sobra entra junto na última faixa
+    const last = out.slice(INTRO_MAX - 1); out.length = INTRO_MAX - 1;
+    out.push({ ...last[0], name: last.map((x) => x.name).join(" · ") });
+  }
+  return out;
+}
 const introSeen = new Set();
-/** abre a escolha de raça; na 1ª vez da sessão toca a cena de abertura e começa na raça sorteada */
+/** abre a escolha de raça; na 1ª vez da sessão toca a abertura e começa na raça sorteada */
 export function openRaceIntro(player) {
   const n = RACE_LIST.length;
   if (introSeen.has(player.id)) return openRacePickV2(player, 0);
   introSeen.add(player.id);
-  const i = Math.floor(Math.random() * n), r = RACE_LIST[i], st = r.stages[r.root];
-  const apt = st.skills.map(skillName)[0] ?? r.name;
-  scene(player, "intro", apt, `Aptidão de ${r.name}`, "§lPular »", () => openRacePickV2(player, i), 190);
+  const i = Math.floor(Math.random() * n), r = RACE_LIST[i];
+  const rv = introReveals(r);
+  const data = rv.map((x, k) => `§u§${k + 1}${KIND[x.kind]}${TIERM[x.tier] ?? ""}§r§f${x.name}`);
+  const sec = (t) => Math.round(t * 20);
+  const sounds = [[sec(0.2), "etheria.sage.sfx.open"], [sec(2.8), "etheria.sage.sfx.skill"]];
+  rv.forEach((x, k) => { const S = INTRO_OPEN + k * INTRO_ROUND; sounds.push([sec(S + 4.4), TIER_SND[x.kind === "tri" ? x.tier : x.kind] ?? TIER_SND.apt]); });
+  scene(player, "intro", r.name, `Aptidão de ${r.name}`, "§lPular »", () => openRacePickV2(player, i), sec(INTRO_OPEN + rv.length * INTRO_ROUND + 0.4), data, sounds);
 }
 function cardBody(r, st, confirm) {
   const R = raceCardRanges(r), sk = st.skills.map(skillName);

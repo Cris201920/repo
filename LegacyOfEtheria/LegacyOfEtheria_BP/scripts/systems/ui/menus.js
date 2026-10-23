@@ -126,13 +126,16 @@ export function openOwnedSkills(player, page = 0, onBack) {
   const d = getData(player), list = d.unlockedSkills.map((id) => SKILLS[id]).filter(Boolean).sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name));
   const per = 8, pages = Math.max(1, Math.ceil(list.length / per)), pg = Math.max(0, Math.min(page, pages - 1));
   const again = (n) => openOwnedSkills(player, n, onBack);
-  const b = list.slice(pg * per, pg * per + per).map((sk) => ({ text: `${R(sk.rarity).color}§l${sk.name}\n§r${rarityTag(sk)} §8• ${tierTag(sk)} §8• §0${modeOf(sk)}`, icon: "skill_" + sk.id, run: () => openSkillDetail(player, sk.id, 0, () => again(pg)) }));
+  // 8.13: "Ability Archive" do vídeo: uma linha por habilidade, nome na cor da raridade e ★ nas Únicas/Ultimates (a ficha completa abre ao tocar)
+  const star = (sk) => (["unique", "ultimate"].includes(tierOf(sk)) ? " §e★" : "");
+  const b = list.slice(pg * per, pg * per + per).map((sk) => ({ text: `${R(sk.rarity).color}${sk.name}${star(sk)}`, icon: "skill_" + sk.id, run: () => openSkillDetail(player, sk.id, 0, () => again(pg)) }));
   if (pg > 0) b.push({ text: "« Página anterior", run: () => again(pg - 1) });
   if (pg < pages - 1) b.push({ text: "Próxima página »", run: () => again(pg + 1) });
   b.push(back(onBack ?? (() => openSkills(player))));
   const body = [`§a§l[Grande Sábio]§r §fRegistro de habilidades do hospedeiro.`, tierCount(d.unlockedSkills) || "§7Nenhuma habilidade registrada.",
-    "§8Raridade • Tipo • Ativa/Passiva · toque para ver Mana, Recarga, Nível, Custo e requisito.", `§7Página ${pg + 1}/${pages}`].join("\n");
-  menu(player, "§l§aREGISTRO DO SÁBIO", body, b, sageTh(d));
+    "", ...list.slice(pg * per, pg * per + per).map((sk) => `${R(sk.rarity).color}${sk.name}${star(sk)} §8— ${rarityTag(sk)} §8• ${tierTag(sk)} §8• §7${modeOf(sk)}`),
+    "", "§8Toque numa habilidade para ver Mana, Recarga, Nível, Custo e requisito.", `§7Página ${pg + 1}/${pages}`].join("\n");
+  menu(player, "Registro do Sábio", body, b, `arch:${sageTh(d)}`);
 }
 export function openQuickCast(player) {
   const d = getData(player);
@@ -226,9 +229,13 @@ function openMaterials(player) {
 // ---------------------------------------------------------------- missões
 export function openQuests(player) {
   const d = getData(player), ids = Object.keys(d.quests.active);
-  const b = ids.map((id) => ({ text: `§l${QUESTS[id].name}\n§r${describe(player, id)[0] ?? ""}`, icon: "menu_quests", run: () => openQuestDetail(player, id) }));
+  // 8.13: mesma janela do "Ability Archive"/"Prestige Menu > QUESTS" do vídeo: missões à esquerda ("Nome [feitos/total]"), detalhes à direita
+  const prog = (id) => { const q = QUESTS[id], st = d.quests.active[id]; return `[${q.objectives.filter((o, i) => (st?.p[i] ?? 0) >= o.n).length}/${q.objectives.length}]`; };
+  const b = ids.map((id) => ({ text: `§a${QUESTS[id].name} §f${prog(id)}`, icon: "menu_quests", run: () => openQuestDetail(player, id) }));
   b.push(back(() => openMain(player)));
-  menu(player, "§l§eMISSÕES", `§7Ativas: ${ids.length}/6   Concluídas: ${d.quests.completed.length}\n§8Aceite missões com o Viajante ou a Guilda.`, b);
+  const body = [`§7Ativas: ${ids.length}/6   Concluídas: ${d.quests.completed.length}`, "§8Aceite missões com o Viajante ou a Guilda.",
+    ...ids.flatMap((id) => ["", `§a§l${QUESTS[id].name}`, ...describe(player, id)])].join("\n");
+  menu(player, "Missões", body, b, "arch");
 }
 function openQuestDetail(player, id) {
   const q = QUESTS[id];

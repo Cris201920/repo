@@ -585,7 +585,7 @@ def intro_defs():
     D = {}
     rows = [card_variant(0, "»", text_btn([64, 15], "bottom_right", "bottom_right", [-6, -2], "sg_pill_dim", txt=(0.86, 0.9, 0.97), scale=0.62,
                                          **{"$hover_button_texture": T("sg_pill_h"), "$pressed_button_texture": T("sg_pill_p")}))]
-    rows += [card_variant(k, RMARK[k], round_ctl(k)) for k in range(1, INTRO_MAX + 1)]
+    rows += [card_variant(k, RMARK[k], {"round": round_ctl(k)}) for k in range(1, INTRO_MAX + 1)]
     D["eth_sg_intro_row"] = {"type": "panel", "size": ["100%", "100%"], "controls": rows}
     sphere = lambda: {"type": "panel", "size": ["100%y", "88%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-4%"], "layer": 4, "controls":
         [{f"g{k}": img(T(f"sg_geo_{k}"), ["100%", "100%"], keep_ratio=False, anchor_from="center", anchor_to="center", alpha=0.0, layer=1, anims=[f"@{NS}.eth_sgg{k}_start"])} for k in range(12)]

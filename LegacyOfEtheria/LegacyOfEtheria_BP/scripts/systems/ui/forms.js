@@ -31,8 +31,10 @@ export function themed(player, title, theme) {
   if (classic(player) || String(title).startsWith(UI_BASE)) return title;
   let th = theme ?? ctxTheme, sg = false;
   if (typeof th === "string" && th.endsWith("+sg")) { sg = true; th = th.slice(0, -3); }
+  let sub = "";   // 8.13: "arch:raphael" = Ability Archive com o nome do Sábio do estágio (Grande Sábio / Raphael / Ciel) no campo de cima
+  if (typeof th === "string" && th.startsWith("arch:")) { sub = THEME[th.slice(5)] ?? ""; th = "arch"; }
   if (SG_THEMES.has(th)) sg = true;
-  return UI_BASE + (sg ? SG : "") + (THEME[th] ?? THEME.tree) + "§r" + title;
+  return UI_BASE + (sg ? SG : "") + (THEME[th] ?? THEME.tree) + sub + "§r" + title;
 }
 
 export function show(player, form, cb, tries = 0) {
