@@ -63,7 +63,7 @@ export function openMain(player) {
     { text: "§lRanking", icon: "menu_ranking", run: () => openRanking(player) },
     { text: "§lConfigurações", icon: "menu_settings", run: () => openSettings(player) },
     ...(canSpawnStructures(player) ? [{ text: "§lGerar Estrutura\n§r§7Tempest, Guy Crimson, reinos, arenas", icon: "menu_ranking", run: () => openStructMenu(player) }] : []),
-  ]);
+  ], sageTh(d));
 }
 
 // ---------------------------------------------------------------- status / atributos
