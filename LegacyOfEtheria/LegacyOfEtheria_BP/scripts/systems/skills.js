@@ -30,6 +30,8 @@ export function cdLeft(player, key) {
   return Math.max(0, (t - system.currentTick) / 20);
 }
 export function setCdHook(fn) { cdHook = fn; }
+/** inicia a recarga de uma habilidade (segundos) - usado pela passiva do Domo (systems/domepassive.js) para dividir a recarga com a ativa */
+export function startCd(player, key, seconds) { setCd(player, key, seconds); }
 function setCd(player, key, seconds) {
   let m = cooldowns.get(player.id); if (!m) { m = new Map(); cooldowns.set(player.id, m); }
   const ticks = Math.floor(seconds * 20);

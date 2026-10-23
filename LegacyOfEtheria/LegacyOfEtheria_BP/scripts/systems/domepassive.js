@@ -1,11 +1,13 @@
-// systems/domepassive.js - 7.x: DOMO DE PROTEÇÃO como PASSIVA (habilidade "range_barrier", Raro • Intrínseca • Passiva).
+// systems/domepassive.js - DOMO DE PROTEÇÃO como PASSIVA + ATIVA (habilidade "range_barrier", Raro • Intrínseca • Ativa/Passiva).
 // Dispara SOZINHA quando o jogador leva um golpe forte (>= 25% da vida máxima num golpe só) ou fica com a vida baixa (<= 40%):
 // absorção (Absorção VI) + resistência (Resistência II e +8 Defesa, +15% res. mágica, +30% res. a projéteis) por 15 s, com um domo de partículas
-// que acompanha o jogador. Custa 22 de mana no disparo e respeita a recarga de 20 s (salva em d.cd, como as outras recargas).
+// que acompanha o jogador. Custa 22 de mana no disparo e usa a MESMA recarga de 20 s da ativa (systems/skills.js: cdLeft/startCd).
+// Não soma com a ativa: se o domo ativo (buff "barrier") ou o passivo já estiver no ar, não dispara de novo.
 // Sem mana suficiente o domo não abre (o Sábio avisa, no máx. 1x por minuto). Dano do vazio e /kill nunca disparam.
 import { world, system, Player } from "@minecraft/server";
 import { getData, markDirty } from "../core/db.js";
-import { addBuff } from "./effects.js";
+import { addBuff, hasBuff } from "./effects.js";
+import { cdLeft, startCd } from "./skills.js";
 import { ctx, mote, ringFlat, implode, burst, T } from "./fxlib.js";
 import { dome } from "./spellvfx.js";
 import { sageText } from "./voice.js";
@@ -18,8 +20,9 @@ const cfg = () => SK()?.passive ?? { sec: 15, absorb: 6, hpBelow: 0.4, bigHit: 0
 const SKIP = new Set(["void", "selfDestruct", "suicide", "override"]);
 const shells = new Map();   // playerId -> tick final do domo (partículas)
 
-export const hasDome = (d) => (d?.unlockedSkills ?? []).includes(DOME_ID) && SK()?.type === "passive";
-export function domeReadyIn(d) { const t = d?.cd?.[DOME_ID] ?? 0; return Math.max(0, (t - Date.now()) / 1000); }
+export const hasDome = (d) => (d?.unlockedSkills ?? []).includes(DOME_ID) && !!SK()?.passive;
+/** segundos até a recarga do Domo acabar (a mesma da ativa) */
+export function domeReadyIn(p) { return cdLeft(p, DOME_ID); }
 
 /** decide e abre o domo. info = { damage, cause, hp, max }. Devolve "open" | "cd" | "mana" | "" */
 export function tryDome(p, info) {
@@ -28,13 +31,15 @@ export function tryDome(p, info) {
   const c = cfg(), max = Math.max(1, info.max ?? 20), dmg = info.damage ?? 0, hp = info.hp ?? max;
   if (!(dmg > 0)) return "";
   if (!(dmg >= max * c.bigHit || hp <= max * c.hpBelow)) return "";
-  if (domeReadyIn(d) > 0) return "cd";
+  if (domeReadyIn(p) > 0) return "cd";
+  if (domeActive(p) || hasBuff(p, "barrier")) return "";   // já há um domo no ar (passivo ou o da ativa): não soma
   const cost = SK().mana ?? 22;
   if ((d.mana ?? 0) < cost) {
     try { sageText(p, "Domo de Proteção: mana insuficiente para abrir o domo.", { pri: 4, key: "dome.nomana", cd: 1200 }); } catch { /* ignore */ }
     return "mana";
   }
-  d.mana -= cost; d.cd ??= {}; d.cd[DOME_ID] = Date.now() + (SK().cd ?? 20) * 1000; markDirty(p);
+  d.mana -= cost; markDirty(p);
+  startCd(p, DOME_ID, SK().cd ?? 20);   // mesma recarga da ativa (salva com as outras recargas)
   openDome(p, c);
   return "open";
 }
@@ -82,6 +87,6 @@ export function startDomePassive() {
   addHudLine((p) => {
     const d = getData(p); if (!hasDome(d)) return "";
     if (shells.has(p.id)) return `§b◎ Domo ${Math.ceil((shells.get(p.id) - system.currentTick) / 20)}s`;
-    const cd = domeReadyIn(d); return cd > 0 ? `§8◎ Domo ${Math.ceil(cd)}s` : "";
+    const cd = domeReadyIn(p); return cd > 0 ? `§8◎ Domo ${Math.ceil(cd)}s` : "";
   });
 }

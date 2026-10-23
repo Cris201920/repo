@@ -24,7 +24,7 @@ export function tierOf(sk) {
 }
 export const tierOfSkill = (id) => tierOf(SKILLS[id]);
 export const tierTag = (sk) => { const t = tierOf(sk); return `${TIER_COLOR[t]}${TIER_LABEL[t]}`; };
-export const modeOf = (sk) => (sk.type === "active" ? "Ativa" : sk.trigger ? "Ativa/Passiva" : "Passiva");
+export const modeOf = (sk) => (sk.type === "active" ? (sk.trigger ? "Ativa/Passiva" : "Ativa") : sk.trigger ? "Ativa/Passiva" : "Passiva");
 export const rarityOf = (sk) => RARITY[sk?.rarity] ?? RARITY.common;
 export const rarityTag = (sk) => { const r = rarityOf(sk); return `${r.color}${r.name}`; };
 const usesMana = (sk) => sk.type === "active" || !!sk.trigger;

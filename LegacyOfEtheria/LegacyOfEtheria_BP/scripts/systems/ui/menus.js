@@ -160,7 +160,7 @@ export function openLearn(player, page) {
   if (page > 0) b.push({ text: "« Página anterior", run: () => openLearn(player, page - 1) });
   if (page < pages - 1) b.push({ text: "Próxima página »", run: () => openLearn(player, page + 1) });
   b.push(back(() => openSkills(player)));
-  menu(player, "§l§bAPRENDER", `§a§l[Grande Sábio]§r §fHabilidades que você pode adquirir com pontos.\n§bPontos: ${d.skillPoints}   §7Página ${page + 1}/${pages}`, b, sageTh(d));
+  menu(player, "§l§bAPRENDER", `§a§l[Grande Sábio]§r §fHabilidades que você pode adquirir com pontos.\n§bPontos: ${d.skillPoints}   §7Página ${page + 1}/${pages}`, b, "sage");   // Grande Sábio animado (fixo, não pelo estágio)
 }
 /** ficha da habilidade no formato do Sábio. onBack opcional (padrão: lista de aprender na página `page`) */
 export function openSkillDetail(player, id, page = 0, onBack) {
@@ -170,7 +170,7 @@ export function openSkillDetail(player, id, page = 0, onBack) {
   const b = [];
   if (!own && !why) b.push({ text: "§a§lAprender", icon: "skill_" + id, run: () => { msg(player, learnSkill(player, id)); (onBack ?? (() => openLearn(player, page)))(); } });
   b.push(back(onBack ?? (() => openLearn(player, page))));
-  menu(player, `§l${sk.name}`, body, b, sageTh(d));
+  menu(player, `§l${sk.name}`, body, b, "sage");   // ficha no visual do Grande Sábio animado (fixo, não pelo estágio)
 }
 export function openEquip(player) {
   const d = getData(player);

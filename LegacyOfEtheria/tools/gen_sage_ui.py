@@ -267,16 +267,16 @@ def gen_intro_textures(save):
     import random
     # planeta escuro do disco (1-3 s): esfera quase preta, nuvens azuladas no alto à esquerda, borda azul fraca
     P = 256; pl = Image.new("RGBA", (P, P), (0, 0, 0, 0)); pp = pl.load(); rnd = random.Random(7)
-    blobs = [(rnd.uniform(0.15, 0.6), rnd.uniform(0.12, 0.45), rnd.uniform(0.05, 0.13)) for _ in range(26)]
+    blobs = [(rnd.uniform(0.3, 0.7), rnd.uniform(0.1, 0.3), rnd.uniform(0.04, 0.09)) for _ in range(22)]
     for y in range(P):
         for x in range(P):
             dx, dy = (x - P / 2 + 0.5) / (P / 2), (y - P / 2 + 0.5) / (P / 2); r = math.hypot(dx, dy)
             if r > 1: continue
             u, v = x / P, y / P; c = 0.0
             for (bx, by, br) in blobs: c += max(0.0, 1 - math.hypot(u - bx, (v - by) * 1.6) / br) * 0.55
-            c = min(1.0, c) * max(0.0, 1 - math.hypot(u - 0.36, v - 0.3) / 0.42)
+            c = min(1.0, c) * 0.55 * max(0.0, 1 - math.hypot(u - 0.5, v - 0.22) / 0.34)
             rim = max(0.0, (r - 0.86) / 0.14) ** 2
-            pp[x, y] = (int(4 + 120 * c + 30 * rim), int(8 + 135 * c + 50 * rim), int(16 + 160 * c + 80 * rim), int(255 * min(1.0, (1 - r) * 60)))
+            pp[x, y] = (int(4 + 120 * c + 12 * rim), int(8 + 135 * c + 20 * rim), int(14 + 160 * c + 34 * rim), int(255 * min(1.0, (1 - r) * 60)))
     save(pl, "sg_planet")
     # anel de runas: faixa externa de placas claras (205,200,182) com glifos escuros + faixa interna azul-escura com constelações claras
     gl = random.Random(31); glyph = [[(gl.uniform(-1, 1), gl.uniform(-1, 1)) for _ in range(gl.choice([3, 4, 5]))] for _ in range(24)]
@@ -285,7 +285,7 @@ def gen_intro_textures(save):
     for k in range(RUNE_N):
         def ring(d, m, big, k=k):
             c = S * m / 2; rot = math.radians(k * 15 / RUNE_N)
-            R1, R2, R3, R4 = 0.995 * c, 0.80 * c, 0.78 * c, 0.52 * c
+            R1, R2, R3, R4 = 0.995 * c, 0.81 * c, 0.79 * c, 0.57 * c
             d.ellipse([c - R1, c - R1, c + R1, c + R1], fill=(26, 46, 66, 255)); d.ellipse([c - R3, c - R3, c + R3, c + R3], fill=(14, 30, 48, 255))
             d.ellipse([c - R4, c - R4, c + R4, c + R4], fill=(0, 0, 0, 0))
             for i in range(24):
@@ -296,7 +296,7 @@ def gen_intro_textures(save):
                 d.line([(cx + sc * px, cy + sc * py) for px, py in glyph[i]], fill=(30, 36, 44, 255), width=max(1, int(1.6 * m)))
                 cx, cy = c + (R3 + R4) / 2 * math.cos(am), c + (R3 + R4) / 2 * math.sin(am); sc = (R3 - R4) * 0.33
                 pts = [(cx + sc * px, cy + sc * py) for px, py in cons[i]]
-                d.line(pts + [pts[0]], fill=(150, 180, 200, 200), width=max(1, int(m))); [d.ellipse([x - 1.6 * m, y - 1.6 * m, x + 1.6 * m, y + 1.6 * m], fill=(225, 238, 255, 255)) for x, y in pts]
+                d.line(pts + [pts[0]], fill=(110, 140, 160, 140), width=max(1, int(m))); [d.ellipse([x - 1.6 * m, y - 1.6 * m, x + 1.6 * m, y + 1.6 * m], fill=(190, 205, 220, 210)) for x, y in pts]
             for R in (R2, R3, R4 + 2 * m):
                 d.ellipse([c - R, c - R, c + R, c + R], outline=(120, 150, 170, 180), width=max(1, int(m)))
         save(_aa(ring, S, S), f"sg_runes_{k}")
@@ -316,7 +316,7 @@ def gen_intro_textures(save):
     # triângulo invertido marfim (21-23 s): linha grossa (1% da altura da tela), cantos vivos
     TW, TH = 512, 464
     def tri(d, m, big):
-        w = 9 * m; A, B, C = (w, w), (TW * m - w, w), (TW * m / 2, TH * m - w)
+        w = 5.5 * m; A, B, C = (w, w), (TW * m - w, w), (TW * m / 2, TH * m - w)
         for (p, q) in ((A, B), (B, C), (C, A)): d.line([p, q], fill=(236, 230, 216, 255), width=int(w))
         for p in (A, B, C): d.ellipse([p[0] - w / 2, p[1] - w / 2, p[0] + w / 2, p[1] + w / 2], fill=(236, 230, 216, 255))
     save(_aa(tri, TW, TH, 2), "sg_tri")
@@ -524,7 +524,7 @@ def intro_anims():
         A.update(fade(f"{n}_sh", S + 3.0, S + 4.4, fd=0.25)); A.update(fade(f"{n}_ss", S + 3.25, S + 4.4, a=0.85, fd=0.25)); A.update(fade(f"{n}_c2", S + 3.1, S + 4.4, fd=0.2))
         A.update(fade(f"{n}_tr", S + 4.4, S + 7.3, fd=0.35)); A.update(fade(f"{n}_tn", S + 4.8, S + 7.3, fd=0.3))
         A[f"{n}_tz_w"] = {"anim_type": "wait", "duration": S + 4.4, "next": f"@{NS}.{n}_tz"}
-        A[f"{n}_tz"] = {"anim_type": "size", "easing": "out_cubic", "from": ["110%y", "140%"], "to": ["110%y", "100%"], "duration": 0.7}
+        A[f"{n}_tz"] = {"anim_type": "size", "easing": "out_cubic", "from": ["140%", "140%"], "to": ["100%", "100%"], "duration": 0.7}
         A[f"{n}_sl_w"] = {"anim_type": "wait", "duration": S + 4.4, "next": f"@{NS}.{n}_sl"}
         A[f"{n}_sl"] = {"anim_type": "offset", "easing": "out_cubic", "from": ["-100%", "-11.5%"], "to": [0, "-11.5%"], "duration": 0.4}
         A.update(fade(f"{n}_bn", S + 4.4, S + 7.3, fd=0.3)); A.update(fade(f"{n}_bt", S + 4.75, S + 5.95, fd=0.25)); A.update(fade(f"{n}_bg", S + 6.0, S + 7.25, a=0.95, fd=0.25))
@@ -546,12 +546,12 @@ def round_ctl(r):
     brk = lambda nm, an, off: {f"b_{nm}": img(T(f"sg_brk_{nm}"), ["100%y", "7.7%"], keep_ratio=False, anchor_from=an, anchor_to=an, offset=off, layer=3, alpha=0.0, anims=a("fr"))}
     C = [
         # quadro preto do desenho, borda branca fina, cantoneira; "Sorteio." apagado no meio até a caneta começar
-        {"draw": {"type": "panel", "size": ["100% - 22px", "83.6%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-2.1%"], "layer": 4, "controls": [
+        {"draw": {"type": "panel", "size": ["116%y", "89%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-2%"], "layer": 4, "controls": [
             {"black": img("textures/ui/Black", ["100%", "100%"], keep_ratio=False, layer=1, alpha=0.0, anims=a("fr"))},
             {"thin": img(T("sg_thin"), ["100%", "100%"], keep_ratio=False, layer=2, alpha=0.0, anims=a("fr"))},
             brk("tl", "top_left", [3, 3]),
             {"dw": lbl("Sorteio.", 0.62, [0.78, 0.8, 0.86], anchor_from="center", anchor_to="center", layer=4, alpha=0.0, anims=a("dw"))},
-            {"sign": {"type": "panel", "size": ["86%", "70%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-4%"], "layer": 4, "controls": [
+            {"sign": {"type": "panel", "size": ["96%", "60%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-4%"], "layer": 4, "controls": [
                 {f"s{k}": img(T(f"sg_sig{r - 1}_{k}"), ["100%", "100%"], layer=1, alpha=0.0, anims=a(f"s{k}"))} for k in range(SIG_N)]}}]}},
         {"c1": legend(DRAW_CAP[r - 1], anim=f"{n}_c1")},
         # forma reconhecida: hexágono apagado + brilho azul + nome (e a frase embaixo)
@@ -562,21 +562,22 @@ def round_ctl(r):
         # TRIÂNGULO (habilidade única): linha marfim, nome grande no meio, classe na vertical à direita, "ADQUI-"/"RIDO" nos cantos (獲/得)
         {"tri": {"type": "panel", "size": ["100%", "100%"], "layer": 8, "bindings": cbind(has_b(KMARK["tri"])), "controls": [
             {"bk": img("textures/ui/Black", ["100%", "100%"], keep_ratio=False, layer=1, alpha=0.0, anims=a("tr"))},
-            {"tri": img(T("sg_tri"), ["110%y", "100%"], keep_ratio=False, anchor_from="top_middle", anchor_to="top_middle", offset=[0, "9%"], layer=2, alpha=0.0, anims=a("tr") + a("tz"))},
-            {"nm": {"type": "label", "text": "#form_button_text", "size": ["31%", "default"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-12%"], "text_alignment": "center",
-                    "font_size": "large", "font_scale_factor": 1.25, "color": [0.97, 0.95, 0.9], "layer": 4, "alpha": 0.0, "anims": a("tn"), "bindings": cbind()}},
-            *[{f"tt{i}": lbl("\n".join(TIER_TXT[t].replace(" ", "")), 0.42, [0.86, 0.84, 0.8], anchor_from="center", anchor_to="center", offset=["17.5%", "-14%"], layer=4, alpha=0.0,
-                             anims=a("tn"), bindings=cbind(has_b(TMARK[t])))} for i, t in enumerate(TMARK)],
-            {"cl": lbl("ADQUI-", 0.72, [0.92, 0.9, 0.86], anchor_from="top_middle", anchor_to="top_middle", offset=["-31%", "11%"], layer=4, alpha=0.0, anims=a("tn"))},
-            {"cr": lbl("RIDO", 0.72, [0.92, 0.9, 0.86], anchor_from="top_middle", anchor_to="top_middle", offset=["31%", "11%"], layer=4, alpha=0.0, anims=a("tn"))}]}},
+            {"box": {"type": "panel", "size": ["102%y", "90%"], "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "8.5%"], "layer": 2, "controls": [
+                {"tri": img(T("sg_tri"), ["100%", "100%"], keep_ratio=False, anchor_from="center", anchor_to="center", layer=1, alpha=0.0, anims=a("tr") + a("tz"))},
+                {"nm": {"type": "label", "text": "#form_button_text", "size": ["44%", "default"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-22%"], "text_alignment": "center",
+                        "font_size": "large", "font_scale_factor": 1.7, "color": [0.97, 0.95, 0.9], "layer": 3, "alpha": 0.0, "anims": a("tn"), "bindings": cbind()}},
+                *[{f"tt{i}": lbl("\n".join(TIER_TXT[t].replace(" ", "")), 0.4, [0.86, 0.84, 0.8], anchor_from="center", anchor_to="center", offset=["26%", "-24%"], layer=3, alpha=0.0,
+                                 anims=a("tn"), bindings=cbind(has_b(TMARK[t])))} for i, t in enumerate(TMARK)],
+                {"cl": lbl("ADQUI-", 0.8, [0.92, 0.9, 0.86], anchor_from="top_left", anchor_to="top_middle", offset=["-3%", "6%"], layer=3, alpha=0.0, anims=a("tn"))},
+                {"cr": lbl("RIDO", 0.8, [0.92, 0.9, 0.86], anchor_from="top_right", anchor_to="top_middle", offset=["3%", "6%"], layer=3, alpha=0.0, anims=a("tn"))}]}}]}},
         # FAIXA VERMELHA (resistência/aptidão): entra da esquerda; nome grande, depois "Concedendo resistência" espaçado
         {"band": {"type": "panel", "size": ["100%", "47.7%"], "anchor_from": "center", "anchor_to": "center", "offset": ["-100%", "-11.5%"], "layer": 8, "anims": a("sl"),
                   "bindings": cbind(f"({has_b(KMARK['res'])} or {has_b(KMARK['apt'])})"), "controls": [
             {"red": img(T("sg_banner"), ["100%", "100%"], keep_ratio=False, layer=1, alpha=0.0, anims=a("bn"))},
             {"nm": {"type": "label", "text": "#form_button_text", "size": ["100% - 24px", "default"], "anchor_from": "center", "anchor_to": "center", "offset": [0, -2], "text_alignment": "center",
                     "font_size": "large", "font_scale_factor": 1.35, "color": [1, 0.95, 0.95], "layer": 3, "alpha": 0.0, "anims": a("bt"), "bindings": cbind()}},
-            {"g1": lbl("C o n c e d e n d o    r e s i s t ê n c i a", 1.05, [1, 0.93, 0.93], anchor_from="center", anchor_to="center", layer=3, alpha=0.0, anims=a("bg"), bindings=cbind(has_b(KMARK["res"])))},
-            {"g2": lbl("C o n c e d e n d o    a p t i d ã o", 1.05, [1, 0.93, 0.93], anchor_from="center", anchor_to="center", layer=3, alpha=0.0, anims=a("bg"), bindings=cbind(has_b(KMARK["apt"])))}]}},
+            {"g1": lbl("C o n c e d e n d o    r e s i s t ê n c i a", 1.25, [1, 0.93, 0.93], anchor_from="center", anchor_to="center", layer=3, alpha=0.0, anims=a("bg"), bindings=cbind(has_b(KMARK["res"])))},
+            {"g2": lbl("C o n c e d e n d o    a p t i d ã o", 1.25, [1, 0.93, 0.93], anchor_from="center", anchor_to="center", layer=3, alpha=0.0, anims=a("bg"), bindings=cbind(has_b(KMARK["apt"])))}]}},
         {"c3": legend_btn(f"{n}_c3")},
     ]
     if sub: C.insert(5, {"hs": lbl(sub, 0.62, [0.7, 0.76, 0.88], anchor_from="center", anchor_to="center", offset=[0, "28%"], layer=6, alpha=0.0, anims=a("ss"))})
@@ -588,18 +589,18 @@ def intro_defs():
     rows += [card_variant(k, RMARK[k], {"round": round_ctl(k)}) for k in range(1, INTRO_MAX + 1)]
     D["eth_sg_intro_row"] = {"type": "panel", "size": ["100%", "100%"], "controls": rows}
     sphere = lambda: {"type": "panel", "size": ["100%y", "88%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-4%"], "layer": 4, "controls":
-        [{f"g{k}": img(T(f"sg_geo_{k}"), ["100%", "100%"], keep_ratio=False, anchor_from="center", anchor_to="center", alpha=0.0, layer=1, anims=[f"@{NS}.eth_sgg{k}_start"])} for k in range(12)]
+        [{f"g{k}": img(T(f"sg_geo_{k}"), ["100%", "100%"], keep_ratio=False, anchor_from="center", anchor_to="center", alpha=0.0, color=[0.46, 0.52, 0.6], layer=1, anims=[f"@{NS}.eth_sgg{k}_start"])} for k in range(12)]
         + [{"core": img("textures/ui/etheria/ov_core", ["12%", "12%"], keep_ratio=False, anchor_from="center", anchor_to="center", color=[0.35, 0.7, 1.0], layer=3, anims=[f"@{NS}.eth_sg_glow_a"])},
            {"dot": img(T("sg_twinkle"), ["5%", "5%"], keep_ratio=False, anchor_from="center", anchor_to="center", color=[0.75, 0.92, 1.0], layer=4)}]}
     D["eth_sg_intro_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": stars() + [
         # 0-2.7 s: disco de runas (cobre o céu); sai de cena de uma vez, como no corte do vídeo
         {"disc": {"type": "panel", "size": ["100%", "100%"], "layer": 3, "anims": [f"@{NS}.eth_sgi_disc_w"], "controls": [
             {"bk": img("textures/ui/Black", ["100%", "100%"], keep_ratio=False, layer=1)},
-            {"ring": {"type": "panel", "size": ["124%y", "124%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "12%"], "layer": 2, "controls":
+            {"ring": {"type": "panel", "size": ["100%y", "150%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "23%"], "layer": 2, "controls":
                 [{f"r{k}": img(T(f"sg_runes_{k}"), ["100%", "100%"], keep_ratio=False, alpha=0.0, layer=1, anims=[f"@{NS}.eth_sgrn{k}_start"])} for k in range(RUNE_N)]
-                + [{"pl": img(T("sg_planet"), ["52%", "52%"], keep_ratio=False, anchor_from="center", anchor_to="center", layer=3)}]}},
-            *[{f"p{i}": lbl(t, 0.6, [0.92, 0.92, 0.95], anchor_from="center", anchor_to="center", offset=[0, "3%"], layer=5, alpha=0.0, anims=[f"@{NS}.eth_sgi_p{i}_w"])} for i, (_, t) in enumerate(PCT)],
-            {"ld": img(T("sg_load"), ["100%y", "7%"], keep_ratio=False, anchor_from="center", anchor_to="center", offset=[0, "9.5%"], layer=5, alpha=0.0, anims=[f"@{NS}.eth_sgi_ld_w"])}]}},
+                + [{"pl": img(T("sg_planet"), ["58%", "58%"], keep_ratio=False, anchor_from="center", anchor_to="center", layer=3)}]}},
+            *[{f"p{i}": lbl(t, 0.6, [0.92, 0.92, 0.95], anchor_from="center", anchor_to="center", offset=[0, "-4%"], layer=5, alpha=0.0, anims=[f"@{NS}.eth_sgi_p{i}_w"])} for i, (_, t) in enumerate(PCT)],
+            {"ld": img(T("sg_load"), ["100%y", "7%"], keep_ratio=False, anchor_from="center", anchor_to="center", offset=[0, "1.5%"], layer=5, alpha=0.0, anims=[f"@{NS}.eth_sgi_ld_w"])}]}},
         # 2.7-7.6 s: esfera da abertura
         {"open": {"type": "panel", "size": ["100%", "100%"], "offset": [0, "300%"], "layer": 3, "anims": [f"@{NS}.eth_sgi_open_w"], "controls": [{"sp": sphere()}]}},
         {"o1": legend("Morte confirmada.", anim="eth_sgi_o1")}, {"o2": legend("Alma capturada. Está intacta.", anim="eth_sgi_o2")},

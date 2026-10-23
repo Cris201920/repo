@@ -136,11 +136,12 @@ def(A("berserk_rage", { name: "Fúria Berserker", cat: "Classe", element: "blood
 import { PACK } from "./skillpack.gen.js";
 import { ULTIMATES, GRANDS } from "./ultimates.js";
 for (const s of PACK) def(s);
-// 7.x: DOMO DE PROTEÇÃO vira PASSIVA (pedido do jogador). Mesmo id (saves antigos continuam com ela; o item da hotbar some sozinho),
-// mesmos números da ficha (Raro • Intrínseca • Mana 22 • Recarga 20 s • Nível 12 • 2 pt). Disparo automático em systems/domepassive.js.
+// 7.x/9.x: DOMO DE PROTEÇÃO = ATIVA + PASSIVA (pedido do jogador). Mesmo id "range_barrier" (saves antigos continuam com ela).
+// A ativa é a do PACK (exec buff, lançada pela hotbar). A passiva (trigger "auto") dispara sozinha em systems/domepassive.js,
+// com a MESMA recarga (20 s, compartilhada via systems/skills.js) e o mesmo custo (22 de mana). Ficha: "Ativa/Passiva" (data/skillfmt.js).
 { const rb = SKILLS.range_barrier; if (rb) {
   const buff = rb.exec?.buff?.stats ?? { defense: 8, res_magic: 15, res_projectile: 30 };
-  SKILLS.range_barrier = { id: "range_barrier", name: "Domo de Proteção", type: "passive", cat: "Intrínseca", element: rb.element ?? "arcane", rarity: "rare",
+  SKILLS.range_barrier = { ...rb, name: "Domo de Proteção", cat: "Intrínseca", element: rb.element ?? "arcane", rarity: "rare",
     mana: 22, cd: 20, level: 12, sp: 2, req: rb.req ?? [], trigger: "auto",
     desc: "Domo de proteção: absorção e resistência por 15s. PASSIVA: abre sozinho quando você leva um golpe forte (25% da vida) ou fica com a vida baixa (40%). Gasta 22 de mana no disparo.",
     passive: { sec: 15, absorb: rb.exec?.absorb ?? 6, hpBelow: 0.4, bigHit: 0.25, stats: buff } };

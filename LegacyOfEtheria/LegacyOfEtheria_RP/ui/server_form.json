@@ -6913,11 +6913,11 @@
   "anim_type": "size",
   "easing": "out_cubic",
   "from": [
-   "110%y",
+   "140%",
    "140%"
   ],
   "to": [
-   "110%y",
+   "100%",
    "100%"
   ],
   "duration": 0.7
@@ -7449,11 +7449,11 @@
   "anim_type": "size",
   "easing": "out_cubic",
   "from": [
-   "110%y",
+   "140%",
    "140%"
   ],
   "to": [
-   "110%y",
+   "100%",
    "100%"
   ],
   "duration": 0.7
@@ -7985,11 +7985,11 @@
   "anim_type": "size",
   "easing": "out_cubic",
   "from": [
-   "110%y",
+   "140%",
    "140%"
   ],
   "to": [
-   "110%y",
+   "100%",
    "100%"
   ],
   "duration": 0.7
@@ -8987,14 +8987,14 @@
           "draw": {
            "type": "panel",
            "size": [
-            "100% - 22px",
-            "83.6%"
+            "116%y",
+            "89%"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
            "offset": [
             0,
-            "-2.1%"
+            "-2%"
            ],
            "layer": 4,
            "controls": [
@@ -9079,8 +9079,8 @@
              "sign": {
               "type": "panel",
               "size": [
-               "86%",
-               "70%"
+               "96%",
+               "60%"
               ],
               "anchor_from": "center",
               "anchor_to": "center",
@@ -9419,232 +9419,246 @@
              }
             },
             {
-             "tri": {
-              "type": "image",
-              "texture": "textures/ui/etheria_sg/sg_tri",
+             "box": {
+              "type": "panel",
               "size": [
-               "110%y",
-               "100%"
+               "102%y",
+               "90%"
               ],
-              "keep_ratio": false,
               "anchor_from": "top_middle",
               "anchor_to": "top_middle",
               "offset": [
                0,
-               "9%"
+               "8.5%"
               ],
               "layer": 2,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr1_tr_w",
-               "@server_form.eth_sgr1_tz_w"
-              ]
-             }
-            },
-            {
-             "nm": {
-              "type": "label",
-              "text": "#form_button_text",
-              "size": [
-               "31%",
-               "default"
-              ],
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               0,
-               "-12%"
-              ],
-              "text_alignment": "center",
-              "font_size": "large",
-              "font_scale_factor": 1.25,
-              "color": [
-               0.97,
-               0.95,
-               0.9
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr1_tn_w"
-              ],
-              "bindings": [
+              "controls": [
                {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
-               }
-              ]
-             }
-            },
-            {
-             "tt0": {
-              "type": "label",
-              "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nÚ\nN\nI\nC\nA",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.86,
-               0.84,
-               0.8
-              ],
-              "font_scale_factor": 0.42,
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               "17.5%",
-               "-14%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr1_tn_w"
-              ],
-              "bindings": [
-               {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
+                "tri": {
+                 "type": "image",
+                 "texture": "textures/ui/etheria_sg/sg_tri",
+                 "size": [
+                  "100%",
+                  "100%"
+                 ],
+                 "keep_ratio": false,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr1_tr_w",
+                  "@server_form.eth_sgr1_tz_w"
+                 ]
+                }
                },
                {
-                "binding_type": "view",
-                "source_property_name": "(not ((#form_button_text - '§n§1') = #form_button_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "tt1": {
-              "type": "label",
-              "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nU\nL\nT\nI\nM\nA\nT\nE",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.86,
-               0.84,
-               0.8
-              ],
-              "font_scale_factor": 0.42,
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               "17.5%",
-               "-14%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr1_tn_w"
-              ],
-              "bindings": [
-               {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
+                "nm": {
+                 "type": "label",
+                 "text": "#form_button_text",
+                 "size": [
+                  "44%",
+                  "default"
+                 ],
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  0,
+                  "-22%"
+                 ],
+                 "text_alignment": "center",
+                 "font_size": "large",
+                 "font_scale_factor": 1.7,
+                 "color": [
+                  0.97,
+                  0.95,
+                  0.9
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr1_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  }
+                 ]
+                }
                },
                {
-                "binding_type": "view",
-                "source_property_name": "(not ((#form_button_text - '§n§2') = #form_button_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "tt2": {
-              "type": "label",
-              "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nI\nN\nT\nR\nÍ\nN\nS\nE\nC\nA",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.86,
-               0.84,
-               0.8
-              ],
-              "font_scale_factor": 0.42,
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               "17.5%",
-               "-14%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr1_tn_w"
-              ],
-              "bindings": [
-               {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
+                "tt0": {
+                 "type": "label",
+                 "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nÚ\nN\nI\nC\nA",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.86,
+                  0.84,
+                  0.8
+                 ],
+                 "font_scale_factor": 0.4,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  "26%",
+                  "-24%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr1_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  },
+                  {
+                   "binding_type": "view",
+                   "source_property_name": "(not ((#form_button_text - '§n§1') = #form_button_text))",
+                   "target_property_name": "#visible"
+                  }
+                 ]
+                }
                },
                {
-                "binding_type": "view",
-                "source_property_name": "(not ((#form_button_text - '§n§3') = #form_button_text))",
-                "target_property_name": "#visible"
+                "tt1": {
+                 "type": "label",
+                 "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nU\nL\nT\nI\nM\nA\nT\nE",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.86,
+                  0.84,
+                  0.8
+                 ],
+                 "font_scale_factor": 0.4,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  "26%",
+                  "-24%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr1_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  },
+                  {
+                   "binding_type": "view",
+                   "source_property_name": "(not ((#form_button_text - '§n§2') = #form_button_text))",
+                   "target_property_name": "#visible"
+                  }
+                 ]
+                }
+               },
+               {
+                "tt2": {
+                 "type": "label",
+                 "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nI\nN\nT\nR\nÍ\nN\nS\nE\nC\nA",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.86,
+                  0.84,
+                  0.8
+                 ],
+                 "font_scale_factor": 0.4,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  "26%",
+                  "-24%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr1_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  },
+                  {
+                   "binding_type": "view",
+                   "source_property_name": "(not ((#form_button_text - '§n§3') = #form_button_text))",
+                   "target_property_name": "#visible"
+                  }
+                 ]
+                }
+               },
+               {
+                "cl": {
+                 "type": "label",
+                 "text": "ADQUI-",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.92,
+                  0.9,
+                  0.86
+                 ],
+                 "font_scale_factor": 0.8,
+                 "anchor_from": "top_left",
+                 "anchor_to": "top_middle",
+                 "offset": [
+                  "-3%",
+                  "6%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr1_tn_w"
+                 ]
+                }
+               },
+               {
+                "cr": {
+                 "type": "label",
+                 "text": "RIDO",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.92,
+                  0.9,
+                  0.86
+                 ],
+                 "font_scale_factor": 0.8,
+                 "anchor_from": "top_right",
+                 "anchor_to": "top_middle",
+                 "offset": [
+                  "3%",
+                  "6%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr1_tn_w"
+                 ]
+                }
                }
-              ]
-             }
-            },
-            {
-             "cl": {
-              "type": "label",
-              "text": "ADQUI-",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.92,
-               0.9,
-               0.86
-              ],
-              "font_scale_factor": 0.72,
-              "anchor_from": "top_middle",
-              "anchor_to": "top_middle",
-              "offset": [
-               "-31%",
-               "11%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr1_tn_w"
-              ]
-             }
-            },
-            {
-             "cr": {
-              "type": "label",
-              "text": "RIDO",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.92,
-               0.9,
-               0.86
-              ],
-              "font_scale_factor": 0.72,
-              "anchor_from": "top_middle",
-              "anchor_to": "top_middle",
-              "offset": [
-               "31%",
-               "11%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr1_tn_w"
               ]
              }
             }
@@ -9746,7 +9760,7 @@
                0.93,
                0.93
               ],
-              "font_scale_factor": 1.05,
+              "font_scale_factor": 1.25,
               "anchor_from": "center",
               "anchor_to": "center",
               "layer": 3,
@@ -9781,7 +9795,7 @@
                0.93,
                0.93
               ],
-              "font_scale_factor": 1.05,
+              "font_scale_factor": 1.25,
               "anchor_from": "center",
               "anchor_to": "center",
               "layer": 3,
@@ -9902,14 +9916,14 @@
           "draw": {
            "type": "panel",
            "size": [
-            "100% - 22px",
-            "83.6%"
+            "116%y",
+            "89%"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
            "offset": [
             0,
-            "-2.1%"
+            "-2%"
            ],
            "layer": 4,
            "controls": [
@@ -9994,8 +10008,8 @@
              "sign": {
               "type": "panel",
               "size": [
-               "86%",
-               "70%"
+               "96%",
+               "60%"
               ],
               "anchor_from": "center",
               "anchor_to": "center",
@@ -10361,232 +10375,246 @@
              }
             },
             {
-             "tri": {
-              "type": "image",
-              "texture": "textures/ui/etheria_sg/sg_tri",
+             "box": {
+              "type": "panel",
               "size": [
-               "110%y",
-               "100%"
+               "102%y",
+               "90%"
               ],
-              "keep_ratio": false,
               "anchor_from": "top_middle",
               "anchor_to": "top_middle",
               "offset": [
                0,
-               "9%"
+               "8.5%"
               ],
               "layer": 2,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr2_tr_w",
-               "@server_form.eth_sgr2_tz_w"
-              ]
-             }
-            },
-            {
-             "nm": {
-              "type": "label",
-              "text": "#form_button_text",
-              "size": [
-               "31%",
-               "default"
-              ],
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               0,
-               "-12%"
-              ],
-              "text_alignment": "center",
-              "font_size": "large",
-              "font_scale_factor": 1.25,
-              "color": [
-               0.97,
-               0.95,
-               0.9
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr2_tn_w"
-              ],
-              "bindings": [
+              "controls": [
                {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
-               }
-              ]
-             }
-            },
-            {
-             "tt0": {
-              "type": "label",
-              "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nÚ\nN\nI\nC\nA",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.86,
-               0.84,
-               0.8
-              ],
-              "font_scale_factor": 0.42,
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               "17.5%",
-               "-14%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr2_tn_w"
-              ],
-              "bindings": [
-               {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
+                "tri": {
+                 "type": "image",
+                 "texture": "textures/ui/etheria_sg/sg_tri",
+                 "size": [
+                  "100%",
+                  "100%"
+                 ],
+                 "keep_ratio": false,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr2_tr_w",
+                  "@server_form.eth_sgr2_tz_w"
+                 ]
+                }
                },
                {
-                "binding_type": "view",
-                "source_property_name": "(not ((#form_button_text - '§n§1') = #form_button_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "tt1": {
-              "type": "label",
-              "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nU\nL\nT\nI\nM\nA\nT\nE",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.86,
-               0.84,
-               0.8
-              ],
-              "font_scale_factor": 0.42,
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               "17.5%",
-               "-14%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr2_tn_w"
-              ],
-              "bindings": [
-               {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
+                "nm": {
+                 "type": "label",
+                 "text": "#form_button_text",
+                 "size": [
+                  "44%",
+                  "default"
+                 ],
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  0,
+                  "-22%"
+                 ],
+                 "text_alignment": "center",
+                 "font_size": "large",
+                 "font_scale_factor": 1.7,
+                 "color": [
+                  0.97,
+                  0.95,
+                  0.9
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr2_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  }
+                 ]
+                }
                },
                {
-                "binding_type": "view",
-                "source_property_name": "(not ((#form_button_text - '§n§2') = #form_button_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "tt2": {
-              "type": "label",
-              "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nI\nN\nT\nR\nÍ\nN\nS\nE\nC\nA",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.86,
-               0.84,
-               0.8
-              ],
-              "font_scale_factor": 0.42,
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               "17.5%",
-               "-14%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr2_tn_w"
-              ],
-              "bindings": [
-               {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
+                "tt0": {
+                 "type": "label",
+                 "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nÚ\nN\nI\nC\nA",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.86,
+                  0.84,
+                  0.8
+                 ],
+                 "font_scale_factor": 0.4,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  "26%",
+                  "-24%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr2_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  },
+                  {
+                   "binding_type": "view",
+                   "source_property_name": "(not ((#form_button_text - '§n§1') = #form_button_text))",
+                   "target_property_name": "#visible"
+                  }
+                 ]
+                }
                },
                {
-                "binding_type": "view",
-                "source_property_name": "(not ((#form_button_text - '§n§3') = #form_button_text))",
-                "target_property_name": "#visible"
+                "tt1": {
+                 "type": "label",
+                 "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nU\nL\nT\nI\nM\nA\nT\nE",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.86,
+                  0.84,
+                  0.8
+                 ],
+                 "font_scale_factor": 0.4,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  "26%",
+                  "-24%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr2_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  },
+                  {
+                   "binding_type": "view",
+                   "source_property_name": "(not ((#form_button_text - '§n§2') = #form_button_text))",
+                   "target_property_name": "#visible"
+                  }
+                 ]
+                }
+               },
+               {
+                "tt2": {
+                 "type": "label",
+                 "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nI\nN\nT\nR\nÍ\nN\nS\nE\nC\nA",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.86,
+                  0.84,
+                  0.8
+                 ],
+                 "font_scale_factor": 0.4,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  "26%",
+                  "-24%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr2_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  },
+                  {
+                   "binding_type": "view",
+                   "source_property_name": "(not ((#form_button_text - '§n§3') = #form_button_text))",
+                   "target_property_name": "#visible"
+                  }
+                 ]
+                }
+               },
+               {
+                "cl": {
+                 "type": "label",
+                 "text": "ADQUI-",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.92,
+                  0.9,
+                  0.86
+                 ],
+                 "font_scale_factor": 0.8,
+                 "anchor_from": "top_left",
+                 "anchor_to": "top_middle",
+                 "offset": [
+                  "-3%",
+                  "6%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr2_tn_w"
+                 ]
+                }
+               },
+               {
+                "cr": {
+                 "type": "label",
+                 "text": "RIDO",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.92,
+                  0.9,
+                  0.86
+                 ],
+                 "font_scale_factor": 0.8,
+                 "anchor_from": "top_right",
+                 "anchor_to": "top_middle",
+                 "offset": [
+                  "3%",
+                  "6%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr2_tn_w"
+                 ]
+                }
                }
-              ]
-             }
-            },
-            {
-             "cl": {
-              "type": "label",
-              "text": "ADQUI-",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.92,
-               0.9,
-               0.86
-              ],
-              "font_scale_factor": 0.72,
-              "anchor_from": "top_middle",
-              "anchor_to": "top_middle",
-              "offset": [
-               "-31%",
-               "11%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr2_tn_w"
-              ]
-             }
-            },
-            {
-             "cr": {
-              "type": "label",
-              "text": "RIDO",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.92,
-               0.9,
-               0.86
-              ],
-              "font_scale_factor": 0.72,
-              "anchor_from": "top_middle",
-              "anchor_to": "top_middle",
-              "offset": [
-               "31%",
-               "11%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr2_tn_w"
               ]
              }
             }
@@ -10688,7 +10716,7 @@
                0.93,
                0.93
               ],
-              "font_scale_factor": 1.05,
+              "font_scale_factor": 1.25,
               "anchor_from": "center",
               "anchor_to": "center",
               "layer": 3,
@@ -10723,7 +10751,7 @@
                0.93,
                0.93
               ],
-              "font_scale_factor": 1.05,
+              "font_scale_factor": 1.25,
               "anchor_from": "center",
               "anchor_to": "center",
               "layer": 3,
@@ -10844,14 +10872,14 @@
           "draw": {
            "type": "panel",
            "size": [
-            "100% - 22px",
-            "83.6%"
+            "116%y",
+            "89%"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
            "offset": [
             0,
-            "-2.1%"
+            "-2%"
            ],
            "layer": 4,
            "controls": [
@@ -10936,8 +10964,8 @@
              "sign": {
               "type": "panel",
               "size": [
-               "86%",
-               "70%"
+               "96%",
+               "60%"
               ],
               "anchor_from": "center",
               "anchor_to": "center",
@@ -11303,232 +11331,246 @@
              }
             },
             {
-             "tri": {
-              "type": "image",
-              "texture": "textures/ui/etheria_sg/sg_tri",
+             "box": {
+              "type": "panel",
               "size": [
-               "110%y",
-               "100%"
+               "102%y",
+               "90%"
               ],
-              "keep_ratio": false,
               "anchor_from": "top_middle",
               "anchor_to": "top_middle",
               "offset": [
                0,
-               "9%"
+               "8.5%"
               ],
               "layer": 2,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr3_tr_w",
-               "@server_form.eth_sgr3_tz_w"
-              ]
-             }
-            },
-            {
-             "nm": {
-              "type": "label",
-              "text": "#form_button_text",
-              "size": [
-               "31%",
-               "default"
-              ],
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               0,
-               "-12%"
-              ],
-              "text_alignment": "center",
-              "font_size": "large",
-              "font_scale_factor": 1.25,
-              "color": [
-               0.97,
-               0.95,
-               0.9
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr3_tn_w"
-              ],
-              "bindings": [
+              "controls": [
                {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
-               }
-              ]
-             }
-            },
-            {
-             "tt0": {
-              "type": "label",
-              "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nÚ\nN\nI\nC\nA",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.86,
-               0.84,
-               0.8
-              ],
-              "font_scale_factor": 0.42,
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               "17.5%",
-               "-14%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr3_tn_w"
-              ],
-              "bindings": [
-               {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
+                "tri": {
+                 "type": "image",
+                 "texture": "textures/ui/etheria_sg/sg_tri",
+                 "size": [
+                  "100%",
+                  "100%"
+                 ],
+                 "keep_ratio": false,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr3_tr_w",
+                  "@server_form.eth_sgr3_tz_w"
+                 ]
+                }
                },
                {
-                "binding_type": "view",
-                "source_property_name": "(not ((#form_button_text - '§n§1') = #form_button_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "tt1": {
-              "type": "label",
-              "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nU\nL\nT\nI\nM\nA\nT\nE",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.86,
-               0.84,
-               0.8
-              ],
-              "font_scale_factor": 0.42,
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               "17.5%",
-               "-14%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr3_tn_w"
-              ],
-              "bindings": [
-               {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
+                "nm": {
+                 "type": "label",
+                 "text": "#form_button_text",
+                 "size": [
+                  "44%",
+                  "default"
+                 ],
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  0,
+                  "-22%"
+                 ],
+                 "text_alignment": "center",
+                 "font_size": "large",
+                 "font_scale_factor": 1.7,
+                 "color": [
+                  0.97,
+                  0.95,
+                  0.9
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr3_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  }
+                 ]
+                }
                },
                {
-                "binding_type": "view",
-                "source_property_name": "(not ((#form_button_text - '§n§2') = #form_button_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "tt2": {
-              "type": "label",
-              "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nI\nN\nT\nR\nÍ\nN\nS\nE\nC\nA",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.86,
-               0.84,
-               0.8
-              ],
-              "font_scale_factor": 0.42,
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "offset": [
-               "17.5%",
-               "-14%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr3_tn_w"
-              ],
-              "bindings": [
-               {
-                "binding_type": "collection",
-                "binding_collection_name": "form_buttons",
-                "binding_name": "#form_button_text"
+                "tt0": {
+                 "type": "label",
+                 "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nÚ\nN\nI\nC\nA",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.86,
+                  0.84,
+                  0.8
+                 ],
+                 "font_scale_factor": 0.4,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  "26%",
+                  "-24%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr3_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  },
+                  {
+                   "binding_type": "view",
+                   "source_property_name": "(not ((#form_button_text - '§n§1') = #form_button_text))",
+                   "target_property_name": "#visible"
+                  }
+                 ]
+                }
                },
                {
-                "binding_type": "view",
-                "source_property_name": "(not ((#form_button_text - '§n§3') = #form_button_text))",
-                "target_property_name": "#visible"
+                "tt1": {
+                 "type": "label",
+                 "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nU\nL\nT\nI\nM\nA\nT\nE",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.86,
+                  0.84,
+                  0.8
+                 ],
+                 "font_scale_factor": 0.4,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  "26%",
+                  "-24%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr3_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  },
+                  {
+                   "binding_type": "view",
+                   "source_property_name": "(not ((#form_button_text - '§n§2') = #form_button_text))",
+                   "target_property_name": "#visible"
+                  }
+                 ]
+                }
+               },
+               {
+                "tt2": {
+                 "type": "label",
+                 "text": "H\nA\nB\nI\nL\nI\nD\nA\nD\nE\nI\nN\nT\nR\nÍ\nN\nS\nE\nC\nA",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.86,
+                  0.84,
+                  0.8
+                 ],
+                 "font_scale_factor": 0.4,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "offset": [
+                  "26%",
+                  "-24%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr3_tn_w"
+                 ],
+                 "bindings": [
+                  {
+                   "binding_type": "collection",
+                   "binding_collection_name": "form_buttons",
+                   "binding_name": "#form_button_text"
+                  },
+                  {
+                   "binding_type": "view",
+                   "source_property_name": "(not ((#form_button_text - '§n§3') = #form_button_text))",
+                   "target_property_name": "#visible"
+                  }
+                 ]
+                }
+               },
+               {
+                "cl": {
+                 "type": "label",
+                 "text": "ADQUI-",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.92,
+                  0.9,
+                  0.86
+                 ],
+                 "font_scale_factor": 0.8,
+                 "anchor_from": "top_left",
+                 "anchor_to": "top_middle",
+                 "offset": [
+                  "-3%",
+                  "6%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr3_tn_w"
+                 ]
+                }
+               },
+               {
+                "cr": {
+                 "type": "label",
+                 "text": "RIDO",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.92,
+                  0.9,
+                  0.86
+                 ],
+                 "font_scale_factor": 0.8,
+                 "anchor_from": "top_right",
+                 "anchor_to": "top_middle",
+                 "offset": [
+                  "3%",
+                  "6%"
+                 ],
+                 "layer": 3,
+                 "alpha": 0.0,
+                 "anims": [
+                  "@server_form.eth_sgr3_tn_w"
+                 ]
+                }
                }
-              ]
-             }
-            },
-            {
-             "cl": {
-              "type": "label",
-              "text": "ADQUI-",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.92,
-               0.9,
-               0.86
-              ],
-              "font_scale_factor": 0.72,
-              "anchor_from": "top_middle",
-              "anchor_to": "top_middle",
-              "offset": [
-               "-31%",
-               "11%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr3_tn_w"
-              ]
-             }
-            },
-            {
-             "cr": {
-              "type": "label",
-              "text": "RIDO",
-              "size": [
-               "default",
-               "default"
-              ],
-              "color": [
-               0.92,
-               0.9,
-               0.86
-              ],
-              "font_scale_factor": 0.72,
-              "anchor_from": "top_middle",
-              "anchor_to": "top_middle",
-              "offset": [
-               "31%",
-               "11%"
-              ],
-              "layer": 4,
-              "alpha": 0.0,
-              "anims": [
-               "@server_form.eth_sgr3_tn_w"
               ]
              }
             }
@@ -11630,7 +11672,7 @@
                0.93,
                0.93
               ],
-              "font_scale_factor": 1.05,
+              "font_scale_factor": 1.25,
               "anchor_from": "center",
               "anchor_to": "center",
               "layer": 3,
@@ -11665,7 +11707,7 @@
                0.93,
                0.93
               ],
-              "font_scale_factor": 1.05,
+              "font_scale_factor": 1.25,
               "anchor_from": "center",
               "anchor_to": "center",
               "layer": 3,
@@ -12065,14 +12107,14 @@
        "ring": {
         "type": "panel",
         "size": [
-         "124%y",
-         "124%"
+         "100%y",
+         "150%"
         ],
         "anchor_from": "center",
         "anchor_to": "center",
         "offset": [
          0,
-         "12%"
+         "23%"
         ],
         "layer": 2,
         "controls": [
@@ -12177,8 +12219,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/sg_planet",
            "size": [
-            "52%",
-            "52%"
+            "58%",
+            "58%"
            ],
            "keep_ratio": false,
            "anchor_from": "center",
@@ -12207,7 +12249,7 @@
         "anchor_to": "center",
         "offset": [
          0,
-         "3%"
+         "-4%"
         ],
         "layer": 5,
         "alpha": 0.0,
@@ -12234,7 +12276,7 @@
         "anchor_to": "center",
         "offset": [
          0,
-         "3%"
+         "-4%"
         ],
         "layer": 5,
         "alpha": 0.0,
@@ -12261,7 +12303,7 @@
         "anchor_to": "center",
         "offset": [
          0,
-         "3%"
+         "-4%"
         ],
         "layer": 5,
         "alpha": 0.0,
@@ -12288,7 +12330,7 @@
         "anchor_to": "center",
         "offset": [
          0,
-         "3%"
+         "-4%"
         ],
         "layer": 5,
         "alpha": 0.0,
@@ -12315,7 +12357,7 @@
         "anchor_to": "center",
         "offset": [
          0,
-         "3%"
+         "-4%"
         ],
         "layer": 5,
         "alpha": 0.0,
@@ -12342,7 +12384,7 @@
         "anchor_to": "center",
         "offset": [
          0,
-         "3%"
+         "-4%"
         ],
         "layer": 5,
         "alpha": 0.0,
@@ -12369,7 +12411,7 @@
         "anchor_to": "center",
         "offset": [
          0,
-         "3%"
+         "-4%"
         ],
         "layer": 5,
         "alpha": 0.0,
@@ -12396,7 +12438,7 @@
         "anchor_to": "center",
         "offset": [
          0,
-         "3%"
+         "-4%"
         ],
         "layer": 5,
         "alpha": 0.0,
@@ -12418,7 +12460,7 @@
         "anchor_to": "center",
         "offset": [
          0,
-         "9.5%"
+         "1.5%"
         ],
         "layer": 5,
         "alpha": 0.0,
@@ -12473,6 +12515,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg0_start"
@@ -12491,6 +12538,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg1_start"
@@ -12509,6 +12561,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg2_start"
@@ -12527,6 +12584,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg3_start"
@@ -12545,6 +12607,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg4_start"
@@ -12563,6 +12630,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg5_start"
@@ -12581,6 +12653,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg6_start"
@@ -12599,6 +12676,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg7_start"
@@ -12617,6 +12699,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg8_start"
@@ -12635,6 +12722,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg9_start"
@@ -12653,6 +12745,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg10_start"
@@ -12671,6 +12768,11 @@
            "anchor_from": "center",
            "anchor_to": "center",
            "alpha": 0.0,
+           "color": [
+            0.46,
+            0.52,
+            0.6
+           ],
            "layer": 1,
            "anims": [
             "@server_form.eth_sgg11_start"
