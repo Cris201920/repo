@@ -48,14 +48,50 @@ def AND(*e): return "(" + " and ".join(e) + ")"
 T = lambda n: f"{TEX}/{n}"
 
 # ------------------------------------------------------------------ texturas (PIL) - pequenas, nineslice onde estica
+def geodesic_frames(n, S):
+    """esfera de linhas do vídeo (288-294 s): icosaedro subdividido (frequência 3), linhas finas azuladas, as de trás mais apagadas;
+    n quadros girando 72° em volta de um eixo de 5 dobras (o quadro n volta a ser o 0 -> laço sem salto)"""
+    from PIL import Image, ImageDraw
+    ph = (1 + 5 ** 0.5) / 2
+    V = [(-1, ph, 0), (1, ph, 0), (-1, -ph, 0), (1, -ph, 0), (0, -1, ph), (0, 1, ph), (0, -1, -ph), (0, 1, -ph), (ph, 0, -1), (ph, 0, 1), (-ph, 0, -1), (-ph, 0, 1)]
+    nrm = lambda v: tuple(c / math.sqrt(sum(x * x for x in v)) for c in v)
+    V = [nrm(v) for v in V]
+    E0 = [(i, j) for i in range(12) for j in range(i + 1, 12) if abs(sum(a * b for a, b in zip(V[i], V[j])) - 1 / 5 ** 0.5) < 1e-6]
+    F = [(i, j, k) for (i, j) in E0 for k in range(j + 1, 12) if (i, k) in E0 and (j, k) in E0]
+    pts, edges, f = {}, set(), 3
+    def P(a, b, c, u, v):
+        w = f - u - v; p = nrm(tuple((V[a][t] * w + V[b][t] * u + V[c][t] * v) / f for t in range(3))); key = tuple(round(x, 5) for x in p)
+        pts.setdefault(key, p); return key
+    for (a, b, c) in F:
+        for u in range(f + 1):
+            for v in range(f + 1 - u):
+                p0 = P(a, b, c, u, v)
+                if u + v < f: edges.add(frozenset((p0, P(a, b, c, u + 1, v)))); edges.add(frozenset((p0, P(a, b, c, u, v + 1)))); edges.add(frozenset((P(a, b, c, u + 1, v), P(a, b, c, u, v + 1))))
+    ax = V[5]   # eixo de 5 dobras (vértice) -> giro de 72° fecha o laço
+    def rot(p, ang):
+        c, s = math.cos(ang), math.sin(ang); d_ = sum(p[t] * ax[t] for t in range(3)); cr = (ax[1] * p[2] - ax[2] * p[1], ax[2] * p[0] - ax[0] * p[2], ax[0] * p[1] - ax[1] * p[0])
+        return tuple(p[t] * c + cr[t] * s + ax[t] * d_ * (1 - c) for t in range(3))
+    tilt = lambda p: (p[0], p[1] * math.cos(0.5) - p[2] * math.sin(0.5), p[1] * math.sin(0.5) + p[2] * math.cos(0.5))
+    out = []
+    for k in range(n):
+        im = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(im); R = S * 0.47
+        q = {key: tilt(rot(p, k * (2 * math.pi / 5) / n)) for key, p in pts.items()}
+        for e in sorted(edges, key=lambda e: sum(q[x][2] for x in e)):
+            a, b = tuple(e); za = (q[a][2] + q[b][2]) / 2; al = int(70 + 120 * (za + 1) / 2)
+            d.line([(S / 2 + q[a][0] * R, S / 2 + q[a][1] * R), (S / 2 + q[b][0] * R, S / 2 + q[b][1] * R)], fill=(110, 160, 215, al), width=1)
+        out.append(im)
+    return out
+
 def gen_textures():
     from PIL import Image, ImageDraw
     out = os.path.join(PACK, TEX); os.makedirs(out, exist_ok=True)
+    made = set()
     def save(img, name, nine=None):
-        p = os.path.join(out, name + ".png"); img.save(p, optimize=True)
+        p = os.path.join(out, name + ".png"); img.save(p, optimize=True); made.add(name)
         if nine is not None:
             w, h = img.size
             open(os.path.join(out, name + ".json"), "w").write(json.dumps({"nineslice_size": nine, "base_size": [w, h]}) + "\n")
+        elif os.path.exists(os.path.join(out, name + ".json")): os.remove(os.path.join(out, name + ".json"))
     # fundo: mundo escurecido, brilho verde no centro, grade hexagonal fraca, vinheta
     W, H = 320, 180; bg = Image.new("RGBA", (W, H)); px = bg.load()
     for y in range(H):
@@ -91,13 +127,14 @@ def gen_textures():
         a = k * math.pi / 6; c, s = math.cos(a), math.sin(a)
         d.line([R / 2 + c * 25, R / 2 + s * 25, R / 2 + c * 30, R / 2 + s * 30], fill=(170, 255, 235, 255), width=1)
     save(ring, "sg_ring")
-    # 8.9 ---- reencarnação (vídeo de referência): céu estrelado azul-marinho, cartão preto translúcido de borda branca fina, pílulas
+    # 8.9b ---- reencarnação IDÊNTICA ao vídeo (cores medidas por amostragem de pixels nos quadros 259-290 s do vídeo de referência):
+    # céu = degradê vertical (10,33,62) no alto -> (4,18,36) embaixo, com um clarão fraco no alto à esquerda; estrelas = pontinhos/tracinhos brancos
     import random
     rnd = random.Random(89); SW, SH = 384, 216; sky = Image.new("RGBA", (SW, SH)); px = sky.load()
     for y in range(SH):
         for x in range(SW):
-            dx, dy = (x - SW * 0.42) / SW, (y - SH * 0.45) / SH; d = min(1.0, math.sqrt(dx * dx * 1.6 + dy * dy * 2.2) * 1.5)
-            px[x, y] = (int(8 + 22 * (1 - d)), int(20 + 42 * (1 - d)), int(42 + 62 * (1 - d)), 255)
+            v = y / (SH - 1); g_ = max(0.0, 1 - math.hypot((x - SW * 0.3) / SW, (y - SH * 0.2) / SH) * 1.6)
+            px[x, y] = (int(10 - 6 * v + 6 * g_), int(33 - 15 * v + 10 * g_), int(62 - 26 * v + 14 * g_), 255)
     d = ImageDraw.Draw(sky)
     for _ in range(230):
         x, y = rnd.randrange(SW), rnd.randrange(SH); v = rnd.choice([120, 160, 200, 255])
@@ -113,16 +150,34 @@ def gen_textures():
             if abs(x - 7.5) < 1 or abs(y - 7.5) < 1: a = max(a, max(0.0, 1 - r_ / 8) * 0.8)
             tp[x, y] = (235, 242, 255, int(255 * min(1.0, a * 1.4)))
     save(tw_, "sg_twinkle")
-    save(box(32, 32, (0, 0, 0, 205), (236, 240, 248, 255), None, r=6), "sg_card", 8)
-    save(box(32, 32, (6, 14, 30, 70), (160, 190, 225, 170), None, r=6), "sg_card_side", 8)
-    save(box(24, 24, (0, 0, 0, 235), (200, 204, 214, 230), None, r=5), "sg_pframe", 7)
-    save(box(24, 12, (0, 0, 0, 200), (240, 242, 248, 255), None, r=4), "sg_pill", 5)
-    save(box(24, 12, (40, 64, 104, 235), (255, 255, 255, 255), None, r=4), "sg_pill_h", 5)
-    save(box(24, 12, (70, 104, 150, 245), (220, 230, 255, 255), None, r=4), "sg_pill_p", 5)
-    save(box(24, 12, (0, 0, 0, 90), (150, 160, 185, 170), None, r=4), "sg_pill_dim", 5)
-    for k, (_, _, rgb) in enumerate(DIFF):
-        save(box(24, 10, (int(rgb[0] * 0.22), int(rgb[1] * 0.22), int(rgb[2] * 0.22), 230), rgb + (255,), None, r=4), f"sg_badge{k}", 4)
+    # cartão do vídeo: preto opaco (0,0,3), borda branca fina (228,240,255), cantos arredondados; moldura do retrato cinza (92,93,102);
+    # SELECT = retângulo preto de borda branca (toque/realce = verde-azulado escuro (30,55,56), medido nos quadros 283/285 s)
+    save(box(32, 32, (0, 0, 3, 255), (228, 240, 255, 255), None, r=5), "sg_card", 8)
+    save(box(32, 32, (8, 26, 50, 30), (143, 161, 187, 255), None, r=5), "sg_card_side", 8)       # cartões vizinhos: só o contorno (143,161,187)
+    save(box(32, 32, (24, 48, 80, 110), (226, 234, 255, 255), None, r=5), "sg_card_side_h", 8)
+    save(box(32, 32, (30, 55, 56, 160), (255, 255, 255, 255), None, r=5), "sg_card_side_p", 8)
+    save(box(24, 24, (0, 0, 0, 255), (92, 93, 102, 255), None, r=5), "sg_pframe", 7)
+    save(box(24, 12, (0, 0, 0, 255), (232, 234, 237, 255), None, r=3), "sg_pill", 4)
+    save(box(24, 12, (30, 55, 56, 255), (240, 244, 246, 255), None, r=3), "sg_pill_h", 4)
+    save(box(24, 12, (44, 80, 82, 255), (255, 255, 255, 255), None, r=3), "sg_pill_p", 4)
+    save(box(24, 12, (0, 0, 0, 120), (150, 160, 185, 200), None, r=3), "sg_pill_dim", 4)
+    for k, (_, _, rgb) in enumerate(DIFF):   # selo "Hard" do vídeo: miolo escuro tingido, borda clara tingida, texto na cor
+        fill = tuple(int(c * 0.28) for c in rgb) + (255,); line = tuple(int(c * 0.45 + 255 * 0.55) for c in rgb) + (255,)
+        save(box(24, 10, fill, line, None, r=4), f"sg_badge{k}", 4)
     save(box(16, 16, None, (235, 238, 245, 255), None), "sg_thin", 3)
+    for nm, pts in {"tl": [(0, 15), (0, 0), (15, 0)], "tr": [(0, 0), (15, 0), (15, 15)], "bl": [(0, 0), (0, 15), (15, 15)], "br": [(0, 15), (15, 15), (15, 0)]}.items():
+        bk = Image.new("RGBA", (16, 16), (0, 0, 0, 0)); ImageDraw.Draw(bk).line(pts, fill=(96, 96, 102, 255), width=1); save(bk, f"sg_brk_{nm}")   # cantoneiras do quadro preto
+    # "A Ampulheta": hexágono quase invisível + brilho azul no centro (como no quadro de 265.5 s)
+    hx = Image.new("RGBA", (128, 128), (0, 0, 0, 0)); d = ImageDraw.Draw(hx)
+    d.polygon([(64 + 61 * math.cos(math.pi / 6 + k * math.pi / 3), 64 + 61 * math.sin(math.pi / 6 + k * math.pi / 3)) for k in range(6)], outline=(80, 120, 170, 46))
+    d.line([(64, 3), (64, 125)], fill=(80, 120, 170, 22)); save(hx, "sg_hex")
+    gl = Image.new("RGBA", (64, 64)); gp = gl.load()
+    for y in range(64):
+        for x in range(64):
+            a = max(0.0, 1 - math.hypot(x - 31.5, (y - 31.5) * 1.15) / 31.5) ** 1.8; gp[x, y] = (40, 96, 180, int(150 * a))
+    save(gl, "sg_glow")
+    # esfera final: geodésica de linhas finas (icosaedro subdividido 3x), 12 quadros girando 72° (volta perfeita) -> sg_geo_0..11
+    for k, im_ in enumerate(geodesic_frames(12, 384)): save(im_, f"sg_geo_{k}")
     # assinatura branca ("Sorteio." = o desenho no quadro preto do vídeo)
     sg = Image.new("RGBA", (200, 90), (0, 0, 0, 0)); d = ImageDraw.Draw(sg); pts = []
     for k in range(240):
@@ -131,17 +186,50 @@ def gen_textures():
         pts.append((x, y))
     d.line(pts, fill=(235, 238, 245, 255), width=3, joint="curve"); d.ellipse([166, 10, 176, 20], fill=(255, 255, 255, 255))
     save(sg, "sg_sign")
-    # faixa vermelha da habilidade (brilho no centro, bordas escuras)
-    BW, BH = 256, 48; bn = Image.new("RGBA", (BW, BH)); bp = bn.load()
+    # faixa vermelha (medida em 270 s): bordas (81,7,9) -> meio (145,14,21) na vertical, clarão elíptico (233,35,37) no centro, filete claro em cima/embaixo
+    BW, BH = 256, 64; bn = Image.new("RGBA", (BW, BH)); bp = bn.load()
     for y in range(BH):
         for x in range(BW):
-            g_ = math.exp(-(((x - BW * 0.5) / (BW * 0.22)) ** 2 + ((y - BH * 0.5) / (BH * 0.35)) ** 2))
-            e = 1 - abs(y - BH / 2) / (BH / 2) * 0.35
-            bp[x, y] = (min(255, int((128 + 110 * g_) * e)), int((8 + 40 * g_) * e), int((14 + 36 * g_) * e), 246)
+            v = 1 - abs(y - (BH - 1) / 2) / ((BH - 1) / 2); base = (81 + 64 * v, 7 + 7 * v, 9 + 12 * v)
+            g_ = math.exp(-(((x - BW * 0.5) / (BW * 0.2)) ** 2 + ((y - BH * 0.5) / (BH * 0.16)) ** 2))
+            bp[x, y] = (min(255, int(base[0] + (233 - base[0]) * g_)), int(base[1] + (35 - base[1]) * g_), int(base[2] + (37 - base[2]) * g_), 255)
+    for x in range(BW): bp[x, 0] = bp[x, BH - 1] = (176, 52, 58, 255)
     save(bn, "sg_banner")
-    # retratos de corpo inteiro (tools/race_portraits.py)
+    # 8.9b ---- JANELA TENSURA (menus "Magic"/"Status Menu" do vídeo, 316/318 s): painel azul-marinho (32,43,64) de borda preta + filete
+    # (82,90,114), seção esquerda (24,33,52), seção direita com moldura cinza chanfrada (154,159,172)/(80,80,80) e miolo (25,28,39),
+    # campo cinza "Preset 1", caixas (4,26,45)/(38,56,76), abas (34,46,80) e ícones redondos com aro octogonal
+    def bevel(w, h, layers, fill):
+        im = Image.new("RGBA", (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im); i = 0
+        for (col, t) in layers:
+            for _ in range(t): d.rectangle([i, i, w - 1 - i, h - 1 - i], outline=col); i += 1
+        d.rectangle([i, i, w - 1 - i, h - 1 - i], fill=fill); return im
+    save(bevel(32, 32, [((0, 2, 8, 255), 1), ((82, 90, 114, 255), 1)], (32, 43, 64, 250)), "tz_win", 6)
+    save(bevel(32, 32, [((14, 19, 32, 255), 1)], (24, 33, 52, 255)), "tz_left", 4)
+    save(bevel(32, 32, [((154, 159, 172, 255), 1), ((80, 80, 82, 255), 3), ((39, 43, 49, 255), 1)], (25, 28, 39, 255)), "tz_right", 8)
+    fld = bevel(24, 12, [((150, 150, 156, 255), 1)], (84, 84, 88, 255)); ImageDraw.Draw(fld).line([(0, 0), (23, 0)], fill=(48, 48, 52, 255)); ImageDraw.Draw(fld).line([(0, 0), (0, 11)], fill=(48, 48, 52, 255)); save(fld, "tz_field", 3)
+    save(bevel(24, 24, [((38, 56, 76, 255), 1)], (4, 26, 45, 255)), "tz_box", 4)
+    save(bevel(10, 10, [((36, 36, 40, 255), 1)], (92, 92, 96, 255)), "tz_num", 3)
+    save(bevel(10, 10, [((36, 36, 40, 255), 1)], (70, 150, 78, 255)), "tz_num_on", 3)
+    save(bevel(24, 24, [((0, 2, 8, 255), 1), ((82, 90, 114, 255), 1)], (34, 46, 80, 255)), "tz_tab", 5)
+    tab_on = bevel(24, 24, [((0, 2, 8, 255), 1), ((82, 90, 114, 255), 1)], (32, 43, 64, 255)); ImageDraw.Draw(tab_on).rectangle([2, 21, 21, 23], fill=(32, 43, 64, 255)); save(tab_on, "tz_tab_on", 5)
+    for nm, fill in [("tz_row", (178, 180, 186)), ("tz_row_h", (208, 211, 218)), ("tz_row_p", (150, 152, 160))]:   # linhas da lista "Creator" (cinza claro)
+        rw = bevel(32, 16, [((30, 30, 34, 255), 1)], fill + (255,)); ImageDraw.Draw(rw).line([(1, 1), (30, 1)], fill=(232, 232, 238, 255)); save(rw, nm, 3)
+    ob = Image.new("RGBA", (48, 48), (0, 0, 0, 0)); ImageDraw.Draw(ob).ellipse([2, 2, 45, 45], fill=(12, 16, 28, 255)); save(ob, "tz_orb_bg")
+    oc = lambda ap: [(24 + ap / math.cos(math.pi / 8) * math.cos(math.pi / 8 + k * math.pi / 4), 24 + ap / math.cos(math.pi / 8) * math.sin(math.pi / 8 + k * math.pi / 4)) for k in range(8)]
+    orb = Image.new("RGBA", (48, 48), (0, 0, 0, 0)); d = ImageDraw.Draw(orb)
+    d.polygon(oc(23.5), fill=(8, 8, 16, 255)); d.polygon(oc(22.5), fill=(150, 170, 215, 255)); d.polygon(oc(20), fill=(92, 112, 165, 255)); d.polygon(oc(18), fill=(8, 8, 16, 255))
+    m = Image.new("L", (48, 48), 0); ImageDraw.Draw(m).polygon(oc(17), fill=255); al = orb.split()[3]; al.paste(0, mask=m); orb.putalpha(al); save(orb, "tz_orb")
+    # retratos de corpo inteiro (tools/race_portraits.py), recortados no corpo (proporção 1:2) para encher a moldura como no vídeo
     import race_portraits
-    for rid in RACE_CODES: race_portraits.portrait(rid).save(os.path.join(out, f"race_{rid}.png"), optimize=True)
+    for rid in RACE_CODES:
+        pim = race_portraits.portrait(rid); bb = pim.getbbox() or (0, 0) + pim.size
+        cx, cy = (bb[0] + bb[2]) / 2, (bb[1] + bb[3]) / 2; w2 = max(bb[2] - bb[0] + 4, (bb[3] - bb[1] + 6) / 2); h2 = 2 * w2
+        crop = Image.new("RGBA", (int(w2), int(h2)), (0, 0, 0, 0)); crop.alpha_composite(pim.crop((int(cx - w2 / 2), int(cy - h2 / 2), int(cx - w2 / 2) + int(w2), int(cy - h2 / 2) + int(h2))))
+        crop.save(os.path.join(out, f"race_{rid}.png"), optimize=True); made.add(f"race_{rid}")
+    # limpeza: texturas de versões antigas que nada mais usa (o pacote fica só com o que o server_form.json referencia)
+    for fn in os.listdir(out):
+        stem, ext = os.path.splitext(fn)
+        if ext in (".png", ".json") and stem not in made: os.remove(os.path.join(out, fn))
     # ícone do pacote
     ic = Image.new("RGBA", (128, 128), (2, 14, 10, 255)); d = ImageDraw.Draw(ic)
     d.rectangle([4, 4, 123, 123], outline=(80, 235, 200, 255), width=3)
@@ -220,8 +308,14 @@ def button_list(row):
             "factory": {"name": "buttons", "control_name": f"{NS}.{row}"}, "collection_name": "form_buttons",
             "bindings": [{"binding_name": "#form_button_length", "binding_name_override": "#collection_length"}]}
 
-# ------------------------------------------------------------------ 8.9: reencarnação (abertura, carrossel, esfera final)
+# ------------------------------------------------------------------ 8.9b: reencarnação IDÊNTICA ao vídeo (abertura, carrossel, esfera final)
+# Medidas tiradas dos quadros do vídeo de referência (videos_unidos_1, 255-292 s) em % da ALTURA da tela (o vídeo corta as laterais, a
+# altura é a única régua confiável): cartão = tela inteira de altura e 61% da altura de largura; retrato em 5.3%/4.6% do cartão com
+# 40.3% x 84.5%; texto a partir de 50.4% da largura e 9.2% da altura; selo em 50.6%/5.5% (13% x 2.7%); SELECT com 82.8% x 4.4% a 5.1%
+# da base; cartões vizinhos = 56.6% do cartão, vão de 4.6% da largura do cartão, 2% acima do centro; legenda = barra preta de 4.2% na base.
 TWK = [(6, 12, 7), (18, 70, 5), (27, 30, 6), (38, 86, 5), (47, 8, 7), (58, 62, 5), (66, 22, 6), (74, 80, 7), (83, 44, 5), (92, 14, 6), (12, 44, 5), (88, 90, 5)]
+CAP_TXT = [0.88, 0.89, 0.92]
+CARD_MARK = ["<", "ESCOLHER", ">"]   # texto dos 3 botões do cartão (systems/ui/racemenus.js openRacePickV2), nesta ordem
 def fade(name, t_in, t_out=None, a=1.0, fd=0.35):
     """cadeia de alpha: espera t_in, aparece em fd s, (some em t_out). O controle começa com alpha 0."""
     A = {f"{name}_w": {"anim_type": "wait", "duration": max(0.001, t_in), "next": f"@{NS}.{name}_i"},
@@ -237,20 +331,26 @@ def reinc_anims():
         A[f"eth_sgtw_v{v}_a"] = {"anim_type": "alpha", "easing": "in_out_sine", "from": 0.08, "to": 1.0, "duration": dur, "next": f"@{NS}.eth_sgtw_v{v}_b"}
         A[f"eth_sgtw_v{v}_b"] = {"anim_type": "alpha", "easing": "in_out_sine", "from": 1.0, "to": 0.08, "duration": dur, "next": f"@{NS}.eth_sgtw_v{v}_a"}
     for k in range(len(TWK)): A[f"eth_sgtw{k}"] = {"anim_type": "wait", "duration": round(0.001 + (k * 0.37) % 1.6, 3), "next": f"@{NS}.eth_sgtw_v{k % 3}_a"}
-    # abertura (~6.6 s + faixa): quadro preto com a assinatura, legendas, "A Ampulheta", faixa vermelha com a aptidão
-    A["eth_sgi_fr_w"] = {"anim_type": "wait", "duration": 3.9, "next": f"@{NS}.eth_sgi_fr_o"}
-    A["eth_sgi_fr_o"] = {"anim_type": "alpha", "easing": "linear", "from": 1.0, "to": 0.0, "duration": 0.4}
-    A["eth_sgi_sign_w"] = {"anim_type": "wait", "duration": 1.7, "next": f"@{NS}.eth_sgi_sign"}
-    A["eth_sgi_sign"] = {"anim_type": "offset", "easing": "linear", "from": [0, 0], "to": ["100%", 0], "duration": 1.7}
-    A.update(fade("eth_sgi_l1", 0.2, 1.8)); A.update(fade("eth_sgi_l2", 1.9, 4.0)); A.update(fade("eth_sgi_l3", 5.0, 6.5))
-    A.update(fade("eth_sgi_hg", 4.3, 6.3)); A.update(fade("eth_sgi_hs", 4.7, 6.3, a=0.8))
-    A.update(fade("eth_sgi_bn", 6.4, fd=0.25)); A.update(fade("eth_sgi_bs", 6.8, a=0.9))
-    A["eth_sgi_slide_w"] = {"anim_type": "wait", "duration": 6.4, "next": f"@{NS}.eth_sgi_slide"}
-    A["eth_sgi_slide"] = {"anim_type": "offset", "easing": "out_cubic", "from": ["-100%", -12], "to": [0, -12], "duration": 0.45}
+    # abertura: a MESMA ordem e as mesmas durações das partes do vídeo (legenda 1.25 s, assinatura desenhada em 2.3 s, "A Ampulheta" junto
+    # com "Aptidão encontrada.", faixa entrando da esquerda em 0.4 s), sem os 5 s de quadro vazio, para caber nos 9.5 s da cena (autoTicks 190)
+    A["eth_sgi_fr_w"] = {"anim_type": "wait", "duration": 4.5, "next": f"@{NS}.eth_sgi_fr_o"}
+    A["eth_sgi_fr_o"] = {"anim_type": "alpha", "easing": "linear", "from": 1.0, "to": 0.0, "duration": 0.3}
+    A["eth_sgi_sign_w"] = {"anim_type": "wait", "duration": 2.0, "next": f"@{NS}.eth_sgi_sign"}
+    A["eth_sgi_sign"] = {"anim_type": "offset", "easing": "linear", "from": [0, 0], "to": ["100%", 0], "duration": 2.3}
+    A.update(fade("eth_sgi_l1", 0.15, 1.4, fd=0.2)); A.update(fade("eth_sgi_l2", 1.5, 2.75, fd=0.2)); A.update(fade("eth_sgi_l3", 4.8, 6.5, fd=0.2))
+    A.update(fade("eth_sgi_hg", 4.8, 6.6, fd=0.25)); A.update(fade("eth_sgi_hs", 5.6, 6.6, a=0.85, fd=0.25))
+    A.update(fade("eth_sgi_bn", 6.9, fd=0.2)); A.update(fade("eth_sgi_bs", 7.3, a=0.95))
+    A["eth_sgi_slide_w"] = {"anim_type": "wait", "duration": 6.9, "next": f"@{NS}.eth_sgi_slide"}
+    A["eth_sgi_slide"] = {"anim_type": "offset", "easing": "out_cubic", "from": ["-100%", "-11.5%"], "to": [0, "-11.5%"], "duration": 0.4}
     A.update(fade("eth_sgi_skip", 0.6, a=0.85))
-    # final: esfera de linhas cresce, legendas "Confirmado." -> "Reencarnação completa." -> "Para o mundo." -> "Boa sorte."
-    A["eth_sgo_grow"] = {"anim_type": "size", "easing": "out_cubic", "from": [20, 20], "to": [150, 150], "duration": 1.4}
-    A.update(fade("eth_sgo_l1", 0.2, 1.7)); A.update(fade("eth_sgo_l2", 1.8, 3.6)); A.update(fade("eth_sgo_l3", 3.7, 5.1)); A.update(fade("eth_sgo_l4", 5.2))
+    # final: esfera geodésica (71% da altura, 8.8% acima do centro) gira devagar; legendas na barra preta
+    A["eth_sgo_grow"] = {"anim_type": "size", "easing": "out_cubic", "from": ["100%y", "8%"], "to": ["100%y", "71%"], "duration": 0.7}
+    for k in range(12):   # 12 quadros da geodésica, 0.25 s cada (volta de 72° em 3 s)
+        A[f"eth_sgg{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * 0.25, "next": f"@{NS}.eth_sgg{k}_in"}
+        A[f"eth_sgg{k}_in"] = {"anim_type": "alpha", "easing": "linear", "from": 0.0, "to": 1.0, "duration": 0.25, "next": f"@{NS}.eth_sgg{k}_out"}
+        A[f"eth_sgg{k}_out"] = {"anim_type": "alpha", "easing": "linear", "from": 1.0, "to": 0.0, "duration": 0.25, "next": f"@{NS}.eth_sgg{k}_wait"}
+        A[f"eth_sgg{k}_wait"] = {"anim_type": "wait", "duration": 2.5, "next": f"@{NS}.eth_sgg{k}_in"}
+    A.update(fade("eth_sgo_l1", 0.2, 1.5, fd=0.2)); A.update(fade("eth_sgo_l2", 1.6, 3.6, fd=0.2)); A.update(fade("eth_sgo_l3", 3.7, 5.1, fd=0.2)); A.update(fade("eth_sgo_l4", 5.2, fd=0.2))
     A.update(fade("eth_sgo_skip", 1.0, a=0.85))
     return A
 def stars():
@@ -258,113 +358,171 @@ def stars():
     return [{"st_bg": img(T("sg_stars"), ["100%", "100%"], keep_ratio=False, fill=True, layer=1)}] + [
         {f"tw{k}": img(T("sg_twinkle"), [sz, sz], anchor_from="top_left", anchor_to="top_left", offset=[f"{x}%", f"{y}%"], alpha=0.08, layer=2, anims=[f"@{NS}.eth_sgtw{k}"])}
         for k, (x, y, sz) in enumerate(TWK)]
-def legend(text, bindings=None, anim=None, offset=-8, color=None):
-    L = {"type": "label", "text": text, "anchor_from": "bottom_middle", "anchor_to": "bottom_middle", "offset": [0, offset], "size": ["default", 10],
-         "color": color or NAVY_TXT, "shadow": True, "layer": 8}
+def lbl(text, scale=1.0, color=None, **kw):
+    L = {"type": "label", "text": text, "size": ["default", "default"], "color": color or [1, 1, 1], "font_scale_factor": scale, **kw}
+    if text.startswith("#"): L["bindings"] = [{"binding_name": text}]
+    return L
+def legend(text, bindings=None, anim=None):
+    """legenda do vídeo: barra preta de 4.2% da altura colada na base, texto claro centralizado (barra e texto aparecem/somem juntos)"""
+    t = lbl(text, 0.62, CAP_TXT, anchor_from="center", anchor_to="center", offset=[0, "6%"], layer=1)
+    L = img("textures/ui/Black", ["100%", "4.2%"], keep_ratio=False, anchor_from="bottom_middle", anchor_to="bottom_middle", layer=30, controls=[{"t": t}])
     if bindings: L["bindings"] = bindings
-    if anim: L["alpha"] = 0.0; L["anims"] = [f"@{NS}.{anim}_w"]
+    if anim:
+        for c in (L, t): c["alpha"] = 0.0; c["anims"] = [f"@{NS}.{anim}_w"]
     return L
 def tap_row(anim):
-    """botão único da cena ("Pular »" / "Continuar »") no canto inferior direito"""
-    return {"type": "stack_panel", "orientation": "horizontal", "size": ["100%c", 16], "anchor_from": "bottom_right", "anchor_to": "bottom_right", "offset": [-6, -5], "layer": 20,
+    """botão único da cena ("Pular »" / "Continuar »") discreto no canto inferior direito, sobre a barra da legenda"""
+    return {"type": "stack_panel", "orientation": "horizontal", "size": ["100%c", "4.2%"], "anchor_from": "bottom_right", "anchor_to": "bottom_right", "offset": [-4, 0], "layer": 40,
             "alpha": 0.0, "anims": [f"@{NS}.{anim}_w"], "factory": {"name": "buttons", "control_name": f"{NS}.eth_sg_tap_btn"}, "collection_name": "form_buttons",
             "bindings": [{"binding_name": "#form_button_length", "binding_name_override": "#collection_length"}]}
-def pill_button(w, h, bh, dim=False):
-    """o MESMO light_text_button da coleção form_buttons (padrão do cartão original), com pílulas de borda branca"""
-    return {"type": "panel", "size": [w, h], "controls": [
-        {"form_button@common_buttons.light_text_button": {"$pressed_button_name": "button.form_button_click", "anchor_from": "center", "anchor_to": "center", "size": ["100% - 4px", bh],
-            "$button_text": "#form_button_text", "$button_text_binding_type": "collection", "$button_text_grid_collection_name": "form_buttons", "$button_text_max_size": ["100% - 4px", 10],
-            "$default_button_texture": T("sg_pill_dim" if dim else "sg_pill"), "$hover_button_texture": T("sg_pill_h"), "$pressed_button_texture": T("sg_pill_p"),
-            "$default_text_color": [0.86, 0.9, 0.97] if dim else [1, 1, 1], "$hover_text_color": [1, 1, 1], "$pressed_text_color": [0.85, 0.92, 1], "$border_visible": False,
-            "bindings": [{"binding_type": "collection_details", "binding_collection_name": "form_buttons"}]}}]}
+def text_btn(size, af, at, offset, tex, txt=(1, 1, 1), scale=0.62, max_size=("100% - 4px", "100%"), **extra):
+    """o MESMO light_text_button da coleção form_buttons (padrão do cartão original), com texturas próprias e escala de fonte do jogo"""
+    B = {"$pressed_button_name": "button.form_button_click", "size": size, "anchor_from": af, "anchor_to": at, "offset": offset,
+         "$button_text": "#form_button_text", "$button_text_binding_type": "collection", "$button_text_grid_collection_name": "form_buttons", "$button_text_max_size": list(max_size),
+         "$button_font_scale_factor": scale, "$default_button_texture": T(tex), "$hover_button_texture": T(tex + "_h"), "$pressed_button_texture": T(tex + "_p"),
+         "$default_text_color": list(txt), "$hover_text_color": [1, 1, 1], "$pressed_text_color": [1, 1, 1], "$border_visible": False,
+         "bindings": [{"binding_type": "collection_details", "binding_collection_name": "form_buttons"}], **extra}
+    return {"form_button@common_buttons.light_text_button": B}
+def card_variant(k, marker, inner):
+    """variante da linha da fábrica do cartão. Cada botão do formulário vira uma linha do tamanho do CARTÃO numa pilha horizontal
+    (linha k começa k cartões à direita); a variante só aparece se o texto do botão (#form_button_text) tiver o marcador e volta k
+    larguras para a esquerda, então tudo dentro dela se posiciona em % do próprio cartão. Mesmo padrão de binding do dynamic_button do jogo
+    (binding "collection" num filho da linha + binding "view" para #visible)."""
+    return {f"v{k}": {"type": "panel", "size": ["100%", "100%"], "offset": [f"-{k * 100}%" if k else 0, 0], "controls": [inner], "bindings": [
+        {"binding_type": "collection", "binding_collection_name": "form_buttons", "binding_name": "#form_button_text"},
+        {"binding_type": "view", "source_property_name": f"(not ((#form_button_text - '{marker}') = #form_button_text))", "target_property_name": "#visible"}]}}
 def reinc_defs():
     D = reinc_anims()
-    # ficha do cartão: o mesmo #form_text, em letra menor (como o texto pequeno do cartão do vídeo)
-    D["eth_sg_card_text"] = {"type": "stack_panel", "size": ["100% - 4px", "100%c"], "orientation": "vertical", "anchor_from": "top_left", "anchor_to": "top_left", "controls": [
-        {"pad_top": {"type": "panel", "size": ["100%", 2]}},
+    # ficha do cartão: o mesmo #form_text, em letra pequena como no vídeo (texto ~23 letras por linha na coluna da direita)
+    D["eth_sg_card_text"] = {"type": "stack_panel", "size": ["100% - 2px", "100%c"], "orientation": "vertical", "anchor_from": "top_left", "anchor_to": "top_left", "controls": [
         {"text_panel": {"type": "panel", "size": ["100%", "100%c"], "controls": [
-            {"main_label": {"type": "label", "offset": [5, 0], "color": [1, 1, 1], "size": ["100% - 8px", "default"], "anchor_from": "top_left", "anchor_to": "top_left", "text": "#form_text", "font_scale_factor": 0.8}}]}},
+            {"main_label": {"type": "label", "offset": [0, 0], "color": [1, 1, 1], "size": ["100%", "default"], "anchor_from": "top_left", "anchor_to": "top_left", "text": "#form_text", "font_scale_factor": 0.55}}]}},
         {"pad_bottom": {"type": "panel", "size": ["100%", 6]}}]}
-    D["eth_sg_pick_btn"] = pill_button(int((CW - 16) / 3), 20, 17)
-    D["eth_sg_tap_btn"] = pill_button(78, 16, 14, dim=True)
+    side = lambda k, af, at, dx: text_btn(["56.6%", "56.6%"], af, at, [dx, "-2%"], "sg_card_side", txt=(0.36, 0.45, 0.6), scale=1.0)
+    D["eth_sg_card_row"] = {"type": "panel", "size": ["100%", "100%"], "controls": [
+        card_variant(0, CARD_MARK[0], side(0, "left_middle", "right_middle", "-4.6%")),                    # cartão vizinho da esquerda = raça anterior
+        card_variant(1, CARD_MARK[1], text_btn(["82.8%", "4.4%"], "bottom_middle", "bottom_middle", [0, "-5.1%"], "sg_pill", scale=0.62)),   # ESCOLHER
+        card_variant(2, CARD_MARK[2], side(2, "right_middle", "left_middle", "4.6%"))]}                    # cartão vizinho da direita = próxima raça
+    D["eth_sg_tap_btn"] = {"type": "panel", "size": ["22%y", "100%"], "controls": [text_btn(["100%", "80%"], "center", "center", [0, 0], "sg_pill_dim", txt=(0.86, 0.9, 0.97), scale=0.55)]}
     fr = lambda: [f"@{NS}.eth_sgi_fr_w"]
+    brk = lambda nm, a, off: {f"b_{nm}": img(T(f"sg_brk_{nm}"), ["100%y", "7.7%"], keep_ratio=False, anchor_from=a, anchor_to=a, offset=off, layer=3, anims=fr())}
     D["eth_sg_intro_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": stars() + [
-        {"draw": {"type": "panel", "size": ["66%", "68%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, -10], "layer": 4, "controls": [
+        # quadro preto do "desenho" (6.2%..89.8% da altura), borda branca fina, cantoneiras cinza por dentro
+        {"draw": {"type": "panel", "size": ["100% - 22px", "83.6%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-2.1%"], "layer": 4, "controls": [
             {"black": img("textures/ui/Black", ["100%", "100%"], keep_ratio=False, layer=1, anims=fr())},
             {"thin": img(T("sg_thin"), ["100%", "100%"], keep_ratio=False, layer=2, anims=fr())},
-            {"sign": {"type": "panel", "size": ["62%", "56%"], "anchor_from": "center", "anchor_to": "center", "layer": 3, "clips_children": True, "controls": [
+            brk("tl", "top_left", [3, 3]), brk("tr", "top_right", [-3, 3]), brk("bl", "bottom_left", [3, -3]), brk("br", "bottom_right", [-3, -3]),
+            {"sign": {"type": "panel", "size": ["46%", "38%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-6%"], "layer": 4, "clips_children": True, "controls": [
                 {"ink": img(T("sg_sign"), ["100%", "100%"], keep_ratio=False, layer=1, anims=fr())},
                 {"cover": img("textures/ui/Black", ["100%", "100%"], keep_ratio=False, anchor_from="top_left", anchor_to="top_left", layer=2, anims=[f"@{NS}.eth_sgi_sign_w"])}]}}]}},
-        {"hg": {"type": "label", "text": "A Ampulheta", "anchor_from": "center", "anchor_to": "center", "offset": [0, -16], "size": ["default", 10], "color": [0.95, 0.97, 1], "shadow": True,
-                "layer": 6, "alpha": 0.0, "anims": [f"@{NS}.eth_sgi_hg_w"]}},
-        {"hs": {"type": "label", "text": "Era, estreitou-se, conteve-se.", "anchor_from": "center", "anchor_to": "center", "offset": [0, 34], "size": ["default", 10], "color": [0.7, 0.76, 0.88],
-                "layer": 6, "alpha": 0.0, "anims": [f"@{NS}.eth_sgi_hs_w"]}},
-        {"banner": {"type": "panel", "size": ["100%", 50], "anchor_from": "center", "anchor_to": "center", "offset": ["-100%", -12], "layer": 7, "anims": [f"@{NS}.eth_sgi_slide_w"], "controls": [
+        # "A Ampulheta" (43% da altura) com o hexágono apagado e o brilho azul; frase embaixo (78%)
+        {"hx": img(T("sg_hex"), ["108%y", "45%"], keep_ratio=False, anchor_from="center", anchor_to="center", offset=[0, "-1%"], alpha=0.0, layer=3, anims=[f"@{NS}.eth_sgi_hg_w"])},
+        {"hl": img(T("sg_glow"), ["130%y", "40%"], keep_ratio=False, anchor_from="center", anchor_to="center", offset=[0, "-6%"], alpha=0.0, layer=3, anims=[f"@{NS}.eth_sgi_hg_w"])},
+        {"hg": lbl("A Ampulheta", 0.8, [0.95, 0.97, 1], anchor_from="center", anchor_to="center", offset=[0, "-7%"], layer=6, alpha=0.0, anims=[f"@{NS}.eth_sgi_hg_w"])},
+        {"hs": lbl("Era, estreitou-se, conteve-se.", 0.62, [0.7, 0.76, 0.88], anchor_from="center", anchor_to="center", offset=[0, "28%"], layer=6, alpha=0.0, anims=[f"@{NS}.eth_sgi_hs_w"])},
+        # faixa vermelha: 14.6%..62.3% da altura (47.7%), largura toda, entra da esquerda; nome da aptidão grande no meio, nome embaixo (67%)
+        {"banner": {"type": "panel", "size": ["100%", "47.7%"], "anchor_from": "center", "anchor_to": "center", "offset": ["-100%", "-11.5%"], "layer": 7, "anims": [f"@{NS}.eth_sgi_slide_w"], "controls": [
             {"red": img(T("sg_banner"), ["100%", "100%"], keep_ratio=False, layer=1, alpha=0.0, anims=[f"@{NS}.eth_sgi_bn_w"])},
             {"name": {"type": "label", "text": "#title_text", "bindings": [{"binding_name": "#title_text"}], "anchor_from": "center", "anchor_to": "center", "size": ["100% - 24px", "default"],
-                      "text_alignment": "center", "font_size": "extra_large", "color": [1, 0.95, 0.95], "shadow": True, "layer": 2, "alpha": 0.0, "anims": [f"@{NS}.eth_sgi_bn_w"]}}]}},
-        {"bsub": {"type": "label", "text": "#form_text", "bindings": [{"binding_name": "#form_text"}], "anchor_from": "center", "anchor_to": "center", "offset": [0, 24], "size": ["default", 10],
-                  "color": NAVY_TXT, "layer": 7, "alpha": 0.0, "anims": [f"@{NS}.eth_sgi_bs_w"]}},
+                      "text_alignment": "center", "font_size": "large", "color": [1, 0.96, 0.96], "shadow": False, "layer": 2, "alpha": 0.0, "anims": [f"@{NS}.eth_sgi_bn_w"]}}]}},
+        {"bsub": lbl("#form_text", 0.7, CAP_TXT, anchor_from="center", anchor_to="center", offset=[0, "17%"], layer=7, alpha=0.0, anims=[f"@{NS}.eth_sgi_bs_w"])},
         {"l1": legend("Sorteio.", anim="eth_sgi_l1")}, {"l2": legend("O último desejo.", anim="eth_sgi_l2")}, {"l3": legend("Aptidão encontrada.", anim="eth_sgi_l3")},
         {"skip": tap_row("eth_sgi_skip")},
     ]}
-    blue = [0.5, 0.75, 1.0]
     D["eth_sg_outro_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": stars() + [
-        {"sphere": {"type": "panel", "size": [150, 150], "anchor_from": "center", "anchor_to": "center", "offset": [0, -10], "layer": 4, "anims": [f"@{NS}.eth_sgo_grow"], "controls":
-            [{f"x{k}": img(f"textures/ui/etheria/sg_ico_{k}", ["100%", "100%"], keep_ratio=False, anchor_from="center", anchor_to="center", color=blue, alpha=0.0, layer=1, anims=[f"@{NS}.eth_sgx{k}_start"])} for k in range(12)]
-            + [{"core": img("textures/ui/etheria/ov_core", ["24%", "24%"], keep_ratio=False, anchor_from="center", anchor_to="center", color=[0.45, 0.8, 1.0], layer=3, anims=[f"@{NS}.eth_sg_glow_a"])},
-               {"dot": img(T("sg_twinkle"), ["9%", "9%"], keep_ratio=False, anchor_from="center", anchor_to="center", layer=4)}]}},
+        {"sphere": {"type": "panel", "size": ["100%y", "71%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-8.8%"], "layer": 4, "anims": [f"@{NS}.eth_sgo_grow"], "controls":
+            [{f"g{k}": img(T(f"sg_geo_{k}"), ["100%", "100%"], keep_ratio=False, anchor_from="center", anchor_to="center", alpha=0.0, layer=1, anims=[f"@{NS}.eth_sgg{k}_start"])} for k in range(12)]
+            + [{"core": img("textures/ui/etheria/ov_core", ["14%", "14%"], keep_ratio=False, anchor_from="center", anchor_to="center", color=[0.35, 0.7, 1.0], layer=3, anims=[f"@{NS}.eth_sg_glow_a"])},
+               {"dot": img(T("sg_twinkle"), ["5%", "5%"], keep_ratio=False, anchor_from="center", anchor_to="center", color=[0.75, 0.92, 1.0], layer=4)}]}},
         {"l1": legend("Confirmado.", anim="eth_sgo_l1")}, {"l2": legend("Reencarnação completa.", anim="eth_sgo_l2")},
         {"l3": legend("Para o mundo.", anim="eth_sgo_l3")}, {"l4": legend("Boa sorte.", anim="eth_sgo_l4")},
         {"skip": tap_row("eth_sgo_skip")},
     ]}
-    return D
-
-def sage_defs():
-    D = {}
-    D.update(anims())
-    D["eth_sg_btn"] = sg_button(32, 30, 20)          # 2 linhas (título + descrição)
-    D["eth_sg_btn_s"] = sg_button(25, 23, 10)        # 1 linha (Livro do Sábio)
-    D["eth_sg_card_btn"] = {"type": "panel", "size": [96, 26], "controls": sg_button(26, 22, 10)["controls"]}
-    D["eth_sg_list"] = button_list("eth_sg_btn")
-    D["eth_sg_list_s"] = button_list("eth_sg_btn_s")
-    # ---- genérico: ficha à esquerda, botões à direita (habilidades, Registro, evolução, árvore da raça, análise/Confirmar renascimento)
-    D["eth_sg_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": backdrop() + [
-        {"title": title_band(["50%", 20], "top_middle", [0, 5])},
-        {"cols": {"type": "stack_panel", "orientation": "horizontal", "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, 29], "size": ["100% - 20px", "100% - 36px"], "layer": 5, "controls": [
-            {"info": text_panel(["50%", "100%"], "top_left", [0, 0], layer=1)},
-            {"gap": {"type": "panel", "size": [6, "100%"]}},
-            {"list": {"type": "panel", "size": ["fill", "100%"], "controls": [
-                {"plate": img(T("sg_frame"), ["100%", "100%"], alpha=0.7, layer=1)},
-                {"scroll@common.scrolling_panel": dict(scroll(f"{NS}.eth_sg_list"), layer=2)}]}},
-        ]}},
-    ]}
-    # ---- 8.9: escolha de raça = carrossel do vídeo de referência (céu estrelado, cartão alto preto de borda branca fina, retrato de corpo
-    #      inteiro à esquerda, nome em cima, selo de dificuldade, ficha Mana/Aura/Alinhamento + habilidades + descrição, pílulas < ESCOLHER >,
-    #      metades dos cartões vizinhos nas laterais, legenda "Agora escolha uma forma." / "Confirmar?")
-    D.update(reinc_defs())
+    # ---- cartão do carrossel
     D["eth_sg_card_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": stars() + [
-        {"side_l": img(T("sg_card_side"), [CW, "74%"], keep_ratio=False, anchor_from="center", anchor_to="center", offset=[-(CW + 16), -9], layer=3)},
-        {"side_r": img(T("sg_card_side"), [CW, "74%"], keep_ratio=False, anchor_from="center", anchor_to="center", offset=[CW + 16, -9], layer=3)},
-        {"card": {"type": "panel", "size": [CW, "100% - 30px"], "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, 6], "layer": 5, "controls": [
+        {"card": {"type": "panel", "size": ["61%y", "100%"], "anchor_from": "center", "anchor_to": "center", "layer": 5, "controls": [
             {"frame": img(T("sg_card"), ["100%", "100%"], keep_ratio=False, layer=1)},
-            {"name": {"type": "label", "text": "#title_text", "bindings": [{"binding_name": "#title_text"}], "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, 5],
-                      "size": ["100% - 10px", "default"], "text_alignment": "center", "color": [1, 1, 1], "shadow": True, "layer": 3}},
-            {"pic": img(T("sg_pframe"), [62, "100% - 48px"], keep_ratio=False, anchor_from="top_left", anchor_to="top_left", offset=[7, 18], layer=2, controls=[
-                {f"p_{rid}": img(T(f"race_{rid}"), ["100% - 4px", "100% - 4px"], anchor_from="center", anchor_to="center", layer=1, bindings=vis(has(f"§k§r§{c}")))} for rid, c in RACE_CODES.items()])},
-            {"info": {"type": "panel", "size": ["100% - 76px", "100% - 48px"], "anchor_from": "top_left", "anchor_to": "top_left", "offset": [71, 18], "layer": 2, "controls": [
-                {f"badge{k}": img(T(f"sg_badge{k}"), [46, 11], keep_ratio=False, anchor_from="top_left", anchor_to="top_left", offset=[4, 0], layer=2, bindings=vis(has(f"§l§r§{k}")), controls=[
-                    {"t": {"type": "label", "text": nm, "anchor_from": "center", "anchor_to": "center", "size": ["default", 10], "color": col, "layer": 1}}])} for k, (nm, col, _) in enumerate(DIFF)]
-                + [{"body": {"type": "panel", "size": ["100%", "100% - 13px"], "anchor_from": "top_left", "anchor_to": "top_left", "offset": [-5, 11], "layer": 3, "controls": [
-                    {"scroll@common.scrolling_panel": dict(scroll(f"{NS}.eth_sg_card_text"), layer=1)}]}}]}},
-            {"btns": {"type": "stack_panel", "orientation": "horizontal", "size": ["100%c", 20], "anchor_from": "bottom_middle", "anchor_to": "bottom_middle", "offset": [0, -6], "layer": 6,
-                      "factory": {"name": "buttons", "control_name": f"{NS}.eth_sg_pick_btn"}, "collection_name": "form_buttons",
+            {"name": {"type": "label", "text": "#title_text", "bindings": [{"binding_name": "#title_text"}], "anchor_from": "top_middle", "anchor_to": "top_middle", "offset": [0, "1.1%"],
+                      "size": ["90%", "default"], "text_alignment": "center", "color": [1, 1, 1], "font_scale_factor": 0.8, "layer": 3}},
+            {"pic": img(T("sg_pframe"), ["40.3%", "84.5%"], keep_ratio=False, anchor_from="top_left", anchor_to="top_left", offset=["5.3%", "4.6%"], layer=2, controls=[
+                {f"p_{rid}": img(T(f"race_{rid}"), ["100% - 2px", "100% - 2px"], anchor_from="center", anchor_to="center", layer=1, bindings=vis(has(f"§k§r§{c}")))} for rid, c in RACE_CODES.items()])},
+            *[{f"badge{k}": img(T(f"sg_badge{k}"), ["13%", "2.7%"], keep_ratio=False, anchor_from="top_left", anchor_to="top_left", offset=["50.6%", "5.5%"], layer=2, bindings=vis(has(f"§l§r§{k}")), controls=[
+                {"t": lbl(nm, 0.5, col, anchor_from="center", anchor_to="center", layer=1)}])} for k, (nm, col, _) in enumerate(DIFF)],
+            {"info": {"type": "panel", "size": ["47%", "79%"], "anchor_from": "top_left", "anchor_to": "top_left", "offset": ["50.4%", "9.2%"], "layer": 3, "controls": [
+                {"scroll@common.scrolling_panel": dict(scroll(f"{NS}.eth_sg_card_text"), **{"$scroll_size": [2, "100% - 4px"]}, layer=1)}]}},
+            {"btns": {"type": "stack_panel", "orientation": "horizontal", "size": ["100%", "100%"], "anchor_from": "top_left", "anchor_to": "top_left", "layer": 6,
+                      "factory": {"name": "buttons", "control_name": f"{NS}.eth_sg_card_row"}, "collection_name": "form_buttons",
                       "bindings": [{"binding_name": "#form_button_length", "binding_name_override": "#collection_length"}]}},
         ]}},
         {"leg_pick": legend("Agora escolha uma forma.", vis(lacks(CONFIRM)))},
         {"leg_conf": legend("Confirmar?", vis(has(CONFIRM)))},
         {"close@common.close_button": {"anchor_from": "top_right", "anchor_to": "top_right", "offset": [-6, 5], "layer": 12}},
     ]}
+    return D
+
+# ------------------------------------------------------------------ 8.9b: JANELA TENSURA (habilidades, Registro, ficha, evolução...)
+# Cópia do menu "Magic" do vídeo (316 s): abas quadradas em cima à esquerda, título centrado acima, painel azul-marinho de borda
+# preta + filete, seção esquerda com os ícones redondos (aro octogonal) e seção direita com moldura cinza chanfrada, faixa 1..9,
+# campo cinza ("Preset 1" -> nome do Sábio) e caixa azul com a ficha. Proporções do vídeo: janela 1.65:1 com 64% da altura da tela;
+# esquerda 0.8%..48.3%, direita 49.6%..99.2% da largura; dentro da direita: faixa 1..9 a 14.5%, campo a 26.7%, ficha de 37% a 93%.
+TZ_TXT = [0.12, 0.12, 0.14]
+def tz_defs():
+    D = {}
+    icon_bind = [{"binding_name": "#form_button_texture", "binding_name_override": "#texture", "binding_type": "collection", "binding_collection_name": "form_buttons"},
+                 {"binding_name": "#form_button_texture_file_system", "binding_name_override": "#texture_file_system", "binding_type": "collection", "binding_collection_name": "form_buttons"},
+                 {"binding_type": "view", "source_property_name": "(not ((#texture = '') or (#texture = 'loading')))", "target_property_name": "#visible"}]
+    # linha da lista: botão cinza-claro (lista "Creator"/"Ability Archive") + ícone do botão dentro do aro octogonal (menu "Magic").
+    # O ícone segue o dynamic_button do próprio jogo: painel com binding no filho "image" (sem ícone, o aro some).
+    D["eth_sg_tz_row"] = {"type": "panel", "size": ["100%", 30], "controls": [
+        text_btn(["100% - 2px", 26], "center", "center", [0, 0], "tz_row", txt=TZ_TXT, scale=0.8, max_size=("100% - 35px", 20),
+                 **{"$anchor": "left_middle", "$text_alignment": "left", "$new_ui_label_offset": [31, 0], "$hover_text_color": [0.05, 0.05, 0.07], "$pressed_text_color": [0.05, 0.05, 0.07]}),
+        {"orb": {"type": "panel", "size": [27, 27], "anchor_from": "left_middle", "anchor_to": "left_middle", "offset": [1, 0], "layer": 6,
+                 "bindings": [{"binding_type": "view", "source_control_name": "image", "resolve_sibling_scope": True, "source_property_name": "(not (#texture = ''))", "target_property_name": "#visible"}],
+                 "controls": [{"bg": img(T("tz_orb_bg"), ["100%", "100%"], layer=1)},
+                              {"image": {"type": "image", "size": [17, 17], "layer": 2, "bindings": icon_bind}},
+                              {"ring": img(T("tz_orb"), ["100%", "100%"], layer=3)}]}}]}
+    D["eth_sg_tz_list"] = button_list("eth_sg_tz_row")
+    D["eth_sg_tz_text"] = {"type": "stack_panel", "size": ["100% - 2px", "100%c"], "orientation": "vertical", "anchor_from": "top_left", "anchor_to": "top_left", "controls": [
+        {"text_panel": {"type": "panel", "size": ["100%", "100%c"], "controls": [
+            {"main_label": {"type": "label", "offset": [3, 2], "color": [0.92, 0.94, 0.98], "size": ["100% - 6px", "default"], "anchor_from": "top_left", "anchor_to": "top_left", "text": "#form_text", "font_scale_factor": 0.7}}]}},
+        {"pad_bottom": {"type": "panel", "size": ["100%", 6]}}]}
+    tabs = [("textures/ui/etheria/sg_ico_0", [0.9, 0.62, 1.0]), ("textures/ui/etheria/menu_skills", None), ("textures/ui/etheria/menu_class", None)]
+    tab_ctl = []
+    for i, (ic, col) in enumerate(tabs):
+        icon = img(ic, ["62%", "62%"], anchor_from="center", anchor_to="center", layer=1, **({"color": col} if col else {}))
+        tab_ctl.append({f"tab{i}": img(T("tz_tab_on" if i == 0 else "tz_tab"), ["9%", "15%"], keep_ratio=False, anchor_from="top_left", anchor_to="bottom_left",
+                                       offset=[f"{[2.0, 13.6, 24.3][i]}%", 2 if i == 0 else 0], layer=3 if i == 0 else 1, controls=[{"ic": icon}])})
+    nums = {"nums": {"type": "stack_panel", "orientation": "horizontal", "size": ["78%", "5.4%"], "anchor_from": "top_left", "anchor_to": "top_left", "offset": ["9.6%", "14.5%"], "layer": 3, "controls": [
+        {f"n{k}": img(T("tz_num_on" if k == 1 else "tz_num"), ["11.1%", "100%"], keep_ratio=False, controls=[{"t": lbl(str(k), 0.6, [0.95, 0.95, 0.97], anchor_from="center", anchor_to="center", layer=1)}])} for k in range(1, 10)]}}
+    sage_name = [("Raphael", has("§t§r")), ("Ciel", has("§t§c")), ("Grande Sábio", AND(lacks("§t§r"), lacks("§t§c")))]
+    field = {"field": img(T("tz_field"), ["80%", "7.7%"], keep_ratio=False, anchor_from="top_left", anchor_to="top_left", offset=["9.6%", "26.7%"], layer=3, controls=[
+        {f"s{i}": lbl(nm, 0.85, [0.97, 0.97, 0.99], anchor_from="left_middle", anchor_to="left_middle", offset=[4, 0], layer=1, shadow=True, bindings=vis(ex))} for i, (nm, ex) in enumerate(sage_name)]}
+    D["eth_sg_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": [
+        {"win": {"type": "panel", "size": ["165%y", "64%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "5%"], "layer": 5, "controls": tab_ctl + [
+            {"frame": img(T("tz_win"), ["100%", "100%"], keep_ratio=False, layer=2)},
+            {"title": {"type": "label", "text": "#title_text", "bindings": [{"binding_name": "#title_text"}], "anchor_from": "top_middle", "anchor_to": "bottom_middle", "offset": ["10%", -4],
+                       "size": ["default", "default"], "color": [1, 1, 1], "shadow": True, "font_scale_factor": 0.9, "layer": 4}},
+            {"close@common.close_button": {"anchor_from": "top_right", "anchor_to": "bottom_right", "offset": [0, -1], "layer": 12}},
+            {"left": {"type": "panel", "size": ["47.5%", "97.4%"], "anchor_from": "top_left", "anchor_to": "top_left", "offset": ["0.8%", "1.3%"], "layer": 3, "controls": [
+                {"bg": img(T("tz_left"), ["100%", "100%"], keep_ratio=False, layer=1)},
+                {"in": {"type": "panel", "size": ["100% - 4px", "100% - 4px"], "anchor_from": "center", "anchor_to": "center", "layer": 2, "controls": [
+                    {"scroll@common.scrolling_panel": dict(scroll(f"{NS}.eth_sg_tz_list"), **{"$scroll_size": [3, "100% - 4px"]}, layer=1)}]}}]}},
+            {"right": {"type": "panel", "size": ["49.6%", "97.4%"], "anchor_from": "top_left", "anchor_to": "top_left", "offset": ["49.6%", "1.3%"], "layer": 3, "controls": [
+                {"bg": img(T("tz_right"), ["100%", "100%"], keep_ratio=False, layer=1)}, nums, field,
+                {"box": img(T("tz_box"), ["80%", "56%"], keep_ratio=False, anchor_from="top_left", anchor_to="top_left", offset=["9.6%", "37%"], layer=3, controls=[
+                    {"in": {"type": "panel", "size": ["100% - 2px", "100% - 2px"], "anchor_from": "center", "anchor_to": "center", "layer": 1, "controls": [
+                        {"scroll@common.scrolling_panel": dict(scroll(f"{NS}.eth_sg_tz_text"), **{"$scroll_size": [3, "100% - 4px"]}, layer=1)}]}}])}]}},
+        ]}},
+    ]}
+    return D
+
+def sage_defs():
+    D = {}
+    D.update(anims())
+    D["eth_sg_btn_s"] = sg_button(25, 23, 10)        # 1 linha (Livro do Sábio)
+    D["eth_sg_list_s"] = button_list("eth_sg_btn_s")
+    D.update(reinc_defs())
+    D.update(tz_defs())
     ico = lambda size: [{f"x{k}": img(f"textures/ui/etheria/sg_ico_{k}", size, keep_ratio=False, anchor_from="center", anchor_to="center", color=GREEN, alpha=0.0, layer=1, anims=[f"@{NS}.eth_sgx{k}_start"])} for k in range(12)]
     # ---- Livro do Sábio: icosaedro + círculo mágico verde, fala do Sábio num balão, opções à direita
     D["eth_sg_book_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": backdrop() + [
