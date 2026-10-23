@@ -8,6 +8,7 @@
 #   - 2º poliedro (dodecaedro com nós) girando em OUTRO eixo e no sentido contrário, por troca de 12 quadros (como o icosaedro)
 # Elementos brancos ficam UMA vez fora dos painéis de tema; os tingidos ficam em cada tema (cor = cor dos raios do tema).
 # Idempotente: remove o que ele mesmo pôs (chaves eth_v9*, controles v9_*) e põe de novo. Uso: python3 tools/sage_scene_fx.py
+# Rodar DEPOIS de tools/gen_ui_json.py (que regera o hud_screen.json inteiro). Desfazer: python3 tools/sage_scene_fx.py --remove
 import json, math, os, random
 from PIL import Image, ImageDraw, ImageFilter, ImageChops
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); RP = os.path.join(ROOT, "LegacyOfEtheria_RP")
@@ -23,12 +24,12 @@ def beams(k):   # feixes largos: cunha que alarga com a distância + núcleo; 7 
     W, H = 320, 180; S = 2; cx, cy = W * S / 2, H * S / 2; rnd = random.Random(900 + k)
     L = Image.new("L", (W * S, H * S), 0); d = ImageDraw.Draw(L); core = Image.new("L", L.size, 0); dc = ImageDraw.Draw(core)
     for j in range(7):
-        a = (j + rnd.uniform(-0.35, 0.35)) * 2 * math.pi / 7 + k * 0.21; br = rnd.uniform(0.45, 1.0); sp = rnd.uniform(0.012, 0.045); w0 = rnd.uniform(1.0, 2.5) * S
+        a = (j + rnd.uniform(-0.35, 0.35)) * 2 * math.pi / 7 + k * 0.21; br = rnd.uniform(0.45, 1.0); sp = rnd.uniform(0.003, 0.010); w0 = rnd.uniform(1.0, 2.5) * S
         R = W * S * 1.3; r0 = 8 * S; ux, uy = math.cos(a), math.sin(a) * 0.92; nx, ny = -uy, ux
         p = [(cx + ux * r0 + nx * w0, cy + uy * r0 + ny * w0), (cx + ux * R + nx * (w0 + R * sp), cy + uy * R + ny * (w0 + R * sp)),
              (cx + ux * R - nx * (w0 + R * sp), cy + uy * R - ny * (w0 + R * sp)), (cx + ux * r0 - nx * w0, cy + uy * r0 - ny * w0)]
-        d.polygon(p, fill=int(170 * br)); dc.line([(cx + ux * r0, cy + uy * r0), (cx + ux * R, cy + uy * R)], fill=int(255 * br), width=S)
-    L = ImageChops.lighter(L.filter(ImageFilter.GaussianBlur(5 * S)), core.filter(ImageFilter.GaussianBlur(1.6 * S)).point(lambda v: min(255, int(v * 1.3))))
+        d.polygon(p, fill=int(210 * br)); dc.line([(cx + ux * r0, cy + uy * r0), (cx + ux * R, cy + uy * R)], fill=int(255 * br), width=S)
+    L = ImageChops.lighter(L.filter(ImageFilter.GaussianBlur(2.6 * S)), core.filter(ImageFilter.GaussianBlur(1.6 * S)).point(lambda v: min(255, int(v * 1.3))))
     fade = Image.new("L", L.size, 255); fd = ImageDraw.Draw(fade)   # some perto do centro (o núcleo é a estrela)
     for r in range(60, 0, -2): fd.ellipse([cx - r * S * 2.6, cy - r * S * 2.6, cx + r * S * 2.6, cy + r * S * 2.6], fill=int(255 * (r / 60) ** 0.5))
     return wa(ImageChops.multiply(L, fade).resize((W, H), Image.LANCZOS))
@@ -100,7 +101,7 @@ def anims(D):
         A[f"{name}_b"] = {"anim_type": typ, "easing": ease, "from": hi, "to": lo, "duration": dur, "next": f"@hud.{name}_a"}
         return f"@hud.{name}_s"
     out = {}
-    for k, (lo, hi, dur, st) in enumerate(((0.10, 0.62, 0.55, 0.0), (0.05, 0.50, 0.80, 0.30), (0.12, 0.58, 0.67, 0.55), (0.04, 0.45, 0.95, 0.15))):
+    for k, (lo, hi, dur, st) in enumerate(((0.15, 0.85, 0.55, 0.0), (0.05, 0.70, 0.80, 0.30), (0.20, 0.80, 0.67, 0.55), (0.05, 0.65, 0.95, 0.15))):
         out[f"beam{k}"] = loop(f"eth_v9b{k}", "alpha", lo, hi, dur, st)
     out["glow"] = loop("eth_v9g", "size", [70, 70], [118, 118], 0.9)
     out["glowa"] = loop("eth_v9ga", "alpha", 0.35, 0.7, 0.45, 0.2)
@@ -125,11 +126,12 @@ def img(tex, size, layer, alpha, anims_, color=None, center=False, fill=True):
     if color: n["color"] = color
     n.update({"alpha": alpha, "layer": layer, "anims": anims_}); return n
 
-def patch():
+def patch(add=True):   # add=False desfaz (volta à cena 8.12: sem camadas v9 e anéis fx_ring)
     D = json.load(open(HP, encoding="utf-8")); before = json.dumps(D, ensure_ascii=False, indent=1)
     for k in [k for k in D if k.startswith("eth_v9")]: del D[k]
     wv = D["eth_world_voice"]; wv["controls"] = [c for c in wv["controls"] if not next(iter(c)).startswith("v9_")]
-    A, an = anims(D); D.update(A)
+    A, an = anims(D)
+    if add: D.update(A)
     themes = []
     for c in wv["controls"]:
         (name, node), = c.items()
@@ -140,24 +142,29 @@ def patch():
         soft = [round(0.45 + 0.55 * v, 3) for v in col]
         for x in node["controls"]:
             (kk, v), = x.items()
-            if kk in ("vring0", "vring1"): v["texture"] = TX + "ov_v_ring"
-        add = [{f"v9_beam{k}": img(f"ov_v_beam_{k}", ["100%", "100%"], 62, 0.0, [an[f"beam{k}"]], color=col)} for k in range(4)]
-        add.append({"v9_glow": img("ov_v_glow", [90, 90], 62, 0.5, [an["glow"], an["glowa"]], color=soft, center=True, fill=False)})
-        node["controls"] = add + node["controls"]
+            if kk in ("vring0", "vring1"): v["texture"] = TX + ("ov_v_ring" if add else "fx_ring")
+        extra = [{f"v9_beam{k}": img(f"ov_v_beam_{k}", ["100%", "100%"], 62, 0.0, [an[f"beam{k}"]], color=col)} for k in range(4)]
+        extra.append({"v9_glow": img("ov_v_glow", [90, 90], 62, 0.5, [an["glow"], an["glowa"]], color=soft, center=True, fill=False)})
+        node["controls"] = (extra if add else []) + node["controls"]
     # brancos (uma vez): poeira logo após o fundo; poliedro 2 e reflexo depois dos temas (antes do texto)
     i_bg = next(i for i, c in enumerate(wv["controls"]) if next(iter(c)) == "vbg")
     dust = [{"v9_dust0": img("ov_v_dust_0", ["110%", "110%"], 62, 0.8, [an["dust0"]], center=True)},
             {"v9_dust1": img("ov_v_dust_1", ["110%", "110%"], 62, 0.6, [an["dust1"], an["dust1a"]], center=True)}]
-    wv["controls"][i_bg + 1:i_bg + 1] = dust
+    if add: wv["controls"][i_bg + 1:i_bg + 1] = dust
     i_tx = next(i for i, c in enumerate(wv["controls"]) if next(iter(c)) == "title")
     poly = {"v9_poly": {"type": "panel", "size": ["78%", "78%"], "anchor_from": "center", "anchor_to": "center",
                         "controls": [{f"y{k}": img(f"ov_v_wirb_{k}", ["100%", "100%"], 64, 0.0, [an["poly"][k]])} for k in range(12)]}}
     fl = {"v9_flare": img("ov_v_flare", [240, 7], 65, 0.4, [an["flare"], an["flarea"]], color=[0.85, 0.93, 1.0], center=True, fill=False)}
-    wv["controls"][i_tx:i_tx] = [poly, fl]
+    if add: wv["controls"][i_tx:i_tx] = [poly, fl]
+    for c in D["eth_title_fx"]["controls"]:   # clarão de entrada/revelação: o anel também fica liso
+        for x in next(iter(c.values()))["controls"]:
+            if "ring" in x: x["ring"]["texture"] = TX + ("ov_v_ring" if add else "fx_ring")
     after = json.dumps(D, ensure_ascii=False, indent=1)
     if after != before: open(HP, "w", encoding="utf-8").write(after)
     json.load(open(HP, encoding="utf-8"))
     print(f"hud_screen.json {'alterado' if after != before else 'sem mudança'} | {len(after.encode())} bytes | temas: {', '.join(themes)}")
 
 if __name__ == "__main__":
-    textures(); patch()
+    import sys
+    if "--remove" in sys.argv: patch(False)
+    else: textures(); patch()

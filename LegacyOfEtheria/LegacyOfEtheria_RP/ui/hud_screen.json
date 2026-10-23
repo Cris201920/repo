@@ -1759,7 +1759,7 @@
       {
        "ring": {
         "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
+        "texture": "textures/ui/etheria/ov_v_ring",
         "anchor_from": "center",
         "anchor_to": "center",
         "size": [
@@ -1817,7 +1817,7 @@
       {
        "ring": {
         "type": "image",
-        "texture": "textures/ui/etheria/fx_ring",
+        "texture": "textures/ui/etheria/ov_v_ring",
         "anchor_from": "center",
         "anchor_to": "center",
         "size": [
@@ -6341,16 +6341,16 @@
  "eth_v9b0_a": {
   "anim_type": "alpha",
   "easing": "in_out_sine",
-  "from": 0.1,
-  "to": 0.62,
+  "from": 0.15,
+  "to": 0.85,
   "duration": 0.55,
   "next": "@hud.eth_v9b0_b"
  },
  "eth_v9b0_b": {
   "anim_type": "alpha",
   "easing": "in_out_sine",
-  "from": 0.62,
-  "to": 0.1,
+  "from": 0.85,
+  "to": 0.15,
   "duration": 0.55,
   "next": "@hud.eth_v9b0_a"
  },
@@ -6363,14 +6363,14 @@
   "anim_type": "alpha",
   "easing": "in_out_sine",
   "from": 0.05,
-  "to": 0.5,
+  "to": 0.7,
   "duration": 0.8,
   "next": "@hud.eth_v9b1_b"
  },
  "eth_v9b1_b": {
   "anim_type": "alpha",
   "easing": "in_out_sine",
-  "from": 0.5,
+  "from": 0.7,
   "to": 0.05,
   "duration": 0.8,
   "next": "@hud.eth_v9b1_a"
@@ -6383,16 +6383,16 @@
  "eth_v9b2_a": {
   "anim_type": "alpha",
   "easing": "in_out_sine",
-  "from": 0.12,
-  "to": 0.58,
+  "from": 0.2,
+  "to": 0.8,
   "duration": 0.67,
   "next": "@hud.eth_v9b2_b"
  },
  "eth_v9b2_b": {
   "anim_type": "alpha",
   "easing": "in_out_sine",
-  "from": 0.58,
-  "to": 0.12,
+  "from": 0.8,
+  "to": 0.2,
   "duration": 0.67,
   "next": "@hud.eth_v9b2_a"
  },
@@ -6404,16 +6404,16 @@
  "eth_v9b3_a": {
   "anim_type": "alpha",
   "easing": "in_out_sine",
-  "from": 0.04,
-  "to": 0.45,
+  "from": 0.05,
+  "to": 0.65,
   "duration": 0.95,
   "next": "@hud.eth_v9b3_b"
  },
  "eth_v9b3_b": {
   "anim_type": "alpha",
   "easing": "in_out_sine",
-  "from": 0.45,
-  "to": 0.04,
+  "from": 0.65,
+  "to": 0.05,
   "duration": 0.95,
   "next": "@hud.eth_v9b3_a"
  },
