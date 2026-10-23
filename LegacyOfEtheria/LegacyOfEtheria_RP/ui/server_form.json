@@ -15788,7 +15788,7 @@
   "type": "panel",
   "size": [
    "100%",
-   15
+   20
   ],
   "controls": [
    {
@@ -15796,7 +15796,7 @@
      "$pressed_button_name": "button.form_button_click",
      "size": [
       "100% - 2px",
-      14
+      19
      ],
      "anchor_from": "center",
      "anchor_to": "center",
@@ -15809,9 +15809,9 @@
      "$button_text_grid_collection_name": "form_buttons",
      "$button_text_max_size": [
       "100% - 8px",
-      10
+      11
      ],
-     "$button_font_scale_factor": 0.78,
+     "$button_font_scale_factor": 0.85,
      "$default_button_texture": "textures/ui/etheria_sg/arch_row",
      "$hover_button_texture": "textures/ui/etheria_sg/arch_row_h",
      "$pressed_button_texture": "textures/ui/etheria_sg/arch_row_p",

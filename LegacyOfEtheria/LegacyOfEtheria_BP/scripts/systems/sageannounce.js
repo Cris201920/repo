@@ -65,7 +65,7 @@ const TXT = {
 };
 const CEREMONY_THEME = { hero_egg: "raphael", demon_lord_seed: "world", harvest_festival: "world", true_hero: "raphael", true_demon_lord: "world" };
 const LISTS_SKILLS = { hero_egg: false, demon_lord_seed: false, harvest_festival: false, true_hero: true, true_demon_lord: true };
-const HOLD_MS = 2000, TYPE_MS = 420, PAGE = 9, NAME_MS = 620, TIER_MS = 520, CER_MS = 1600;
+const HOLD_MS = 2000, TYPE_MS = 420, PAGE = 8, FLASH_MS = 200, NAME_MS = 620, TIER_MS = 520, CER_MS = 1600;
 
 // 6.38: VOZ EM PORTUGUÊS (padrão). "pt:<fala>" = clipe etheria.voice.sage.<fala><estágio>; "sys:<sistema>.<fala>" = etheria.voice.sys.*.
 // Os clipes japoneses do pacote Voz só tocam se o jogador escolher "Japonês" nas configurações do Grande Sábio.
@@ -277,9 +277,11 @@ function lineText(l, t, L) {
   if (l.type === "CEREMONY") return null;
   const k = Math.min(1, Math.max(0, (t - l.at) / TYPE_MS));
   const full = l.type === "TIER" ? `${TIER_COL[l.tier]}—— §l${l.text}§r${TIER_COL[l.tier]} ——` : l.type === "SKILL" ? `§f${l.text}` : l.type === "ANALYSED" ? `§b${l.text}` : l.type === "RACE_TO" ? `§6§l${l.text}` : `§7${l.text}`;
-  if (l.type === "SKILL" || l.type === "ANALYSED") return full;
-  if (l.type === "TIER") { const n = Math.max(1, Math.ceil(l.text.length * k)); return `${TIER_COL[l.tier]}—— §l${l.text.slice(0, n)}§r${TIER_COL[l.tier]}${k < 1 ? "" : " ——"}`; }           // nomes entram de uma vez (impacto)
-  const raw = l.text, n = Math.max(1, Math.ceil(raw.length * k));       // categorias e raças são digitadas
+  // 9.0: nomes entram de uma vez com um BRILHO de 200 ms (cor da categoria, negrito) e assentam em branco; categorias são digitadas com cursor piscando
+  if (l.type === "SKILL" || l.type === "ANALYSED") return t - l.at < FLASH_MS ? `${TIER_COL[l.tier] ?? "§b"}§l${l.text.replace(/§./g, "")}` : full;
+  const cur = k < 1 && Math.floor((t - l.at) / 120) % 2 === 0 ? "§f_" : k < 1 ? "§0_" : "";
+  if (l.type === "TIER") { const n = Math.max(1, Math.ceil(l.text.length * k)); return `${TIER_COL[l.tier]}—— §l${l.text.slice(0, n)}§r${TIER_COL[l.tier]}${k < 1 ? cur : " ——"}`; }
+  const raw = l.text, n = Math.max(1, Math.ceil(raw.length * k));       // raças e avisos são digitados
   return full.slice(0, full.length - raw.length + n) + (k < 1 ? "§8_" : "");
 }
 function renderFrame(p, first = false) {
@@ -295,13 +297,14 @@ function renderFrame(p, first = false) {
   const cer = A.lines.find((l) => l.type === "CEREMONY" && l.at <= t);
   const list = vis.filter((l) => l.type !== "CEREMONY");
   // paginação: a página atual começa na primeira linha que ainda cabe
-  const pageStart = Math.floor(Math.max(0, list.length - 1) / PAGE) * PAGE;
-  const body = list.slice(pageStart).map((l) => lineText(l, t, c.L)).join("\n");
+  // 9.0: lista ROLA como no mod (as linhas mais antigas saem por cima) em vez de trocar de página; nos últimos 400 ms o texto apaga (cinza -> escuro)
+  const left = A.durationMs - t, dim = left < 200 ? "§8" : left < 400 ? "§7" : "";
+  const body = list.slice(Math.max(0, list.length - PAGE)).map((l) => { const x = lineText(l, t, c.L); return dim ? dim + x.replace(/§[0-9a-fk-or]/g, "").replace(/_$/, "") : x; }).join("\n");
   const subs = A.sub.filter((x) => x.at <= t), last = subs[subs.length - 1], narr = last && t < (last.until ?? last.at + 2600) ? last.text : "";
   const subtitle = `${body}${narr ? `${body ? "\n\n" : "\n\n\n\n\n\n\n"}§7${narr}` : ""}` || " ";
   const newSlam = vis.filter((l) => l.type === "SKILL" || l.type === "ANALYSED").length;
-  const v7 = !c.o.ceremony;   // 6.58: aquisição/evolução = cena do vídeo de referência (mundo escurecido, anel dourado, moldura)
-  const fx = v7 ? null : first ? "open" : newSlam > c.fxCount ? "slam" : null;
+  // 9.0: onda de choque na entrada (open) e clarão a cada nome revelado (slam) também na aquisição/evolução (mesmos marcadores das cerimônias)
+  const fx = first ? "open" : newSlam > c.fxCount ? "slam" : null;
   if (newSlam > c.fxCount) c.fxCount = newSlam;
   const title = `${VOICE_MARK}${THEME[A.theme] ?? THEME.sage}${c.o.ceremony ? "§3§7" : `§3§6${list.length >= 2 ? "§3§5" : ""}`}${FX[fx ?? "none"]}§r${cer ? `§c§l${cer.text}` : ""}`;
   try {

@@ -618,8 +618,8 @@ def intro_defs():
 # caixa de filete ciano (ficha / resumo = #form_text); abas laterais à direita (a 3ª, do livro, ativa) só de enfeite.
 def arch_defs():
     D = {}
-    D["eth_sg_arch_row"] = {"type": "panel", "size": ["100%", 15], "controls": [
-        text_btn(["100% - 2px", 14], "center", "center", [0, 0], "arch_row", txt=(1, 1, 1), scale=0.78, max_size=("100% - 8px", 10),
+    D["eth_sg_arch_row"] = {"type": "panel", "size": ["100%", 20], "controls": [   # vídeo ~14 px; 20 px para o toque no celular
+        text_btn(["100% - 2px", 19], "center", "center", [0, 0], "arch_row", txt=(1, 1, 1), scale=0.85, max_size=("100% - 8px", 11),
                  **{"$anchor": "left_middle", "$text_alignment": "left", "$new_ui_label_offset": [4, 0]})]}
     D["eth_sg_arch_list"] = button_list("eth_sg_arch_row")
     tabs = [("textures/ui/etheria/sg_ico_0", [0.9, 0.62, 1.0]), ("textures/ui/etheria/menu_skills", None)]

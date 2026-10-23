@@ -185,7 +185,7 @@ export function openEquip(player) {
 }
 function openPassives(player) {
   const d = getData(player);
-  const list = d.unlockedSkills.map((id) => SKILLS[id]).filter((s) => s && s.type === "passive");
+  const list = d.unlockedSkills.map((id) => SKILLS[id]).filter((s) => s && (s.type === "passive" || s.trigger));
   const lines = list.map((s) => `${skillLine(s)}\n §7${shortDesc(s)}`);
   const b = [];
   if (hasSkill(d, FLIGHT.skill)) {
