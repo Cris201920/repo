@@ -1894,7 +1894,7 @@
    {
     "v9_dust0": {
      "type": "image",
-     "texture": "textures/ui/etheria/ov_v_dust_0",
+     "texture": "textures/ui/etheria/ov_m_dust_0",
      "size": [
       "110%",
       "110%"
@@ -1906,14 +1906,15 @@
      "alpha": 0.8,
      "layer": 62,
      "anims": [
-      "@hud.eth_v9d0_s"
+      "@hud.eth_mv_ds0_s",
+      "@hud.eth_mv_da0_s"
      ]
     }
    },
    {
     "v9_dust1": {
      "type": "image",
-     "texture": "textures/ui/etheria/ov_v_dust_1",
+     "texture": "textures/ui/etheria/ov_m_dust_1",
      "size": [
       "110%",
       "110%"
@@ -1925,8 +1926,8 @@
      "alpha": 0.6,
      "layer": 62,
      "anims": [
-      "@hud.eth_v9d1_s",
-      "@hud.eth_v9d1a_s"
+      "@hud.eth_mv_ds1_s",
+      "@hud.eth_mv_da1_s"
      ]
     }
    },
@@ -1967,7 +1968,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b0_s"
+         "@hud.eth_mv_b0_s"
         ]
        }
       },
@@ -1989,7 +1990,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b1_s"
+         "@hud.eth_mv_b1_s"
         ]
        }
       },
@@ -2011,7 +2012,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b2_s"
+         "@hud.eth_mv_b2_s"
         ]
        }
       },
@@ -2033,7 +2034,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b3_s"
+         "@hud.eth_mv_b3_s"
         ]
        }
       },
@@ -2055,15 +2056,15 @@
         "alpha": 0.5,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9g_s",
-         "@hud.eth_v9ga_s"
+         "@hud.eth_mv_gs_s",
+         "@hud.eth_mv_ga_s"
         ]
        }
       },
       {
        "vr0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_0",
+        "texture": "textures/ui/etheria/ov_m_rot_0",
         "size": [
          "100%",
          "100%"
@@ -2078,14 +2079,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr0_start"
+         "@hud.eth_mv_r0_s"
         ]
        }
       },
       {
        "vr1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_1",
+        "texture": "textures/ui/etheria/ov_m_rot_1",
         "size": [
          "100%",
          "100%"
@@ -2100,14 +2101,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr1_start"
+         "@hud.eth_mv_r1_s"
         ]
        }
       },
       {
        "vr2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_2",
+        "texture": "textures/ui/etheria/ov_m_rot_2",
         "size": [
          "100%",
          "100%"
@@ -2122,14 +2123,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr2_start"
+         "@hud.eth_mv_r2_s"
         ]
        }
       },
       {
        "vr3": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_3",
+        "texture": "textures/ui/etheria/ov_m_rot_3",
         "size": [
          "100%",
          "100%"
@@ -2144,14 +2145,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr3_start"
+         "@hud.eth_mv_r3_s"
         ]
        }
       },
       {
        "vr4": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_4",
+        "texture": "textures/ui/etheria/ov_m_rot_4",
         "size": [
          "100%",
          "100%"
@@ -2166,14 +2167,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr4_start"
+         "@hud.eth_mv_r4_s"
         ]
        }
       },
       {
        "vr5": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_5",
+        "texture": "textures/ui/etheria/ov_m_rot_5",
         "size": [
          "100%",
          "100%"
@@ -2188,14 +2189,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr5_start"
+         "@hud.eth_mv_r5_s"
         ]
        }
       },
       {
        "vr6": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_6",
+        "texture": "textures/ui/etheria/ov_m_rot_6",
         "size": [
          "100%",
          "100%"
@@ -2210,14 +2211,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr6_start"
+         "@hud.eth_mv_r6_s"
         ]
        }
       },
       {
        "vr7": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_7",
+        "texture": "textures/ui/etheria/ov_m_rot_7",
         "size": [
          "100%",
          "100%"
@@ -2232,14 +2233,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr7_start"
+         "@hud.eth_mv_r7_s"
         ]
        }
       },
       {
        "vw0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_0",
+        "texture": "textures/ui/etheria/ov_m_wht_0",
         "size": [
          "100%",
          "100%"
@@ -2256,7 +2257,7 @@
       {
        "vw1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_1",
+        "texture": "textures/ui/etheria/ov_m_wht_1",
         "size": [
          "100%",
          "100%"
@@ -2273,7 +2274,7 @@
       {
        "vw2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_2",
+        "texture": "textures/ui/etheria/ov_m_wht_2",
         "size": [
          "100%",
          "100%"
@@ -2290,7 +2291,7 @@
       {
        "vw3": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_3",
+        "texture": "textures/ui/etheria/ov_m_wht_3",
         "size": [
          "100%",
          "100%"
@@ -2307,7 +2308,7 @@
       {
        "vw4": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_4",
+        "texture": "textures/ui/etheria/ov_m_wht_4",
         "size": [
          "100%",
          "100%"
@@ -2324,7 +2325,7 @@
       {
        "vw5": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_5",
+        "texture": "textures/ui/etheria/ov_m_wht_5",
         "size": [
          "100%",
          "100%"
@@ -2341,7 +2342,7 @@
       {
        "vw6": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_6",
+        "texture": "textures/ui/etheria/ov_m_wht_6",
         "size": [
          "100%",
          "100%"
@@ -2358,7 +2359,7 @@
       {
        "vw7": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_7",
+        "texture": "textures/ui/etheria/ov_m_wht_7",
         "size": [
          "100%",
          "100%"
@@ -2390,8 +2391,8 @@
         "alpha": 0.0,
         "layer": 63,
         "anims": [
-         "@hud.eth_vring0_start",
-         "@hud.eth_vringa0_start"
+         "@hud.eth_mv_rs0_s",
+         "@hud.eth_mv_ra0_s"
         ]
        }
       },
@@ -2413,212 +2414,8 @@
         "alpha": 0.0,
         "layer": 63,
         "anims": [
-         "@hud.eth_vring1_start",
-         "@hud.eth_vringa1_start"
-        ]
-       }
-      },
-      {
-       "vx0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx0_start"
-        ]
-       }
-      },
-      {
-       "vx1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx1_start"
-        ]
-       }
-      },
-      {
-       "vx2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx2_start"
-        ]
-       }
-      },
-      {
-       "vx3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx3_start"
-        ]
-       }
-      },
-      {
-       "vx4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx4_start"
-        ]
-       }
-      },
-      {
-       "vx5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx5_start"
-        ]
-       }
-      },
-      {
-       "vx6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx6_start"
-        ]
-       }
-      },
-      {
-       "vx7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx7_start"
-        ]
-       }
-      },
-      {
-       "vx8": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_8",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx8_start"
-        ]
-       }
-      },
-      {
-       "vx9": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_9",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx9_start"
-        ]
-       }
-      },
-      {
-       "vx10": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_10",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx10_start"
-        ]
-       }
-      },
-      {
-       "vx11": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_11",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx11_start"
+         "@hud.eth_mv_rs1_s",
+         "@hud.eth_mv_ra1_s"
         ]
        }
       },
@@ -2634,7 +2431,7 @@
         "anchor_to": "center",
         "layer": 65,
         "anims": [
-         "@hud.eth_vstar_a"
+         "@hud.eth_mv_st_s"
         ]
        }
       }
@@ -2678,7 +2475,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b0_s"
+         "@hud.eth_mv_b0_s"
         ]
        }
       },
@@ -2700,7 +2497,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b1_s"
+         "@hud.eth_mv_b1_s"
         ]
        }
       },
@@ -2722,7 +2519,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b2_s"
+         "@hud.eth_mv_b2_s"
         ]
        }
       },
@@ -2744,7 +2541,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b3_s"
+         "@hud.eth_mv_b3_s"
         ]
        }
       },
@@ -2766,15 +2563,15 @@
         "alpha": 0.5,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9g_s",
-         "@hud.eth_v9ga_s"
+         "@hud.eth_mv_gs_s",
+         "@hud.eth_mv_ga_s"
         ]
        }
       },
       {
        "vr0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_0",
+        "texture": "textures/ui/etheria/ov_m_rot_0",
         "size": [
          "100%",
          "100%"
@@ -2789,14 +2586,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr0_start"
+         "@hud.eth_mv_r0_s"
         ]
        }
       },
       {
        "vr1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_1",
+        "texture": "textures/ui/etheria/ov_m_rot_1",
         "size": [
          "100%",
          "100%"
@@ -2811,14 +2608,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr1_start"
+         "@hud.eth_mv_r1_s"
         ]
        }
       },
       {
        "vr2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_2",
+        "texture": "textures/ui/etheria/ov_m_rot_2",
         "size": [
          "100%",
          "100%"
@@ -2833,14 +2630,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr2_start"
+         "@hud.eth_mv_r2_s"
         ]
        }
       },
       {
        "vr3": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_3",
+        "texture": "textures/ui/etheria/ov_m_rot_3",
         "size": [
          "100%",
          "100%"
@@ -2855,14 +2652,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr3_start"
+         "@hud.eth_mv_r3_s"
         ]
        }
       },
       {
        "vr4": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_4",
+        "texture": "textures/ui/etheria/ov_m_rot_4",
         "size": [
          "100%",
          "100%"
@@ -2877,14 +2674,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr4_start"
+         "@hud.eth_mv_r4_s"
         ]
        }
       },
       {
        "vr5": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_5",
+        "texture": "textures/ui/etheria/ov_m_rot_5",
         "size": [
          "100%",
          "100%"
@@ -2899,14 +2696,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr5_start"
+         "@hud.eth_mv_r5_s"
         ]
        }
       },
       {
        "vr6": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_6",
+        "texture": "textures/ui/etheria/ov_m_rot_6",
         "size": [
          "100%",
          "100%"
@@ -2921,14 +2718,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr6_start"
+         "@hud.eth_mv_r6_s"
         ]
        }
       },
       {
        "vr7": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_7",
+        "texture": "textures/ui/etheria/ov_m_rot_7",
         "size": [
          "100%",
          "100%"
@@ -2943,14 +2740,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr7_start"
+         "@hud.eth_mv_r7_s"
         ]
        }
       },
       {
        "vw0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_0",
+        "texture": "textures/ui/etheria/ov_m_wht_0",
         "size": [
          "100%",
          "100%"
@@ -2967,7 +2764,7 @@
       {
        "vw1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_1",
+        "texture": "textures/ui/etheria/ov_m_wht_1",
         "size": [
          "100%",
          "100%"
@@ -2984,7 +2781,7 @@
       {
        "vw2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_2",
+        "texture": "textures/ui/etheria/ov_m_wht_2",
         "size": [
          "100%",
          "100%"
@@ -3001,7 +2798,7 @@
       {
        "vw3": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_3",
+        "texture": "textures/ui/etheria/ov_m_wht_3",
         "size": [
          "100%",
          "100%"
@@ -3018,7 +2815,7 @@
       {
        "vw4": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_4",
+        "texture": "textures/ui/etheria/ov_m_wht_4",
         "size": [
          "100%",
          "100%"
@@ -3035,7 +2832,7 @@
       {
        "vw5": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_5",
+        "texture": "textures/ui/etheria/ov_m_wht_5",
         "size": [
          "100%",
          "100%"
@@ -3052,7 +2849,7 @@
       {
        "vw6": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_6",
+        "texture": "textures/ui/etheria/ov_m_wht_6",
         "size": [
          "100%",
          "100%"
@@ -3069,7 +2866,7 @@
       {
        "vw7": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_7",
+        "texture": "textures/ui/etheria/ov_m_wht_7",
         "size": [
          "100%",
          "100%"
@@ -3101,8 +2898,8 @@
         "alpha": 0.0,
         "layer": 63,
         "anims": [
-         "@hud.eth_vring0_start",
-         "@hud.eth_vringa0_start"
+         "@hud.eth_mv_rs0_s",
+         "@hud.eth_mv_ra0_s"
         ]
        }
       },
@@ -3124,212 +2921,8 @@
         "alpha": 0.0,
         "layer": 63,
         "anims": [
-         "@hud.eth_vring1_start",
-         "@hud.eth_vringa1_start"
-        ]
-       }
-      },
-      {
-       "vx0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx0_start"
-        ]
-       }
-      },
-      {
-       "vx1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx1_start"
-        ]
-       }
-      },
-      {
-       "vx2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx2_start"
-        ]
-       }
-      },
-      {
-       "vx3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx3_start"
-        ]
-       }
-      },
-      {
-       "vx4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx4_start"
-        ]
-       }
-      },
-      {
-       "vx5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx5_start"
-        ]
-       }
-      },
-      {
-       "vx6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx6_start"
-        ]
-       }
-      },
-      {
-       "vx7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx7_start"
-        ]
-       }
-      },
-      {
-       "vx8": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_8",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx8_start"
-        ]
-       }
-      },
-      {
-       "vx9": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_9",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx9_start"
-        ]
-       }
-      },
-      {
-       "vx10": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_10",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx10_start"
-        ]
-       }
-      },
-      {
-       "vx11": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_11",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx11_start"
+         "@hud.eth_mv_rs1_s",
+         "@hud.eth_mv_ra1_s"
         ]
        }
       },
@@ -3345,7 +2938,7 @@
         "anchor_to": "center",
         "layer": 65,
         "anims": [
-         "@hud.eth_vstar_a"
+         "@hud.eth_mv_st_s"
         ]
        }
       }
@@ -3389,7 +2982,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b0_s"
+         "@hud.eth_mv_b0_s"
         ]
        }
       },
@@ -3411,7 +3004,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b1_s"
+         "@hud.eth_mv_b1_s"
         ]
        }
       },
@@ -3433,7 +3026,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b2_s"
+         "@hud.eth_mv_b2_s"
         ]
        }
       },
@@ -3455,7 +3048,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b3_s"
+         "@hud.eth_mv_b3_s"
         ]
        }
       },
@@ -3477,15 +3070,15 @@
         "alpha": 0.5,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9g_s",
-         "@hud.eth_v9ga_s"
+         "@hud.eth_mv_gs_s",
+         "@hud.eth_mv_ga_s"
         ]
        }
       },
       {
        "vr0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_0",
+        "texture": "textures/ui/etheria/ov_m_rot_0",
         "size": [
          "100%",
          "100%"
@@ -3500,14 +3093,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr0_start"
+         "@hud.eth_mv_r0_s"
         ]
        }
       },
       {
        "vr1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_1",
+        "texture": "textures/ui/etheria/ov_m_rot_1",
         "size": [
          "100%",
          "100%"
@@ -3522,14 +3115,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr1_start"
+         "@hud.eth_mv_r1_s"
         ]
        }
       },
       {
        "vr2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_2",
+        "texture": "textures/ui/etheria/ov_m_rot_2",
         "size": [
          "100%",
          "100%"
@@ -3544,14 +3137,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr2_start"
+         "@hud.eth_mv_r2_s"
         ]
        }
       },
       {
        "vr3": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_3",
+        "texture": "textures/ui/etheria/ov_m_rot_3",
         "size": [
          "100%",
          "100%"
@@ -3566,14 +3159,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr3_start"
+         "@hud.eth_mv_r3_s"
         ]
        }
       },
       {
        "vr4": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_4",
+        "texture": "textures/ui/etheria/ov_m_rot_4",
         "size": [
          "100%",
          "100%"
@@ -3588,14 +3181,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr4_start"
+         "@hud.eth_mv_r4_s"
         ]
        }
       },
       {
        "vr5": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_5",
+        "texture": "textures/ui/etheria/ov_m_rot_5",
         "size": [
          "100%",
          "100%"
@@ -3610,14 +3203,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr5_start"
+         "@hud.eth_mv_r5_s"
         ]
        }
       },
       {
        "vr6": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_6",
+        "texture": "textures/ui/etheria/ov_m_rot_6",
         "size": [
          "100%",
          "100%"
@@ -3632,14 +3225,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr6_start"
+         "@hud.eth_mv_r6_s"
         ]
        }
       },
       {
        "vr7": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_7",
+        "texture": "textures/ui/etheria/ov_m_rot_7",
         "size": [
          "100%",
          "100%"
@@ -3654,14 +3247,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr7_start"
+         "@hud.eth_mv_r7_s"
         ]
        }
       },
       {
        "vw0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_0",
+        "texture": "textures/ui/etheria/ov_m_wht_0",
         "size": [
          "100%",
          "100%"
@@ -3678,7 +3271,7 @@
       {
        "vw1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_1",
+        "texture": "textures/ui/etheria/ov_m_wht_1",
         "size": [
          "100%",
          "100%"
@@ -3695,7 +3288,7 @@
       {
        "vw2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_2",
+        "texture": "textures/ui/etheria/ov_m_wht_2",
         "size": [
          "100%",
          "100%"
@@ -3712,7 +3305,7 @@
       {
        "vw3": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_3",
+        "texture": "textures/ui/etheria/ov_m_wht_3",
         "size": [
          "100%",
          "100%"
@@ -3729,7 +3322,7 @@
       {
        "vw4": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_4",
+        "texture": "textures/ui/etheria/ov_m_wht_4",
         "size": [
          "100%",
          "100%"
@@ -3746,7 +3339,7 @@
       {
        "vw5": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_5",
+        "texture": "textures/ui/etheria/ov_m_wht_5",
         "size": [
          "100%",
          "100%"
@@ -3763,7 +3356,7 @@
       {
        "vw6": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_6",
+        "texture": "textures/ui/etheria/ov_m_wht_6",
         "size": [
          "100%",
          "100%"
@@ -3780,7 +3373,7 @@
       {
        "vw7": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_7",
+        "texture": "textures/ui/etheria/ov_m_wht_7",
         "size": [
          "100%",
          "100%"
@@ -3812,8 +3405,8 @@
         "alpha": 0.0,
         "layer": 63,
         "anims": [
-         "@hud.eth_vring0_start",
-         "@hud.eth_vringa0_start"
+         "@hud.eth_mv_rs0_s",
+         "@hud.eth_mv_ra0_s"
         ]
        }
       },
@@ -3835,212 +3428,8 @@
         "alpha": 0.0,
         "layer": 63,
         "anims": [
-         "@hud.eth_vring1_start",
-         "@hud.eth_vringa1_start"
-        ]
-       }
-      },
-      {
-       "vx0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx0_start"
-        ]
-       }
-      },
-      {
-       "vx1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx1_start"
-        ]
-       }
-      },
-      {
-       "vx2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx2_start"
-        ]
-       }
-      },
-      {
-       "vx3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx3_start"
-        ]
-       }
-      },
-      {
-       "vx4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx4_start"
-        ]
-       }
-      },
-      {
-       "vx5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx5_start"
-        ]
-       }
-      },
-      {
-       "vx6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx6_start"
-        ]
-       }
-      },
-      {
-       "vx7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx7_start"
-        ]
-       }
-      },
-      {
-       "vx8": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_8",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx8_start"
-        ]
-       }
-      },
-      {
-       "vx9": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_9",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx9_start"
-        ]
-       }
-      },
-      {
-       "vx10": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_10",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx10_start"
-        ]
-       }
-      },
-      {
-       "vx11": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_11",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx11_start"
+         "@hud.eth_mv_rs1_s",
+         "@hud.eth_mv_ra1_s"
         ]
        }
       },
@@ -4056,7 +3445,7 @@
         "anchor_to": "center",
         "layer": 65,
         "anims": [
-         "@hud.eth_vstar_a"
+         "@hud.eth_mv_st_s"
         ]
        }
       }
@@ -4100,7 +3489,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b0_s"
+         "@hud.eth_mv_b0_s"
         ]
        }
       },
@@ -4122,7 +3511,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b1_s"
+         "@hud.eth_mv_b1_s"
         ]
        }
       },
@@ -4144,7 +3533,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b2_s"
+         "@hud.eth_mv_b2_s"
         ]
        }
       },
@@ -4166,7 +3555,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b3_s"
+         "@hud.eth_mv_b3_s"
         ]
        }
       },
@@ -4188,15 +3577,15 @@
         "alpha": 0.5,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9g_s",
-         "@hud.eth_v9ga_s"
+         "@hud.eth_mv_gs_s",
+         "@hud.eth_mv_ga_s"
         ]
        }
       },
       {
        "vr0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_0",
+        "texture": "textures/ui/etheria/ov_m_rot_0",
         "size": [
          "100%",
          "100%"
@@ -4211,14 +3600,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr0_start"
+         "@hud.eth_mv_r0_s"
         ]
        }
       },
       {
        "vr1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_1",
+        "texture": "textures/ui/etheria/ov_m_rot_1",
         "size": [
          "100%",
          "100%"
@@ -4233,14 +3622,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr1_start"
+         "@hud.eth_mv_r1_s"
         ]
        }
       },
       {
        "vr2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_2",
+        "texture": "textures/ui/etheria/ov_m_rot_2",
         "size": [
          "100%",
          "100%"
@@ -4255,14 +3644,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr2_start"
+         "@hud.eth_mv_r2_s"
         ]
        }
       },
       {
        "vr3": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_3",
+        "texture": "textures/ui/etheria/ov_m_rot_3",
         "size": [
          "100%",
          "100%"
@@ -4277,14 +3666,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr3_start"
+         "@hud.eth_mv_r3_s"
         ]
        }
       },
       {
        "vr4": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_4",
+        "texture": "textures/ui/etheria/ov_m_rot_4",
         "size": [
          "100%",
          "100%"
@@ -4299,14 +3688,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr4_start"
+         "@hud.eth_mv_r4_s"
         ]
        }
       },
       {
        "vr5": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_5",
+        "texture": "textures/ui/etheria/ov_m_rot_5",
         "size": [
          "100%",
          "100%"
@@ -4321,14 +3710,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr5_start"
+         "@hud.eth_mv_r5_s"
         ]
        }
       },
       {
        "vr6": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_6",
+        "texture": "textures/ui/etheria/ov_m_rot_6",
         "size": [
          "100%",
          "100%"
@@ -4343,14 +3732,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr6_start"
+         "@hud.eth_mv_r6_s"
         ]
        }
       },
       {
        "vr7": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_7",
+        "texture": "textures/ui/etheria/ov_m_rot_7",
         "size": [
          "100%",
          "100%"
@@ -4365,14 +3754,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr7_start"
+         "@hud.eth_mv_r7_s"
         ]
        }
       },
       {
        "vw0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_0",
+        "texture": "textures/ui/etheria/ov_m_wht_0",
         "size": [
          "100%",
          "100%"
@@ -4389,7 +3778,7 @@
       {
        "vw1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_1",
+        "texture": "textures/ui/etheria/ov_m_wht_1",
         "size": [
          "100%",
          "100%"
@@ -4406,7 +3795,7 @@
       {
        "vw2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_2",
+        "texture": "textures/ui/etheria/ov_m_wht_2",
         "size": [
          "100%",
          "100%"
@@ -4423,7 +3812,7 @@
       {
        "vw3": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_3",
+        "texture": "textures/ui/etheria/ov_m_wht_3",
         "size": [
          "100%",
          "100%"
@@ -4440,7 +3829,7 @@
       {
        "vw4": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_4",
+        "texture": "textures/ui/etheria/ov_m_wht_4",
         "size": [
          "100%",
          "100%"
@@ -4457,7 +3846,7 @@
       {
        "vw5": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_5",
+        "texture": "textures/ui/etheria/ov_m_wht_5",
         "size": [
          "100%",
          "100%"
@@ -4474,7 +3863,7 @@
       {
        "vw6": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_6",
+        "texture": "textures/ui/etheria/ov_m_wht_6",
         "size": [
          "100%",
          "100%"
@@ -4491,7 +3880,7 @@
       {
        "vw7": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_7",
+        "texture": "textures/ui/etheria/ov_m_wht_7",
         "size": [
          "100%",
          "100%"
@@ -4523,8 +3912,8 @@
         "alpha": 0.0,
         "layer": 63,
         "anims": [
-         "@hud.eth_vring0_start",
-         "@hud.eth_vringa0_start"
+         "@hud.eth_mv_rs0_s",
+         "@hud.eth_mv_ra0_s"
         ]
        }
       },
@@ -4546,212 +3935,8 @@
         "alpha": 0.0,
         "layer": 63,
         "anims": [
-         "@hud.eth_vring1_start",
-         "@hud.eth_vringa1_start"
-        ]
-       }
-      },
-      {
-       "vx0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx0_start"
-        ]
-       }
-      },
-      {
-       "vx1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx1_start"
-        ]
-       }
-      },
-      {
-       "vx2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx2_start"
-        ]
-       }
-      },
-      {
-       "vx3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx3_start"
-        ]
-       }
-      },
-      {
-       "vx4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx4_start"
-        ]
-       }
-      },
-      {
-       "vx5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx5_start"
-        ]
-       }
-      },
-      {
-       "vx6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx6_start"
-        ]
-       }
-      },
-      {
-       "vx7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx7_start"
-        ]
-       }
-      },
-      {
-       "vx8": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_8",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx8_start"
-        ]
-       }
-      },
-      {
-       "vx9": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_9",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx9_start"
-        ]
-       }
-      },
-      {
-       "vx10": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_10",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx10_start"
-        ]
-       }
-      },
-      {
-       "vx11": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_11",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx11_start"
+         "@hud.eth_mv_rs1_s",
+         "@hud.eth_mv_ra1_s"
         ]
        }
       },
@@ -4767,7 +3952,7 @@
         "anchor_to": "center",
         "layer": 65,
         "anims": [
-         "@hud.eth_vstar_a"
+         "@hud.eth_mv_st_s"
         ]
        }
       }
@@ -4811,7 +3996,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b0_s"
+         "@hud.eth_mv_b0_s"
         ]
        }
       },
@@ -4833,7 +4018,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b1_s"
+         "@hud.eth_mv_b1_s"
         ]
        }
       },
@@ -4855,7 +4040,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b2_s"
+         "@hud.eth_mv_b2_s"
         ]
        }
       },
@@ -4877,7 +4062,7 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9b3_s"
+         "@hud.eth_mv_b3_s"
         ]
        }
       },
@@ -4899,15 +4084,15 @@
         "alpha": 0.5,
         "layer": 62,
         "anims": [
-         "@hud.eth_v9g_s",
-         "@hud.eth_v9ga_s"
+         "@hud.eth_mv_gs_s",
+         "@hud.eth_mv_ga_s"
         ]
        }
       },
       {
        "vr0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_0",
+        "texture": "textures/ui/etheria/ov_m_rot_0",
         "size": [
          "100%",
          "100%"
@@ -4922,14 +4107,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr0_start"
+         "@hud.eth_mv_r0_s"
         ]
        }
       },
       {
        "vr1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_1",
+        "texture": "textures/ui/etheria/ov_m_rot_1",
         "size": [
          "100%",
          "100%"
@@ -4944,14 +4129,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr1_start"
+         "@hud.eth_mv_r1_s"
         ]
        }
       },
       {
        "vr2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_2",
+        "texture": "textures/ui/etheria/ov_m_rot_2",
         "size": [
          "100%",
          "100%"
@@ -4966,14 +4151,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr2_start"
+         "@hud.eth_mv_r2_s"
         ]
        }
       },
       {
        "vr3": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_3",
+        "texture": "textures/ui/etheria/ov_m_rot_3",
         "size": [
          "100%",
          "100%"
@@ -4988,14 +4173,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr3_start"
+         "@hud.eth_mv_r3_s"
         ]
        }
       },
       {
        "vr4": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_4",
+        "texture": "textures/ui/etheria/ov_m_rot_4",
         "size": [
          "100%",
          "100%"
@@ -5010,14 +4195,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr4_start"
+         "@hud.eth_mv_r4_s"
         ]
        }
       },
       {
        "vr5": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_5",
+        "texture": "textures/ui/etheria/ov_m_rot_5",
         "size": [
          "100%",
          "100%"
@@ -5032,14 +4217,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr5_start"
+         "@hud.eth_mv_r5_s"
         ]
        }
       },
       {
        "vr6": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_6",
+        "texture": "textures/ui/etheria/ov_m_rot_6",
         "size": [
          "100%",
          "100%"
@@ -5054,14 +4239,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr6_start"
+         "@hud.eth_mv_r6_s"
         ]
        }
       },
       {
        "vr7": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rays_7",
+        "texture": "textures/ui/etheria/ov_m_rot_7",
         "size": [
          "100%",
          "100%"
@@ -5076,14 +4261,14 @@
         "alpha": 0.0,
         "layer": 62,
         "anims": [
-         "@hud.eth_vr7_start"
+         "@hud.eth_mv_r7_s"
         ]
        }
       },
       {
        "vw0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_0",
+        "texture": "textures/ui/etheria/ov_m_wht_0",
         "size": [
          "100%",
          "100%"
@@ -5100,7 +4285,7 @@
       {
        "vw1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_1",
+        "texture": "textures/ui/etheria/ov_m_wht_1",
         "size": [
          "100%",
          "100%"
@@ -5117,7 +4302,7 @@
       {
        "vw2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_2",
+        "texture": "textures/ui/etheria/ov_m_wht_2",
         "size": [
          "100%",
          "100%"
@@ -5134,7 +4319,7 @@
       {
        "vw3": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_3",
+        "texture": "textures/ui/etheria/ov_m_wht_3",
         "size": [
          "100%",
          "100%"
@@ -5151,7 +4336,7 @@
       {
        "vw4": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_4",
+        "texture": "textures/ui/etheria/ov_m_wht_4",
         "size": [
          "100%",
          "100%"
@@ -5168,7 +4353,7 @@
       {
        "vw5": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_5",
+        "texture": "textures/ui/etheria/ov_m_wht_5",
         "size": [
          "100%",
          "100%"
@@ -5185,7 +4370,7 @@
       {
        "vw6": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_6",
+        "texture": "textures/ui/etheria/ov_m_wht_6",
         "size": [
          "100%",
          "100%"
@@ -5202,7 +4387,7 @@
       {
        "vw7": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_rayw_7",
+        "texture": "textures/ui/etheria/ov_m_wht_7",
         "size": [
          "100%",
          "100%"
@@ -5234,8 +4419,8 @@
         "alpha": 0.0,
         "layer": 63,
         "anims": [
-         "@hud.eth_vring0_start",
-         "@hud.eth_vringa0_start"
+         "@hud.eth_mv_rs0_s",
+         "@hud.eth_mv_ra0_s"
         ]
        }
       },
@@ -5257,212 +4442,8 @@
         "alpha": 0.0,
         "layer": 63,
         "anims": [
-         "@hud.eth_vring1_start",
-         "@hud.eth_vringa1_start"
-        ]
-       }
-      },
-      {
-       "vx0": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_0",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx0_start"
-        ]
-       }
-      },
-      {
-       "vx1": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_1",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx1_start"
-        ]
-       }
-      },
-      {
-       "vx2": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_2",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx2_start"
-        ]
-       }
-      },
-      {
-       "vx3": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_3",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx3_start"
-        ]
-       }
-      },
-      {
-       "vx4": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_4",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx4_start"
-        ]
-       }
-      },
-      {
-       "vx5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_5",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx5_start"
-        ]
-       }
-      },
-      {
-       "vx6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx6_start"
-        ]
-       }
-      },
-      {
-       "vx7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx7_start"
-        ]
-       }
-      },
-      {
-       "vx8": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_8",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx8_start"
-        ]
-       }
-      },
-      {
-       "vx9": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_9",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx9_start"
-        ]
-       }
-      },
-      {
-       "vx10": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_10",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx10_start"
-        ]
-       }
-      },
-      {
-       "vx11": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wire_11",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_vx11_start"
+         "@hud.eth_mv_rs1_s",
+         "@hud.eth_mv_ra1_s"
         ]
        }
       },
@@ -5478,7 +4459,7 @@
         "anchor_to": "center",
         "layer": 65,
         "anims": [
-         "@hud.eth_vstar_a"
+         "@hud.eth_mv_st_s"
         ]
        }
       }
@@ -5486,217 +4467,206 @@
     }
    },
    {
-    "v9_poly": {
-     "type": "panel",
+    "mv_spark0": {
+     "type": "image",
+     "texture": "textures/ui/etheria/ov_m_spark",
      "size": [
-      "78%",
-      "78%"
+      40,
+      40
      ],
      "anchor_from": "center",
      "anchor_to": "center",
+     "color": [
+      1.0,
+      0.96,
+      0.92
+     ],
+     "alpha": 0.0,
+     "layer": 63,
+     "anims": [
+      "@hud.eth_mv_ks0_s",
+      "@hud.eth_mv_ka0_s"
+     ]
+    }
+   },
+   {
+    "mv_spark1": {
+     "type": "image",
+     "texture": "textures/ui/etheria/ov_m_spark",
+     "size": [
+      40,
+      40
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "color": [
+      1.0,
+      0.96,
+      0.92
+     ],
+     "alpha": 0.0,
+     "layer": 63,
+     "anims": [
+      "@hud.eth_mv_ks1_s",
+      "@hud.eth_mv_ka1_s"
+     ]
+    }
+   },
+   {
+    "mv_ico": {
+     "type": "panel",
+     "size": [
+      "92%y",
+      "92%y"
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      "2%"
+     ],
      "controls": [
       {
-       "y0": {
+       "s0": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_0",
+        "texture": "textures/ui/etheria/ov_m_ico_s0",
         "size": [
-         "100%",
+         "33.4%",
          "100%"
         ],
+        "anchor_from": "left_middle",
+        "anchor_to": "left_middle",
+        "uv_size": [
+         84,
+         252
+        ],
+        "uv": "@hud.eth_mv_fb_ico",
         "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y0_start"
-        ]
+        "disable_anim_fast_forward": true,
+        "alpha": 0.62,
+        "layer": 64
        }
       },
       {
-       "y1": {
+       "s1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_1",
+        "texture": "textures/ui/etheria/ov_m_ico_s1",
         "size": [
-         "100%",
+         "33.4%",
          "100%"
         ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "uv_size": [
+         84,
+         252
+        ],
+        "uv": "@hud.eth_mv_fb_ico",
         "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y1_start"
-        ]
+        "disable_anim_fast_forward": true,
+        "alpha": 0.62,
+        "layer": 64
        }
       },
       {
-       "y2": {
+       "s2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_2",
+        "texture": "textures/ui/etheria/ov_m_ico_s2",
         "size": [
-         "100%",
+         "33.4%",
          "100%"
         ],
+        "anchor_from": "right_middle",
+        "anchor_to": "right_middle",
+        "uv_size": [
+         84,
+         252
+        ],
+        "uv": "@hud.eth_mv_fb_ico",
         "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y2_start"
-        ]
+        "disable_anim_fast_forward": true,
+        "alpha": 0.62,
+        "layer": 64
+       }
+      }
+     ]
+    }
+   },
+   {
+    "mv_dod": {
+     "type": "panel",
+     "size": [
+      "66%y",
+      "66%y"
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      "1%"
+     ],
+     "controls": [
+      {
+       "s0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_m_dod_s0",
+        "size": [
+         "33.4%",
+         "100%"
+        ],
+        "anchor_from": "left_middle",
+        "anchor_to": "left_middle",
+        "uv_size": [
+         72,
+         216
+        ],
+        "uv": "@hud.eth_mv_fb_dod",
+        "keep_ratio": false,
+        "disable_anim_fast_forward": true,
+        "alpha": 0.38,
+        "layer": 64
        }
       },
       {
-       "y3": {
+       "s1": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_3",
+        "texture": "textures/ui/etheria/ov_m_dod_s1",
         "size": [
-         "100%",
+         "33.4%",
          "100%"
         ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "uv_size": [
+         72,
+         216
+        ],
+        "uv": "@hud.eth_mv_fb_dod",
         "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y3_start"
-        ]
+        "disable_anim_fast_forward": true,
+        "alpha": 0.38,
+        "layer": 64
        }
       },
       {
-       "y4": {
+       "s2": {
         "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_4",
+        "texture": "textures/ui/etheria/ov_m_dod_s2",
         "size": [
-         "100%",
+         "33.4%",
          "100%"
         ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y4_start"
-        ]
-       }
-      },
-      {
-       "y5": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_5",
-        "size": [
-         "100%",
-         "100%"
+        "anchor_from": "right_middle",
+        "anchor_to": "right_middle",
+        "uv_size": [
+         72,
+         216
         ],
+        "uv": "@hud.eth_mv_fb_dod",
         "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y5_start"
-        ]
-       }
-      },
-      {
-       "y6": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_6",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y6_start"
-        ]
-       }
-      },
-      {
-       "y7": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_7",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y7_start"
-        ]
-       }
-      },
-      {
-       "y8": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_8",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y8_start"
-        ]
-       }
-      },
-      {
-       "y9": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_9",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y9_start"
-        ]
-       }
-      },
-      {
-       "y10": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_10",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y10_start"
-        ]
-       }
-      },
-      {
-       "y11": {
-        "type": "image",
-        "texture": "textures/ui/etheria/ov_v_wirb_11",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "keep_ratio": false,
-        "fill": true,
-        "alpha": 0.0,
-        "layer": 64,
-        "anims": [
-         "@hud.eth_v9y11_start"
-        ]
+        "disable_anim_fast_forward": true,
+        "alpha": 0.38,
+        "layer": 64
        }
       }
      ]
@@ -5720,8 +4690,8 @@
      "alpha": 0.4,
      "layer": 65,
      "anims": [
-      "@hud.eth_v9f_s",
-      "@hud.eth_v9fa_s"
+      "@hud.eth_mv_fs_s",
+      "@hud.eth_mv_fa_s"
      ]
     }
    },
@@ -6923,5 +5893,968 @@
   "anim_type": "wait",
   "duration": 2.0,
   "next": "@hud.eth_v9y11_in"
+ },
+ "eth_mv_r0_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_r0_in"
+ },
+ "eth_mv_r0_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r0_out"
+ },
+ "eth_mv_r0_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r0_w"
+ },
+ "eth_mv_r0_w": {
+  "anim_type": "wait",
+  "duration": 1.875,
+  "next": "@hud.eth_mv_r0_in"
+ },
+ "eth_mv_r1_s": {
+  "anim_type": "wait",
+  "duration": 0.3135,
+  "next": "@hud.eth_mv_r1_in"
+ },
+ "eth_mv_r1_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r1_out"
+ },
+ "eth_mv_r1_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r1_w"
+ },
+ "eth_mv_r1_w": {
+  "anim_type": "wait",
+  "duration": 1.875,
+  "next": "@hud.eth_mv_r1_in"
+ },
+ "eth_mv_r2_s": {
+  "anim_type": "wait",
+  "duration": 0.626,
+  "next": "@hud.eth_mv_r2_in"
+ },
+ "eth_mv_r2_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r2_out"
+ },
+ "eth_mv_r2_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r2_w"
+ },
+ "eth_mv_r2_w": {
+  "anim_type": "wait",
+  "duration": 1.875,
+  "next": "@hud.eth_mv_r2_in"
+ },
+ "eth_mv_r3_s": {
+  "anim_type": "wait",
+  "duration": 0.9385,
+  "next": "@hud.eth_mv_r3_in"
+ },
+ "eth_mv_r3_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r3_out"
+ },
+ "eth_mv_r3_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r3_w"
+ },
+ "eth_mv_r3_w": {
+  "anim_type": "wait",
+  "duration": 1.875,
+  "next": "@hud.eth_mv_r3_in"
+ },
+ "eth_mv_r4_s": {
+  "anim_type": "wait",
+  "duration": 1.251,
+  "next": "@hud.eth_mv_r4_in"
+ },
+ "eth_mv_r4_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r4_out"
+ },
+ "eth_mv_r4_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r4_w"
+ },
+ "eth_mv_r4_w": {
+  "anim_type": "wait",
+  "duration": 1.875,
+  "next": "@hud.eth_mv_r4_in"
+ },
+ "eth_mv_r5_s": {
+  "anim_type": "wait",
+  "duration": 1.5635,
+  "next": "@hud.eth_mv_r5_in"
+ },
+ "eth_mv_r5_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r5_out"
+ },
+ "eth_mv_r5_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r5_w"
+ },
+ "eth_mv_r5_w": {
+  "anim_type": "wait",
+  "duration": 1.875,
+  "next": "@hud.eth_mv_r5_in"
+ },
+ "eth_mv_r6_s": {
+  "anim_type": "wait",
+  "duration": 1.876,
+  "next": "@hud.eth_mv_r6_in"
+ },
+ "eth_mv_r6_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r6_out"
+ },
+ "eth_mv_r6_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r6_w"
+ },
+ "eth_mv_r6_w": {
+  "anim_type": "wait",
+  "duration": 1.875,
+  "next": "@hud.eth_mv_r6_in"
+ },
+ "eth_mv_r7_s": {
+  "anim_type": "wait",
+  "duration": 2.1885,
+  "next": "@hud.eth_mv_r7_in"
+ },
+ "eth_mv_r7_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r7_out"
+ },
+ "eth_mv_r7_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.3125,
+  "next": "@hud.eth_mv_r7_w"
+ },
+ "eth_mv_r7_w": {
+  "anim_type": "wait",
+  "duration": 1.875,
+  "next": "@hud.eth_mv_r7_in"
+ },
+ "eth_mv_b0_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_b0_0"
+ },
+ "eth_mv_b0_0": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.08,
+  "to": 0.85,
+  "duration": 0.1,
+  "next": "@hud.eth_mv_b0_1"
+ },
+ "eth_mv_b0_1": {
+  "anim_type": "alpha",
+  "easing": "out_cubic",
+  "from": 0.85,
+  "to": 0.08,
+  "duration": 0.9,
+  "next": "@hud.eth_mv_b0_0"
+ },
+ "eth_mv_b1_s": {
+  "anim_type": "wait",
+  "duration": 0.251,
+  "next": "@hud.eth_mv_b1_0"
+ },
+ "eth_mv_b1_0": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.05,
+  "to": 0.7,
+  "duration": 0.1,
+  "next": "@hud.eth_mv_b1_1"
+ },
+ "eth_mv_b1_1": {
+  "anim_type": "alpha",
+  "easing": "out_cubic",
+  "from": 0.7,
+  "to": 0.05,
+  "duration": 0.9,
+  "next": "@hud.eth_mv_b1_0"
+ },
+ "eth_mv_b2_s": {
+  "anim_type": "wait",
+  "duration": 0.501,
+  "next": "@hud.eth_mv_b2_0"
+ },
+ "eth_mv_b2_0": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.1,
+  "to": 0.8,
+  "duration": 0.1,
+  "next": "@hud.eth_mv_b2_1"
+ },
+ "eth_mv_b2_1": {
+  "anim_type": "alpha",
+  "easing": "out_cubic",
+  "from": 0.8,
+  "to": 0.1,
+  "duration": 0.9,
+  "next": "@hud.eth_mv_b2_0"
+ },
+ "eth_mv_b3_s": {
+  "anim_type": "wait",
+  "duration": 0.751,
+  "next": "@hud.eth_mv_b3_0"
+ },
+ "eth_mv_b3_0": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.04,
+  "to": 0.65,
+  "duration": 0.1,
+  "next": "@hud.eth_mv_b3_1"
+ },
+ "eth_mv_b3_1": {
+  "anim_type": "alpha",
+  "easing": "out_cubic",
+  "from": 0.65,
+  "to": 0.04,
+  "duration": 0.9,
+  "next": "@hud.eth_mv_b3_0"
+ },
+ "eth_mv_ga_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_ga_0"
+ },
+ "eth_mv_ga_0": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.55,
+  "to": 0.95,
+  "duration": 0.06,
+  "next": "@hud.eth_mv_ga_1"
+ },
+ "eth_mv_ga_1": {
+  "anim_type": "alpha",
+  "easing": "out_cubic",
+  "from": 0.95,
+  "to": 0.62,
+  "duration": 0.3,
+  "next": "@hud.eth_mv_ga_2"
+ },
+ "eth_mv_ga_2": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.62,
+  "to": 0.82,
+  "duration": 0.1,
+  "next": "@hud.eth_mv_ga_3"
+ },
+ "eth_mv_ga_3": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.82,
+  "to": 0.5,
+  "duration": 0.44,
+  "next": "@hud.eth_mv_ga_4"
+ },
+ "eth_mv_ga_4": {
+  "anim_type": "alpha",
+  "easing": "in_quad",
+  "from": 0.5,
+  "to": 0.22,
+  "duration": 0.14,
+  "next": "@hud.eth_mv_ga_5"
+ },
+ "eth_mv_ga_5": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.22,
+  "to": 0.3,
+  "duration": 0.22,
+  "next": "@hud.eth_mv_ga_6"
+ },
+ "eth_mv_ga_6": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.3,
+  "to": 0.95,
+  "duration": 0.07,
+  "next": "@hud.eth_mv_ga_7"
+ },
+ "eth_mv_ga_7": {
+  "anim_type": "alpha",
+  "easing": "out_cubic",
+  "from": 0.95,
+  "to": 0.55,
+  "duration": 0.87,
+  "next": "@hud.eth_mv_ga_0"
+ },
+ "eth_mv_gs_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_gs_0"
+ },
+ "eth_mv_gs_0": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   76,
+   76
+  ],
+  "to": [
+   124,
+   124
+  ],
+  "duration": 0.06,
+  "next": "@hud.eth_mv_gs_1"
+ },
+ "eth_mv_gs_1": {
+  "anim_type": "size",
+  "easing": "out_cubic",
+  "from": [
+   124,
+   124
+  ],
+  "to": [
+   92,
+   92
+  ],
+  "duration": 0.4,
+  "next": "@hud.eth_mv_gs_2"
+ },
+ "eth_mv_gs_2": {
+  "anim_type": "size",
+  "easing": "in_out_sine",
+  "from": [
+   92,
+   92
+  ],
+  "to": [
+   104,
+   104
+  ],
+  "duration": 0.4,
+  "next": "@hud.eth_mv_gs_3"
+ },
+ "eth_mv_gs_3": {
+  "anim_type": "size",
+  "easing": "in_quad",
+  "from": [
+   104,
+   104
+  ],
+  "to": [
+   64,
+   64
+  ],
+  "duration": 0.36,
+  "next": "@hud.eth_mv_gs_4"
+ },
+ "eth_mv_gs_4": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   64,
+   64
+  ],
+  "to": [
+   128,
+   128
+  ],
+  "duration": 0.07,
+  "next": "@hud.eth_mv_gs_5"
+ },
+ "eth_mv_gs_5": {
+  "anim_type": "size",
+  "easing": "out_cubic",
+  "from": [
+   128,
+   128
+  ],
+  "to": [
+   76,
+   76
+  ],
+  "duration": 0.91,
+  "next": "@hud.eth_mv_gs_0"
+ },
+ "eth_mv_st_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_st_0"
+ },
+ "eth_mv_st_0": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   196,
+   49
+  ],
+  "to": [
+   262,
+   66
+  ],
+  "duration": 0.06,
+  "next": "@hud.eth_mv_st_1"
+ },
+ "eth_mv_st_1": {
+  "anim_type": "size",
+  "easing": "out_cubic",
+  "from": [
+   262,
+   66
+  ],
+  "to": [
+   214,
+   54
+  ],
+  "duration": 0.4,
+  "next": "@hud.eth_mv_st_2"
+ },
+ "eth_mv_st_2": {
+  "anim_type": "size",
+  "easing": "in_out_sine",
+  "from": [
+   214,
+   54
+  ],
+  "to": [
+   226,
+   57
+  ],
+  "duration": 0.4,
+  "next": "@hud.eth_mv_st_3"
+ },
+ "eth_mv_st_3": {
+  "anim_type": "size",
+  "easing": "in_quad",
+  "from": [
+   226,
+   57
+  ],
+  "to": [
+   176,
+   44
+  ],
+  "duration": 0.36,
+  "next": "@hud.eth_mv_st_4"
+ },
+ "eth_mv_st_4": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   176,
+   44
+  ],
+  "to": [
+   270,
+   68
+  ],
+  "duration": 0.07,
+  "next": "@hud.eth_mv_st_5"
+ },
+ "eth_mv_st_5": {
+  "anim_type": "size",
+  "easing": "out_cubic",
+  "from": [
+   270,
+   68
+  ],
+  "to": [
+   196,
+   49
+  ],
+  "duration": 0.91,
+  "next": "@hud.eth_mv_st_0"
+ },
+ "eth_mv_fs_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_fs_0"
+ },
+ "eth_mv_fs_0": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   260,
+   7
+  ],
+  "to": [
+   480,
+   12
+  ],
+  "duration": 0.06,
+  "next": "@hud.eth_mv_fs_1"
+ },
+ "eth_mv_fs_1": {
+  "anim_type": "size",
+  "easing": "out_cubic",
+  "from": [
+   480,
+   12
+  ],
+  "to": [
+   330,
+   8
+  ],
+  "duration": 0.4,
+  "next": "@hud.eth_mv_fs_2"
+ },
+ "eth_mv_fs_2": {
+  "anim_type": "size",
+  "easing": "in_out_sine",
+  "from": [
+   330,
+   8
+  ],
+  "to": [
+   360,
+   9
+  ],
+  "duration": 0.4,
+  "next": "@hud.eth_mv_fs_3"
+ },
+ "eth_mv_fs_3": {
+  "anim_type": "size",
+  "easing": "in_quad",
+  "from": [
+   360,
+   9
+  ],
+  "to": [
+   220,
+   6
+  ],
+  "duration": 0.36,
+  "next": "@hud.eth_mv_fs_4"
+ },
+ "eth_mv_fs_4": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   220,
+   6
+  ],
+  "to": [
+   500,
+   13
+  ],
+  "duration": 0.07,
+  "next": "@hud.eth_mv_fs_5"
+ },
+ "eth_mv_fs_5": {
+  "anim_type": "size",
+  "easing": "out_cubic",
+  "from": [
+   500,
+   13
+  ],
+  "to": [
+   260,
+   7
+  ],
+  "duration": 0.91,
+  "next": "@hud.eth_mv_fs_0"
+ },
+ "eth_mv_fa_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_fa_0"
+ },
+ "eth_mv_fa_0": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.45,
+  "to": 1.0,
+  "duration": 0.06,
+  "next": "@hud.eth_mv_fa_1"
+ },
+ "eth_mv_fa_1": {
+  "anim_type": "alpha",
+  "easing": "out_cubic",
+  "from": 1.0,
+  "to": 0.6,
+  "duration": 0.4,
+  "next": "@hud.eth_mv_fa_2"
+ },
+ "eth_mv_fa_2": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.6,
+  "to": 0.7,
+  "duration": 0.4,
+  "next": "@hud.eth_mv_fa_3"
+ },
+ "eth_mv_fa_3": {
+  "anim_type": "alpha",
+  "easing": "in_quad",
+  "from": 0.7,
+  "to": 0.25,
+  "duration": 0.36,
+  "next": "@hud.eth_mv_fa_4"
+ },
+ "eth_mv_fa_4": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.25,
+  "to": 1.0,
+  "duration": 0.07,
+  "next": "@hud.eth_mv_fa_5"
+ },
+ "eth_mv_fa_5": {
+  "anim_type": "alpha",
+  "easing": "out_cubic",
+  "from": 1.0,
+  "to": 0.45,
+  "duration": 0.91,
+  "next": "@hud.eth_mv_fa_0"
+ },
+ "eth_mv_rs0_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_rs0_0"
+ },
+ "eth_mv_rs0_0": {
+  "anim_type": "size",
+  "easing": "out_cubic",
+  "from": [
+   40,
+   17
+  ],
+  "to": [
+   820,
+   350
+  ],
+  "duration": 2.8,
+  "next": "@hud.eth_mv_rs0_0"
+ },
+ "eth_mv_ra0_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_ra0_0"
+ },
+ "eth_mv_ra0_0": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.0,
+  "to": 0.6,
+  "duration": 0.12,
+  "next": "@hud.eth_mv_ra0_1"
+ },
+ "eth_mv_ra0_1": {
+  "anim_type": "alpha",
+  "easing": "in_sine",
+  "from": 0.6,
+  "to": 0.0,
+  "duration": 2.68,
+  "next": "@hud.eth_mv_ra0_0"
+ },
+ "eth_mv_ks0_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_ks0_0"
+ },
+ "eth_mv_ks0_0": {
+  "anim_type": "size",
+  "easing": "in_quad",
+  "from": [
+   40,
+   40
+  ],
+  "to": [
+   640,
+   640
+  ],
+  "duration": 1.6,
+  "next": "@hud.eth_mv_ks0_0"
+ },
+ "eth_mv_ka0_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_ka0_0"
+ },
+ "eth_mv_ka0_0": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.0,
+  "to": 0.85,
+  "duration": 0.25,
+  "next": "@hud.eth_mv_ka0_1"
+ },
+ "eth_mv_ka0_1": {
+  "anim_type": "alpha",
+  "easing": "in_quad",
+  "from": 0.85,
+  "to": 0.0,
+  "duration": 1.35,
+  "next": "@hud.eth_mv_ka0_0"
+ },
+ "eth_mv_ds0_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_ds0_0"
+ },
+ "eth_mv_ds0_0": {
+  "anim_type": "size",
+  "easing": "linear",
+  "from": [
+   "100%",
+   "100%"
+  ],
+  "to": [
+   "140%",
+   "140%"
+  ],
+  "duration": 10.0,
+  "next": "@hud.eth_mv_ds0_0"
+ },
+ "eth_mv_da0_s": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@hud.eth_mv_da0_0"
+ },
+ "eth_mv_da0_0": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 0.7,
+  "duration": 2.0,
+  "next": "@hud.eth_mv_da0_1"
+ },
+ "eth_mv_da0_1": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.7,
+  "to": 0.7,
+  "duration": 6.0,
+  "next": "@hud.eth_mv_da0_2"
+ },
+ "eth_mv_da0_2": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.7,
+  "to": 0.0,
+  "duration": 2.0,
+  "next": "@hud.eth_mv_da0_0"
+ },
+ "eth_mv_rs1_s": {
+  "anim_type": "wait",
+  "duration": 1.401,
+  "next": "@hud.eth_mv_rs1_0"
+ },
+ "eth_mv_rs1_0": {
+  "anim_type": "size",
+  "easing": "out_cubic",
+  "from": [
+   40,
+   17
+  ],
+  "to": [
+   820,
+   350
+  ],
+  "duration": 2.8,
+  "next": "@hud.eth_mv_rs1_0"
+ },
+ "eth_mv_ra1_s": {
+  "anim_type": "wait",
+  "duration": 1.401,
+  "next": "@hud.eth_mv_ra1_0"
+ },
+ "eth_mv_ra1_0": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.0,
+  "to": 0.6,
+  "duration": 0.12,
+  "next": "@hud.eth_mv_ra1_1"
+ },
+ "eth_mv_ra1_1": {
+  "anim_type": "alpha",
+  "easing": "in_sine",
+  "from": 0.6,
+  "to": 0.0,
+  "duration": 2.68,
+  "next": "@hud.eth_mv_ra1_0"
+ },
+ "eth_mv_ks1_s": {
+  "anim_type": "wait",
+  "duration": 0.801,
+  "next": "@hud.eth_mv_ks1_0"
+ },
+ "eth_mv_ks1_0": {
+  "anim_type": "size",
+  "easing": "in_quad",
+  "from": [
+   40,
+   40
+  ],
+  "to": [
+   640,
+   640
+  ],
+  "duration": 1.6,
+  "next": "@hud.eth_mv_ks1_0"
+ },
+ "eth_mv_ka1_s": {
+  "anim_type": "wait",
+  "duration": 0.801,
+  "next": "@hud.eth_mv_ka1_0"
+ },
+ "eth_mv_ka1_0": {
+  "anim_type": "alpha",
+  "easing": "out_quad",
+  "from": 0.0,
+  "to": 0.85,
+  "duration": 0.25,
+  "next": "@hud.eth_mv_ka1_1"
+ },
+ "eth_mv_ka1_1": {
+  "anim_type": "alpha",
+  "easing": "in_quad",
+  "from": 0.85,
+  "to": 0.0,
+  "duration": 1.35,
+  "next": "@hud.eth_mv_ka1_0"
+ },
+ "eth_mv_ds1_s": {
+  "anim_type": "wait",
+  "duration": 5.001,
+  "next": "@hud.eth_mv_ds1_0"
+ },
+ "eth_mv_ds1_0": {
+  "anim_type": "size",
+  "easing": "linear",
+  "from": [
+   "100%",
+   "100%"
+  ],
+  "to": [
+   "140%",
+   "140%"
+  ],
+  "duration": 10.0,
+  "next": "@hud.eth_mv_ds1_0"
+ },
+ "eth_mv_da1_s": {
+  "anim_type": "wait",
+  "duration": 5.001,
+  "next": "@hud.eth_mv_da1_0"
+ },
+ "eth_mv_da1_0": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 0.7,
+  "duration": 2.0,
+  "next": "@hud.eth_mv_da1_1"
+ },
+ "eth_mv_da1_1": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.7,
+  "to": 0.7,
+  "duration": 6.0,
+  "next": "@hud.eth_mv_da1_2"
+ },
+ "eth_mv_da1_2": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.7,
+  "to": 0.0,
+  "duration": 2.0,
+  "next": "@hud.eth_mv_da1_0"
+ },
+ "eth_mv_fb_ico": {
+  "anim_type": "flip_book",
+  "initial_uv": [
+   0,
+   0
+  ],
+  "frame_count": 24,
+  "frame_step": 84,
+  "fps": 12,
+  "looping": true,
+  "reversible": false,
+  "easing": "linear"
+ },
+ "eth_mv_fb_dod": {
+  "anim_type": "flip_book",
+  "initial_uv": [
+   0,
+   0
+  ],
+  "frame_count": 24,
+  "frame_step": 72,
+  "fps": 8,
+  "looping": true,
+  "reversible": false,
+  "easing": "linear"
  }
 }
