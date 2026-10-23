@@ -1,26 +1,22 @@
 #!/usr/bin/env python3
-"""8.x - PACOTE OPCIONAL "Legacy of Etheria Sábio UI" (pasta LegacyOfEtheria_SageUI/): telas no estilo do Grande Sábio dos vídeos
-(tela cheia escura com o mundo escurecido, moldura verde-ciano holográfica, título grande digitando, texto revelado linha a linha,
-icosaedro girando, botões do Sábio). Aplica-se a: escolha de raça (carrossel/ficha/Escolher), análise e "Confirmar renascimento",
-árvore/evolução da raça, habilidades/Registro do Sábio (ficha Tensura) e o menu do Livro do Sábio.
+"""VISUAL DO GRANDE SÁBIO (telas do vídeo do Tensura) DENTRO do pacote principal (8.12+): gera RP/ui/server_form.json e as texturas
+RP/textures/ui/etheria_sg/. (Até a 8.11 isto era o pacote opcional LegacyOfEtheria_SageUI; aquela pasta não é mais usada.)
 
-SEGURANÇA: o pacote principal (LegacyOfEtheria_RP) NÃO muda. Este pacote traz uma cópia COMPLETA do ui/server_form.json do principal
-(todas as chaves eth_* idênticas) + as telas novas eth_sg_*; como um pacote acima substitui o arquivo inteiro, a cópia é refeita daqui
-a partir do principal (rode de novo sempre que o server_form.json principal mudar; o build.sh já roda com --sync).
-Se o mundo não abrir, basta desativar este pacote: os scripts continuam iguais e o principal mostra o visual estável.
+BASE: tools/server_form_base.json = o server_form.json ESTÁVEL do principal (86 chaves, commit 59c9e7b). O gerador SEMPRE parte dela
+(nunca do arquivo já gerado), copia todas as chaves sem mudar nada, só acrescenta "e não tem o marcador do Sábio" às rotas eth_form/eth_card_form
+e soma as telas eth_sg_*. Assim rodar de novo dá sempre o mesmo resultado (idempotente) e o visual estável continua lá como fallback.
 
 Marcadores (systems/ui/forms.js): título = "§e§t§h" + "§j§q" (SG) + tema/cartão + "§r" + texto.
-  - SG + "§t§k"  -> eth_sg_card_form  (8.9b: carrossel IDÊNTICO ao vídeo, medido quadro a quadro: cartão preto da altura da tela,
-                    retrato de corpo inteiro textures/ui/etheria_sg/race_<id> (tools/race_portraits.py), selo "§l§r§N", ficha, botão
-                    ESCOLHER largo na base; os cartões vizinhos pela metade SÃO os botões "<"/">" (escolhidos pelo texto do botão);
-                    "§t§y" = "Confirmar?")
-  - SG + "§t§i"  -> eth_sg_intro_form (8.9: abertura "Sorteio." ... faixa vermelha com a aptidão)  | SG + "§t§o" -> eth_sg_outro_form (esfera final)
-  - SG + "§t§n"  -> eth_sg_book_form  (menu do Livro do Sábio: icosaedro, fala, opções)
-  - SG (outros)  -> eth_sg_form       (8.9b: janela do menu "Magic"/Tensura do vídeo: abas, título, lista com ícones redondos à
-                    esquerda, moldura cinza com faixa 1..9, campo do Sábio e a ficha à direita)
-  O principal não procura "§j§q", então lá esses títulos caem nas telas de sempre (eth_form / eth_card_form).
+  - SG + "§t§k"  -> eth_sg_card_form  (carrossel: cartão preto alto, retrato textures/ui/etheria_sg/race_<id>, selo "§l§r§N", ESCOLHER;
+                    os cartões vizinhos SÃO os botões "<"/">" (escolhidos pelo texto do botão); "§t§y" = "Confirmar?")
+  - SG + "§t§i"  -> eth_sg_intro_form (8.13: abertura completa do vídeo: disco de runas "0%"->"100%", esfera "Alma capturada.", e uma
+                    RODADA por botão de dados: quadro "Sorteio." + assinatura desenhada -> forma ("A Estrela"...) -> triângulo da
+                    habilidade única ou faixa vermelha de resistência)  | SG + "§t§o" -> eth_sg_outro_form (esfera final)
+  - SG + "§t§n"  -> eth_sg_book_form  (menu do Livro do Sábio)
+  - SG + "§t§v"  -> eth_sg_arch_form  (8.13: "Ability Archive" do vídeo: lista à esquerda com nomes coloridos, painel de detalhe à direita)
+  - SG (outros)  -> eth_sg_form       (janela do menu "Magic": lista com ícones redondos e ficha à direita)
 
-Uso: python3 tools/gen_sage_ui.py          (texturas + manifesto + server_form.json + validação)
+Uso: python3 tools/gen_sage_ui.py          (texturas + server_form.json + validação)
      python3 tools/gen_sage_ui.py --sync   (só refaz/valida o server_form.json; não precisa de PIL)
      python3 tools/gen_sage_ui.py --check  (só valida o que está no disco)
 Sai com código 1 (sem gravar) se a validação falhar."""
@@ -29,18 +25,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MAIN_RP = os.path.join(ROOT, "LegacyOfEtheria_RP")
-PACK = os.path.join(ROOT, "LegacyOfEtheria_SageUI")
+PACK = MAIN_RP   # 8.13: texturas direto no principal (textures/ui/etheria_sg)
+BASE_SF = os.path.join(os.path.dirname(os.path.abspath(__file__)), "server_form_base.json")
+OUT_SF = os.path.join(MAIN_RP, "ui", "server_form.json")
 NS = "server_form"
 TEX = "textures/ui/etheria_sg"
 BASE, CARD, SAGEN, SG = "§e§t§h", "§t§k", "§t§n", "§j§q"
-INTRO, OUTRO, CONFIRM = "§t§i", "§t§o", "§t§y"     # 8.9: cenas da reencarnação e modo "Confirmar?" do cartão (systems/ui/forms.js scene / cardMenu)
+INTRO, OUTRO, CONFIRM, ARCH = "§t§i", "§t§o", "§t§y", "§t§v"     # 8.9: cenas da reencarnação e modo "Confirmar?" do cartão (systems/ui/forms.js scene / cardMenu)
 DIFF = [("Fácil", [0.45, 0.95, 0.5], (70, 220, 110)), ("Normal", [1.0, 0.75, 0.3], (240, 170, 60)), ("Difícil", [1.0, 0.38, 0.36], (235, 70, 70)), ("Extremo", [0.85, 0.5, 1.0], (190, 110, 245))]
 NAVY_TXT = [0.86, 0.9, 0.97]
 CW = 184   # largura do cartão do carrossel (px de UI)
 RACE_CODES = {r: "0123456789abc"[i] for i, r in enumerate(["human", "slime", "goblin", "demon", "elf", "angel", "dragonoid", "beastkin", "undead", "ogre", "lizardman", "vampire", "dwarf"])}
-# UUIDs fixos deste pacote (gerados uma vez; NÃO trocar, senão o mundo perde o pacote ativado)
-HEADER_UUID = "5b1f3c2e-8a47-4d1e-9c6b-2f7e0a9d4c31"
-MODULE_UUID = "c3e8a91d-6f02-4b7a-a5d4-81e9f2b3c6a7"
 GREEN = [0.55, 1.0, 0.82]   # verde-ciano do Sábio
 CYAN = [0.45, 0.95, 1.0]
 
@@ -229,27 +224,120 @@ def gen_textures():
         cx, cy = (bb[0] + bb[2]) / 2, (bb[1] + bb[3]) / 2; w2 = max(bb[2] - bb[0] + 4, (bb[3] - bb[1] + 6) / 2); h2 = 2 * w2
         crop = Image.new("RGBA", (int(w2), int(h2)), (0, 0, 0, 0)); crop.alpha_composite(pim.crop((int(cx - w2 / 2), int(cy - h2 / 2), int(cx - w2 / 2) + int(w2), int(cy - h2 / 2) + int(h2))))
         crop.save(os.path.join(out, f"race_{rid}.png"), optimize=True); made.add(f"race_{rid}")
+    # 8.13 ---- ABERTURA COMPLETA (vídeo 2206513e, 0-48 s) e ABILITY ARCHIVE (101-103 s)
+    gen_intro_textures(save)
     # limpeza: texturas de versões antigas que nada mais usa (o pacote fica só com o que o server_form.json referencia)
     for fn in os.listdir(out):
         stem, ext = os.path.splitext(fn)
         if ext in (".png", ".json") and stem not in made: os.remove(os.path.join(out, fn))
-    # ícone do pacote
-    ic = Image.new("RGBA", (128, 128), (2, 14, 10, 255)); d = ImageDraw.Draw(ic)
-    d.rectangle([4, 4, 123, 123], outline=(80, 235, 200, 255), width=3)
-    ico = os.path.join(MAIN_RP, "textures/ui/etheria/sg_ico_0.png")
-    if os.path.exists(ico):
-        g = Image.open(ico).convert("RGBA").resize((96, 96), Image.NEAREST); r_, g_, b_, a_ = g.split()
-        tint = Image.merge("RGBA", (r_.point(lambda v: v * 120 // 255), g_.point(lambda v: v), b_.point(lambda v: v * 215 // 255), a_.point(lambda v: min(255, v * 3))))
-        ic.alpha_composite(tint, (16, 16))
-    ic.alpha_composite(ring.resize((76, 76), Image.NEAREST), (26, 26))
-    ic.save(os.path.join(PACK, "pack_icon.png"), optimize=True)
+    # 8.13: sem ícone/manifesto próprios (o pacote opcional deixou de existir; NUNCA gravar o pack_icon do principal daqui)
 
-def gen_manifest():
-    m = {"format_version": 2, "header": {"name": "§aLegacy of Etheria §2Sábio UI", "description": "OPCIONAL: telas no estilo do Grande Sábio (raça, evolução, habilidades, Livro do Sábio). Coloque ACIMA do pacote principal. Se algo der errado, desative só este pacote.",
-         "uuid": HEADER_UUID, "version": [1, 0, 0], "min_engine_version": [1, 21, 80]},
-         "modules": [{"type": "resources", "uuid": MODULE_UUID, "version": [1, 0, 0]}]}
-    os.makedirs(PACK, exist_ok=True)
-    open(os.path.join(PACK, "manifest.json"), "w", encoding="utf8").write(json.dumps(m, ensure_ascii=False, indent=1) + "\n")
+
+# ------------------------------------------------------------------ 8.13: texturas da abertura completa e do "Ability Archive"
+def _aa(draw_fn, w, h, k=3):
+    """desenha em k vezes o tamanho e reduz (linhas suaves, sem serrilhado)"""
+    from PIL import Image, ImageDraw
+    big = Image.new("RGBA", (w * k, h * k), (0, 0, 0, 0)); draw_fn(ImageDraw.Draw(big), k, big)
+    return big.resize((w, h), Image.LANCZOS)
+SIG_N = 8          # quadros da assinatura (a caneta anda pelo traço)
+RUNE_N = 6         # quadros do anel de runas (24 setores -> 15° = volta perfeita em 6 passos de 2.5°)
+def sig_paths():
+    """traços das 3 rodadas, em coordenadas 0..1 de um quadro 2:1: estrela de 5 pontas (16-18 s), coração e o "N" com laço (38-40 s)"""
+    star = []
+    for i in range(6):
+        a = -math.pi / 2 + i * 4 * math.pi / 5; star.append((0.56 + 0.19 * math.cos(a), 0.54 + 0.38 * math.sin(a)))
+    heart = []
+    for i in range(61):
+        t = math.pi * 2 * i / 60; x = 16 * math.sin(t) ** 3; y = 13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t)
+        heart.append((0.5 + x / 17 * 0.17, 0.48 - y / 17 * 0.38))
+    n = [(0.22, 0.86), (0.33, 0.30), (0.36, 0.26), (0.40, 0.84), (0.43, 0.88), (0.55, 0.30), (0.58, 0.30), (0.56, 0.62)]
+    for i in range(21):
+        t = i / 20; n.append((0.56 + 0.18 * t, 0.62 + 0.18 * math.sin(t * math.pi) - 0.46 * t))
+    return [star, heart, n]
+def _resample(pts, m=120):
+    L = [0.0]
+    for a, b in zip(pts, pts[1:]): L.append(L[-1] + math.dist(a, b))
+    out = []
+    for i in range(m + 1):
+        s_ = L[-1] * i / m; j = max(0, min(len(pts) - 2, next((q for q in range(len(L) - 1) if L[q + 1] >= s_), len(pts) - 2)))
+        f = 0 if L[j + 1] == L[j] else (s_ - L[j]) / (L[j + 1] - L[j]); out.append((pts[j][0] + (pts[j + 1][0] - pts[j][0]) * f, pts[j][1] + (pts[j + 1][1] - pts[j][1]) * f))
+    return out
+def gen_intro_textures(save):
+    from PIL import Image, ImageDraw, ImageFilter
+    import random
+    # planeta escuro do disco (1-3 s): esfera quase preta, nuvens azuladas no alto à esquerda, borda azul fraca
+    P = 256; pl = Image.new("RGBA", (P, P), (0, 0, 0, 0)); pp = pl.load(); rnd = random.Random(7)
+    blobs = [(rnd.uniform(0.15, 0.6), rnd.uniform(0.12, 0.45), rnd.uniform(0.05, 0.13)) for _ in range(26)]
+    for y in range(P):
+        for x in range(P):
+            dx, dy = (x - P / 2 + 0.5) / (P / 2), (y - P / 2 + 0.5) / (P / 2); r = math.hypot(dx, dy)
+            if r > 1: continue
+            u, v = x / P, y / P; c = 0.0
+            for (bx, by, br) in blobs: c += max(0.0, 1 - math.hypot(u - bx, (v - by) * 1.6) / br) * 0.55
+            c = min(1.0, c) * max(0.0, 1 - math.hypot(u - 0.36, v - 0.3) / 0.42)
+            rim = max(0.0, (r - 0.86) / 0.14) ** 2
+            pp[x, y] = (int(4 + 120 * c + 30 * rim), int(8 + 135 * c + 50 * rim), int(16 + 160 * c + 80 * rim), int(255 * min(1.0, (1 - r) * 60)))
+    save(pl, "sg_planet")
+    # anel de runas: faixa externa de placas claras (205,200,182) com glifos escuros + faixa interna azul-escura com constelações claras
+    gl = random.Random(31); glyph = [[(gl.uniform(-1, 1), gl.uniform(-1, 1)) for _ in range(gl.choice([3, 4, 5]))] for _ in range(24)]
+    cons = [[(gl.uniform(-1, 1), gl.uniform(-1, 1)) for _ in range(3)] for _ in range(24)]
+    S = 384
+    for k in range(RUNE_N):
+        def ring(d, m, big, k=k):
+            c = S * m / 2; rot = math.radians(k * 15 / RUNE_N)
+            R1, R2, R3, R4 = 0.995 * c, 0.80 * c, 0.78 * c, 0.52 * c
+            d.ellipse([c - R1, c - R1, c + R1, c + R1], fill=(26, 46, 66, 255)); d.ellipse([c - R3, c - R3, c + R3, c + R3], fill=(14, 30, 48, 255))
+            d.ellipse([c - R4, c - R4, c + R4, c + R4], fill=(0, 0, 0, 0))
+            for i in range(24):
+                a0 = rot + i * math.pi / 12 + 0.02; a1 = a0 + math.pi / 12 - 0.05; am = (a0 + a1) / 2
+                pol = [(c + R * math.cos(a), c + R * math.sin(a)) for R, a in ((R2 + 2 * m, a0), (R1 - 3 * m, a0), (R1 - 3 * m, a1), (R2 + 2 * m, a1))]
+                d.polygon(pol, fill=(206, 200, 182, 255) if i % 2 == 0 else (176, 182, 178, 255))
+                cx, cy = c + (R1 + R2) / 2 * math.cos(am), c + (R1 + R2) / 2 * math.sin(am); sc = (R1 - R2) * 0.32
+                d.line([(cx + sc * px, cy + sc * py) for px, py in glyph[i]], fill=(30, 36, 44, 255), width=max(1, int(1.6 * m)))
+                cx, cy = c + (R3 + R4) / 2 * math.cos(am), c + (R3 + R4) / 2 * math.sin(am); sc = (R3 - R4) * 0.33
+                pts = [(cx + sc * px, cy + sc * py) for px, py in cons[i]]
+                d.line(pts + [pts[0]], fill=(150, 180, 200, 200), width=max(1, int(m))); [d.ellipse([x - 1.6 * m, y - 1.6 * m, x + 1.6 * m, y + 1.6 * m], fill=(225, 238, 255, 255)) for x, y in pts]
+            for R in (R2, R3, R4 + 2 * m):
+                d.ellipse([c - R, c - R, c + R, c + R], outline=(120, 150, 170, 180), width=max(1, int(m)))
+        save(_aa(ring, S, S), f"sg_runes_{k}")
+    ld = Image.new("RGBA", (16, 16), (172, 172, 176, 255)); ImageDraw.Draw(ld).rectangle([6, 6, 9, 9], fill=(92, 200, 80, 255)); ImageDraw.Draw(ld).line([(15, 2), (15, 15), (2, 15)], fill=(120, 120, 124, 255))
+    save(ld, "sg_load")   # quadradinho cinza do carregamento (2-3 s)
+    # assinaturas: traço cinza-claro grosso + ponto branco grande na ponta da caneta (como no vídeo), SIG_N quadros por rodada
+    SW_, SH_ = 256, 128
+    for r_, path in enumerate(sig_paths()):
+        pts = _resample(path)
+        for k in range(SIG_N):
+            n_ = max(2, int(len(pts) * (k + 1) / SIG_N))
+            def sig(d, m, big, pts=pts, n_=n_):
+                P_ = [(x * SW_ * m, y * SH_ * m) for x, y in pts[:n_]]
+                d.line(P_, fill=(150, 156, 160, 255), width=int(4.2 * m), joint="curve"); d.line(P_, fill=(214, 220, 224, 255), width=int(2.2 * m), joint="curve")
+                x, y = P_[-1]; R = 5.5 * m; d.ellipse([x - R, y - R, x + R, y + R], fill=(255, 255, 255, 255))
+            save(_aa(sig, SW_, SH_), f"sg_sig{r_}_{k}")
+    # triângulo invertido marfim (21-23 s): linha grossa (1% da altura da tela), cantos vivos
+    TW, TH = 512, 464
+    def tri(d, m, big):
+        w = 9 * m; A, B, C = (w, w), (TW * m - w, w), (TW * m / 2, TH * m - w)
+        for (p, q) in ((A, B), (B, C), (C, A)): d.line([p, q], fill=(236, 230, 216, 255), width=int(w))
+        for p in (A, B, C): d.ellipse([p[0] - w / 2, p[1] - w / 2, p[0] + w / 2, p[1] + w / 2], fill=(236, 230, 216, 255))
+    save(_aa(tri, TW, TH, 2), "sg_tri")
+    # ---- ABILITY ARCHIVE (101-103 s): painel esquerdo azul com nebulosa, busca cinza, lista cinza com linhas, painel direito azul com caixas de filete ciano
+    AW, AH = 96, 160; ar = Image.new("RGBA", (AW, AH)); ap = ar.load(); nb = random.Random(5); spots = [(nb.uniform(0, AW), nb.uniform(0, AH), nb.uniform(12, 30)) for _ in range(9)]
+    for y in range(AH):
+        for x in range(AW):
+            g_ = sum(max(0.0, 1 - math.hypot(x - sx, y - sy) / sr) for sx, sy, sr in spots); g_ = min(1.0, g_ * 0.7)
+            ap[x, y] = (int(22 + 30 * g_), int(36 + 60 * g_), int(70 + 90 * g_), 255)
+    ImageDraw.Draw(ar).rectangle([0, 0, AW - 1, AH - 1], outline=(10, 14, 26, 255)); save(ar, "arch_left")
+    def bevel_(w, h, layers, fill):
+        im = Image.new("RGBA", (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im); i = 0
+        for (col, t) in layers:
+            for _ in range(t): d.rectangle([i, i, w - 1 - i, h - 1 - i], outline=col); i += 1
+        d.rectangle([i, i, w - 1 - i, h - 1 - i], fill=fill); return im
+    save(bevel_(24, 10, [((40, 40, 44, 255), 1)], (128, 128, 132, 255)), "arch_search", 3)
+    save(bevel_(24, 24, [((26, 26, 30, 255), 1)], (86, 86, 90, 255)), "arch_list", 4)
+    for nm, fill in (("arch_row", (98, 98, 104)), ("arch_row_h", (126, 126, 134)), ("arch_row_p", (70, 70, 76))):
+        rw = bevel_(24, 12, [((44, 44, 50, 255), 1)], fill + (255,)); ImageDraw.Draw(rw).line([(1, 1), (22, 1)], fill=tuple(min(255, c + 34) for c in fill) + (255,)); save(rw, nm, 3)
+    save(bevel_(32, 32, [((8, 12, 22, 255), 1)], (14, 32, 52, 255)), "arch_right", 4)
+    save(bevel_(24, 24, [((10, 18, 30, 255), 1), ((52, 120, 150, 255), 1)], (10, 30, 50, 255)), "arch_box", 4)
 
 # ------------------------------------------------------------------ JSON UI
 def anims():
@@ -336,16 +424,7 @@ def reinc_anims():
     for k in range(len(TWK)): A[f"eth_sgtw{k}"] = {"anim_type": "wait", "duration": round(0.001 + (k * 0.37) % 1.6, 3), "next": f"@{NS}.eth_sgtw_v{k % 3}_a"}
     # abertura: a MESMA ordem e as mesmas durações das partes do vídeo (legenda 1.25 s, assinatura desenhada em 2.3 s, "A Ampulheta" junto
     # com "Aptidão encontrada.", faixa entrando da esquerda em 0.4 s), sem os 5 s de quadro vazio, para caber nos 9.5 s da cena (autoTicks 190)
-    A["eth_sgi_fr_w"] = {"anim_type": "wait", "duration": 4.5, "next": f"@{NS}.eth_sgi_fr_o"}
-    A["eth_sgi_fr_o"] = {"anim_type": "alpha", "easing": "linear", "from": 1.0, "to": 0.0, "duration": 0.3}
-    A["eth_sgi_sign_w"] = {"anim_type": "wait", "duration": 2.0, "next": f"@{NS}.eth_sgi_sign"}
-    A["eth_sgi_sign"] = {"anim_type": "offset", "easing": "linear", "from": [0, 0], "to": ["100%", 0], "duration": 2.3}
-    A.update(fade("eth_sgi_l1", 0.15, 1.4, fd=0.2)); A.update(fade("eth_sgi_l2", 1.5, 2.75, fd=0.2)); A.update(fade("eth_sgi_l3", 4.8, 6.5, fd=0.2))
-    A.update(fade("eth_sgi_hg", 4.8, 6.6, fd=0.25)); A.update(fade("eth_sgi_hs", 5.6, 6.6, a=0.85, fd=0.25))
-    A.update(fade("eth_sgi_bn", 6.9, fd=0.2)); A.update(fade("eth_sgi_bs", 7.3, a=0.95))
-    A["eth_sgi_slide_w"] = {"anim_type": "wait", "duration": 6.9, "next": f"@{NS}.eth_sgi_slide"}
-    A["eth_sgi_slide"] = {"anim_type": "offset", "easing": "out_cubic", "from": ["-100%", "-11.5%"], "to": [0, "-11.5%"], "duration": 0.4}
-    A.update(fade("eth_sgi_skip", 0.6, a=0.85))
+    A.update(intro_anims())
     # final: esfera geodésica (71% da altura, 8.8% acima do centro) gira devagar; legendas na barra preta
     A["eth_sgo_grow"] = {"anim_type": "size", "easing": "out_cubic", "from": ["100%y", "8%"], "to": ["100%y", "71%"], "duration": 0.7}
     for k in range(12):   # 12 quadros da geodésica, 0.25 s cada (volta de 72° em 3 s)
@@ -394,6 +473,186 @@ def card_variant(k, marker, inner):
     return {f"v{k}": {"type": "panel", "size": ["100%", "100%"], "offset": [f"-{k * 100}%" if k else 0, 0], "controls": [inner], "bindings": [
         {"binding_type": "collection", "binding_collection_name": "form_buttons", "binding_name": "#form_button_text"},
         {"binding_type": "view", "source_property_name": f"(not ((#form_button_text - '{marker}') = #form_button_text))", "target_property_name": "#visible"}]}}
+# ------------------------------------------------------------------ 8.13: ABERTURA COMPLETA (vídeo 2206513e, 0-48 s), na ordem do vídeo:
+#  0.0-2.7 s  disco de runas girando sobre o planeta escuro, "0%" -> "100%" e o quadradinho cinza do carregamento
+#  2.7-7.6 s  esfera geodésica: "Morte confirmada." / "Alma capturada. Está intacta." / "Sequência de reencarnação iniciada."
+#  depois UMA RODADA por botão de dados (até 3, ROUND s cada; botão k = rodada k, botão 0 = "Pular »"):
+#     +0.0-3.0  quadro preto "Sorteio." + legenda ("Mostre-me o que você deseja." / "O próximo." / "O último desejo.");
+#               a assinatura é desenhada de +1.1 a +2.5 (estrela / coração / "N"), a caneta (ponto branco) segue o traço
+#     +3.0-4.4  forma reconhecida no céu ("A Estrela" / "O Coração" / "A Ampulheta") + "Interessante." / "Fortaleza encontrada."
+#     +4.4-7.3  revelação: TRIÂNGULO invertido (habilidade única/ultimate/intrínseca principal, "§m§t") ou FAIXA VERMELHA
+#               (resistência "§m§r" / aptidão "§m§a"); legenda = nome real da habilidade (texto do botão)
+# O script (systems/ui/racemenus.js openRaceIntro) usa os MESMOS números (INTRO_OPEN/INTRO_ROUND, conferidos pelo validador).
+INTRO_OPEN, INTRO_ROUND, INTRO_MAX = 7.6, 7.4, 3
+RMARK = {k: f"§u§{k}" for k in range(1, INTRO_MAX + 1)}          # rodada k (no texto do botão k)
+KMARK = {"tri": "§m§t", "res": "§m§r", "apt": "§m§a"}             # tipo da revelação
+TMARK = {"unique": "§n§1", "ultimate": "§n§2", "intrinsic": "§n§3"}  # classe mostrada no triângulo
+TIER_TXT = {"unique": "HABILIDADE ÚNICA", "ultimate": "HABILIDADE ULTIMATE", "intrinsic": "HABILIDADE INTRÍNSECA"}
+DRAW_CAP = ["Mostre-me o que você deseja.", "O próximo.", "O último desejo."]
+SHAPE = [("A Estrela", None, "Interessante."), ("O Coração", "Uma forma que todos conhecem. Por que esta?", "Interessante."),
+         ("A Ampulheta", "Largo, depois estreito, depois contido.", "Fortaleza encontrada.")]
+PCT = [(0.0, "0%"), (1.3, "9%"), (1.47, "23%"), (1.64, "41%"), (1.81, "58%"), (1.98, "76%"), (2.15, "92%"), (2.32, "100%")]
+def jump(name, t, frm, to, t2=None):
+    """aparece/some de uma vez (offset) - usado para trocar de cena sem somar 2 animações de alpha no mesmo controle"""
+    A = {f"{name}_w": {"anim_type": "wait", "duration": max(0.001, t), "next": f"@{NS}.{name}_a"},
+         f"{name}_a": {"anim_type": "offset", "easing": "linear", "from": frm, "to": to, "duration": 0.01}}
+    if t2 is not None:
+        A[f"{name}_a"]["next"] = f"@{NS}.{name}_h"
+        A[f"{name}_h"] = {"anim_type": "wait", "duration": max(0.001, t2 - t - 0.01), "next": f"@{NS}.{name}_b"}
+        A[f"{name}_b"] = {"anim_type": "offset", "easing": "linear", "from": to, "to": frm, "duration": 0.01}
+    return A
+def intro_anims():
+    A = {}
+    A.update(jump("eth_sgi_disc", 2.7, [0, 0], [0, "300%"]))                    # o disco sai de cena
+    A.update(jump("eth_sgi_open", 2.7, [0, "300%"], [0, 0], INTRO_OPEN - 0.1))  # a esfera de abertura entra e sai
+    for k in range(RUNE_N):   # anel girando (quadros em sequência, laço perfeito)
+        st = 0.15
+        A[f"eth_sgrn{k}_start"] = {"anim_type": "wait", "duration": 0.001 + k * st, "next": f"@{NS}.eth_sgrn{k}_in"}
+        A[f"eth_sgrn{k}_in"] = {"anim_type": "alpha", "easing": "linear", "from": 0.0, "to": 1.0, "duration": st, "next": f"@{NS}.eth_sgrn{k}_out"}
+        A[f"eth_sgrn{k}_out"] = {"anim_type": "alpha", "easing": "linear", "from": 1.0, "to": 0.0, "duration": st, "next": f"@{NS}.eth_sgrn{k}_wait"}
+        A[f"eth_sgrn{k}_wait"] = {"anim_type": "wait", "duration": st * (RUNE_N - 2), "next": f"@{NS}.eth_sgrn{k}_in"}
+    for i, (t0, _) in enumerate(PCT):
+        t1 = PCT[i + 1][0] if i + 1 < len(PCT) else None
+        A.update(fade(f"eth_sgi_p{i}", t0, t1, fd=0.01))
+    A.update(fade("eth_sgi_ld", 0.6, fd=0.05))
+    A.update(fade("eth_sgi_o1", 2.9, 4.3, fd=0.2)); A.update(fade("eth_sgi_o2", 4.4, 5.9, fd=0.2)); A.update(fade("eth_sgi_o3", 6.0, 7.45, fd=0.2))
+    for r in range(1, INTRO_MAX + 1):
+        S = INTRO_OPEN + (r - 1) * INTRO_ROUND; n = f"eth_sgr{r}"
+        A.update(fade(f"{n}_fr", S, S + 3.0, fd=0.2)); A.update(fade(f"{n}_dw", S + 0.15, S + 1.1, a=0.55, fd=0.2)); A.update(fade(f"{n}_c1", S + 0.1, S + 2.95, fd=0.2))
+        for k in range(SIG_N):
+            t0 = S + 1.1 + k * 0.175; A.update(fade(f"{n}_s{k}", t0, (t0 + 0.175) if k < SIG_N - 1 else S + 3.0, fd=0.01))
+        A.update(fade(f"{n}_sh", S + 3.0, S + 4.4, fd=0.25)); A.update(fade(f"{n}_ss", S + 3.25, S + 4.4, a=0.85, fd=0.25)); A.update(fade(f"{n}_c2", S + 3.1, S + 4.4, fd=0.2))
+        A.update(fade(f"{n}_tr", S + 4.4, S + 7.3, fd=0.35)); A.update(fade(f"{n}_tn", S + 4.8, S + 7.3, fd=0.3))
+        A[f"{n}_tz_w"] = {"anim_type": "wait", "duration": S + 4.4, "next": f"@{NS}.{n}_tz"}
+        A[f"{n}_tz"] = {"anim_type": "size", "easing": "out_cubic", "from": ["110%y", "140%"], "to": ["110%y", "100%"], "duration": 0.7}
+        A[f"{n}_sl_w"] = {"anim_type": "wait", "duration": S + 4.4, "next": f"@{NS}.{n}_sl"}
+        A[f"{n}_sl"] = {"anim_type": "offset", "easing": "out_cubic", "from": ["-100%", "-11.5%"], "to": [0, "-11.5%"], "duration": 0.4}
+        A.update(fade(f"{n}_bn", S + 4.4, S + 7.3, fd=0.3)); A.update(fade(f"{n}_bt", S + 4.75, S + 5.95, fd=0.25)); A.update(fade(f"{n}_bg", S + 6.0, S + 7.25, a=0.95, fd=0.25))
+        A.update(fade(f"{n}_c3", S + 4.5, S + 7.3, fd=0.2))
+    return A
+def cbind(extra=None):
+    """texto do botão desta linha da fábrica (mesmo padrão do dynamic_button do jogo) + visibilidade opcional por marcador"""
+    B = [{"binding_type": "collection", "binding_collection_name": "form_buttons", "binding_name": "#form_button_text"}]
+    if extra: B.append({"binding_type": "view", "source_property_name": extra, "target_property_name": "#visible"})
+    return B
+has_b = lambda code: f"(not ((#form_button_text - '{code}') = #form_button_text))"
+def legend_btn(anim):
+    """legenda na barra preta com o texto do botão (nome real da habilidade)"""
+    t = {"type": "label", "text": "#form_button_text", "size": ["default", "default"], "color": CAP_TXT, "font_scale_factor": 0.62, "anchor_from": "center", "anchor_to": "center",
+         "offset": [0, "6%"], "layer": 1, "alpha": 0.0, "anims": [f"@{NS}.{anim}_w"], "bindings": cbind()}
+    return img("textures/ui/Black", ["100%", "4.2%"], keep_ratio=False, anchor_from="bottom_middle", anchor_to="bottom_middle", layer=30, alpha=0.0, anims=[f"@{NS}.{anim}_w"], controls=[{"t": t}])
+def round_ctl(r):
+    n = f"eth_sgr{r}"; a = lambda x: [f"@{NS}.{n}_{x}_w"]; shp, sub, cap2 = SHAPE[r - 1]
+    brk = lambda nm, an, off: {f"b_{nm}": img(T(f"sg_brk_{nm}"), ["100%y", "7.7%"], keep_ratio=False, anchor_from=an, anchor_to=an, offset=off, layer=3, alpha=0.0, anims=a("fr"))}
+    C = [
+        # quadro preto do desenho, borda branca fina, cantoneira; "Sorteio." apagado no meio até a caneta começar
+        {"draw": {"type": "panel", "size": ["100% - 22px", "83.6%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-2.1%"], "layer": 4, "controls": [
+            {"black": img("textures/ui/Black", ["100%", "100%"], keep_ratio=False, layer=1, alpha=0.0, anims=a("fr"))},
+            {"thin": img(T("sg_thin"), ["100%", "100%"], keep_ratio=False, layer=2, alpha=0.0, anims=a("fr"))},
+            brk("tl", "top_left", [3, 3]),
+            {"dw": lbl("Sorteio.", 0.62, [0.78, 0.8, 0.86], anchor_from="center", anchor_to="center", layer=4, alpha=0.0, anims=a("dw"))},
+            {"sign": {"type": "panel", "size": ["86%", "70%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-4%"], "layer": 4, "controls": [
+                {f"s{k}": img(T(f"sg_sig{r - 1}_{k}"), ["100%", "100%"], layer=1, alpha=0.0, anims=a(f"s{k}"))} for k in range(SIG_N)]}}]}},
+        {"c1": legend(DRAW_CAP[r - 1], anim=f"{n}_c1")},
+        # forma reconhecida: hexágono apagado + brilho azul + nome (e a frase embaixo)
+        {"hx": img(T("sg_hex"), ["108%y", "45%"], keep_ratio=False, anchor_from="center", anchor_to="center", offset=[0, "-1%"], alpha=0.0, layer=3, anims=a("sh"))},
+        {"hl": img(T("sg_glow"), ["130%y", "40%"], keep_ratio=False, anchor_from="center", anchor_to="center", offset=[0, "-6%"], alpha=0.0, layer=3, anims=a("sh"))},
+        {"hg": lbl(shp, 0.8, [0.95, 0.97, 1], anchor_from="center", anchor_to="center", offset=[0, "-7%"], layer=6, alpha=0.0, anims=a("sh"))},
+        {"c2": legend(cap2, anim=f"{n}_c2")},
+        # TRIÂNGULO (habilidade única): linha marfim, nome grande no meio, classe na vertical à direita, "ADQUI-"/"RIDO" nos cantos (獲/得)
+        {"tri": {"type": "panel", "size": ["100%", "100%"], "layer": 8, "bindings": cbind(has_b(KMARK["tri"])), "controls": [
+            {"bk": img("textures/ui/Black", ["100%", "100%"], keep_ratio=False, layer=1, alpha=0.0, anims=a("tr"))},
+            {"tri": img(T("sg_tri"), ["110%y", "100%"], keep_ratio=False, anchor_from="top_middle", anchor_to="top_middle", offset=[0, "9%"], layer=2, alpha=0.0, anims=a("tr") + a("tz"))},
+            {"nm": {"type": "label", "text": "#form_button_text", "size": ["31%", "default"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-12%"], "text_alignment": "center",
+                    "font_size": "large", "font_scale_factor": 1.25, "color": [0.97, 0.95, 0.9], "layer": 4, "alpha": 0.0, "anims": a("tn"), "bindings": cbind()}},
+            *[{f"tt{i}": lbl("\n".join(TIER_TXT[t].replace(" ", "")), 0.42, [0.86, 0.84, 0.8], anchor_from="center", anchor_to="center", offset=["17.5%", "-14%"], layer=4, alpha=0.0,
+                             anims=a("tn"), bindings=cbind(has_b(TMARK[t])))} for i, t in enumerate(TMARK)],
+            {"cl": lbl("ADQUI-", 0.72, [0.92, 0.9, 0.86], anchor_from="top_middle", anchor_to="top_middle", offset=["-31%", "11%"], layer=4, alpha=0.0, anims=a("tn"))},
+            {"cr": lbl("RIDO", 0.72, [0.92, 0.9, 0.86], anchor_from="top_middle", anchor_to="top_middle", offset=["31%", "11%"], layer=4, alpha=0.0, anims=a("tn"))}]}},
+        # FAIXA VERMELHA (resistência/aptidão): entra da esquerda; nome grande, depois "Concedendo resistência" espaçado
+        {"band": {"type": "panel", "size": ["100%", "47.7%"], "anchor_from": "center", "anchor_to": "center", "offset": ["-100%", "-11.5%"], "layer": 8, "anims": a("sl"),
+                  "bindings": cbind(f"({has_b(KMARK['res'])} or {has_b(KMARK['apt'])})"), "controls": [
+            {"red": img(T("sg_banner"), ["100%", "100%"], keep_ratio=False, layer=1, alpha=0.0, anims=a("bn"))},
+            {"nm": {"type": "label", "text": "#form_button_text", "size": ["100% - 24px", "default"], "anchor_from": "center", "anchor_to": "center", "offset": [0, -2], "text_alignment": "center",
+                    "font_size": "large", "font_scale_factor": 1.35, "color": [1, 0.95, 0.95], "layer": 3, "alpha": 0.0, "anims": a("bt"), "bindings": cbind()}},
+            {"g1": lbl("C o n c e d e n d o    r e s i s t ê n c i a", 1.05, [1, 0.93, 0.93], anchor_from="center", anchor_to="center", layer=3, alpha=0.0, anims=a("bg"), bindings=cbind(has_b(KMARK["res"])))},
+            {"g2": lbl("C o n c e d e n d o    a p t i d ã o", 1.05, [1, 0.93, 0.93], anchor_from="center", anchor_to="center", layer=3, alpha=0.0, anims=a("bg"), bindings=cbind(has_b(KMARK["apt"])))}]}},
+        {"c3": legend_btn(f"{n}_c3")},
+    ]
+    if sub: C.insert(5, {"hs": lbl(sub, 0.62, [0.7, 0.76, 0.88], anchor_from="center", anchor_to="center", offset=[0, "28%"], layer=6, alpha=0.0, anims=a("ss"))})
+    return {"type": "panel", "size": ["100%", "100%"], "controls": C}
+def intro_defs():
+    D = {}
+    rows = [card_variant(0, "»", text_btn([64, 15], "bottom_right", "bottom_right", [-6, -2], "sg_pill_dim", txt=(0.86, 0.9, 0.97), scale=0.62,
+                                         **{"$hover_button_texture": T("sg_pill_h"), "$pressed_button_texture": T("sg_pill_p")}))]
+    rows += [card_variant(k, RMARK[k], round_ctl(k)) for k in range(1, INTRO_MAX + 1)]
+    D["eth_sg_intro_row"] = {"type": "panel", "size": ["100%", "100%"], "controls": rows}
+    sphere = lambda: {"type": "panel", "size": ["100%y", "88%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-4%"], "layer": 4, "controls":
+        [{f"g{k}": img(T(f"sg_geo_{k}"), ["100%", "100%"], keep_ratio=False, anchor_from="center", anchor_to="center", alpha=0.0, layer=1, anims=[f"@{NS}.eth_sgg{k}_start"])} for k in range(12)]
+        + [{"core": img("textures/ui/etheria/ov_core", ["12%", "12%"], keep_ratio=False, anchor_from="center", anchor_to="center", color=[0.35, 0.7, 1.0], layer=3, anims=[f"@{NS}.eth_sg_glow_a"])},
+           {"dot": img(T("sg_twinkle"), ["5%", "5%"], keep_ratio=False, anchor_from="center", anchor_to="center", color=[0.75, 0.92, 1.0], layer=4)}]}
+    D["eth_sg_intro_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": stars() + [
+        # 0-2.7 s: disco de runas (cobre o céu); sai de cena de uma vez, como no corte do vídeo
+        {"disc": {"type": "panel", "size": ["100%", "100%"], "layer": 3, "anims": [f"@{NS}.eth_sgi_disc_w"], "controls": [
+            {"bk": img("textures/ui/Black", ["100%", "100%"], keep_ratio=False, layer=1)},
+            {"ring": {"type": "panel", "size": ["124%y", "124%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "12%"], "layer": 2, "controls":
+                [{f"r{k}": img(T(f"sg_runes_{k}"), ["100%", "100%"], keep_ratio=False, alpha=0.0, layer=1, anims=[f"@{NS}.eth_sgrn{k}_start"])} for k in range(RUNE_N)]
+                + [{"pl": img(T("sg_planet"), ["52%", "52%"], keep_ratio=False, anchor_from="center", anchor_to="center", layer=3)}]}},
+            *[{f"p{i}": lbl(t, 0.6, [0.92, 0.92, 0.95], anchor_from="center", anchor_to="center", offset=[0, "3%"], layer=5, alpha=0.0, anims=[f"@{NS}.eth_sgi_p{i}_w"])} for i, (_, t) in enumerate(PCT)],
+            {"ld": img(T("sg_load"), ["100%y", "7%"], keep_ratio=False, anchor_from="center", anchor_to="center", offset=[0, "9.5%"], layer=5, alpha=0.0, anims=[f"@{NS}.eth_sgi_ld_w"])}]}},
+        # 2.7-7.6 s: esfera da abertura
+        {"open": {"type": "panel", "size": ["100%", "100%"], "offset": [0, "300%"], "layer": 3, "anims": [f"@{NS}.eth_sgi_open_w"], "controls": [{"sp": sphere()}]}},
+        {"o1": legend("Morte confirmada.", anim="eth_sgi_o1")}, {"o2": legend("Alma capturada. Está intacta.", anim="eth_sgi_o2")},
+        {"o3": legend("Sequência de reencarnação iniciada.", anim="eth_sgi_o3")},
+        # rodadas (uma por botão de dados) + "Pular »" (botão 0), todas na mesma fábrica de botões
+        {"rows": {"type": "stack_panel", "orientation": "horizontal", "size": ["100%", "100%"], "anchor_from": "top_left", "anchor_to": "top_left", "layer": 10,
+                  "factory": {"name": "buttons", "control_name": f"{NS}.eth_sg_intro_row"}, "collection_name": "form_buttons",
+                  "bindings": [{"binding_name": "#form_button_length", "binding_name_override": "#collection_length"}]}},
+    ]}
+    return D
+
+# ------------------------------------------------------------------ 8.13: "ABILITY ARCHIVE" (vídeo 101-103 s) = Registro do Sábio / Missões
+# janela azul-marinho de borda preta + filete (tz_win), 2 abas em cima à esquerda, título acima à direita, painel esquerdo azul com
+# nebulosa, barra de busca cinza e lista cinza com linhas (nome colorido pela raridade, ★ nas únicas); painel direito azul com campo e
+# caixa de filete ciano (ficha / resumo = #form_text); abas laterais à direita (a 3ª, do livro, ativa) só de enfeite.
+def arch_defs():
+    D = {}
+    D["eth_sg_arch_row"] = {"type": "panel", "size": ["100%", 15], "controls": [
+        text_btn(["100% - 2px", 14], "center", "center", [0, 0], "arch_row", txt=(1, 1, 1), scale=0.78, max_size=("100% - 8px", 10),
+                 **{"$anchor": "left_middle", "$text_alignment": "left", "$new_ui_label_offset": [4, 0]})]}
+    D["eth_sg_arch_list"] = button_list("eth_sg_arch_row")
+    tabs = [("textures/ui/etheria/sg_ico_0", [0.9, 0.62, 1.0]), ("textures/ui/etheria/menu_skills", None)]
+    tab_ctl = [{f"tab{i}": img(T("tz_tab_on" if i == 0 else "tz_tab"), ["9.5%", "15%"], keep_ratio=False, anchor_from="top_left", anchor_to="bottom_left",
+                               offset=[f"{[2.0, 12.6][i]}%", 2 if i == 0 else 0], layer=3 if i == 0 else 1, controls=[{"ic": img(ic, ["62%", "62%"], anchor_from="center", anchor_to="center", layer=1, **({"color": col} if col else {}))}])}
+               for i, (ic, col) in enumerate(tabs)]
+    side = [{f"sd{i}": img(T("tz_tab_on" if i == 2 else "tz_tab"), ["9%", "13%"], keep_ratio=False, anchor_from="top_right", anchor_to="top_left", offset=[-2 if i == 2 else -3, f"{8 + i * 15}%"],
+                           layer=3 if i == 2 else 1, controls=[{"ic": img(f"textures/ui/etheria/{ic}", ["62%", "62%"], anchor_from="center", anchor_to="center", layer=1)}])}
+            for i, ic in enumerate(["menu_status", "menu_race", "menu_skills", "menu_quests"])]
+    sage_name = [("Raphael", has("§t§r")), ("Ciel", has("§t§c")), ("Grande Sábio", AND(lacks("§t§r"), lacks("§t§c")))]
+    D["eth_sg_arch_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": [
+        {"win": {"type": "panel", "size": ["150%y", "62%"], "anchor_from": "center", "anchor_to": "center", "offset": ["-3%", "5%"], "layer": 5, "controls": tab_ctl + side + [
+            {"frame": img(T("tz_win"), ["100%", "100%"], keep_ratio=False, layer=2)},
+            {"title": {"type": "label", "text": "#title_text", "bindings": [{"binding_name": "#title_text"}], "anchor_from": "top_middle", "anchor_to": "bottom_middle", "offset": ["12%", -4],
+                       "size": ["default", "default"], "color": [1, 1, 1], "shadow": True, "font_scale_factor": 0.9, "layer": 4}},
+            {"close@common.close_button": {"anchor_from": "top_right", "anchor_to": "bottom_right", "offset": [0, -1], "layer": 12}},
+            {"left": {"type": "panel", "size": ["47.5%", "97.4%"], "anchor_from": "top_left", "anchor_to": "top_left", "offset": ["0.8%", "1.3%"], "layer": 3, "controls": [
+                {"bg": img(T("arch_left"), ["100%", "100%"], keep_ratio=False, layer=1)},
+                {"search": img(T("arch_search"), ["78%", "7.5%"], keep_ratio=False, anchor_from="top_middle", anchor_to="top_middle", offset=[0, "10%"], layer=2)},
+                {"list": {"type": "panel", "size": ["92%", "74%"], "anchor_from": "top_left", "anchor_to": "top_left", "offset": ["4%", "22%"], "layer": 2, "controls": [
+                    {"bg": img(T("arch_list"), ["100%", "100%"], keep_ratio=False, layer=1)},
+                    {"in": {"type": "panel", "size": ["100% - 2px", "100% - 2px"], "anchor_from": "center", "anchor_to": "center", "layer": 2, "controls": [
+                        {"scroll@common.scrolling_panel": dict(scroll(f"{NS}.eth_sg_arch_list"), **{"$scroll_size": [4, "100% - 4px"]}, layer=1)}]}}]}}]}},
+            {"right": {"type": "panel", "size": ["49.6%", "97.4%"], "anchor_from": "top_left", "anchor_to": "top_left", "offset": ["49.6%", "1.3%"], "layer": 3, "controls": [
+                {"bg": img(T("arch_right"), ["100%", "100%"], keep_ratio=False, layer=1)},
+                {"field": img(T("arch_box"), ["92%", "13%"], keep_ratio=False, anchor_from="top_middle", anchor_to="top_middle", offset=[0, "4%"], layer=2, controls=[
+                    {f"s{i}": lbl(nm, 0.8, [0.75, 0.92, 1.0], anchor_from="left_middle", anchor_to="left_middle", offset=[5, 0], layer=1, bindings=vis(ex))} for i, (nm, ex) in enumerate(sage_name)])},
+                {"box": img(T("arch_box"), ["92%", "76%"], keep_ratio=False, anchor_from="top_middle", anchor_to="top_middle", offset=[0, "20%"], layer=2, controls=[
+                    {"in": {"type": "panel", "size": ["100% - 4px", "100% - 4px"], "anchor_from": "center", "anchor_to": "center", "layer": 1, "controls": [
+                        {"scroll@common.scrolling_panel": dict(scroll(f"{NS}.eth_sg_tz_text"), **{"$scroll_size": [3, "100% - 4px"]}, layer=1)}]}}])}]}},
+        ]}},
+    ]}
+    return D
+
 def reinc_defs():
     D = reinc_anims()
     # ficha do cartão: o mesmo #form_text, em letra pequena como no vídeo (texto ~23 letras por linha na coluna da direita)
@@ -407,31 +666,7 @@ def reinc_defs():
         card_variant(1, CARD_MARK[1], text_btn(["82.8%", "4.4%"], "bottom_middle", "bottom_middle", [0, "-5.1%"], "sg_pill", scale=0.62)),   # ESCOLHER
         card_variant(2, CARD_MARK[2], side(2, "right_middle", "left_middle", "4.6%"))]}                    # cartão vizinho da direita = próxima raça
     D["eth_sg_tap_btn"] = {"type": "panel", "size": ["22%y", "100%"], "controls": [text_btn(["100%", "80%"], "center", "center", [0, 0], "sg_pill_dim", txt=(0.86, 0.9, 0.97), scale=0.55, **{"$hover_button_texture": T("sg_pill_h"), "$pressed_button_texture": T("sg_pill_p")})]}
-    fr = lambda: [f"@{NS}.eth_sgi_fr_w"]
-    brk = lambda nm, a, off: {f"b_{nm}": img(T(f"sg_brk_{nm}"), ["100%y", "7.7%"], keep_ratio=False, anchor_from=a, anchor_to=a, offset=off, layer=3, anims=fr())}
-    D["eth_sg_intro_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": stars() + [
-        # quadro preto do "desenho" (6.2%..89.8% da altura), borda branca fina, cantoneiras cinza por dentro
-        {"draw": {"type": "panel", "size": ["100% - 22px", "83.6%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-2.1%"], "layer": 4, "controls": [
-            {"black": img("textures/ui/Black", ["100%", "100%"], keep_ratio=False, layer=1, anims=fr())},
-            {"thin": img(T("sg_thin"), ["100%", "100%"], keep_ratio=False, layer=2, anims=fr())},
-            brk("tl", "top_left", [3, 3]), brk("tr", "top_right", [-3, 3]), brk("bl", "bottom_left", [3, -3]), brk("br", "bottom_right", [-3, -3]),
-            {"sign": {"type": "panel", "size": ["46%", "38%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-6%"], "layer": 4, "clips_children": True, "controls": [
-                {"ink": img(T("sg_sign"), ["100%", "100%"], keep_ratio=False, layer=1, anims=fr())},
-                {"cover": img("textures/ui/Black", ["100%", "100%"], keep_ratio=False, anchor_from="top_left", anchor_to="top_left", layer=2, anims=[f"@{NS}.eth_sgi_sign_w"])}]}}]}},
-        # "A Ampulheta" (43% da altura) com o hexágono apagado e o brilho azul; frase embaixo (78%)
-        {"hx": img(T("sg_hex"), ["108%y", "45%"], keep_ratio=False, anchor_from="center", anchor_to="center", offset=[0, "-1%"], alpha=0.0, layer=3, anims=[f"@{NS}.eth_sgi_hg_w"])},
-        {"hl": img(T("sg_glow"), ["130%y", "40%"], keep_ratio=False, anchor_from="center", anchor_to="center", offset=[0, "-6%"], alpha=0.0, layer=3, anims=[f"@{NS}.eth_sgi_hg_w"])},
-        {"hg": lbl("A Ampulheta", 0.8, [0.95, 0.97, 1], anchor_from="center", anchor_to="center", offset=[0, "-7%"], layer=6, alpha=0.0, anims=[f"@{NS}.eth_sgi_hg_w"])},
-        {"hs": lbl("Era, estreitou-se, conteve-se.", 0.62, [0.7, 0.76, 0.88], anchor_from="center", anchor_to="center", offset=[0, "28%"], layer=6, alpha=0.0, anims=[f"@{NS}.eth_sgi_hs_w"])},
-        # faixa vermelha: 14.6%..62.3% da altura (47.7%), largura toda, entra da esquerda; nome da aptidão grande no meio, nome embaixo (67%)
-        {"banner": {"type": "panel", "size": ["100%", "47.7%"], "anchor_from": "center", "anchor_to": "center", "offset": ["-100%", "-11.5%"], "layer": 7, "anims": [f"@{NS}.eth_sgi_slide_w"], "controls": [
-            {"red": img(T("sg_banner"), ["100%", "100%"], keep_ratio=False, layer=1, alpha=0.0, anims=[f"@{NS}.eth_sgi_bn_w"])},
-            {"name": {"type": "label", "text": "#title_text", "bindings": [{"binding_name": "#title_text"}], "anchor_from": "center", "anchor_to": "center", "size": ["100% - 24px", "default"],
-                      "text_alignment": "center", "font_size": "large", "color": [1, 0.96, 0.96], "shadow": False, "layer": 2, "alpha": 0.0, "anims": [f"@{NS}.eth_sgi_bn_w"]}}]}},
-        {"bsub": lbl("#form_text", 0.7, CAP_TXT, anchor_from="center", anchor_to="center", offset=[0, "17%"], layer=7, alpha=0.0, anims=[f"@{NS}.eth_sgi_bs_w"])},
-        {"l1": legend("Sorteio.", anim="eth_sgi_l1")}, {"l2": legend("O último desejo.", anim="eth_sgi_l2")}, {"l3": legend("Aptidão encontrada.", anim="eth_sgi_l3")},
-        {"skip": tap_row("eth_sgi_skip")},
-    ]}
+    D.update(intro_defs())
     D["eth_sg_outro_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": stars() + [
         {"sphere": {"type": "panel", "size": ["100%y", "71%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "-8.8%"], "layer": 4, "anims": [f"@{NS}.eth_sgo_grow"], "controls":
             [{f"g{k}": img(T(f"sg_geo_{k}"), ["100%", "100%"], keep_ratio=False, anchor_from="center", anchor_to="center", alpha=0.0, layer=1, anims=[f"@{NS}.eth_sgg{k}_start"])} for k in range(12)]
@@ -526,6 +761,7 @@ def sage_defs():
     D["eth_sg_list_s"] = button_list("eth_sg_btn_s")
     D.update(reinc_defs())
     D.update(tz_defs())
+    D.update(arch_defs())
     ico = lambda size: [{f"x{k}": img(f"textures/ui/etheria/sg_ico_{k}", size, keep_ratio=False, anchor_from="center", anchor_to="center", color=GREEN, alpha=0.0, layer=1, anims=[f"@{NS}.eth_sgx{k}_start"])} for k in range(12)]
     # ---- Livro do Sábio: icosaedro + círculo mágico verde, fala do Sábio num balão, opções à direita
     D["eth_sg_book_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": backdrop() + [
@@ -553,11 +789,12 @@ def build(main):
         raise KeyError(name)
     for name in ("etheria_form", "card_form"):   # telas do principal: só quando NÃO houver o marcador do Sábio
         b = ctl(name)["bindings"][1]; b["source_property_name"] = AND(b["source_property_name"], lacks(SG))
-    lf.append({f"sg_form@{NS}.eth_sg_form": {"bindings": vis(AND(has(SG), lacks(CARD), lacks(SAGEN), lacks(INTRO), lacks(OUTRO)))}})
+    lf.append({f"sg_form@{NS}.eth_sg_form": {"bindings": vis(AND(has(SG), lacks(CARD), lacks(SAGEN), lacks(INTRO), lacks(OUTRO), lacks(ARCH)))}})
     lf.append({f"sg_card_form@{NS}.eth_sg_card_form": {"bindings": vis(AND(has(SG), has(CARD)))}})
     lf.append({f"sg_book_form@{NS}.eth_sg_book_form": {"bindings": vis(AND(has(SG), has(SAGEN), lacks(CARD)))}})
     lf.append({f"sg_intro_form@{NS}.eth_sg_intro_form": {"bindings": vis(AND(has(SG), has(INTRO), lacks(CARD)))}})
     lf.append({f"sg_outro_form@{NS}.eth_sg_outro_form": {"bindings": vis(AND(has(SG), has(OUTRO), lacks(CARD)))}})
+    lf.append({f"sg_arch_form@{NS}.eth_sg_arch_form": {"bindings": vis(AND(has(SG), has(ARCH), lacks(CARD), lacks(SAGEN), lacks(INTRO), lacks(OUTRO)))}})
     for k, v in sage_defs().items():
         assert k not in sf, f"chave já existe no principal: {k}"
         sf[k] = v
@@ -664,8 +901,8 @@ def validate(sf, main, pack_dir):
         if not state.get(n): dfs(n, [n])
     # rotas do long_form: exatamente uma tela por tipo de título
     probe = {"vanilla": "Título", "eth": BASE + "§t§s§rX", "card": BASE + CARD + "§k§r§1§rX", "sg": BASE + SG + "§t§s§rX", "sgcard": BASE + SG + CARD + "§k§r§1§rX", "sgbook": BASE + SG + SAGEN + "§t§s§rX",
-             "sgintro": BASE + SG + INTRO + "§t§s§rX", "sgoutro": BASE + SG + OUTRO + "§t§s§rX", "sgconfirm": BASE + SG + CARD + "§k§r§4§l§r§2" + CONFIRM + "§rX"}
-    want = {"vanilla": "vanilla_form", "eth": "etheria_form", "card": "card_form", "sg": "sg_form", "sgcard": "sg_card_form", "sgbook": "sg_book_form", "sgintro": "sg_intro_form", "sgoutro": "sg_outro_form", "sgconfirm": "sg_card_form"}
+             "sgintro": BASE + SG + INTRO + "§t§s§rX", "sgoutro": BASE + SG + OUTRO + "§t§s§rX", "sgconfirm": BASE + SG + CARD + "§k§r§4§l§r§2" + CONFIRM + "§rX", "sgarch": BASE + SG + ARCH + "§rX", "sgarch_r": BASE + SG + ARCH + "§t§r§rX"}
+    want = {"vanilla": "vanilla_form", "eth": "etheria_form", "card": "card_form", "sg": "sg_form", "sgcard": "sg_card_form", "sgbook": "sg_book_form", "sgintro": "sg_intro_form", "sgoutro": "sg_outro_form", "sgconfirm": "sg_card_form", "sgarch": "sg_arch_form", "sgarch_r": "sg_arch_form"}
     for pk, title in probe.items():
         shown = [k.split("@")[0] for c in sf["long_form"]["controls"] for k, v in c.items() if eval_vis(v["bindings"][1]["source_property_name"], title)]
         if shown != [want[pk]]: errs.append(f"rota '{pk}': mostra {shown}, esperado {want[pk]}")
@@ -679,6 +916,10 @@ def validate(sf, main, pack_dir):
         js = open(rm, encoding="utf8").read()
         for mk in CARD_MARK:
             if f'text: "§l{mk}"' not in js: errs.append(f"racemenus.js não manda mais o botão '§l{mk}' (cartão do Sábio UI depende dele)")
+        # 8.13: a abertura depende dos mesmos tempos e marcadores no script
+        js_all = js + open(os.path.join(ROOT, "LegacyOfEtheria_BP/scripts/systems/ui/forms.js"), encoding="utf8").read()
+        for need in [f"INTRO_OPEN = {INTRO_OPEN}", f"INTRO_ROUND = {INTRO_ROUND}", f"INTRO_MAX = {INTRO_MAX}", *KMARK.values(), *TMARK.values(), "§u§"]:
+            if need not in js_all: errs.append(f"racemenus.js/forms.js sem '{need}' (abertura do Sábio depende disso)")
     if warns: print(f"avisos: {len(warns)} (ex.: {warns[0]})")
     return errs
 
@@ -690,30 +931,22 @@ def eval_vis(expr, title):
 
 def main_():
     args = set(sys.argv[1:])
-    main = json.load(open(os.path.join(MAIN_RP, "ui/server_form.json"), encoding="utf8"))
-    out = os.path.join(PACK, "ui/server_form.json")
+    base = json.load(open(BASE_SF, encoding="utf8"))
+    nbase = len([k for k in base if k != "namespace"])
+    if nbase != 86: print(f"FALHOU: tools/server_form_base.json tem {nbase} chaves (esperado 86 = principal estável 59c9e7b)"); sys.exit(1)
     if "--check" in args:
-        sf = json.load(open(out, encoding="utf8"))
+        sf = json.load(open(OUT_SF, encoding="utf8"))
     else:
-        if "--sync" not in args: gen_textures(); gen_manifest()
-        sf = build(main)
-    errs = validate(sf, main, PACK)
-    m = json.load(open(os.path.join(PACK, "manifest.json"), encoding="utf8"))
-    uu = [m["header"]["uuid"]] + [x["uuid"] for x in m["modules"]]
-    for other in ("LegacyOfEtheria_RP", "LegacyOfEtheria_BP", "LegacyOfEtheria_Voz"):
-        p = os.path.join(ROOT, other, "manifest.json")
-        if os.path.exists(p):
-            o = json.load(open(p, encoding="utf8")); ou = [o["header"]["uuid"]] + [x["uuid"] for x in o.get("modules", [])]
-            if set(uu) & set(ou): errs.append(f"UUID repetido com {other}")
-    if len(set(uu)) != len(uu): errs.append("UUID repetido no manifesto")
+        if "--sync" not in args: gen_textures()
+        sf = build(base)
+    errs = validate(sf, base, PACK)
     if errs:
         print("FALHOU (nada gravado):"); [print(" -", e) for e in errs[:60]]; sys.exit(1)
     if "--check" not in args:
-        os.makedirs(os.path.dirname(out), exist_ok=True)
         txt = json.dumps(sf, ensure_ascii=False, indent=1)
-        if not os.path.exists(out) or open(out, encoding="utf8").read() != txt: open(out, "w", encoding="utf8").write(txt)
-    new = [k for k in sf if k not in main]
-    print(f"OK: {len(sf) - 1} chaves ({len(main) - 1} do principal + {len(new)} do Sábio), {os.path.getsize(out)} bytes, validação sem erros")
+        if not os.path.exists(OUT_SF) or open(OUT_SF, encoding="utf8").read() != txt: open(OUT_SF, "w", encoding="utf8").write(txt)
+    new = [k for k in sf if k not in base]
+    print(f"OK: {len(sf) - 1} chaves ({nbase} da base estável + {len(new)} do Sábio), {os.path.getsize(OUT_SF)} bytes, validação sem erros")
 
 if __name__ == "__main__":
     main_()

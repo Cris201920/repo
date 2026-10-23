@@ -9,8 +9,9 @@ import { getData } from "../../core/db.js";
 
 export const ICON = (name) => `textures/ui/${name.startsWith("etheria/") || name.startsWith("modskills/") ? name : "etheria/" + name}`;
 export const UI_BASE = "§e§t§h";
-/** temas: world = Voz do Mundo/Lorde Demônio (vermelho), sage = Grande Sábio (azul), raphael (dourado), ciel (violeta), tree = Árvore de Poderes/padrão (roxo e ouro) */
-export const THEME = Object.freeze({ world: "§t§w", sage: "§t§s", raphael: "§t§r", ciel: "§t§c", tree: "§t§p" });
+/** temas: world = Voz do Mundo/Lorde Demônio (vermelho), sage = Grande Sábio (azul), raphael (dourado), ciel (violeta), tree = Árvore de Poderes/padrão (roxo e ouro),
+ *  arch = 8.13 "Ability Archive" do vídeo (lista com nomes coloridos à esquerda e detalhe à direita; sempre com o visual do Sábio) */
+export const THEME = Object.freeze({ world: "§t§w", sage: "§t§s", raphael: "§t§r", ciel: "§t§c", tree: "§t§p", arch: "§t§v" });
 let ctxTheme = null;
 /** executa fn com um tema padrão para todos os menus abertos dentro dela */
 export function withTheme(theme, fn) { const prev = ctxTheme; ctxTheme = theme; try { return fn(); } finally { ctxTheme = prev; } }
@@ -23,7 +24,7 @@ const classic = (player) => { try { return getData(player)?.settings?.classicUi 
 // opcional tudo aparece exatamente como na versão estável; e "§j"/"§q" são códigos de cor que o jogo esconde (nunca aparecem no texto).
 // Com o pacote opcional ativo (acima do principal), o server_form.json dele troca só as telas com SG pela tela cheia verde do Sábio.
 export const SG = "§j§q";
-const SG_THEMES = new Set(["sage", "raphael", "ciel"]);
+const SG_THEMES = new Set(["sage", "raphael", "ciel", "arch"]);
 /** tema + "+sg" pede o visual do Sábio numa tela que não é do Sábio (ex.: "tree+sg" na árvore da raça) */
 export const sgTheme = (theme) => `${theme ?? "tree"}+sg`;
 export function themed(player, title, theme) {
@@ -44,12 +45,13 @@ export function show(player, form, cb, tries = 0) {
 
 /** Menu de botões. buttons: [{ text, icon?, run }]. theme opcional (padrão: o de withTheme ou "tree"). */
 export function menu(player, title, body, buttons, theme) {
-  const f = new ActionFormData().title(themed(player, title, theme)).body(body);
+  const tt = themed(player, title, theme), dark = tt.includes(THEME.arch);   // 8.13: Ability Archive = linhas escuras, cores claras ficam
+  const f = new ActionFormData().title(tt).body(body);
   // 6.56: o botão do jogo é cinza-claro: cores claras (§7 cinza, §f branco, §e amarelo) na 2ª linha ficavam ilegíveis -> escurecidas
   // 8.x: também a 1ª linha: verde/ciano/amarelo/rosa/branco claros sumiam no botão claro (cinza do jogo e o verde-claro do Sábio UI) -> tons escuros
   const legible = (t) => String(t).replace(/§7/g, "§8").replace(/(\n[^\n]*)§f/g, "$1§0").replace(/(\n[^\n]*)§e/g, "$1§6")
     .replace(/§a/g, "§2").replace(/§b/g, "§3").replace(/§e/g, "§6").replace(/§d/g, "§5").replace(/§f/g, "§0");
-  for (const b of buttons) { const tx = legible(b.text); if (b.icon) f.button(tx, b.icon.startsWith("textures/") ? b.icon : ICON(b.icon)); else f.button(tx); }
+  for (const b of buttons) { const tx = dark ? String(b.text) : legible(b.text); if (b.icon) f.button(tx, b.icon.startsWith("textures/") ? b.icon : ICON(b.icon)); else f.button(tx); }
   show(player, f, (r) => { try { buttons[r.selection]?.run?.(); } catch (e) { console.warn(`[Etheria] Erro no menu "${title}": ${e}`); } });
 }
 
@@ -78,12 +80,16 @@ export function sageMenu(player, title, say, buttons) {
 // própria do JSON UI (nada no HUD). É um formulário de 1 botão ("Pular »"/"Continuar »"): ao tocar, fechar (Esc) ou acabar o tempo,
 // segue para next(). Sem o pacote opcional, o principal mostra um formulário comum com o mesmo texto e o mesmo botão.
 const SCENE = { intro: "§t§i", outro: "§t§o" };
-export function scene(player, kind, title, body, button, next, autoTicks = 0) {
+// 8.13: data = textos de botões a mais (as RODADAS da abertura: marcador + nome da habilidade; a tela as desenha, não são tocáveis);
+// sounds = [[tick, som]] tocados enquanto a cena estiver aberta (só sons que o pacote já tem).
+export function scene(player, kind, title, body, button, next, autoTicks = 0, data = [], sounds = []) {
   let done = false;
   const go = () => { if (done) return; done = true; try { next?.(); } catch (e) { console.warn(`[Etheria] cena ${kind}: ${e}`); } };
   if (classic(player)) return go();
   const f = new ActionFormData().title(`${UI_BASE}${SG}${SCENE[kind] ?? ""}${THEME.sage}§r${title}`).body(body);
   f.button(button);
+  for (const t of data) f.button(t);
+  for (const [tick, id] of sounds) system.runTimeout(() => { if (!done) try { player.playSound(id, { volume: 0.7 }); } catch { /* ignore */ } }, tick);
   const open = (tries) => f.show(player).then((r) => {
     if (r.canceled && r.cancelationReason === "UserBusy" && tries < 25) { system.runTimeout(() => open(tries + 1), 10); return; }
     go();
