@@ -64,7 +64,7 @@ def recolor(src, stops, keep_skin=True, gold=None, gamma=1.0, stretch=False):
 # id: nome, modelo RP de base (entity/*.entity.json), textura de origem, paleta, vida, dano, região, nível mínimo, etc.
 BOSSES = {
     "void_dragon":   dict(name="Dragão do Vazio", base="veldanava", tex="etheria_pdrg_veldanava", key="dragon", pal=VOID_DRAGON, hp=24000, dmg=48, spd=0.32,
-                          region="end", lv=55, gamma=1.25, stretch=True, fly=True, dragon=True, box=(5.0, 5.0), scale="1.6", fam="void", egg=("#0c0414", "#b054fa"), xp=9000, coins=[2500, 4000], role="dragon"),
+                          region="end", lv=55, gamma=1.25, stretch=True, fly=True, dragon=True, box=(6.0, 5.0), scale="1.27", fam="void", egg=("#0c0414", "#b054fa"), xp=9000, coins=[2500, 4000], role="dragon"),
     "void_knight":   dict(name="Cavaleiro do Vazio", base="cavaleiro_negro", tex="etheria_cavaleiro_negro", pal=VOID_DARK, gold=None, hp=8000, dmg=30, spd=0.31,
                           region="end", lv=35, box=(0.8, 2.4), scale="1.3", fam="void", egg=("#14081f", "#e2b83a"), xp=3500, coins=[900, 1500], role="melee"),
     "void_queen":    dict(name="Rainha do Vazio", base="obera", tex="etheria_obera", pal=QUEEN, gold=VOID, hp=14000, dmg=36, spd=0.3,
