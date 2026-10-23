@@ -1,0 +1,15 @@
+{
+ "format_version": "1.21.0",
+ "minecraft:structure_template_feature": {
+  "description": {
+   "identifier": "etheria:nat_rimuru_ogre_fight_boss_feature"
+  },
+  "structure_name": "etheria_nat:rimuru_ogre_fight_boss",
+  "adjustment_radius": 4,
+  "facing_direction": "random",
+  "constraints": {
+   "grounded": {},
+   "unburied": {}
+  }
+ }
+}

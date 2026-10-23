@@ -1,0 +1,42 @@
+{
+ "format_version": "1.21.0",
+ "minecraft:feature_rules": {
+  "description": {
+   "identifier": "etheria:nat_santuario_vazio_rule",
+   "places_feature": "etheria:nat_santuario_vazio_feature"
+  },
+  "conditions": {
+   "placement_pass": "after_surface_pass",
+   "minecraft:biome_filter": [
+    {
+     "test": "has_biome_tag",
+     "operator": "==",
+     "value": "the_end"
+    }
+   ]
+  },
+  "distribution": {
+   "iterations": 1,
+   "scatter_chance": {
+    "numerator": 1,
+    "denominator": 300
+   },
+   "coordinate_eval_order": "xzy",
+   "x": {
+    "distribution": "uniform",
+    "extent": [
+     -16,
+     -5
+    ]
+   },
+   "z": {
+    "distribution": "uniform",
+    "extent": [
+     -16,
+     -5
+    ]
+   },
+   "y": "((v.worldx * v.worldx + v.worldz * v.worldz) < 1000000) ? -300 : (q.heightmap(v.worldx + 18, v.worldz + 18) - 11)"
+  }
+ }
+}

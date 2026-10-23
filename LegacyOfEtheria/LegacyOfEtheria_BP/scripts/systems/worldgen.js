@@ -12,6 +12,8 @@ import { loadRegion, placeFile, enqueue, clampOrigin } from "./placer.js";
 import { settlementInfo } from "./settlements.js";
 import { tempestInfo } from "./tempest.js";
 import { say, toast } from "../core/utils.js";
+import { WORLDGEN } from "../config.js";
+import { NATIVE } from "../data/natgen.gen.js";
 
 const REC = "etheria:wgrec", SEEN = "etheria:wgseen", MAX_REC = 80, CELL = 320, TICK = 600;
 Object.assign(WGEN, DUNGEONS);   // 8.8: masmorras dos chefes por região (local escolhido por systems/dungeons.js; ficam fora do sorteio comum abaixo)
@@ -24,6 +26,10 @@ const wr = (k, v) => { try { world.setDynamicProperty(k, JSON.stringify(v)); } c
 const records = () => { const r = rd(REC, []); return Array.isArray(r) ? r : []; };
 /** 6.44: registro das estruturas geradas (usado por systems/residents.js para povoar reinos/domínios) */
 export const wgRecords = () => records();
+/** 9.0: registra uma estrutura de geração nativa ativada por systems/natgen.js (mesmo formato do registro do colocador) */
+export function addRecord(r) { const rec = records(); rec.push(r); wr(REC, trimRec(rec)); }
+/** guarda as últimas MAX_REC colocadas por script e as últimas 60 nativas (as nativas não empurram os reinos para fora do registro) */
+const trimRec = (rec) => [...rec.filter((q) => !q.nat).slice(-MAX_REC), ...rec.filter((q) => q.nat).slice(-60)];
 const blockAt = (dim, x, y, z) => { try { return dim.getBlock({ x, y, z }); } catch { return undefined; } };
 
 const LOOT = {
@@ -72,7 +78,7 @@ export function placeWgen(dim, key, anchor, cb, opts = {}) {
         if (err) { console.warn(`[Etheria] FALHA estrutura ${key} (${def.id}): ${err}`); return done({ ok: false, err }); }
         const f = blockAt(dim, o.x + (sx >> 1), o.y + def.floor, o.z + (sz >> 1));
         if (!f || f.typeId === "minecraft:air") { console.warn(`[Etheria] estrutura ${key}: piso não encontrado após colocar`); return done({ ok: false, err: "piso não encontrado após a colocação" }); }
-        const rec = records(); rec.push({ k: key, d: dim.id, x: o.x + (sx >> 1), z: o.z + (sz >> 1), y: o.y, sep: def.sep, sx, sz }); wr(REC, rec.slice(-MAX_REC));
+        const rec = records(); rec.push({ k: key, d: dim.id, x: o.x + (sx >> 1), z: o.z + (sz >> 1), y: o.y, sep: def.sep, sx, sz }); wr(REC, trimRec(rec));
         const loot = fillChests(dim, key, o), mobs = (opts.noMobs || def.manual) ? 0 : spawnMobs(dim, key, o);
         done({ ok: true, at: o, center: { x: o.x + (sx >> 1), y: o.y + def.floor, z: o.z + (sz >> 1) }, entry: { x: o.x + def.entry[0] + 0.5, y: o.y + def.entry[1], z: o.z + def.entry[2] + 0.5 }, chests: loot.ok, chestsFailed: loot.bad, mobs });
       } finally { next(); }
@@ -145,21 +151,22 @@ function tryGenerate(p) {
   for (let i = 0; i < 4; i++) { const a = Math.random() * 6.283, d = 80 + Math.random() * 70; tries.push([Math.floor(l.x + Math.cos(a) * d), Math.floor(l.z + Math.sin(a) * d)]); }
   const keys = wgKeys();
   for (const [x, z] of tries) {
-    const bag = keys.filter((k) => !WGEN[k].manual && !WGEN[k].dg && k !== "veldanava_dominio" && (!WGEN[k].rare || Math.random() < 0.18) && (WGEN[k].rare || !quiet));   // 6.46: Veldanava só na dimensão própria
+    const bag = keys.filter((k) => !WGEN[k].manual && !WGEN[k].dg && k !== "veldanava_dominio" && (!WGEN[k].rare || Math.random() < 0.18) && (WGEN[k].rare || !quiet) && (WORLDGEN.script || !NATIVE[k]));   // 9.0: as nativas nascem pelo gerador do mundo   // 6.46: Veldanava só na dimensão própria
     if (!bag.length) continue;
     const key = pickKey(bag), why = conflict(dim, x, z, key); if (why) continue;
     const s = checkSite(dim, x, z, key); if (!s.ok) continue;
     placeWgen(dim, key, { x, y: s.y, z }, (res) => {
-      if (res.ok) { say(p, `§6[Etheria] §fVocê sente algo à distância: §e${WGEN[key].name}§7 (${Math.round(res.center.x)}, ${Math.round(res.center.z)})`); try { toast(p, "§6Local descoberto", `§7${WGEN[key].name}`); } catch { /* ignore */ } }
+      if (res.ok) { if (WORLDGEN.script) say(p, `§6[Etheria] §fVocê sente algo à distância: §e${WGEN[key].name}§7 (${Math.round(res.center.x)}, ${Math.round(res.center.z)})`); try { toast(p, "§6Local descoberto", `§7${WGEN[key].name}`); } catch { /* ignore */ } }
     });
     return true;
   }
   return false;
 }
 export function startWorldgen() {
+  if (!WORLDGEN.script && !WORLDGEN.large) return;   // 9.0: tudo nativo / só !gerar
   system.runInterval(() => {
     try {
-      const seen = rd(SEEN, {}), left = records().length < MAX_REC;
+      const seen = rd(SEEN, {}), left = records().filter((q) => !q.nat).length < MAX_REC;
       for (const p of world.getAllPlayers()) {
         if (!left || p.dimension.id !== "minecraft:overworld" || Math.random() > 0.35) continue;
         const k = `${Math.floor(p.location.x / CELL)},${Math.floor(p.location.z / CELL)}`, n = seen[k] ?? 0;

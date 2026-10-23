@@ -6,7 +6,9 @@
 # de attachables); a 3ª pessoa devolve +6,+9,+1 para manter a pose de antes (lâmina para a frente e para cima); a 1ª pessoa usa
 # o enquadramento do Java (cabo embaixo à direita, lâmina subindo para o centro da tela).
 # Idempotente: pode rodar quantas vezes quiser. Uso: python3 tools/weapon_bind.py
-import json, os, glob
+import json, os, glob, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import weapon_fit
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); RP = os.path.join(ROOT, "LegacyOfEtheria_RP")
 BIND = "q.item_slot_to_bone_name(c.item_slot)"
 TP_POS = [6.0, 9.0, 1.0]
@@ -74,14 +76,15 @@ def main():
         gid = d["geometry"]["default"]; gp = os.path.join(RP, f"models/entity/etheria_w_{sid}.geo.json")
         if not os.path.exists(gp): print("sem geometria:", sid); continue
         bind_geo(gp)
-        gr = grip_shift(gp, grips, sid); sh, L = gr["shift"], gr["length"]
-        s = round(float(over[sid]) if sid in over else min(1.2, max(11.0, min(20.0, 10 + 0.3 * L)) / max(1.0, L)), 3)
+        grip_shift(gp, grips, sid)
+        # 8.9.2: encaixe por arma a partir da geometria real (tools/weapon_fit.py); substitui o deslocamento fixo +6,+9,+1
+        rec, _ = weapon_fit.fit(gp, sid, grips)
+        if sid in over: rec = {**rec, "s": round(float(over[sid]), 3)}
         fp, tp = f"animation.etheria.w.{sid}.fp", f"animation.etheria.w.{sid}.tp"
-        # 3ª pessoa: devolve o deslocamento do modelo (X da animação é espelhado em relação à geometria)
-        anims[tp] = {"loop": True, "bones": {"eth_weapon": {"position": [round(TP_POS[0] + sh[0], 3), round(TP_POS[1] - sh[1], 3), round(TP_POS[2] - sh[2], 3)]}}}
-        anims[fp] = {"loop": True, "bones": {"eth_weapon": {"position": FP_POS, "rotation": FP_ROT, "scale": s}}}
-        d["animations"] = {"eth_fp": fp, "eth_tp": tp}
-        d["scripts"] = {"animate": [{"eth_fp": "c.is_first_person"}, {"eth_tp": "!c.is_first_person"}]}
+        anims[tp], anims[fp] = weapon_fit.anims(rec)
+        d.setdefault("animations", {}).update({"eth_fp": fp, "eth_tp": tp})
+        sc = d.setdefault("scripts", {}); an = [e for e in sc.get("animate", []) if not (isinstance(e, dict) and set(e) & {"eth_fp", "eth_tp"})]
+        sc["animate"] = [{"eth_fp": "c.is_first_person"}, {"eth_tp": "!c.is_first_person"}] + an
         json.dump(a, open(ap, "w"), indent=1); n += 1
     json.dump({"format_version": "1.10.0", "animations": anims}, open(ANIM_FILE, "w"), indent=1)
     json.dump(grips, open(GRIP_FILE, "w"), indent=1)

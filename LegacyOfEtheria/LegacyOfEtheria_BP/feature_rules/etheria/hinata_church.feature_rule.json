@@ -1,0 +1,71 @@
+{
+ "format_version": "1.21.0",
+ "minecraft:feature_rules": {
+  "description": {
+   "identifier": "etheria:nat_hinata_church_rule",
+   "places_feature": "etheria:nat_hinata_church_feature"
+  },
+  "conditions": {
+   "placement_pass": "after_surface_pass",
+   "minecraft:biome_filter": [
+    {
+     "test": "has_biome_tag",
+     "operator": "==",
+     "value": "overworld"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "ocean"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "river"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "beach"
+    },
+    {
+     "any_of": [
+      {
+       "test": "has_biome_tag",
+       "operator": "==",
+       "value": "plains"
+      },
+      {
+       "test": "has_biome_tag",
+       "operator": "==",
+       "value": "meadow"
+      }
+     ]
+    }
+   ]
+  },
+  "distribution": {
+   "iterations": 1,
+   "scatter_chance": {
+    "numerator": 1,
+    "denominator": 3000
+   },
+   "coordinate_eval_order": "xzy",
+   "x": {
+    "distribution": "uniform",
+    "extent": [
+     -9,
+     7
+    ]
+   },
+   "z": {
+    "distribution": "uniform",
+    "extent": [
+     -16,
+     -16
+    ]
+   },
+   "y": "((v.worldx * v.worldx + v.worldz * v.worldz) < 102400) ? -300 : (q.heightmap(v.worldx + 9, v.worldz + 24) - 1)"
+  }
+ }
+}

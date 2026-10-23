@@ -1,0 +1,76 @@
+{
+ "format_version": "1.21.0",
+ "minecraft:feature_rules": {
+  "description": {
+   "identifier": "etheria:nat_goblin_covil_rule",
+   "places_feature": "etheria:nat_goblin_covil_feature"
+  },
+  "conditions": {
+   "placement_pass": "after_surface_pass",
+   "minecraft:biome_filter": [
+    {
+     "test": "has_biome_tag",
+     "operator": "==",
+     "value": "overworld"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "ocean"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "river"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "beach"
+    },
+    {
+     "any_of": [
+      {
+       "test": "has_biome_tag",
+       "operator": "==",
+       "value": "forest"
+      },
+      {
+       "test": "has_biome_tag",
+       "operator": "==",
+       "value": "plains"
+      },
+      {
+       "test": "has_biome_tag",
+       "operator": "==",
+       "value": "taiga"
+      }
+     ]
+    }
+   ]
+  },
+  "distribution": {
+   "iterations": 1,
+   "scatter_chance": {
+    "numerator": 1,
+    "denominator": 1100
+   },
+   "coordinate_eval_order": "xzy",
+   "x": {
+    "distribution": "uniform",
+    "extent": [
+     -16,
+     -15
+    ]
+   },
+   "z": {
+    "distribution": "uniform",
+    "extent": [
+     -16,
+     -15
+    ]
+   },
+   "y": "((v.worldx * v.worldx + v.worldz * v.worldz) < 102400) ? -300 : (q.heightmap(v.worldx + 23, v.worldz + 23) - 5)"
+  }
+ }
+}

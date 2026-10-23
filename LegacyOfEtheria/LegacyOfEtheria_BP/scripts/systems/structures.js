@@ -6,6 +6,8 @@ import { say, pick, chance, toast } from "../core/utils.js";
 import { WORLD } from "../data/arenas.gen.js";
 import { withLoaded } from "./arenas.js";
 import { placeFile, clampOrigin } from "./placer.js";
+import { WORLDGEN } from "../config.js";
+import { NATIVE } from "../data/natgen.gen.js";
 
 const PER_TICK = 450;
 const permCache = new Map();
@@ -66,6 +68,9 @@ function placeProgressive(dim, origin, id, done) {
   return true;
 }
 
+/** 9.0: baú de recompensa + guardas de uma estrutura portada de geração nativa (systems/natgen.js) */
+export function finishWorld(dim, origin, id) { const s = STRUCTURES[id]; if (s) finish(dim, origin, s); }
+
 function finish(dim, origin, s) {
   const cx = origin.x + Math.floor(s.size[0] / 2), cz = origin.z + Math.floor(s.size[2] / 2);
   try {
@@ -95,8 +100,8 @@ export function surfaceY(dim, x, z) {
 
 function weighted() {
   const bag = [];
-  for (const [id, s] of Object.entries(STRUCTURES)) for (let i = 0; i < s.w; i++) bag.push(id);
-  return pick(bag);
+  for (const [id, s] of Object.entries(STRUCTURES)) if (WORLDGEN.script || !NATIVE[id]) for (let i = 0; i < s.w; i++) bag.push(id);   // 9.0: as nativas vêm do gerador
+  return bag.length ? pick(bag) : undefined;
 }
 
 export function spawnNear(player, id) {
@@ -107,18 +112,20 @@ export function spawnNear(player, id) {
   if (y === undefined) return false;
   const s = STRUCTURES[id];
   return placeStructure(dim, { x, y: y - 1, z }, id, () => {
-    say(player, `§6[Etheria] §fEstrutura revelada: §e${s.name}§7 (${x}, ${y}, ${z})`);
+    if (WORLDGEN.script) say(player, `§6[Etheria] §fEstrutura revelada: §e${s.name}§7 (${x}, ${y}, ${z})`);   // 9.0: sem mensagem no modo nativo
   });
 }
 
 export function startStructures() {
+  if (!WORLDGEN.script && !WORLDGEN.large) return;   // 9.0: só as nativas / !gerar
   system.runInterval(() => {
     for (const p of world.getAllPlayers()) {
       if (p.dimension.id !== "minecraft:overworld" || !chance(0.12)) continue;
       const cx = Math.floor(p.location.x / 256), cz = Math.floor(p.location.z / 256);
       const k = `${cx},${cz}`, S = seen();
       if (S[k]) continue;
-      if (spawnNear(p, weighted())) { S[k] = 1; markSeen(S); toast(p, "§6Estrutura antiga", "§7algo surgiu por perto..."); }
+      const id = weighted(); if (!id) continue;
+      if (spawnNear(p, id)) { S[k] = 1; markSeen(S); if (WORLDGEN.script) toast(p, "§6Estrutura antiga", "§7algo surgiu por perto..."); }
     }
   }, 400);
 }

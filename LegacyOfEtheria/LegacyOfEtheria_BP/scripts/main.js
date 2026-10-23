@@ -1,7 +1,7 @@
 import { emit, EV } from "./core/bus.js";
 // main.js - Ponto de entrada de Legacy of Etheria (RPG para Minecraft Bedrock)
 import { world, system, ItemStack } from "@minecraft/server";
-import { VERSION } from "./config.js";
+import { VERSION, WORLDGEN } from "./config.js";
 import { getData, forget, startAutosave, saveNow } from "./core/db.js";
 import { applyDerivedStats, dropStats } from "./systems/stats.js";
 import { startLoop } from "./systems/loop.js";
@@ -57,6 +57,7 @@ import { startAnnouncements } from "./systems/sageannounce.js";
 import { startAgility } from "./systems/agility.js";
 import { startWorldgen } from "./systems/worldgen.js";
 import { startDungeons } from "./systems/dungeons.js";
+import { startNatgen } from "./systems/natgen.js";
 import { startOctagrama } from "./systems/octagrama.js";
 import { startRealms } from "./systems/realms.js";
 import { startCharacters } from "./systems/characters.js";
@@ -166,7 +167,8 @@ system.run(() => {
   startAgility();
   startArenas();
   startWorldgen();
-  try { startDungeons(); } catch (e) { console.warn(`[Etheria] masmorras: ${e}`); }   // 8.8: masmorras dos chefes por região
+  if (WORLDGEN.script) try { startDungeons(); } catch (e) { console.warn(`[Etheria] masmorras: ${e}`); }   // 8.8: masmorras por script (9.0: desligado, agora nativas)
+  try { startNatgen(); } catch (e) { console.warn(`[Etheria] natgen: ${e}`); }   // 9.0: ativa as estruturas nativas perto dos jogadores
   startOctagrama();
   startRealms();
   startCharacters();

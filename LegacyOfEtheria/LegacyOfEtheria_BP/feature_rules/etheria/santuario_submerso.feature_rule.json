@@ -1,0 +1,47 @@
+{
+ "format_version": "1.21.0",
+ "minecraft:feature_rules": {
+  "description": {
+   "identifier": "etheria:nat_santuario_submerso_rule",
+   "places_feature": "etheria:nat_santuario_submerso_feature"
+  },
+  "conditions": {
+   "placement_pass": "after_surface_pass",
+   "minecraft:biome_filter": [
+    {
+     "test": "has_biome_tag",
+     "operator": "==",
+     "value": "ocean"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "==",
+     "value": "deep"
+    }
+   ]
+  },
+  "distribution": {
+   "iterations": 1,
+   "scatter_chance": {
+    "numerator": 1,
+    "denominator": 700
+   },
+   "coordinate_eval_order": "xzy",
+   "x": {
+    "distribution": "uniform",
+    "extent": [
+     -16,
+     -1
+    ]
+   },
+   "z": {
+    "distribution": "uniform",
+    "extent": [
+     -16,
+     -1
+    ]
+   },
+   "y": "((v.worldx * v.worldx + v.worldz * v.worldz) < 102400) ? -300 : (q.above_top_solid(v.worldx + 16, v.worldz + 16) - 4)"
+  }
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "format_version": "1.21.0",
+ "minecraft:feature_rules": {
+  "description": {
+   "identifier": "etheria:nat_ruina_torre_rule",
+   "places_feature": "etheria:nat_ruina_torre_feature"
+  },
+  "conditions": {
+   "placement_pass": "after_surface_pass",
+   "minecraft:biome_filter": [
+    {
+     "test": "has_biome_tag",
+     "operator": "==",
+     "value": "overworld"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "ocean"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "river"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "beach"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "mushroom_island"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "swamp"
+    },
+    {
+     "test": "has_biome_tag",
+     "operator": "!=",
+     "value": "mangrove_swamp"
+    }
+   ]
+  },
+  "distribution": {
+   "iterations": 1,
+   "scatter_chance": {
+    "numerator": 1,
+    "denominator": 1500
+   },
+   "coordinate_eval_order": "xzy",
+   "x": {
+    "distribution": "uniform",
+    "extent": [
+     -16,
+     -9
+    ]
+   },
+   "z": {
+    "distribution": "uniform",
+    "extent": [
+     -16,
+     -9
+    ]
+   },
+   "y": "((v.worldx * v.worldx + v.worldz * v.worldz) < 102400) ? -300 : (q.heightmap(v.worldx + 20, v.worldz + 20) - 11)"
+  }
+ }
+}

@@ -1,0 +1,48 @@
+{
+ "format_version": "1.21.0",
+ "minecraft:structure_template_feature": {
+  "description": {
+   "identifier": "etheria:nat_fortaleza_sombria_feature"
+  },
+  "structure_name": "etheria_nat:fortaleza_sombria",
+  "adjustment_radius": 4,
+  "facing_direction": "random",
+  "constraints": {
+   "block_intersection": {
+    "block_allowlist": [
+     "minecraft:air",
+     "minecraft:lava",
+     "minecraft:flowing_lava",
+     "minecraft:netherrack",
+     "minecraft:soul_sand",
+     "minecraft:soul_soil",
+     "minecraft:basalt",
+     "minecraft:smooth_basalt",
+     "minecraft:blackstone",
+     "minecraft:magma",
+     "minecraft:gravel",
+     "minecraft:glowstone",
+     "minecraft:quartz_ore",
+     "minecraft:nether_gold_ore",
+     "minecraft:crimson_nylium",
+     "minecraft:warped_nylium",
+     "minecraft:crimson_roots",
+     "minecraft:warped_roots",
+     "minecraft:crimson_fungus",
+     "minecraft:warped_fungus",
+     "minecraft:nether_sprouts",
+     "minecraft:weeping_vines",
+     "minecraft:twisting_vines",
+     "minecraft:crimson_stem",
+     "minecraft:warped_stem",
+     "minecraft:nether_wart_block",
+     "minecraft:warped_wart_block",
+     "minecraft:shroomlight",
+     "minecraft:fire",
+     "minecraft:soul_fire",
+     "minecraft:bone_block"
+    ]
+   }
+  }
+ }
+}

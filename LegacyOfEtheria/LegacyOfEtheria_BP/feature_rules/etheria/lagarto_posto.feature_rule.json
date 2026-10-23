@@ -1,0 +1,56 @@
+{
+ "format_version": "1.21.0",
+ "minecraft:feature_rules": {
+  "description": {
+   "identifier": "etheria:nat_lagarto_posto_rule",
+   "places_feature": "etheria:nat_lagarto_posto_feature"
+  },
+  "conditions": {
+   "placement_pass": "after_surface_pass",
+   "minecraft:biome_filter": [
+    {
+     "test": "has_biome_tag",
+     "operator": "==",
+     "value": "overworld"
+    },
+    {
+     "any_of": [
+      {
+       "test": "has_biome_tag",
+       "operator": "==",
+       "value": "swamp"
+      },
+      {
+       "test": "has_biome_tag",
+       "operator": "==",
+       "value": "mangrove_swamp"
+      }
+     ]
+    }
+   ]
+  },
+  "distribution": {
+   "iterations": 1,
+   "scatter_chance": {
+    "numerator": 1,
+    "denominator": 350
+   },
+   "coordinate_eval_order": "xzy",
+   "x": {
+    "distribution": "uniform",
+    "extent": [
+     -16,
+     -1
+    ]
+   },
+   "z": {
+    "distribution": "uniform",
+    "extent": [
+     -16,
+     -1
+    ]
+   },
+   "y": "((v.worldx * v.worldx + v.worldz * v.worldz) < 102400) ? -300 : (q.heightmap(v.worldx + 16, v.worldz + 16) - 5)"
+  }
+ }
+}

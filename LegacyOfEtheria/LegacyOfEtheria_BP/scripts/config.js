@@ -193,6 +193,15 @@ export const TURBO = {
   carryMaxHp: 400,      // só agarra alvos com até esta vida (chefes grandes não)
 };
 
+// 9.0: ESTRUTURAS NATIVAS — ruínas, acampamentos goblin, postos dos homens-lagarto, as 5 masmorras de chefe e 3 estruturas portadas nascem
+// pelo próprio gerador de mundo (BP/features/etheria + feature_rules/etheria, tools/native_worldgen.py), junto com os chunks NOVOS.
+// systems/natgen.js só "ativa" (guardas/chefe + registro) quando um jogador chega perto. O colocador por script ficou desligado:
+//   script: true  -> volta a colocar TODAS as estruturas por script ao explorar (como antes; útil em mundo antigo já explorado)
+//   large:  true  -> as grandes demais para o gerador nativo (reinos, vilas de ogros, domínios, Igreja/Escola/Templo grandes) continuam
+//                    por script, raras e sem mensagem no chat. false = só com !gerar.
+//   scanEvery/scanChunks/scanRadius: procura do marcador das estruturas nativas (a cada 5 s, até 8 chunks por jogador, raio de 3 chunks)
+export const WORLDGEN = { script: false, large: true, scanEvery: 100, scanChunks: 8, scanRadius: 3 };
+
 // 7.x: SPAWNS / LAG — poucos mobs do addon ativos ao mesmo tempo. Os mobs nascem pelas regras naturais (BP/spawn_rules, ajustadas por
 // tools/spawn_tune.py) e com as estruturas do mundo; o chefe "errante" por script ficou raro e sem arena instantânea.
 export const SPAWN = {
