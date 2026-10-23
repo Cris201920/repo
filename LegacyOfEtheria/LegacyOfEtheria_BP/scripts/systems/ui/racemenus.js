@@ -16,7 +16,7 @@ import { AGILITY_LINES, AGI_GATES } from "../../data/agility.js";
 import { getStats, getHealth } from "../stats.js";
 import { chooseRace, evolve, evolveCheck } from "../race.js";
 import { hasSkill } from "../skills.js";
-import { menu, cardMenu, sageThemeOf } from "./forms.js";
+import { menu, cardMenu, sageThemeOf, sgTheme } from "./forms.js";
 import { openLineage, openClass, openAttributes, openTitles, openBeastForms } from "./menus.js";
 import { openPowers } from "../powers.js";
 import { openSlimeForms } from "../slimeform.js";
@@ -96,7 +96,7 @@ export function openRaceV2(player, back) {
   B.push({ text: "§l§eNível e evolução de nível\n§r§7o que cada nível libera", icon: "menu_status", run: () => openLevelV2(player, () => openRaceV2(player, back)) });
   B.push({ text: "§l§bComparar raças\n§r§7fichas e árvores de todas as raças", icon: "menu_race", run: () => openRaceListV2(player, true, back) });
   B.push({ text: "§7« Voltar", icon: "back", run: () => back?.() });
-  menu(player, `${r.color}§l${st.name.toUpperCase()}`, body, B, themeOf(r.id));
+  menu(player, `${r.color}§l${st.name.toUpperCase()}`, body, B, sgTheme(themeOf(r.id)));
   if (ready.length) { try { player.playSound("random.levelup", { volume: 0.35, pitch: 1.4 }); } catch { /* ignore */ } }
 }
 
@@ -121,7 +121,7 @@ export function openEvolveV2(player, id, back) {
   const B = [];
   if (ready) B.push({ text: "§a§lEVOLUIR AGORA\n§r§7inicia a cerimônia de evolução", icon: "race_" + d.race, run: () => { try { player.playSound("random.levelup", { volume: 0.6, pitch: 1.2 }); } catch { /* ignore */ } system.runTimeout(() => { const res = evolve(player, id); if (!res.ok) say(player, `§c${res.msg}`); }, 8); } });
   B.push({ text: "§7« Árvore da raça", icon: "back", run: () => openRaceV2(player, back) });
-  menu(player, `${ready ? "§e" : "§d"}§lEVOLUIR: ${n.name.toUpperCase()}`, body, B, isLordStage(n.id) ? "world" : themeOf(r.id));
+  menu(player, `${ready ? "§e" : "§d"}§lEVOLUIR: ${n.name.toUpperCase()}`, body, B, isLordStage(n.id) ? "world" : sgTheme(themeOf(r.id)));
 }
 
 // ------------------------------------------------------------------ EVOLUÇÃO PELO GRANDE SÁBIO (atalho do Livro e do chat)
@@ -195,7 +195,7 @@ export function openRacePickV2(player, idx = 0) {
   ].join("\n");
   cardMenu(player, r.id, `${r.color}${r.name}`, body, [
     { text: "§l<", run: () => openRacePickV2(player, i - 1) },
-    { text: "§2§lSelecionar", run: () => openRaceConfirmV2(player, r.id) },
+    { text: "§2§lEscolher", run: () => openRaceConfirmV2(player, r.id) },   // 8.x: "Selecionar" quebrava em "Selecion-ar" no botão de 70 px
     { text: "§l>", run: () => openRacePickV2(player, i + 1) },
   ]);
 }
@@ -221,12 +221,12 @@ export function openRaceListV2(player, view = false, back) {
   const d = getData(player);
   const B = RACE_LIST.map((r, i) => ({ text: `${r.color}§l${r.name}${d.race === r.id ? " §a●" : ""}\n§r§7${raceStyle(RACE_LIST, r.stages[r.root])}`, icon: "race_" + r.id, run: () => (view ? openRaceViewV2(player, i, back) : openRacePickV2(player, i)) }));
   if (view) B.push({ text: "§7« Voltar", icon: "back", run: () => openRaceV2(player, back) });
-  menu(player, view ? "§l§6RAÇAS DO MUNDO" : "§l§6ESCOLHA SUA RAÇA", [view ? "§l§fRAÇAS DO MUNDO" : "§e§lESCOLHA SUA RAÇA", SEP, "§7Cada raça tem atributos, habilidades raciais, uma árvore de evolução própria, o caminho do Lord Demônio e uma linha de Agilidades Supremas.", ...(view ? [] : ["", "§cA escolha é permanente."])].join("\n"), B);
+  menu(player, view ? "§l§6RAÇAS DO MUNDO" : "§l§6ESCOLHA SUA RAÇA", [view ? "§l§fRAÇAS DO MUNDO" : "§e§lESCOLHA SUA RAÇA", SEP, "§7Cada raça tem atributos, habilidades raciais, uma árvore de evolução própria, o caminho do Lord Demônio e uma linha de Agilidades Supremas.", ...(view ? [] : ["", "§cA escolha é permanente."])].join("\n"), B, sgTheme("tree"));
 }
 function openRaceViewV2(player, idx, back) {
   const r = RACE_LIST[idx], st = r.stages[r.root];
   menu(player, `${r.color}§l${r.name.toUpperCase()}`, [`${r.color}§l${r.name.toUpperCase()}`, `§f${r.desc}`, SEP, raceSheet(RACE_LIST, r, st, skillName), SEP, "§l§fÁRVORE DE EVOLUÇÃO", treeOf(r)].join("\n"),
-    [{ text: "§7« Raças", icon: "back", run: () => openRaceListV2(player, true, back) }], themeOf(r.id));
+    [{ text: "§7« Raças", icon: "back", run: () => openRaceListV2(player, true, back) }], sgTheme(themeOf(r.id)));
 }
 
 // ------------------------------------------------------------------ NÍVEL E EVOLUÇÃO DE NÍVEL

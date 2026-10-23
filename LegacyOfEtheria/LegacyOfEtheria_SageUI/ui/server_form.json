@@ -1,0 +1,8183 @@
+{
+ "namespace": "server_form",
+ "main_screen_content": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "controls": [
+   {
+    "server_form_factory": {
+     "type": "factory",
+     "control_ids": {
+      "long_form": "@server_form.long_form",
+      "custom_form": "@server_form.custom_form"
+     }
+    }
+   }
+  ]
+ },
+ "long_form": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "controls": [
+   {
+    "vanilla_form@server_form.eth_vanilla_long_form": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((#title_text - '§e§t§h') = #title_text)",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "etheria_form@server_form.eth_form": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(((not ((#title_text - '§e§t§h') = #title_text)) and ((#title_text - '§t§k') = #title_text)) and ((#title_text - '§j§q') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "card_form@server_form.eth_card_form": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((not ((#title_text - '§t§k') = #title_text)) and ((#title_text - '§j§q') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "sg_form@server_form.eth_sg_form": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((not ((#title_text - '§j§q') = #title_text)) and ((#title_text - '§t§k') = #title_text) and ((#title_text - '§t§n') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "sg_card_form@server_form.eth_sg_card_form": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((not ((#title_text - '§j§q') = #title_text)) and (not ((#title_text - '§t§k') = #title_text)))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "sg_book_form@server_form.eth_sg_book_form": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((not ((#title_text - '§j§q') = #title_text)) and (not ((#title_text - '§t§n') = #title_text)) and ((#title_text - '§t§k') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_vanilla_long_form@common_dialogs.main_panel_no_buttons": {
+  "$title_panel": "common_dialogs.standard_title_label",
+  "$title_size": [
+   "100% - 15px",
+   10
+  ],
+  "$title_max_size": [
+   "100% - 15px",
+   10
+  ],
+  "size": [
+   225,
+   200
+  ],
+  "$text_name": "#title_text",
+  "$title_text_binding_type": "none",
+  "$child_control": "server_form.long_form_panel",
+  "layer": 2
+ },
+ "eth_ray0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@server_form.eth_ray0_in"
+ },
+ "eth_ray0_in": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.5,
+  "next": "@server_form.eth_ray0_out"
+ },
+ "eth_ray0_out": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.5,
+  "next": "@server_form.eth_ray0_wait"
+ },
+ "eth_ray0_wait": {
+  "anim_type": "wait",
+  "duration": 1.0,
+  "next": "@server_form.eth_ray0_in"
+ },
+ "eth_ray1_start": {
+  "anim_type": "wait",
+  "duration": 0.501,
+  "next": "@server_form.eth_ray1_in"
+ },
+ "eth_ray1_in": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.5,
+  "next": "@server_form.eth_ray1_out"
+ },
+ "eth_ray1_out": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.5,
+  "next": "@server_form.eth_ray1_wait"
+ },
+ "eth_ray1_wait": {
+  "anim_type": "wait",
+  "duration": 1.0,
+  "next": "@server_form.eth_ray1_in"
+ },
+ "eth_ray2_start": {
+  "anim_type": "wait",
+  "duration": 1.001,
+  "next": "@server_form.eth_ray2_in"
+ },
+ "eth_ray2_in": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.5,
+  "next": "@server_form.eth_ray2_out"
+ },
+ "eth_ray2_out": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.5,
+  "next": "@server_form.eth_ray2_wait"
+ },
+ "eth_ray2_wait": {
+  "anim_type": "wait",
+  "duration": 1.0,
+  "next": "@server_form.eth_ray2_in"
+ },
+ "eth_ray3_start": {
+  "anim_type": "wait",
+  "duration": 1.501,
+  "next": "@server_form.eth_ray3_in"
+ },
+ "eth_ray3_in": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.5,
+  "next": "@server_form.eth_ray3_out"
+ },
+ "eth_ray3_out": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.5,
+  "next": "@server_form.eth_ray3_wait"
+ },
+ "eth_ray3_wait": {
+  "anim_type": "wait",
+  "duration": 1.0,
+  "next": "@server_form.eth_ray3_in"
+ },
+ "eth_wire0_a": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 1.6,
+  "next": "@server_form.eth_wire0_b"
+ },
+ "eth_wire0_b": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 1.6,
+  "next": "@server_form.eth_wire0_a"
+ },
+ "eth_wire1_a": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 1.6,
+  "next": "@server_form.eth_wire1_b"
+ },
+ "eth_wire1_b": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 1.6,
+  "next": "@server_form.eth_wire1_a"
+ },
+ "eth_circ0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@server_form.eth_circ0_in"
+ },
+ "eth_circ0_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ0_out"
+ },
+ "eth_circ0_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ0_wait"
+ },
+ "eth_circ0_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@server_form.eth_circ0_in"
+ },
+ "eth_circ1_start": {
+  "anim_type": "wait",
+  "duration": 0.201,
+  "next": "@server_form.eth_circ1_in"
+ },
+ "eth_circ1_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ1_out"
+ },
+ "eth_circ1_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ1_wait"
+ },
+ "eth_circ1_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@server_form.eth_circ1_in"
+ },
+ "eth_circ2_start": {
+  "anim_type": "wait",
+  "duration": 0.401,
+  "next": "@server_form.eth_circ2_in"
+ },
+ "eth_circ2_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ2_out"
+ },
+ "eth_circ2_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ2_wait"
+ },
+ "eth_circ2_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@server_form.eth_circ2_in"
+ },
+ "eth_circ3_start": {
+  "anim_type": "wait",
+  "duration": 0.6010000000000001,
+  "next": "@server_form.eth_circ3_in"
+ },
+ "eth_circ3_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ3_out"
+ },
+ "eth_circ3_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ3_wait"
+ },
+ "eth_circ3_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@server_form.eth_circ3_in"
+ },
+ "eth_circ4_start": {
+  "anim_type": "wait",
+  "duration": 0.801,
+  "next": "@server_form.eth_circ4_in"
+ },
+ "eth_circ4_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ4_out"
+ },
+ "eth_circ4_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ4_wait"
+ },
+ "eth_circ4_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@server_form.eth_circ4_in"
+ },
+ "eth_circ5_start": {
+  "anim_type": "wait",
+  "duration": 1.001,
+  "next": "@server_form.eth_circ5_in"
+ },
+ "eth_circ5_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ5_out"
+ },
+ "eth_circ5_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.9,
+  "to": 0.0,
+  "duration": 0.2,
+  "next": "@server_form.eth_circ5_wait"
+ },
+ "eth_circ5_wait": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@server_form.eth_circ5_in"
+ },
+ "eth_scan": {
+  "anim_type": "offset",
+  "easing": "in_out_sine",
+  "from": [
+   0,
+   -12
+  ],
+  "to": [
+   0,
+   340
+  ],
+  "duration": 2.6,
+  "next": "@server_form.eth_scan_back"
+ },
+ "eth_scan_back": {
+  "anim_type": "offset",
+  "easing": "in_out_sine",
+  "from": [
+   0,
+   340
+  ],
+  "to": [
+   0,
+   -12
+  ],
+  "duration": 2.6,
+  "next": "@server_form.eth_scan"
+ },
+ "eth_mote0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@server_form.eth_mote0_up"
+ },
+ "eth_mote0_up": {
+  "anim_type": "offset",
+  "easing": "linear",
+  "from": [
+   0,
+   24
+  ],
+  "to": [
+   0,
+   -24
+  ],
+  "duration": 3.0,
+  "next": "@server_form.eth_mote0_up"
+ },
+ "eth_motea0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@server_form.eth_motea0_in"
+ },
+ "eth_motea0_in": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 0.85,
+  "duration": 1.5,
+  "next": "@server_form.eth_motea0_out"
+ },
+ "eth_motea0_out": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.85,
+  "to": 0.0,
+  "duration": 1.5,
+  "next": "@server_form.eth_motea0_in"
+ },
+ "eth_mote1_start": {
+  "anim_type": "wait",
+  "duration": 1.501,
+  "next": "@server_form.eth_mote1_up"
+ },
+ "eth_mote1_up": {
+  "anim_type": "offset",
+  "easing": "linear",
+  "from": [
+   0,
+   24
+  ],
+  "to": [
+   0,
+   -24
+  ],
+  "duration": 3.0,
+  "next": "@server_form.eth_mote1_up"
+ },
+ "eth_motea1_start": {
+  "anim_type": "wait",
+  "duration": 1.501,
+  "next": "@server_form.eth_motea1_in"
+ },
+ "eth_motea1_in": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.0,
+  "to": 0.85,
+  "duration": 1.5,
+  "next": "@server_form.eth_motea1_out"
+ },
+ "eth_motea1_out": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.85,
+  "to": 0.0,
+  "duration": 1.5,
+  "next": "@server_form.eth_motea1_in"
+ },
+ "eth_hex_a": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.2,
+  "to": 0.6,
+  "duration": 1.2,
+  "next": "@server_form.eth_hex_b"
+ },
+ "eth_hex_b": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.6,
+  "to": 0.2,
+  "duration": 1.2,
+  "next": "@server_form.eth_hex_a"
+ },
+ "eth_brk_a": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.45,
+  "to": 1.0,
+  "duration": 0.8,
+  "next": "@server_form.eth_brk_b"
+ },
+ "eth_brk_b": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.45,
+  "duration": 0.8,
+  "next": "@server_form.eth_brk_a"
+ },
+ "eth_pulse0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@server_form.eth_pulse0_s"
+ },
+ "eth_pulse0_s": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   40,
+   40
+  ],
+  "to": [
+   380,
+   380
+  ],
+  "duration": 1.8,
+  "next": "@server_form.eth_pulse0_s"
+ },
+ "eth_pulse0_start_r": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@server_form.eth_pulse0_s_r"
+ },
+ "eth_pulse0_s_r": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   "17%y",
+   "17%y"
+  ],
+  "to": [
+   "160%y",
+   "160%y"
+  ],
+  "duration": 1.8,
+  "next": "@server_form.eth_pulse0_s_r"
+ },
+ "eth_pulsea0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@server_form.eth_pulsea0_a"
+ },
+ "eth_pulsea0_a": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.55,
+  "to": 0.0,
+  "duration": 1.8,
+  "next": "@server_form.eth_pulsea0_a"
+ },
+ "eth_pulse1_start": {
+  "anim_type": "wait",
+  "duration": 0.901,
+  "next": "@server_form.eth_pulse1_s"
+ },
+ "eth_pulse1_s": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   40,
+   40
+  ],
+  "to": [
+   380,
+   380
+  ],
+  "duration": 1.8,
+  "next": "@server_form.eth_pulse1_s"
+ },
+ "eth_pulse1_start_r": {
+  "anim_type": "wait",
+  "duration": 0.901,
+  "next": "@server_form.eth_pulse1_s_r"
+ },
+ "eth_pulse1_s_r": {
+  "anim_type": "size",
+  "easing": "out_quad",
+  "from": [
+   "17%y",
+   "17%y"
+  ],
+  "to": [
+   "160%y",
+   "160%y"
+  ],
+  "duration": 1.8,
+  "next": "@server_form.eth_pulse1_s_r"
+ },
+ "eth_pulsea1_start": {
+  "anim_type": "wait",
+  "duration": 0.901,
+  "next": "@server_form.eth_pulsea1_a"
+ },
+ "eth_pulsea1_a": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.55,
+  "to": 0.0,
+  "duration": 1.8,
+  "next": "@server_form.eth_pulsea1_a"
+ },
+ "eth_core_a": {
+  "anim_type": "size",
+  "easing": "in_out_sine",
+  "from": [
+   56,
+   56
+  ],
+  "to": [
+   84,
+   84
+  ],
+  "duration": 0.9,
+  "next": "@server_form.eth_core_b"
+ },
+ "eth_core_b": {
+  "anim_type": "size",
+  "easing": "in_out_sine",
+  "from": [
+   84,
+   84
+  ],
+  "to": [
+   56,
+   56
+  ],
+  "duration": 0.9,
+  "next": "@server_form.eth_core_a"
+ },
+ "eth_core_a_r": {
+  "anim_type": "size",
+  "easing": "in_out_sine",
+  "from": [
+   "24%y",
+   "24%y"
+  ],
+  "to": [
+   "36%y",
+   "36%y"
+  ],
+  "duration": 0.9,
+  "next": "@server_form.eth_core_b_r"
+ },
+ "eth_core_b_r": {
+  "anim_type": "size",
+  "easing": "in_out_sine",
+  "from": [
+   "36%y",
+   "36%y"
+  ],
+  "to": [
+   "24%y",
+   "24%y"
+  ],
+  "duration": 0.9,
+  "next": "@server_form.eth_core_a_r"
+ },
+ "eth_scan_r": {
+  "anim_type": "offset",
+  "easing": "in_out_sine",
+  "from": [
+   0,
+   "-5%"
+  ],
+  "to": [
+   0,
+   "98%"
+  ],
+  "duration": 2.6,
+  "next": "@server_form.eth_scan_back_r"
+ },
+ "eth_scan_back_r": {
+  "anim_type": "offset",
+  "easing": "in_out_sine",
+  "from": [
+   0,
+   "98%"
+  ],
+  "to": [
+   0,
+   "-5%"
+  ],
+  "duration": 2.6,
+  "next": "@server_form.eth_scan_r"
+ },
+ "eth_form": {
+  "type": "panel",
+  "size": [
+   "90%",
+   "90%"
+  ],
+  "layer": 2,
+  "controls": [
+   {
+    "bg": {
+     "type": "image",
+     "texture": "textures/ui/etheria/ov_bg",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "keep_ratio": false,
+     "fill": true,
+     "layer": 0
+    }
+   },
+   {
+    "theme_world": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§w') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "nebula": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_nebula",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "layer": 1
+       }
+      },
+      {
+       "rays0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray0_start"
+        ]
+       }
+      },
+      {
+       "rays1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray1_start"
+        ]
+       }
+      },
+      {
+       "rays2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_2",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray2_start"
+        ]
+       }
+      },
+      {
+       "rays3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_3",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray3_start"
+        ]
+       }
+      },
+      {
+       "wire0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_wire_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_wire0_a"
+        ]
+       }
+      },
+      {
+       "wire1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_wire_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_wire1_a"
+        ]
+       }
+      },
+      {
+       "hex": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_hex",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.3,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_hex_a"
+        ]
+       }
+      },
+      {
+       "circ_o0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_i0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_o1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_i1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_o2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_i2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_o3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_i3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_o4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_i4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_o5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "circ_i5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.2,
+         0.24
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "pulse0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_pulse0_start",
+         "@server_form.eth_pulsea0_start"
+        ]
+       }
+      },
+      {
+       "motes0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_mote0_start",
+         "@server_form.eth_motea0_start"
+        ]
+       }
+      },
+      {
+       "pulse1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_pulse1_start",
+         "@server_form.eth_pulsea1_start"
+        ]
+       }
+      },
+      {
+       "motes1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.0,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_mote1_start",
+         "@server_form.eth_motea1_start"
+        ]
+       }
+      },
+      {
+       "scan": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_scan",
+        "size": [
+         "100%",
+         8
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "alpha": 0.7,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_scan"
+        ]
+       }
+      },
+      {
+       "brackets": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_brackets",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "layer": 5,
+        "anims": [
+         "@server_form.eth_brk_a"
+        ]
+       }
+      },
+      {
+       "core": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_core",
+        "size": [
+         70,
+         70
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.64,
+         0.658
+        ],
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_core_a"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_sage": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§s') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "nebula": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_nebula",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "layer": 1
+       }
+      },
+      {
+       "rays0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray0_start"
+        ]
+       }
+      },
+      {
+       "rays1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray1_start"
+        ]
+       }
+      },
+      {
+       "rays2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_2",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray2_start"
+        ]
+       }
+      },
+      {
+       "rays3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_3",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray3_start"
+        ]
+       }
+      },
+      {
+       "wire0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_wire_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_wire0_a"
+        ]
+       }
+      },
+      {
+       "wire1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_wire_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_wire1_a"
+        ]
+       }
+      },
+      {
+       "hex": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_hex",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.3,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_hex_a"
+        ]
+       }
+      },
+      {
+       "circ_o0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_i0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_o1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_i1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_o2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_i2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_o3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_i3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_o4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_i4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_o5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "circ_i5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.3,
+         0.68,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "pulse0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_pulse0_start",
+         "@server_form.eth_pulsea0_start"
+        ]
+       }
+      },
+      {
+       "motes0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_mote0_start",
+         "@server_form.eth_motea0_start"
+        ]
+       }
+      },
+      {
+       "pulse1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_pulse1_start",
+         "@server_form.eth_pulsea1_start"
+        ]
+       }
+      },
+      {
+       "motes1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_mote1_start",
+         "@server_form.eth_motea1_start"
+        ]
+       }
+      },
+      {
+       "scan": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_scan",
+        "size": [
+         "100%",
+         8
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "alpha": 0.7,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_scan"
+        ]
+       }
+      },
+      {
+       "brackets": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_brackets",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "layer": 5,
+        "anims": [
+         "@server_form.eth_brk_a"
+        ]
+       }
+      },
+      {
+       "core": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_core",
+        "size": [
+         70,
+         70
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.685,
+         0.856,
+         1.0
+        ],
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_core_a"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_raphael": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§r') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "nebula": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_nebula",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "layer": 1
+       }
+      },
+      {
+       "rays0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray0_start"
+        ]
+       }
+      },
+      {
+       "rays1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray1_start"
+        ]
+       }
+      },
+      {
+       "rays2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_2",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray2_start"
+        ]
+       }
+      },
+      {
+       "rays3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_3",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray3_start"
+        ]
+       }
+      },
+      {
+       "wire0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_wire_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_wire0_a"
+        ]
+       }
+      },
+      {
+       "wire1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_wire_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_wire1_a"
+        ]
+       }
+      },
+      {
+       "hex": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_hex",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.3,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_hex_a"
+        ]
+       }
+      },
+      {
+       "circ_o0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_i0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_o1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_i1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_o2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_i2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_o3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_i3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_o4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_i4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_o5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "circ_i5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.76,
+         0.28
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "pulse0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_pulse0_start",
+         "@server_form.eth_pulsea0_start"
+        ]
+       }
+      },
+      {
+       "motes0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_mote0_start",
+         "@server_form.eth_motea0_start"
+        ]
+       }
+      },
+      {
+       "pulse1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_pulse1_start",
+         "@server_form.eth_pulsea1_start"
+        ]
+       }
+      },
+      {
+       "motes1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.0,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_mote1_start",
+         "@server_form.eth_motea1_start"
+        ]
+       }
+      },
+      {
+       "scan": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_scan",
+        "size": [
+         "100%",
+         8
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "alpha": 0.7,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_scan"
+        ]
+       }
+      },
+      {
+       "brackets": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_brackets",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "layer": 5,
+        "anims": [
+         "@server_form.eth_brk_a"
+        ]
+       }
+      },
+      {
+       "core": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_core",
+        "size": [
+         70,
+         70
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         1.0,
+         0.892,
+         0.676
+        ],
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_core_a"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_ciel": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§c') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "nebula": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_nebula",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "layer": 1
+       }
+      },
+      {
+       "rays0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray0_start"
+        ]
+       }
+      },
+      {
+       "rays1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray1_start"
+        ]
+       }
+      },
+      {
+       "rays2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_2",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray2_start"
+        ]
+       }
+      },
+      {
+       "rays3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_3",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray3_start"
+        ]
+       }
+      },
+      {
+       "wire0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_wire_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_wire0_a"
+        ]
+       }
+      },
+      {
+       "wire1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_wire_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_wire1_a"
+        ]
+       }
+      },
+      {
+       "hex": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_hex",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.3,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_hex_a"
+        ]
+       }
+      },
+      {
+       "circ_o0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_i0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_o1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_i1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_o2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_i2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_o3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_i3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_o4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_i4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_o5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "circ_i5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.74,
+         0.48,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "pulse0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_pulse0_start",
+         "@server_form.eth_pulsea0_start"
+        ]
+       }
+      },
+      {
+       "motes0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_mote0_start",
+         "@server_form.eth_motea0_start"
+        ]
+       }
+      },
+      {
+       "pulse1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_pulse1_start",
+         "@server_form.eth_pulsea1_start"
+        ]
+       }
+      },
+      {
+       "motes1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_mote1_start",
+         "@server_form.eth_motea1_start"
+        ]
+       }
+      },
+      {
+       "scan": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_scan",
+        "size": [
+         "100%",
+         8
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "alpha": 0.7,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_scan"
+        ]
+       }
+      },
+      {
+       "brackets": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_brackets",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "layer": 5,
+        "anims": [
+         "@server_form.eth_brk_a"
+        ]
+       }
+      },
+      {
+       "core": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_core",
+        "size": [
+         70,
+         70
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.883,
+         0.766,
+         1.0
+        ],
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_core_a"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_tree": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§p') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "nebula": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_nebula",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "layer": 1
+       }
+      },
+      {
+       "rays0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray0_start"
+        ]
+       }
+      },
+      {
+       "rays1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray1_start"
+        ]
+       }
+      },
+      {
+       "rays2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_2",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray2_start"
+        ]
+       }
+      },
+      {
+       "rays3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_rays_3",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_ray3_start"
+        ]
+       }
+      },
+      {
+       "wire0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_wire_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_wire0_a"
+        ]
+       }
+      },
+      {
+       "wire1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_wire_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_wire1_a"
+        ]
+       }
+      },
+      {
+       "hex": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_hex",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.3,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_hex_a"
+        ]
+       }
+      },
+      {
+       "circ_o0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_i0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "circ_o1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_i1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "circ_o2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_i2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "circ_o3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_i3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "circ_o4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_i4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "circ_o5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         230,
+         230
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "circ_i5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         120,
+         120
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.66,
+         0.38,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "pulse0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_pulse0_start",
+         "@server_form.eth_pulsea0_start"
+        ]
+       }
+      },
+      {
+       "motes0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_mote0_start",
+         "@server_form.eth_motea0_start"
+        ]
+       }
+      },
+      {
+       "pulse1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/fx_ring",
+        "size": [
+         40,
+         40
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_pulse1_start",
+         "@server_form.eth_pulsea1_start"
+        ]
+       }
+      },
+      {
+       "motes1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_motes_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_mote1_start",
+         "@server_form.eth_motea1_start"
+        ]
+       }
+      },
+      {
+       "scan": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_scan",
+        "size": [
+         "100%",
+         8
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "alpha": 0.7,
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_scan"
+        ]
+       }
+      },
+      {
+       "brackets": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_brackets",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "fill": true,
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "layer": 5,
+        "anims": [
+         "@server_form.eth_brk_a"
+        ]
+       }
+      },
+      {
+       "core": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_core",
+        "size": [
+         70,
+         70
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "-3%"
+        ],
+        "color": [
+         0.847,
+         0.721,
+         1.0
+        ],
+        "layer": 4,
+        "anims": [
+         "@server_form.eth_core_a"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_world": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§w') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "shade": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "alpha": 0.35,
+        "layer": 2
+       }
+      },
+      {
+       "card": {
+        "type": "image",
+        "texture": "textures/ui/etheria/frame_world",
+        "size": [
+         "94%",
+         "90%"
+        ],
+        "layer": 3
+       }
+      },
+      {
+       "band": {
+        "type": "image",
+        "texture": "textures/ui/etheria/band_world",
+        "size": [
+         "70%",
+         22
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         "5% + 2px"
+        ],
+        "layer": 4
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_sage": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§s') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "shade": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "alpha": 0.35,
+        "layer": 2
+       }
+      },
+      {
+       "card": {
+        "type": "image",
+        "texture": "textures/ui/etheria/frame_sage",
+        "size": [
+         "94%",
+         "90%"
+        ],
+        "layer": 3
+       }
+      },
+      {
+       "band": {
+        "type": "image",
+        "texture": "textures/ui/etheria/band_sage",
+        "size": [
+         "70%",
+         22
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         "5% + 2px"
+        ],
+        "layer": 4
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_raphael": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§r') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "shade": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "alpha": 0.35,
+        "layer": 2
+       }
+      },
+      {
+       "card": {
+        "type": "image",
+        "texture": "textures/ui/etheria/frame_raphael",
+        "size": [
+         "94%",
+         "90%"
+        ],
+        "layer": 3
+       }
+      },
+      {
+       "band": {
+        "type": "image",
+        "texture": "textures/ui/etheria/band_raphael",
+        "size": [
+         "70%",
+         22
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         "5% + 2px"
+        ],
+        "layer": 4
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_ciel": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§c') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "shade": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "alpha": 0.35,
+        "layer": 2
+       }
+      },
+      {
+       "card": {
+        "type": "image",
+        "texture": "textures/ui/etheria/frame_ciel",
+        "size": [
+         "94%",
+         "90%"
+        ],
+        "layer": 3
+       }
+      },
+      {
+       "band": {
+        "type": "image",
+        "texture": "textures/ui/etheria/band_ciel",
+        "size": [
+         "70%",
+         22
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         "5% + 2px"
+        ],
+        "layer": 4
+       }
+      }
+     ]
+    }
+   },
+   {
+    "theme_tree": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§p') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "shade": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "alpha": 0.35,
+        "layer": 2
+       }
+      },
+      {
+       "card": {
+        "type": "image",
+        "texture": "textures/ui/etheria/frame_tree",
+        "size": [
+         "94%",
+         "90%"
+        ],
+        "layer": 3
+       }
+      },
+      {
+       "band": {
+        "type": "image",
+        "texture": "textures/ui/etheria/band_tree",
+        "size": [
+         "70%",
+         22
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         "5% + 2px"
+        ],
+        "layer": 4
+       }
+      }
+     ]
+    }
+   },
+   {
+    "title": {
+     "type": "label",
+     "text": "#title_text",
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      }
+     ],
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "offset": [
+      0,
+      "5% + 8px"
+     ],
+     "size": [
+      "66%",
+      10
+     ],
+     "text_alignment": "center",
+     "font_size": "large",
+     "shadow": true,
+     "color": [
+      1,
+      1,
+      1
+     ],
+     "layer": 6
+    }
+   },
+   {
+    "close@common.close_button": {
+     "anchor_from": "top_right",
+     "anchor_to": "top_right",
+     "offset": [
+      "-3% - 4px",
+      "5% + 2px"
+     ],
+     "layer": 8
+    }
+   },
+   {
+    "columns": {
+     "type": "stack_panel",
+     "orientation": "horizontal",
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "offset": [
+      0,
+      "5% + 28px"
+     ],
+     "size": [
+      "94% - 16px",
+      "90% - 34px"
+     ],
+     "layer": 5,
+     "controls": [
+      {
+       "info": {
+        "type": "panel",
+        "size": [
+         "44%",
+         "100%"
+        ],
+        "controls": [
+         {
+          "f_world": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_world",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§w') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_sage": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_sage",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§s') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_raphael": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_raphael",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§r') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_ciel": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_ciel",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§c') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_tree": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_tree",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§p') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "scroll@common.scrolling_panel": {
+           "$show_background": false,
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "$scrolling_content": "server_form.eth_text_content",
+           "$scroll_size": [
+            5,
+            "100% - 4px"
+           ],
+           "$scrolling_pane_size": [
+            "100% - 4px",
+            "100% - 2px"
+           ],
+           "$scrolling_pane_offset": [
+            2,
+            0
+           ],
+           "$scroll_bar_right_padding_size": [
+            0,
+            0
+           ],
+           "layer": 2
+          }
+         }
+        ]
+       }
+      },
+      {
+       "gap": {
+        "type": "panel",
+        "size": [
+         6,
+         "100%"
+        ]
+       }
+      },
+      {
+       "list": {
+        "type": "panel",
+        "size": [
+         "fill",
+         "100%"
+        ],
+        "controls": [
+         {
+          "f_world": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_world",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§w') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_sage": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_sage",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§s') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_raphael": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_raphael",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§r') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_ciel": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_ciel",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§c') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "f_tree": {
+           "type": "image",
+           "texture": "textures/ui/etheria/frame_tree",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.85,
+           "layer": 0,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§t§p') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "scroll@common.scrolling_panel": {
+           "$show_background": false,
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "$scrolling_content": "server_form.eth_buttons_content",
+           "$scroll_size": [
+            5,
+            "100% - 4px"
+           ],
+           "$scrolling_pane_size": [
+            "100% - 4px",
+            "100% - 2px"
+           ],
+           "$scrolling_pane_offset": [
+            2,
+            0
+           ],
+           "$scroll_bar_right_padding_size": [
+            0,
+            0
+           ],
+           "layer": 2
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "anchor_from": "center",
+  "anchor_to": "center"
+ },
+ "eth_text_content": {
+  "type": "stack_panel",
+  "size": [
+   "100% - 4px",
+   "100%c"
+  ],
+  "orientation": "vertical",
+  "anchor_from": "top_left",
+  "anchor_to": "top_left",
+  "controls": [
+   {
+    "pad_top": {
+     "type": "panel",
+     "size": [
+      "100%",
+      4
+     ]
+    }
+   },
+   {
+    "text_panel": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%c"
+     ],
+     "controls": [
+      {
+       "main_label": {
+        "type": "label",
+        "offset": [
+         5,
+         0
+        ],
+        "color": [
+         1,
+         1,
+         1
+        ],
+        "size": [
+         "100% - 10px",
+         "default"
+        ],
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "text": "#form_text"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "pad_bottom": {
+     "type": "panel",
+     "size": [
+      "100%",
+      6
+     ]
+    }
+   }
+  ]
+ },
+ "eth_buttons_content": {
+  "type": "stack_panel",
+  "size": [
+   "100% - 4px",
+   "100%c"
+  ],
+  "orientation": "vertical",
+  "anchor_from": "top_left",
+  "anchor_to": "top_left",
+  "controls": [
+   {
+    "pad_top": {
+     "type": "panel",
+     "size": [
+      "100%",
+      4
+     ]
+    }
+   },
+   {
+    "buttons_panel": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%c"
+     ],
+     "controls": [
+      {
+       "long_form_dynamic_buttons_panel@server_form.long_form_dynamic_buttons_panel": {}
+      }
+     ]
+    }
+   },
+   {
+    "pad_bottom": {
+     "type": "panel",
+     "size": [
+      "100%",
+      4
+     ]
+    }
+   }
+  ]
+ },
+ "eth_card_button": {
+  "type": "panel",
+  "size": [
+   70,
+   24
+  ],
+  "controls": [
+   {
+    "form_button@common_buttons.light_text_button": {
+     "$pressed_button_name": "button.form_button_click",
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "size": [
+      "100% - 4px",
+      22
+     ],
+     "$button_text": "#form_button_text",
+     "$button_text_binding_type": "collection",
+     "$button_text_grid_collection_name": "form_buttons",
+     "$button_text_max_size": [
+      "100%",
+      20
+     ],
+     "bindings": [
+      {
+       "binding_type": "collection_details",
+       "binding_collection_name": "form_buttons"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_card_form": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "layer": 2,
+  "controls": [
+   {
+    "shade": {
+     "type": "image",
+     "texture": "textures/ui/Black",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "alpha": 0.55,
+     "layer": 1
+    }
+   },
+   {
+    "card": {
+     "type": "panel",
+     "size": [
+      250,
+      196
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      -14
+     ],
+     "layer": 3,
+     "controls": [
+      {
+       "bg": {
+        "type": "image",
+        "texture": "textures/ui/etheria/card_bg",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "layer": 1
+       }
+      },
+      {
+       "frame": {
+        "type": "image",
+        "texture": "textures/ui/etheria/card_frame",
+        "size": [
+         38,
+         38
+        ],
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         8,
+         6
+        ],
+        "layer": 6,
+        "controls": [
+         {
+          "portraits": {
+           "type": "panel",
+           "size": [
+            26,
+            26
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "controls": [
+            {
+             "face_human": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_human",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§0') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_slime": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_slime",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§1') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_goblin": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_goblin",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§2') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_demon": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_demon",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§3') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_elf": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_elf",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§4') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_angel": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_angel",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§5') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_dragonoid": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_dragonoid",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§6') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_beastkin": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_beastkin",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§7') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_undead": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_undead",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§8') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_ogre": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_ogre",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§9') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_lizardman": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_lizardman",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§a') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_vampire": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_vampire",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§b') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_dwarf": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_dwarf",
+              "size": [
+               26,
+               26
+              ],
+              "layer": 8,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§c') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "banner": {
+        "type": "image",
+        "texture": "textures/ui/etheria/card_banner",
+        "size": [
+         190,
+         26
+        ],
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         50,
+         12
+        ],
+        "layer": 6,
+        "keep_ratio": false,
+        "controls": [
+         {
+          "name": {
+           "type": "label",
+           "text": "#title_text",
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            }
+           ],
+           "size": [
+            "100% - 12px",
+            10
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "text_alignment": "center",
+           "color": [
+            1,
+            1,
+            1
+           ],
+           "shadow": true,
+           "layer": 7
+          }
+         }
+        ]
+       }
+      },
+      {
+       "info": {
+        "type": "panel",
+        "size": [
+         "100% - 18px",
+         "100% - 56px"
+        ],
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         9,
+         48
+        ],
+        "layer": 5,
+        "controls": [
+         {
+          "scroll@common.scrolling_panel": {
+           "$show_background": false,
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "$scrolling_content": "server_form.eth_text_content",
+           "$scroll_size": [
+            5,
+            "100% - 4px"
+           ],
+           "$scrolling_pane_size": [
+            "100% - 4px",
+            "100% - 2px"
+           ],
+           "$scrolling_pane_offset": [
+            2,
+            0
+           ],
+           "$scroll_bar_right_padding_size": [
+            0,
+            0
+           ],
+           "layer": 2
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "arrows": {
+     "type": "stack_panel",
+     "orientation": "horizontal",
+     "size": [
+      "100%c",
+      24
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      100
+     ],
+     "layer": 6,
+     "factory": {
+      "name": "buttons",
+      "control_name": "server_form.eth_card_button"
+     },
+     "collection_name": "form_buttons",
+     "bindings": [
+      {
+       "binding_name": "#form_button_length",
+       "binding_name_override": "#collection_length"
+      }
+     ]
+    }
+   },
+   {
+    "close@common.close_button": {
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      121,
+      -108
+     ],
+     "layer": 8
+    }
+   }
+  ]
+ },
+ "eth_sgx0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@server_form.eth_sgx0_in"
+ },
+ "eth_sgx0_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx0_out"
+ },
+ "eth_sgx0_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx0_wait"
+ },
+ "eth_sgx0_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx0_in"
+ },
+ "eth_sgx1_start": {
+  "anim_type": "wait",
+  "duration": 0.121,
+  "next": "@server_form.eth_sgx1_in"
+ },
+ "eth_sgx1_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx1_out"
+ },
+ "eth_sgx1_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx1_wait"
+ },
+ "eth_sgx1_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx1_in"
+ },
+ "eth_sgx2_start": {
+  "anim_type": "wait",
+  "duration": 0.241,
+  "next": "@server_form.eth_sgx2_in"
+ },
+ "eth_sgx2_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx2_out"
+ },
+ "eth_sgx2_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx2_wait"
+ },
+ "eth_sgx2_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx2_in"
+ },
+ "eth_sgx3_start": {
+  "anim_type": "wait",
+  "duration": 0.361,
+  "next": "@server_form.eth_sgx3_in"
+ },
+ "eth_sgx3_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx3_out"
+ },
+ "eth_sgx3_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx3_wait"
+ },
+ "eth_sgx3_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx3_in"
+ },
+ "eth_sgx4_start": {
+  "anim_type": "wait",
+  "duration": 0.481,
+  "next": "@server_form.eth_sgx4_in"
+ },
+ "eth_sgx4_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx4_out"
+ },
+ "eth_sgx4_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx4_wait"
+ },
+ "eth_sgx4_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx4_in"
+ },
+ "eth_sgx5_start": {
+  "anim_type": "wait",
+  "duration": 0.601,
+  "next": "@server_form.eth_sgx5_in"
+ },
+ "eth_sgx5_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx5_out"
+ },
+ "eth_sgx5_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx5_wait"
+ },
+ "eth_sgx5_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx5_in"
+ },
+ "eth_sgx6_start": {
+  "anim_type": "wait",
+  "duration": 0.721,
+  "next": "@server_form.eth_sgx6_in"
+ },
+ "eth_sgx6_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx6_out"
+ },
+ "eth_sgx6_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx6_wait"
+ },
+ "eth_sgx6_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx6_in"
+ },
+ "eth_sgx7_start": {
+  "anim_type": "wait",
+  "duration": 0.841,
+  "next": "@server_form.eth_sgx7_in"
+ },
+ "eth_sgx7_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx7_out"
+ },
+ "eth_sgx7_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx7_wait"
+ },
+ "eth_sgx7_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx7_in"
+ },
+ "eth_sgx8_start": {
+  "anim_type": "wait",
+  "duration": 0.961,
+  "next": "@server_form.eth_sgx8_in"
+ },
+ "eth_sgx8_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx8_out"
+ },
+ "eth_sgx8_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx8_wait"
+ },
+ "eth_sgx8_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx8_in"
+ },
+ "eth_sgx9_start": {
+  "anim_type": "wait",
+  "duration": 1.081,
+  "next": "@server_form.eth_sgx9_in"
+ },
+ "eth_sgx9_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx9_out"
+ },
+ "eth_sgx9_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx9_wait"
+ },
+ "eth_sgx9_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx9_in"
+ },
+ "eth_sgx10_start": {
+  "anim_type": "wait",
+  "duration": 1.2009999999999998,
+  "next": "@server_form.eth_sgx10_in"
+ },
+ "eth_sgx10_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx10_out"
+ },
+ "eth_sgx10_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx10_wait"
+ },
+ "eth_sgx10_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx10_in"
+ },
+ "eth_sgx11_start": {
+  "anim_type": "wait",
+  "duration": 1.3209999999999997,
+  "next": "@server_form.eth_sgx11_in"
+ },
+ "eth_sgx11_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.95,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx11_out"
+ },
+ "eth_sgx11_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.95,
+  "to": 0.0,
+  "duration": 0.12,
+  "next": "@server_form.eth_sgx11_wait"
+ },
+ "eth_sgx11_wait": {
+  "anim_type": "wait",
+  "duration": 1.2,
+  "next": "@server_form.eth_sgx11_in"
+ },
+ "eth_sg_type_v_start": {
+  "anim_type": "wait",
+  "duration": 0.25,
+  "next": "@server_form.eth_sg_type_v"
+ },
+ "eth_sg_type_v": {
+  "anim_type": "offset",
+  "easing": "linear",
+  "from": [
+   0,
+   0
+  ],
+  "to": [
+   0,
+   "100%"
+  ],
+  "duration": 1.8
+ },
+ "eth_sg_type_h_start": {
+  "anim_type": "wait",
+  "duration": 0.1,
+  "next": "@server_form.eth_sg_type_h"
+ },
+ "eth_sg_type_h": {
+  "anim_type": "offset",
+  "easing": "linear",
+  "from": [
+   0,
+   0
+  ],
+  "to": [
+   "100%",
+   0
+  ],
+  "duration": 0.7
+ },
+ "eth_sg_glow_a": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.55,
+  "to": 1.0,
+  "duration": 0.9,
+  "next": "@server_form.eth_sg_glow_b"
+ },
+ "eth_sg_glow_b": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.55,
+  "duration": 0.9,
+  "next": "@server_form.eth_sg_glow_a"
+ },
+ "eth_sg_btn": {
+  "type": "panel",
+  "size": [
+   "100%",
+   32
+  ],
+  "controls": [
+   {
+    "form_button@common_buttons.light_text_button": {
+     "$pressed_button_name": "button.form_button_click",
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "size": [
+      "100% - 4px",
+      30
+     ],
+     "$button_text": "#form_button_text",
+     "$button_text_binding_type": "collection",
+     "$button_text_grid_collection_name": "form_buttons",
+     "$button_text_max_size": [
+      "100% - 6px",
+      20
+     ],
+     "$default_button_texture": "textures/ui/etheria_sg/sg_btn",
+     "$hover_button_texture": "textures/ui/etheria_sg/sg_btn_h",
+     "$pressed_button_texture": "textures/ui/etheria_sg/sg_btn_p",
+     "$default_text_color": [
+      0.02,
+      0.2,
+      0.14
+     ],
+     "$hover_text_color": [
+      0.0,
+      0.1,
+      0.07
+     ],
+     "$pressed_text_color": [
+      0.0,
+      0.1,
+      0.07
+     ],
+     "$border_visible": false,
+     "bindings": [
+      {
+       "binding_type": "collection_details",
+       "binding_collection_name": "form_buttons"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_btn_s": {
+  "type": "panel",
+  "size": [
+   "100%",
+   25
+  ],
+  "controls": [
+   {
+    "form_button@common_buttons.light_text_button": {
+     "$pressed_button_name": "button.form_button_click",
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "size": [
+      "100% - 4px",
+      23
+     ],
+     "$button_text": "#form_button_text",
+     "$button_text_binding_type": "collection",
+     "$button_text_grid_collection_name": "form_buttons",
+     "$button_text_max_size": [
+      "100% - 6px",
+      10
+     ],
+     "$default_button_texture": "textures/ui/etheria_sg/sg_btn",
+     "$hover_button_texture": "textures/ui/etheria_sg/sg_btn_h",
+     "$pressed_button_texture": "textures/ui/etheria_sg/sg_btn_p",
+     "$default_text_color": [
+      0.02,
+      0.2,
+      0.14
+     ],
+     "$hover_text_color": [
+      0.0,
+      0.1,
+      0.07
+     ],
+     "$pressed_text_color": [
+      0.0,
+      0.1,
+      0.07
+     ],
+     "$border_visible": false,
+     "bindings": [
+      {
+       "binding_type": "collection_details",
+       "binding_collection_name": "form_buttons"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_card_btn": {
+  "type": "panel",
+  "size": [
+   96,
+   26
+  ],
+  "controls": [
+   {
+    "form_button@common_buttons.light_text_button": {
+     "$pressed_button_name": "button.form_button_click",
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "size": [
+      "100% - 4px",
+      22
+     ],
+     "$button_text": "#form_button_text",
+     "$button_text_binding_type": "collection",
+     "$button_text_grid_collection_name": "form_buttons",
+     "$button_text_max_size": [
+      "100% - 6px",
+      10
+     ],
+     "$default_button_texture": "textures/ui/etheria_sg/sg_btn",
+     "$hover_button_texture": "textures/ui/etheria_sg/sg_btn_h",
+     "$pressed_button_texture": "textures/ui/etheria_sg/sg_btn_p",
+     "$default_text_color": [
+      0.02,
+      0.2,
+      0.14
+     ],
+     "$hover_text_color": [
+      0.0,
+      0.1,
+      0.07
+     ],
+     "$pressed_text_color": [
+      0.0,
+      0.1,
+      0.07
+     ],
+     "$border_visible": false,
+     "bindings": [
+      {
+       "binding_type": "collection_details",
+       "binding_collection_name": "form_buttons"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_list": {
+  "type": "stack_panel",
+  "orientation": "vertical",
+  "size": [
+   "100% - 4px",
+   "100%c"
+  ],
+  "anchor_from": "top_left",
+  "anchor_to": "top_left",
+  "offset": [
+   2,
+   2
+  ],
+  "factory": {
+   "name": "buttons",
+   "control_name": "server_form.eth_sg_btn"
+  },
+  "collection_name": "form_buttons",
+  "bindings": [
+   {
+    "binding_name": "#form_button_length",
+    "binding_name_override": "#collection_length"
+   }
+  ]
+ },
+ "eth_sg_list_s": {
+  "type": "stack_panel",
+  "orientation": "vertical",
+  "size": [
+   "100% - 4px",
+   "100%c"
+  ],
+  "anchor_from": "top_left",
+  "anchor_to": "top_left",
+  "offset": [
+   2,
+   2
+  ],
+  "factory": {
+   "name": "buttons",
+   "control_name": "server_form.eth_sg_btn_s"
+  },
+  "collection_name": "form_buttons",
+  "bindings": [
+   {
+    "binding_name": "#form_button_length",
+    "binding_name_override": "#collection_length"
+   }
+  ]
+ },
+ "eth_sg_form": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "layer": 2,
+  "controls": [
+   {
+    "sg_bg": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_bg",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "keep_ratio": false,
+     "fill": true,
+     "layer": 1
+    }
+   },
+   {
+    "sg_motes": {
+     "type": "image",
+     "texture": "textures/ui/etheria/ov_motes_0",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "keep_ratio": false,
+     "color": [
+      0.55,
+      1.0,
+      0.82
+     ],
+     "alpha": 0.0,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_mote0_start",
+      "@server_form.eth_motea0_start"
+     ]
+    }
+   },
+   {
+    "sg_scan": {
+     "type": "image",
+     "texture": "textures/ui/etheria/ov_scan",
+     "size": [
+      "100%",
+      6
+     ],
+     "keep_ratio": false,
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "color": [
+      0.55,
+      1.0,
+      0.82
+     ],
+     "alpha": 0.45,
+     "layer": 3,
+     "anims": [
+      "@server_form.eth_scan_r"
+     ]
+    }
+   },
+   {
+    "sg_frame": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_frame",
+     "size": [
+      "100% - 6px",
+      "100% - 6px"
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "layer": 4,
+     "alpha": 1.0,
+     "anims": [
+      "@server_form.eth_sg_glow_a"
+     ]
+    }
+   },
+   {
+    "sg_head": {
+     "type": "label",
+     "text": "§l[ GRANDE SÁBIO ]",
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      10,
+      7
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.55,
+      1.0,
+      0.82
+     ],
+     "shadow": true,
+     "layer": 6
+    }
+   },
+   {
+    "close@common.close_button": {
+     "anchor_from": "top_right",
+     "anchor_to": "top_right",
+     "offset": [
+      -6,
+      5
+     ],
+     "layer": 12
+    }
+   },
+   {
+    "title": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_title",
+     "size": [
+      "50%",
+      20
+     ],
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "offset": [
+      0,
+      5
+     ],
+     "layer": 6,
+     "controls": [
+      {
+       "name": {
+        "type": "label",
+        "text": "#title_text",
+        "bindings": [
+         {
+          "binding_name": "#title_text"
+         }
+        ],
+        "size": [
+         "100% - 14px",
+         "default"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "text_alignment": "center",
+        "font_size": "large",
+        "color": [
+         1,
+         1,
+         1
+        ],
+        "shadow": true,
+        "layer": 2
+       }
+      },
+      {
+       "clip": {
+        "type": "panel",
+        "size": [
+         "100% - 4px",
+         "100% - 4px"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "layer": 3,
+        "controls": [
+         {
+          "sg_type_t": {
+           "type": "panel",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "clips_children": true,
+           "layer": 1,
+           "controls": [
+            {
+             "cur": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/sg_curtain_h",
+              "size": [
+               "100%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "anchor_from": "top_left",
+              "anchor_to": "top_left",
+              "layer": 1,
+              "anims": [
+               "@server_form.eth_sg_type_h_start"
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "cols": {
+     "type": "stack_panel",
+     "orientation": "horizontal",
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "offset": [
+      0,
+      29
+     ],
+     "size": [
+      "100% - 20px",
+      "100% - 36px"
+     ],
+     "layer": 5,
+     "controls": [
+      {
+       "info": {
+        "type": "panel",
+        "size": [
+         "50%",
+         "100%"
+        ],
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         0,
+         0
+        ],
+        "layer": 1,
+        "controls": [
+         {
+          "plate": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/sg_panel",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "layer": 1
+          }
+         },
+         {
+          "body": {
+           "type": "panel",
+           "size": [
+            "100% - 6px",
+            "100% - 6px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 2,
+           "controls": [
+            {
+             "scroll@common.scrolling_panel": {
+              "$show_background": false,
+              "size": [
+               "100%",
+               "100%"
+              ],
+              "$scrolling_content": "server_form.eth_text_content",
+              "$scroll_size": [
+               5,
+               "100% - 4px"
+              ],
+              "$scrolling_pane_size": [
+               "100% - 4px",
+               "100% - 2px"
+              ],
+              "$scrolling_pane_offset": [
+               2,
+               0
+              ],
+              "$scroll_bar_right_padding_size": [
+               0,
+               0
+              ],
+              "layer": 2
+             }
+            },
+            {
+             "sg_type": {
+              "type": "panel",
+              "size": [
+               "100%",
+               "100%"
+              ],
+              "clips_children": true,
+              "layer": 20,
+              "controls": [
+               {
+                "cur": {
+                 "type": "image",
+                 "texture": "textures/ui/etheria_sg/sg_curtain_v",
+                 "size": [
+                  "100%",
+                  "100%"
+                 ],
+                 "keep_ratio": false,
+                 "anchor_from": "top_left",
+                 "anchor_to": "top_left",
+                 "layer": 1,
+                 "anims": [
+                  "@server_form.eth_sg_type_v_start"
+                 ]
+                }
+               }
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "gap": {
+        "type": "panel",
+        "size": [
+         6,
+         "100%"
+        ]
+       }
+      },
+      {
+       "list": {
+        "type": "panel",
+        "size": [
+         "fill",
+         "100%"
+        ],
+        "controls": [
+         {
+          "plate": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/sg_frame",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "alpha": 0.7,
+           "layer": 1
+          }
+         },
+         {
+          "scroll@common.scrolling_panel": {
+           "$show_background": false,
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "$scrolling_content": "server_form.eth_sg_list",
+           "$scroll_size": [
+            5,
+            "100% - 4px"
+           ],
+           "$scrolling_pane_size": [
+            "100% - 4px",
+            "100% - 2px"
+           ],
+           "$scrolling_pane_offset": [
+            2,
+            0
+           ],
+           "$scroll_bar_right_padding_size": [
+            0,
+            0
+           ],
+           "layer": 2
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_card_form": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "layer": 2,
+  "controls": [
+   {
+    "sg_bg": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_bg",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "keep_ratio": false,
+     "fill": true,
+     "layer": 1
+    }
+   },
+   {
+    "sg_motes": {
+     "type": "image",
+     "texture": "textures/ui/etheria/ov_motes_0",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "keep_ratio": false,
+     "color": [
+      0.55,
+      1.0,
+      0.82
+     ],
+     "alpha": 0.0,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_mote0_start",
+      "@server_form.eth_motea0_start"
+     ]
+    }
+   },
+   {
+    "sg_scan": {
+     "type": "image",
+     "texture": "textures/ui/etheria/ov_scan",
+     "size": [
+      "100%",
+      6
+     ],
+     "keep_ratio": false,
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "color": [
+      0.55,
+      1.0,
+      0.82
+     ],
+     "alpha": 0.45,
+     "layer": 3,
+     "anims": [
+      "@server_form.eth_scan_r"
+     ]
+    }
+   },
+   {
+    "sg_frame": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_frame",
+     "size": [
+      "100% - 6px",
+      "100% - 6px"
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "layer": 4,
+     "alpha": 1.0,
+     "anims": [
+      "@server_form.eth_sg_glow_a"
+     ]
+    }
+   },
+   {
+    "sg_head": {
+     "type": "label",
+     "text": "§l[ GRANDE SÁBIO ]",
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      10,
+      7
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.55,
+      1.0,
+      0.82
+     ],
+     "shadow": true,
+     "layer": 6
+    }
+   },
+   {
+    "close@common.close_button": {
+     "anchor_from": "top_right",
+     "anchor_to": "top_right",
+     "offset": [
+      -6,
+      5
+     ],
+     "layer": 12
+    }
+   },
+   {
+    "sub": {
+     "type": "label",
+     "text": "ANÁLISE DE RAÇA",
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      96,
+      7
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.45,
+      0.95,
+      1.0
+     ],
+     "layer": 6
+    }
+   },
+   {
+    "left": {
+     "type": "panel",
+     "size": [
+      "36%",
+      "100% - 54px"
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      10,
+      20
+     ],
+     "layer": 5,
+     "controls": [
+      {
+       "emblem": {
+        "type": "panel",
+        "size": [
+         76,
+         76
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         0
+        ],
+        "layer": 1,
+        "controls": [
+         {
+          "x0": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_0",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx0_start"
+           ]
+          }
+         },
+         {
+          "x1": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_1",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx1_start"
+           ]
+          }
+         },
+         {
+          "x2": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_2",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx2_start"
+           ]
+          }
+         },
+         {
+          "x3": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_3",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx3_start"
+           ]
+          }
+         },
+         {
+          "x4": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_4",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx4_start"
+           ]
+          }
+         },
+         {
+          "x5": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_5",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx5_start"
+           ]
+          }
+         },
+         {
+          "x6": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_6",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx6_start"
+           ]
+          }
+         },
+         {
+          "x7": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_7",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx7_start"
+           ]
+          }
+         },
+         {
+          "x8": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_8",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx8_start"
+           ]
+          }
+         },
+         {
+          "x9": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_9",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx9_start"
+           ]
+          }
+         },
+         {
+          "x10": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_10",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx10_start"
+           ]
+          }
+         },
+         {
+          "x11": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_11",
+           "size": [
+            76,
+            76
+           ],
+           "keep_ratio": false,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "color": [
+            0.55,
+            1.0,
+            0.82
+           ],
+           "alpha": 0.0,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgx11_start"
+           ]
+          }
+         },
+         {
+          "ring": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/sg_ring",
+           "size": [
+            52,
+            52
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 3,
+           "anims": [
+            "@server_form.eth_sg_glow_a"
+           ]
+          }
+         },
+         {
+          "face": {
+           "type": "panel",
+           "size": [
+            32,
+            32
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 4,
+           "controls": [
+            {
+             "face_human": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_human",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§0') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_slime": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_slime",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§1') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_goblin": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_goblin",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§2') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_demon": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_demon",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§3') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_elf": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_elf",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§4') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_angel": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_angel",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§5') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_dragonoid": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_dragonoid",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§6') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_beastkin": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_beastkin",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§7') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_undead": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_undead",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§8') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_ogre": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_ogre",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§9') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_lizardman": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_lizardman",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§a') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_vampire": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_vampire",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§b') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "face_dwarf": {
+              "type": "image",
+              "texture": "textures/ui/etheria/race_face_dwarf",
+              "size": [
+               32,
+               32
+              ],
+              "layer": 1,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§k§r§c') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "title": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_title",
+        "size": [
+         "100%",
+         24
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         80
+        ],
+        "layer": 3,
+        "controls": [
+         {
+          "name": {
+           "type": "label",
+           "text": "#title_text",
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            }
+           ],
+           "size": [
+            "100% - 14px",
+            "default"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "text_alignment": "center",
+           "font_size": "large",
+           "color": [
+            1,
+            1,
+            1
+           ],
+           "shadow": true,
+           "layer": 2
+          }
+         },
+         {
+          "clip": {
+           "type": "panel",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 3,
+           "controls": [
+            {
+             "sg_type_t": {
+              "type": "panel",
+              "size": [
+               "100%",
+               "100%"
+              ],
+              "clips_children": true,
+              "layer": 1,
+              "controls": [
+               {
+                "cur": {
+                 "type": "image",
+                 "texture": "textures/ui/etheria_sg/sg_curtain_h",
+                 "size": [
+                  "100%",
+                  "100%"
+                 ],
+                 "keep_ratio": false,
+                 "anchor_from": "top_left",
+                 "anchor_to": "top_left",
+                 "layer": 1,
+                 "anims": [
+                  "@server_form.eth_sg_type_h_start"
+                 ]
+                }
+               }
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "hint": {
+        "type": "label",
+        "text": "§7< > troca a raça\n§aEscolher §7abre a análise",
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         108
+        ],
+        "size": [
+         "100%",
+         "default"
+        ],
+        "text_alignment": "center",
+        "color": [
+         0.8,
+         0.95,
+         0.9
+        ],
+        "layer": 3
+       }
+      }
+     ]
+    }
+   },
+   {
+    "info": {
+     "type": "panel",
+     "size": [
+      "64% - 26px",
+      "100% - 54px"
+     ],
+     "anchor_from": "top_right",
+     "anchor_to": "top_right",
+     "offset": [
+      -10,
+      20
+     ],
+     "layer": 5,
+     "controls": [
+      {
+       "plate": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_panel",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "layer": 1
+       }
+      },
+      {
+       "body": {
+        "type": "panel",
+        "size": [
+         "100% - 6px",
+         "100% - 6px"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "layer": 2,
+        "controls": [
+         {
+          "scroll@common.scrolling_panel": {
+           "$show_background": false,
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "$scrolling_content": "server_form.eth_text_content",
+           "$scroll_size": [
+            5,
+            "100% - 4px"
+           ],
+           "$scrolling_pane_size": [
+            "100% - 4px",
+            "100% - 2px"
+           ],
+           "$scrolling_pane_offset": [
+            2,
+            0
+           ],
+           "$scroll_bar_right_padding_size": [
+            0,
+            0
+           ],
+           "layer": 2
+          }
+         },
+         {
+          "sg_type": {
+           "type": "panel",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "clips_children": true,
+           "layer": 20,
+           "controls": [
+            {
+             "cur": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/sg_curtain_v",
+              "size": [
+               "100%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "anchor_from": "top_left",
+              "anchor_to": "top_left",
+              "layer": 1,
+              "anims": [
+               "@server_form.eth_sg_type_v_start"
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "arrows": {
+     "type": "stack_panel",
+     "orientation": "horizontal",
+     "size": [
+      "100%c",
+      26
+     ],
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "offset": [
+      0,
+      -6
+     ],
+     "layer": 8,
+     "factory": {
+      "name": "buttons",
+      "control_name": "server_form.eth_sg_card_btn"
+     },
+     "collection_name": "form_buttons",
+     "bindings": [
+      {
+       "binding_name": "#form_button_length",
+       "binding_name_override": "#collection_length"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_book_form": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "layer": 2,
+  "controls": [
+   {
+    "sg_bg": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_bg",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "keep_ratio": false,
+     "fill": true,
+     "layer": 1
+    }
+   },
+   {
+    "sg_motes": {
+     "type": "image",
+     "texture": "textures/ui/etheria/ov_motes_0",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "keep_ratio": false,
+     "color": [
+      0.55,
+      1.0,
+      0.82
+     ],
+     "alpha": 0.0,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_mote0_start",
+      "@server_form.eth_motea0_start"
+     ]
+    }
+   },
+   {
+    "sg_scan": {
+     "type": "image",
+     "texture": "textures/ui/etheria/ov_scan",
+     "size": [
+      "100%",
+      6
+     ],
+     "keep_ratio": false,
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "color": [
+      0.55,
+      1.0,
+      0.82
+     ],
+     "alpha": 0.45,
+     "layer": 3,
+     "anims": [
+      "@server_form.eth_scan_r"
+     ]
+    }
+   },
+   {
+    "sg_frame": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_frame",
+     "size": [
+      "100% - 6px",
+      "100% - 6px"
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "layer": 4,
+     "alpha": 1.0,
+     "anims": [
+      "@server_form.eth_sg_glow_a"
+     ]
+    }
+   },
+   {
+    "sg_head": {
+     "type": "label",
+     "text": "§l[ GRANDE SÁBIO ]",
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      10,
+      7
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.55,
+      1.0,
+      0.82
+     ],
+     "shadow": true,
+     "layer": 6
+    }
+   },
+   {
+    "close@common.close_button": {
+     "anchor_from": "top_right",
+     "anchor_to": "top_right",
+     "offset": [
+      -6,
+      5
+     ],
+     "layer": 12
+    }
+   },
+   {
+    "core": {
+     "type": "panel",
+     "size": [
+      132,
+      132
+     ],
+     "anchor_from": "left_middle",
+     "anchor_to": "left_middle",
+     "offset": [
+      "6% + 10px",
+      22
+     ],
+     "layer": 5,
+     "controls": [
+      {
+       "c0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_0",
+        "size": [
+         132,
+         132
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_circ0_start"
+        ]
+       }
+      },
+      {
+       "c1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_1",
+        "size": [
+         132,
+         132
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_circ1_start"
+        ]
+       }
+      },
+      {
+       "c2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_2",
+        "size": [
+         132,
+         132
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_circ2_start"
+        ]
+       }
+      },
+      {
+       "c3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_3",
+        "size": [
+         132,
+         132
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_circ3_start"
+        ]
+       }
+      },
+      {
+       "c4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_4",
+        "size": [
+         132,
+         132
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_circ4_start"
+        ]
+       }
+      },
+      {
+       "c5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_circle_5",
+        "size": [
+         132,
+         132
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_circ5_start"
+        ]
+       }
+      },
+      {
+       "x0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_0",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx0_start"
+        ]
+       }
+      },
+      {
+       "x1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_1",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx1_start"
+        ]
+       }
+      },
+      {
+       "x2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_2",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx2_start"
+        ]
+       }
+      },
+      {
+       "x3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_3",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx3_start"
+        ]
+       }
+      },
+      {
+       "x4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_4",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx4_start"
+        ]
+       }
+      },
+      {
+       "x5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_5",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx5_start"
+        ]
+       }
+      },
+      {
+       "x6": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_6",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx6_start"
+        ]
+       }
+      },
+      {
+       "x7": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_7",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx7_start"
+        ]
+       }
+      },
+      {
+       "x8": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_8",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx8_start"
+        ]
+       }
+      },
+      {
+       "x9": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_9",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx9_start"
+        ]
+       }
+      },
+      {
+       "x10": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_10",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx10_start"
+        ]
+       }
+      },
+      {
+       "x11": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_11",
+        "size": [
+         84,
+         84
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx11_start"
+        ]
+       }
+      },
+      {
+       "glow": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_core",
+        "size": [
+         34,
+         34
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.55,
+         1.0,
+         0.82
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_sg_glow_a"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "title": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_title",
+     "size": [
+      "40%",
+      22
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "6%",
+      22
+     ],
+     "layer": 7,
+     "controls": [
+      {
+       "name": {
+        "type": "label",
+        "text": "#title_text",
+        "bindings": [
+         {
+          "binding_name": "#title_text"
+         }
+        ],
+        "size": [
+         "100% - 14px",
+         "default"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "text_alignment": "center",
+        "font_size": "large",
+        "color": [
+         1,
+         1,
+         1
+        ],
+        "shadow": true,
+        "layer": 2
+       }
+      },
+      {
+       "clip": {
+        "type": "panel",
+        "size": [
+         "100% - 4px",
+         "100% - 4px"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "layer": 3,
+        "controls": [
+         {
+          "sg_type_t": {
+           "type": "panel",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "clips_children": true,
+           "layer": 1,
+           "controls": [
+            {
+             "cur": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/sg_curtain_h",
+              "size": [
+               "100%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "anchor_from": "top_left",
+              "anchor_to": "top_left",
+              "layer": 1,
+              "anims": [
+               "@server_form.eth_sg_type_h_start"
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "bubble": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_bubble",
+     "size": [
+      "30%",
+      24
+     ],
+     "keep_ratio": false,
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "6% + 16px",
+      50
+     ],
+     "layer": 8,
+     "controls": [
+      {
+       "say": {
+        "type": "label",
+        "text": "#form_text",
+        "bindings": [
+         {
+          "binding_name": "#form_text"
+         }
+        ],
+        "size": [
+         "100% - 10px",
+         "default"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "text_alignment": "center",
+        "color": [
+         0.85,
+         1,
+         0.94
+        ],
+        "layer": 1
+       }
+      },
+      {
+       "clip": {
+        "type": "panel",
+        "size": [
+         "100% - 4px",
+         "100% - 4px"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "layer": 2,
+        "controls": [
+         {
+          "sg_type_t": {
+           "type": "panel",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "clips_children": true,
+           "layer": 1,
+           "controls": [
+            {
+             "cur": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/sg_curtain_h",
+              "size": [
+               "100%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "anchor_from": "top_left",
+              "anchor_to": "top_left",
+              "layer": 1,
+              "anims": [
+               "@server_form.eth_sg_type_h_start"
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "list": {
+     "type": "panel",
+     "size": [
+      "44%",
+      "100% - 30px"
+     ],
+     "anchor_from": "top_right",
+     "anchor_to": "top_right",
+     "offset": [
+      -10,
+      22
+     ],
+     "layer": 9,
+     "controls": [
+      {
+       "plate": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_frame",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "alpha": 0.7,
+        "layer": 1
+       }
+      },
+      {
+       "scroll@common.scrolling_panel": {
+        "$show_background": false,
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "$scrolling_content": "server_form.eth_sg_list_s",
+        "$scroll_size": [
+         5,
+         "100% - 4px"
+        ],
+        "$scrolling_pane_size": [
+         "100% - 4px",
+         "100% - 2px"
+        ],
+        "$scrolling_pane_offset": [
+         2,
+         0
+        ],
+        "$scroll_bar_right_padding_size": [
+         0,
+         0
+        ],
+        "layer": 2
+       }
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

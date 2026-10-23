@@ -1,0 +1,29 @@
+{
+ "format_version": 2,
+ "header": {
+  "name": "§aLegacy of Etheria §2Sábio UI",
+  "description": "OPCIONAL: telas no estilo do Grande Sábio (raça, evolução, habilidades, Livro do Sábio). Coloque ACIMA do pacote principal. Se algo der errado, desative só este pacote.",
+  "uuid": "5b1f3c2e-8a47-4d1e-9c6b-2f7e0a9d4c31",
+  "version": [
+   1,
+   0,
+   0
+  ],
+  "min_engine_version": [
+   1,
+   21,
+   80
+  ]
+ },
+ "modules": [
+  {
+   "type": "resources",
+   "uuid": "c3e8a91d-6f02-4b7a-a5d4-81e9f2b3c6a7",
+   "version": [
+    1,
+    0,
+    0
+   ]
+  }
+ ]
+}

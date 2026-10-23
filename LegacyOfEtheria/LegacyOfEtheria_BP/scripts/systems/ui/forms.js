@@ -17,9 +17,20 @@ export function withTheme(theme, fn) { const prev = ctxTheme; ctxTheme = theme; 
 export function sageThemeOf(stage) { return stage >= 4 ? "ciel" : stage >= 3 ? "raphael" : "sage"; }
 const classic = (player) => { try { return getData(player)?.settings?.classicUi === true; } catch { return false; } };
 /** título com o marcador do tema (ou o título puro se o jogador escolheu a interface clássica) */
+// 8.x: VISUAL DO GRANDE SÁBIO (pacote OPCIONAL "Legacy of Etheria Sábio UI", tools/gen_sage_ui.py). O marcador SG ("§j§q") vai logo depois de
+// UI_BASE. O pacote principal NÃO procura por ele: o título continua com os mesmos marcadores de antes (§e§t§h + tema/cartão), então sem o pacote
+// opcional tudo aparece exatamente como na versão estável; e "§j"/"§q" são códigos de cor que o jogo esconde (nunca aparecem no texto).
+// Com o pacote opcional ativo (acima do principal), o server_form.json dele troca só as telas com SG pela tela cheia verde do Sábio.
+export const SG = "§j§q";
+const SG_THEMES = new Set(["sage", "raphael", "ciel"]);
+/** tema + "+sg" pede o visual do Sábio numa tela que não é do Sábio (ex.: "tree+sg" na árvore da raça) */
+export const sgTheme = (theme) => `${theme ?? "tree"}+sg`;
 export function themed(player, title, theme) {
   if (classic(player) || String(title).startsWith(UI_BASE)) return title;
-  return UI_BASE + (THEME[theme ?? ctxTheme] ?? THEME.tree) + "§r" + title;
+  let th = theme ?? ctxTheme, sg = false;
+  if (typeof th === "string" && th.endsWith("+sg")) { sg = true; th = th.slice(0, -3); }
+  if (SG_THEMES.has(th)) sg = true;
+  return UI_BASE + (sg ? SG : "") + (THEME[th] ?? THEME.tree) + "§r" + title;
 }
 
 export function show(player, form, cb, tries = 0) {
@@ -34,7 +45,9 @@ export function show(player, form, cb, tries = 0) {
 export function menu(player, title, body, buttons, theme) {
   const f = new ActionFormData().title(themed(player, title, theme)).body(body);
   // 6.56: o botão do jogo é cinza-claro: cores claras (§7 cinza, §f branco, §e amarelo) na 2ª linha ficavam ilegíveis -> escurecidas
-  const legible = (t) => String(t).replace(/§7/g, "§8").replace(/(\n[^\n]*)§f/g, "$1§0").replace(/(\n[^\n]*)§e/g, "$1§6");
+  // 8.x: também a 1ª linha: verde/ciano/amarelo/rosa/branco claros sumiam no botão claro (cinza do jogo e o verde-claro do Sábio UI) -> tons escuros
+  const legible = (t) => String(t).replace(/§7/g, "§8").replace(/(\n[^\n]*)§f/g, "$1§0").replace(/(\n[^\n]*)§e/g, "$1§6")
+    .replace(/§a/g, "§2").replace(/§b/g, "§3").replace(/§e/g, "§6").replace(/§d/g, "§5").replace(/§f/g, "§0");
   for (const b of buttons) { const tx = legible(b.text); if (b.icon) f.button(tx, b.icon.startsWith("textures/") ? b.icon : ICON(b.icon)); else f.button(tx); }
   show(player, f, (r) => { try { buttons[r.selection]?.run?.(); } catch (e) { console.warn(`[Etheria] Erro no menu "${title}": ${e}`); } });
 }
@@ -44,7 +57,7 @@ const CARD = "§t§k";
 const RACE_CODE = { human: "0", slime: "1", goblin: "2", demon: "3", elf: "4", angel: "5", dragonoid: "6", beastkin: "7", undead: "8", ogre: "9", lizardman: "a", vampire: "b", dwarf: "c" };
 export function cardMenu(player, raceId, name, body, buttons) {
   if (classic(player)) return menu(player, name, body, buttons);
-  const f = new ActionFormData().title(`${UI_BASE}${CARD}§k§r§${RACE_CODE[raceId] ?? "0"}§r${name}`).body(body);
+  const f = new ActionFormData().title(`${UI_BASE}${SG}${CARD}§k§r§${RACE_CODE[raceId] ?? "0"}§r${name}`).body(body);
   for (const b of buttons) f.button(b.text);
   show(player, f, (r) => { try { buttons[r.selection]?.run?.(); } catch (e) { console.warn(`[Etheria] Erro no cartão de raça: ${e}`); } });
 }
@@ -54,7 +67,7 @@ export function cardMenu(player, raceId, name, body, buttons) {
 const SAGEN = "§t§n";
 export function sageMenu(player, title, say, buttons) {
   if (classic(player)) return menu(player, title, say, buttons.map((b) => ({ text: `§l${b.label}`, run: b.run })));
-  const f = new ActionFormData().title(`${UI_BASE}${SAGEN}§r${title}`).body(say);
+  const f = new ActionFormData().title(`${UI_BASE}${SG}${SAGEN}${THEME.sage}§r${title}`).body(say);   // 8.x: + tema do Sábio (moldura azul no pacote principal)
   for (const b of buttons.slice(0, 8)) f.button(b.label);
   show(player, f, (r) => { try { buttons[r.selection]?.run?.(); } catch (e) { console.warn(`[Etheria] Erro no menu do Sábio: ${e}`); } });
 }
