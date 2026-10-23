@@ -154,17 +154,13 @@ export function resumeLord(player) { try { const d = getData(player); if (d.lord
 export function classCheck(player, cls) {
   const d = getData(player);
   if (d.class === cls.id) return "Classe atual";
-  if (d.level < cls.minLevel) return `Requer nível ${cls.minLevel}`;
-  const cost = d.class ? cls.cost + d.level * 50 : cls.cost;
-  if (d.coins < cost) return `Requer ${cost} moedas`;
-  return null;
+  return null;   // 8.15: todas as classes liberadas, sem nível nem moedas
 }
 export function chooseClass(player, id) {
   const d = getData(player), cls = CLASSES[id];
   if (!cls) return { ok: false, msg: "Classe inválida." };
   const why = classCheck(player, cls);
   if (why) return { ok: false, msg: why };
-  d.coins -= d.class ? cls.cost + d.level * 50 : cls.cost;
   d.class = id;
   for (const s of cls.skills) grantSkill(player, s);
   applyDerivedStats(player); refreshName(player); saveNow(player);

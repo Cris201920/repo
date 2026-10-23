@@ -260,7 +260,7 @@ function openQuestOffer(player, id, giver) {
   const b = [];
   if (!why) b.push({ text: "§a§lAceitar missão", icon: "menu_quests", run: () => { msg(player, acceptQuest(player, id)); openQuestBoard(player, giver); } });
   b.push(back(() => openQuestBoard(player, giver)));
-  menu(player, `§l${q.name}`, `§7${q.desc}\n\n${q.objectives.map((o) => `§f• ${o.label ?? o.type} ×${o.n ?? 1}`).join("\n")}\n\n§7Recompensa: §e${rw}${why ? `\n\n§c${why}` : ""}`, b);
+  menu(player, `§l${q.name}`, `§7${q.desc}\n\n${q.objectives.map((o) => `§f• ${o.label ?? o.type} ×${o.n ?? 1}`).join("\n")}\n\n§7Recompensa: §e${rw}${why ? `\n\n§c${why}` : ""}`, b, sageTh(d));
 }
 
 // ---------------------------------------------------------------- raça
@@ -406,17 +406,16 @@ export function openClass(player, first = false) {
   const mk = ({ c, why }) => ({ text: `${why ? "§8" : "§l"}${c.name}${d.class === c.id ? " §a(atual)" : ""}\n§r${why ? `§c${why}` : d.class === c.id ? "§7" + c.style : "§7" + c.style}`, icon: "class_" + c.id, run: () => openClassConfirm(player, c.id, first) });
   const b = [...ok.map(mk), ...locked.map(mk)];
   if (first) b.push({ text: "§7Decidir depois (Relógio > Classe)", run: () => say(player, "§7Você pode escolher a classe a qualquer momento no §fRelógio §7> §fClasse§7.") }); else b.push(back(() => openMain(player)));
-  menu(player, first ? "§l§6ESCOLHA SUA CLASSE" : "§l§6CLASSE", `${first ? "§eAgora escolha a classe inicial. §7Guerreiro e Mago são gratuitos desde o nível 1; as outras liberam com nível e moedas.\n\n" : ""}§7Atual: §f${d.class ? CLASSES[d.class].name : "nenhuma"}\n§8Troque de classe com o Mestre de Classe (custa moedas).`, b);
+  menu(player, first ? "§l§6ESCOLHA SUA CLASSE" : "§l§6CLASSE", `${first ? "§eAgora escolha a classe inicial. §7Todas as classes são gratuitas e liberadas desde o início; você pode trocar quando quiser.\n\n" : ""}§7Atual: §f${d.class ? CLASSES[d.class].name : "nenhuma"}\n§8Todas as classes estão liberadas, sem requisitos.`, b, sageTh(d));
 }
 function openClassConfirm(player, id, first = false) {
   const d = getData(player), c = CLASSES[id], why = classCheck(player, c);
   const attrs = Object.entries(c.attrs).map(([k, v]) => `${v > 0 ? "§a+" : "§c"}${v} ${ATTRIBUTES[k].label}`).join("§7, ");
   const stats = Object.entries(c.stats).map(([k, v]) => `§a+${v} ${STAT_LABELS[k] ?? k}`).join("§7, ");
-  const cost = d.class ? c.cost + d.level * 50 : c.cost;
   const b = [];
-  if (!why) b.push({ text: `§a§lEscolher (${cost} moedas)`, icon: "class_" + id, run: () => { msg(player, chooseClass(player, id)); } });
+  if (!why) b.push({ text: `§a§lEscolher`, icon: "class_" + id, run: () => { msg(player, chooseClass(player, id)); } });
   b.push(back(() => openClass(player, first)));
-  menu(player, `§l${c.name}`, `§f${c.style}\n\n${attrs}\n${stats}\n\n§7Habilidades: §b${c.skills.map((s) => SKILLS[s].name).join(", ")}\n§7Requer nível ${c.minLevel}${why ? `\n\n§c${why}` : ""}`, b);
+  menu(player, `§l${c.name}`, `§f${c.style}\n\n${attrs}\n${stats}\n\n§7Habilidades: §b${c.skills.map((s) => SKILLS[s].name).join(", ")}${why ? `\n\n§c${why}` : ""}`, b, sageTh(d));
 }
 
 // ---------------------------------------------------------------- guilda
