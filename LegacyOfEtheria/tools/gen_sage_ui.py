@@ -10,11 +10,14 @@ a partir do principal (rode de novo sempre que o server_form.json principal muda
 Se o mundo não abrir, basta desativar este pacote: os scripts continuam iguais e o principal mostra o visual estável.
 
 Marcadores (systems/ui/forms.js): título = "§e§t§h" + "§j§q" (SG) + tema/cartão + "§r" + texto.
-  - SG + "§t§k"  -> eth_sg_card_form  (8.9: carrossel de raças do vídeo: céu estrelado, cartão alto, retrato de corpo inteiro
-                    textures/ui/etheria_sg/race_<id> (tools/race_portraits.py), selo "§l§r§N", ficha, < ESCOLHER >; "§t§y" = "Confirmar?")
+  - SG + "§t§k"  -> eth_sg_card_form  (8.9b: carrossel IDÊNTICO ao vídeo, medido quadro a quadro: cartão preto da altura da tela,
+                    retrato de corpo inteiro textures/ui/etheria_sg/race_<id> (tools/race_portraits.py), selo "§l§r§N", ficha, botão
+                    ESCOLHER largo na base; os cartões vizinhos pela metade SÃO os botões "<"/">" (escolhidos pelo texto do botão);
+                    "§t§y" = "Confirmar?")
   - SG + "§t§i"  -> eth_sg_intro_form (8.9: abertura "Sorteio." ... faixa vermelha com a aptidão)  | SG + "§t§o" -> eth_sg_outro_form (esfera final)
   - SG + "§t§n"  -> eth_sg_book_form  (menu do Livro do Sábio: icosaedro, fala, opções)
-  - SG (outros)  -> eth_sg_form       (ficha à esquerda, botões do Sábio à direita)
+  - SG (outros)  -> eth_sg_form       (8.9b: janela do menu "Magic"/Tensura do vídeo: abas, título, lista com ícones redondos à
+                    esquerda, moldura cinza com faixa 1..9, campo do Sábio e a ficha à direita)
   O principal não procura "§j§q", então lá esses títulos caem nas telas de sempre (eth_form / eth_card_form).
 
 Uso: python3 tools/gen_sage_ui.py          (texturas + manifesto + server_form.json + validação)
@@ -403,7 +406,7 @@ def reinc_defs():
         card_variant(0, CARD_MARK[0], side(0, "left_middle", "right_middle", "-4.6%")),                    # cartão vizinho da esquerda = raça anterior
         card_variant(1, CARD_MARK[1], text_btn(["82.8%", "4.4%"], "bottom_middle", "bottom_middle", [0, "-5.1%"], "sg_pill", scale=0.62)),   # ESCOLHER
         card_variant(2, CARD_MARK[2], side(2, "right_middle", "left_middle", "4.6%"))]}                    # cartão vizinho da direita = próxima raça
-    D["eth_sg_tap_btn"] = {"type": "panel", "size": ["22%y", "100%"], "controls": [text_btn(["100%", "80%"], "center", "center", [0, 0], "sg_pill_dim", txt=(0.86, 0.9, 0.97), scale=0.55)]}
+    D["eth_sg_tap_btn"] = {"type": "panel", "size": ["22%y", "100%"], "controls": [text_btn(["100%", "80%"], "center", "center", [0, 0], "sg_pill_dim", txt=(0.86, 0.9, 0.97), scale=0.55, **{"$hover_button_texture": T("sg_pill_h"), "$pressed_button_texture": T("sg_pill_p")})]}
     fr = lambda: [f"@{NS}.eth_sgi_fr_w"]
     brk = lambda nm, a, off: {f"b_{nm}": img(T(f"sg_brk_{nm}"), ["100%y", "7.7%"], keep_ratio=False, anchor_from=a, anchor_to=a, offset=off, layer=3, anims=fr())}
     D["eth_sg_intro_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": stars() + [
@@ -496,7 +499,7 @@ def tz_defs():
         {f"n{k}": img(T("tz_num_on" if k == 1 else "tz_num"), ["11.1%", "100%"], keep_ratio=False, controls=[{"t": lbl(str(k), 0.6, [0.95, 0.95, 0.97], anchor_from="center", anchor_to="center", layer=1)}])} for k in range(1, 10)]}}
     sage_name = [("Raphael", has("§t§r")), ("Ciel", has("§t§c")), ("Grande Sábio", AND(lacks("§t§r"), lacks("§t§c")))]
     field = {"field": img(T("tz_field"), ["80%", "7.7%"], keep_ratio=False, anchor_from="top_left", anchor_to="top_left", offset=["9.6%", "26.7%"], layer=3, controls=[
-        {f"s{i}": lbl(nm, 0.85, [0.97, 0.97, 0.99], anchor_from="left_middle", anchor_to="left_middle", offset=[4, 0], layer=1, shadow=True, bindings=vis(ex))} for i, (nm, ex) in enumerate(sage_name)]}
+        {f"s{i}": lbl(nm, 0.85, [0.97, 0.97, 0.99], anchor_from="left_middle", anchor_to="left_middle", offset=[4, 0], layer=1, shadow=True, bindings=vis(ex))} for i, (nm, ex) in enumerate(sage_name)])}
     D["eth_sg_form"] = {"type": "panel", "size": ["100%", "100%"], "layer": 2, "controls": [
         {"win": {"type": "panel", "size": ["165%y", "64%"], "anchor_from": "center", "anchor_to": "center", "offset": [0, "5%"], "layer": 5, "controls": tab_ctl + [
             {"frame": img(T("tz_win"), ["100%", "100%"], keep_ratio=False, layer=2)},
@@ -670,6 +673,12 @@ def validate(sf, main, pack_dir):
     for pk, title in probe.items():
         shown = [k.split("@")[0] for c in main["long_form"]["controls"] for k, v in c.items() if eval_vis(v["bindings"][1]["source_property_name"], title)]
         if len(shown) != 1: errs.append(f"principal, rota '{pk}': {shown}")
+    # 8.9b: os botões do cartão são escolhidos pelo TEXTO (#form_button_text); o script precisa continuar mandando esses textos
+    rm = os.path.join(ROOT, "LegacyOfEtheria_BP/scripts/systems/ui/racemenus.js")
+    if os.path.exists(rm):
+        js = open(rm, encoding="utf8").read()
+        for mk in CARD_MARK:
+            if f'text: "§l{mk}"' not in js: errs.append(f"racemenus.js não manda mais o botão '§l{mk}' (cartão do Sábio UI depende dele)")
     if warns: print(f"avisos: {len(warns)} (ex.: {warns[0]})")
     return errs
 

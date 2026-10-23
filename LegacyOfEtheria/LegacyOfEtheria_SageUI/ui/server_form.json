@@ -5820,58 +5820,6 @@
   "duration": 0.9,
   "next": "@server_form.eth_sg_glow_a"
  },
- "eth_sg_btn": {
-  "type": "panel",
-  "size": [
-   "100%",
-   32
-  ],
-  "controls": [
-   {
-    "form_button@common_buttons.light_text_button": {
-     "$pressed_button_name": "button.form_button_click",
-     "anchor_from": "center",
-     "anchor_to": "center",
-     "size": [
-      "100% - 4px",
-      30
-     ],
-     "$button_text": "#form_button_text",
-     "$button_text_binding_type": "collection",
-     "$button_text_grid_collection_name": "form_buttons",
-     "$button_text_max_size": [
-      "100% - 6px",
-      20
-     ],
-     "$default_button_texture": "textures/ui/etheria_sg/sg_btn",
-     "$hover_button_texture": "textures/ui/etheria_sg/sg_btn_h",
-     "$pressed_button_texture": "textures/ui/etheria_sg/sg_btn_p",
-     "$default_text_color": [
-      0.02,
-      0.2,
-      0.14
-     ],
-     "$hover_text_color": [
-      0.0,
-      0.1,
-      0.07
-     ],
-     "$pressed_text_color": [
-      0.0,
-      0.1,
-      0.07
-     ],
-     "$border_visible": false,
-     "bindings": [
-      {
-       "binding_type": "collection_details",
-       "binding_collection_name": "form_buttons"
-      }
-     ]
-    }
-   }
-  ]
- },
  "eth_sg_btn_s": {
   "type": "panel",
   "size": [
@@ -5924,83 +5872,6 @@
    }
   ]
  },
- "eth_sg_card_btn": {
-  "type": "panel",
-  "size": [
-   96,
-   26
-  ],
-  "controls": [
-   {
-    "form_button@common_buttons.light_text_button": {
-     "$pressed_button_name": "button.form_button_click",
-     "anchor_from": "center",
-     "anchor_to": "center",
-     "size": [
-      "100% - 4px",
-      22
-     ],
-     "$button_text": "#form_button_text",
-     "$button_text_binding_type": "collection",
-     "$button_text_grid_collection_name": "form_buttons",
-     "$button_text_max_size": [
-      "100% - 6px",
-      10
-     ],
-     "$default_button_texture": "textures/ui/etheria_sg/sg_btn",
-     "$hover_button_texture": "textures/ui/etheria_sg/sg_btn_h",
-     "$pressed_button_texture": "textures/ui/etheria_sg/sg_btn_p",
-     "$default_text_color": [
-      0.02,
-      0.2,
-      0.14
-     ],
-     "$hover_text_color": [
-      0.0,
-      0.1,
-      0.07
-     ],
-     "$pressed_text_color": [
-      0.0,
-      0.1,
-      0.07
-     ],
-     "$border_visible": false,
-     "bindings": [
-      {
-       "binding_type": "collection_details",
-       "binding_collection_name": "form_buttons"
-      }
-     ]
-    }
-   }
-  ]
- },
- "eth_sg_list": {
-  "type": "stack_panel",
-  "orientation": "vertical",
-  "size": [
-   "100% - 4px",
-   "100%c"
-  ],
-  "anchor_from": "top_left",
-  "anchor_to": "top_left",
-  "offset": [
-   2,
-   2
-  ],
-  "factory": {
-   "name": "buttons",
-   "control_name": "server_form.eth_sg_btn"
-  },
-  "collection_name": "form_buttons",
-  "bindings": [
-   {
-    "binding_name": "#form_button_length",
-    "binding_name_override": "#collection_length"
-   }
-  ]
- },
  "eth_sg_list_s": {
   "type": "stack_panel",
   "orientation": "vertical",
@@ -6023,392 +5894,6 @@
    {
     "binding_name": "#form_button_length",
     "binding_name_override": "#collection_length"
-   }
-  ]
- },
- "eth_sg_form": {
-  "type": "panel",
-  "size": [
-   "100%",
-   "100%"
-  ],
-  "layer": 2,
-  "controls": [
-   {
-    "sg_bg": {
-     "type": "image",
-     "texture": "textures/ui/etheria_sg/sg_bg",
-     "size": [
-      "100%",
-      "100%"
-     ],
-     "keep_ratio": false,
-     "fill": true,
-     "layer": 1
-    }
-   },
-   {
-    "sg_motes": {
-     "type": "image",
-     "texture": "textures/ui/etheria/ov_motes_0",
-     "size": [
-      "100%",
-      "100%"
-     ],
-     "keep_ratio": false,
-     "color": [
-      0.55,
-      1.0,
-      0.82
-     ],
-     "alpha": 0.0,
-     "layer": 2,
-     "anims": [
-      "@server_form.eth_mote0_start",
-      "@server_form.eth_motea0_start"
-     ]
-    }
-   },
-   {
-    "sg_scan": {
-     "type": "image",
-     "texture": "textures/ui/etheria/ov_scan",
-     "size": [
-      "100%",
-      6
-     ],
-     "keep_ratio": false,
-     "anchor_from": "top_middle",
-     "anchor_to": "top_middle",
-     "color": [
-      0.55,
-      1.0,
-      0.82
-     ],
-     "alpha": 0.45,
-     "layer": 3,
-     "anims": [
-      "@server_form.eth_scan_r"
-     ]
-    }
-   },
-   {
-    "sg_frame": {
-     "type": "image",
-     "texture": "textures/ui/etheria_sg/sg_frame",
-     "size": [
-      "100% - 6px",
-      "100% - 6px"
-     ],
-     "anchor_from": "center",
-     "anchor_to": "center",
-     "layer": 4,
-     "alpha": 1.0,
-     "anims": [
-      "@server_form.eth_sg_glow_a"
-     ]
-    }
-   },
-   {
-    "sg_head": {
-     "type": "label",
-     "text": "§l[ GRANDE SÁBIO ]",
-     "anchor_from": "top_left",
-     "anchor_to": "top_left",
-     "offset": [
-      10,
-      7
-     ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.55,
-      1.0,
-      0.82
-     ],
-     "shadow": true,
-     "layer": 6
-    }
-   },
-   {
-    "close@common.close_button": {
-     "anchor_from": "top_right",
-     "anchor_to": "top_right",
-     "offset": [
-      -6,
-      5
-     ],
-     "layer": 12
-    }
-   },
-   {
-    "title": {
-     "type": "image",
-     "texture": "textures/ui/etheria_sg/sg_title",
-     "size": [
-      "50%",
-      20
-     ],
-     "anchor_from": "top_middle",
-     "anchor_to": "top_middle",
-     "offset": [
-      0,
-      5
-     ],
-     "layer": 6,
-     "controls": [
-      {
-       "name": {
-        "type": "label",
-        "text": "#title_text",
-        "bindings": [
-         {
-          "binding_name": "#title_text"
-         }
-        ],
-        "size": [
-         "100% - 14px",
-         "default"
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "text_alignment": "center",
-        "font_size": "large",
-        "color": [
-         1,
-         1,
-         1
-        ],
-        "shadow": true,
-        "layer": 2
-       }
-      },
-      {
-       "clip": {
-        "type": "panel",
-        "size": [
-         "100% - 4px",
-         "100% - 4px"
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "layer": 3,
-        "controls": [
-         {
-          "sg_type_t": {
-           "type": "panel",
-           "size": [
-            "100%",
-            "100%"
-           ],
-           "clips_children": true,
-           "layer": 1,
-           "controls": [
-            {
-             "cur": {
-              "type": "image",
-              "texture": "textures/ui/etheria_sg/sg_curtain_h",
-              "size": [
-               "100%",
-               "100%"
-              ],
-              "keep_ratio": false,
-              "anchor_from": "top_left",
-              "anchor_to": "top_left",
-              "layer": 1,
-              "anims": [
-               "@server_form.eth_sg_type_h_start"
-              ]
-             }
-            }
-           ]
-          }
-         }
-        ]
-       }
-      }
-     ]
-    }
-   },
-   {
-    "cols": {
-     "type": "stack_panel",
-     "orientation": "horizontal",
-     "anchor_from": "top_middle",
-     "anchor_to": "top_middle",
-     "offset": [
-      0,
-      29
-     ],
-     "size": [
-      "100% - 20px",
-      "100% - 36px"
-     ],
-     "layer": 5,
-     "controls": [
-      {
-       "info": {
-        "type": "panel",
-        "size": [
-         "50%",
-         "100%"
-        ],
-        "anchor_from": "top_left",
-        "anchor_to": "top_left",
-        "offset": [
-         0,
-         0
-        ],
-        "layer": 1,
-        "controls": [
-         {
-          "plate": {
-           "type": "image",
-           "texture": "textures/ui/etheria_sg/sg_panel",
-           "size": [
-            "100%",
-            "100%"
-           ],
-           "layer": 1
-          }
-         },
-         {
-          "body": {
-           "type": "panel",
-           "size": [
-            "100% - 6px",
-            "100% - 6px"
-           ],
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "layer": 2,
-           "controls": [
-            {
-             "scroll@common.scrolling_panel": {
-              "$show_background": false,
-              "size": [
-               "100%",
-               "100%"
-              ],
-              "$scrolling_content": "server_form.eth_text_content",
-              "$scroll_size": [
-               5,
-               "100% - 4px"
-              ],
-              "$scrolling_pane_size": [
-               "100% - 4px",
-               "100% - 2px"
-              ],
-              "$scrolling_pane_offset": [
-               2,
-               0
-              ],
-              "$scroll_bar_right_padding_size": [
-               0,
-               0
-              ],
-              "layer": 2
-             }
-            },
-            {
-             "sg_type": {
-              "type": "panel",
-              "size": [
-               "100%",
-               "100%"
-              ],
-              "clips_children": true,
-              "layer": 20,
-              "controls": [
-               {
-                "cur": {
-                 "type": "image",
-                 "texture": "textures/ui/etheria_sg/sg_curtain_v",
-                 "size": [
-                  "100%",
-                  "100%"
-                 ],
-                 "keep_ratio": false,
-                 "anchor_from": "top_left",
-                 "anchor_to": "top_left",
-                 "layer": 1,
-                 "anims": [
-                  "@server_form.eth_sg_type_v_start"
-                 ]
-                }
-               }
-              ]
-             }
-            }
-           ]
-          }
-         }
-        ]
-       }
-      },
-      {
-       "gap": {
-        "type": "panel",
-        "size": [
-         6,
-         "100%"
-        ]
-       }
-      },
-      {
-       "list": {
-        "type": "panel",
-        "size": [
-         "fill",
-         "100%"
-        ],
-        "controls": [
-         {
-          "plate": {
-           "type": "image",
-           "texture": "textures/ui/etheria_sg/sg_frame",
-           "size": [
-            "100%",
-            "100%"
-           ],
-           "alpha": 0.7,
-           "layer": 1
-          }
-         },
-         {
-          "scroll@common.scrolling_panel": {
-           "$show_background": false,
-           "size": [
-            "100%",
-            "100%"
-           ],
-           "$scrolling_content": "server_form.eth_sg_list",
-           "$scroll_size": [
-            5,
-            "100% - 4px"
-           ],
-           "$scrolling_pane_size": [
-            "100% - 4px",
-            "100% - 2px"
-           ],
-           "$scrolling_pane_offset": [
-            2,
-            0
-           ],
-           "$scroll_bar_right_padding_size": [
-            0,
-            0
-           ],
-           "layer": 2
-          }
-         }
-        ]
-       }
-      }
-     ]
-    }
    }
   ]
  },
@@ -6522,7 +6007,7 @@
  },
  "eth_sgi_fr_w": {
   "anim_type": "wait",
-  "duration": 3.9,
+  "duration": 4.5,
   "next": "@server_form.eth_sgi_fr_o"
  },
  "eth_sgi_fr_o": {
@@ -6530,11 +6015,11 @@
   "easing": "linear",
   "from": 1.0,
   "to": 0.0,
-  "duration": 0.4
+  "duration": 0.3
  },
  "eth_sgi_sign_w": {
   "anim_type": "wait",
-  "duration": 1.7,
+  "duration": 2.0,
   "next": "@server_form.eth_sgi_sign"
  },
  "eth_sgi_sign": {
@@ -6548,11 +6033,11 @@
    "100%",
    0
   ],
-  "duration": 1.7
+  "duration": 2.3
  },
  "eth_sgi_l1_w": {
   "anim_type": "wait",
-  "duration": 0.2,
+  "duration": 0.15,
   "next": "@server_form.eth_sgi_l1_i"
  },
  "eth_sgi_l1_i": {
@@ -6560,12 +6045,12 @@
   "easing": "linear",
   "from": 0.0,
   "to": 1.0,
-  "duration": 0.35,
+  "duration": 0.2,
   "next": "@server_form.eth_sgi_l1_h"
  },
  "eth_sgi_l1_h": {
   "anim_type": "wait",
-  "duration": 0.9000000000000001,
+  "duration": 0.85,
   "next": "@server_form.eth_sgi_l1_o"
  },
  "eth_sgi_l1_o": {
@@ -6573,11 +6058,11 @@
   "easing": "linear",
   "from": 1.0,
   "to": 0.0,
-  "duration": 0.35
+  "duration": 0.2
  },
  "eth_sgi_l2_w": {
   "anim_type": "wait",
-  "duration": 1.9,
+  "duration": 1.5,
   "next": "@server_form.eth_sgi_l2_i"
  },
  "eth_sgi_l2_i": {
@@ -6585,12 +6070,12 @@
   "easing": "linear",
   "from": 0.0,
   "to": 1.0,
-  "duration": 0.35,
+  "duration": 0.2,
   "next": "@server_form.eth_sgi_l2_h"
  },
  "eth_sgi_l2_h": {
   "anim_type": "wait",
-  "duration": 1.4000000000000001,
+  "duration": 0.85,
   "next": "@server_form.eth_sgi_l2_o"
  },
  "eth_sgi_l2_o": {
@@ -6598,11 +6083,11 @@
   "easing": "linear",
   "from": 1.0,
   "to": 0.0,
-  "duration": 0.35
+  "duration": 0.2
  },
  "eth_sgi_l3_w": {
   "anim_type": "wait",
-  "duration": 5.0,
+  "duration": 4.8,
   "next": "@server_form.eth_sgi_l3_i"
  },
  "eth_sgi_l3_i": {
@@ -6610,12 +6095,12 @@
   "easing": "linear",
   "from": 0.0,
   "to": 1.0,
-  "duration": 0.35,
+  "duration": 0.2,
   "next": "@server_form.eth_sgi_l3_h"
  },
  "eth_sgi_l3_h": {
   "anim_type": "wait",
-  "duration": 0.8,
+  "duration": 1.3000000000000003,
   "next": "@server_form.eth_sgi_l3_o"
  },
  "eth_sgi_l3_o": {
@@ -6623,11 +6108,11 @@
   "easing": "linear",
   "from": 1.0,
   "to": 0.0,
-  "duration": 0.35
+  "duration": 0.2
  },
  "eth_sgi_hg_w": {
   "anim_type": "wait",
-  "duration": 4.3,
+  "duration": 4.8,
   "next": "@server_form.eth_sgi_hg_i"
  },
  "eth_sgi_hg_i": {
@@ -6635,12 +6120,12 @@
   "easing": "linear",
   "from": 0.0,
   "to": 1.0,
-  "duration": 0.35,
+  "duration": 0.25,
   "next": "@server_form.eth_sgi_hg_h"
  },
  "eth_sgi_hg_h": {
   "anim_type": "wait",
-  "duration": 1.3,
+  "duration": 1.2999999999999998,
   "next": "@server_form.eth_sgi_hg_o"
  },
  "eth_sgi_hg_o": {
@@ -6648,36 +6133,36 @@
   "easing": "linear",
   "from": 1.0,
   "to": 0.0,
-  "duration": 0.35
+  "duration": 0.25
  },
  "eth_sgi_hs_w": {
   "anim_type": "wait",
-  "duration": 4.7,
+  "duration": 5.6,
   "next": "@server_form.eth_sgi_hs_i"
  },
  "eth_sgi_hs_i": {
   "anim_type": "alpha",
   "easing": "linear",
   "from": 0.0,
-  "to": 0.8,
-  "duration": 0.35,
+  "to": 0.85,
+  "duration": 0.25,
   "next": "@server_form.eth_sgi_hs_h"
  },
  "eth_sgi_hs_h": {
   "anim_type": "wait",
-  "duration": 0.8999999999999997,
+  "duration": 0.5,
   "next": "@server_form.eth_sgi_hs_o"
  },
  "eth_sgi_hs_o": {
   "anim_type": "alpha",
   "easing": "linear",
-  "from": 0.8,
+  "from": 0.85,
   "to": 0.0,
-  "duration": 0.35
+  "duration": 0.25
  },
  "eth_sgi_bn_w": {
   "anim_type": "wait",
-  "duration": 6.4,
+  "duration": 6.9,
   "next": "@server_form.eth_sgi_bn_i"
  },
  "eth_sgi_bn_i": {
@@ -6685,23 +6170,23 @@
   "easing": "linear",
   "from": 0.0,
   "to": 1.0,
-  "duration": 0.25
+  "duration": 0.2
  },
  "eth_sgi_bs_w": {
   "anim_type": "wait",
-  "duration": 6.8,
+  "duration": 7.3,
   "next": "@server_form.eth_sgi_bs_i"
  },
  "eth_sgi_bs_i": {
   "anim_type": "alpha",
   "easing": "linear",
   "from": 0.0,
-  "to": 0.9,
+  "to": 0.95,
   "duration": 0.35
  },
  "eth_sgi_slide_w": {
   "anim_type": "wait",
-  "duration": 6.4,
+  "duration": 6.9,
   "next": "@server_form.eth_sgi_slide"
  },
  "eth_sgi_slide": {
@@ -6709,13 +6194,13 @@
   "easing": "out_cubic",
   "from": [
    "-100%",
-   -12
+   "-11.5%"
   ],
   "to": [
    0,
-   -12
+   "-11.5%"
   ],
-  "duration": 0.45
+  "duration": 0.4
  },
  "eth_sgi_skip_w": {
   "anim_type": "wait",
@@ -6733,14 +6218,326 @@
   "anim_type": "size",
   "easing": "out_cubic",
   "from": [
-   20,
-   20
+   "100%y",
+   "8%"
   ],
   "to": [
-   150,
-   150
+   "100%y",
+   "71%"
   ],
-  "duration": 1.4
+  "duration": 0.7
+ },
+ "eth_sgg0_start": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@server_form.eth_sgg0_in"
+ },
+ "eth_sgg0_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg0_out"
+ },
+ "eth_sgg0_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg0_wait"
+ },
+ "eth_sgg0_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg0_in"
+ },
+ "eth_sgg1_start": {
+  "anim_type": "wait",
+  "duration": 0.251,
+  "next": "@server_form.eth_sgg1_in"
+ },
+ "eth_sgg1_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg1_out"
+ },
+ "eth_sgg1_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg1_wait"
+ },
+ "eth_sgg1_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg1_in"
+ },
+ "eth_sgg2_start": {
+  "anim_type": "wait",
+  "duration": 0.501,
+  "next": "@server_form.eth_sgg2_in"
+ },
+ "eth_sgg2_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg2_out"
+ },
+ "eth_sgg2_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg2_wait"
+ },
+ "eth_sgg2_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg2_in"
+ },
+ "eth_sgg3_start": {
+  "anim_type": "wait",
+  "duration": 0.751,
+  "next": "@server_form.eth_sgg3_in"
+ },
+ "eth_sgg3_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg3_out"
+ },
+ "eth_sgg3_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg3_wait"
+ },
+ "eth_sgg3_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg3_in"
+ },
+ "eth_sgg4_start": {
+  "anim_type": "wait",
+  "duration": 1.001,
+  "next": "@server_form.eth_sgg4_in"
+ },
+ "eth_sgg4_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg4_out"
+ },
+ "eth_sgg4_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg4_wait"
+ },
+ "eth_sgg4_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg4_in"
+ },
+ "eth_sgg5_start": {
+  "anim_type": "wait",
+  "duration": 1.251,
+  "next": "@server_form.eth_sgg5_in"
+ },
+ "eth_sgg5_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg5_out"
+ },
+ "eth_sgg5_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg5_wait"
+ },
+ "eth_sgg5_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg5_in"
+ },
+ "eth_sgg6_start": {
+  "anim_type": "wait",
+  "duration": 1.501,
+  "next": "@server_form.eth_sgg6_in"
+ },
+ "eth_sgg6_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg6_out"
+ },
+ "eth_sgg6_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg6_wait"
+ },
+ "eth_sgg6_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg6_in"
+ },
+ "eth_sgg7_start": {
+  "anim_type": "wait",
+  "duration": 1.751,
+  "next": "@server_form.eth_sgg7_in"
+ },
+ "eth_sgg7_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg7_out"
+ },
+ "eth_sgg7_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg7_wait"
+ },
+ "eth_sgg7_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg7_in"
+ },
+ "eth_sgg8_start": {
+  "anim_type": "wait",
+  "duration": 2.001,
+  "next": "@server_form.eth_sgg8_in"
+ },
+ "eth_sgg8_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg8_out"
+ },
+ "eth_sgg8_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg8_wait"
+ },
+ "eth_sgg8_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg8_in"
+ },
+ "eth_sgg9_start": {
+  "anim_type": "wait",
+  "duration": 2.251,
+  "next": "@server_form.eth_sgg9_in"
+ },
+ "eth_sgg9_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg9_out"
+ },
+ "eth_sgg9_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg9_wait"
+ },
+ "eth_sgg9_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg9_in"
+ },
+ "eth_sgg10_start": {
+  "anim_type": "wait",
+  "duration": 2.501,
+  "next": "@server_form.eth_sgg10_in"
+ },
+ "eth_sgg10_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg10_out"
+ },
+ "eth_sgg10_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg10_wait"
+ },
+ "eth_sgg10_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg10_in"
+ },
+ "eth_sgg11_start": {
+  "anim_type": "wait",
+  "duration": 2.751,
+  "next": "@server_form.eth_sgg11_in"
+ },
+ "eth_sgg11_in": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg11_out"
+ },
+ "eth_sgg11_out": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.25,
+  "next": "@server_form.eth_sgg11_wait"
+ },
+ "eth_sgg11_wait": {
+  "anim_type": "wait",
+  "duration": 2.5,
+  "next": "@server_form.eth_sgg11_in"
  },
  "eth_sgo_l1_w": {
   "anim_type": "wait",
@@ -6752,12 +6549,12 @@
   "easing": "linear",
   "from": 0.0,
   "to": 1.0,
-  "duration": 0.35,
+  "duration": 0.2,
   "next": "@server_form.eth_sgo_l1_h"
  },
  "eth_sgo_l1_h": {
   "anim_type": "wait",
-  "duration": 0.8,
+  "duration": 0.9,
   "next": "@server_form.eth_sgo_l1_o"
  },
  "eth_sgo_l1_o": {
@@ -6765,11 +6562,11 @@
   "easing": "linear",
   "from": 1.0,
   "to": 0.0,
-  "duration": 0.35
+  "duration": 0.2
  },
  "eth_sgo_l2_w": {
   "anim_type": "wait",
-  "duration": 1.8,
+  "duration": 1.6,
   "next": "@server_form.eth_sgo_l2_i"
  },
  "eth_sgo_l2_i": {
@@ -6777,12 +6574,12 @@
   "easing": "linear",
   "from": 0.0,
   "to": 1.0,
-  "duration": 0.35,
+  "duration": 0.2,
   "next": "@server_form.eth_sgo_l2_h"
  },
  "eth_sgo_l2_h": {
   "anim_type": "wait",
-  "duration": 1.1,
+  "duration": 1.6,
   "next": "@server_form.eth_sgo_l2_o"
  },
  "eth_sgo_l2_o": {
@@ -6790,7 +6587,7 @@
   "easing": "linear",
   "from": 1.0,
   "to": 0.0,
-  "duration": 0.35
+  "duration": 0.2
  },
  "eth_sgo_l3_w": {
   "anim_type": "wait",
@@ -6802,12 +6599,12 @@
   "easing": "linear",
   "from": 0.0,
   "to": 1.0,
-  "duration": 0.35,
+  "duration": 0.2,
   "next": "@server_form.eth_sgo_l3_h"
  },
  "eth_sgo_l3_h": {
   "anim_type": "wait",
-  "duration": 0.6999999999999995,
+  "duration": 0.9999999999999994,
   "next": "@server_form.eth_sgo_l3_o"
  },
  "eth_sgo_l3_o": {
@@ -6815,7 +6612,7 @@
   "easing": "linear",
   "from": 1.0,
   "to": 0.0,
-  "duration": 0.35
+  "duration": 0.2
  },
  "eth_sgo_l4_w": {
   "anim_type": "wait",
@@ -6827,7 +6624,7 @@
   "easing": "linear",
   "from": 0.0,
   "to": 1.0,
-  "duration": 0.35
+  "duration": 0.2
  },
  "eth_sgo_skip_w": {
   "anim_type": "wait",
@@ -6844,22 +6641,13 @@
  "eth_sg_card_text": {
   "type": "stack_panel",
   "size": [
-   "100% - 4px",
+   "100% - 2px",
    "100%c"
   ],
   "orientation": "vertical",
   "anchor_from": "top_left",
   "anchor_to": "top_left",
   "controls": [
-   {
-    "pad_top": {
-     "type": "panel",
-     "size": [
-      "100%",
-      2
-     ]
-    }
-   },
    {
     "text_panel": {
      "type": "panel",
@@ -6872,7 +6660,7 @@
        "main_label": {
         "type": "label",
         "offset": [
-         5,
+         0,
          0
         ],
         "color": [
@@ -6881,13 +6669,13 @@
          1
         ],
         "size": [
-         "100% - 8px",
+         "100%",
          "default"
         ],
         "anchor_from": "top_left",
         "anchor_to": "top_left",
         "text": "#form_text",
-        "font_scale_factor": 0.8
+        "font_scale_factor": 0.55
        }
       }
      ]
@@ -6904,52 +6692,234 @@
    }
   ]
  },
- "eth_sg_pick_btn": {
+ "eth_sg_card_row": {
   "type": "panel",
   "size": [
-   56,
-   20
+   "100%",
+   "100%"
   ],
   "controls": [
    {
-    "form_button@common_buttons.light_text_button": {
-     "$pressed_button_name": "button.form_button_click",
-     "anchor_from": "center",
-     "anchor_to": "center",
+    "v0": {
+     "type": "panel",
      "size": [
-      "100% - 4px",
-      17
+      "100%",
+      "100%"
      ],
-     "$button_text": "#form_button_text",
-     "$button_text_binding_type": "collection",
-     "$button_text_grid_collection_name": "form_buttons",
-     "$button_text_max_size": [
-      "100% - 4px",
-      10
+     "offset": [
+      0,
+      0
      ],
-     "$default_button_texture": "textures/ui/etheria_sg/sg_pill",
-     "$hover_button_texture": "textures/ui/etheria_sg/sg_pill_h",
-     "$pressed_button_texture": "textures/ui/etheria_sg/sg_pill_p",
-     "$default_text_color": [
-      1,
-      1,
-      1
+     "controls": [
+      {
+       "form_button@common_buttons.light_text_button": {
+        "$pressed_button_name": "button.form_button_click",
+        "size": [
+         "56.6%",
+         "56.6%"
+        ],
+        "anchor_from": "left_middle",
+        "anchor_to": "right_middle",
+        "offset": [
+         "-4.6%",
+         "-2%"
+        ],
+        "$button_text": "#form_button_text",
+        "$button_text_binding_type": "collection",
+        "$button_text_grid_collection_name": "form_buttons",
+        "$button_text_max_size": [
+         "100% - 4px",
+         "100%"
+        ],
+        "$button_font_scale_factor": 1.0,
+        "$default_button_texture": "textures/ui/etheria_sg/sg_card_side",
+        "$hover_button_texture": "textures/ui/etheria_sg/sg_card_side_h",
+        "$pressed_button_texture": "textures/ui/etheria_sg/sg_card_side_p",
+        "$default_text_color": [
+         0.36,
+         0.45,
+         0.6
+        ],
+        "$hover_text_color": [
+         1,
+         1,
+         1
+        ],
+        "$pressed_text_color": [
+         1,
+         1,
+         1
+        ],
+        "$border_visible": false,
+        "bindings": [
+         {
+          "binding_type": "collection_details",
+          "binding_collection_name": "form_buttons"
+         }
+        ]
+       }
+      }
      ],
-     "$hover_text_color": [
-      1,
-      1,
-      1
-     ],
-     "$pressed_text_color": [
-      0.85,
-      0.92,
-      1
-     ],
-     "$border_visible": false,
      "bindings": [
       {
-       "binding_type": "collection_details",
-       "binding_collection_name": "form_buttons"
+       "binding_type": "collection",
+       "binding_collection_name": "form_buttons",
+       "binding_name": "#form_button_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#form_button_text - '<') = #form_button_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "v1": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "offset": [
+      "-100%",
+      0
+     ],
+     "controls": [
+      {
+       "form_button@common_buttons.light_text_button": {
+        "$pressed_button_name": "button.form_button_click",
+        "size": [
+         "82.8%",
+         "4.4%"
+        ],
+        "anchor_from": "bottom_middle",
+        "anchor_to": "bottom_middle",
+        "offset": [
+         0,
+         "-5.1%"
+        ],
+        "$button_text": "#form_button_text",
+        "$button_text_binding_type": "collection",
+        "$button_text_grid_collection_name": "form_buttons",
+        "$button_text_max_size": [
+         "100% - 4px",
+         "100%"
+        ],
+        "$button_font_scale_factor": 0.62,
+        "$default_button_texture": "textures/ui/etheria_sg/sg_pill",
+        "$hover_button_texture": "textures/ui/etheria_sg/sg_pill_h",
+        "$pressed_button_texture": "textures/ui/etheria_sg/sg_pill_p",
+        "$default_text_color": [
+         1,
+         1,
+         1
+        ],
+        "$hover_text_color": [
+         1,
+         1,
+         1
+        ],
+        "$pressed_text_color": [
+         1,
+         1,
+         1
+        ],
+        "$border_visible": false,
+        "bindings": [
+         {
+          "binding_type": "collection_details",
+          "binding_collection_name": "form_buttons"
+         }
+        ]
+       }
+      }
+     ],
+     "bindings": [
+      {
+       "binding_type": "collection",
+       "binding_collection_name": "form_buttons",
+       "binding_name": "#form_button_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#form_button_text - 'ESCOLHER') = #form_button_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "v2": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "offset": [
+      "-200%",
+      0
+     ],
+     "controls": [
+      {
+       "form_button@common_buttons.light_text_button": {
+        "$pressed_button_name": "button.form_button_click",
+        "size": [
+         "56.6%",
+         "56.6%"
+        ],
+        "anchor_from": "right_middle",
+        "anchor_to": "left_middle",
+        "offset": [
+         "4.6%",
+         "-2%"
+        ],
+        "$button_text": "#form_button_text",
+        "$button_text_binding_type": "collection",
+        "$button_text_grid_collection_name": "form_buttons",
+        "$button_text_max_size": [
+         "100% - 4px",
+         "100%"
+        ],
+        "$button_font_scale_factor": 1.0,
+        "$default_button_texture": "textures/ui/etheria_sg/sg_card_side",
+        "$hover_button_texture": "textures/ui/etheria_sg/sg_card_side_h",
+        "$pressed_button_texture": "textures/ui/etheria_sg/sg_card_side_p",
+        "$default_text_color": [
+         0.36,
+         0.45,
+         0.6
+        ],
+        "$hover_text_color": [
+         1,
+         1,
+         1
+        ],
+        "$pressed_text_color": [
+         1,
+         1,
+         1
+        ],
+        "$border_visible": false,
+        "bindings": [
+         {
+          "binding_type": "collection_details",
+          "binding_collection_name": "form_buttons"
+         }
+        ]
+       }
+      }
+     ],
+     "bindings": [
+      {
+       "binding_type": "collection",
+       "binding_collection_name": "form_buttons",
+       "binding_name": "#form_button_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#form_button_text - '>') = #form_button_text))",
+       "target_property_name": "#visible"
       }
      ]
     }
@@ -6959,26 +6929,31 @@
  "eth_sg_tap_btn": {
   "type": "panel",
   "size": [
-   78,
-   16
+   "22%y",
+   "100%"
   ],
   "controls": [
    {
     "form_button@common_buttons.light_text_button": {
      "$pressed_button_name": "button.form_button_click",
+     "size": [
+      "100%",
+      "80%"
+     ],
      "anchor_from": "center",
      "anchor_to": "center",
-     "size": [
-      "100% - 4px",
-      14
+     "offset": [
+      0,
+      0
      ],
      "$button_text": "#form_button_text",
      "$button_text_binding_type": "collection",
      "$button_text_grid_collection_name": "form_buttons",
      "$button_text_max_size": [
       "100% - 4px",
-      10
+      "100%"
      ],
+     "$button_font_scale_factor": 0.55,
      "$default_button_texture": "textures/ui/etheria_sg/sg_pill_dim",
      "$hover_button_texture": "textures/ui/etheria_sg/sg_pill_h",
      "$pressed_button_texture": "textures/ui/etheria_sg/sg_pill_p",
@@ -6993,8 +6968,8 @@
       1
      ],
      "$pressed_text_color": [
-      0.85,
-      0.92,
+      1,
+      1,
       1
      ],
      "$border_visible": false,
@@ -7285,14 +7260,14 @@
     "draw": {
      "type": "panel",
      "size": [
-      "66%",
-      "68%"
+      "100% - 22px",
+      "83.6%"
      ],
      "anchor_from": "center",
      "anchor_to": "center",
      "offset": [
       0,
-      -10
+      "-2.1%"
      ],
      "layer": 4,
      "controls": [
@@ -7327,15 +7302,103 @@
        }
       },
       {
+       "b_tl": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_brk_tl",
+        "size": [
+         "100%y",
+         "7.7%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         3,
+         3
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_sgi_fr_w"
+        ]
+       }
+      },
+      {
+       "b_tr": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_brk_tr",
+        "size": [
+         "100%y",
+         "7.7%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_right",
+        "anchor_to": "top_right",
+        "offset": [
+         -3,
+         3
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_sgi_fr_w"
+        ]
+       }
+      },
+      {
+       "b_bl": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_brk_bl",
+        "size": [
+         "100%y",
+         "7.7%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "bottom_left",
+        "anchor_to": "bottom_left",
+        "offset": [
+         3,
+         -3
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_sgi_fr_w"
+        ]
+       }
+      },
+      {
+       "b_br": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_brk_br",
+        "size": [
+         "100%y",
+         "7.7%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "bottom_right",
+        "anchor_to": "bottom_right",
+        "offset": [
+         -3,
+         -3
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_sgi_fr_w"
+        ]
+       }
+      },
+      {
        "sign": {
         "type": "panel",
         "size": [
-         "62%",
-         "56%"
+         "46%",
+         "38%"
         ],
         "anchor_from": "center",
         "anchor_to": "center",
-        "layer": 3,
+        "offset": [
+         0,
+         "-6%"
+        ],
+        "layer": 4,
         "clips_children": true,
         "controls": [
          {
@@ -7377,25 +7440,69 @@
     }
    },
    {
-    "hg": {
-     "type": "label",
-     "text": "A Ampulheta",
+    "hx": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_hex",
+     "size": [
+      "108%y",
+      "45%"
+     ],
+     "keep_ratio": false,
      "anchor_from": "center",
      "anchor_to": "center",
      "offset": [
       0,
-      -16
+      "-1%"
      ],
+     "alpha": 0.0,
+     "layer": 3,
+     "anims": [
+      "@server_form.eth_sgi_hg_w"
+     ]
+    }
+   },
+   {
+    "hl": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_glow",
+     "size": [
+      "130%y",
+      "40%"
+     ],
+     "keep_ratio": false,
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      "-6%"
+     ],
+     "alpha": 0.0,
+     "layer": 3,
+     "anims": [
+      "@server_form.eth_sgi_hg_w"
+     ]
+    }
+   },
+   {
+    "hg": {
+     "type": "label",
+     "text": "A Ampulheta",
      "size": [
       "default",
-      10
+      "default"
      ],
      "color": [
       0.95,
       0.97,
       1
      ],
-     "shadow": true,
+     "font_scale_factor": 0.8,
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      "-7%"
+     ],
      "layer": 6,
      "alpha": 0.0,
      "anims": [
@@ -7407,20 +7514,21 @@
     "hs": {
      "type": "label",
      "text": "Era, estreitou-se, conteve-se.",
-     "anchor_from": "center",
-     "anchor_to": "center",
-     "offset": [
-      0,
-      34
-     ],
      "size": [
       "default",
-      10
+      "default"
      ],
      "color": [
       0.7,
       0.76,
       0.88
+     ],
+     "font_scale_factor": 0.62,
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      "28%"
      ],
      "layer": 6,
      "alpha": 0.0,
@@ -7434,13 +7542,13 @@
      "type": "panel",
      "size": [
       "100%",
-      50
+      "47.7%"
      ],
      "anchor_from": "center",
      "anchor_to": "center",
      "offset": [
       "-100%",
-      -12
+      "-11.5%"
      ],
      "layer": 7,
      "anims": [
@@ -7479,13 +7587,13 @@
          "default"
         ],
         "text_alignment": "center",
-        "font_size": "extra_large",
+        "font_size": "large",
         "color": [
          1,
-         0.95,
-         0.95
+         0.96,
+         0.96
         ],
-        "shadow": true,
+        "shadow": false,
         "layer": 2,
         "alpha": 0.0,
         "anims": [
@@ -7500,54 +7608,75 @@
     "bsub": {
      "type": "label",
      "text": "#form_text",
-     "bindings": [
-      {
-       "binding_name": "#form_text"
-      }
+     "size": [
+      "default",
+      "default"
      ],
+     "color": [
+      0.88,
+      0.89,
+      0.92
+     ],
+     "font_scale_factor": 0.7,
      "anchor_from": "center",
      "anchor_to": "center",
      "offset": [
       0,
-      24
-     ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.86,
-      0.9,
-      0.97
+      "17%"
      ],
      "layer": 7,
      "alpha": 0.0,
      "anims": [
       "@server_form.eth_sgi_bs_w"
+     ],
+     "bindings": [
+      {
+       "binding_name": "#form_text"
+      }
      ]
     }
    },
    {
     "l1": {
-     "type": "label",
-     "text": "Sorteio.",
+     "type": "image",
+     "texture": "textures/ui/Black",
+     "size": [
+      "100%",
+      "4.2%"
+     ],
+     "keep_ratio": false,
      "anchor_from": "bottom_middle",
      "anchor_to": "bottom_middle",
-     "offset": [
-      0,
-      -8
+     "layer": 30,
+     "controls": [
+      {
+       "t": {
+        "type": "label",
+        "text": "Sorteio.",
+        "size": [
+         "default",
+         "default"
+        ],
+        "color": [
+         0.88,
+         0.89,
+         0.92
+        ],
+        "font_scale_factor": 0.62,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "6%"
+        ],
+        "layer": 1,
+        "alpha": 0.0,
+        "anims": [
+         "@server_form.eth_sgi_l1_w"
+        ]
+       }
+      }
      ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.86,
-      0.9,
-      0.97
-     ],
-     "shadow": true,
-     "layer": 8,
      "alpha": 0.0,
      "anims": [
       "@server_form.eth_sgi_l1_w"
@@ -7556,25 +7685,45 @@
    },
    {
     "l2": {
-     "type": "label",
-     "text": "O último desejo.",
+     "type": "image",
+     "texture": "textures/ui/Black",
+     "size": [
+      "100%",
+      "4.2%"
+     ],
+     "keep_ratio": false,
      "anchor_from": "bottom_middle",
      "anchor_to": "bottom_middle",
-     "offset": [
-      0,
-      -8
+     "layer": 30,
+     "controls": [
+      {
+       "t": {
+        "type": "label",
+        "text": "O último desejo.",
+        "size": [
+         "default",
+         "default"
+        ],
+        "color": [
+         0.88,
+         0.89,
+         0.92
+        ],
+        "font_scale_factor": 0.62,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "6%"
+        ],
+        "layer": 1,
+        "alpha": 0.0,
+        "anims": [
+         "@server_form.eth_sgi_l2_w"
+        ]
+       }
+      }
      ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.86,
-      0.9,
-      0.97
-     ],
-     "shadow": true,
-     "layer": 8,
      "alpha": 0.0,
      "anims": [
       "@server_form.eth_sgi_l2_w"
@@ -7583,25 +7732,45 @@
    },
    {
     "l3": {
-     "type": "label",
-     "text": "Aptidão encontrada.",
+     "type": "image",
+     "texture": "textures/ui/Black",
+     "size": [
+      "100%",
+      "4.2%"
+     ],
+     "keep_ratio": false,
      "anchor_from": "bottom_middle",
      "anchor_to": "bottom_middle",
-     "offset": [
-      0,
-      -8
+     "layer": 30,
+     "controls": [
+      {
+       "t": {
+        "type": "label",
+        "text": "Aptidão encontrada.",
+        "size": [
+         "default",
+         "default"
+        ],
+        "color": [
+         0.88,
+         0.89,
+         0.92
+        ],
+        "font_scale_factor": 0.62,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "6%"
+        ],
+        "layer": 1,
+        "alpha": 0.0,
+        "anims": [
+         "@server_form.eth_sgi_l3_w"
+        ]
+       }
+      }
      ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.86,
-      0.9,
-      0.97
-     ],
-     "shadow": true,
-     "layer": 8,
      "alpha": 0.0,
      "anims": [
       "@server_form.eth_sgi_l3_w"
@@ -7614,15 +7783,15 @@
      "orientation": "horizontal",
      "size": [
       "100%c",
-      16
+      "4.2%"
      ],
      "anchor_from": "bottom_right",
      "anchor_to": "bottom_right",
      "offset": [
-      -6,
-      -5
+      -4,
+      0
      ],
-     "layer": 20,
+     "layer": 40,
      "alpha": 0.0,
      "anims": [
       "@server_form.eth_sgi_skip_w"
@@ -7919,14 +8088,14 @@
     "sphere": {
      "type": "panel",
      "size": [
-      150,
-      150
+      "100%y",
+      "71%"
      ],
      "anchor_from": "center",
      "anchor_to": "center",
      "offset": [
       0,
-      -10
+      "-8.8%"
      ],
      "layer": 4,
      "anims": [
@@ -7934,9 +8103,9 @@
      ],
      "controls": [
       {
-       "x0": {
+       "g0": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_0",
+        "texture": "textures/ui/etheria_sg/sg_geo_0",
         "size": [
          "100%",
          "100%"
@@ -7944,22 +8113,17 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx0_start"
+         "@server_form.eth_sgg0_start"
         ]
        }
       },
       {
-       "x1": {
+       "g1": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_1",
+        "texture": "textures/ui/etheria_sg/sg_geo_1",
         "size": [
          "100%",
          "100%"
@@ -7967,22 +8131,17 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx1_start"
+         "@server_form.eth_sgg1_start"
         ]
        }
       },
       {
-       "x2": {
+       "g2": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_2",
+        "texture": "textures/ui/etheria_sg/sg_geo_2",
         "size": [
          "100%",
          "100%"
@@ -7990,22 +8149,17 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx2_start"
+         "@server_form.eth_sgg2_start"
         ]
        }
       },
       {
-       "x3": {
+       "g3": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_3",
+        "texture": "textures/ui/etheria_sg/sg_geo_3",
         "size": [
          "100%",
          "100%"
@@ -8013,22 +8167,17 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx3_start"
+         "@server_form.eth_sgg3_start"
         ]
        }
       },
       {
-       "x4": {
+       "g4": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_4",
+        "texture": "textures/ui/etheria_sg/sg_geo_4",
         "size": [
          "100%",
          "100%"
@@ -8036,22 +8185,17 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx4_start"
+         "@server_form.eth_sgg4_start"
         ]
        }
       },
       {
-       "x5": {
+       "g5": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_5",
+        "texture": "textures/ui/etheria_sg/sg_geo_5",
         "size": [
          "100%",
          "100%"
@@ -8059,22 +8203,17 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx5_start"
+         "@server_form.eth_sgg5_start"
         ]
        }
       },
       {
-       "x6": {
+       "g6": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_6",
+        "texture": "textures/ui/etheria_sg/sg_geo_6",
         "size": [
          "100%",
          "100%"
@@ -8082,22 +8221,17 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx6_start"
+         "@server_form.eth_sgg6_start"
         ]
        }
       },
       {
-       "x7": {
+       "g7": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_7",
+        "texture": "textures/ui/etheria_sg/sg_geo_7",
         "size": [
          "100%",
          "100%"
@@ -8105,22 +8239,17 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx7_start"
+         "@server_form.eth_sgg7_start"
         ]
        }
       },
       {
-       "x8": {
+       "g8": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_8",
+        "texture": "textures/ui/etheria_sg/sg_geo_8",
         "size": [
          "100%",
          "100%"
@@ -8128,22 +8257,17 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx8_start"
+         "@server_form.eth_sgg8_start"
         ]
        }
       },
       {
-       "x9": {
+       "g9": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_9",
+        "texture": "textures/ui/etheria_sg/sg_geo_9",
         "size": [
          "100%",
          "100%"
@@ -8151,22 +8275,17 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx9_start"
+         "@server_form.eth_sgg9_start"
         ]
        }
       },
       {
-       "x10": {
+       "g10": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_10",
+        "texture": "textures/ui/etheria_sg/sg_geo_10",
         "size": [
          "100%",
          "100%"
@@ -8174,22 +8293,17 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx10_start"
+         "@server_form.eth_sgg10_start"
         ]
        }
       },
       {
-       "x11": {
+       "g11": {
         "type": "image",
-        "texture": "textures/ui/etheria/sg_ico_11",
+        "texture": "textures/ui/etheria_sg/sg_geo_11",
         "size": [
          "100%",
          "100%"
@@ -8197,15 +8311,10 @@
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
-        "color": [
-         0.5,
-         0.75,
-         1.0
-        ],
         "alpha": 0.0,
         "layer": 1,
         "anims": [
-         "@server_form.eth_sgx11_start"
+         "@server_form.eth_sgg11_start"
         ]
        }
       },
@@ -8214,15 +8323,15 @@
         "type": "image",
         "texture": "textures/ui/etheria/ov_core",
         "size": [
-         "24%",
-         "24%"
+         "14%",
+         "14%"
         ],
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
         "color": [
-         0.45,
-         0.8,
+         0.35,
+         0.7,
          1.0
         ],
         "layer": 3,
@@ -8236,12 +8345,17 @@
         "type": "image",
         "texture": "textures/ui/etheria_sg/sg_twinkle",
         "size": [
-         "9%",
-         "9%"
+         "5%",
+         "5%"
         ],
         "keep_ratio": false,
         "anchor_from": "center",
         "anchor_to": "center",
+        "color": [
+         0.75,
+         0.92,
+         1.0
+        ],
         "layer": 4
        }
       }
@@ -8250,25 +8364,45 @@
    },
    {
     "l1": {
-     "type": "label",
-     "text": "Confirmado.",
+     "type": "image",
+     "texture": "textures/ui/Black",
+     "size": [
+      "100%",
+      "4.2%"
+     ],
+     "keep_ratio": false,
      "anchor_from": "bottom_middle",
      "anchor_to": "bottom_middle",
-     "offset": [
-      0,
-      -8
+     "layer": 30,
+     "controls": [
+      {
+       "t": {
+        "type": "label",
+        "text": "Confirmado.",
+        "size": [
+         "default",
+         "default"
+        ],
+        "color": [
+         0.88,
+         0.89,
+         0.92
+        ],
+        "font_scale_factor": 0.62,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "6%"
+        ],
+        "layer": 1,
+        "alpha": 0.0,
+        "anims": [
+         "@server_form.eth_sgo_l1_w"
+        ]
+       }
+      }
      ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.86,
-      0.9,
-      0.97
-     ],
-     "shadow": true,
-     "layer": 8,
      "alpha": 0.0,
      "anims": [
       "@server_form.eth_sgo_l1_w"
@@ -8277,25 +8411,45 @@
    },
    {
     "l2": {
-     "type": "label",
-     "text": "Reencarnação completa.",
+     "type": "image",
+     "texture": "textures/ui/Black",
+     "size": [
+      "100%",
+      "4.2%"
+     ],
+     "keep_ratio": false,
      "anchor_from": "bottom_middle",
      "anchor_to": "bottom_middle",
-     "offset": [
-      0,
-      -8
+     "layer": 30,
+     "controls": [
+      {
+       "t": {
+        "type": "label",
+        "text": "Reencarnação completa.",
+        "size": [
+         "default",
+         "default"
+        ],
+        "color": [
+         0.88,
+         0.89,
+         0.92
+        ],
+        "font_scale_factor": 0.62,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "6%"
+        ],
+        "layer": 1,
+        "alpha": 0.0,
+        "anims": [
+         "@server_form.eth_sgo_l2_w"
+        ]
+       }
+      }
      ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.86,
-      0.9,
-      0.97
-     ],
-     "shadow": true,
-     "layer": 8,
      "alpha": 0.0,
      "anims": [
       "@server_form.eth_sgo_l2_w"
@@ -8304,25 +8458,45 @@
    },
    {
     "l3": {
-     "type": "label",
-     "text": "Para o mundo.",
+     "type": "image",
+     "texture": "textures/ui/Black",
+     "size": [
+      "100%",
+      "4.2%"
+     ],
+     "keep_ratio": false,
      "anchor_from": "bottom_middle",
      "anchor_to": "bottom_middle",
-     "offset": [
-      0,
-      -8
+     "layer": 30,
+     "controls": [
+      {
+       "t": {
+        "type": "label",
+        "text": "Para o mundo.",
+        "size": [
+         "default",
+         "default"
+        ],
+        "color": [
+         0.88,
+         0.89,
+         0.92
+        ],
+        "font_scale_factor": 0.62,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "6%"
+        ],
+        "layer": 1,
+        "alpha": 0.0,
+        "anims": [
+         "@server_form.eth_sgo_l3_w"
+        ]
+       }
+      }
      ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.86,
-      0.9,
-      0.97
-     ],
-     "shadow": true,
-     "layer": 8,
      "alpha": 0.0,
      "anims": [
       "@server_form.eth_sgo_l3_w"
@@ -8331,25 +8505,45 @@
    },
    {
     "l4": {
-     "type": "label",
-     "text": "Boa sorte.",
+     "type": "image",
+     "texture": "textures/ui/Black",
+     "size": [
+      "100%",
+      "4.2%"
+     ],
+     "keep_ratio": false,
      "anchor_from": "bottom_middle",
      "anchor_to": "bottom_middle",
-     "offset": [
-      0,
-      -8
+     "layer": 30,
+     "controls": [
+      {
+       "t": {
+        "type": "label",
+        "text": "Boa sorte.",
+        "size": [
+         "default",
+         "default"
+        ],
+        "color": [
+         0.88,
+         0.89,
+         0.92
+        ],
+        "font_scale_factor": 0.62,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "6%"
+        ],
+        "layer": 1,
+        "alpha": 0.0,
+        "anims": [
+         "@server_form.eth_sgo_l4_w"
+        ]
+       }
+      }
      ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.86,
-      0.9,
-      0.97
-     ],
-     "shadow": true,
-     "layer": 8,
      "alpha": 0.0,
      "anims": [
       "@server_form.eth_sgo_l4_w"
@@ -8362,15 +8556,15 @@
      "orientation": "horizontal",
      "size": [
       "100%c",
-      16
+      "4.2%"
      ],
      "anchor_from": "bottom_right",
      "anchor_to": "bottom_right",
      "offset": [
-      -6,
-      -5
+      -4,
+      0
      ],
-     "layer": 20,
+     "layer": 40,
      "alpha": 0.0,
      "anims": [
       "@server_form.eth_sgo_skip_w"
@@ -8664,54 +8858,14 @@
     }
    },
    {
-    "side_l": {
-     "type": "image",
-     "texture": "textures/ui/etheria_sg/sg_card_side",
-     "size": [
-      184,
-      "74%"
-     ],
-     "keep_ratio": false,
-     "anchor_from": "center",
-     "anchor_to": "center",
-     "offset": [
-      -200,
-      -9
-     ],
-     "layer": 3
-    }
-   },
-   {
-    "side_r": {
-     "type": "image",
-     "texture": "textures/ui/etheria_sg/sg_card_side",
-     "size": [
-      184,
-      "74%"
-     ],
-     "keep_ratio": false,
-     "anchor_from": "center",
-     "anchor_to": "center",
-     "offset": [
-      200,
-      -9
-     ],
-     "layer": 3
-    }
-   },
-   {
     "card": {
      "type": "panel",
      "size": [
-      184,
-      "100% - 30px"
+      "61%y",
+      "100%"
      ],
-     "anchor_from": "top_middle",
-     "anchor_to": "top_middle",
-     "offset": [
-      0,
-      6
-     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
      "layer": 5,
      "controls": [
       {
@@ -8739,10 +8893,10 @@
         "anchor_to": "top_middle",
         "offset": [
          0,
-         5
+         "1.1%"
         ],
         "size": [
-         "100% - 10px",
+         "90%",
          "default"
         ],
         "text_alignment": "center",
@@ -8751,7 +8905,7 @@
          1,
          1
         ],
-        "shadow": true,
+        "font_scale_factor": 0.8,
         "layer": 3
        }
       },
@@ -8760,15 +8914,15 @@
         "type": "image",
         "texture": "textures/ui/etheria_sg/sg_pframe",
         "size": [
-         62,
-         "100% - 48px"
+         "40.3%",
+         "84.5%"
         ],
         "keep_ratio": false,
         "anchor_from": "top_left",
         "anchor_to": "top_left",
         "offset": [
-         7,
-         18
+         "5.3%",
+         "4.6%"
         ],
         "layer": 2,
         "controls": [
@@ -8777,8 +8931,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_human",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -8800,8 +8954,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_slime",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -8823,8 +8977,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_goblin",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -8846,8 +9000,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_demon",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -8869,8 +9023,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_elf",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -8892,8 +9046,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_angel",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -8915,8 +9069,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_dragonoid",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -8938,8 +9092,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_beastkin",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -8961,8 +9115,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_undead",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -8984,8 +9138,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_ogre",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -9007,8 +9161,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_lizardman",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -9030,8 +9184,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_vampire",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -9053,8 +9207,8 @@
            "type": "image",
            "texture": "textures/ui/etheria_sg/race_dwarf",
            "size": [
-            "100% - 4px",
-            "100% - 4px"
+            "100% - 2px",
+            "100% - 2px"
            ],
            "anchor_from": "center",
            "anchor_to": "center",
@@ -9075,226 +9229,820 @@
        }
       },
       {
+       "badge0": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_badge0",
+        "size": [
+         "13%",
+         "2.7%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         "50.6%",
+         "5.5%"
+        ],
+        "layer": 2,
+        "bindings": [
+         {
+          "binding_name": "#title_text"
+         },
+         {
+          "binding_type": "view",
+          "source_property_name": "(not ((#title_text - '§l§r§0') = #title_text))",
+          "target_property_name": "#visible"
+         }
+        ],
+        "controls": [
+         {
+          "t": {
+           "type": "label",
+           "text": "Fácil",
+           "size": [
+            "default",
+            "default"
+           ],
+           "color": [
+            0.45,
+            0.95,
+            0.5
+           ],
+           "font_scale_factor": 0.5,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1
+          }
+         }
+        ]
+       }
+      },
+      {
+       "badge1": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_badge1",
+        "size": [
+         "13%",
+         "2.7%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         "50.6%",
+         "5.5%"
+        ],
+        "layer": 2,
+        "bindings": [
+         {
+          "binding_name": "#title_text"
+         },
+         {
+          "binding_type": "view",
+          "source_property_name": "(not ((#title_text - '§l§r§1') = #title_text))",
+          "target_property_name": "#visible"
+         }
+        ],
+        "controls": [
+         {
+          "t": {
+           "type": "label",
+           "text": "Normal",
+           "size": [
+            "default",
+            "default"
+           ],
+           "color": [
+            1.0,
+            0.75,
+            0.3
+           ],
+           "font_scale_factor": 0.5,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1
+          }
+         }
+        ]
+       }
+      },
+      {
+       "badge2": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_badge2",
+        "size": [
+         "13%",
+         "2.7%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         "50.6%",
+         "5.5%"
+        ],
+        "layer": 2,
+        "bindings": [
+         {
+          "binding_name": "#title_text"
+         },
+         {
+          "binding_type": "view",
+          "source_property_name": "(not ((#title_text - '§l§r§2') = #title_text))",
+          "target_property_name": "#visible"
+         }
+        ],
+        "controls": [
+         {
+          "t": {
+           "type": "label",
+           "text": "Difícil",
+           "size": [
+            "default",
+            "default"
+           ],
+           "color": [
+            1.0,
+            0.38,
+            0.36
+           ],
+           "font_scale_factor": 0.5,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1
+          }
+         }
+        ]
+       }
+      },
+      {
+       "badge3": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_badge3",
+        "size": [
+         "13%",
+         "2.7%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         "50.6%",
+         "5.5%"
+        ],
+        "layer": 2,
+        "bindings": [
+         {
+          "binding_name": "#title_text"
+         },
+         {
+          "binding_type": "view",
+          "source_property_name": "(not ((#title_text - '§l§r§3') = #title_text))",
+          "target_property_name": "#visible"
+         }
+        ],
+        "controls": [
+         {
+          "t": {
+           "type": "label",
+           "text": "Extremo",
+           "size": [
+            "default",
+            "default"
+           ],
+           "color": [
+            0.85,
+            0.5,
+            1.0
+           ],
+           "font_scale_factor": 0.5,
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1
+          }
+         }
+        ]
+       }
+      },
+      {
        "info": {
         "type": "panel",
         "size": [
-         "100% - 76px",
-         "100% - 48px"
+         "47%",
+         "79%"
         ],
         "anchor_from": "top_left",
         "anchor_to": "top_left",
         "offset": [
-         71,
-         18
+         "50.4%",
+         "9.2%"
         ],
-        "layer": 2,
+        "layer": 3,
         "controls": [
          {
-          "badge0": {
-           "type": "image",
-           "texture": "textures/ui/etheria_sg/sg_badge0",
-           "size": [
-            46,
-            11
-           ],
-           "keep_ratio": false,
-           "anchor_from": "top_left",
-           "anchor_to": "top_left",
-           "offset": [
-            4,
-            0
-           ],
-           "layer": 2,
-           "bindings": [
-            {
-             "binding_name": "#title_text"
-            },
-            {
-             "binding_type": "view",
-             "source_property_name": "(not ((#title_text - '§l§r§0') = #title_text))",
-             "target_property_name": "#visible"
-            }
-           ],
-           "controls": [
-            {
-             "t": {
-              "type": "label",
-              "text": "Fácil",
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "size": [
-               "default",
-               10
-              ],
-              "color": [
-               0.45,
-               0.95,
-               0.5
-              ],
-              "layer": 1
-             }
-            }
-           ]
-          }
-         },
-         {
-          "badge1": {
-           "type": "image",
-           "texture": "textures/ui/etheria_sg/sg_badge1",
-           "size": [
-            46,
-            11
-           ],
-           "keep_ratio": false,
-           "anchor_from": "top_left",
-           "anchor_to": "top_left",
-           "offset": [
-            4,
-            0
-           ],
-           "layer": 2,
-           "bindings": [
-            {
-             "binding_name": "#title_text"
-            },
-            {
-             "binding_type": "view",
-             "source_property_name": "(not ((#title_text - '§l§r§1') = #title_text))",
-             "target_property_name": "#visible"
-            }
-           ],
-           "controls": [
-            {
-             "t": {
-              "type": "label",
-              "text": "Normal",
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "size": [
-               "default",
-               10
-              ],
-              "color": [
-               1.0,
-               0.75,
-               0.3
-              ],
-              "layer": 1
-             }
-            }
-           ]
-          }
-         },
-         {
-          "badge2": {
-           "type": "image",
-           "texture": "textures/ui/etheria_sg/sg_badge2",
-           "size": [
-            46,
-            11
-           ],
-           "keep_ratio": false,
-           "anchor_from": "top_left",
-           "anchor_to": "top_left",
-           "offset": [
-            4,
-            0
-           ],
-           "layer": 2,
-           "bindings": [
-            {
-             "binding_name": "#title_text"
-            },
-            {
-             "binding_type": "view",
-             "source_property_name": "(not ((#title_text - '§l§r§2') = #title_text))",
-             "target_property_name": "#visible"
-            }
-           ],
-           "controls": [
-            {
-             "t": {
-              "type": "label",
-              "text": "Difícil",
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "size": [
-               "default",
-               10
-              ],
-              "color": [
-               1.0,
-               0.38,
-               0.36
-              ],
-              "layer": 1
-             }
-            }
-           ]
-          }
-         },
-         {
-          "badge3": {
-           "type": "image",
-           "texture": "textures/ui/etheria_sg/sg_badge3",
-           "size": [
-            46,
-            11
-           ],
-           "keep_ratio": false,
-           "anchor_from": "top_left",
-           "anchor_to": "top_left",
-           "offset": [
-            4,
-            0
-           ],
-           "layer": 2,
-           "bindings": [
-            {
-             "binding_name": "#title_text"
-            },
-            {
-             "binding_type": "view",
-             "source_property_name": "(not ((#title_text - '§l§r§3') = #title_text))",
-             "target_property_name": "#visible"
-            }
-           ],
-           "controls": [
-            {
-             "t": {
-              "type": "label",
-              "text": "Extremo",
-              "anchor_from": "center",
-              "anchor_to": "center",
-              "size": [
-               "default",
-               10
-              ],
-              "color": [
-               0.85,
-               0.5,
-               1.0
-              ],
-              "layer": 1
-             }
-            }
-           ]
-          }
-         },
-         {
-          "body": {
-           "type": "panel",
+          "scroll@common.scrolling_panel": {
+           "$show_background": false,
            "size": [
             "100%",
-            "100% - 13px"
+            "100%"
            ],
-           "anchor_from": "top_left",
-           "anchor_to": "top_left",
-           "offset": [
-            -5,
-            11
+           "$scrolling_content": "server_form.eth_sg_card_text",
+           "$scroll_size": [
+            2,
+            "100% - 4px"
            ],
-           "layer": 3,
+           "$scrolling_pane_size": [
+            "100% - 4px",
+            "100% - 2px"
+           ],
+           "$scrolling_pane_offset": [
+            2,
+            0
+           ],
+           "$scroll_bar_right_padding_size": [
+            0,
+            0
+           ],
+           "layer": 1
+          }
+         }
+        ]
+       }
+      },
+      {
+       "btns": {
+        "type": "stack_panel",
+        "orientation": "horizontal",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "layer": 6,
+        "factory": {
+         "name": "buttons",
+         "control_name": "server_form.eth_sg_card_row"
+        },
+        "collection_name": "form_buttons",
+        "bindings": [
+         {
+          "binding_name": "#form_button_length",
+          "binding_name_override": "#collection_length"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "leg_pick": {
+     "type": "image",
+     "texture": "textures/ui/Black",
+     "size": [
+      "100%",
+      "4.2%"
+     ],
+     "keep_ratio": false,
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "layer": 30,
+     "controls": [
+      {
+       "t": {
+        "type": "label",
+        "text": "Agora escolha uma forma.",
+        "size": [
+         "default",
+         "default"
+        ],
+        "color": [
+         0.88,
+         0.89,
+         0.92
+        ],
+        "font_scale_factor": 0.62,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "6%"
+        ],
+        "layer": 1
+       }
+      }
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((#title_text - '§t§y') = #title_text)",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "leg_conf": {
+     "type": "image",
+     "texture": "textures/ui/Black",
+     "size": [
+      "100%",
+      "4.2%"
+     ],
+     "keep_ratio": false,
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "layer": 30,
+     "controls": [
+      {
+       "t": {
+        "type": "label",
+        "text": "Confirmar?",
+        "size": [
+         "default",
+         "default"
+        ],
+        "color": [
+         0.88,
+         0.89,
+         0.92
+        ],
+        "font_scale_factor": 0.62,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "offset": [
+         0,
+         "6%"
+        ],
+        "layer": 1
+       }
+      }
+     ],
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§y') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "close@common.close_button": {
+     "anchor_from": "top_right",
+     "anchor_to": "top_right",
+     "offset": [
+      -6,
+      5
+     ],
+     "layer": 12
+    }
+   }
+  ]
+ },
+ "eth_sg_tz_row": {
+  "type": "panel",
+  "size": [
+   "100%",
+   30
+  ],
+  "controls": [
+   {
+    "form_button@common_buttons.light_text_button": {
+     "$pressed_button_name": "button.form_button_click",
+     "size": [
+      "100% - 2px",
+      26
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      0
+     ],
+     "$button_text": "#form_button_text",
+     "$button_text_binding_type": "collection",
+     "$button_text_grid_collection_name": "form_buttons",
+     "$button_text_max_size": [
+      "100% - 35px",
+      20
+     ],
+     "$button_font_scale_factor": 0.8,
+     "$default_button_texture": "textures/ui/etheria_sg/tz_row",
+     "$hover_button_texture": "textures/ui/etheria_sg/tz_row_h",
+     "$pressed_button_texture": "textures/ui/etheria_sg/tz_row_p",
+     "$default_text_color": [
+      0.12,
+      0.12,
+      0.14
+     ],
+     "$hover_text_color": [
+      0.05,
+      0.05,
+      0.07
+     ],
+     "$pressed_text_color": [
+      0.05,
+      0.05,
+      0.07
+     ],
+     "$border_visible": false,
+     "bindings": [
+      {
+       "binding_type": "collection_details",
+       "binding_collection_name": "form_buttons"
+      }
+     ],
+     "$anchor": "left_middle",
+     "$text_alignment": "left",
+     "$new_ui_label_offset": [
+      31,
+      0
+     ]
+    }
+   },
+   {
+    "orb": {
+     "type": "panel",
+     "size": [
+      27,
+      27
+     ],
+     "anchor_from": "left_middle",
+     "anchor_to": "left_middle",
+     "offset": [
+      1,
+      0
+     ],
+     "layer": 6,
+     "bindings": [
+      {
+       "binding_type": "view",
+       "source_control_name": "image",
+       "resolve_sibling_scope": true,
+       "source_property_name": "(not (#texture = ''))",
+       "target_property_name": "#visible"
+      }
+     ],
+     "controls": [
+      {
+       "bg": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/tz_orb_bg",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "layer": 1
+       }
+      },
+      {
+       "image": {
+        "type": "image",
+        "size": [
+         17,
+         17
+        ],
+        "layer": 2,
+        "bindings": [
+         {
+          "binding_name": "#form_button_texture",
+          "binding_name_override": "#texture",
+          "binding_type": "collection",
+          "binding_collection_name": "form_buttons"
+         },
+         {
+          "binding_name": "#form_button_texture_file_system",
+          "binding_name_override": "#texture_file_system",
+          "binding_type": "collection",
+          "binding_collection_name": "form_buttons"
+         },
+         {
+          "binding_type": "view",
+          "source_property_name": "(not ((#texture = '') or (#texture = 'loading')))",
+          "target_property_name": "#visible"
+         }
+        ]
+       }
+      },
+      {
+       "ring": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/tz_orb",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "layer": 3
+       }
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_tz_list": {
+  "type": "stack_panel",
+  "orientation": "vertical",
+  "size": [
+   "100% - 4px",
+   "100%c"
+  ],
+  "anchor_from": "top_left",
+  "anchor_to": "top_left",
+  "offset": [
+   2,
+   2
+  ],
+  "factory": {
+   "name": "buttons",
+   "control_name": "server_form.eth_sg_tz_row"
+  },
+  "collection_name": "form_buttons",
+  "bindings": [
+   {
+    "binding_name": "#form_button_length",
+    "binding_name_override": "#collection_length"
+   }
+  ]
+ },
+ "eth_sg_tz_text": {
+  "type": "stack_panel",
+  "size": [
+   "100% - 2px",
+   "100%c"
+  ],
+  "orientation": "vertical",
+  "anchor_from": "top_left",
+  "anchor_to": "top_left",
+  "controls": [
+   {
+    "text_panel": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%c"
+     ],
+     "controls": [
+      {
+       "main_label": {
+        "type": "label",
+        "offset": [
+         3,
+         2
+        ],
+        "color": [
+         0.92,
+         0.94,
+         0.98
+        ],
+        "size": [
+         "100% - 6px",
+         "default"
+        ],
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "text": "#form_text",
+        "font_scale_factor": 0.7
+       }
+      }
+     ]
+    }
+   },
+   {
+    "pad_bottom": {
+     "type": "panel",
+     "size": [
+      "100%",
+      6
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_form": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "layer": 2,
+  "controls": [
+   {
+    "win": {
+     "type": "panel",
+     "size": [
+      "165%y",
+      "64%"
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      "5%"
+     ],
+     "layer": 5,
+     "controls": [
+      {
+       "tab0": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/tz_tab_on",
+        "size": [
+         "9%",
+         "15%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_left",
+        "anchor_to": "bottom_left",
+        "offset": [
+         "2.0%",
+         2
+        ],
+        "layer": 3,
+        "controls": [
+         {
+          "ic": {
+           "type": "image",
+           "texture": "textures/ui/etheria/sg_ico_0",
+           "size": [
+            "62%",
+            "62%"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "color": [
+            0.9,
+            0.62,
+            1.0
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "tab1": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/tz_tab",
+        "size": [
+         "9%",
+         "15%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_left",
+        "anchor_to": "bottom_left",
+        "offset": [
+         "13.6%",
+         0
+        ],
+        "layer": 1,
+        "controls": [
+         {
+          "ic": {
+           "type": "image",
+           "texture": "textures/ui/etheria/menu_skills",
+           "size": [
+            "62%",
+            "62%"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1
+          }
+         }
+        ]
+       }
+      },
+      {
+       "tab2": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/tz_tab",
+        "size": [
+         "9%",
+         "15%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_left",
+        "anchor_to": "bottom_left",
+        "offset": [
+         "24.3%",
+         0
+        ],
+        "layer": 1,
+        "controls": [
+         {
+          "ic": {
+           "type": "image",
+           "texture": "textures/ui/etheria/menu_class",
+           "size": [
+            "62%",
+            "62%"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1
+          }
+         }
+        ]
+       }
+      },
+      {
+       "frame": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/tz_win",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "layer": 2
+       }
+      },
+      {
+       "title": {
+        "type": "label",
+        "text": "#title_text",
+        "bindings": [
+         {
+          "binding_name": "#title_text"
+         }
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "bottom_middle",
+        "offset": [
+         "10%",
+         -4
+        ],
+        "size": [
+         "default",
+         "default"
+        ],
+        "color": [
+         1,
+         1,
+         1
+        ],
+        "shadow": true,
+        "font_scale_factor": 0.9,
+        "layer": 4
+       }
+      },
+      {
+       "close@common.close_button": {
+        "anchor_from": "top_right",
+        "anchor_to": "bottom_right",
+        "offset": [
+         0,
+         -1
+        ],
+        "layer": 12
+       }
+      },
+      {
+       "left": {
+        "type": "panel",
+        "size": [
+         "47.5%",
+         "97.4%"
+        ],
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         "0.8%",
+         "1.3%"
+        ],
+        "layer": 3,
+        "controls": [
+         {
+          "bg": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/tz_left",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "layer": 1
+          }
+         },
+         {
+          "in": {
+           "type": "panel",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 2,
            "controls": [
             {
              "scroll@common.scrolling_panel": {
@@ -9303,9 +10051,9 @@
                "100%",
                "100%"
               ],
-              "$scrolling_content": "server_form.eth_sg_card_text",
+              "$scrolling_content": "server_form.eth_sg_tz_list",
               "$scroll_size": [
-               5,
+               3,
                "100% - 4px"
               ],
               "$scrolling_pane_size": [
@@ -9330,111 +10078,526 @@
        }
       },
       {
-       "btns": {
-        "type": "stack_panel",
-        "orientation": "horizontal",
+       "right": {
+        "type": "panel",
         "size": [
-         "100%c",
-         20
+         "49.6%",
+         "97.4%"
         ],
-        "anchor_from": "bottom_middle",
-        "anchor_to": "bottom_middle",
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
         "offset": [
-         0,
-         -6
+         "49.6%",
+         "1.3%"
         ],
-        "layer": 6,
-        "factory": {
-         "name": "buttons",
-         "control_name": "server_form.eth_sg_pick_btn"
-        },
-        "collection_name": "form_buttons",
-        "bindings": [
+        "layer": 3,
+        "controls": [
          {
-          "binding_name": "#form_button_length",
-          "binding_name_override": "#collection_length"
+          "bg": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/tz_right",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "layer": 1
+          }
+         },
+         {
+          "nums": {
+           "type": "stack_panel",
+           "orientation": "horizontal",
+           "size": [
+            "78%",
+            "5.4%"
+           ],
+           "anchor_from": "top_left",
+           "anchor_to": "top_left",
+           "offset": [
+            "9.6%",
+            "14.5%"
+           ],
+           "layer": 3,
+           "controls": [
+            {
+             "n1": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/tz_num_on",
+              "size": [
+               "11.1%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "controls": [
+               {
+                "t": {
+                 "type": "label",
+                 "text": "1",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.95,
+                  0.95,
+                  0.97
+                 ],
+                 "font_scale_factor": 0.6,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1
+                }
+               }
+              ]
+             }
+            },
+            {
+             "n2": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/tz_num",
+              "size": [
+               "11.1%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "controls": [
+               {
+                "t": {
+                 "type": "label",
+                 "text": "2",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.95,
+                  0.95,
+                  0.97
+                 ],
+                 "font_scale_factor": 0.6,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1
+                }
+               }
+              ]
+             }
+            },
+            {
+             "n3": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/tz_num",
+              "size": [
+               "11.1%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "controls": [
+               {
+                "t": {
+                 "type": "label",
+                 "text": "3",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.95,
+                  0.95,
+                  0.97
+                 ],
+                 "font_scale_factor": 0.6,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1
+                }
+               }
+              ]
+             }
+            },
+            {
+             "n4": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/tz_num",
+              "size": [
+               "11.1%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "controls": [
+               {
+                "t": {
+                 "type": "label",
+                 "text": "4",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.95,
+                  0.95,
+                  0.97
+                 ],
+                 "font_scale_factor": 0.6,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1
+                }
+               }
+              ]
+             }
+            },
+            {
+             "n5": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/tz_num",
+              "size": [
+               "11.1%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "controls": [
+               {
+                "t": {
+                 "type": "label",
+                 "text": "5",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.95,
+                  0.95,
+                  0.97
+                 ],
+                 "font_scale_factor": 0.6,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1
+                }
+               }
+              ]
+             }
+            },
+            {
+             "n6": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/tz_num",
+              "size": [
+               "11.1%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "controls": [
+               {
+                "t": {
+                 "type": "label",
+                 "text": "6",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.95,
+                  0.95,
+                  0.97
+                 ],
+                 "font_scale_factor": 0.6,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1
+                }
+               }
+              ]
+             }
+            },
+            {
+             "n7": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/tz_num",
+              "size": [
+               "11.1%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "controls": [
+               {
+                "t": {
+                 "type": "label",
+                 "text": "7",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.95,
+                  0.95,
+                  0.97
+                 ],
+                 "font_scale_factor": 0.6,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1
+                }
+               }
+              ]
+             }
+            },
+            {
+             "n8": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/tz_num",
+              "size": [
+               "11.1%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "controls": [
+               {
+                "t": {
+                 "type": "label",
+                 "text": "8",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.95,
+                  0.95,
+                  0.97
+                 ],
+                 "font_scale_factor": 0.6,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1
+                }
+               }
+              ]
+             }
+            },
+            {
+             "n9": {
+              "type": "image",
+              "texture": "textures/ui/etheria_sg/tz_num",
+              "size": [
+               "11.1%",
+               "100%"
+              ],
+              "keep_ratio": false,
+              "controls": [
+               {
+                "t": {
+                 "type": "label",
+                 "text": "9",
+                 "size": [
+                  "default",
+                  "default"
+                 ],
+                 "color": [
+                  0.95,
+                  0.95,
+                  0.97
+                 ],
+                 "font_scale_factor": 0.6,
+                 "anchor_from": "center",
+                 "anchor_to": "center",
+                 "layer": 1
+                }
+               }
+              ]
+             }
+            }
+           ]
+          }
+         },
+         {
+          "field": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/tz_field",
+           "size": [
+            "80%",
+            "7.7%"
+           ],
+           "keep_ratio": false,
+           "anchor_from": "top_left",
+           "anchor_to": "top_left",
+           "offset": [
+            "9.6%",
+            "26.7%"
+           ],
+           "layer": 3,
+           "controls": [
+            {
+             "s0": {
+              "type": "label",
+              "text": "Raphael",
+              "size": [
+               "default",
+               "default"
+              ],
+              "color": [
+               0.97,
+               0.97,
+               0.99
+              ],
+              "font_scale_factor": 0.85,
+              "anchor_from": "left_middle",
+              "anchor_to": "left_middle",
+              "offset": [
+               4,
+               0
+              ],
+              "layer": 1,
+              "shadow": true,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§t§r') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "s1": {
+              "type": "label",
+              "text": "Ciel",
+              "size": [
+               "default",
+               "default"
+              ],
+              "color": [
+               0.97,
+               0.97,
+               0.99
+              ],
+              "font_scale_factor": 0.85,
+              "anchor_from": "left_middle",
+              "anchor_to": "left_middle",
+              "offset": [
+               4,
+               0
+              ],
+              "layer": 1,
+              "shadow": true,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(not ((#title_text - '§t§c') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            },
+            {
+             "s2": {
+              "type": "label",
+              "text": "Grande Sábio",
+              "size": [
+               "default",
+               "default"
+              ],
+              "color": [
+               0.97,
+               0.97,
+               0.99
+              ],
+              "font_scale_factor": 0.85,
+              "anchor_from": "left_middle",
+              "anchor_to": "left_middle",
+              "offset": [
+               4,
+               0
+              ],
+              "layer": 1,
+              "shadow": true,
+              "bindings": [
+               {
+                "binding_name": "#title_text"
+               },
+               {
+                "binding_type": "view",
+                "source_property_name": "(((#title_text - '§t§r') = #title_text) and ((#title_text - '§t§c') = #title_text))",
+                "target_property_name": "#visible"
+               }
+              ]
+             }
+            }
+           ]
+          }
+         },
+         {
+          "box": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/tz_box",
+           "size": [
+            "80%",
+            "56%"
+           ],
+           "keep_ratio": false,
+           "anchor_from": "top_left",
+           "anchor_to": "top_left",
+           "offset": [
+            "9.6%",
+            "37%"
+           ],
+           "layer": 3,
+           "controls": [
+            {
+             "in": {
+              "type": "panel",
+              "size": [
+               "100% - 2px",
+               "100% - 2px"
+              ],
+              "anchor_from": "center",
+              "anchor_to": "center",
+              "layer": 1,
+              "controls": [
+               {
+                "scroll@common.scrolling_panel": {
+                 "$show_background": false,
+                 "size": [
+                  "100%",
+                  "100%"
+                 ],
+                 "$scrolling_content": "server_form.eth_sg_tz_text",
+                 "$scroll_size": [
+                  3,
+                  "100% - 4px"
+                 ],
+                 "$scrolling_pane_size": [
+                  "100% - 4px",
+                  "100% - 2px"
+                 ],
+                 "$scrolling_pane_offset": [
+                  2,
+                  0
+                 ],
+                 "$scroll_bar_right_padding_size": [
+                  0,
+                  0
+                 ],
+                 "layer": 1
+                }
+               }
+              ]
+             }
+            }
+           ]
+          }
          }
         ]
        }
       }
      ]
-    }
-   },
-   {
-    "leg_pick": {
-     "type": "label",
-     "text": "Agora escolha uma forma.",
-     "anchor_from": "bottom_middle",
-     "anchor_to": "bottom_middle",
-     "offset": [
-      0,
-      -8
-     ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.86,
-      0.9,
-      0.97
-     ],
-     "shadow": true,
-     "layer": 8,
-     "bindings": [
-      {
-       "binding_name": "#title_text"
-      },
-      {
-       "binding_type": "view",
-       "source_property_name": "((#title_text - '§t§y') = #title_text)",
-       "target_property_name": "#visible"
-      }
-     ]
-    }
-   },
-   {
-    "leg_conf": {
-     "type": "label",
-     "text": "Confirmar?",
-     "anchor_from": "bottom_middle",
-     "anchor_to": "bottom_middle",
-     "offset": [
-      0,
-      -8
-     ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.86,
-      0.9,
-      0.97
-     ],
-     "shadow": true,
-     "layer": 8,
-     "bindings": [
-      {
-       "binding_name": "#title_text"
-      },
-      {
-       "binding_type": "view",
-       "source_property_name": "(not ((#title_text - '§t§y') = #title_text))",
-       "target_property_name": "#visible"
-      }
-     ]
-    }
-   },
-   {
-    "close@common.close_button": {
-     "anchor_from": "top_right",
-     "anchor_to": "top_right",
-     "offset": [
-      -6,
-      5
-     ],
-     "layer": 12
     }
    }
   ]
