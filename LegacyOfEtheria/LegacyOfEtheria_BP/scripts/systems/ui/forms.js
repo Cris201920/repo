@@ -4,6 +4,7 @@
 // e lista de cartões (botões) à direita, cada um com rolagem própria. Sem o marcador, o jogo usa o formulário original (fallback garantido).
 import { system } from "@minecraft/server";
 import { ActionFormData } from "@minecraft/server-ui";
+import * as ServerUI from "@minecraft/server-ui";   // 8.9: uiManager (fecha a cena sozinha) só se a versão do jogo tiver; sem ela, o jogador toca em "Pular »"
 import { getData } from "../../core/db.js";
 
 export const ICON = (name) => `textures/ui/${name.startsWith("etheria/") || name.startsWith("modskills/") ? name : "etheria/" + name}`;
@@ -55,9 +56,10 @@ export function menu(player, title, body, buttons, theme) {
 // 6.56: CARTÃO DE ESCOLHA DE RAÇA (ui/server_form.json -> eth_card_form): retrato do rosto da raça, faixa do nome, ficha e botões em linha.
 const CARD = "§t§k";
 const RACE_CODE = { human: "0", slime: "1", goblin: "2", demon: "3", elf: "4", angel: "5", dragonoid: "6", beastkin: "7", undead: "8", ogre: "9", lizardman: "a", vampire: "b", dwarf: "c" };
-export function cardMenu(player, raceId, name, body, buttons) {
+/** 8.9: extra = códigos invisíveis a mais para o pacote Sábio UI (selo de dificuldade "§l§r§N", modo "Confirmar?" "§t§y"); o principal os ignora */
+export function cardMenu(player, raceId, name, body, buttons, extra = "") {
   if (classic(player)) return menu(player, name, body, buttons);
-  const f = new ActionFormData().title(`${UI_BASE}${SG}${CARD}§k§r§${RACE_CODE[raceId] ?? "0"}§r${name}`).body(body);
+  const f = new ActionFormData().title(`${UI_BASE}${SG}${CARD}§k§r§${RACE_CODE[raceId] ?? "0"}${extra}§r${name}`).body(body);
   for (const b of buttons) f.button(b.text);
   show(player, f, (r) => { try { buttons[r.selection]?.run?.(); } catch (e) { console.warn(`[Etheria] Erro no cartão de raça: ${e}`); } });
 }
@@ -70,4 +72,22 @@ export function sageMenu(player, title, say, buttons) {
   const f = new ActionFormData().title(`${UI_BASE}${SG}${SAGEN}${THEME.sage}§r${title}`).body(say);   // 8.x: + tema do Sábio (moldura azul no pacote principal)
   for (const b of buttons.slice(0, 8)) f.button(b.label);
   show(player, f, (r) => { try { buttons[r.selection]?.run?.(); } catch (e) { console.warn(`[Etheria] Erro no menu do Sábio: ${e}`); } });
+}
+
+// 8.9: CENAS DA REENCARNAÇÃO (pacote Sábio UI -> eth_sg_intro_form / eth_sg_outro_form): tela cheia estrelada com legendas e animação
+// própria do JSON UI (nada no HUD). É um formulário de 1 botão ("Pular »"/"Continuar »"): ao tocar, fechar (Esc) ou acabar o tempo,
+// segue para next(). Sem o pacote opcional, o principal mostra um formulário comum com o mesmo texto e o mesmo botão.
+const SCENE = { intro: "§t§i", outro: "§t§o" };
+export function scene(player, kind, title, body, button, next, autoTicks = 0) {
+  let done = false;
+  const go = () => { if (done) return; done = true; try { next?.(); } catch (e) { console.warn(`[Etheria] cena ${kind}: ${e}`); } };
+  if (classic(player)) return go();
+  const f = new ActionFormData().title(`${UI_BASE}${SG}${SCENE[kind] ?? ""}${THEME.sage}§r${title}`).body(body);
+  f.button(button);
+  const open = (tries) => f.show(player).then((r) => {
+    if (r.canceled && r.cancelationReason === "UserBusy" && tries < 25) { system.runTimeout(() => open(tries + 1), 10); return; }
+    go();
+  }).catch((e) => { console.warn(`[Etheria] Falha na cena: ${e}`); go(); });
+  open(0);
+  if (autoTicks > 0) system.runTimeout(() => { if (done) return; try { ServerUI.uiManager?.closeAllForms?.(player); } catch { /* versão sem uiManager: espera o toque */ } }, autoTicks);
 }

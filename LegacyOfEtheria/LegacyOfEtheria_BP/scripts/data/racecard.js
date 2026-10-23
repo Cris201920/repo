@@ -141,3 +141,22 @@ export function evoChanges(from, to, owned = () => false) {
   const stats = [...keys].map((k) => { const a = from?.stats?.[k] ?? 0, b = to?.stats?.[k] ?? 0; return a === b ? null : `${b > a ? "§a▲" : "§c▼"} §f${STAT_LABELS[k]} ${b - a > 0 ? "+" : ""}${b - a}`; }).filter(Boolean);
   return { attrs, stats, skills: (to?.skills ?? []).filter((s) => !owned(s)) };
 }
+
+// ---- 8.9: CARTÃO DO CARROSSEL DE RAÇAS (estilo do vídeo de referência: "Magicule / Aura / Alignment", selo de dificuldade) ----
+/** dificuldade da raça inicial: 0 Fácil, 1 Normal, 2 Difícil, 3 Extremo (selo colorido no cartão do pacote Sábio UI) */
+export const RACE_DIFF = { human: 0, beastkin: 0, dwarf: 0, goblin: 1, ogre: 1, lizardman: 1, elf: 2, slime: 2, demon: 2, vampire: 2, angel: 2, dragonoid: 3, undead: 3 };
+export const DIFF_NAMES = ["Fácil", "Normal", "Difícil", "Extremo"];
+export const RACE_ALIGN = { angel: "Luz", demon: "Trevas", vampire: "Trevas", undead: "Trevas" };
+const kfmt = (v) => (v >= 1000 ? `${(Math.round(v / 100) / 10).toString().replace(/\.0$/, "")}k` : String(v));
+/** faixas do cartão: Mana e Aura (Vida + Stamina) do nível 1 até o nível da 1ª evolução, pelas mesmas fórmulas de stats.js */
+export function raceCardRanges(race) {
+  const st = race.stages[race.root];
+  const cap = Math.max(2, Math.min(...(st.next ?? []).map((x) => race.stages[x]?.minLevel ?? 25), 25));
+  const a = stageNumbers(st, 1), b = stageNumbers(st, cap);
+  return { mana: `${kfmt(a.mana)} - ${kfmt(b.mana)}`, aura: `${kfmt(a.hp + a.stamina)} - ${kfmt(b.hp + b.stamina)}`, align: RACE_ALIGN[race.id] ?? "Padrão" };
+}
+// larguras (px, com o espaço entre letras) da fonte padrão do Minecraft: alinha a coluna de valores com espaços
+const NARROW = { "i": 2, "!": 2, ".": 2, ",": 2, ":": 2, ";": 2, "|": 2, "'": 2, "í": 2, "l": 3, "`": 3, "I": 4, "t": 4, " ": 4, "[": 4, "]": 4, "f": 5, "k": 5, "<": 5, ">": 5, "(": 5, ")": 5, "\"": 5, "*": 5 };
+export const textWidth = (s) => [...String(s).replace(/§./g, "")].reduce((w, c) => w + (NARROW[c] ?? 6), 0);
+/** "rótulo" + espaços até a coluna px */
+export const padTo = (label, px) => label + " ".repeat(Math.max(1, Math.round((px - textWidth(label)) / 4)));

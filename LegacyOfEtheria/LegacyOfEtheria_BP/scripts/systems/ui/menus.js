@@ -39,7 +39,7 @@ import { LINEAGE_LIST, LINEAGES, LINEAGE_FORMS, LINEAGE_RACE, lineageLock, tierS
 import { chooseLineage, setForm, endForm } from "../lineage.js";
 import { openWorld } from "../worldnpc.js";
 import { canBuild, canSpawnStructures } from "../../core/perm.js";
-import { openRaceV2, openRacePickV2, openLevelV2, openLordV2 } from "./racemenus.js";
+import { openRaceV2, openRacePickV2, openRaceIntro, openLevelV2, openLordV2 } from "./racemenus.js";
 import { openStructMenu } from "../structcmd.js";
 
 const R = (k) => RARITY[k];
@@ -265,7 +265,8 @@ function pressFx(player, evo, after) {
   } catch { /* ignore */ }
   system.runTimeout(() => { try { after(); } catch (e) { console.warn(`[Etheria] feedback de botão: ${e}`); } }, evo ? 12 : 4);
 }
-export function openRacePick(player, idx = 0) {
+export function openRacePick(player, idx) {
+  if (idx === undefined) return openRaceIntro(player);   // 8.9: 1ª abertura da sessão = cena de abertura da reencarnação
   return openRacePickV2(player, idx);   // 6.34: tela nova
   // 6.14: ficha com barras comparativas (relativas à melhor raça), estilo de jogo, botões com o NOME da raça anterior/próxima e lista com estilo
   const n = RACE_LIST.length, i = ((idx % n) + n) % n, r = RACE_LIST[i], st = r.stages[r.root];

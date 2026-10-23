@@ -7,7 +7,7 @@ import { bar, fmt, say, countItem } from "../../core/utils.js";
 import { ATTRIBUTES, STAT_LABELS, MAX_LEVEL, ATTR_POINTS_PER_LEVEL, SKILL_POINT_EVERY, xpToNext } from "../../config.js";
 import { SKILLS } from "../../data/skills.js";
 import { RACES, RACE_LIST, stageOf, raceOf, nextStages, isLordStage } from "../../data/races.js";
-import { raceSheet, raceStyle, evoReqs, evoProgress, evoChanges, RACE_LOOK, STAGE_LOOK } from "../../data/racecard.js";
+import { raceSheet, raceStyle, evoReqs, evoProgress, evoChanges, RACE_LOOK, STAGE_LOOK, RACE_DIFF, raceCardRanges, padTo } from "../../data/racecard.js";
 import { skillLine, rarityOf } from "../../data/skillfmt.js";
 import { sageSay, sageStage } from "../voice.js";
 import { CLASSES } from "../../data/classes.js";
@@ -16,7 +16,7 @@ import { AGILITY_LINES, AGI_GATES } from "../../data/agility.js";
 import { getStats, getHealth } from "../stats.js";
 import { chooseRace, evolve, evolveCheck } from "../race.js";
 import { hasSkill } from "../skills.js";
-import { menu, cardMenu, sageThemeOf, sgTheme } from "./forms.js";
+import { menu, cardMenu, sageThemeOf, sgTheme, scene } from "./forms.js";
 import { openLineage, openClass, openAttributes, openTitles, openBeastForms } from "./menus.js";
 import { openPowers } from "../powers.js";
 import { openSlimeForms } from "../slimeform.js";
@@ -177,45 +177,48 @@ function treeOf(r) {
   walk(r.root, "", true, true);
   return L.join("\n");
 }
-export function openRacePickV2(player, idx = 0) {
-  // 6.56: cartão no estilo do mod de referência (retrato, faixa do nome, ficha curta) com ◀ SELECIONAR ▶ embaixo
-  const n = RACE_LIST.length, i = ((idx % n) + n) % n, r = RACE_LIST[i], st = r.stages[r.root];
-  const A = Object.entries(st.attrs ?? {}).filter(([, v]) => v).map(([k, v]) => ` §f- ${v > 0 ? "+" : ""}${v} ${ATTRIBUTES[k]?.label ?? k}`);
-  const S = Object.entries(st.stats ?? {}).filter(([, v]) => v).map(([k, v]) => ` §f- ${v > 0 ? "+" : ""}${v} ${STAT_LABELS[k] ?? k}`);
-  sageSay(player, "birth_analyzing", { cd: 600 });
-  const body = [
-    `${SAGE} §aAnálise da raça:`,
-    `§7${r.desc}`,
-    "§bAtributos", ...(A.length ? A : [" §f- equilibrados"]), ...S,
-    "§bTraço racial", ` §f${r.bonus}`,
-    "§cFraqueza", ` §f${r.penalty}`,
-    "§bHabilidades", ` ${st.skills.map(skillCol).join("§7, ") || "§f—"}`,
-    "§bEvolui para", ` §f${st.next.map((x) => r.stages[x].name).join(", ") || "—"}`,
-    `§8${i + 1}/${n} · escolha permanente`,
-  ].join("\n");
-  cardMenu(player, r.id, `${r.color}${r.name}`, body, [
-    { text: "§l<", run: () => openRacePickV2(player, i - 1) },
-    { text: "§2§lEscolher", run: () => openRaceConfirmV2(player, r.id) },   // 8.x: "Selecionar" quebrava em "Selecion-ar" no botão de 70 px
-    { text: "§l>", run: () => openRacePickV2(player, i + 1) },
-  ]);
+// 8.9: REENCARNAÇÃO no estilo do vídeo de referência (pacote Sábio UI): cena de abertura (Sorteio. / O último desejo. / A Ampulheta /
+// Aptidão encontrada. + faixa vermelha com a aptidão sorteada) -> carrossel de cartões (retrato de corpo inteiro, selo de dificuldade,
+// Mana/Aura/Alinhamento, Habilidades intrínsecas, descrição, < ESCOLHER >) -> "Confirmar?" no mesmo cartão -> esfera "Reencarnação completa.".
+// O pacote principal (sem o opcional) recebe os MESMOS formulários e os mostra nas telas de sempre (cartão / formulário temático).
+const introSeen = new Set();
+/** abre a escolha de raça; na 1ª vez da sessão toca a cena de abertura e começa na raça sorteada */
+export function openRaceIntro(player) {
+  const n = RACE_LIST.length;
+  if (introSeen.has(player.id)) return openRacePickV2(player, 0);
+  introSeen.add(player.id);
+  const i = Math.floor(Math.random() * n), r = RACE_LIST[i], st = r.stages[r.root];
+  const apt = st.skills.map(skillName)[0] ?? r.name;
+  scene(player, "intro", apt, `Aptidão de ${r.name}`, "§lPular »", () => openRacePickV2(player, i), 190);
 }
-/** 7.x: "Resultado da análise" do Grande Sábio antes de confirmar a raça: ficha, habilidades iniciais (formato Tensura) e linhas de evolução */
-export function openRaceConfirmV2(player, id) {
-  const r = RACES[id]; if (!r) return openRacePickV2(player, 0);
-  const st = r.stages[r.root], idx = RACE_LIST.findIndex((x) => x.id === id);
-  sageSay(player, "birth_done", { cd: 200 });
-  const sheet = raceSheet(RACE_LIST, r, st, skillName).split("\n").filter((l) => !l.startsWith("§b§lHabilidades")).join("\n");
-  const body = [
-    `${SAGE} §aResultado da análise:`, `${r.color}§l${r.name.toUpperCase()}`, `§f${r.desc}`,
-    SEP, sheet,
-    SEP, "§6§lHABILIDADES INICIAIS", ...(st.skills.filter((s) => SKILLS[s]).map((s) => skillLine(SKILLS[s])) || []), ...(st.skills.length ? [] : ["§7—"]),
-    SEP, "§6§lLINHAS DE EVOLUÇÃO", treeOf(r),
-    SEP, `${SAGE} §fConfirmar o renascimento como ${r.color}${r.name}§f?`, "§cEsta escolha é permanente. §7Em seguida você escolhe a classe inicial.",
+function cardBody(r, st, confirm) {
+  const R = raceCardRanges(r), sk = st.skills.map(skillName);
+  return [
+    `§7${padTo("Mana", 64)}§f${R.mana}`, `§7${padTo("Aura", 64)}§f${R.aura}`, `§7${padTo("Alinhamento", 64)}§f${R.align}`, "",
+    "§7Habilidades intrínsecas", sk.length ? `§f${sk.join("§7, §f")}` : "§8Nenhuma ao nascer.", "",
+    `§f${r.desc}`,
+    ...(confirm ? ["", "§cEscolha permanente."] : []),
   ].join("\n");
-  menu(player, `§a§lANÁLISE: ${r.name.toUpperCase()}`, body, [
-    { text: "§a§lConfirmar renascimento\n§r§7escolha permanente", icon: "race_" + id, run: () => { if (chooseRace(player, id)) { say(player, `§aVocê agora é ${r.name}!`); system.runTimeout(() => openClass(player, true), 50); } } },
-    { text: "§7« Voltar às raças", icon: "back", run: () => openRacePickV2(player, idx) },
-  ], sageTh(player));
+}
+export function openRacePickV2(player, idx = 0, confirm = false) {
+  const n = RACE_LIST.length, i = ((idx % n) + n) % n, r = RACE_LIST[i], st = r.stages[r.root];
+  sageSay(player, confirm ? "birth_done" : "birth_analyzing", { cd: confirm ? 200 : 600 });
+  cardMenu(player, r.id, `§f${r.name}`, cardBody(r, st, confirm), [
+    { text: "§l<", run: () => openRacePickV2(player, i - 1) },
+    { text: "§lESCOLHER", run: () => (confirm ? confirmRace(player, r) : openRacePickV2(player, i, true)) },
+    { text: "§l>", run: () => openRacePickV2(player, i + 1) },
+  ], `§l§r§${RACE_DIFF[r.id] ?? 1}${confirm ? "§t§y" : ""}`);
+}
+function confirmRace(player, r) {
+  if (!chooseRace(player, r.id)) return;
+  say(player, `§aVocê agora é ${r.name}!`);
+  scene(player, "outro", "Reencarnação completa.", r.name, "§lContinuar »", () => system.runTimeout(() => openClass(player, true), 10), 130);
+}
+/** "Confirmar?" = o mesmo cartão da raça (2º toque em ESCOLHER confirma) */
+export function openRaceConfirmV2(player, id) {
+  const idx = RACE_LIST.findIndex((x) => x.id === id);
+  if (idx < 0) return openRacePickV2(player, 0);
+  return openRacePickV2(player, idx, true);
 }
 export function openRaceListV2(player, view = false, back) {
   const d = getData(player);

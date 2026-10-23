@@ -75,7 +75,7 @@
       },
       {
        "binding_type": "view",
-       "source_property_name": "((not ((#title_text - '§j§q') = #title_text)) and ((#title_text - '§t§k') = #title_text) and ((#title_text - '§t§n') = #title_text))",
+       "source_property_name": "((not ((#title_text - '§j§q') = #title_text)) and ((#title_text - '§t§k') = #title_text) and ((#title_text - '§t§n') = #title_text) and ((#title_text - '§t§i') = #title_text) and ((#title_text - '§t§o') = #title_text))",
        "target_property_name": "#visible"
       }
      ]
@@ -104,6 +104,34 @@
       {
        "binding_type": "view",
        "source_property_name": "((not ((#title_text - '§j§q') = #title_text)) and (not ((#title_text - '§t§n') = #title_text)) and ((#title_text - '§t§k') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "sg_intro_form@server_form.eth_sg_intro_form": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((not ((#title_text - '§j§q') = #title_text)) and (not ((#title_text - '§t§i') = #title_text)) and ((#title_text - '§t§k') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "sg_outro_form@server_form.eth_sg_outro_form": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((not ((#title_text - '§j§q') = #title_text)) and (not ((#title_text - '§t§o') = #title_text)) and ((#title_text - '§t§k') = #title_text))",
        "target_property_name": "#visible"
       }
      ]
@@ -6384,7 +6412,603 @@
    }
   ]
  },
- "eth_sg_card_form": {
+ "eth_sgtw_v0_a": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.08,
+  "to": 1.0,
+  "duration": 0.8,
+  "next": "@server_form.eth_sgtw_v0_b"
+ },
+ "eth_sgtw_v0_b": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.08,
+  "duration": 0.8,
+  "next": "@server_form.eth_sgtw_v0_a"
+ },
+ "eth_sgtw_v1_a": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.08,
+  "to": 1.0,
+  "duration": 1.25,
+  "next": "@server_form.eth_sgtw_v1_b"
+ },
+ "eth_sgtw_v1_b": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.08,
+  "duration": 1.25,
+  "next": "@server_form.eth_sgtw_v1_a"
+ },
+ "eth_sgtw_v2_a": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 0.08,
+  "to": 1.0,
+  "duration": 1.7,
+  "next": "@server_form.eth_sgtw_v2_b"
+ },
+ "eth_sgtw_v2_b": {
+  "anim_type": "alpha",
+  "easing": "in_out_sine",
+  "from": 1.0,
+  "to": 0.08,
+  "duration": 1.7,
+  "next": "@server_form.eth_sgtw_v2_a"
+ },
+ "eth_sgtw0": {
+  "anim_type": "wait",
+  "duration": 0.001,
+  "next": "@server_form.eth_sgtw_v0_a"
+ },
+ "eth_sgtw1": {
+  "anim_type": "wait",
+  "duration": 0.371,
+  "next": "@server_form.eth_sgtw_v1_a"
+ },
+ "eth_sgtw2": {
+  "anim_type": "wait",
+  "duration": 0.741,
+  "next": "@server_form.eth_sgtw_v2_a"
+ },
+ "eth_sgtw3": {
+  "anim_type": "wait",
+  "duration": 1.111,
+  "next": "@server_form.eth_sgtw_v0_a"
+ },
+ "eth_sgtw4": {
+  "anim_type": "wait",
+  "duration": 1.481,
+  "next": "@server_form.eth_sgtw_v1_a"
+ },
+ "eth_sgtw5": {
+  "anim_type": "wait",
+  "duration": 0.251,
+  "next": "@server_form.eth_sgtw_v2_a"
+ },
+ "eth_sgtw6": {
+  "anim_type": "wait",
+  "duration": 0.621,
+  "next": "@server_form.eth_sgtw_v0_a"
+ },
+ "eth_sgtw7": {
+  "anim_type": "wait",
+  "duration": 0.991,
+  "next": "@server_form.eth_sgtw_v1_a"
+ },
+ "eth_sgtw8": {
+  "anim_type": "wait",
+  "duration": 1.361,
+  "next": "@server_form.eth_sgtw_v2_a"
+ },
+ "eth_sgtw9": {
+  "anim_type": "wait",
+  "duration": 0.131,
+  "next": "@server_form.eth_sgtw_v0_a"
+ },
+ "eth_sgtw10": {
+  "anim_type": "wait",
+  "duration": 0.501,
+  "next": "@server_form.eth_sgtw_v1_a"
+ },
+ "eth_sgtw11": {
+  "anim_type": "wait",
+  "duration": 0.871,
+  "next": "@server_form.eth_sgtw_v2_a"
+ },
+ "eth_sgi_fr_w": {
+  "anim_type": "wait",
+  "duration": 3.9,
+  "next": "@server_form.eth_sgi_fr_o"
+ },
+ "eth_sgi_fr_o": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.4
+ },
+ "eth_sgi_sign_w": {
+  "anim_type": "wait",
+  "duration": 1.7,
+  "next": "@server_form.eth_sgi_sign"
+ },
+ "eth_sgi_sign": {
+  "anim_type": "offset",
+  "easing": "linear",
+  "from": [
+   0,
+   0
+  ],
+  "to": [
+   "100%",
+   0
+  ],
+  "duration": 1.7
+ },
+ "eth_sgi_l1_w": {
+  "anim_type": "wait",
+  "duration": 0.2,
+  "next": "@server_form.eth_sgi_l1_i"
+ },
+ "eth_sgi_l1_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@server_form.eth_sgi_l1_h"
+ },
+ "eth_sgi_l1_h": {
+  "anim_type": "wait",
+  "duration": 0.9000000000000001,
+  "next": "@server_form.eth_sgi_l1_o"
+ },
+ "eth_sgi_l1_o": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35
+ },
+ "eth_sgi_l2_w": {
+  "anim_type": "wait",
+  "duration": 1.9,
+  "next": "@server_form.eth_sgi_l2_i"
+ },
+ "eth_sgi_l2_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@server_form.eth_sgi_l2_h"
+ },
+ "eth_sgi_l2_h": {
+  "anim_type": "wait",
+  "duration": 1.4000000000000001,
+  "next": "@server_form.eth_sgi_l2_o"
+ },
+ "eth_sgi_l2_o": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35
+ },
+ "eth_sgi_l3_w": {
+  "anim_type": "wait",
+  "duration": 5.0,
+  "next": "@server_form.eth_sgi_l3_i"
+ },
+ "eth_sgi_l3_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@server_form.eth_sgi_l3_h"
+ },
+ "eth_sgi_l3_h": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@server_form.eth_sgi_l3_o"
+ },
+ "eth_sgi_l3_o": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35
+ },
+ "eth_sgi_hg_w": {
+  "anim_type": "wait",
+  "duration": 4.3,
+  "next": "@server_form.eth_sgi_hg_i"
+ },
+ "eth_sgi_hg_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@server_form.eth_sgi_hg_h"
+ },
+ "eth_sgi_hg_h": {
+  "anim_type": "wait",
+  "duration": 1.3,
+  "next": "@server_form.eth_sgi_hg_o"
+ },
+ "eth_sgi_hg_o": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35
+ },
+ "eth_sgi_hs_w": {
+  "anim_type": "wait",
+  "duration": 4.7,
+  "next": "@server_form.eth_sgi_hs_i"
+ },
+ "eth_sgi_hs_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.8,
+  "duration": 0.35,
+  "next": "@server_form.eth_sgi_hs_h"
+ },
+ "eth_sgi_hs_h": {
+  "anim_type": "wait",
+  "duration": 0.8999999999999997,
+  "next": "@server_form.eth_sgi_hs_o"
+ },
+ "eth_sgi_hs_o": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.8,
+  "to": 0.0,
+  "duration": 0.35
+ },
+ "eth_sgi_bn_w": {
+  "anim_type": "wait",
+  "duration": 6.4,
+  "next": "@server_form.eth_sgi_bn_i"
+ },
+ "eth_sgi_bn_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.25
+ },
+ "eth_sgi_bs_w": {
+  "anim_type": "wait",
+  "duration": 6.8,
+  "next": "@server_form.eth_sgi_bs_i"
+ },
+ "eth_sgi_bs_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.9,
+  "duration": 0.35
+ },
+ "eth_sgi_slide_w": {
+  "anim_type": "wait",
+  "duration": 6.4,
+  "next": "@server_form.eth_sgi_slide"
+ },
+ "eth_sgi_slide": {
+  "anim_type": "offset",
+  "easing": "out_cubic",
+  "from": [
+   "-100%",
+   -12
+  ],
+  "to": [
+   0,
+   -12
+  ],
+  "duration": 0.45
+ },
+ "eth_sgi_skip_w": {
+  "anim_type": "wait",
+  "duration": 0.6,
+  "next": "@server_form.eth_sgi_skip_i"
+ },
+ "eth_sgi_skip_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.85,
+  "duration": 0.35
+ },
+ "eth_sgo_grow": {
+  "anim_type": "size",
+  "easing": "out_cubic",
+  "from": [
+   20,
+   20
+  ],
+  "to": [
+   150,
+   150
+  ],
+  "duration": 1.4
+ },
+ "eth_sgo_l1_w": {
+  "anim_type": "wait",
+  "duration": 0.2,
+  "next": "@server_form.eth_sgo_l1_i"
+ },
+ "eth_sgo_l1_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@server_form.eth_sgo_l1_h"
+ },
+ "eth_sgo_l1_h": {
+  "anim_type": "wait",
+  "duration": 0.8,
+  "next": "@server_form.eth_sgo_l1_o"
+ },
+ "eth_sgo_l1_o": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35
+ },
+ "eth_sgo_l2_w": {
+  "anim_type": "wait",
+  "duration": 1.8,
+  "next": "@server_form.eth_sgo_l2_i"
+ },
+ "eth_sgo_l2_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@server_form.eth_sgo_l2_h"
+ },
+ "eth_sgo_l2_h": {
+  "anim_type": "wait",
+  "duration": 1.1,
+  "next": "@server_form.eth_sgo_l2_o"
+ },
+ "eth_sgo_l2_o": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35
+ },
+ "eth_sgo_l3_w": {
+  "anim_type": "wait",
+  "duration": 3.7,
+  "next": "@server_form.eth_sgo_l3_i"
+ },
+ "eth_sgo_l3_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35,
+  "next": "@server_form.eth_sgo_l3_h"
+ },
+ "eth_sgo_l3_h": {
+  "anim_type": "wait",
+  "duration": 0.6999999999999995,
+  "next": "@server_form.eth_sgo_l3_o"
+ },
+ "eth_sgo_l3_o": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 1.0,
+  "to": 0.0,
+  "duration": 0.35
+ },
+ "eth_sgo_l4_w": {
+  "anim_type": "wait",
+  "duration": 5.2,
+  "next": "@server_form.eth_sgo_l4_i"
+ },
+ "eth_sgo_l4_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 1.0,
+  "duration": 0.35
+ },
+ "eth_sgo_skip_w": {
+  "anim_type": "wait",
+  "duration": 1.0,
+  "next": "@server_form.eth_sgo_skip_i"
+ },
+ "eth_sgo_skip_i": {
+  "anim_type": "alpha",
+  "easing": "linear",
+  "from": 0.0,
+  "to": 0.85,
+  "duration": 0.35
+ },
+ "eth_sg_card_text": {
+  "type": "stack_panel",
+  "size": [
+   "100% - 4px",
+   "100%c"
+  ],
+  "orientation": "vertical",
+  "anchor_from": "top_left",
+  "anchor_to": "top_left",
+  "controls": [
+   {
+    "pad_top": {
+     "type": "panel",
+     "size": [
+      "100%",
+      2
+     ]
+    }
+   },
+   {
+    "text_panel": {
+     "type": "panel",
+     "size": [
+      "100%",
+      "100%c"
+     ],
+     "controls": [
+      {
+       "main_label": {
+        "type": "label",
+        "offset": [
+         5,
+         0
+        ],
+        "color": [
+         1,
+         1,
+         1
+        ],
+        "size": [
+         "100% - 8px",
+         "default"
+        ],
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "text": "#form_text",
+        "font_scale_factor": 0.8
+       }
+      }
+     ]
+    }
+   },
+   {
+    "pad_bottom": {
+     "type": "panel",
+     "size": [
+      "100%",
+      6
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_pick_btn": {
+  "type": "panel",
+  "size": [
+   56,
+   20
+  ],
+  "controls": [
+   {
+    "form_button@common_buttons.light_text_button": {
+     "$pressed_button_name": "button.form_button_click",
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "size": [
+      "100% - 4px",
+      17
+     ],
+     "$button_text": "#form_button_text",
+     "$button_text_binding_type": "collection",
+     "$button_text_grid_collection_name": "form_buttons",
+     "$button_text_max_size": [
+      "100% - 4px",
+      10
+     ],
+     "$default_button_texture": "textures/ui/etheria_sg/sg_pill",
+     "$hover_button_texture": "textures/ui/etheria_sg/sg_pill_h",
+     "$pressed_button_texture": "textures/ui/etheria_sg/sg_pill_p",
+     "$default_text_color": [
+      1,
+      1,
+      1
+     ],
+     "$hover_text_color": [
+      1,
+      1,
+      1
+     ],
+     "$pressed_text_color": [
+      0.85,
+      0.92,
+      1
+     ],
+     "$border_visible": false,
+     "bindings": [
+      {
+       "binding_type": "collection_details",
+       "binding_collection_name": "form_buttons"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_tap_btn": {
+  "type": "panel",
+  "size": [
+   78,
+   16
+  ],
+  "controls": [
+   {
+    "form_button@common_buttons.light_text_button": {
+     "$pressed_button_name": "button.form_button_click",
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "size": [
+      "100% - 4px",
+      14
+     ],
+     "$button_text": "#form_button_text",
+     "$button_text_binding_type": "collection",
+     "$button_text_grid_collection_name": "form_buttons",
+     "$button_text_max_size": [
+      "100% - 4px",
+      10
+     ],
+     "$default_button_texture": "textures/ui/etheria_sg/sg_pill_dim",
+     "$hover_button_texture": "textures/ui/etheria_sg/sg_pill_h",
+     "$pressed_button_texture": "textures/ui/etheria_sg/sg_pill_p",
+     "$default_text_color": [
+      0.86,
+      0.9,
+      0.97
+     ],
+     "$hover_text_color": [
+      1,
+      1,
+      1
+     ],
+     "$pressed_text_color": [
+      0.85,
+      0.92,
+      1
+     ],
+     "$border_visible": false,
+     "bindings": [
+      {
+       "binding_type": "collection_details",
+       "binding_collection_name": "form_buttons"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_intro_form": {
   "type": "panel",
   "size": [
    "100%",
@@ -6393,9 +7017,9 @@
   "layer": 2,
   "controls": [
    {
-    "sg_bg": {
+    "st_bg": {
      "type": "image",
-     "texture": "textures/ui/etheria_sg/sg_bg",
+     "texture": "textures/ui/etheria_sg/sg_stars",
      "size": [
       "100%",
       "100%"
@@ -6406,88 +7030,2400 @@
     }
    },
    {
-    "sg_motes": {
+    "tw0": {
      "type": "image",
-     "texture": "textures/ui/etheria/ov_motes_0",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
      "size": [
-      "100%",
-      "100%"
+      7,
+      7
      ],
-     "keep_ratio": false,
-     "color": [
-      0.55,
-      1.0,
-      0.82
-     ],
-     "alpha": 0.0,
-     "layer": 2,
-     "anims": [
-      "@server_form.eth_mote0_start",
-      "@server_form.eth_motea0_start"
-     ]
-    }
-   },
-   {
-    "sg_scan": {
-     "type": "image",
-     "texture": "textures/ui/etheria/ov_scan",
-     "size": [
-      "100%",
-      6
-     ],
-     "keep_ratio": false,
-     "anchor_from": "top_middle",
-     "anchor_to": "top_middle",
-     "color": [
-      0.55,
-      1.0,
-      0.82
-     ],
-     "alpha": 0.45,
-     "layer": 3,
-     "anims": [
-      "@server_form.eth_scan_r"
-     ]
-    }
-   },
-   {
-    "sg_frame": {
-     "type": "image",
-     "texture": "textures/ui/etheria_sg/sg_frame",
-     "size": [
-      "100% - 6px",
-      "100% - 6px"
-     ],
-     "anchor_from": "center",
-     "anchor_to": "center",
-     "layer": 4,
-     "alpha": 1.0,
-     "anims": [
-      "@server_form.eth_sg_glow_a"
-     ]
-    }
-   },
-   {
-    "sg_head": {
-     "type": "label",
-     "text": "§l[ GRANDE SÁBIO ]",
      "anchor_from": "top_left",
      "anchor_to": "top_left",
      "offset": [
-      10,
+      "6%",
+      "12%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw0"
+     ]
+    }
+   },
+   {
+    "tw1": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "18%",
+      "70%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw1"
+     ]
+    }
+   },
+   {
+    "tw2": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      6,
+      6
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "27%",
+      "30%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw2"
+     ]
+    }
+   },
+   {
+    "tw3": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "38%",
+      "86%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw3"
+     ]
+    }
+   },
+   {
+    "tw4": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      7,
       7
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "47%",
+      "8%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw4"
+     ]
+    }
+   },
+   {
+    "tw5": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "58%",
+      "62%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw5"
+     ]
+    }
+   },
+   {
+    "tw6": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      6,
+      6
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "66%",
+      "22%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw6"
+     ]
+    }
+   },
+   {
+    "tw7": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      7,
+      7
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "74%",
+      "80%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw7"
+     ]
+    }
+   },
+   {
+    "tw8": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "83%",
+      "44%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw8"
+     ]
+    }
+   },
+   {
+    "tw9": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      6,
+      6
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "92%",
+      "14%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw9"
+     ]
+    }
+   },
+   {
+    "tw10": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "12%",
+      "44%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw10"
+     ]
+    }
+   },
+   {
+    "tw11": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "88%",
+      "90%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw11"
+     ]
+    }
+   },
+   {
+    "draw": {
+     "type": "panel",
+     "size": [
+      "66%",
+      "68%"
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      -10
+     ],
+     "layer": 4,
+     "controls": [
+      {
+       "black": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgi_fr_w"
+        ]
+       }
+      },
+      {
+       "thin": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_thin",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "layer": 2,
+        "anims": [
+         "@server_form.eth_sgi_fr_w"
+        ]
+       }
+      },
+      {
+       "sign": {
+        "type": "panel",
+        "size": [
+         "62%",
+         "56%"
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "layer": 3,
+        "clips_children": true,
+        "controls": [
+         {
+          "ink": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/sg_sign",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "layer": 1,
+           "anims": [
+            "@server_form.eth_sgi_fr_w"
+           ]
+          }
+         },
+         {
+          "cover": {
+           "type": "image",
+           "texture": "textures/ui/Black",
+           "size": [
+            "100%",
+            "100%"
+           ],
+           "keep_ratio": false,
+           "anchor_from": "top_left",
+           "anchor_to": "top_left",
+           "layer": 2,
+           "anims": [
+            "@server_form.eth_sgi_sign_w"
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "hg": {
+     "type": "label",
+     "text": "A Ampulheta",
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      -16
      ],
      "size": [
       "default",
       10
      ],
      "color": [
-      0.55,
-      1.0,
-      0.82
+      0.95,
+      0.97,
+      1
      ],
      "shadow": true,
-     "layer": 6
+     "layer": 6,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgi_hg_w"
+     ]
+    }
+   },
+   {
+    "hs": {
+     "type": "label",
+     "text": "Era, estreitou-se, conteve-se.",
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      34
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.7,
+      0.76,
+      0.88
+     ],
+     "layer": 6,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgi_hs_w"
+     ]
+    }
+   },
+   {
+    "banner": {
+     "type": "panel",
+     "size": [
+      "100%",
+      50
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      "-100%",
+      -12
+     ],
+     "layer": 7,
+     "anims": [
+      "@server_form.eth_sgi_slide_w"
+     ],
+     "controls": [
+      {
+       "red": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_banner",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "layer": 1,
+        "alpha": 0.0,
+        "anims": [
+         "@server_form.eth_sgi_bn_w"
+        ]
+       }
+      },
+      {
+       "name": {
+        "type": "label",
+        "text": "#title_text",
+        "bindings": [
+         {
+          "binding_name": "#title_text"
+         }
+        ],
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "size": [
+         "100% - 24px",
+         "default"
+        ],
+        "text_alignment": "center",
+        "font_size": "extra_large",
+        "color": [
+         1,
+         0.95,
+         0.95
+        ],
+        "shadow": true,
+        "layer": 2,
+        "alpha": 0.0,
+        "anims": [
+         "@server_form.eth_sgi_bn_w"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "bsub": {
+     "type": "label",
+     "text": "#form_text",
+     "bindings": [
+      {
+       "binding_name": "#form_text"
+      }
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      24
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.86,
+      0.9,
+      0.97
+     ],
+     "layer": 7,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgi_bs_w"
+     ]
+    }
+   },
+   {
+    "l1": {
+     "type": "label",
+     "text": "Sorteio.",
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "offset": [
+      0,
+      -8
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.86,
+      0.9,
+      0.97
+     ],
+     "shadow": true,
+     "layer": 8,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgi_l1_w"
+     ]
+    }
+   },
+   {
+    "l2": {
+     "type": "label",
+     "text": "O último desejo.",
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "offset": [
+      0,
+      -8
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.86,
+      0.9,
+      0.97
+     ],
+     "shadow": true,
+     "layer": 8,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgi_l2_w"
+     ]
+    }
+   },
+   {
+    "l3": {
+     "type": "label",
+     "text": "Aptidão encontrada.",
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "offset": [
+      0,
+      -8
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.86,
+      0.9,
+      0.97
+     ],
+     "shadow": true,
+     "layer": 8,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgi_l3_w"
+     ]
+    }
+   },
+   {
+    "skip": {
+     "type": "stack_panel",
+     "orientation": "horizontal",
+     "size": [
+      "100%c",
+      16
+     ],
+     "anchor_from": "bottom_right",
+     "anchor_to": "bottom_right",
+     "offset": [
+      -6,
+      -5
+     ],
+     "layer": 20,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgi_skip_w"
+     ],
+     "factory": {
+      "name": "buttons",
+      "control_name": "server_form.eth_sg_tap_btn"
+     },
+     "collection_name": "form_buttons",
+     "bindings": [
+      {
+       "binding_name": "#form_button_length",
+       "binding_name_override": "#collection_length"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_outro_form": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "layer": 2,
+  "controls": [
+   {
+    "st_bg": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_stars",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "keep_ratio": false,
+     "fill": true,
+     "layer": 1
+    }
+   },
+   {
+    "tw0": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      7,
+      7
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "6%",
+      "12%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw0"
+     ]
+    }
+   },
+   {
+    "tw1": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "18%",
+      "70%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw1"
+     ]
+    }
+   },
+   {
+    "tw2": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      6,
+      6
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "27%",
+      "30%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw2"
+     ]
+    }
+   },
+   {
+    "tw3": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "38%",
+      "86%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw3"
+     ]
+    }
+   },
+   {
+    "tw4": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      7,
+      7
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "47%",
+      "8%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw4"
+     ]
+    }
+   },
+   {
+    "tw5": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "58%",
+      "62%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw5"
+     ]
+    }
+   },
+   {
+    "tw6": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      6,
+      6
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "66%",
+      "22%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw6"
+     ]
+    }
+   },
+   {
+    "tw7": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      7,
+      7
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "74%",
+      "80%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw7"
+     ]
+    }
+   },
+   {
+    "tw8": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "83%",
+      "44%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw8"
+     ]
+    }
+   },
+   {
+    "tw9": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      6,
+      6
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "92%",
+      "14%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw9"
+     ]
+    }
+   },
+   {
+    "tw10": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "12%",
+      "44%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw10"
+     ]
+    }
+   },
+   {
+    "tw11": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "88%",
+      "90%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw11"
+     ]
+    }
+   },
+   {
+    "sphere": {
+     "type": "panel",
+     "size": [
+      150,
+      150
+     ],
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      0,
+      -10
+     ],
+     "layer": 4,
+     "anims": [
+      "@server_form.eth_sgo_grow"
+     ],
+     "controls": [
+      {
+       "x0": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_0",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx0_start"
+        ]
+       }
+      },
+      {
+       "x1": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_1",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx1_start"
+        ]
+       }
+      },
+      {
+       "x2": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_2",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx2_start"
+        ]
+       }
+      },
+      {
+       "x3": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_3",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx3_start"
+        ]
+       }
+      },
+      {
+       "x4": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_4",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx4_start"
+        ]
+       }
+      },
+      {
+       "x5": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_5",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx5_start"
+        ]
+       }
+      },
+      {
+       "x6": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_6",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx6_start"
+        ]
+       }
+      },
+      {
+       "x7": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_7",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx7_start"
+        ]
+       }
+      },
+      {
+       "x8": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_8",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx8_start"
+        ]
+       }
+      },
+      {
+       "x9": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_9",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx9_start"
+        ]
+       }
+      },
+      {
+       "x10": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_10",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx10_start"
+        ]
+       }
+      },
+      {
+       "x11": {
+        "type": "image",
+        "texture": "textures/ui/etheria/sg_ico_11",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.5,
+         0.75,
+         1.0
+        ],
+        "alpha": 0.0,
+        "layer": 1,
+        "anims": [
+         "@server_form.eth_sgx11_start"
+        ]
+       }
+      },
+      {
+       "core": {
+        "type": "image",
+        "texture": "textures/ui/etheria/ov_core",
+        "size": [
+         "24%",
+         "24%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "color": [
+         0.45,
+         0.8,
+         1.0
+        ],
+        "layer": 3,
+        "anims": [
+         "@server_form.eth_sg_glow_a"
+        ]
+       }
+      },
+      {
+       "dot": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_twinkle",
+        "size": [
+         "9%",
+         "9%"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "center",
+        "anchor_to": "center",
+        "layer": 4
+       }
+      }
+     ]
+    }
+   },
+   {
+    "l1": {
+     "type": "label",
+     "text": "Confirmado.",
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "offset": [
+      0,
+      -8
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.86,
+      0.9,
+      0.97
+     ],
+     "shadow": true,
+     "layer": 8,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgo_l1_w"
+     ]
+    }
+   },
+   {
+    "l2": {
+     "type": "label",
+     "text": "Reencarnação completa.",
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "offset": [
+      0,
+      -8
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.86,
+      0.9,
+      0.97
+     ],
+     "shadow": true,
+     "layer": 8,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgo_l2_w"
+     ]
+    }
+   },
+   {
+    "l3": {
+     "type": "label",
+     "text": "Para o mundo.",
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "offset": [
+      0,
+      -8
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.86,
+      0.9,
+      0.97
+     ],
+     "shadow": true,
+     "layer": 8,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgo_l3_w"
+     ]
+    }
+   },
+   {
+    "l4": {
+     "type": "label",
+     "text": "Boa sorte.",
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "offset": [
+      0,
+      -8
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.86,
+      0.9,
+      0.97
+     ],
+     "shadow": true,
+     "layer": 8,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgo_l4_w"
+     ]
+    }
+   },
+   {
+    "skip": {
+     "type": "stack_panel",
+     "orientation": "horizontal",
+     "size": [
+      "100%c",
+      16
+     ],
+     "anchor_from": "bottom_right",
+     "anchor_to": "bottom_right",
+     "offset": [
+      -6,
+      -5
+     ],
+     "layer": 20,
+     "alpha": 0.0,
+     "anims": [
+      "@server_form.eth_sgo_skip_w"
+     ],
+     "factory": {
+      "name": "buttons",
+      "control_name": "server_form.eth_sg_tap_btn"
+     },
+     "collection_name": "form_buttons",
+     "bindings": [
+      {
+       "binding_name": "#form_button_length",
+       "binding_name_override": "#collection_length"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "eth_sg_card_form": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "layer": 2,
+  "controls": [
+   {
+    "st_bg": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_stars",
+     "size": [
+      "100%",
+      "100%"
+     ],
+     "keep_ratio": false,
+     "fill": true,
+     "layer": 1
+    }
+   },
+   {
+    "tw0": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      7,
+      7
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "6%",
+      "12%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw0"
+     ]
+    }
+   },
+   {
+    "tw1": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "18%",
+      "70%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw1"
+     ]
+    }
+   },
+   {
+    "tw2": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      6,
+      6
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "27%",
+      "30%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw2"
+     ]
+    }
+   },
+   {
+    "tw3": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "38%",
+      "86%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw3"
+     ]
+    }
+   },
+   {
+    "tw4": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      7,
+      7
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "47%",
+      "8%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw4"
+     ]
+    }
+   },
+   {
+    "tw5": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "58%",
+      "62%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw5"
+     ]
+    }
+   },
+   {
+    "tw6": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      6,
+      6
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "66%",
+      "22%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw6"
+     ]
+    }
+   },
+   {
+    "tw7": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      7,
+      7
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "74%",
+      "80%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw7"
+     ]
+    }
+   },
+   {
+    "tw8": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "83%",
+      "44%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw8"
+     ]
+    }
+   },
+   {
+    "tw9": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      6,
+      6
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "92%",
+      "14%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw9"
+     ]
+    }
+   },
+   {
+    "tw10": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "12%",
+      "44%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw10"
+     ]
+    }
+   },
+   {
+    "tw11": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_twinkle",
+     "size": [
+      5,
+      5
+     ],
+     "anchor_from": "top_left",
+     "anchor_to": "top_left",
+     "offset": [
+      "88%",
+      "90%"
+     ],
+     "alpha": 0.08,
+     "layer": 2,
+     "anims": [
+      "@server_form.eth_sgtw11"
+     ]
+    }
+   },
+   {
+    "side_l": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_card_side",
+     "size": [
+      184,
+      "74%"
+     ],
+     "keep_ratio": false,
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      -200,
+      -9
+     ],
+     "layer": 3
+    }
+   },
+   {
+    "side_r": {
+     "type": "image",
+     "texture": "textures/ui/etheria_sg/sg_card_side",
+     "size": [
+      184,
+      "74%"
+     ],
+     "keep_ratio": false,
+     "anchor_from": "center",
+     "anchor_to": "center",
+     "offset": [
+      200,
+      -9
+     ],
+     "layer": 3
+    }
+   },
+   {
+    "card": {
+     "type": "panel",
+     "size": [
+      184,
+      "100% - 30px"
+     ],
+     "anchor_from": "top_middle",
+     "anchor_to": "top_middle",
+     "offset": [
+      0,
+      6
+     ],
+     "layer": 5,
+     "controls": [
+      {
+       "frame": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_card",
+        "size": [
+         "100%",
+         "100%"
+        ],
+        "keep_ratio": false,
+        "layer": 1
+       }
+      },
+      {
+       "name": {
+        "type": "label",
+        "text": "#title_text",
+        "bindings": [
+         {
+          "binding_name": "#title_text"
+         }
+        ],
+        "anchor_from": "top_middle",
+        "anchor_to": "top_middle",
+        "offset": [
+         0,
+         5
+        ],
+        "size": [
+         "100% - 10px",
+         "default"
+        ],
+        "text_alignment": "center",
+        "color": [
+         1,
+         1,
+         1
+        ],
+        "shadow": true,
+        "layer": 3
+       }
+      },
+      {
+       "pic": {
+        "type": "image",
+        "texture": "textures/ui/etheria_sg/sg_pframe",
+        "size": [
+         62,
+         "100% - 48px"
+        ],
+        "keep_ratio": false,
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         7,
+         18
+        ],
+        "layer": 2,
+        "controls": [
+         {
+          "p_human": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_human",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§0') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_slime": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_slime",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§1') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_goblin": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_goblin",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§2') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_demon": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_demon",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§3') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_elf": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_elf",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§4') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_angel": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_angel",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§5') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_dragonoid": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_dragonoid",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§6') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_beastkin": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_beastkin",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§7') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_undead": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_undead",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§8') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_ogre": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_ogre",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§9') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_lizardman": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_lizardman",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§a') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_vampire": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_vampire",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§b') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         },
+         {
+          "p_dwarf": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/race_dwarf",
+           "size": [
+            "100% - 4px",
+            "100% - 4px"
+           ],
+           "anchor_from": "center",
+           "anchor_to": "center",
+           "layer": 1,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§k§r§c') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "info": {
+        "type": "panel",
+        "size": [
+         "100% - 76px",
+         "100% - 48px"
+        ],
+        "anchor_from": "top_left",
+        "anchor_to": "top_left",
+        "offset": [
+         71,
+         18
+        ],
+        "layer": 2,
+        "controls": [
+         {
+          "badge0": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/sg_badge0",
+           "size": [
+            46,
+            11
+           ],
+           "keep_ratio": false,
+           "anchor_from": "top_left",
+           "anchor_to": "top_left",
+           "offset": [
+            4,
+            0
+           ],
+           "layer": 2,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§l§r§0') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ],
+           "controls": [
+            {
+             "t": {
+              "type": "label",
+              "text": "Fácil",
+              "anchor_from": "center",
+              "anchor_to": "center",
+              "size": [
+               "default",
+               10
+              ],
+              "color": [
+               0.45,
+               0.95,
+               0.5
+              ],
+              "layer": 1
+             }
+            }
+           ]
+          }
+         },
+         {
+          "badge1": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/sg_badge1",
+           "size": [
+            46,
+            11
+           ],
+           "keep_ratio": false,
+           "anchor_from": "top_left",
+           "anchor_to": "top_left",
+           "offset": [
+            4,
+            0
+           ],
+           "layer": 2,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§l§r§1') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ],
+           "controls": [
+            {
+             "t": {
+              "type": "label",
+              "text": "Normal",
+              "anchor_from": "center",
+              "anchor_to": "center",
+              "size": [
+               "default",
+               10
+              ],
+              "color": [
+               1.0,
+               0.75,
+               0.3
+              ],
+              "layer": 1
+             }
+            }
+           ]
+          }
+         },
+         {
+          "badge2": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/sg_badge2",
+           "size": [
+            46,
+            11
+           ],
+           "keep_ratio": false,
+           "anchor_from": "top_left",
+           "anchor_to": "top_left",
+           "offset": [
+            4,
+            0
+           ],
+           "layer": 2,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§l§r§2') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ],
+           "controls": [
+            {
+             "t": {
+              "type": "label",
+              "text": "Difícil",
+              "anchor_from": "center",
+              "anchor_to": "center",
+              "size": [
+               "default",
+               10
+              ],
+              "color": [
+               1.0,
+               0.38,
+               0.36
+              ],
+              "layer": 1
+             }
+            }
+           ]
+          }
+         },
+         {
+          "badge3": {
+           "type": "image",
+           "texture": "textures/ui/etheria_sg/sg_badge3",
+           "size": [
+            46,
+            11
+           ],
+           "keep_ratio": false,
+           "anchor_from": "top_left",
+           "anchor_to": "top_left",
+           "offset": [
+            4,
+            0
+           ],
+           "layer": 2,
+           "bindings": [
+            {
+             "binding_name": "#title_text"
+            },
+            {
+             "binding_type": "view",
+             "source_property_name": "(not ((#title_text - '§l§r§3') = #title_text))",
+             "target_property_name": "#visible"
+            }
+           ],
+           "controls": [
+            {
+             "t": {
+              "type": "label",
+              "text": "Extremo",
+              "anchor_from": "center",
+              "anchor_to": "center",
+              "size": [
+               "default",
+               10
+              ],
+              "color": [
+               0.85,
+               0.5,
+               1.0
+              ],
+              "layer": 1
+             }
+            }
+           ]
+          }
+         },
+         {
+          "body": {
+           "type": "panel",
+           "size": [
+            "100%",
+            "100% - 13px"
+           ],
+           "anchor_from": "top_left",
+           "anchor_to": "top_left",
+           "offset": [
+            -5,
+            11
+           ],
+           "layer": 3,
+           "controls": [
+            {
+             "scroll@common.scrolling_panel": {
+              "$show_background": false,
+              "size": [
+               "100%",
+               "100%"
+              ],
+              "$scrolling_content": "server_form.eth_sg_card_text",
+              "$scroll_size": [
+               5,
+               "100% - 4px"
+              ],
+              "$scrolling_pane_size": [
+               "100% - 4px",
+               "100% - 2px"
+              ],
+              "$scrolling_pane_offset": [
+               2,
+               0
+              ],
+              "$scroll_bar_right_padding_size": [
+               0,
+               0
+              ],
+              "layer": 1
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "btns": {
+        "type": "stack_panel",
+        "orientation": "horizontal",
+        "size": [
+         "100%c",
+         20
+        ],
+        "anchor_from": "bottom_middle",
+        "anchor_to": "bottom_middle",
+        "offset": [
+         0,
+         -6
+        ],
+        "layer": 6,
+        "factory": {
+         "name": "buttons",
+         "control_name": "server_form.eth_sg_pick_btn"
+        },
+        "collection_name": "form_buttons",
+        "bindings": [
+         {
+          "binding_name": "#form_button_length",
+          "binding_name_override": "#collection_length"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "leg_pick": {
+     "type": "label",
+     "text": "Agora escolha uma forma.",
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "offset": [
+      0,
+      -8
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.86,
+      0.9,
+      0.97
+     ],
+     "shadow": true,
+     "layer": 8,
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((#title_text - '§t§y') = #title_text)",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "leg_conf": {
+     "type": "label",
+     "text": "Confirmar?",
+     "anchor_from": "bottom_middle",
+     "anchor_to": "bottom_middle",
+     "offset": [
+      0,
+      -8
+     ],
+     "size": [
+      "default",
+      10
+     ],
+     "color": [
+      0.86,
+      0.9,
+      0.97
+     ],
+     "shadow": true,
+     "layer": 8,
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - '§t§y') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
     }
    },
    {
@@ -6499,883 +9435,6 @@
       5
      ],
      "layer": 12
-    }
-   },
-   {
-    "sub": {
-     "type": "label",
-     "text": "ANÁLISE DE RAÇA",
-     "anchor_from": "top_left",
-     "anchor_to": "top_left",
-     "offset": [
-      96,
-      7
-     ],
-     "size": [
-      "default",
-      10
-     ],
-     "color": [
-      0.45,
-      0.95,
-      1.0
-     ],
-     "layer": 6
-    }
-   },
-   {
-    "left": {
-     "type": "panel",
-     "size": [
-      "36%",
-      "100% - 54px"
-     ],
-     "anchor_from": "top_left",
-     "anchor_to": "top_left",
-     "offset": [
-      10,
-      20
-     ],
-     "layer": 5,
-     "controls": [
-      {
-       "emblem": {
-        "type": "panel",
-        "size": [
-         76,
-         76
-        ],
-        "anchor_from": "top_middle",
-        "anchor_to": "top_middle",
-        "offset": [
-         0,
-         0
-        ],
-        "layer": 1,
-        "controls": [
-         {
-          "x0": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_0",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx0_start"
-           ]
-          }
-         },
-         {
-          "x1": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_1",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx1_start"
-           ]
-          }
-         },
-         {
-          "x2": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_2",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx2_start"
-           ]
-          }
-         },
-         {
-          "x3": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_3",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx3_start"
-           ]
-          }
-         },
-         {
-          "x4": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_4",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx4_start"
-           ]
-          }
-         },
-         {
-          "x5": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_5",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx5_start"
-           ]
-          }
-         },
-         {
-          "x6": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_6",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx6_start"
-           ]
-          }
-         },
-         {
-          "x7": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_7",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx7_start"
-           ]
-          }
-         },
-         {
-          "x8": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_8",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx8_start"
-           ]
-          }
-         },
-         {
-          "x9": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_9",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx9_start"
-           ]
-          }
-         },
-         {
-          "x10": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_10",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx10_start"
-           ]
-          }
-         },
-         {
-          "x11": {
-           "type": "image",
-           "texture": "textures/ui/etheria/sg_ico_11",
-           "size": [
-            76,
-            76
-           ],
-           "keep_ratio": false,
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "color": [
-            0.55,
-            1.0,
-            0.82
-           ],
-           "alpha": 0.0,
-           "layer": 1,
-           "anims": [
-            "@server_form.eth_sgx11_start"
-           ]
-          }
-         },
-         {
-          "ring": {
-           "type": "image",
-           "texture": "textures/ui/etheria_sg/sg_ring",
-           "size": [
-            52,
-            52
-           ],
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "layer": 3,
-           "anims": [
-            "@server_form.eth_sg_glow_a"
-           ]
-          }
-         },
-         {
-          "face": {
-           "type": "panel",
-           "size": [
-            32,
-            32
-           ],
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "layer": 4,
-           "controls": [
-            {
-             "face_human": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_human",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§0') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_slime": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_slime",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§1') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_goblin": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_goblin",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§2') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_demon": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_demon",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§3') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_elf": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_elf",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§4') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_angel": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_angel",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§5') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_dragonoid": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_dragonoid",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§6') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_beastkin": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_beastkin",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§7') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_undead": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_undead",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§8') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_ogre": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_ogre",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§9') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_lizardman": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_lizardman",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§a') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_vampire": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_vampire",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§b') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            },
-            {
-             "face_dwarf": {
-              "type": "image",
-              "texture": "textures/ui/etheria/race_face_dwarf",
-              "size": [
-               32,
-               32
-              ],
-              "layer": 1,
-              "bindings": [
-               {
-                "binding_name": "#title_text"
-               },
-               {
-                "binding_type": "view",
-                "source_property_name": "(not ((#title_text - '§k§r§c') = #title_text))",
-                "target_property_name": "#visible"
-               }
-              ]
-             }
-            }
-           ]
-          }
-         }
-        ]
-       }
-      },
-      {
-       "title": {
-        "type": "image",
-        "texture": "textures/ui/etheria_sg/sg_title",
-        "size": [
-         "100%",
-         24
-        ],
-        "anchor_from": "top_middle",
-        "anchor_to": "top_middle",
-        "offset": [
-         0,
-         80
-        ],
-        "layer": 3,
-        "controls": [
-         {
-          "name": {
-           "type": "label",
-           "text": "#title_text",
-           "bindings": [
-            {
-             "binding_name": "#title_text"
-            }
-           ],
-           "size": [
-            "100% - 14px",
-            "default"
-           ],
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "text_alignment": "center",
-           "font_size": "large",
-           "color": [
-            1,
-            1,
-            1
-           ],
-           "shadow": true,
-           "layer": 2
-          }
-         },
-         {
-          "clip": {
-           "type": "panel",
-           "size": [
-            "100% - 4px",
-            "100% - 4px"
-           ],
-           "anchor_from": "center",
-           "anchor_to": "center",
-           "layer": 3,
-           "controls": [
-            {
-             "sg_type_t": {
-              "type": "panel",
-              "size": [
-               "100%",
-               "100%"
-              ],
-              "clips_children": true,
-              "layer": 1,
-              "controls": [
-               {
-                "cur": {
-                 "type": "image",
-                 "texture": "textures/ui/etheria_sg/sg_curtain_h",
-                 "size": [
-                  "100%",
-                  "100%"
-                 ],
-                 "keep_ratio": false,
-                 "anchor_from": "top_left",
-                 "anchor_to": "top_left",
-                 "layer": 1,
-                 "anims": [
-                  "@server_form.eth_sg_type_h_start"
-                 ]
-                }
-               }
-              ]
-             }
-            }
-           ]
-          }
-         }
-        ]
-       }
-      },
-      {
-       "hint": {
-        "type": "label",
-        "text": "§7< > troca a raça\n§aEscolher §7abre a análise",
-        "anchor_from": "top_middle",
-        "anchor_to": "top_middle",
-        "offset": [
-         0,
-         108
-        ],
-        "size": [
-         "100%",
-         "default"
-        ],
-        "text_alignment": "center",
-        "color": [
-         0.8,
-         0.95,
-         0.9
-        ],
-        "layer": 3
-       }
-      }
-     ]
-    }
-   },
-   {
-    "info": {
-     "type": "panel",
-     "size": [
-      "64% - 26px",
-      "100% - 54px"
-     ],
-     "anchor_from": "top_right",
-     "anchor_to": "top_right",
-     "offset": [
-      -10,
-      20
-     ],
-     "layer": 5,
-     "controls": [
-      {
-       "plate": {
-        "type": "image",
-        "texture": "textures/ui/etheria_sg/sg_panel",
-        "size": [
-         "100%",
-         "100%"
-        ],
-        "layer": 1
-       }
-      },
-      {
-       "body": {
-        "type": "panel",
-        "size": [
-         "100% - 6px",
-         "100% - 6px"
-        ],
-        "anchor_from": "center",
-        "anchor_to": "center",
-        "layer": 2,
-        "controls": [
-         {
-          "scroll@common.scrolling_panel": {
-           "$show_background": false,
-           "size": [
-            "100%",
-            "100%"
-           ],
-           "$scrolling_content": "server_form.eth_text_content",
-           "$scroll_size": [
-            5,
-            "100% - 4px"
-           ],
-           "$scrolling_pane_size": [
-            "100% - 4px",
-            "100% - 2px"
-           ],
-           "$scrolling_pane_offset": [
-            2,
-            0
-           ],
-           "$scroll_bar_right_padding_size": [
-            0,
-            0
-           ],
-           "layer": 2
-          }
-         },
-         {
-          "sg_type": {
-           "type": "panel",
-           "size": [
-            "100%",
-            "100%"
-           ],
-           "clips_children": true,
-           "layer": 20,
-           "controls": [
-            {
-             "cur": {
-              "type": "image",
-              "texture": "textures/ui/etheria_sg/sg_curtain_v",
-              "size": [
-               "100%",
-               "100%"
-              ],
-              "keep_ratio": false,
-              "anchor_from": "top_left",
-              "anchor_to": "top_left",
-              "layer": 1,
-              "anims": [
-               "@server_form.eth_sg_type_v_start"
-              ]
-             }
-            }
-           ]
-          }
-         }
-        ]
-       }
-      }
-     ]
-    }
-   },
-   {
-    "arrows": {
-     "type": "stack_panel",
-     "orientation": "horizontal",
-     "size": [
-      "100%c",
-      26
-     ],
-     "anchor_from": "bottom_middle",
-     "anchor_to": "bottom_middle",
-     "offset": [
-      0,
-      -6
-     ],
-     "layer": 8,
-     "factory": {
-      "name": "buttons",
-      "control_name": "server_form.eth_sg_card_btn"
-     },
-     "collection_name": "form_buttons",
-     "bindings": [
-      {
-       "binding_name": "#form_button_length",
-       "binding_name_override": "#collection_length"
-      }
-     ]
     }
    }
   ]
