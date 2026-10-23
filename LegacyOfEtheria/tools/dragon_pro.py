@@ -440,3 +440,201 @@ def bake(m, panels, names, D, seed=11):
         out[nm] = at
         if puv is None: puv = uvs
     return out, puv
+
+# ================================================================== corpo (tubo octogonal com escamas em relevo)
+def catmull(pts, sub=8):
+    P = [A(p) for p in pts]; P = [P[0] * 2 - P[1]] + P + [P[-1] * 2 - P[-2]]; out = []
+    for i in range(1, len(P) - 2):
+        p0, p1, p2, p3 = P[i - 1], P[i], P[i + 1], P[i + 2]
+        for k in range(sub):
+            t = k / sub; out.append(0.5 * (2 * p1 + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (-p0 + 3 * p1 - 3 * p2 + p3) * t ** 3))
+    out.append(P[-2]); return out
+
+def body_tube(m, sp, segs, bone_of, rad, opts):
+    """segs: lista de (s0, s1). rad(s) -> (meia-largura, meia-altura, deslocamento vertical). opts(s) -> dict de detalhes"""
+    for s0, s1 in segs:
+        s = (s0 + s1) / 2; P = sp.at(s); F = sp.F(s); Tn, Nn = F[:, 0], F[:, 1]; Bn = np.cross(Tn, Nn)
+        rw, rh, yo = rad(s); o = opts(s); b = bone_of(s); L = s1 - s0; R = frame(Tn, Nn); c = P + Nn * yo
+        hmat = o.get("hmat")
+        m.cube(b, c, (2 * rw, 2 * rh, L + 1.6), R, "skin", hmat=hmat)
+        a = (rw + rh) * 0.98
+        m.cube(b, c, (a, a, L + 1.2), R @ rot((0, 0, 1), 45), "skin")
+        if o.get("belly", True):
+            m.cube(b, c - Nn * (rh * 0.97), (rw * 1.25, 1.6, L * 0.92), R, "belly")
+        if o.get("scute", True):
+            m.cube(b, c + Nn * (rh + 0.15), (rw * 0.85, 1.1, L * 0.9), R @ rot((1, 0, 0), 8), "scute")
+        if o.get("flank", 0):
+            for sg in (1, -1):
+                side = -Bn * sg
+                for j in range(o["flank"]):
+                    off = 0.38 - j * 0.62
+                    m.cube(b, c + side * (rw + 0.1) + Nn * rh * off, (rh * 0.8, 0.9, L * 0.8), frame(Tn, side) @ rot((1, 0, 0), 9), "scute2")
+        if o.get("spike"):
+            Ls, w = o["spike"]; base = c + Nn * (rh * 0.92); d = _n(Nn - Tn * 0.6)
+            Pen(m, b).spike(base, d, Ls, w, up=-Tn)
+        if o.get("lat"):
+            Ls = o["lat"]
+            for sg in (1, -1):
+                side = -Bn * sg; base = c + side * rw * 0.85 + Nn * rh * 0.2
+                Pen(m, b).spike(base, _n(side * 0.8 - Tn * 0.7 + Nn * 0.15), Ls, Ls * 0.35)
+
+def make_spine(ctrl):
+    return Spine(catmull(ctrl, 10), ds=1.0)
+
+# ================================================================== VELDANAVA (alado)
+W_PTS = dict(S=(18, 80, -20), E=(54, 106, 4), W=(106, 90, -8), T1=(184, 98, 10), T2=(174, 70, 64), T3=(134, 54, 102), T4=(86, 52, 110), Hb=(22, 70, 42))
+
+def western_head(m, pen, jaw_bone, P, horns="curved"):
+    """cabeça ocidental em coordenadas locais (frente = -z); pen já posicionado/rotacionado no pivô da cabeça"""
+    hd = pen
+    hd.box((0, 2, -13), (24, 18, 27), mat="head")                                   # crânio
+    hd.box((0, 3, -13), (19, 19, 25), rot((0, 0, 1), 45), mat="head")
+    hd.box((0, 10.5, -3), (15, 4, 15), rot((1, 0, 0), 12), mat="scute")             # crista occipital
+    for sg in (1, -1):
+        hd.box((sg * 9, 10, -23), (7, 4.5, 16), rot((0, 1, 0), -sg * 12) @ rot((0, 0, 1), sg * 10), mat="head", hmat="headtop")   # sobrancelha
+        hd.box((sg * 11, -1, -14), (5, 7, 15), mat="head")                           # maçã do rosto
+    hd.box((0, 1, -35), (18, 13, 20), mat="head")                                    # focinho (3 partes afinando)
+    hd.box((0, 0, -49), (15, 11, 14), mat="head")
+    hd.box((0, -0.5, -59), (12, 9.5, 9), mat="head")
+    hd.box((0, 7.2, -42), (5, 3, 32), rot((1, 0, 0), -6), mat="gold")               # placa nasal
+    hd.spike((0, 7.5, -55), (0, 0.8, -0.6), 9, 3.2, mats=("horn1", "horn3"))         # chifre do nariz
+    for sg in (1, -1):
+        hd.box((sg * 4.2, 4.4, -62.4), (3.4, 2.4, 2.4), mat="dark")                 # narinas
+        hd.box((sg * 5.2, 5.2, -58.5), (3.2, 2.2, 6), rot((0, 1, 0), sg * 8), mat="head")
+        hd.box((sg * 12.15, 5.2, -24), (1.3, 4.6, 7.6), mat="eye", full=("east", "west"))     # olho
+        hd.box((sg * 11.6, 5.2, -24), (1.4, 6.6, 10), mat="dark")                    # órbita
+        hd.box((sg * 12.3, 8.2, -24.5), (1.6, 1.4, 9), mat="head")                   # pálpebra
+        for k, (dv, L) in enumerate((((0.55, -0.25, 0.8), 15), ((0.62, 0.12, 0.78), 19), ((0.45, 0.5, 0.76), 16))):   # espinhos das bochechas
+            hd.spike((sg * 11, -3 + k * 2.5, -8 + k), (dv[0] * sg, dv[1], dv[2]), L, 3.0 - k * 0.3)
+        # chifres principais (curvos para trás e para baixo) e secundários
+        hd.chain((sg * 8, 11, -6), (0.28 * sg, 0.62, 0.74), 50, 6, 7.0, 1.6, (1, 0, 0), 78, ("horn0", "horn1", "horn2", "horn3"))
+        hd.chain((sg * 11, 6.5, -2), (0.6 * sg, 0.22, 0.77), 26, 3, 3.8, 1.2, (1, 0, 0), 30, ("horn1", "horn2", "horn3"))
+        for k in range(8):                                                             # dentes de cima
+            z = -30 - k * 3.8; x = 7.6 - k * 0.38; big = k == 6
+            hd.box((sg * x, -6.6 - (1.4 if big else 0), z), (2.0 if big else 1.3, 5.6 if big else 3.0, 2.0 if big else 1.3), mat="teeth")
+    for k in range(3): hd.spike((0, 11, -16 + k * 7), (0, 0.8, 0.6), 7 - k, 2.6)       # crista
+    hd.box((0, -5.3, -42), (13, 0.8, 36), mat="mouth")                               # céu da boca
+    jw = pen.at(jaw_bone)
+    for sg in (1, -1):
+        jw.beam((sg * 9, -6.5, -8), (sg * 5.6, -7.5, -58), 4.2, 6, mat="head")        # ramos da mandíbula
+        jw.spike((sg * 7, -10, -14), (sg * 0.3, -0.6, 0.75), 8, 2.4)
+        for k in range(7):
+            z = -30 - k * 4; x = 6.4 - k * 0.32; big = k == 5
+            jw.box((sg * x, -4.6 + (1 if big else 0), z), (1.8 if big else 1.2, 4.6 if big else 2.8, 1.8 if big else 1.2), mat="teeth")
+    jw.box((0, -9.4, -32), (13, 3, 48), mat="plate")                                   # assoalho
+    jw.box((0, -8.6, -57), (10, 4, 7), mat="head")                                     # queixo
+    jw.box((0, -6.4, -36), (7, 1, 30), mat="tongue")
+    jw.spike((0, -11, -50), (0, -0.7, 0.7), 7, 2.6)
+
+def winged(variant="veldanava"):
+    m = Model(); pn = Panels()
+    ctrl = [(0, 34, 300), (0, 27, 262), (0, 26, 222), (0, 31, 180), (0, 40, 136), (0, 49, 94), (0, 55, 58), (0, 58, 30), (0, 60, 0), (0, 62, -26),
+            (0, 67, -40), (0, 78, -54), (0, 94, -66), (0, 110, -74), (0, 118, -78)]
+    sp = make_spine(ctrl); L = sp.L
+    s_hip = sp.nearest(A(0, 58, 30))[0]; s_mid = sp.nearest(A(0, 60, 0))[0]; s_sh = sp.nearest(A(0, 62, -26))[0]
+    m.bone("d_All", None, (0, 0, 0))
+    m.bone("d_body", "d_All", sp.at(s_mid)); m.bone("d_upper_body", "d_body", sp.at(s_mid))
+    nk = [s_sh + (L - s_sh) * j / 3 for j in range(3)]
+    m.bone("d_neck1", "d_upper_body", sp.at(nk[0])); m.bone("d_neck2", "d_neck1", sp.at(nk[1])); m.bone("d_neck3", "d_neck2", sp.at(nk[2]))
+    tk = [s_hip * (1 - j / 5) for j in range(5)]
+    for j in range(5): m.bone(f"d_tail{j + 1}", "d_body" if j == 0 else f"d_tail{j}", sp.at(tk[j]))
+    def bone_of(s):
+        if s >= nk[2]: return "d_neck3"
+        if s >= nk[1]: return "d_neck2"
+        if s >= s_sh: return "d_neck1"
+        if s >= s_mid: return "d_upper_body"
+        if s >= s_hip: return "d_body"
+        return f"d_tail{min(5, 1 + int((s_hip - s) / (s_hip / 5)))}"
+    def rad(s):
+        if s < s_hip: t = s / s_hip; return 1.4 + 17.6 * t ** 1.3, 1.4 + 15.8 * t ** 1.3, 0
+        if s < s_sh: u = (s - s_hip) / (s_sh - s_hip); return 19 + 4.5 * math.sin(math.pi * min(1, u * 1.15) * 0.85) + 1.5 * u, 17.2 + 5 * math.sin(math.pi * u) + 1.6 * u, -3.2 * math.sin(math.pi * u)
+        v = (s - s_sh) / (L - s_sh); return 20.5 - 10.5 * v ** 0.7, 19 - 9.8 * v ** 0.7, 0
+    def opts(s):
+        if s < s_hip:
+            t = s / s_hip; o = {"spike": (3 + 11 * t, 1.3 + 3.2 * t), "belly": t > 0.08, "scute": t > 0.12, "flank": 1 if t > 0.55 else 0}
+            if 0.15 < t < 0.85 and int(s / 11) % 3 == 0: o["lat"] = 4 + 7 * t
+            return o
+        if s < s_sh: return {"spike": (15, 4.6), "flank": 2}
+        v = (s - s_sh) / (L - s_sh); return {"spike": (10 - 4 * v, 3.4 - 1.2 * v), "flank": 1, "hmat": None}
+    segs = []; s = 0.0
+    while s < L - 0.5:
+        st = 8.0 if s < 30 else 11.0 if s < s_hip - 10 else 9.0; e = min(L, s + st); segs.append((s, e)); s = e
+    body_tube(m, sp, segs, bone_of, rad, opts)
+    # ponta da cauda: lâmina (folha) + duas nadadeiras
+    tip = sp.at(0.5); Ft = sp.F(3); Tt, Nt = Ft[:, 0], Ft[:, 1]
+    Pen(m, "d_tail5").sprite(tip + Tt * 3, -Tt, 34, 30, Nt, "spade")
+    for sg in (1, -1):
+        Pen(m, "d_tail5").sprite(sp.at(14), _n(-Tt * 0.7 + Nt * 0.7 + np.cross(Tt, Nt) * 0.25 * sg), 20, 16, np.cross(Tt, Nt), "fin")
+    # cabeça e mandíbula
+    hp = sp.at(L); Q = rot((1, 0, 0), -14)
+    m.bone("d_head", "d_neck3", hp); m.bone("d_lower_jaw", "d_head", hp + Q @ A(0, -5, -8))
+    western_head(m, Pen(m, "d_head", hp, Q), "d_lower_jaw", PALETTES[variant])
+    # patas (esquerda = +x, como no modelo antigo)
+    for side, sg in (("left", 1), ("right", -1)):
+        p = Pen(m, f"d_{side}_arm")
+        R0, E0, W0, P0 = A(sg * 18, 54, -24), A(sg * 22, 30, -14), A(sg * 21, 11, -24), A(sg * 21, 4, -31)
+        m.bone(f"d_{side}_arm", "d_upper_body", R0); m.bone(f"d_{side}_arm_lower", f"d_{side}_arm", E0)
+        m.bone(f"d_{side}_hand", f"d_{side}_arm_lower", W0); m.bone(f"d_{side}_hand_lower", f"d_{side}_hand", P0); m.bone(f"d_{side}_thumb", f"d_{side}_arm_lower", W0)
+        p.beam(R0 + A(0, 6, 0), E0, 13, 14, (0, 0, -1), "limb", ext=4)
+        p.box(R0 + A(sg * 3, 0, 0), (12, 16, 18), rot((1, 0, 0), 20), mat="limb")
+        p.box(R0 + A(sg * 7, 4, -2), (1.2, 12, 14), frame((0, 0, -1), (sg, 0, 0)) @ rot((0, 0, 1), 0), mat="scute2")
+        p.spike(E0 + A(0, 1, 4), (0, -0.2, 1), 8, 3.2)
+        pl = p.at(f"d_{side}_arm_lower"); pl.beam(E0, W0, 8.5, 8.5, (0, 0, -1), "limb", ext=4)
+        pl.box((E0 + W0) / 2 + A(0, 0, -4.2), (6, 12, 1.2), frame(W0 - E0, (0, 0, -1)), mat="scute")
+        ph = p.at(f"d_{side}_hand"); ph.beam(W0, P0, 10, 6.5, (0, 1, 0), "limb", ext=3)
+        pt = p.at(f"d_{side}_hand_lower")
+        for k, yaw in enumerate((-30, -10, 10, 30)):
+            d = rot((0, 1, 0), yaw * sg) @ A(0, -0.12, -1); a = P0 + d * 2; b = a + d * 7; c = b + _n(d + A(0, -0.35, 0)) * 5
+            pt.beam(a, b, 3.4, 3.0, (0, 1, 0), "limb", ext=1.5); pt.beam(b, c, 2.8, 2.6, (0, 1, 0), "limb", ext=1.2)
+            pt.chain(c, _n(d + A(0, -0.3, 0)), 6.5, 2, 2.4, 0.9, (1, 0, 0) if True else None, 0, "claw")
+        p.at(f"d_{side}_thumb").chain(W0 + A(-sg * 3, -2, 4), (-sg * 0.25, -0.5, 0.8), 6, 2, 2.2, 0.8, (1, 0, 0), 40, "claw")
+        # traseiras
+        H0, K0, A0, F0 = A(sg * 21, 54, 30), A(sg * 26, 31, 13), A(sg * 25, 15, 38), A(sg * 25, 4, 30)
+        m.bone(f"d_{side}_leg", "d_body", H0); m.bone(f"d_{side}_leg_lower", f"d_{side}_leg", K0); m.bone(f"d_{side}_leg_foot", f"d_{side}_leg_lower", A0)
+        q = Pen(m, f"d_{side}_leg")
+        q.beam(H0 + A(0, 6, 4), K0, 17, 19, (0, 0, -1), "limb", ext=5)
+        q.box(H0 + A(sg * 4, -4, 6), (14, 22, 24), rot((1, 0, 0), -24), mat="limb")
+        q.box(H0 + A(sg * 11.2, -3, 6), (1.2, 16, 18), frame((0, -0.4, 1), (sg, 0, 0)), mat="scute2")
+        ql = q.at(f"d_{side}_leg_lower"); ql.beam(K0, A0, 10, 10, (0, 0, -1), "limb", ext=4); ql.spike(K0 + A(0, 0, -4), (0, 0.2, -1), 6, 2.6)
+        qf = q.at(f"d_{side}_leg_foot"); qf.beam(A0, F0, 8, 7, (0, 0, -1), "limb", ext=3); qf.spike(A0 + A(0, 1, 3), (0, 0.3, 1), 7, 2.6)
+        for k, yaw in enumerate((-26, 0, 26)):
+            d = rot((0, 1, 0), yaw * sg) @ A(0, -0.1, -1); a = F0 + d * 2; b = a + d * 8; c = b + _n(d + A(0, -0.35, 0)) * 5
+            qf.beam(a, b, 3.8, 3.2, (0, 1, 0), "limb", ext=1.5); qf.beam(b, c, 3.0, 2.8, (0, 1, 0), "limb", ext=1.2)
+            qf.chain(c, _n(d + A(0, -0.3, 0)), 7, 2, 2.6, 0.9, (1, 0, 0), 0, "claw")
+        qf.chain(F0 + A(0, 0, 4), (0, -0.3, 1), 6, 2, 2.2, 0.8, (1, 0, 0), -30, "claw")
+    # asas: a direita (+x) é construída e a esquerda (-x) é o espelho
+    wing(m, pn, "right", "left")
+    return m, pn
+
+def wing(m, pn, side, mside, P=W_PTS, k=1.0, parent="d_upper_body", thick=1.0):
+    """asa com úmero, antebraço, polegar, 4 dedos (ossos d_*_wing_f1..f4) e membrana em painéis recortados"""
+    G = {n: A(v) * k for n, v in P.items()}; S, E, W = G["S"], G["E"], G["W"]; Tp = [G[f"T{i}"] for i in range(1, 5)]; Hb = G["Hb"]
+    nb = len(m.order)
+    names = {p: f"d_{side}_wing_{p}" for p in ("base", "top", "mid", "low")}
+    m.bone(names["base"], parent, S); m.bone(names["top"], names["base"], E); m.bone(names["mid"], names["top"], W); m.bone(names["low"], names["mid"], W)
+    nh = _n(np.cross(Tp[0] - W, Tp[3] - W)); nh = nh if nh[1] > 0 else -nh
+    t = thick
+    pb = Pen(m, names["base"]); pb.beam(S, E, 8 * t * k, 7 * t * k, nh, "wbone", ext=5 * k); pb.box(S, A(11, 11, 12) * k, mat="limb")
+    pt = pb.at(names["top"]); pt.beam(E, W, 6.4 * t * k, 5.6 * t * k, nh, "wbone", ext=4 * k); pt.box(E, A(8, 8, 8) * k, rot((0, 0, 1), 30), mat="wbone")
+    pt.spike(E + A(0, 2, 2) * k, (0.2, 0.4, 1), 9 * k, 3 * k)
+    pm = pb.at(names["mid"]); pm.box(W, A(7.5, 7, 7.5) * k, rot((0, 1, 0), 20), mat="wbone")
+    th = W + A(2, 2, -3) * k; tip = pm.chain(th, (0.25, 0.45, -0.85), 11 * k, 2, 2.8 * k, 2.0 * k, (1, 0, 0), -20, "wbone")
+    pm.chain(tip, (0.2, -0.2, -1), 7 * k, 2, 2.2 * k, 0.8 * k, (1, 0, 0), 70, "claw")
+    for i, Tt in enumerate(Tp):
+        fb = m.bone(f"d_{side}_wing_f{i + 1}", names["mid"], W); pf = pb.at(fb)
+        K = W + (Tt - W) * 0.42; w0 = (3.8 - i * 0.25) * t * k
+        pf.beam(W, K, w0, w0 * 0.8, nh, "wbone", ext=2 * k); pf.beam(K, Tt, w0 * 0.68, w0 * 0.55, nh, "wbone", ext=1.5 * k)
+        pf.box(K, A(w0 * 1.15, w0 * 1.0, w0 * 1.15), mat="wbone")
+        pf.chain(Tt - _n(Tt - W) * 1.0 * k, _n(Tt - W), 5 * k, 2, w0 * 0.5, 0.5 * k, nh, 0, "claw")
+    # membranas
+    pn.add(m, names["top"], [E, W, S], [(1, 2)], {"depth": 0.04})
+    for i in range(3): pn.add(m, names["mid"], [W, Tp[i], Tp[i + 1]], [(1, 2)], None)
+    pn.add(m, names["mid"], [W, Tp[3], Hb], [(1, 2)], None)
+    pn.add(m, names["top"], [W, Hb, E], [], None)
+    pn.add(m, names["base"], [E, Hb, S], [], None)
+    # espelho para o outro lado
+    new = {}
+    for bn in m.order[nb:]:
+        b = m.B[bn]; nm = bn.replace(f"d_{side}_", f"d_{mside}_"); par = b["parent"].replace(f"d_{side}_", f"d_{mside}_") if b["parent"] else None
+        new[nm] = {"name": nm, "parent": par, "pivot": b["pivot"] * A(-1, 1, 1), "cubes": [mirror_cube(c) for c in b["cubes"]]}
+    for nm, b in new.items(): m.B[nm] = b; m.order.append(nm)
