@@ -120,7 +120,7 @@
       {
        "position": [
         0,
-        1.6,
+        5.2,
         0.0
        ],
        "min_rider_count": 0,
@@ -141,8 +141,8 @@
     ]
    },
    "minecraft:collision_box": {
-    "width": 2.2,
-    "height": 2.0
+    "width": 6.0,
+    "height": 4.0
    },
    "minecraft:health": {
     "value": 85,
