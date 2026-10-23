@@ -1,5 +1,7 @@
 """8.8 (Etapa 7b) - DRAGÕES DOMÁVEIS + armas dos anjos.
-Dragões (modelos/animações já refeitos do addon, em escala menor, textura recolorida por mapa de gradiente):
+Dragões (modelos/animações já refeitos do addon, em escala menor, textura recolorida por mapa de gradiente).
+8.9b: maiores (Carmim 0.26->0.42 ~12,6 blocos de comprimento/11 de envergadura; Gelo/Tempestade 0.2->0.36 ~12 blocos), colisão e assento da
+montaria ajustados à altura das costas do modelo:
   Dragão Carmim       (etheria:dragon_carmim)     modelo quadrúpede alado do Veldanava/Dragão do Vazio   desertos, savanas, mesas
   Dragão de Gelo      (etheria:dragon_gelo)       dragão-serpente da Velzard                            biomas gelados
   Dragão da Tempestade(etheria:dragon_tempestade) dragão-serpente da Velgrynd                           montanhas
@@ -23,17 +25,17 @@ FIRE_GOLD = [(0, (50, 14, 0)), (0.5, (220, 110, 20)), (1, (255, 226, 120))]
 FOOD = {"carne_draconica": ("Carne Dracônica", "Draconic Meat", "§c"), "peixe_glacial": ("Peixe Glacial", "Glacial Fish", "§b")}
 DRAGONS = {
     "dragon_carmim": {"name": "Dragão Carmim", "en": "Crimson Dragon", "base": "void_dragon", "src": "etheria_pdrg_veldanava", "pal": CRIMSON, "gold": FIRE_GOLD,
-                      "scale": 0.26, "gamma": 1.7, "box": [1.6, 1.8], "hp": 90, "thp": 160, "dmg": 9, "spd": 0.27, "seat": [0, 1.25, 0.25], "fire": True,
+                      "scale": 0.42, "gamma": 1.7, "box": [2.6, 2.6], "hp": 90, "thp": 160, "dmg": 9, "spd": 0.27, "seat": [0, 2.3, -0.2], "fire": True,
                       "food": ["carne_draconica"], "egg": ["#5a0a0e", "#f0a040"], "effect": None,
                       "biome": {"any_of": [{"test": "has_biome_tag", "value": "mesa"}, {"test": "has_biome_tag", "value": "savanna"}, {"test": "has_biome_tag", "value": "desert"}]},
                       "loot": [("etheria:dragon_essence", 1, 2, 0.6), ("minecraft:blaze_powder", 1, 3, 0.7), ("minecraft:leather", 1, 3, 1)]},
     "dragon_gelo": {"name": "Dragão de Gelo", "en": "Frost Dragon", "base": "velzard", "src": "etheria_pdrg_velzard", "pal": ICE, "gold": ICE,
-                    "scale": 0.2, "box": [1.4, 1.5], "hp": 80, "thp": 150, "dmg": 8, "spd": 0.28, "seat": [0, 1.05, 0.0], "fire": False,
+                    "scale": 0.36, "box": [2.2, 2.0], "hp": 80, "thp": 150, "dmg": 8, "spd": 0.28, "seat": [0, 1.6, 0.0], "fire": False,
                     "food": ["peixe_glacial"], "egg": ["#cfefff", "#3a7ab8"], "effect": ["slowness", 3],
                     "biome": {"any_of": [{"test": "has_biome_tag", "value": "frozen"}, {"test": "has_biome_tag", "value": "ice"}]},
                     "loot": [("etheria:dragon_essence", 1, 2, 0.6), ("minecraft:packed_ice", 1, 4, 0.7), ("minecraft:leather", 1, 3, 1)]},
     "dragon_tempestade": {"name": "Dragão da Tempestade", "en": "Storm Dragon", "base": "velgrynd", "src": "etheria_pdrg_velgrynd", "pal": STORM, "gold": STORM_GOLD,
-                          "scale": 0.21, "box": [1.4, 1.5], "hp": 85, "thp": 155, "dmg": 9, "spd": 0.3, "seat": [0, 1.1, 0.0], "fire": False,
+                          "scale": 0.36, "box": [2.2, 2.0], "hp": 85, "thp": 155, "dmg": 9, "spd": 0.3, "seat": [0, 1.6, 0.0], "fire": False,
                           "food": ["carne_draconica", "peixe_glacial"], "egg": ["#1c2a52", "#ffe860"], "effect": ["weakness", 3],
                           "biome": {"any_of": [{"test": "has_biome_tag", "value": "mountains"}, {"test": "has_biome_tag", "value": "extreme_hills"}]},
                           "loot": [("etheria:dragon_essence", 1, 2, 0.6), ("minecraft:feather", 2, 5, 0.8), ("minecraft:leather", 1, 3, 1)]},

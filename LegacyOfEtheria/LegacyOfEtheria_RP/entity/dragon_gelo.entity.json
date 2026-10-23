@@ -19,7 +19,7 @@
     "overlay_color": "#3a7ab8"
    },
    "scripts": {
-    "scale": "0.2",
+    "scale": "0.36",
     "animate": [
      {
       "idle": "query.property('etheria:form') == 'dragon'"

@@ -160,15 +160,34 @@ def tile(kind, a, b, c=None, seed=1):
         for y in range(4, T, 9): d.line([(0, y), (T, y + 2)], fill=sh(a, 0.75) + (255,), width=2); d.line([(0, y + 2), (T, y + 4)], fill=sh(b, 1.12) + (200,))
         for x in range(6, T, 17): d.line([(x, 0), (x + 3, T)], fill=sh(b, 1.2) + (110,))
         noise_fill(im, rnd, 3)
-    elif kind == "membrane":       # membrana com veias
-        for y in range(T): d.line([(0, y), (T, y)], fill=mix(a, b, y / T) + (255,))
-        vc = c or sh(b, 0.7)
-        for x0 in (8, 26, 44, 58):
-            pts = [(x0, 0)]; x = x0
-            for y in range(8, T + 8, 8): x += rnd.randint(-3, 3); pts.append((x, y))
-            d.line(pts, fill=vc + (255,), width=2)
-            for k in range(2, len(pts) - 1, 2): d.line([pts[k], (pts[k][0] + rnd.choice((-7, 7)), pts[k][1] + 8)], fill=vc + (180,), width=1)
-        noise_fill(im, rnd, 3)
+    elif kind == "membrane":       # 8.9b: membrana feita para ESTICAR: degradê suave + manchas largas + veias finas ramificadas e borda escura
+        px = im.load()
+        for y in range(T):
+            for x in range(T):
+                t = min(1, max(0, (y + 0.35 * x) / (T * 1.35)))
+                g = mix(a, b, t)
+                e = min(x, y, T - 1 - x, T - 1 - y) / (T * 0.18); k = 0.84 + 0.16 * min(1, e)                 # borda mais escura
+                k *= 1 + 0.035 * math.sin(x * 0.11 + 1.3) * math.sin(y * 0.09 + 0.4)                          # manchas de baixa frequência
+                px[x, y] = sh(g, k) + (255,)
+        vl = Image.new("RGBA", (T, T), (0, 0, 0, 0)); dv = ImageDraw.Draw(vl); vc = mix(c, sh(b, 0.9), 0.35) if c else sh(b, 0.78)
+        def vein(x, y, ang, ln, w, depth):
+            pts = [(x, y)]
+            for _ in range(int(ln / 4)):
+                ang += rnd.uniform(-0.25, 0.25); x += math.cos(ang) * 4; y += math.sin(ang) * 4; pts.append((x, y))
+            dv.line(pts, fill=vc + (120 if depth == 0 else 80,), width=w)
+            if depth < 2:
+                for k in range(2, len(pts) - 1, 4): vein(pts[k][0], pts[k][1], ang + rnd.choice((-0.7, 0.7)), ln * 0.45, 1, depth + 1)
+        for x0, ang in ((4, 0.55), (2, 1.05), (20, 1.35), (40, 1.5)): vein(x0, 2, ang, T * 0.9, 1, 0)
+        im.alpha_composite(vl.filter(ImageFilter.GaussianBlur(0.35))); noise_fill(im, rnd, 2)
+    elif kind == "bone":           # 8.9b: osso/vara da asa liso (sem anéis/listras: não vira "madeira" quando esticado)
+        px = im.load()
+        for y in range(T):
+            for x in range(T):
+                k = 1 + 0.05 * math.sin(x * 0.17 + y * 0.05) + 0.04 * math.sin(y * 0.23 - x * 0.07)
+                px[x, y] = sh(mix(a, b, 0.25 + 0.2 * math.sin(x * 0.05 + y * 0.03)), k) + (255,)
+        for _ in range(5):
+            x, y = rnd.randint(4, T - 8), rnd.randint(4, T - 8); d.ellipse([x, y, x + rnd.randint(3, 7), y + rnd.randint(2, 4)], fill=sh(b, 0.92) + (70,))
+        noise_fill(im, rnd, 2)
     elif kind == "flame":          # crina de chama/gelo recortada (alpha)
         im = Image.new("RGBA", (T, T), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
         for k in range(7):
@@ -215,26 +234,55 @@ def tile(kind, a, b, c=None, seed=1):
         noise_fill(im, rnd, 5); d.rectangle([0, 0, T - 1, T - 1], outline=sh(a, 0.85) + (255,))
     return im
 
+PAD = 2; IN = T - 2 * PAD          # 8.9b: cada ladrilho usa só o miolo 60x60; a borda de 2 px replica o miolo (sem sangrar no mipmap)
+D_PAT = 2.0                        # densidade FIXA (texels por pixel de modelo) dos ladrilhos com desenho: escamas do mesmo tamanho em todo o corpo
+SMOOTH = {"membrane", "wbone"}     # ladrilhos lisos feitos para esticar (sem fatiar)
+WHOLE = {"eye"}                    # mapeados inteiros em cada face (olho/brilho)
+ALPHA_KINDS = ("flame", "crystal", "fan", "feather", "clawsprite")
+def padded(im):
+    a = np.array(im)[PAD:T - PAD, PAD:T - PAD]; return Image.fromarray(np.pad(a, ((PAD, PAD), (PAD, PAD), (0, 0)), mode="edge"))
 class Atlas:
     def __init__(self, spec, seed=1):
-        self.uv = {}; self.im = Image.new("RGBA", (TW, TW), (0, 0, 0, 0)); self.alpha = set()
+        self.uv = {}; self.im = Image.new("RGBA", (TW, TW), (0, 0, 0, 0)); self.alpha = set(); self.kind = {}
         for k, (role, sp) in enumerate(spec.items()):
             u, v = (k % (TW // T)) * T, (k // (TW // T)) * T
-            self.im.paste(tile(sp[0], sp[1], sp[2], sp[3] if len(sp) > 3 else None, seed=seed * 31 + k * 7), (u, v)); self.uv[role] = (u, v)
-            if sp[0] in ("flame", "crystal", "fan", "feather", "clawsprite"): self.alpha.add(role)
-def face_uv(atlas, role, c, rnd, D=3.0):
-    """UV por face: densidade ~D texels por pixel de modelo, deslocamento aleatório dentro do ladrilho; sprites recortados usam o ladrilho todo"""
-    u0, v0 = atlas.uv[role]; sx, sy, sz = c["s"]
-    dims = {"north": (sx, sy), "south": (sx, sy), "east": (sz, sy), "west": (sz, sy), "up": (sx, sz), "down": (sx, sz)}
-    out = {}
+            self.im.paste(padded(tile(sp[0], sp[1], sp[2], sp[3] if len(sp) > 3 else None, seed=seed * 31 + k * 7)), (u, v)); self.uv[role] = (u, v)
+            self.kind[role] = sp[0]
+            if sp[0] in ALPHA_KINDS: self.alpha.add(role)
+def face_dims(s):
+    sx, sy, sz = s
+    return {"north": (sx, sy), "south": (sx, sy), "east": (sz, sy), "west": (sz, sy), "up": (sx, sz), "down": (sx, sz)}
+def face_uv(atlas, role, c, rnd):
+    """8.9b - UV por face SEM ESTICAR DESIGUAL: a mesma densidade nos dois eixos de cada face (isotrópico) e em todas as faces do cubo.
+    O Bedrock não repete textura: antes cada face pegava um retângulo limitado a 64 texels por eixo, então caixas longas/largas
+    (asas, ossos, pescoço) esticavam o ladrilho só num eixo (listras/'madeira'). Agora: ladrilhos com desenho usam D_PAT fixo
+    (peças maiores que o ladrilho são fatiadas antes, em split_cube); ladrilhos lisos (membrana/osso) encolhem a densidade por igual."""
+    u0, v0 = atlas.uv[role]; u0 += PAD; v0 += PAD; dims = face_dims(c["s"]); out = {}
+    if role in atlas.alpha:            # sprites recortados: o ladrilho inteiro nas faces grandes, 1 texel do miolo nas bordas finas
+        flat = min(c["s"])
+        for f, (w, h) in dims.items():
+            if min(w, h) > flat * 1.5 or flat > 0.6: out[f] = {"uv": [u0, v0], "uv_size": [IN, IN]}
+            else: out[f] = {"uv": [u0 + IN // 2, v0 + IN // 2], "uv_size": [1, 1]}
+        return out
+    if role in WHOLE or atlas.kind.get(role) == "glow":
+        return {f: {"uv": [u0, v0], "uv_size": [IN, IN]} for f in dims}
+    D = D_PAT if role not in SMOOTH else min(D_PAT, IN / max(max(c["s"]), 1e-3))
+    D = min(D, IN / max(max(c["s"]), 1e-3))          # (peça com desenho já fatiada: não passa daqui)
     for f, (w, h) in dims.items():
-        if role in atlas.alpha:
-            flat = min(c["s"]); big = [f for f, (w, h) in dims.items() if min(w, h) > flat * 1.5 or flat > 0.6]
-            if f in big: out[f] = {"uv": [u0, v0], "uv_size": [T, T]}
-            else: out[f] = {"uv": [u0 + T // 2, v0 + T // 2], "uv_size": [1, 1]}
-            continue
-        uw, vh = max(2, min(T, round(w * D))), max(2, min(T, round(h * D)))
-        out[f] = {"uv": [u0 + rnd.randint(0, T - uw), v0 + rnd.randint(0, T - vh)], "uv_size": [uw, vh]}
+        uw, vh = max(1, min(IN, round(w * D))), max(1, min(IN, round(h * D)))
+        out[f] = {"uv": [u0 + rnd.randint(0, IN - uw), v0 + rnd.randint(0, IN - vh)], "uv_size": [uw, vh]}
+    return out
+def split_cube(c, atlas):
+    """fatia caixas com desenho maiores que o ladrilho (na densidade D_PAT) em pedaços iguais no próprio eixo do cubo"""
+    if c["role"] in atlas.alpha or c["role"] in SMOOTH or c["role"] in WHOLE or atlas.kind.get(c["role"]) == "glow": return [c]
+    n = [max(1, math.ceil(s * D_PAT / IN - 0.02)) for s in c["s"]]
+    if n == [1, 1, 1]: return [c]
+    out = []; s = c["s"] / np.array(n)
+    for i in range(n[0]):
+        for j in range(n[1]):
+            for k in range(n[2]):
+                f = (np.array([i, j, k]) + 0.5) / np.array(n) - 0.5
+                d = dict(c); d["c"] = c["c"] + c["R"] @ (f * c["s"]); d["s"] = s.copy(); out.append(d)
     return out
 
 # ================================================================== saída
@@ -247,7 +295,7 @@ def geo_bones(name, bones, atlas):
     for b in bones:
         bb = {"name": b["name"], "pivot": [round(float(v), 3) for v in b["pivot"]]}
         if b.get("parent"): bb["parent"] = b["parent"]
-        if b.get("cubes"): bb["cubes"] = [bedrock_cube(c, atlas, rnd) for c in b["cubes"]]
+        if b.get("cubes"): bb["cubes"] = [bedrock_cube(p, atlas, rnd) for c in b["cubes"] for p in split_cube(c, atlas)]
         out.append(bb)
     return out
 def write_geo(name, bones, atlas, bounds):
@@ -575,7 +623,7 @@ def gelo_role(c, u):
 VELDANAVA_SPEC = {"scales": ("scales", (248, 248, 252), (206, 212, 228)), "belly": ("plates", (252, 246, 232), (222, 196, 140)), "head": ("scales", (252, 252, 255), (210, 216, 232)),
                   "ridge": ("ridge", (240, 200, 92), (168, 118, 38), (255, 244, 190)), "fin": ("fan", (96, 224, 214), (34, 150, 160)), "horn": ("horn", (250, 236, 196), (228, 182, 80)),
                   "gold": ("horn", (238, 192, 80), (255, 236, 160)), "claw": ("horn", (226, 180, 70), (255, 230, 150)), "eye": ("glow", (90, 255, 236), (220, 255, 250)),
-                  "wbone": ("horn", (246, 246, 250), (230, 196, 110)), "membrane": ("membrane", (252, 252, 255), (206, 240, 236), (232, 206, 140))}
+                  "wbone": ("bone", (248, 247, 242), (224, 214, 190)), "membrane": ("membrane", (252, 252, 255), (206, 240, 236), (232, 206, 140))}
 GELO_SCALE = 1.5                     # escala embutida no modelo da Veldanava (o chefe ganha o resto no scripts.scale)
 
 def scale_bones(bones, k):

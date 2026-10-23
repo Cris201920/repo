@@ -157,6 +157,25 @@ def detail(geo, style="spine"):
             b["cubes"] = cs + new; add += len(new)
     return add
 
+def iso_uv(geo, seed=7):
+    """8.9b - UV por face ISOTRÓPICO: antes toda face recebia o ladrilho inteiro (uv_size 32x32) qualquer que fosse o tamanho dela,
+    então faces compridas/achatadas esticavam o desenho só num eixo (listras). Agora cada face pega um retângulo do miolo do ladrilho
+    (1 unidade de margem: não sangra no vizinho) com a MESMA densidade nos dois eixos; olho continua inteiro."""
+    rnd = random.Random(seed); tiles = {tuple(v): k for k, v in UVT.items()}; INN = TS - 2; n = 0
+    for b in geo["bones"]:
+        for c in b.get("cubes", []):
+            uv = c.get("uv")
+            if not isinstance(uv, dict): continue
+            sx, sy, sz = c["size"]
+            dims = {"north": (sx, sy), "south": (sx, sy), "east": (sz, sy), "west": (sz, sy), "up": (sx, sz), "down": (sx, sz)}
+            D = min(2.0, INN / max(max(c["size"]), 1e-3))
+            for f, fu in uv.items():
+                t = tiles.get(tuple(fu.get("uv", ())))
+                if t is None or t == "eye" or fu.get("uv_size") != [TS, TS] or f not in dims: continue
+                w, h = dims[f]; uw, vh = max(1, min(INN, round(w * D))), max(1, min(INN, round(h * D)))
+                u0, v0 = UVT[t]; fu["uv"] = [u0 + 1 + rnd.randint(0, INN - uw), v0 + 1 + rnd.randint(0, INN - vh)]; fu["uv_size"] = [uw, vh]; n += 1
+    return n
+
 def main():
     report = {}
     for name, (geos, tex, tiles) in TARGETS.items():
@@ -166,7 +185,7 @@ def main():
             gp = os.path.join(RP, f"models/entity/{gname}.geo.json"); sp = os.path.join(SRC, f"{gname}.geo.json")
             if not os.path.exists(sp): shutil.copy(gp, sp)
             D = json.load(open(sp)); g = D["minecraft:geometry"][0]
-            n = detail(g, STYLE[name])
+            n = detail(g, STYLE[name]); iso_uv(g)
             g["description"]["visible_bounds_width"] = 64; g["description"]["visible_bounds_height"] = 48
             json.dump(D, open(gp, "w"), indent=1)
         hd_texture(name, tex, tiles); report[name] = n
