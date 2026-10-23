@@ -45,11 +45,15 @@ function cut(text) {
   return out;
 }
 /** Grava `text` em `key` (em partes se for grande). Devolve quantas partes foram usadas. Lança erro se a gravação falhar. */
+// 9.2 (desempenho): nº de partes já gravadas por jogador+chave. Evita ler a 1ª parte inteira (até 24 mil caracteres) a cada save só para
+// saber quantas partes antigas apagar. Só writeBig/readBig mexem nessas chaves; sem cache (1ª gravação da sessão) lê como antes.
+const partsKnown = new Map();
 export function writeBig(player, key, text) {
-  const prev = partsOf(player.getDynamicProperty(key));
+  const pk = player.id + "|" + key, prev = partsKnown.get(pk) ?? partsOf(player.getDynamicProperty(key));
   if (text.length <= CHUNK) {
     player.setDynamicProperty(key, text);
     for (let i = 1; i < prev; i++) player.setDynamicProperty(`${key}.${i}`, undefined);
+    partsKnown.set(pk, 1);
     return 1;
   }
   const parts = cut(text);
@@ -57,6 +61,7 @@ export function writeBig(player, key, text) {
   for (let i = 1; i < parts.length; i++) player.setDynamicProperty(`${key}.${i}`, parts[i]);
   player.setDynamicProperty(key, `${HEAD}${parts.length}:${parts[0]}`);
   for (let i = parts.length; i < prev; i++) player.setDynamicProperty(`${key}.${i}`, undefined);
+  partsKnown.set(pk, parts.length);
   return parts.length;
 }
 /** Lê o texto gravado por writeBig (ou o texto simples antigo). undefined se não existe; lança erro se faltar alguma parte. */
@@ -127,6 +132,7 @@ export function getData(player) {
 
 export function markDirty(player) { dirty.add(player.id); players.set(player.id, player); }
 
+const lastJson = new Map();   // 9.2: último texto gravado por jogador (o save principal só é escrito por saveNow)
 export function saveNow(player) {
   const d = cache.get(player.id);
   if (!d) return;
@@ -136,8 +142,10 @@ export function saveNow(player) {
     let out = d;
     if (external.length) { out = { ...d }; for (const k of external) delete out[k]; }   // campos gravados à parte não entram de novo no save principal
     const json = JSON.stringify(out);
+    if (json === lastJson.get(player.id)) { dirty.delete(player.id); return; }   // 9.2: nada mudou desde a última gravação: não regrava
     if (json.length > CHUNK * 3) { console.warn(`[Etheria] Save de ${player.name} muito grande (${json.length}).`); }
     writeBig(player, PROP_KEY, json);
+    lastJson.set(player.id, json);
     dirty.delete(player.id);
   } catch (e) {
     console.warn(`[Etheria] Falha ao salvar ${player.name}: ${e}`);
@@ -147,7 +155,8 @@ export function saveNow(player) {
 export function forget(playerId) {
   const p = players.get(playerId);
   if (p && dirty.has(playerId) && isValid(p)) saveNow(p);
-  cache.delete(playerId); dirty.delete(playerId); players.delete(playerId);
+  cache.delete(playerId); dirty.delete(playerId); players.delete(playerId); lastJson.delete(playerId);
+  for (const k of [...partsKnown.keys()]) if (k.startsWith(playerId + "|")) partsKnown.delete(k);
 }
 
 export function startAutosave() {

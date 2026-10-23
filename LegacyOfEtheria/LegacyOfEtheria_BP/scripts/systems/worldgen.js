@@ -22,8 +22,11 @@ export { WGEN };
 export const results = new Map();   // chave -> {ok, at, err, tick, chests, mobs}
 
 const rd = (k, d) => { try { const r = JSON.parse(world.getDynamicProperty(k) ?? ""); return r ?? d; } catch { return d; } };
-const wr = (k, v) => { try { world.setDynamicProperty(k, JSON.stringify(v)); } catch { /* ignore */ } };
-const records = () => { const r = rd(REC, []); return Array.isArray(r) ? r : []; };
+// 9.2 (desempenho): o registro (até ~140 entradas em JSON) era lido e analisado várias vezes por segundo (progresso, moradores, masmorras).
+// Agora fica em cache; só este módulo grava a chave REC (wr), que invalida o cache. Cada chamada recebe uma CÓPIA rasa (quem dá push não suja o cache).
+let recCache = null;
+const wr = (k, v) => { if (k === REC) recCache = null; try { world.setDynamicProperty(k, JSON.stringify(v)); } catch { /* ignore */ } };
+const records = () => { if (!recCache) { const r = rd(REC, []); recCache = Array.isArray(r) ? r : []; } return recCache.slice(); };
 /** 6.44: registro das estruturas geradas (usado por systems/residents.js para povoar reinos/domínios) */
 export const wgRecords = () => records();
 /** 9.0: registra uma estrutura de geração nativa ativada por systems/natgen.js (mesmo formato do registro do colocador) */

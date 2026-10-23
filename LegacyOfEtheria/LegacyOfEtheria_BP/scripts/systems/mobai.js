@@ -235,7 +235,9 @@ export function startMobAI() {
     const tick = system.currentTick;
     for (const pl of world.getAllPlayers()) {
       let es; try { es = pl.dimension.getEntities({ location: pl.location, maxDistance: RANGE, families: ["monster"] }); } catch { continue; }
-      let n = 0; es.sort((a, b) => (b.hasTag("etheria_fight") ? 1 : 0) - (a.hasTag("etheria_fight") ? 1 : 0));   // chefes primeiro: súditos nunca tiram a vez deles
+      // chefes primeiro: súditos nunca tiram a vez deles (9.2: a tag é lida 1x por entidade, não a cada comparação da ordenação)
+      let n = 0; const boss = new Set(); for (const e of es) { try { if (e.hasTag("etheria_fight")) boss.add(e); } catch { /* ignore */ } }
+      if (boss.size) es = [...es.filter((e) => boss.has(e)), ...es.filter((e) => !boss.has(e))];
       for (const e of es) { if (!e.typeId.startsWith("etheria:") || !MOBS[e.typeId]) continue; if (++n > MAX_PER_PLAYER) break; try { think(e, tick); } catch (er) { console.warn(`[Etheria] mobai ${e.typeId}: ${er}`); } }
     }
     if (tick % 600 < STEP) for (const id of st.keys()) { try { if (!world.getEntity(id)) st.delete(id); } catch { st.delete(id); } } // evita vazamento

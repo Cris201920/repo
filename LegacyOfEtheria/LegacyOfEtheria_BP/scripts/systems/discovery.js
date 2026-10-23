@@ -85,7 +85,7 @@ function discover(player, id) {
 }
 
 /** Verificação periódica (1x/s). */
-function tickPlayer(p) {
+function tickPlayer(p, full = true) {
   const d = getData(p), s = stat(d), sg = sageCfg(d);
   // estatísticas: distância e imobilidade
   const L = p.location;
@@ -94,6 +94,7 @@ function tickPlayer(p) {
     if (m < 0.3) s.idle += 1; else s.idle = Math.max(0, s.idle - 0); if (m > 0.3 && m < 40) s.dist += m;
   }
   s.lastX = L.x; s.lastZ = L.z;
+  if (!full) return;   // 9.2 (desempenho): estatísticas a cada 1 s; a varredura de Únicas/combinações/evolução a cada 5 s
   // descoberta
   for (const id of Object.keys(SKILLS)) {
     const sk = SKILLS[id]; if (sk.cat !== "Única" || !sk.unlock || hasSkill(d, id) || COMBO_SET.has(id)) continue;
@@ -150,7 +151,8 @@ export function maybeAwaken(player, id) {
 }
 
 export function startDiscovery() {
-  system.runInterval(() => { for (const p of world.getAllPlayers()) { try { tickPlayer(p); } catch (e) { console.warn(`[Etheria] discovery: ${e}`); } } }, 20);
+  let beat = 0;
+  system.runInterval(() => { const full = beat++ % 5 === 0; for (const p of world.getAllPlayers()) { try { tickPlayer(p, full); } catch (e) { console.warn(`[Etheria] discovery: ${e}`); } } }, 20);
 }
 
 // ------------------------------------------------------------------ Única inicial (sorteada uma única vez no primeiro início)

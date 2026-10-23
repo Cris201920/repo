@@ -2,6 +2,7 @@
 // Um único laço (a cada 10 ticks) distribui tarefas com prazos próprios por jogador; consultas ao mundo são compartilhadas e em cache.
 import { coreAlert } from "./sagecore.js";
 import { world, system } from "@minecraft/server";
+import * as mc from "@minecraft/server";
 import { ActionFormData } from "@minecraft/server-ui";
 import { themed, sageThemeOf } from "./ui/forms.js";
 import { getData, markDirty } from "../core/db.js";
@@ -218,10 +219,21 @@ function runTask(p, t, s, now, d, sg, stage) {
 
 // ------------------------------------------------------------------ minério e equipamento
 const ORE_RE = /(^|_)ore$|ancient_debris/;
+// 9.2 (desempenho): a grade esparsa do scanOre está DENTRO desta caixa (13x7x13); se a caixa não tem nenhum minério (consulta nativa
+// containsBlock), a grade também não teria: o resultado é idêntico e evita ~200 getBlock no mesmo tick. Sem a API/lista: varre como antes.
+let oreIds = null;
+function anyOre(dim, ox, oy, oz) {
+  try {
+    if (oreIds === null) oreIds = (mc.BlockTypes?.getAll?.() ?? []).map((t) => t.id).filter((id) => ORE_RE.test(id));
+    if (!oreIds.length || !mc.BlockVolume || typeof dim.containsBlock !== "function") return true;
+    return dim.containsBlock(new mc.BlockVolume({ x: ox - 6, y: oy - 3, z: oz - 6 }, { x: ox + 6, y: oy + 3, z: oz + 6 }), { includeTypes: oreIds }, false);
+  } catch { return true; }
+}
 /** Grade esparsa (passo 2) de 13x7x13 blocos ao redor do jogador, com origem alternando a cada rodada: ~200 consultas a cada 5 s, só se houver dicas ligadas. */
 function scanOre(p, s, now) {
   const sg = sageCfg(getData(p)); if (sg.tips === false || sg.perf || inCombat(p)) return "Aguardando";
   const l = p.location, ox = Math.floor(l.x), oy = Math.floor(l.y), oz = Math.floor(l.z), ph = Math.floor(now / 100) % 2, found = new Map(); let n = 0;
+  if (!anyOre(p.dimension, ox, oy, oz)) return "Sem minério";   // 9.2: 1 consulta nativa na caixa inteira antes das ~200 leituras em JS
   for (let dx = -6 + ph; dx <= 6; dx += 2) for (let dy = -3; dy <= 3; dy += 2) for (let dz = -6 + ph; dz <= 6; dz += 2) {
     let b; try { b = p.dimension.getBlock({ x: ox + dx, y: oy + dy, z: oz + dz }); } catch { continue; }
     const t = b?.typeId; if (t && ORE_RE.test(t)) { n++; found.set(t, (found.get(t) ?? 0) + 1); }
@@ -290,11 +302,12 @@ export function startSageProc() {
     }
   }, PROC_INTERVAL);
   // ataque poderoso detectado (Aceleração do Pensamento: previsão/identificação de golpes fortes)
-  world.afterEvents.entityHurt.subscribe((ev) => {
+  const onBigHit = (ev) => {
     try {
       const p = ev.hurtEntity; if (p?.typeId !== "minecraft:player") return;
       const h = healthComp(p); if (!h || ev.damage < h.effectiveMax * 0.3) return;
       const stage = sageStage(getData(p)); if (stage >= 1) alert(p, "bighit", "al_attack", "Ataque poderoso detectado!", 900, { urgent: true });
     } catch { /* ignore */ }
-  });
+  };
+  try { world.afterEvents.entityHurt.subscribe(onBigHit, { entityTypes: ["minecraft:player"] }); } catch { world.afterEvents.entityHurt.subscribe(onBigHit); }   // 9.2: só jogadores
 }

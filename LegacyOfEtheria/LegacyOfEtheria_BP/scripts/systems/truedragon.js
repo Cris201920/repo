@@ -98,11 +98,12 @@ export function startTrueDragons() {
     if (tick % 600 < SCAN) for (const id of st.keys()) { try { if (!world.getEntity(id)) st.delete(id); } catch { st.delete(id); } }
   }, SCAN);
   // ferido por um jogador: acorda a forma verdadeira na hora; e anima o recuo
-  world.afterEvents.entityHurt.subscribe((ev) => { try {
+  const onTdHurt = (ev) => { try {
     const e = ev.hurtEntity; if (!FORMS[e?.typeId]) return;
     const s = st.get(e.id), tick = system.currentTick; if (s) s.last = tick;
     const f = formOf(e);
     if (f === "human" && s && s.state === "human" && tick >= s.nxt && ratio(e) <= STAGE2) { try { startCharge(e, tick); } catch { /* ignore */ } }
     else if (f === "dragon" && e.getProperty("etheria:act") === "none") setAct(e, "hurt", 8);
-  } catch { /* ignore */ } });
+  } catch { /* ignore */ } };
+  try { world.afterEvents.entityHurt.subscribe(onTdHurt, { entityTypes: Object.keys(FORMS) }); } catch { world.afterEvents.entityHurt.subscribe(onTdHurt); }   // 9.2: só os Dragões Verdadeiros
 }

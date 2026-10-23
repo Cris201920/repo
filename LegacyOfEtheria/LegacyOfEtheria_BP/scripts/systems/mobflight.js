@@ -3,7 +3,7 @@
 // (tools/mob_flight.py). Roda a cada 4 ticks; só toca na propriedade quando o estado muda.
 import { world, system } from "@minecraft/server";
 
-const FAM = "etheria_flyer", PROP = "etheria:fly", DIMS = ["overworld", "nether", "the_end"];
+const FAM = "etheria_flyer", PROP = "etheria:fly", NEAR = 128;   // 9.2: raio (blocos) além da distância de renderização usual
 const FLYERS = new Set(["etheria:feldway_angel", "etheria:zalario", "etheria:dino", "etheria:pico", "etheria:garasha",
   "etheria:veldanava", "etheria:velzard", "etheria:velgrynd",
   "etheria:void_dragon", "etheria:fallen_angel", "etheria:angel_guardian",   // 8.7: chefes por região que voam
@@ -28,10 +28,14 @@ export function startMobFlight() {
   } catch { /* ignore */ }
   system.runInterval(() => {
     tick += 4;
-    for (const dim of DIMS) {
+    // 9.2 (desempenho): só os voadores PERTO dos jogadores (consulta com raio, por dimensão em que há jogador) em vez de varrer as
+    // 3 dimensões inteiras a cada 4 ticks. Longe de todos ninguém vê a animação; ao chegar perto o estado é corrigido em até 4 ticks.
+    const seen = new Set();
+    for (const p of world.getAllPlayers()) {
       let list = [];
-      try { list = world.getDimension(dim).getEntities({ families: [FAM] }); } catch { continue; }
+      try { list = p.dimension.getEntities({ location: p.location, maxDistance: NEAR, families: [FAM] }); } catch { continue; }
       for (const e of list) {
+        if (seen.has(e.id)) continue; seen.add(e.id);
         try {
           let g = false, v = { x: 0, y: 0, z: 0 };
           try { g = !!e.isOnGround; v = e.getVelocity(); } catch { /* ignore */ }

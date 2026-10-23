@@ -32,11 +32,12 @@ export function startBossAnims() {
   } catch { /* evento indisponível */ }
   // reação ao dano
   try {
-    world.afterEvents.entityHurt.subscribe((ev) => {
+    const onFlinch = (ev) => {
       const e = ev.hurtEntity; if (!e || !BOSS_ANIM[e.typeId] || animBusy(e)) return;
       const now = system.currentTick; if (now - (lastFlinch.get(e.id) ?? -999) < 30) return;
       lastFlinch.set(e.id, now); playBossAnim(e, "flinch", 6);
-    });
+    };
+    try { world.afterEvents.entityHurt.subscribe(onFlinch, { entityTypes: Object.keys(BOSS_ANIM) }); } catch { world.afterEvents.entityHurt.subscribe(onFlinch); }   // 9.2: só chefes animados
   } catch { /* ignore */ }
   system.runInterval(() => { if (busyUntil.size > 300) busyUntil.clear(); if (lastFlinch.size > 300) lastFlinch.clear(); }, 1200);
 }

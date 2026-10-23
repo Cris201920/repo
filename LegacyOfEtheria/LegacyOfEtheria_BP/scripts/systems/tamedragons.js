@@ -65,15 +65,16 @@ function companions() {
 }
 
 export function startTameDragons() {
-  try {
-    world.afterEvents.dataDrivenEntityTrigger.subscribe((ev) => {
-      try {
-        if (ev.eventId !== "etheria:tamed" || !isTameDragon(ev.entity)) return;
-        const e = ev.entity, nm = TAME_DRAGONS[e.typeId].name;
-        for (const p of e.dimension.getPlayers({ location: e.location, maxDistance: 10 })) say(p, `§a[Etheria] §f${nm} §adomado! §7Interaja para montar · olhe para cima para voar · cure com a mesma comida.`);
-      } catch { /* ignore */ }
-    });
-  } catch { /* evento indisponível nesta versão */ }
+  const onTamed = (ev) => {
+    try {
+      if (ev.eventId !== "etheria:tamed" || !isTameDragon(ev.entity)) return;
+      const e = ev.entity, nm = TAME_DRAGONS[e.typeId].name;
+      for (const p of e.dimension.getPlayers({ location: e.location, maxDistance: 10 })) say(p, `§a[Etheria] §f${nm} §adomado! §7Interaja para montar · olhe para cima para voar · cure com a mesma comida.`);
+    } catch { /* ignore */ }
+  };
+  // 9.2 (desempenho): sem filtro este evento dispara para TODO evento de entidade do mundo (vanilla incluso); com filtro, só dragões domáveis
+  try { world.afterEvents.dataDrivenEntityTrigger.subscribe(onTamed, { entityTypes: Object.keys(TAME_DRAGONS), eventTypes: ["etheria:tamed"] }); }
+  catch { try { world.afterEvents.dataDrivenEntityTrigger.subscribe(onTamed); } catch { /* evento indisponível nesta versão */ } }
   system.runInterval(() => {
     tick++;
     const ridden = new Set();

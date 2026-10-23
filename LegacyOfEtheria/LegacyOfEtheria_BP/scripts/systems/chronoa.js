@@ -195,7 +195,8 @@ export function startChronoa() {
     }
     if (tick % 600 < SCAN) for (const id of st.keys()) { try { if (!world.getEntity(id)) st.delete(id); } catch { st.delete(id); } }
   }, SCAN);
-  world.afterEvents.entityHurt.subscribe((ev) => { try { onHurt(ev); } catch (er) { console.warn(`[Etheria] chronoa hurt: ${er}`); } });
+  const onChrHurt = (ev) => { try { onHurt(ev); } catch (er) { console.warn(`[Etheria] chronoa hurt: ${er}`); } };
+  try { world.afterEvents.entityHurt.subscribe(onChrHurt, { entityTypes: [CHR] }); } catch { world.afterEvents.entityHurt.subscribe(onChrHurt); }   // 9.2: só a Chronoa
   world.afterEvents.entityDie.subscribe((ev) => { try { const e = ev.deadEntity; if (isChronoa(e)) { clearAll(e); for (const p of near(e, 48)) say(p, "§5[Chronoa] §7O tempo volta a fluir... Ela sorri antes de desaparecer."); } } catch { /* ignore */ } });
 }
 

@@ -135,5 +135,6 @@ function onHurt(ev) {
 
 export function startCombat() {
   world.afterEvents.entityHitEntity.subscribe(onHit);
-  world.afterEvents.entityHurt.subscribe(onHurt);
+  // 9.2 (desempenho): onHurt só trata jogadores; o filtro evita chamar o script a cada dano de qualquer mob do mundo
+  try { world.afterEvents.entityHurt.subscribe(onHurt, { entityTypes: ["minecraft:player"] }); } catch { world.afterEvents.entityHurt.subscribe(onHurt); }
 }
