@@ -8,7 +8,8 @@ import { WGEN } from "../data/wgen.gen.js";
 import { DUNGEONS, DG_LOOT } from "../data/dungeons.gen.js";
 import { SETTLEMENT_LIST } from "../data/factions.js";
 import { isProtectedPos } from "./arenas.js";
-import { loadRegion, placeFile, enqueue, clampOrigin } from "./placer.js";
+import { holdRegion, placeFileAsync, enqueue, clampOrigin, unloadedCount, placerBusy, structureSize } from "./placer.js";
+import { inCombat } from "./combat.js";
 import { settlementInfo } from "./settlements.js";
 import { tempestInfo } from "./tempest.js";
 import { say, toast } from "../core/utils.js";
@@ -74,18 +75,19 @@ export function placeWgen(dim, key, anchor, cb, opts = {}) {
   const [sx, , sz] = def.size;
   enqueue((next) => {
     const o = clampOrigin(dim, { x: Math.floor(anchor.x) - (sx >> 1), y: Math.floor(anchor.y) - def.floor, z: Math.floor(anchor.z) - (sz >> 1) }, def.size);
-    loadRegion(dim, o.x, o.z, sx, sz, (loaded, why) => {
-      try {
-        if (!loaded) return done({ ok: false, err: `chunks não carregados: ${why}` });
-        const err = placeFile(dim, def.id, o);
-        if (err) { console.warn(`[Etheria] FALHA estrutura ${key} (${def.id}): ${err}`); return done({ ok: false, err }); }
+    // 9.3: auto (exploração) = sem tickingarea; colocação em ladrilhos espalhada por alguns ticks (placer.placeFileAsync)
+    holdRegion(dim, o.x, o.z, sx, sz, (loaded, why, release) => {
+      const fin = (res) => { try { done(res); } finally { release(); next(); } };
+      if (!loaded) return fin({ ok: false, err: `chunks não carregados: ${why}` });
+      placeFileAsync(dim, def.id, o, (err) => {
+        if (err) { console.warn(`[Etheria] FALHA estrutura ${key} (${def.id}): ${err}`); return fin({ ok: false, err }); }
         const f = blockAt(dim, o.x + (sx >> 1), o.y + def.floor, o.z + (sz >> 1));
-        if (!f || f.typeId === "minecraft:air") { console.warn(`[Etheria] estrutura ${key}: piso não encontrado após colocar`); return done({ ok: false, err: "piso não encontrado após a colocação" }); }
+        if (!f || f.typeId === "minecraft:air") { console.warn(`[Etheria] estrutura ${key}: piso não encontrado após colocar`); return fin({ ok: false, err: "piso não encontrado após a colocação" }); }
         const rec = records(); rec.push({ k: key, d: dim.id, x: o.x + (sx >> 1), z: o.z + (sz >> 1), y: o.y, sep: def.sep, sx, sz }); wr(REC, trimRec(rec));
         const loot = fillChests(dim, key, o), mobs = (opts.noMobs || def.manual) ? 0 : spawnMobs(dim, key, o);
-        done({ ok: true, at: o, center: { x: o.x + (sx >> 1), y: o.y + def.floor, z: o.z + (sz >> 1) }, entry: { x: o.x + def.entry[0] + 0.5, y: o.y + def.entry[1], z: o.z + def.entry[2] + 0.5 }, chests: loot.ok, chestsFailed: loot.bad, mobs });
-      } finally { next(); }
-    });
+        fin({ ok: true, at: o, center: { x: o.x + (sx >> 1), y: o.y + def.floor, z: o.z + (sz >> 1) }, entry: { x: o.x + def.entry[0] + 0.5, y: o.y + def.entry[1], z: o.z + def.entry[2] + 0.5 }, chests: loot.ok, chestsFailed: loot.bad, mobs });
+      });
+    }, 600, !!opts.auto);
   });
 }
 
@@ -148,6 +150,16 @@ function pickKey(bag) { const t = bag.reduce((s, k) => s + WGEN[k].w, 0); let r 
 // fixa pela coordenada, sem salvar nada) só as raras podem surgir. Reinos, lendárias, portais e as CIDADES (systems/settlements.js) não mudam.
 export const BASIC_SKIP = 0.35;
 export const quietCell = (cx, cz) => { let h = (cx * 73856093) ^ (cz * 19349663); h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) % 1000 < BASIC_SKIP * 1000; };
+// 9.3: geração automática só com o jogador "calmo" (fora de combate, sem voo/corrida rápida), uma de cada vez e com intervalo mínimo
+let lastAuto = -1e9;
+export function calmFor(p) {
+  try { if (inCombat(p)) return false; } catch { /* ignore */ }
+  try { const v = p.getVelocity(); if (Math.hypot(v.x, v.z) > (WORLDGEN.autoMaxSpeed ?? 0.45) || Math.abs(v.y) > 0.6) return false; } catch { /* ignore */ }
+  try { if (p.isGliding) return false; } catch { /* ignore */ }
+  return true;
+}
+export const autoReady = () => !placerBusy() && system.currentTick - lastAuto >= (WORLDGEN.autoGap ?? 1200);
+export const markAuto = () => { lastAuto = system.currentTick; };
 function tryGenerate(p) {
   const dim = p.dimension, l = p.location, tries = [];
   const quiet = quietCell(Math.floor(l.x / CELL), Math.floor(l.z / CELL));
@@ -158,9 +170,12 @@ function tryGenerate(p) {
     if (!bag.length) continue;
     const key = pickKey(bag), why = conflict(dim, x, z, key); if (why) continue;
     const s = checkSite(dim, x, z, key); if (!s.ok) continue;
+    const [sx, , sz] = WGEN[key].size;
+    if (unloadedCount(dim, x - (sx >> 1), z - (sz >> 1), sx, sz, WORLDGEN.autoForceMax ?? 40) > (WORLDGEN.autoForceMax ?? 40)) continue;   // 9.3: no máximo a borda da pegada a carregar
+    markAuto();
     placeWgen(dim, key, { x, y: s.y, z }, (res) => {
       if (res.ok) { if (WORLDGEN.script) say(p, `§6[Etheria] §fVocê sente algo à distância: §e${WGEN[key].name}§7 (${Math.round(res.center.x)}, ${Math.round(res.center.z)})`); try { toast(p, "§6Local descoberto", `§7${WGEN[key].name}`); } catch { /* ignore */ } }
-    });
+    }, { auto: true });
     return true;
   }
   return false;
@@ -172,6 +187,7 @@ export function startWorldgen() {
       const seen = rd(SEEN, {}), left = records().filter((q) => !q.nat).length < MAX_REC;
       for (const p of world.getAllPlayers()) {
         if (!left || p.dimension.id !== "minecraft:overworld" || Math.random() > 0.35) continue;
+        if (!autoReady() || !calmFor(p)) continue;   // 9.3: sem contar tentativa (a célula não perde a vez)
         const k = `${Math.floor(p.location.x / CELL)},${Math.floor(p.location.z / CELL)}`, n = seen[k] ?? 0;
         if (n >= 100) continue;
         if (tryGenerate(p)) { seen[k] = 100; wr(SEEN, seen); } else { seen[k] = n + 1; if (n % 4 === 0) wr(SEEN, seen); }
@@ -186,9 +202,9 @@ export function verifyWgen() {
   for (const k of wgKeys()) {
     const d = WGEN[k]; let ok = true, why = "";
     try {
-      const s = world.structureManager.get(d.id);
+      const s = structureSize(d.id);   // 9.3: original ou ladrilhos
       if (!s) { ok = false; why = "arquivo .mcstructure não encontrado"; }
-      else if (s.size.x !== d.size[0] || s.size.y !== d.size[1] || s.size.z !== d.size[2]) { ok = false; why = "tamanho divergente"; }
+      else if (s[0] !== d.size[0] || s[1] !== d.size[1] || s[2] !== d.size[2]) { ok = false; why = "tamanho divergente"; }
     } catch (e) { ok = false; why = String(e); }
     const inside = ([x, y, z]) => x >= 0 && y >= 0 && z >= 0 && x < d.size[0] && y < d.size[1] && z < d.size[2];
     if (ok && (!d.chests.every((c) => inside(c)) || !d.mobs.every((m) => inside(m.slice(1))))) { ok = false; why = "baú/mob fora da caixa"; }

@@ -1,6 +1,6 @@
 // config.js - Constantes e balanceamento (edite aqui, sem mexer na lógica)
 export const BUILD_PROFILE = "quality"; // o build troca para "performance" na versão leve
-export const VERSION = "8.15.0";
+export const VERSION = "8.16.0";
 export const PROP_KEY = "etheria:data";
 export const WORLD_RANK_KEY = "etheria:ranking";
 export const DATA_VERSION = 3;          // v3: hotbar de habilidades (loadout, instâncias, recargas salvas)
@@ -199,9 +199,12 @@ export const TURBO = {
 //   script: true  -> volta a colocar TODAS as estruturas por script ao explorar (como antes; útil em mundo antigo já explorado)
 //   large:  true  -> as grandes demais para o gerador nativo (reinos, vilas de ogros, domínios, Igreja/Escola/Templo grandes) continuam
 //                    por script, raras e sem mensagem no chat. false = só com !gerar.
-//   scanEvery/scanChunks/scanRadius: procura do marcador das estruturas nativas (raio de 3 chunks). 9.2: 2 chunks a cada 1,25 s em vez de
-//   8 a cada 5 s — mesma vazão (8 chunks / 5 s), mas cada consulta containsBlock de 16x320x16 fica espalhada (sem pico de 8 de uma vez).
-export const WORLDGEN = { script: false, large: true, scanEvery: 25, scanChunks: 2, scanRadius: 3 };
+//   scanEvery/scanChunks/scanRadius: reconhecimento das estruturas nativas (raio de 3 chunks). 9.3: SEM bloco marcador (âncora + assinatura
+//   dos próprios blocos) e sem varredura periódica: só os chunks NOVOS em volta de quem anda entram na fila; no máximo 2 por 1,25 s.
+//   tileGap: estruturas grandes por script em ladrilhos de 32x32 colunas (tools/wg_tiles.py), um passo a cada tileGap ticks (sem pico).
+//   autoGap/autoMaxSpeed: colocação AUTOMÁTICA (exploração) uma de cada vez, no mínimo autoGap ticks entre elas, nunca em combate nem com o
+//   jogador a mais de autoMaxSpeed blocos/tick (voo/élitros); força no máximo autoForceMax chunks ainda não carregados (a borda da pegada).
+export const WORLDGEN = { script: false, large: true, scanEvery: 25, scanChunks: 2, scanRadius: 3, tileGap: 2, autoGap: 600, autoMaxSpeed: 0.45, autoForceMax: 40 };
 
 // 7.x: SPAWNS / LAG — poucos mobs do addon ativos ao mesmo tempo. Os mobs nascem pelas regras naturais (BP/spawn_rules, ajustadas por
 // tools/spawn_tune.py) e com as estruturas do mundo; o chefe "errante" por script ficou raro e sem arena instantânea.

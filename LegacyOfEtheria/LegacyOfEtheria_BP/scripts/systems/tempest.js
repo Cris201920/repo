@@ -6,7 +6,7 @@ import { world, system } from "@minecraft/server";
 import { TEMPEST } from "../data/tempest.gen.js";
 import { say } from "../core/utils.js";
 import { canBuild, canSpawnStructures, CREATIVE_ONLY } from "../core/perm.js";
-import { enqueue, enqueueFirst, holdRegion, placeFile, clampOrigin } from "./placer.js";
+import { enqueue, enqueueFirst, holdRegion, placeFile, clampOrigin, regionLoaded } from "./placer.js";
 
 const KEY = "etheria:tempest";
 const AREA = "etheria_tc";
@@ -118,15 +118,14 @@ function placeOne(dim, t) {
   S.err = (S.err ?? 0) + 1; S.lastErr = `${t.id}: ${err}`; console.warn(`[Etheria] Tempest ${t.id}: ${err}`); return false;
 }
 function placeTile(t, after) {
-  const dim = ow(), c = tileCenter(t);
-  loadArea(dim, c.x, c.z, (ok) => {
-    let res = false;
-    if (ok) {
-      if (placeOne(dim, t)) { S.done[t.id] = 1; res = true; system.runTimeout(() => { spawnNpcs(t); save(); }, 20); }
-      else { S.fail = (S.fail ?? 0) + 1; }
-    }
-    freeArea(dim); save(); after(res);
-  });
+  const dim = ow();
+  // 9.3: por proximidade, só coloca quando o ladrilho inteiro JÁ está carregado pelo jogo (antes: tickingarea de 9x9 chunks a cada
+  // ladrilho, que força gerar/carregar terreno). Senão tenta no próximo ciclo, quando o jogador chegar mais perto. Mesmo ladrilho, mesmo lugar.
+  if (!regionLoaded(dim, S.x + t.ox, S.z + t.oz, t.sx, t.sz)) { after(false); return; }
+  let res = false;
+  if (placeOne(dim, t)) { S.done[t.id] = 1; res = true; system.runTimeout(() => { spawnNpcs(t); save(); }, 20); }
+  else { S.fail = (S.fail ?? 0) + 1; }
+  save(); after(res);
 }
 function announce(p) {
   if (S.ann) return; S.ann = 1; save();

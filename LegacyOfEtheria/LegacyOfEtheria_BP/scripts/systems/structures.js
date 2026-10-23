@@ -4,8 +4,8 @@ import { world, system, BlockPermutation, ItemStack } from "@minecraft/server";
 import { STRUCTURES } from "../data/structures.gen.js";
 import { say, pick, chance, toast } from "../core/utils.js";
 import { WORLD } from "../data/arenas.gen.js";
-import { withLoaded } from "./arenas.js";
-import { placeFile, clampOrigin } from "./placer.js";
+import { placeFileAsync, holdRegion, enqueue, clampOrigin, unloadedCount } from "./placer.js";
+import { calmFor, autoReady, markAuto } from "./worldgen.js";
 import { WORLDGEN } from "../config.js";
 import { NATIVE } from "../data/natgen.gen.js";
 
@@ -27,20 +27,23 @@ function perm(entry) {
 const busy = new Set();
 
 /** 6.24: colocação INSTANTÂNEA (structureManager.place do .mcstructure world_<id>); se o arquivo falhar, cai no método antigo bloco a bloco e registra o erro */
-export function placeStructure(dim, origin, id, done) {
+export function placeStructure(dim, origin, id, done, auto = false) {
   const s = STRUCTURES[id], w = WORLD[id];
   if (!s) return false;
   if (!w) return placeProgressive(dim, origin, id, done);
-  const o = clampOrigin(dim, origin, w.size ?? s.size), tag = id + o.x + o.z;
+  const size = w.size ?? s.size, o = clampOrigin(dim, origin, size), tag = id + o.x + o.z;
   if (busy.has(tag)) return false;
   busy.add(tag);
-  withLoaded(dim, o.x, o.z, w.size ?? s.size, (loaded) => {
-    busy.delete(tag);
-    const err = loaded ? placeFile(dim, w.id, o) : "chunks não carregados";
-    if (!err) { finish(dim, o, s); done?.(); return; }
-    console.warn(`[Etheria] estrutura ${w.id} (${s.name}): ${err}; usando a colocação bloco a bloco.`);
-    placeProgressive(dim, o, id, done);
-  });
+  // 9.3: em ladrilhos (placer.placeFileAsync); automático = nunca força chunks (sem tickingarea) e não cai no bloco a bloco
+  enqueue((next) => holdRegion(dim, o.x, o.z, size[0], size[2], (loaded, why, release) => {
+    const fin = (f) => { busy.delete(tag); try { f(); } finally { release(); next(); } };
+    if (!loaded) return fin(() => { if (!auto) { console.warn(`[Etheria] estrutura ${w.id} (${s.name}): ${why}; usando a colocação bloco a bloco.`); placeProgressive(dim, o, id, done); } });
+    placeFileAsync(dim, w.id, o, (err) => fin(() => {
+      if (!err) { finish(dim, o, s); done?.(); return; }
+      console.warn(`[Etheria] estrutura ${w.id} (${s.name}): ${err}; usando a colocação bloco a bloco.`);
+      placeProgressive(dim, o, id, done);
+    }));
+  }, 600, auto));
   return true;
 }
 
@@ -104,16 +107,18 @@ function weighted() {
   return bag.length ? pick(bag) : undefined;
 }
 
-export function spawnNear(player, id) {
+export function spawnNear(player, id, auto = false) {
   const dim = player.dimension, l = player.location;
   const ang = Math.random() * Math.PI * 2, d = 40 + Math.random() * 25;
   const x = Math.floor(l.x + Math.cos(ang) * d), z = Math.floor(l.z + Math.sin(ang) * d);
   const y = surfaceY(dim, x, z);
   if (y === undefined) return false;
-  const s = STRUCTURES[id];
+  const s = STRUCTURES[id], sz = WORLD[id]?.size ?? s.size;
+  if (auto && unloadedCount(dim, x, z, sz[0], sz[2], WORLDGEN.autoForceMax ?? 40) > (WORLDGEN.autoForceMax ?? 40)) return false;   // 9.3: automático: no máximo a borda a carregar
+  if (auto) markAuto();
   return placeStructure(dim, { x, y: y - 1, z }, id, () => {
     if (WORLDGEN.script) say(player, `§6[Etheria] §fEstrutura revelada: §e${s.name}§7 (${x}, ${y}, ${z})`);   // 9.0: sem mensagem no modo nativo
-  });
+  }, auto);
 }
 
 export function startStructures() {
@@ -121,11 +126,12 @@ export function startStructures() {
   system.runInterval(() => {
     for (const p of world.getAllPlayers()) {
       if (p.dimension.id !== "minecraft:overworld" || !chance(0.12)) continue;
+      if (!autoReady() || !calmFor(p)) continue;   // 9.3: uma colocação automática por vez, jogador fora de combate/voo rápido
       const cx = Math.floor(p.location.x / 256), cz = Math.floor(p.location.z / 256);
       const k = `${cx},${cz}`, S = seen();
       if (S[k]) continue;
       const id = weighted(); if (!id) continue;
-      if (spawnNear(p, id)) { S[k] = 1; markSeen(S); if (WORLDGEN.script) toast(p, "§6Estrutura antiga", "§7algo surgiu por perto..."); }
+      if (spawnNear(p, id, true)) { S[k] = 1; markSeen(S); if (WORLDGEN.script) toast(p, "§6Estrutura antiga", "§7algo surgiu por perto..."); }
     }
   }, 400);
 }

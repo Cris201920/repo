@@ -5,7 +5,9 @@
 // que coloca o arquivo de uma vez, enche os baús pela loot table e gera chefe + guardas). Aqui só se escolhe o LOCAL.
 // Leve: 1 verificação a cada 30 s, só para ~30% dos jogadores, no máximo 1 masmorra por célula de 512x512 por dimensão, poucas leituras de bloco.
 import { world, system } from "@minecraft/server";
-import { WGEN, placeWgen, checkSite, conflict, wgRecords } from "./worldgen.js";
+import { WGEN, placeWgen, checkSite, conflict, wgRecords, calmFor, autoReady, markAuto } from "./worldgen.js";
+import { unloadedCount } from "./placer.js";
+import { WORLDGEN } from "../config.js";
 import { say, toast } from "../core/utils.js";
 
 const SEEN = "etheria:dgseen", CELL = 512, TICK = 600, MAX_EACH = 12;
@@ -76,12 +78,15 @@ export function tryDungeon(p) {
       site = kind === "nether" ? netherSite(dim, x, z, l.y) : endSite(dim, x, z);
     }
     if (!key || !site?.ok || conflict(dim, x, z, key)) continue;
+    const [sx, , sz] = WGEN[key].size;
+    if (unloadedCount(dim, x - (sx >> 1), z - (sz >> 1), sx, sz, WORLDGEN.autoForceMax ?? 40) > (WORLDGEN.autoForceMax ?? 40)) continue;   // 9.3: no máximo a borda a carregar
     const name = WGEN[key].name;
+    markAuto();
     placeWgen(dim, key, { x, y: site.y, z }, (res) => {
       if (!res.ok) return;
       say(p, `§6[Etheria] §fUma presença poderosa desperta: §e${name}§7 (${Math.round(res.center.x)}, ${Math.round(res.center.y)}, ${Math.round(res.center.z)})`);
       try { toast(p, "§6Masmorra descoberta", `§7${name}`); } catch { /* ignore */ }
-    });
+    }, { auto: true });
     return true;
   }
   return false;
@@ -93,6 +98,7 @@ export function startDungeons() {
       let seen = null;
       for (const p of world.getAllPlayers()) {
         if (!DIMKIND[p.dimension.id] || Math.random() > 0.3) continue;
+        if (!autoReady() || !calmFor(p)) continue;   // 9.3
         seen ??= rd();
         const k = `${p.dimension.id.slice(10, 12)}${Math.floor(p.location.x / CELL)},${Math.floor(p.location.z / CELL)}`, n = seen[k] ?? 0;
         if (n >= 100) continue;

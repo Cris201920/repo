@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # tools/native_worldgen.py - 9.0: GERAÇÃO NATIVA das estruturas (o gerador de mundo do Bedrock coloca junto com os chunks; sem script em tempo de jogo).
 # Para cada estrutura da tabela NATIVE abaixo gera (idempotente):
-#   BP/structures/etheria_nat/<key>.mcstructure      cópia da estrutura original com: baús já com loot table no NBT (LootTable) e 2 marcadores no
-#                                                    centro (light_block_0 invisível = "ainda não ativada"; terracota vitrificada virada ao norte =
-#                                                    identidade (cor) + rotação sorteada pelo gerador). Recorte opcional (cabe em 48x48).
+#   BP/structures/etheria_nat/<key>.mcstructure      cópia EXATA da estrutura original (bloco a bloco; 9.3: sem marcadores) com os baús já com
+#                                                    loot table no NBT (LootTable). Recorte opcional (cabe em 48x48). O validador confere a cópia.
 #   BP/features/etheria/<key>.feature.json           minecraft:structure_template_feature (facing_direction random)
 #   BP/feature_rules/etheria/<key>.feature_rule.json minecraft:feature_rules (bioma/dimensão, raridade por chunk, y por heightmap)
 #   BP/loot_tables/etheria/wg_tier{1,2,3}.json       loot dos baús das ruínas/acampamentos (mesmas listas do LOOT de systems/worldgen.js)
-#   BP/scripts/data/natgen.gen.js                    dados para systems/natgen.js (ativação leve: guardas/chefe + registro, uma única vez)
+#   BP/scripts/data/natgen.gen.js                    dados para systems/natgen.js (ativação leve: guardas/chefe + registro, uma única vez):
+#                                                    âncora (bloco raro da própria estrutura) + assinatura (12+ blocos vizinhos) para reconhecê-la
+#                                                    nas 4 rotações sem nenhum bloco marcador.
 # Limite: pegada <= 48x48 (a estrutura cabe na janela de 3x3 chunks em volta do chunk de origem; maiores seriam cortadas na borda dos chunks).
 # Uso: python3 tools/native_worldgen.py           (gera e valida)    |   python3 tools/native_worldgen.py --check   (só valida)
 import json, os, re, sys
@@ -25,27 +26,27 @@ DATA = os.path.join(BP, "scripts", "data", "natgen.gen.js")
 MAXW = 48
 FV = "1.21.0"
 
-# ---------------------------------------------------------------- tabela: chave -> origem, onde nasce, raridade (1 em N chunks), cor do marcador
+# ---------------------------------------------------------------- tabela: chave -> origem, onde nasce, raridade (1 em N chunks)
 #   src: wg (data/wgen.gen.js) | dg (data/dungeons.gen.js) | world (data/arenas.gen.js WORLD, colocadas por systems/structures.js)
 #   bio: land | goblin | swamp | plains | deep_ocean | nether | end
 NATIVE = [
-    # chave                  src      bio          N     cor            recorte (x0, z0, w, d)
-    ("ruina_templo",          "wg",    "land",      1500, "white",       None),
-    ("ruina_torre",           "wg",    "land",      1500, "orange",      None),
-    ("ruina_circulo",         "wg",    "land",      1500, "magenta",     None),
-    ("ruina_forte",           "wg",    "land",      1500, "light_blue",  None),
-    ("goblin_forte",          "wg",    "goblin",    1100, "yellow",      None),
-    ("goblin_covil",          "wg",    "goblin",    1100, "lime",        (1, 1, 47, 47)),   # 49x49 com 1 coluna de ar na borda
-    ("lagarto_posto",         "wg",    "swamp",      350, "pink",        None),
-    ("lagarto_posto2",        "wg",    "swamp",      350, "gray",        None),
-    ("castelo_celestial",     "dg",    "land",      2600, "silver",      None),
-    ("masmorra_goblin",       "dg",    "goblin",    1800, "cyan",        None),
-    ("santuario_submerso",    "dg",    "deep_ocean", 700, "purple",      None),
-    ("fortaleza_sombria",     "dg",    "nether",     500, "red",         None),
-    ("santuario_vazio",       "dg",    "end",        300, "black",       None),
-    ("otherworlder",          "world", "plains",    1800, "blue",        None),
-    ("hinata_church",         "world", "plains",    3000, "brown",       None),
-    ("rimuru_ogre_fight_boss", "world", "goblin",   3000, "green",       None),
+    # chave                  src      bio          N     recorte (x0, z0, w, d)
+    ("ruina_templo",          "wg",    "land",      1500, None),
+    ("ruina_torre",           "wg",    "land",      1500, None),
+    ("ruina_circulo",         "wg",    "land",      1500, None),
+    ("ruina_forte",           "wg",    "land",      1500, None),
+    ("goblin_forte",          "wg",    "goblin",    1100, None),
+    ("goblin_covil",          "wg",    "goblin",    1100, (1, 1, 47, 47)),   # 49x49 com 1 coluna de ar na borda
+    ("lagarto_posto",         "wg",    "swamp",      350, None),
+    ("lagarto_posto2",        "wg",    "swamp",      350, None),
+    ("castelo_celestial",     "dg",    "land",      2600, None),
+    ("masmorra_goblin",       "dg",    "goblin",    1800, None),
+    ("santuario_submerso",    "dg",    "deep_ocean", 700, None),
+    ("fortaleza_sombria",     "dg",    "nether",     500, None),
+    ("santuario_vazio",       "dg",    "end",        300, None),
+    ("otherworlder",          "world", "plains",    1800, None),
+    ("hinata_church",         "world", "plains",    3000, None),
+    ("rimuru_ogre_fight_boss", "world", "goblin",   3000, None),
 ]
 DIM = {"nether": "minecraft:nether", "end": "minecraft:the_end"}
 FILLER = {"minecraft:overworld": "minecraft:dirt", "minecraft:nether": "minecraft:netherrack", "minecraft:the_end": "minecraft:end_stone"}
@@ -113,15 +114,15 @@ def loot_table(entries):
 def C(comp, key): return tnbt.get(comp, key)
 
 
-def build_struct(key, d, color, crop, dim):
-    """lê a estrutura original, recorta, põe LootTable nos baús e os 2 marcadores; devolve (bytes, info)"""
+def build_struct(key, d, crop, dim):
+    """lê a estrutura original, recorta e põe LootTable nos baús (NENHUM bloco é acrescentado: 9.3 sem marcadores); devolve (bytes, info)"""
     name, (t, root) = tnbt.read(os.path.join(SRC, d["id"].split(":")[1] + ".mcstructure"))
     sx, sy, sz = C(root, "size")[1][1]
     st = C(root, "structure")[1]
     l0, l1 = [lay[1] for lay in C(st, "block_indices")[1][1]]
     pal_c = C(C(C(st, "palette")[1], "default")[1], "block_palette")[1][1]
     names = [C(p, "name")[1] for p in pal_c]
-    ver = C(pal_c[0], "version")[1]
+    stateless = [not C(p, "states")[1] for p in pal_c]
     x0, z0, w, dd = crop or (0, 0, sx, sz)
     I = lambda x, y, z, SY, SZ: x * SY * SZ + y * SZ + z
     n0, n1 = [], []
@@ -140,18 +141,13 @@ def build_struct(key, d, color, crop, dim):
     floor = d.get("floor", 0)
     L = max(0, floor - 2)
     cx, cz = sx // 2, sz // 2
-
-    def pal_add(n, states):
-        pal_c.append([("name", (8, n)), ("states", (10, states)), ("version", (3, ver))]); return len(pal_c) - 1
+    # 9.3: o que as versões 9.0-9.2 punham no centro (light_block_0 em L e terracota em L+1) e o bloco original de cada posição:
+    # só para LIMPAR os marcadores que ainda existam em mundos gerados antes (systems/natgen.js devolve o bloco original).
     restore = []
-    for yy, blk, states in ((L, "minecraft:light_block_0", []), (L + 1, f"minecraft:{color}_glazed_terracotta", [("facing_direction", (3, 2))])):
-        i = I(cx, yy, cz, sy, sz)
-        old = n0[i]
+    for yy in (L, L + 1):
+        old = n0[I(cx, yy, cz, sy, sz)]
         if old < 0 or names[old] == "minecraft:structure_void": restore.append([FILLER[dim], {}])
-        else:
-            stt = {k: v[1] for k, v in C(pal_c[old], "states")[1]}
-            restore.append([names[old], stt])
-        n0[i] = pal_add(blk, states); n1[i] = -1
+        else: restore.append([names[old], {k: v[1] for k, v in C(pal_c[old], "states")[1]}])
     # baús: loot table no NBT (rola quando o jogador abre); posições do registro (ajustadas ao recorte)
     bpd = []
     chests = []
@@ -169,8 +165,124 @@ def build_struct(key, d, color, crop, dim):
                                  ("palette", (10, [("default", (10, [("block_palette", (9, (10, pal_c))), ("block_position_data", (10, bpd))]))]))])),
              ("structure_world_origin", (9, (3, [0, 0, 0])))]
     o = [bytes([10])]; tnbt._ws(o, ""); tnbt._wp(o, 10, root2)
-    mobs = [[m[0], m[1] - x0 - cx, m[2], m[3] - z0 - cz] for m in d.get("mobs", [])]
-    return b"".join(o), {"size": [sx, sy, sz], "floor": floor, "L": L, "c": [cx, cz], "restore": restore, "mobs": mobs, "chests": len(chests)}
+    mobs = [[m[0], m[1] - x0, m[2], m[3] - z0] for m in d.get("mobs", [])]
+    grid = Grid(sx, sy, sz, [names[v] if v >= 0 else None for v in n0], [v >= 0 and stateless[v] for v in n0])
+    return b"".join(o), {"size": [sx, sy, sz], "floor": floor, "L": L, "c": [cx, cz], "restore": restore, "mobs": mobs, "chests": len(chests), "grid": grid}
+
+
+# ---------------------------------------------------------------- 9.3: ÂNCORA + ASSINATURA (sem bloco marcador)
+# A estrutura é reconhecida pelos PRÓPRIOS blocos: um bloco raro dela (âncora: baú, atril, mesa de encantamento...) e ~12 blocos
+# vizinhos de tipo fixo (assinatura) testados nas 4 rotações. Escolhidos aqui de forma determinística para que nenhuma outra posição
+# do mesmo tipo (nesta ou em outra estrutura da mesma dimensão, em qualquer rotação) chegue perto de bater: toda hipótese falsa
+# tem >= MISS_FALSE diferenças certas; no jogo aceita-se no máximo MISS_OK (tolera 1 bloco quebrado/trocado).
+ANCHOR_OK = ["minecraft:chest", "minecraft:lectern", "minecraft:enchanting_table", "minecraft:jukebox", "minecraft:barrel",
+             "minecraft:flower_pot", "minecraft:bookshelf"]
+UNSTABLE = re.compile(r"air$|structure_void|light_block|water|lava|grass|dirt|sand|gravel|concrete_powder|ice$|snow|leaves|web$|magma$|"
+                      r"farmland|mycelium|podzol|moss|vine|fire|kelp|seagrass|coral|sponge|slime|noteblock|tnt|glowstone|_ore$|infested")
+SIG_N, MISS_FALSE, MISS_OK, SIG_R = 12, 3, 1, 20
+
+
+class Grid:
+    def __init__(s, sx, sy, sz, names, stateless):
+        s.sx, s.sy, s.sz, s.names, s.stateless = sx, sy, sz, names, stateless
+
+    def at(s, x, y, z):
+        """nome do bloco, None = vazio (structure_void) ou fora da caixa"""
+        if 0 <= x < s.sx and 0 <= y < s.sy and 0 <= z < s.sz: return s.names[x * s.sy * s.sz + y * s.sz + z]
+        return None
+
+
+def rot(dx, dz, r):
+    for _ in range(r & 3): dx, dz = -dz, dx
+    return dx, dz
+
+
+def anchor_of(key, g, cxz):
+    cnt = {}
+    for n in g.names:
+        if n: cnt[n] = cnt.get(n, 0) + 1
+    typ = next((t for t in ANCHOR_OK if t == "minecraft:chest" and 0 < cnt.get(t, 0) <= 8), None) or \
+        min((t for t in ANCHOR_OK if cnt.get(t)), key=lambda t: cnt[t], default=None)
+    assert typ, f"{key}: sem bloco âncora"
+    cx, cz = cxz
+    a = min(cells_of(g, typ), key=lambda c: ((c[0] - cx) ** 2 + (c[2] - cz) ** 2, c))   # o mais central (determinístico)
+    return typ, a
+
+
+_cells = {}
+
+
+def cells_of(g, typ):
+    k = (id(g), typ)
+    if k not in _cells: _cells[k] = [(x, y, z) for x in range(g.sx) for y in range(g.sy) for z in range(g.sz) if g.at(x, y, z) == typ]
+    return _cells[k]
+
+
+def sig_hyps(me, others):
+    """hipóteses falsas: (grade, posição de um bloco do tipo âncora, rotação relativa) nesta e nas outras estruturas da dimensão"""
+    key, g, typ, a = me
+    out = []
+    for g2 in [g] + others:
+        for c in cells_of(g2, typ):
+            for k in range(4):
+                if g2 is g and c == a and k == 0: continue
+                out.append((g2, c, k))
+    return out
+
+
+def miss(h, p):
+    g, (x, y, z), k = h
+    dx, dy, dz, n = p
+    rx, rz = rot(dx, dz, k)
+    v = g.at(x + rx, y + dy, z + rz)
+    return v is not None and v != n
+
+
+def pick_sig(me, others, cxz):
+    key, g, typ, a = me
+    ax, ay, az = a
+    cx, cz = cxz
+    pool = []
+    for x in range(max(0, ax - SIG_R), min(g.sx, ax + SIG_R + 1)):
+        for y in range(g.sy):
+            for z in range(max(0, az - SIG_R), min(g.sz, az + SIG_R + 1)):
+                n = g.at(x, y, z)
+                if n is None or (x, z) == (cx, cz) or (x, y, z) == a or UNSTABLE.search(n) or not g.stateless[x * g.sy * g.sz + y * g.sz + z]: continue
+                pool.append((x - ax, y - ay, z - az, n))
+    pool.sort(key=lambda p: (abs(p[0]) + abs(p[1]) + abs(p[2]), p))
+    pool = pool[::max(1, len(pool) // 1500)]                     # amostra determinística (perto da âncora primeiro)
+    hyps = sig_hyps(me, others)
+    need = [MISS_FALSE] * len(hyps)
+    sig = []
+    while any(n > 0 for n in need) and len(sig) < 40:
+        best, bs = None, 0
+        for p in pool:
+            if p in sig: continue
+            sc = sum(1 for i, h in enumerate(hyps) if need[i] > 0 and miss(h, p))
+            if sc > bs: best, bs = p, sc
+        if not best: break
+        sig.append(best)
+        for i, h in enumerate(hyps):
+            if need[i] > 0 and miss(h, best): need[i] -= 1
+    bad = sum(1 for n in need if n > 0)
+    assert not bad, f"{key}: assinatura não separa {bad} hipóteses"
+    rest = [p for p in pool if p not in sig]                     # completa até SIG_N com pontos espalhados (robustez)
+    step = max(1, len(rest) // max(1, SIG_N - len(sig)))
+    for p in rest[::step]:
+        if len(sig) >= SIG_N: break
+        sig.append(p)
+    return sig, len(hyps)
+
+
+def check_sig(me, others, sig):
+    """devolve (erros) - a âncora verdadeira bate, toda hipótese falsa tem >= MISS_FALSE diferenças"""
+    key, g, typ, a = me
+    errs = []
+    for dx, dy, dz, n in sig:
+        if g.at(a[0] + dx, a[1] + dy, a[2] + dz) != n: errs.append(f"{key}: assinatura não bate na própria estrutura")
+    for h in sig_hyps(me, others):
+        if sum(1 for p in sig if miss(h, p)) < MISS_FALSE: errs.append(f"{key}: assinatura ambígua"); break
+    return errs
 
 
 # ---------------------------------------------------------------- feature / feature rule
@@ -209,10 +321,21 @@ def rule(key, bio, n, info):
 
 
 # ---------------------------------------------------------------- validador
-def validate():
+def struct_grid(path):
+    _, (t, root) = tnbt.read(path)
+    sx, sy, sz = C(root, "size")[1][1]
+    st = C(root, "structure")[1]
+    l0 = C(st, "block_indices")[1][1][0][1]
+    pal = C(C(C(st, "palette")[1], "default")[1], "block_palette")[1][1]
+    pn = [C(p, "name")[1] for p in pal]
+    return Grid(sx, sy, sz, [pn[v] if v >= 0 else None for v in l0], [v >= 0 and not C(pal[v], "states")[1] for v in l0]), pn
+
+
+def validate(full=True):
     errs = []
     blocks = {b["name"] for b in json.load(open(os.path.join(ROOT, "tools/mojang-blocks-1.21.80.json")))["data_items"]}
     feats = {}
+    grids = {}
     for f in sorted(os.listdir(OUT_F)) if os.path.isdir(OUT_F) else []:
         p = os.path.join(OUT_F, f)
         try: j = json.load(open(p, encoding="utf8"))
@@ -230,12 +353,9 @@ def validate():
         ns, nm = s.get("structure_name", ":").split(":", 1)
         sp = os.path.join(BP, "structures", ns, nm + ".mcstructure")
         if not os.path.exists(sp): errs.append(f"{f}: estrutura {s.get('structure_name')} não existe"); continue
-        _, (t, root) = tnbt.read(sp)
-        sx, sy, sz = C(root, "size")[1][1]
-        if max(sx, sz) > MAXW: errs.append(f"{f}: pegada {sx}x{sz} > {MAXW}")
-        st = C(root, "structure")[1]; pal = C(C(C(st, "palette")[1], "default")[1], "block_palette")[1][1]
-        pn = [C(p, "name")[1] for p in pal]
-        if "minecraft:light_block_0" not in pn or not any(n.endswith("_glazed_terracotta") for n in pn): errs.append(f"{f}: sem marcadores")
+        g, pn = struct_grid(sp)
+        grids[nm] = g
+        if max(g.sx, g.sz) > MAXW: errs.append(f"{f}: pegada {g.sx}x{g.sz} > {MAXW}")
         unk = sorted({n for n in pn if n not in blocks and n != "minecraft:structure_void" and not n.startswith("etheria:")})
         if unk: errs.append(f"{f}: blocos desconhecidos {unk[:4]}")
         feats[ident] = f
@@ -253,24 +373,60 @@ def validate():
         sc = d.get("scatter_chance", {})
         if not (isinstance(sc, dict) and sc.get("numerator") == 1 and sc.get("denominator", 0) >= 100): errs.append(f"{f}: raridade")
     if rules != len(feats): errs.append(f"regras {rules} != features {len(feats)}")
+    # 9.3: cada estrutura nativa = EXATAMENTE a original (recortada), bloco a bloco: nenhum marcador; e a assinatura do natgen.gen.js é única
+    try: data = js_obj(DATA, "NATIVE")
+    except Exception as e: errs.append(f"natgen.gen.js: {e}"); data = {}
+    if full and data:
+        D = defs()
+        for key, src, bio, n, crop in NATIVE:
+            g = grids.get(key)
+            if not g: errs.append(f"{key}: sem estrutura"); continue
+            og, _ = struct_grid(os.path.join(SRC, D[src][key]["id"].split(":")[1] + ".mcstructure"))
+            x0, z0, w, dd = crop or (0, 0, og.sx, og.sz)
+            diff = sum(1 for x in range(w) for y in range(og.sy) for z in range(dd) if og.at(x + x0, y, z + z0) != g.at(x, y, z))
+            if diff or (g.sx, g.sy, g.sz) != (w, og.sy, dd): errs.append(f"{key}: {diff} bloco(s) diferentes da estrutura original")
+        bydim = {}
+        for key, d in data.items(): bydim.setdefault(d["dim"], []).append(key)
+        for key, d in data.items():
+            g = grids.get(key)
+            if not g or not d.get("sig"): errs.append(f"{key}: sem assinatura"); continue
+            others = [grids[k] for k in bydim[d["dim"]] if k != key and k in grids]
+            sig = [(dx, dy, dz, d["types"][ti]) for dx, dy, dz, ti in d["sig"]]
+            if g.at(*d["at"]) != d["anchor"]: errs.append(f"{key}: âncora não confere")
+            if len(sig) < SIG_N - 2: errs.append(f"{key}: assinatura curta")
+            errs += check_sig((key, g, d["anchor"], tuple(d["at"])), others, sig)
     return errs, len(feats)
 
 
 def main():
     if "--check" not in sys.argv:
-        D = defs(); ch = 0; data = {}
+        D = defs(); ch = 0; data = {}; built = {}
         for t in (1, 2, 3): ch += wdump(os.path.join(BP, f"loot_tables/etheria/wg_tier{t}.json"), loot_table(LOOT[t]))
-        for key, src, bio, n, color, crop in NATIVE:
+        for key, src, bio, n, crop in NATIVE:
             d = D[src][key]; dim = DIM.get(bio, "minecraft:overworld")
-            b, info = build_struct(key, d, color, crop, dim)
+            b, info = build_struct(key, d, crop, dim)
+            built[key] = (d, dim, info)
             ch += wbytes(os.path.join(OUT_ST, key + ".mcstructure"), b)
             ch += wdump(os.path.join(OUT_F, key + ".feature.json"), feature(key, bio))
             ch += wdump(os.path.join(OUT_R, key + ".feature_rule.json"), rule(key, bio, n, info))
-            data[key] = {"src": src, "name": d.get("name", key), "dim": dim, "bio": bio, "n": n, "marker": f"minecraft:{color}_glazed_terracotta",
-                         "size": info["size"], "floor": info["floor"], "L": info["L"], "restore": info["restore"], "mobs": info["mobs"],
-                         "chests": info["chests"], "sep": d.get("sep", 100)}
-        js = ("// GERADO por tools/native_worldgen.py (9.0): estruturas de GERAÇÃO NATIVA (features/feature_rules em BP; arquivos em structures/etheria_nat).\n"
-              "// systems/natgen.js acha o marcador (light_block_0 no centro) perto dos jogadores e ativa a estrutura uma única vez.\n"
+        for key, src, bio, n, crop in NATIVE:
+            d, dim, info = built[key]; g = info["grid"]
+            typ, a = anchor_of(key, g, info["c"])
+            others = [built[k][2]["grid"] for k in built if k != key and built[k][1] == dim]
+            sig, nh = pick_sig((key, g, typ, a), others, info["c"])
+            types = sorted({p[3] for p in sig})
+            ax, ay, az = a; (cx, cz) = info["c"]
+            data[key] = {"src": src, "name": d.get("name", key), "dim": dim, "bio": bio, "n": n,
+                         "size": info["size"], "floor": info["floor"], "chests": info["chests"], "sep": d.get("sep", 100),
+                         "anchor": typ, "at": [ax, ay, az], "types": types, "sig": [[dx, dy, dz, types.index(t)] for dx, dy, dz, t in sig],
+                         "c": [cx - ax, -ay, cz - az],
+                         "mobs": [[t, x - ax, y - ay, z - az] for t, x, y, z in info["mobs"]],
+                         "L": info["L"], "restore": info["restore"]}
+            print(f"  {key:24s} âncora {typ.split(':')[1]:16s} em {a}  assinatura {len(sig)} blocos  hipóteses falsas testadas {nh}")
+        js = ("// GERADO por tools/native_worldgen.py (9.3): estruturas de GERAÇÃO NATIVA (features/feature_rules em BP; arquivos em structures/etheria_nat).\n"
+              "// SEM blocos marcadores: systems/natgen.js reconhece cada estrutura pelos próprios blocos (âncora + assinatura nas 4 rotações)\n"
+              "// quando um jogador entra num chunk novo perto dela, e a ativa uma única vez (guardas/chefe + registro).\n"
+              "// at = âncora na estrutura sem rotação; sig/mobs/c = deslocamentos relativos à âncora; L/restore = limpeza dos marcadores de mundos 9.0-9.2.\n"
               f"export const NATIVE = {json.dumps(data, ensure_ascii=False, separators=(',', ':'))};\n")
         if not os.path.exists(DATA) or open(DATA, encoding="utf8").read() != js: open(DATA, "w", encoding="utf8").write(js); ch += 1
         print(f"native_worldgen: {len(NATIVE)} estruturas, {ch} arquivo(s) alterado(s)")

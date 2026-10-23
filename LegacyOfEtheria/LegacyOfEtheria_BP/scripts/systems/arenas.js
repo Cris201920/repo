@@ -6,7 +6,7 @@
 import { world, system } from "@minecraft/server";
 import { ARENAS, WORLD } from "../data/arenas.gen.js";
 import { say } from "../core/utils.js";
-import { loadRegion, placeFile, enqueue, clampOrigin } from "./placer.js";
+import { loadRegion, holdRegion, placeFileAsync, enqueue, clampOrigin, structureSize } from "./placer.js";
 
 const KEY = "etheria:arenas", REUSE_R = 96, MAX_REC = 120;
 export const results = new Map();            // chave -> {ok, reused?, at, err?, tick}   (relatório / testes)
@@ -27,7 +27,6 @@ const blockAt = (dim, x, y, z) => { try { return dim.getBlock({ x, y, z }); } ca
 export function withLoaded(dim, x0, z0, size, cb) {
   enqueue((next) => loadRegion(dim, x0, z0, size[0], size[2], (ok) => { try { cb(ok); } finally { next(); } }));
 }
-function put(dim, id, at) { return placeFile(dim, id, at); }
 const warnPlayers = (dim, anchor, msg) => { try { for (const p of dim.getPlayers({ location: anchor, maxDistance: 96 })) say(p, msg); } catch { /* ignore */ } console.warn(`[Etheria] ${msg.replace(/§./g, "")}`); };
 
 /**
@@ -51,20 +50,20 @@ export function placeArena(dim, key, anchor, cb) {
   busy.add(bk);
   enqueue((next) => {
     const o = clampOrigin(dim, { x: ax - (sx >> 1), y: ay - reg.floor, z: az - (sz >> 1) }, reg.size);
-    loadRegion(dim, o.x, o.z, sx, sz, (loaded, why) => {
-      busy.delete(bk);
-      try {
-        if (!loaded) { warnPlayers(dim, anchor, `§c[Etheria] Arena de ${reg.name}: ${why}; o boss nasce sem a estrutura.`); return done({ ok: false, err: `chunks não carregados: ${why}` }); }
-        const err = put(dim, reg.id, o);
+    holdRegion(dim, o.x, o.z, sx, sz, (loaded, why, release) => {
+      const fin = (res) => { busy.delete(bk); try { done(res); } finally { release(); next(); } };
+      if (!loaded) { warnPlayers(dim, anchor, `§c[Etheria] Arena de ${reg.name}: ${why}; o boss nasce sem a estrutura.`); return fin({ ok: false, err: `chunks não carregados: ${why}` }); }
+      // 9.3: arenas de 61x61 em 4 ladrilhos (placer.placeFileAsync, ~0,3 s) em vez de uma chamada só
+      placeFileAsync(dim, reg.id, o, (err) => {
         const f = err ? undefined : blockAt(dim, o.x + reg.spawn[0], o.y + reg.floor, o.z + reg.spawn[2]);
         if (err || !f || f.typeId === "minecraft:air") {
           const why2 = err ?? "piso não encontrado após a colocação";
           warnPlayers(dim, anchor, `§c[Etheria] Falha ao gerar a estrutura §f${reg.id}§c (${reg.name}, boss ${reg.entity}): ${why2}`);
-          return done({ ok: false, err: why2 });
+          return fin({ ok: false, err: why2 });
         }
         const rr = read(); rr.push({ k: key, d: dim.id, x: o.x, y: o.y, z: o.z }); write(rr);
-        done({ ok: true, reused: false, spawn: spawnOf(o), center: { x: o.x + (sx >> 1), y: o.y + reg.floor, z: o.z + (sz >> 1) }, at: o });
-      } finally { next(); }
+        fin({ ok: true, reused: false, spawn: spawnOf(o), center: { x: o.x + (sx >> 1), y: o.y + reg.floor, z: o.z + (sz >> 1) }, at: o });
+      });
     });
   });
 }
@@ -79,9 +78,8 @@ export function anchorFromPlayer(p, ahead = 14) {
 export function verifyAll() {
   const out = [];
   const chk = (id, size, name, boss) => {
-    let s; try { s = world.structureManager.get(id); } catch { s = undefined; }
-    const sz = s ? [s.size.x, s.size.y, s.size.z] : null;
-    out.push({ id, name, boss, ok: !!s && sz[0] === size[0] && sz[1] === size[1] && sz[2] === size[2], size: sz });
+    const sz = structureSize(id);   // 9.3: original ou ladrilhos
+    out.push({ id, name, boss, ok: !!sz && sz[0] === size[0] && sz[1] === size[1] && sz[2] === size[2], size: sz });
   };
   for (const [k, a] of Object.entries(ARENAS)) chk(a.id, a.size, a.name, a.entity);
   for (const [k, w] of Object.entries(WORLD)) chk(w.id, w.size, w.name, "(mundo)");
