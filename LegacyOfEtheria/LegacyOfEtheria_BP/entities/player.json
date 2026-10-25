@@ -197,6 +197,15 @@
      ],
      "default": 0,
      "client_sync": true
+    },
+    "etheria:bform": {
+     "type": "int",
+     "range": [
+      0,
+      3
+     ],
+     "default": 0,
+     "client_sync": true
     }
    }
   },
@@ -245,6 +254,24 @@
     "minecraft:collision_box": {
      "width": 1.6,
      "height": 3.4
+    }
+   },
+   "etheria:bform_1": {
+    "minecraft:collision_box": {
+     "width": 0.7,
+     "height": 1.85
+    }
+   },
+   "etheria:bform_2": {
+    "minecraft:collision_box": {
+     "width": 0.8,
+     "height": 1.95
+    }
+   },
+   "etheria:bform_3": {
+    "minecraft:collision_box": {
+     "width": 0.9,
+     "height": 1.95
     }
    }
   },
@@ -449,6 +476,72 @@
       "etheria:form_true"
      ]
     }
+   },
+   "etheria:bform_0": {
+    "remove": {
+     "component_groups": [
+      "etheria:bform_1",
+      "etheria:bform_2",
+      "etheria:bform_3"
+     ]
+    }
+   },
+   "etheria:bform_1": {
+    "sequence": [
+     {
+      "remove": {
+       "component_groups": [
+        "etheria:bform_2",
+        "etheria:bform_3"
+       ]
+      }
+     },
+     {
+      "add": {
+       "component_groups": [
+        "etheria:bform_1"
+       ]
+      }
+     }
+    ]
+   },
+   "etheria:bform_2": {
+    "sequence": [
+     {
+      "remove": {
+       "component_groups": [
+        "etheria:bform_1",
+        "etheria:bform_3"
+       ]
+      }
+     },
+     {
+      "add": {
+       "component_groups": [
+        "etheria:bform_2"
+       ]
+      }
+     }
+    ]
+   },
+   "etheria:bform_3": {
+    "sequence": [
+     {
+      "remove": {
+       "component_groups": [
+        "etheria:bform_1",
+        "etheria:bform_2"
+       ]
+      }
+     },
+     {
+      "add": {
+       "component_groups": [
+        "etheria:bform_3"
+       ]
+      }
+     }
+    ]
    }
   }
  }

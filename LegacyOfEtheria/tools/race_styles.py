@@ -22,25 +22,25 @@ BR = "math.sin(query.life_time * 90)"                       # respiração
 SPR = "(query.is_sprinting ? 1 : 0)"
 
 def r(x=0, y=0, z=0): return [x, y, z]
-POSE = {
-  "heavy": {"body": r(f"6 + 2 * {BR}", f"4 * {SW} * {W}", f"3 * {SW} * {W}"), "head": r(-6, 0, f"-2 * {SW} * {W}"),
-            "rightArm": r(f"-4 * {BR}", 0, "8"), "leftArm": r(f"-4 * {BR}", 0, "-8"), "rightLeg": r(0, 0, 2), "leftLeg": r(0, 0, -2)},
-  "beast": {"body": r(f"12 + 8 * {SPR}", 0, f"2 * {SW} * {W}"), "head": r(f"-14 - 6 * {SPR}", 0, 0),
-            "rightArm": r(f"-18 - 10 * {SPR}", 0, 6), "leftArm": r(f"-18 - 10 * {SPR}", 0, -6), "rightLeg": r(-8, 0, 0), "leftLeg": r(-8, 0, 0)},
-  "draconic": {"body": r(f"-4 + {BR}", f"6 * {SW} * {W}", 0), "head": r(f"-6", f"-3 * {SW} * {W}", 0),
-               "rightArm": r(10, 0, 6), "leftArm": r(10, 0, -6)},
+POSE = {   # 9.7: posturas HUMANAS e eretas (traço de estilo sutil; nada de corcunda de fera/goblin/demônio ou braços de zumbi)
+  "heavy": {"body": r(f"2 + 1 * {BR}", f"3 * {SW} * {W}", f"2 * {SW} * {W}"), "head": r(-2, 0, f"-1 * {SW} * {W}"),
+            "rightArm": r(f"-2 * {BR}", 0, "5"), "leftArm": r(f"-2 * {BR}", 0, "-5"), "rightLeg": r(0, 0, 1), "leftLeg": r(0, 0, -1)},
+  "beast": {"body": r(f"3 + 6 * {SPR}", 0, f"1.5 * {SW} * {W}"), "head": r(f"-3 - 4 * {SPR}", 0, 0),
+            "rightArm": r(f"-4 - 8 * {SPR}", 0, 4), "leftArm": r(f"-4 - 8 * {SPR}", 0, -4)},
+  "draconic": {"body": r(f"-3 + {BR}", f"4 * {SW} * {W}", 0), "head": r(f"-3", f"-2 * {SW} * {W}", 0),
+               "rightArm": r(6, 0, 5), "leftArm": r(6, 0, -5)},
   "light": {"body": r(f"-2 + {BR}", 0, f"1.5 * {SW} * {W}"), "head": r(f"-4 + 1.5 * {BR}", 0, 0),
             "rightArm": r(f"-6 + 2 * {BR}", 0, f"10 + 3 * {BR}"), "leftArm": r(f"-6 + 2 * {BR}", 0, f"-10 - 3 * {BR}")},
-  "demonic": {"body": r(f"8 + 2 * {BR}", f"3 * {SW} * {W}", 0), "head": r(8, 0, f"3 * math.sin(query.life_time * 40)"),
-              "rightArm": r(f"4", 0, 5), "leftArm": r(f"4", 0, -5)},
+  "demonic": {"body": r(f"-2 + {BR}", f"2 * {SW} * {W}", 0), "head": r(-3, 0, f"1.5 * math.sin(query.life_time * 40)"),
+              "rightArm": r(f"2", 0, 4), "leftArm": r(f"2", 0, -4)},
   "slime": {"body": {"rotation": r(0, 0, f"2 * {SW} * {W}"), "position": r(0, f"math.abs({SW}) * 1.2 * {W} + 0.3 * {BR}", 0)},
             "head": {"position": r(0, f"math.abs({SW}) * 1.2 * {W} + 0.3 * {BR}", 0)},
             "rightArm": {"rotation": r(0, 0, 14), "position": r(0, f"math.abs({SW}) * 1.2 * {W}", 0)},
             "leftArm": {"rotation": r(0, 0, -14), "position": r(0, f"math.abs({SW}) * 1.2 * {W}", 0)}},
-  "undead": {"body": r(4, 0, f"3 * {SW} * {W}"), "head": r(6, 0, 9),
-             "rightArm": r(f"-38 + 4 * {BR}", -6, 4), "leftArm": r(f"-30 + 4 * {BR}", 6, -4), "rightLeg": r(0, 0, 3), "leftLeg": r(0, 0, -3)},
-  "goblin": {"body": r(f"14 + 2 * {BR}", f"5 * {SW} * {W}", 0), "head": r(-10, f"4 * math.sin(query.life_time * 70)", 0),
-             "rightArm": r(f"-10 - 12 * {SW} * {W}", 0, 10), "leftArm": r(f"-10 + 12 * {SW} * {W}", 0, -10)},
+  "undead": {"body": r(1, 0, f"2 * {SW} * {W}"), "head": r(3, 0, 4),
+             "rightArm": r(f"-6 + 2 * {BR}", 0, 4), "leftArm": r(f"-4 + 2 * {BR}", 0, -4)},
+  "goblin": {"body": r(f"4 + 1.5 * {BR}", f"4 * {SW} * {W}", 0), "head": r(-3, f"3 * math.sin(query.life_time * 70)", 0),
+             "rightArm": r(f"-4 - 8 * {SW} * {W}", 0, 7), "leftArm": r(f"-4 + 8 * {SW} * {W}", 0, -7)},
 }
 def pose_anim(st):
     bones = {}
@@ -49,7 +49,7 @@ def pose_anim(st):
     lean = bones.setdefault("body", {}); rot = lean.get("rotation", [0, 0, 0])
     rot = [f"({rot[0]}) + 10 * {SPR}" if isinstance(rot[0], str) else f"{rot[0]} + 10 * {SPR}", rot[1], rot[2]]   # tronco inclina ao correr
     lean["rotation"] = rot
-    return {"loop": True, "bones": bones}
+    return {"loop": True, "animation_length": 3600, "bones": bones}
 
 def kf(*frames): return {f"{t}": v for t, v in frames}
 Z = [0, 0, 0]

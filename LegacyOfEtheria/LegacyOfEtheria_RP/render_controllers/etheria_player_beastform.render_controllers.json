@@ -1,0 +1,32 @@
+{
+ "format_version": "1.8.0",
+ "render_controllers": {
+  "controller.render.etheria_player_beastform": {
+   "arrays": {
+    "geometries": {
+     "Array.bg": [
+      "Geometry.bform_fera",
+      "Geometry.bform_rei",
+      "Geometry.bform_real"
+     ]
+    },
+    "textures": {
+     "Array.bt": [
+      "Texture.bform_fera",
+      "Texture.bform_rei",
+      "Texture.bform_real"
+     ]
+    }
+   },
+   "geometry": "Array.bg[math.clamp(query.property('etheria:bform') - 1, 0, 2)]",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.bt[math.clamp(query.property('etheria:bform') - 1, 0, 2)]"
+   ]
+  }
+ }
+}

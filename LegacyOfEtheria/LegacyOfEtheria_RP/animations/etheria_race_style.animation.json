@@ -3,135 +3,123 @@
  "animations": {
   "animation.etheria.rstyle.heavy": {
    "loop": true,
+   "animation_length": 3600,
    "bones": {
     "body": {
      "rotation": [
-      "(6 + 2 * math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
-      "4 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
-      "3 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
-     ]
-    },
-    "head": {
-     "rotation": [
-      -6,
-      0,
-      "-2 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
-     ]
-    },
-    "rightArm": {
-     "rotation": [
-      "-4 * math.sin(query.anim_time * 90)",
-      0,
-      "8"
-     ]
-    },
-    "leftArm": {
-     "rotation": [
-      "-4 * math.sin(query.anim_time * 90)",
-      0,
-      "-8"
-     ]
-    },
-    "rightLeg": {
-     "rotation": [
-      0,
-      0,
-      2
-     ]
-    },
-    "leftLeg": {
-     "rotation": [
-      0,
-      0,
-      -2
-     ]
-    }
-   },
-   "animation_length": 3600
-  },
-  "animation.etheria.rstyle.beast": {
-   "loop": true,
-   "bones": {
-    "body": {
-     "rotation": [
-      "(12 + 8 * (query.is_sprinting ? 1 : 0)) + 10 * (query.is_sprinting ? 1 : 0)",
-      0,
+      "(2 + 1 * math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "3 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
       "2 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
      ]
     },
     "head": {
      "rotation": [
-      "-14 - 6 * (query.is_sprinting ? 1 : 0)",
+      -2,
+      0,
+      "-1 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      "-2 * math.sin(query.anim_time * 90)",
+      0,
+      "5"
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "-2 * math.sin(query.anim_time * 90)",
+      0,
+      "-5"
+     ]
+    },
+    "rightLeg": {
+     "rotation": [
+      0,
+      0,
+      1
+     ]
+    },
+    "leftLeg": {
+     "rotation": [
+      0,
+      0,
+      -1
+     ]
+    }
+   }
+  },
+  "animation.etheria.rstyle.beast": {
+   "loop": true,
+   "animation_length": 3600,
+   "bones": {
+    "body": {
+     "rotation": [
+      "(3 + 6 * (query.is_sprinting ? 1 : 0)) + 10 * (query.is_sprinting ? 1 : 0)",
+      0,
+      "1.5 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
+     ]
+    },
+    "head": {
+     "rotation": [
+      "-3 - 4 * (query.is_sprinting ? 1 : 0)",
       0,
       0
      ]
     },
     "rightArm": {
      "rotation": [
-      "-18 - 10 * (query.is_sprinting ? 1 : 0)",
+      "-4 - 8 * (query.is_sprinting ? 1 : 0)",
       0,
-      6
+      4
      ]
     },
     "leftArm": {
      "rotation": [
-      "-18 - 10 * (query.is_sprinting ? 1 : 0)",
+      "-4 - 8 * (query.is_sprinting ? 1 : 0)",
       0,
-      -6
-     ]
-    },
-    "rightLeg": {
-     "rotation": [
-      -8,
-      0,
-      0
-     ]
-    },
-    "leftLeg": {
-     "rotation": [
-      -8,
-      0,
-      0
+      -4
      ]
     }
    }
   },
   "animation.etheria.rstyle.draconic": {
    "loop": true,
+   "animation_length": 3600,
    "bones": {
     "body": {
      "rotation": [
-      "(-4 + math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
-      "6 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      "(-3 + math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "4 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
       0
      ]
     },
     "head": {
      "rotation": [
-      "-6",
-      "-3 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      "-3",
+      "-2 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
       0
      ]
     },
     "rightArm": {
      "rotation": [
-      10,
+      6,
       0,
-      6
+      5
      ]
     },
     "leftArm": {
      "rotation": [
-      10,
+      6,
       0,
-      -6
+      -5
      ]
     }
-   },
-   "animation_length": 3600
+   }
   },
   "animation.etheria.rstyle.light": {
    "loop": true,
+   "animation_length": 3600,
    "bones": {
     "body": {
      "rotation": [
@@ -161,45 +149,45 @@
       "-10 - 3 * math.sin(query.anim_time * 90)"
      ]
     }
-   },
-   "animation_length": 3600
+   }
   },
   "animation.etheria.rstyle.demonic": {
    "loop": true,
+   "animation_length": 3600,
    "bones": {
     "body": {
      "rotation": [
-      "(8 + 2 * math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
-      "3 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      "(-2 + math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "2 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
       0
      ]
     },
     "head": {
      "rotation": [
-      8,
+      -3,
       0,
-      "3 * math.sin(query.anim_time * 40)"
+      "1.5 * math.sin(query.anim_time * 40)"
      ]
     },
     "rightArm": {
      "rotation": [
-      "4",
+      "2",
       0,
-      5
+      4
      ]
     },
     "leftArm": {
      "rotation": [
-      "4",
+      "2",
       0,
-      -5
+      -4
      ]
     }
-   },
-   "animation_length": 3600
+   }
   },
   "animation.etheria.rstyle.slime": {
    "loop": true,
+   "animation_length": 3600,
    "bones": {
     "body": {
      "rotation": [
@@ -244,93 +232,78 @@
       0
      ]
     }
-   },
-   "animation_length": 3600
+   }
   },
   "animation.etheria.rstyle.undead": {
    "loop": true,
+   "animation_length": 3600,
    "bones": {
     "body": {
      "rotation": [
-      "4 + 10 * (query.is_sprinting ? 1 : 0)",
+      "1 + 10 * (query.is_sprinting ? 1 : 0)",
       0,
-      "3 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
+      "2 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)"
      ]
     },
     "head": {
      "rotation": [
-      6,
+      3,
       0,
-      9
+      4
      ]
     },
     "rightArm": {
      "rotation": [
-      "-38 + 4 * math.sin(query.anim_time * 90)",
-      -6,
+      "-6 + 2 * math.sin(query.anim_time * 90)",
+      0,
       4
      ]
     },
     "leftArm": {
      "rotation": [
-      "-30 + 4 * math.sin(query.anim_time * 90)",
-      6,
+      "-4 + 2 * math.sin(query.anim_time * 90)",
+      0,
       -4
      ]
-    },
-    "rightLeg": {
-     "rotation": [
-      0,
-      0,
-      3
-     ]
-    },
-    "leftLeg": {
-     "rotation": [
-      0,
-      0,
-      -3
-     ]
     }
-   },
-   "animation_length": 3600
+   }
   },
   "animation.etheria.rstyle.goblin": {
    "loop": true,
+   "animation_length": 3600,
    "bones": {
     "body": {
      "rotation": [
-      "(14 + 2 * math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
-      "5 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      "(4 + 1.5 * math.sin(query.anim_time * 90)) + 10 * (query.is_sprinting ? 1 : 0)",
+      "4 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
       0
      ]
     },
     "head": {
      "rotation": [
-      -10,
-      "4 * math.sin(query.anim_time * 70)",
+      -3,
+      "3 * math.sin(query.anim_time * 70)",
       0
      ]
     },
     "rightArm": {
      "rotation": [
-      "-10 - 12 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      "-4 - 8 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
       0,
-      10
+      7
      ]
     },
     "leftArm": {
      "rotation": [
-      "-10 + 12 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
+      "-4 + 8 * math.sin(query.modified_distance_moved * 38.17) * math.min(1, query.modified_move_speed * 4)",
       0,
-      -10
+      -7
      ]
     }
-   },
-   "animation_length": 3600
+   }
   },
   "animation.etheria.cast.charge": {
-   "animation_length": 1.2,
+   "animation_length": 3600,
    "loop": true,
    "bones": {
     "rightArm": {

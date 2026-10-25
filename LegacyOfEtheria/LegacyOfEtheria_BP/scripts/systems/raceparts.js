@@ -72,7 +72,8 @@ export const STAGE_LOOK_MAP = {
   ogre_1: "ogre", ogre_2: "mystic_oni", ogre_3: "kijin", ogre_4a: "kijin", ogre_4b: "kijin",
   lizard_1: "lizardman", lizard_2: "lizardman", lizard_3: "dragonewt", lizard_3b: "lizardman", lizard_4: {},
   vampire_1: "vampire", vampire_2: "vampire_lord", vampire_3: "divine_vampire", vampire_2b: "vampire", vampire_3b: "vampire_lord", vampire_4: "divine_vampire",
-  dwarf_1: "dwarf", dwarf_2: "enlightened_dwarf", dwarf_3: "dwarf_saint", dwarf_2b: "dwarf", dwarf_3b: "dwarf_saint",
+  // 9.7: anão com o kit 6 (barba trançada, bigode, cinto e ombreiras de couro — tools/race_human_97.py)
+  dwarf_1: { body: 6 }, dwarf_2: { body: 6, aura: 6 }, dwarf_3: { body: 6, halo: 1, aura: 6 }, dwarf_2b: { body: 6 }, dwarf_3b: { body: 6, halo: 1, aura: 6 },
 };
 // estágios cujo corpo vem do Etheria (etheria:race): 4 e 6 asas
 export const ETHERIA_BODY = { angel_4: "angel_cherub", angel_5: "angel_seraph", angel_f4: "fallen_lord", angel_f5: "fallen_lord", fall_4: "fallen_lord", fall_5: "fallen_lord",
@@ -106,7 +107,19 @@ export function bodyOfStage(stage) {
 export function wingedStage(stage) { return WINGED_BODY.has(bodyOfStage(stage)) || (lookOfStage(stage).wings ?? 0) > 0; }
 /** Traços {parte: valor} de um estágio (vazio se não houver). */
 const mapKey = (id) => (Object.prototype.hasOwnProperty.call(STAGE_LOOK_MAP, id) ? id : (isLordStage(id) ? "demon_4" : id));   // Lord Demônio de qualquer raça (<estágio>_ld) usa a aparência de Lord Demônio
+// 9.7: LORD DEMÔNIO HUMANO, SEM PERDER OS TRAÇOS RACIAIS. O Lorde soma ao corpo da raça só o que é de Lorde (kit de Lorde enxuto, chifres
+// elegantes, aura sombria e as asas que permitem voar), mas MANTÉM orelhas, cauda e auréola da própria raça (antes o elfo perdia as orelhas
+// e toda raça ganhava cauda de lagarto e auréola negra). Anão Lorde mantém a barba (kit 6) no lugar do kit de Lorde.
+function lordLook(stage) {
+  const lord = TENSURA_LOOK.devil_lord ?? {};
+  const base = stage === "demon_4" ? {} : lookOfStage(stage.replace(/_ld$/, ""));
+  const out = { ...lord, ears: base.ears ?? 0, tail: base.tail ?? 0, halo: base.halo ?? 0 };
+  if (base.wings) out.wings = base.wings;
+  if (base.body === 6) out.body = 6;
+  return out;
+}
 export function lookOfStage(stage) {
+  if (stage && isLordStage(stage) && Object.prototype.hasOwnProperty.call(STAGE_LOOK_MAP, mapKey(stage))) return lordLook(stage);
   const e = STAGE_LOOK_MAP[mapKey(stage)];
   if (e && typeof e === "object") return e;
   return (e && TENSURA_LOOK[e]) || {};

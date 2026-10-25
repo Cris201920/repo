@@ -120,7 +120,10 @@
     "mim_arcane_slime": "textures/entity/etheria_tt_intelligent_slime",
     "mim_knight": "textures/entity/etheria_npc_lm_knight",
     "mim_adventurer": "textures/entity/etheria_npc_tp_adventurer",
-    "tr_tail_6": "textures/entity/tensura/race/tail_6"
+    "tr_tail_6": "textures/entity/tensura/race/tail_6",
+    "bform_fera": "textures/entity/etheria_beastform_fera",
+    "bform_rei": "textures/entity/etheria_beastform_rei",
+    "bform_real": "textures/entity/etheria_beastform_real"
    },
    "geometry": {
     "default": "geometry.humanoid.custom",
@@ -216,10 +219,13 @@
     "mim_skeleton_knight": "geometry.etheria_skeleton_knight",
     "mim_arcane_slime": "geometry.etheria_tt_intelligent_slime",
     "mim_knight": "geometry.etheria_npc_lm_knight",
-    "mim_adventurer": "geometry.etheria_npc_tp_adventurer"
+    "mim_adventurer": "geometry.etheria_npc_tp_adventurer",
+    "bform_fera": "geometry.etheria_beastform_fera",
+    "bform_rei": "geometry.etheria_beastform_rei",
+    "bform_real": "geometry.etheria_beastform_real"
    },
    "scripts": {
-    "scale": "query.property('etheria:lform') == 'true' ? 0.85 : (query.property('etheria:lform') == 'draconic' ? 0.55 : 0.9375)",
+    "scale": "query.property('etheria:bform') > 0 ? (query.property('etheria:bform') == 1 ? 0.982 : (query.property('etheria:bform') == 2 ? 1.086 : 1.02)) : (query.property('etheria:lform') == 'true' ? 0.85 : (query.property('etheria:lform') == 'draconic' ? 0.55 : 0.9375))",
     "initialize": [
      "variable.is_holding_right = 0.0;",
      "variable.is_blinking = 0.0;",
@@ -227,7 +233,7 @@
      "variable.hand_bob = 0.0;"
     ],
     "pre_animation": [
-     "variable.etheria_dragon = (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic' || (query.property('etheria:slime') || query.property('etheria:mimic') > 0)) ? 1.0 : 0.0;",
+     "variable.etheria_dragon = (query.property('etheria:lform') == 'true' || query.property('etheria:lform') == 'draconic' || (query.property('etheria:slime') || query.property('etheria:mimic') > 0) || query.property('etheria:bform') > 0) ? 1.0 : 0.0;",
      "variable.etheria_land = (variable.etheria_air > 0.3 && query.is_on_ground) ? query.life_time : variable.etheria_land;",
      "variable.etheria_air = query.is_on_ground ? 0.0 : variable.etheria_air + query.delta_time;",
      "variable.helmet_layer_visible = !query.has_head_gear;",
@@ -959,6 +965,12 @@
      },
      {
       "eth_cmb5": "query.property('etheria:combo') == 5 && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
+     },
+     {
+      "bform_life": "query.property('etheria:bform') > 0"
+     },
+     {
+      "bform_attack": "query.property('etheria:bform') > 0 && variable.attack_time > 0"
      }
     ]
    },
@@ -1266,7 +1278,9 @@
     "eth_cmb2": "animation.etheria.combo.c2",
     "eth_cmb3": "animation.etheria.combo.c3",
     "eth_cmb4": "animation.etheria.combo.c4",
-    "eth_cmb5": "animation.etheria.combo.c5"
+    "eth_cmb5": "animation.etheria.combo.c5",
+    "bform_life": "animation.etheria.bform.life",
+    "bform_attack": "animation.etheria.bform.attack"
    },
    "render_controllers": [
     {
@@ -1279,7 +1293,7 @@
      "controller.render.player.first_person": "variable.is_first_person && !query.is_spectator && !query.property('etheria:slime') && query.property('etheria:mimic') == 0"
     },
     {
-     "controller.render.player.third_person": "(!variable.is_first_person && !variable.map_face_icon && !query.is_spectator) && query.property('etheria:lform') != 'true' && query.property('etheria:lform') != 'draconic' && !(query.property('etheria:slime') || query.property('etheria:mimic') > 0)"
+     "controller.render.player.third_person": "(!variable.is_first_person && !variable.map_face_icon && !query.is_spectator) && query.property('etheria:lform') != 'true' && query.property('etheria:lform') != 'draconic' && !(query.property('etheria:slime') || query.property('etheria:mimic') > 0) && query.property('etheria:bform') == 0"
     },
     {
      "controller.render.player.map": "variable.map_face_icon"
@@ -1409,6 +1423,9 @@
     },
     {
      "controller.render.etheria_player_mimic": "!variable.is_first_person && !variable.map_face_icon && !query.is_spectator && query.property('etheria:mimic') > 0"
+    },
+    {
+     "controller.render.etheria_player_beastform": "!variable.is_first_person && !variable.map_face_icon && !query.is_spectator && query.property('etheria:bform') > 0 && query.property('etheria:mimic') == 0 && !query.property('etheria:slime')"
     }
    ],
    "enable_attachables": true,
