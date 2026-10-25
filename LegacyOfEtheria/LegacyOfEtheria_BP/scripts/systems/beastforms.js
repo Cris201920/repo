@@ -2,6 +2,8 @@
 // São habilidades ativas (itens na hotbar como as outras), executor "beastform": custo de mana (cobrado pelo sistema de habilidades) + stamina,
 // duração e recarga próprias. Só uma forma por vez (a nova substitui a anterior). Liberadas pelo nível + estágio da raça (syncBeastForms).
 // Visual: animação de evolução curta (etheria:tfx "evo"), rugido, partículas de terra/ouro/sangue e uma aura que acompanha o jogador enquanto dura.
+// 9.7: cada forma troca o CORPO do jogador (propriedade numérica etheria:bform 1..3 -> geometria/textura/animação próprias, tools/beast_bodies.py)
+//      e aumenta um pouco a hitbox (eventos etheria:bform_N do player.json). 0 = corpo normal.
 import { world, system } from "@minecraft/server";
 import { getData, markDirty } from "../core/db.js";
 import { registerExec, grantSkill } from "./skills.js";
@@ -17,6 +19,13 @@ import { RACES } from "../data/races.js";
 
 const BUFF = "beastform";
 const live = new Map();   // playerId -> { id, end }
+const BODY_PROP = "etheria:bform";
+/** troca o corpo do jogador (0 = normal, 1 Fera, 2 Rei Besta, 3 Besta Real) + hitbox; só mexe se mudou. */
+export function setBeastBody(p, n) {
+  try { if ((p.getProperty(BODY_PROP) ?? 0) === n) return; p.setProperty(BODY_PROP, n); } catch { return; }
+  try { p.triggerEvent(`etheria:bform_${n}`); } catch { /* BP antigo */ }
+}
+const endBody = (p) => { try { if (p?.isValid) setBeastBody(p, 0); } catch { /* ignore */ } };
 const depthOf = (d) => { const R = RACES[d.race]; let n = 0; for (let c = R?.stages?.[d.raceStage]; c?.from; c = R.stages[c.from]) n++; return n; };
 export const beastFormOf = (p) => { const x = live.get(p?.id); return x && x.end > system.currentTick ? x.id : null; };
 
@@ -52,6 +61,8 @@ function activate(player, sk, s, d, tools) {
   dropStats(player.id); applyDerivedStats(player); markDirty(player);
   // visual da transformação
   try { playTransform(player, "evo", 1600); } catch { /* ignore */ }
+  system.runTimeout(() => { try { if (player.isValid && live.get(player.id)?.id === id) setBeastBody(player, f.body ?? 0); } catch { /* ignore */ } }, 6);   // troca o corpo no meio da implosão
+  if (f.depth >= 1) { try { player.runCommand(`camerashake add @s ${(0.25 + f.depth * 0.12).toFixed(2)} 0.6 positional`); } catch { /* ignore */ } }
   const [c1, c2] = f.col, L = player.location, c = ctx(player, 1.2), mid = { x: L.x, y: L.y + 1, z: L.z };
   implode(c, mid, { col: c1, tile: T.claw, n: 18, radius: 3, life: 0.5 });
   column(c, L, { col: c2, tile: T.fang, n: 16, h: 4 + f.depth * 2, r: 0.9 });
@@ -73,20 +84,26 @@ registerExec("beastform", activate);
 function aura() {
   const now = system.currentTick;
   for (const [pid, x] of live) {
-    if (x.end <= now) { live.delete(pid); continue; }
     const p = world.getAllPlayers().find((q) => q.id === pid); if (!p) { live.delete(pid); continue; }
+    if (x.end <= now) { live.delete(pid); endBody(p); continue; }
     try {
-      if (!hasBuff(p, BUFF)) { live.delete(pid); dropStats(pid); applyDerivedStats(p); continue; }   // buff limpo (morte etc.)
+      if (!hasBuff(p, BUFF)) { live.delete(pid); endBody(p); dropStats(pid); applyDerivedStats(p); continue; }   // buff limpo (morte etc.)
       const f = BEAST_FORMS[x.id], c = ctx(p, 0.6), L = p.location;
       burst(c, { x: L.x, y: L.y + 1, z: L.z }, { col: f.col[(now / 10) % 2 | 0], tile: T.ember, n: 3 + f.depth * 2, spd: 0.6, up: 0.9 });
       if (x.end - now <= 60 && (x.end - now) % 20 < 10) ringFlat(c, { x: L.x, y: L.y + 0.1, z: L.z }, { col: "white", tile: T.ring, n: 12, radius: 1.2, life: 0.4 });
-      if (x.end - now <= 10) { live.delete(pid); dropStats(pid); try { sageText(p, `${f.name} encerrada.`, { pri: 6, key: `beast.end.${x.id}`, cd: 100 }); } catch { /* ignore */ } system.runTimeout(() => { try { if (p.isValid) applyDerivedStats(p); } catch { /* ignore */ } }, 12); }
+      if (x.end - now <= 10) { live.delete(pid); endBody(p); dropStats(pid); try { sageText(p, `${f.name} encerrada.`, { pri: 6, key: `beast.end.${x.id}`, cd: 100 }); } catch { /* ignore */ } system.runTimeout(() => { try { if (p.isValid) applyDerivedStats(p); } catch { /* ignore */ } }, 12); }
     } catch { /* ignore */ }
   }
 }
 export function startBeastForms() {
   system.runInterval(aura, 10);
-  system.runInterval(() => { for (const p of world.getAllPlayers()) { try { syncBeastForms(p); } catch { /* ignore */ } } }, 200);
+  system.runInterval(() => {
+    for (const p of world.getAllPlayers()) {
+      try { syncBeastForms(p); } catch { /* ignore */ }
+      try { if (!beastFormOf(p) && (p.getProperty(BODY_PROP) ?? 0) !== 0) setBeastBody(p, 0); } catch { /* ignore */ }   // saiu/recarregou no meio da forma
+    }
+  }, 200);
+  try { world.afterEvents.playerSpawn.subscribe((ev) => { if (!beastFormOf(ev.player)) endBody(ev.player); }); } catch { /* ignore */ }
   addHudLine((p) => { const id = beastFormOf(p); if (!id) return ""; const x = live.get(p.id); return `§6✦ ${BEAST_FORMS[id].short} ${Math.ceil((x.end - system.currentTick) / 20)}s`; });
   try { world.afterEvents.playerLeave.subscribe((ev) => live.delete(ev.playerId)); } catch { /* ignore */ }
 }

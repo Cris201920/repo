@@ -218,18 +218,25 @@ def build(form, slots):
                 if X and ring == 2 and i % 2 == 0: G.seg("mane", (x + out[0] * l, y + out[1] * l, z + out[2] * l), (x + out[0] * (l + 3), y + out[1] * (l + 3), z + out[2] * (l + 3)), 0.9, 0.9, "bone")
         if K:   # juba que desce pelas costas
             G.tufts("mane", [(x, top - 1, td / 2 - 0.4) for x in (-4.5, -1.5, 1.5, 4.5)], "mane", (2.8, 3.4), (6, 8), (0, -1, 0.35), 0.15)
+    if F:   # gola de pelo espessa ao redor do pescoço + pelagem do dorso
+        for i in range(14):
+            a = math.radians(360 * i / 14); x, z = math.cos(a) * (tw / 2 - 1.5), -math.sin(a) * (td / 2 - 0.3)
+            o = (math.cos(a) * 0.7, -0.8, -math.sin(a) * 0.7 + 0.3); l = 3 + R.uniform(0, 1.4); w = R.uniform(1.8, 2.6)
+            G.seg("mane", (x, top - 0.6, z), (x + o[0] * l, top - 0.6 + o[1] * l, z + o[2] * l), w, w * 0.85, ("fur", "fur_dark", "fur_light")[i % 3] if i % 7 else "fur_dark")
+        G.tufts("body", [(R.uniform(-3.5, 3.5), hip + R.uniform(3, 11), td / 2 - 0.3) for _ in range(8)], "fur", (1.4, 2.2), (1.8, 2.8), (0, -0.7, 1), 0.4)
     # ---------------- cabeça
     hw, hh, hd = p["head"]; sw, shh, sd = p["snout"]; ny = top - (0.5 if not X else 1.2); nz = -td * 0.2 - (1.0 if X else 0)
     G.bone("head", "body", (0, ny, nz), (-p["hunch"] + (-6 if X else -2), 0, 0))
     hz0 = nz - hd + 1.5; hy0 = ny + 0.5
     G.box("head", (-hw / 2, hy0, hz0), (hw, hh, hd), "scar" if X else "fur")
     G.box("head", (-sw / 2, hy0 + 0.3, hz0 - sd), (sw, shh - (0.6 if X else 0), sd), "fur_light" if not X else "fur")                  # focinho
-    G.box("head", (-sw / 2 + 0.6, hy0 + shh - 0.5 - (0.6 if X else 0), hz0 - sd - 0.5), (sw - 1.2, 1.2, 1.2), "skin")                  # nariz
-    G.box("head", (-hw / 2 - 0.2, hy0 + hh - 2.6, hz0 - 0.7), (hw + 0.4, 1.3, 1.2), "fur_dark")                                          # sobrancelha
-    eyes = [(-1, hy0 + hh - 3.9, 1.6, 1.0), (1, hy0 + hh - 3.9, 1.6, 1.0)]
-    if X: eyes += [(-1, hy0 + hh - 2.2, 1.0, 0.7), (1, hy0 + hh - 2.2, 1.0, 0.7)]                                                       # 4 olhos
+    stop = hy0 + 0.3 + shh - (0.6 if X else 0); ey0 = stop + 0.3                                                                       # topo do focinho / olhos acima dele
+    G.box("head", (-sw * 0.25, stop - 1.0, hz0 - sd - 0.4), (sw * 0.5, 1.1, 1.0), "skin")                                               # nariz
+    eyes = [(-1, ey0, 1.7, 1.0), (1, ey0, 1.7, 1.0)]
+    if X: eyes += [(-1, ey0 + 1.3, 1.1, 0.7), (1, ey0 + 1.3, 1.1, 0.7)]                                                                # 4 olhos
+    G.box("head", (-hw / 2 - 0.2, eyes[-1][1] + eyes[-1][3] + 0.1, hz0 - 0.6), (hw + 0.4, 1.0, 1.0), "fur_dark")                     # sobrancelha
     for s, ey, ew, eh in eyes:
-        ex = s * (hw / 2 - 1.4) - ew / 2 if eh > 0.8 else s * (hw / 2 - 2.6) - ew / 2
+        ex = s * (hw / 2 - 1.5) - ew / 2 if eh > 0.8 else s * (hw / 2 - 2.7) - ew / 2
         G.box("head", (ex, ey, hz0 - 0.25), (ew, eh, 0.4), "eye")
         if not X: G.box("head", (ex + ew / 2 - 0.15, ey, hz0 - 0.35), (0.3, eh, 0.15), "skin")                                         # pupila em fenda
     # dentes de cima / presas

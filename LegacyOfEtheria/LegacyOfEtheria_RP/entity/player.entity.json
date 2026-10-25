@@ -225,7 +225,7 @@
     "bform_real": "geometry.etheria_beastform_real"
    },
    "scripts": {
-    "scale": "query.property('etheria:bform') > 0 ? (query.property('etheria:bform') == 1 ? 0.982 : (query.property('etheria:bform') == 2 ? 1.086 : 1.02)) : (query.property('etheria:lform') == 'true' ? 0.85 : (query.property('etheria:lform') == 'draconic' ? 0.55 : 0.9375))",
+    "scale": "query.property('etheria:bform') > 0 ? (query.property('etheria:bform') == 1 ? 0.982 : (query.property('etheria:bform') == 2 ? 1.076 : 1.02)) : (query.property('etheria:lform') == 'true' ? 0.85 : (query.property('etheria:lform') == 'draconic' ? 0.55 : 0.9375))",
     "initialize": [
      "variable.is_holding_right = 0.0;",
      "variable.is_blinking = 0.0;",

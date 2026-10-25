@@ -4,7 +4,7 @@ as peças e escalas por cima dele. Este passo (idempotente) as deixa discretas, 
   1) chifres: o pivô dos ossos de chifre que estava no centro da cabeça [0,24,0] vai para a BASE do chifre (a escala da animação agora encolhe
      o chifre no lugar, em vez de empurrá-lo para cima/fora) e a escala fica fixa por raça (Ogro 0.6, Demônio 0.85...; sem o x1.3-1.45 do Lorde);
   2) asas (corpo Etheria e Tensura): crescimento por estágio suavizado (0.85+0.07*tier -> 0.9+0.03*tier), Lorde no máximo +5% sobre a raça,
-     Dragonoide/Dragonato/Vampiro com asas menores (0.8-0.85). Asas de partículas (Demônio/Caídos) não mudam;
+     Dragonoide/Dragonato/Vampiro com asas menores (0.65-0.8) e anjos com no máximo 0.85-1.0. Asas de partículas (Demônio/Caídos) não mudam;
   3) insígnia do Lorde: anel de espinhos/chamas/auréola atrás da cabeça a 70%; auréola dos anjos Lorde sem o x1.2;
   4) kits de corpo do Tensura: Lorde (5) sem a coroa de espinhos da cabeça (a coroa é a do modelo da raça), ombreiras menores e espinhos
      baixos; garras curtas (3, 4); presas do Oni pequenas (2); kit 6 (inseto, sem uso por estágio do jogador) vira o kit do ANÃO
@@ -25,7 +25,8 @@ PULSE = "(1 + math.sin(query.anim_time * 40) * 0.015)"
 # escala final dos chifres por corpo (base e Lorde)
 HORN_K = {"demon": 0.85, "demon_lord": 0.85, "fallen_lord": 0.9, "fallen_lord_lord": 0.9, "ogre": 0.6, "ogre_lord": 0.65,
           "dragonoid": 1.0, "dragonoid_lord": 1.0, "dragonewt": 1.0, "dragonewt_lord": 1.0, "dragonewt_w": 1.0, "dragonewt_w_lord": 1.0}
-WING_CAP = {"dragonoid": 0.8, "dragonewt_w": 0.8, "vampire": 0.85}   # multiplicador máximo das asas da raça
+WING_CAP = {"dragonoid": 0.7, "dragonewt_w": 0.65, "vampire": 0.8, "angel": 1.0, "angel_arch": 1.0, "fallen": 1.0, "fallen_lord": 1.0,
+            "angel_cherub": 0.9, "angel_seraph": 0.85}   # multiplicador máximo das asas da raça
 LORD_WING = 1.05                                                       # Lorde: no máximo +5% sobre a raça
 RING_K = 0.7                                                           # insígnia em anel atrás da cabeça
 TIER_OLD, TIER_NEW = "(0.85 + 0.07 * query.property('etheria:tier'))", "(0.9 + 0.03 * query.property('etheria:tier'))"
