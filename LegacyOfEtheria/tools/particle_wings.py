@@ -8,12 +8,20 @@ Este gerador (idempotente) faz a parte do Resource Pack:
 Ordem do pipeline: demon_wings.py -> mob_flight.py -> particle_wings.py (este por último; ele sempre remove os cubos de asa).
 tools/demon_feather_wings.py (asas de penas em cubos da 8.17) foi aposentado: só roda com --force.
 9.6: etheria:wingfan (UMA chamada solta o leque inteiro das duas asas: 20-160 riscos) e etheria:wingsmoke (baforadas + fagulhas).
+9.8: + ASAS DE ANJO POR PARTÍCULAS (todas as raças anjo do jogador e os mobs anjo Feldway / Zalario / Dino / Guardião): os cubos de asa das
+geometrias etheria_race_angel*.geo.json e etheria_mobwing_angel*.geo.json saem (halo, coroa de Lorde, corpo e ossos ficam); o leque claro usa
+etheria:wingfan_light (mesmo Molang do wingfan, textura etheria_wingfx_light.png: pena branca com borda/ponta douradas, brilho, fio dourado, base).
++ etheria:aurasmoke: AURA de fumaça/luz da raça (power.js): fumaça preta/roxa com veios vermelhos (demônio/caído/Lord) ou névoa branca com pó de
+luz dourado e anel de luz (anjo), em UMA chamada (variable.count), crescendo por estágio. wingfan: teto do emissor 200 -> 300 riscos.
 Uso: python3 tools/particle_wings.py"""
 import json, os, re, math, random
 from PIL import Image, ImageFilter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); RP = os.path.join(ROOT, "LegacyOfEtheria_RP")
-MODELS = ["demon", "demon_lord", "fallen", "fallen_dl", "fallen_lord", "fallen_lord_lord"]
+MODELS = ["demon", "demon_lord", "fallen", "fallen_dl", "fallen_lord", "fallen_lord_lord",
+          # 9.8: anjos (asas brancas/douradas de partículas); a coroa (lord_crown) e o halo não casam com WING e ficam
+          "angel", "angel_lord", "angel_arch", "angel_arch_lord", "angel_cherub", "angel_cherub_lord", "angel_seraph", "angel_seraph_lord"]
+MOBWING = ["fallen", "angel", "angel_arch"]
 WING = re.compile(r"^(mw_)?(wing|dfw)")
 
 def strip(path):
@@ -49,6 +57,32 @@ def texture(path):
     spindle(1, 0.95, 0.75, 1.6, 0.6)
     spindle(2, 0.30, 1.0, 4.0, 0.5)
     spindle(3, 0.55, 1.0, 1.8, 1.2)
+    im.save(path)
+
+def texture_light(path):
+    # 9.8: asas de ANJO (etheria_wingfx_light.png, 64x64, as mesmas 4 colunas de 16x64 do wingfx): 0 PENA longa e lisa (miolo branco, borda e
+    # pontas douradas, poucas fibras só nas pontas) · 1 brilho macio (borrão de luz: branco no centro, franja dourada) · 2 fio dourado · 3 base
+    # (fuso branco, tingido de dourado pelo script). Determinístico (semente fixa).
+    W, H = 64, 64; im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); px = im.load(); rnd = random.Random(98)
+    GOLD = (255, 206, 92)
+    def mix(a, b, t): return tuple(int(a[i] + (b[i] - a[i]) * t) for i in range(3))
+    tipcut = [rnd.uniform(0.0, 0.1) for _ in range(16)]
+    for col, maxw, soft, power, rim, glow in ((0, 0.8, 4.0, 0.55, 0.55, 0), (1, 0.95, 1.5, 0.7, 0.35, 1), (2, 0.28, 3.0, 0.5, 1.0, 0), (3, 0.6, 2.0, 1.1, 0.0, 0)):
+        for y in range(H):
+            v = (y + 0.5) / H; prof = math.sin(math.pi * v) ** power; hw = maxw * prof
+            if hw <= 0.02: continue
+            tip = max(0.0, 1 - min(v, 1 - v) / 0.2)            # 0 no meio, 1 nas pontas
+            for x in range(16):
+                d = abs((x + 0.5) - 8) / 8
+                if d >= hw: continue
+                a = max(0.0, 1 - (d / hw) ** soft) * (0.6 + 0.4 * prof)
+                if col == 0 and (v < tipcut[x] or v > 1 - tipcut[x]): a = 0.0   # pontas levemente serrilhadas (não "peludas")
+                if glow: a *= 0.75
+                if a <= 0: continue
+                g = min(1.0, max(0.0, (d / hw - (1 - rim)) / max(rim, 1e-3)) if rim else 0.0)   # borda dourada
+                g = max(g, tip * (0.9 if col == 0 else 0.6)) if col != 3 else 0.0
+                c = mix((255, 255, 255), GOLD, g)
+                px[col * 16 + x, y] = c + (min(255, int(255 * a)),)
     im.save(path)
 
 PARTICLE = {"format_version": "1.10.0", "particle_effect": {
@@ -88,7 +122,7 @@ COLOR = lambda c: f"({R4}<v.red?v.b{c}:v.l{c}+(v.v{c}-v.l{c})*{R1}*{R2})"
 FAN = {"format_version": "1.10.0", "particle_effect": {
     "description": {"identifier": "etheria:wingfan", "basic_render_parameters": {"material": "particles_blend", "texture": "textures/particle/etheria_wingfx"}},
     "components": {
-        "minecraft:emitter_rate_instant": {"num_particles": "math.clamp(variable.count, 1, 200)"},
+        "minecraft:emitter_rate_instant": {"num_particles": "math.clamp(variable.count, 1, 300)"},
         "minecraft:emitter_lifetime_once": {"active_time": 0.05},
         "minecraft:emitter_shape_point": {"offset": [0, 0, 0]},
         "minecraft:particle_lifetime_expression": {"max_lifetime": "variable.life"},
@@ -127,15 +161,53 @@ SMOKE = {"format_version": "1.10.0", "particle_effect": {
         "minecraft:particle_appearance_tinting": {"color": [f"({SPK}?v.gr:v.cr)", f"({SPK}?v.gg:v.cg)", f"({SPK}?v.gb:v.cb)",
             f"({SPK}?1-{AGE}:v.a*math.min(1,v.particle_age*10)*(1-math.pow({AGE},2)))"]}}}}
 
+# 9.8: leque CLARO dos anjos: o mesmo emissor (mesmo Molang e variáveis), outra textura
+import copy
+FAN_LIGHT = copy.deepcopy(FAN)
+FAN_LIGHT["particle_effect"]["description"] = {"identifier": "etheria:wingfan_light", "basic_render_parameters": {"material": "particles_blend", "texture": "textures/particle/etheria_wingfx_light"}}
+
+# ---------------------------------------------------------------- 9.8: AURA DE FUMAÇA / LUZ DA RAÇA (etheria:aurasmoke, 1 chamada = variable.count)
+# Tipo por particle_random_4: VEIO (r4 < v.vein: traço vertical fino subindo rápido - veio vermelho do demônio / pó de luz do anjo) · ANEL
+# (r4 > 1 - v.ring: em volta do corpo na altura v.ry, raio v.rr, girando - halo de fumaça do Lord / anel de luz do anjo) · FUMAÇA (resto:
+# baforadas que nascem em volta do corpo até v.hgt e sobem v.rise, girando v.swl graus/s e abrindo com a idade).
+VEIN = f"({R4}<v.vein)"; RING = f"({R4}>1-v.ring)"
+ANG = f"({R1}*360+v.swl*v.particle_age*({RING}?2:1))"
+RAD = f"({VEIN}?v.rad*(0.45+0.55*{R2}):({RING}?v.rr*(1+0.12*v.particle_age):v.rad*(0.3+0.7*{R2})*(1+0.45*v.particle_age)))"
+AY = (f"({VEIN}?v.hgt*{R3}*0.35+v.rise*(1.6+0.8*{R2})*v.particle_age:({RING}?v.ry+0.12*math.sin({R1}*720+v.particle_age*240)+0.15*v.particle_age"
+      f":v.hgt*{R3}*0.5+v.rise*(0.5+0.7*{R2})*v.particle_age))")
+ASZ = f"(v.sz*(0.6+0.8*{R3})*(0.55+v.grow*{AGE}))"
+AURA = {"format_version": "1.10.0", "particle_effect": {
+    "description": {"identifier": "etheria:aurasmoke", "basic_render_parameters": {"material": "particles_blend", "texture": "textures/particle/etheria_atlas"}},
+    "components": {
+        "minecraft:emitter_rate_instant": {"num_particles": "math.clamp(variable.count, 1, 120)"},
+        "minecraft:emitter_lifetime_once": {"active_time": 0.05},
+        "minecraft:emitter_shape_point": {"offset": [0, 0, 0]},
+        "minecraft:particle_lifetime_expression": {"max_lifetime": f"variable.life*({VEIN}?0.6:1)*(0.75+0.5*{R2})"},
+        "minecraft:particle_motion_parametric": {"relative_position": [
+            f"math.cos({ANG})*{RAD}+v.dvx*v.particle_age", AY, f"math.sin({ANG})*{RAD}+v.dvz*v.particle_age"]},
+        "minecraft:particle_appearance_billboard": {
+            "size": [f"({VEIN}?v.vw*(0.7+0.6*{R2}):({RING}?v.rs*(0.7+0.6*{R2}):{ASZ}))",
+                     f"({VEIN}?v.vh*(0.7+0.6*{R2}):({RING}?v.rs*(0.7+0.6*{R2}):{ASZ}))"],
+            "facing_camera_mode": "lookat_xyz",
+            "uv": {"texture_width": 128, "texture_height": 128,
+                   "uv": [f"({VEIN}?v.vu:({RING}?v.ru:({R3}<0.5?16:96)))", f"({VEIN}?v.vv:({RING}?v.rv:({R3}<0.5?16:48)))"], "uv_size": [16, 16]}},
+        "minecraft:particle_appearance_tinting": {"color": [
+            f"({VEIN}?v.vr:({RING}?v.gr:v.cr+(v.vr-v.cr)*math.pow({R2},8)))", f"({VEIN}?v.vg:({RING}?v.gg:v.cg+(v.vg-v.cg)*math.pow({R2},8)))",
+            f"({VEIN}?v.vb:({RING}?v.gb:v.cb+(v.vb-v.cb)*math.pow({R2},8)))",
+            f"({VEIN}?v.va*math.min(1,v.particle_age*10)*(1-{AGE}):({RING}?v.ra*math.min(1,v.particle_age*6)*(1-{AGE}):v.a*math.min(1,v.particle_age*4)*(1-math.pow({AGE},2))))"]}}}}
+
 def main():
     tot = 0
     for m in MODELS: tot += strip(os.path.join(RP, f"models/entity/etheria_race_{m}.geo.json"))
-    tot += strip(os.path.join(RP, "models/entity/etheria_mobwing_fallen.geo.json"))
+    for m in MOBWING: tot += strip(os.path.join(RP, f"models/entity/etheria_mobwing_{m}.geo.json"))
     texture(os.path.join(RP, "textures/particle/etheria_wingfx.png"))
+    texture_light(os.path.join(RP, "textures/particle/etheria_wingfx_light.png"))
+    json.dump(FAN_LIGHT, open(os.path.join(RP, "particles/wingfan_light.json"), "w"), indent=1)
+    json.dump(AURA, open(os.path.join(RP, "particles/aurasmoke.json"), "w"), indent=1)
     json.dump(PARTICLE, open(os.path.join(RP, "particles/wingline.json"), "w"), indent=1)
     json.dump(FAN, open(os.path.join(RP, "particles/wingfan.json"), "w"), indent=1)
     json.dump(SMOKE, open(os.path.join(RP, "particles/wingsmoke.json"), "w"), indent=1)
-    print(f"cubos de asa removidos: {tot}; partículas etheria:wingline / wingfan / wingsmoke + textura etheria_wingfx.png")
+    print(f"cubos de asa removidos: {tot}; partículas etheria:wingline / wingfan / wingfan_light / wingsmoke / aurasmoke + texturas etheria_wingfx(_light).png")
 
 if __name__ == "__main__":
     main()

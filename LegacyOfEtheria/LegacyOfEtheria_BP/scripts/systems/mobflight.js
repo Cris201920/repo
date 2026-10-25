@@ -9,7 +9,8 @@ const FLYERS = new Set(["etheria:feldway_angel", "etheria:zalario", "etheria:din
   "etheria:void_dragon", "etheria:fallen_angel", "etheria:angel_guardian",   // 8.7: chefes por região que voam
   "etheria:dragon_carmim", "etheria:dragon_gelo", "etheria:dragon_tempestade"]);   // 8.8: dragões domáveis
 // 9.5: mobs com ASAS DE PARTÍCULAS (systems/particlewings.js): o mais perto de cada jogador (<= PW_R blocos), atualizado neste mesmo laço
-export const PW_MOBS = new Set(["etheria:fallen_angel", "etheria:pico", "etheria:garasha"]);
+export const PW_MOBS = new Set(["etheria:fallen_angel", "etheria:pico", "etheria:garasha",
+  "etheria:feldway_angel", "etheria:zalario", "etheria:dino", "etheria:angel_guardian"]);   // 9.8: + mobs anjo (asas brancas/douradas)
 const PW_R = 48;
 export const pwNear = new Map();   // playerId -> { e, t }
 const hitAt = new Map();   // id -> tick do último golpe (mergulho no ataque)
