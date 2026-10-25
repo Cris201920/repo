@@ -1,4 +1,5 @@
-"""9.4 - ASAS DEMONÍACAS DE PENAS (referência: vídeo de mod Java, asas negras de penas longas em lâmina, detalhes vermelhos na base).
+"""APOSENTADO NA 9.5 (substituído por tools/particle_wings.py: asas de PARTÍCULAS). Só roda com --force.
+9.4 - ASAS DEMONÍACAS DE PENAS (referência: vídeo de mod Java, asas negras de penas longas em lâmina, detalhes vermelhos na base).
 Substitui as asas das raças DEMÔNIO (demon, demon_lord = Lord Demônio) e ANJO CAÍDO (fallen, fallen_dl, fallen_lord, fallen_lord_lord)
 do jogador e as asas dos mobs Anjo Caído / Pico / Garasha (geometry.etheria_mobwing_fallen, ossos mw_*).
 
@@ -326,5 +327,8 @@ def patch_mob_flight():
     if new not in s: s = s.replace(old, new); open(p, "w").write(s)
 
 if __name__ == "__main__":
+    import sys
+    if "--force" not in sys.argv:   # 9.5: aposentado (o usuário não quer penas em cubos); as asas agora são partículas
+        sys.exit("demon_feather_wings.py aposentado na 9.5: as asas demoníacas são partículas (tools/particle_wings.py + scripts/systems/particlewings.js). Use --force para regerar as penas.")
     pc = build_player(); mc = build_mob(); sz = build_anims(); nr = wire(); patch_mob_flight()
     print("cubos (6 modelos do jogador):", pc, "| mob:", mc, "| animação jogador/mob:", sz, "bytes | ossos antigos tirados das animações:", nr)

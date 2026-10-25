@@ -72,14 +72,14 @@ export function mote(c, pos, o = {}) {
   setv("tu", (o.tile ?? 0) % 8); setv("tv", Math.floor((o.tile ?? 0) / 8));
   try { c.dim.spawnParticle("etheria:mote", pos, MAP); } catch { /* ignore */ }
 }
-/** Traço alinhado à direção (raios, cortes, rastros). */
+/** Traço alinhado à direção (raios, cortes, rastros). o.pid troca a partícula (9.5: etheria:wingline, asas de partículas). */
 export function streak(c, a, b, o = {}) {
   if (!canSpawn(c)) return;
   const v = sub(b, a), len = Math.hypot(v.x, v.y, v.z) || 0.01, k = col(o.col ?? "white");
   setv("dx", v.x / len); setv("dy", v.y / len); setv("dz", v.z / len);
   setv("r", k[0]); setv("g", k[1]); setv("b", k[2]); setv("a", o.a ?? 1);
   setv("sx", (o.w ?? 0.12) * (c.sz ?? 1)); setv("sy", o.len ?? len); setv("life", o.life ?? 0.25); setv("tu", (o.tile ?? T.line) % 8); setv("tv", Math.floor((o.tile ?? T.line) / 8));
-  try { c.dim.spawnParticle("etheria:streak", { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, z: (a.z + b.z) / 2 }, MAP); } catch { /* ignore */ }
+  try { c.dim.spawnParticle(o.pid ?? "etheria:streak", { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, z: (a.z + b.z) / 2 }, MAP); } catch { /* ignore */ }
 }
 /** Disco/círculo mágico deitado no chão. */
 export function disc(c, pos, o = {}) {

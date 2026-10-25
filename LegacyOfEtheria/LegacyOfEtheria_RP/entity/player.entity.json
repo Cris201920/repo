@@ -959,27 +959,6 @@
      },
      {
       "eth_cmb5": "query.property('etheria:combo') == 5 && !variable.is_first_person && variable.etheria_dragon == 0.0 && !query.is_riding"
-     },
-     {
-      "dfw_base": "query.property('etheria:tier') > 0"
-     },
-     {
-      "dfw_ground": "query.property('etheria:tier') > 0 && query.is_on_ground"
-     },
-     {
-      "dfw_air": "query.property('etheria:tier') > 0 && !query.is_on_ground && query.property('etheria:fly') == 0"
-     },
-     {
-      "dfw_hover": "query.property('etheria:tier') > 0 && !query.is_on_ground && query.property('etheria:fly') == 1"
-     },
-     {
-      "dfw_rise": "query.property('etheria:tier') > 0 && !query.is_on_ground && query.property('etheria:fly') == 2"
-     },
-     {
-      "dfw_glide": "query.property('etheria:tier') > 0 && !query.is_on_ground && query.property('etheria:fly') == 3"
-     },
-     {
-      "dfw_dive": "query.property('etheria:tier') > 0 && !query.is_on_ground && query.property('etheria:fly') == 4"
      }
     ]
    },
@@ -1287,14 +1266,7 @@
     "eth_cmb2": "animation.etheria.combo.c2",
     "eth_cmb3": "animation.etheria.combo.c3",
     "eth_cmb4": "animation.etheria.combo.c4",
-    "eth_cmb5": "animation.etheria.combo.c5",
-    "dfw_base": "animation.etheria.dfw.base",
-    "dfw_ground": "animation.etheria.dfw.ground",
-    "dfw_air": "animation.etheria.dfw.air",
-    "dfw_hover": "animation.etheria.dfw.hover",
-    "dfw_rise": "animation.etheria.dfw.rise",
-    "dfw_glide": "animation.etheria.dfw.glide",
-    "dfw_dive": "animation.etheria.dfw.dive"
+    "eth_cmb5": "animation.etheria.combo.c5"
    },
    "render_controllers": [
     {

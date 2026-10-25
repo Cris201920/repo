@@ -1,115 +1,95 @@
 {
-  "format_version": "1.10.0",
-  "minecraft:client_entity": {
-    "description": {
-      "identifier": "etheria:fallen_angel",
-      "materials": {
-        "default": "entity_alphatest",
-        "wings": "entity_alphatest"
-      },
-      "textures": {
-        "default": "textures/entity/etheria_fallen_angel",
-        "wings": "textures/entity/etheria_race_fallen"
-      },
-      "geometry": {
-        "default": "geometry.etheria_feldway_angel_skin",
-        "wings": "geometry.etheria_mobwing_fallen"
-      },
-      "spawn_egg": {
-        "base_color": "#0a0a0c",
-        "overlay_color": "#c8102e"
-      },
-      "animations": {
-        "base_pose": "animation.humanoid.base_pose",
-        "move": "animation.humanoid.move",
-        "look_at_target": "controller.animation.humanoid.look_at_target",
-        "attack": "animation.humanoid.attack.rotations",
-        "awing": "animation.etheria_feldway_angel.awing",
-        "life_idle": "animation.etheria.life.idle",
-        "life_swing": "animation.etheria.life.swing",
-        "life_hurt": "animation.etheria.life.hurt",
-        "life_stance": "animation.etheria.life.stance",
-        "mw_hide": "animation.etheria.mobwing.hide_feldway_angel",
-        "mw_ground": "animation.etheria.mobwing.ground",
-        "mw_hover": "animation.etheria.mobwing.hover",
-        "mw_rise": "animation.etheria.mobwing.rise",
-        "mw_glide": "animation.etheria.mobwing.glide",
-        "mw_dive": "animation.etheria.mobwing.dive",
-        "dfm_ground": "animation.etheria.dfw_mob.ground",
-        "dfm_hover": "animation.etheria.dfw_mob.hover",
-        "dfm_rise": "animation.etheria.dfw_mob.rise",
-        "dfm_glide": "animation.etheria.dfw_mob.glide",
-        "dfm_dive": "animation.etheria.dfw_mob.dive"
-      },
-      "scripts": {
-        "pre_animation": [
-          "variable.tcos0 = (math.cos(query.modified_distance_moved * 38.17) * query.modified_move_speed) * 57.3;"
-        ],
-        "animate": [
-          "base_pose",
-          "look_at_target",
-          {
-            "move": "query.modified_move_speed > 0.01"
-          },
-          {
-            "attack": "variable.attack_time >= 0.0"
-          },
-          {
-            "awing": "query.is_alive"
-          },
-          {
-            "life_idle": "!query.is_moving && variable.attack_time <= 0"
-          },
-          {
-            "life_swing": "variable.attack_time > 0.0"
-          },
-          {
-            "life_hurt": "query.hurt_time > 0"
-          },
-          {
-            "life_stance": "query.has_target && !query.is_moving && variable.attack_time <= 0"
-          },
-          "mw_hide",
-          {
-            "mw_ground": "query.property('etheria:fly') == 0"
-          },
-          {
-            "mw_hover": "query.property('etheria:fly') == 1"
-          },
-          {
-            "mw_rise": "query.property('etheria:fly') == 2"
-          },
-          {
-            "mw_glide": "query.property('etheria:fly') == 3"
-          },
-          {
-            "mw_dive": "query.property('etheria:fly') == 4"
-          },
-          {
-            "dfm_ground": "query.property('etheria:fly') == 0"
-          },
-          {
-            "dfm_hover": "query.property('etheria:fly') == 1"
-          },
-          {
-            "dfm_rise": "query.property('etheria:fly') == 2"
-          },
-          {
-            "dfm_glide": "query.property('etheria:fly') == 3"
-          },
-          {
-            "dfm_dive": "query.property('etheria:fly') == 4"
-          }
-        ],
-        "initialize": [
-          "v.ph = math.random(0, 360); v.sp = math.random(0.85, 1.2);"
-        ],
-        "scale": "1.3"
-      },
-      "render_controllers": [
-        "controller.render.default",
-        "controller.render.etheria_mob_wings"
-      ]
-    }
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "etheria:fallen_angel",
+   "materials": {
+    "default": "entity_alphatest",
+    "wings": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/etheria_fallen_angel",
+    "wings": "textures/entity/etheria_race_fallen"
+   },
+   "geometry": {
+    "default": "geometry.etheria_feldway_angel_skin",
+    "wings": "geometry.etheria_mobwing_fallen"
+   },
+   "spawn_egg": {
+    "base_color": "#0a0a0c",
+    "overlay_color": "#c8102e"
+   },
+   "animations": {
+    "base_pose": "animation.humanoid.base_pose",
+    "move": "animation.humanoid.move",
+    "look_at_target": "controller.animation.humanoid.look_at_target",
+    "attack": "animation.humanoid.attack.rotations",
+    "awing": "animation.etheria_feldway_angel.awing",
+    "life_idle": "animation.etheria.life.idle",
+    "life_swing": "animation.etheria.life.swing",
+    "life_hurt": "animation.etheria.life.hurt",
+    "life_stance": "animation.etheria.life.stance",
+    "mw_hide": "animation.etheria.mobwing.hide_feldway_angel",
+    "mw_ground": "animation.etheria.mobwing.ground",
+    "mw_hover": "animation.etheria.mobwing.hover",
+    "mw_rise": "animation.etheria.mobwing.rise",
+    "mw_glide": "animation.etheria.mobwing.glide",
+    "mw_dive": "animation.etheria.mobwing.dive"
+   },
+   "scripts": {
+    "pre_animation": [
+     "variable.tcos0 = (math.cos(query.modified_distance_moved * 38.17) * query.modified_move_speed) * 57.3;"
+    ],
+    "animate": [
+     "base_pose",
+     "look_at_target",
+     {
+      "move": "query.modified_move_speed > 0.01"
+     },
+     {
+      "attack": "variable.attack_time >= 0.0"
+     },
+     {
+      "awing": "query.is_alive"
+     },
+     {
+      "life_idle": "!query.is_moving && variable.attack_time <= 0"
+     },
+     {
+      "life_swing": "variable.attack_time > 0.0"
+     },
+     {
+      "life_hurt": "query.hurt_time > 0"
+     },
+     {
+      "life_stance": "query.has_target && !query.is_moving && variable.attack_time <= 0"
+     },
+     "mw_hide",
+     {
+      "mw_ground": "query.property('etheria:fly') == 0"
+     },
+     {
+      "mw_hover": "query.property('etheria:fly') == 1"
+     },
+     {
+      "mw_rise": "query.property('etheria:fly') == 2"
+     },
+     {
+      "mw_glide": "query.property('etheria:fly') == 3"
+     },
+     {
+      "mw_dive": "query.property('etheria:fly') == 4"
+     }
+    ],
+    "initialize": [
+     "v.ph = math.random(0, 360); v.sp = math.random(0.85, 1.2);"
+    ],
+    "scale": "1.3"
+   },
+   "render_controllers": [
+    "controller.render.default",
+    "controller.render.etheria_mob_wings"
+   ]
   }
+ }
 }

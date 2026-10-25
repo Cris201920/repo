@@ -8,6 +8,10 @@ const FLYERS = new Set(["etheria:feldway_angel", "etheria:zalario", "etheria:din
   "etheria:veldanava", "etheria:velzard", "etheria:velgrynd",
   "etheria:void_dragon", "etheria:fallen_angel", "etheria:angel_guardian",   // 8.7: chefes por região que voam
   "etheria:dragon_carmim", "etheria:dragon_gelo", "etheria:dragon_tempestade"]);   // 8.8: dragões domáveis
+// 9.5: mobs com ASAS DE PARTÍCULAS (systems/particlewings.js): o mais perto de cada jogador (<= PW_R blocos), atualizado neste mesmo laço
+export const PW_MOBS = new Set(["etheria:fallen_angel", "etheria:pico", "etheria:garasha"]);
+const PW_R = 48;
+export const pwNear = new Map();   // playerId -> { e, t }
 const hitAt = new Map();   // id -> tick do último golpe (mergulho no ataque)
 let tick = 0;
 
@@ -34,7 +38,11 @@ export function startMobFlight() {
     for (const p of world.getAllPlayers()) {
       let list = [];
       try { list = p.dimension.getEntities({ location: p.location, maxDistance: NEAR, families: [FAM] }); } catch { continue; }
+      let best = null, bd = PW_R * PW_R;
       for (const e of list) {
+        if (PW_MOBS.has(e.typeId)) {   // 9.5: asas de partículas: o mob com asas demoníacas mais perto deste jogador (sem consulta extra)
+          try { const L = e.location, dx = L.x - p.location.x, dy = L.y - p.location.y, dz = L.z - p.location.z, q = dx * dx + dy * dy + dz * dz; if (q < bd) { bd = q; best = e; } } catch { /* ignore */ }
+        }
         if (seen.has(e.id)) continue; seen.add(e.id);
         try {
           let g = false, v = { x: 0, y: 0, z: 0 };
@@ -43,6 +51,7 @@ export function startMobFlight() {
           if (e.getProperty(PROP) !== s) e.setProperty(PROP, s);
         } catch { /* ignore */ }
       }
+      if (best) pwNear.set(p.id, { e: best, t: system.currentTick }); else pwNear.delete(p.id);
     }
     if (tick % 200 === 0) for (const [id, t] of hitAt) if (tick - t > 40) hitAt.delete(id);
   }, 4);

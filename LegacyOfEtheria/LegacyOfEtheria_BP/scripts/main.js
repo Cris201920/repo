@@ -76,6 +76,7 @@ import { startVoice, sageSay, dropVoice, sageCfg, sageText } from "./systems/voi
 import { startDiscovery, grantStarter } from "./systems/discovery.js";
 import { startArmorFx } from "./systems/armorfx.js";
 import { startMobFlight } from "./systems/mobflight.js";
+import { startParticleWings } from "./systems/particlewings.js";   // 9.5: asas de partículas (demônio / caído)
 import { startTameDragons } from "./systems/tamedragons.js";
 import { startSageCore, dropCore } from "./systems/sagecore.js";
 import { startForge } from "./systems/forge.js";
@@ -193,6 +194,7 @@ system.run(() => {
   startWeaponFx(); startTrident();   // 8.5: tridente dos dragões marinhos (arremesso)
   startArmorFx();
   try { startMobFlight(); } catch { /* ignore */ }
+  try { startParticleWings(); } catch { /* ignore */ }
   try { startTameDragons(); } catch (e) { console.warn(`[Etheria] dragões domáveis: ${e}`); }   // 8.8: montaria com voo
   startSageCore();
   startForge();
