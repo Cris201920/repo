@@ -2,7 +2,7 @@
 //   decolagem: anéis de vento que se abrem em volta do jogador + círculo mágico sob os pés (todas as raças que voam)
 //   linhagem Velzard (dragão de gelo): ASAS DE CRISTAL DE GELO desenhadas por partículas atrás dos ombros enquanto voa, batendo
 //   conforme o estado do voo (pairar/subir batem, planar abre e fica quase parada). Passa pelo orçamento de partículas do fxlib.
-import { ctx, mote, ringFlat, disc, after, T, CIRCLE } from "./fxlib.js";
+import { ctx, mote, ringFlat, disc, after, nn, T, CIRCLE } from "./fxlib.js";
 import { getData } from "../core/db.js";
 import { lineageOf, formOfPlayer } from "../data/lineages.js";
 
@@ -29,5 +29,40 @@ export function iceWingFx(p, mode, t) {
       const pos = { x: L.x + rx * out * sd - fx * bk, y: L.y + wy, z: L.z + rz * out * sd - fz * bk };
       mote(c, pos, { col: i % 3 ? "ice" : "white", tile: T.shard, size: 0.2, spd: 0, life: 0.22, grow: 0, a: 0.9 });
     }
+  } catch { /* ignore */ }
+}
+
+// 9.4: ASAS DEMONÍACAS DE PENAS (Demônio, Lord Demônio e Anjo Caído): fumaça/bolhas pretas com fagulhas vermelhas saindo das asas ao
+// decolar e a cada batida. Poucos disparos (o chamador limita a frequência por estado), contagem escalada pelo nível de FX do jogador.
+function wingPts(p) {
+  const yaw = (p.getRotation().y * Math.PI) / 180, fx = -Math.sin(yaw), fz = Math.cos(yaw);
+  return { L: p.location, fx, fz, rx: -fz, rz: fx };
+}
+export function demonWingFx(p, mode) {
+  try {
+    const c = ctx(p, 1); if (c.k <= 0) return;
+    const { L, fx, fz, rx, rz } = wingPts(p), n = nn(c, mode === 2 ? 2 : 1);
+    for (const sd of [1, -1]) for (let i = 0; i < n; i++) {
+      const out = 0.5 + Math.random() * 1.6, up = 1.0 + Math.random() * 1.1, bk = 0.35 + Math.random() * 0.4;
+      const pos = { x: L.x + rx * out * sd - fx * bk, y: L.y + up, z: L.z + rz * out * sd - fz * bk };
+      mote(c, pos, { col: "black", tile: T.smoke, size: 0.32 + Math.random() * 0.25, dir: [-fx * 0.3, -0.6, -fz * 0.3], spd: 0.6, drag: 1.2, life: 0.9, grow: 0.7, a: 0.85 });
+    }
+    if (Math.random() < 0.5 * c.k) {
+      const sd = Math.random() < 0.5 ? 1 : -1, out = 0.3 + Math.random() * 0.6;
+      mote(c, { x: L.x + rx * out * sd - fx * 0.4, y: L.y + 1.3 + Math.random() * 0.5, z: L.z + rz * out * sd - fz * 0.4 }, { col: "blood", tile: T.ember, size: 0.12, dir: [0, 1, 0], spd: 0.4, life: 0.6, grow: -0.6 });
+    }
+  } catch { /* efeitos nunca derrubam o voo */ }
+}
+export function demonTakeoffFx(p) {
+  try {
+    const c = ctx(p, 1); if (c.k <= 0) return;
+    const { L, fx, fz, rx, rz } = wingPts(p), n = nn(c, 5);
+    for (const sd of [1, -1]) for (let i = 0; i < n; i++) {
+      const out = 0.4 + (i / n) * 2.0, up = 0.8 + Math.random() * 1.6;
+      mote(c, { x: L.x + rx * out * sd - fx * 0.5, y: L.y + up, z: L.z + rz * out * sd - fz * 0.5 },
+        { col: "black", tile: i % 3 ? T.smoke : T.bubble, size: 0.4 + Math.random() * 0.3, dir: [rx * sd, -0.4, rz * sd], spd: 1.4, drag: 1.6, life: 1.1, grow: 0.8, a: 0.9 });
+    }
+    for (let i = 0; i < nn(c, 4); i++) mote(c, { x: L.x - fx * 0.4, y: L.y + 1.4, z: L.z - fz * 0.4 },
+      { col: "blood", tile: T.ember, size: 0.14, dir: [Math.random() - 0.5, 1, Math.random() - 0.5], spd: 2.2, drag: 1.5, life: 0.7, grow: -0.6 });
   } catch { /* ignore */ }
 }

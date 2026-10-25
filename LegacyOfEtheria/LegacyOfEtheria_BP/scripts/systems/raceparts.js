@@ -22,7 +22,7 @@ export const TIER_PROP = "etheria:tier";
 /** estágio da raça (1-5; +1 no Lorde Demônio; 0 sem raça) */
 export function tierOf(d) {
   if (!d?.raceChosen || !d.raceStage) return 0;
-  const m = /_(\d)/.exec(d.raceStage); const t = m ? Number(m[1]) : 1;
+  const m = /_f?(\d)/.exec(d.raceStage); const t = m ? Number(m[1]) : 1;   // 9.4: anjos caídos (angel_f1..f5) também crescem
   return Math.min(6, t + (isLordStage(d.raceStage) ? 1 : 0));
 }
 const LORD_FALLBACK = { elf: "elf", vampire: "vampire", ogre: "ogre", beastkin: "beastkin", lizard: "lizardman", dragonoid: "dragonoid" };   // Lorde de estágio sem corpo próprio: corpo da família da raça

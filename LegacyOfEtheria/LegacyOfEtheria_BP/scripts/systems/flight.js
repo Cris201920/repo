@@ -16,8 +16,8 @@ import { hasSkill, grantSkill } from "./skills.js";
 import { say } from "../core/utils.js";
 import { RACES } from "../data/races.js";
 import { formOfPlayer } from "../data/lineages.js";
-import { wingedStage } from "./raceparts.js";
-import { takeoffFx, iceWingFx, iceWings } from "./flightfx.js";
+import { wingedStage, bodyOfStage } from "./raceparts.js";
+import { takeoffFx, iceWingFx, iceWings, demonWingFx, demonTakeoffFx } from "./flightfx.js";
 import { superStep, endSuper } from "./superflight.js";
 
 const st = new Map();   // playerId -> { air, held, ground, vx, vz, taps, lastJump, mode }
@@ -30,6 +30,13 @@ const eff = (p, id, ticks, amp = 0) => { try { p.addEffect(id, ticks, { amplifie
 const unEff = (p, id) => { try { p.removeEffect(id); } catch { /* ignore */ } };
 // 6.58: estado visual do voo para as asas/caudas (RP): 0 chão · 1 pairando · 2 subindo/decolando · 3 planando/voo rápido · 4 descendo
 const FLY_PROP = "etheria:fly";
+// 9.4: asas demoníacas de penas (corpos demon / fallen / fallen_lord, sem linhagem dracônica): fumaça preta ao decolar e bater
+const DFW_BODY = new Set(["demon", "fallen", "fallen_lord"]);
+function dfwOn(d, s) {
+  if (s.dfwT === undefined || s.t - s.dfwT > 100) { s.dfwT = s.t; s.dfw = !!d.raceChosen && DFW_BODY.has(bodyOfStage(d.raceStage)); }
+  return s.dfw;
+}
+const DFW_EVERY = [0, 9, 5, 16, 0];   // ticks entre disparos por estado: chão · pairando · subindo · planando · mergulho
 function setMode(p, s, m) { if (s.mode === m) return; s.mode = m; try { p.setProperty(FLY_PROP, m); } catch { /* ignore */ } }
 
 /** liga/desliga a habilidade (menu e !voo). Desligar em pleno ar é seguro: queda lenta por safeTicks. */
@@ -71,7 +78,7 @@ export function stepFlight(p) {
   if (edge) { if (!ground && s.t - s.tapAt <= 7 / step) s.taps = 2; else s.taps = 1; s.tapAt = s.t; }
   s.held = jump ? s.held + step : Math.max(0, s.held - step * 2);
   if (!s.air) {
-    if (s.held >= FLIGHT.holdJump || s.taps >= 2) { s.air = true; s.ground = 0; s.taps = 0; s.lift = 6; s.sneakArm = !sneak; s.sneakT = 0; s.vx = 0; s.vz = 0; eff(p, "slow_falling", FLIGHT.safeTicks, 0); unEff(p, "levitation"); takeoffFx(p); }
+    if (s.held >= FLIGHT.holdJump || s.taps >= 2) { s.air = true; s.ground = 0; s.taps = 0; s.lift = 6; s.sneakArm = !sneak; s.sneakT = 0; s.vx = 0; s.vz = 0; eff(p, "slow_falling", FLIGHT.safeTicks, 0); unEff(p, "levitation"); takeoffFx(p); if (dfwOn(d, s)) demonTakeoffFx(p); }
     else { setMode(p, s, 0); return; }
   }
   if (FLIGHT.staminaPerSec > 0) {
@@ -115,6 +122,7 @@ export function stepFlight(p) {
   }
   setMode(p, s, s.lift > 0 || vy > 0.12 ? 2 : vy < -0.12 ? 4 : hs > cap * 0.55 ? 3 : 1);
   if (s.t % 2 === 0 && iceWings(d)) iceWingFx(p, s.mode, s.t);   // 6.58b: asas de cristal de gelo (Velzard)
+  const ev = DFW_EVERY[s.mode] ?? 0; if (ev && s.t % ev === 0 && dfwOn(d, s)) demonWingFx(p, s.mode);   // 9.4: asas demoníacas
 }
 
 /** concede a habilidade por progressão (retroativo para quem já está no estágio). Nunca concede a quem não cumpre. */

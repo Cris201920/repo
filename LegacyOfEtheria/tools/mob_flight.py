@@ -30,6 +30,7 @@ def jdump(o, p, compact=False):
 
 def wing_geos():
     for kind in sorted({v[0] for v in ANGELS.values()}):
+        if kind == "fallen": continue   # 9.4: asas de penas demoníacas geradas por tools/demon_feather_wings.py
         g = copy.deepcopy(jload(os.path.join(RP, f"models/entity/etheria_race_{kind}.geo.json"))["minecraft:geometry"][0])
         g["description"]["identifier"] = f"geometry.etheria_mobwing_{kind}"
         keep = []
