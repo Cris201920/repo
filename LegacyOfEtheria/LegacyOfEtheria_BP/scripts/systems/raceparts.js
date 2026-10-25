@@ -111,7 +111,7 @@ const mapKey = (id) => (Object.prototype.hasOwnProperty.call(STAGE_LOOK_MAP, id)
 // elegantes, aura sombria e as asas que permitem voar), mas MANTÉM orelhas, cauda e auréola da própria raça (antes o elfo perdia as orelhas
 // e toda raça ganhava cauda de lagarto e auréola negra). Anão Lorde mantém a barba (kit 6) no lugar do kit de Lorde.
 function lordLook(stage) {
-  const lord = TENSURA_LOOK.devil_lord ?? {};
+  const lord = { ...(TENSURA_LOOK.devil_lord ?? {}), body: 0, horns: 1 };   // 8.20.1: Lord Demônio com menos detalhe: sem kit de ombreiras/espinhos e chifres simples (traços da raça mantidos)
   const base = stage === "demon_4" ? {} : lookOfStage(stage.replace(/_ld$/, ""));
   const out = { ...lord, ears: base.ears ?? 0, tail: base.tail ?? 0, halo: base.halo ?? 0 };
   if (base.wings) out.wings = base.wings;
