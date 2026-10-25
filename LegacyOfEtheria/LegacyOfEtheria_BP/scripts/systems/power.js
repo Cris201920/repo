@@ -103,21 +103,21 @@ export function raceAuraKind(d) {
   if (d.race === "demon" || /^(angel_f|fall_)/.test(st) || lord) return { kind: "dark", t, lord, fallen: d.race === "angel" };
   return null;
 }
-/** parâmetros do emissor etheria:aurasmoke por tipo/estágio (puro; usado também pelo simulador). act: 1 repouso, 1,35 voo, 1,6 combate */
+/** parâmetros do emissor etheria:aurasmoke por tipo/estágio (puro; usado também pelo simulador). act: 0,7 repouso, 1,2 voo, 1,6 combate */
 export function auraVars(k, act = 1, f = 1) {
   const t = k.t, L = k.lord;
   if (k.kind === "dark") {
     const ring = L || t >= 5 ? 0.16 : t >= 4 ? 0.08 : 0;
     return { count: Math.min(120, Math.round((3 + 4.5 * t) * (L ? 1.3 : 1) * act * f)), life: 0.9 + 0.22 * t, hgt: (0.35 + 0.3 * t) * (L ? 1.15 : 1), rise: 0.35 + 0.16 * t,
-      rad: 0.32 + 0.06 * t, sz: 0.18 + 0.06 * t, grow: 1, swl: 40 + 10 * t, a: Math.min(0.85, 0.55 + 0.05 * t),
+      rad: 0.4 + 0.07 * t, sz: 0.13 + 0.045 * t, grow: 1, swl: 40 + 10 * t, a: Math.min(0.72, 0.45 + 0.05 * t),
       cr: k.fallen ? 0.06 : 0.05, cg: 0.03, cb: k.fallen ? 0.1 : 0.06,                                     // fumaça preta (caído: mais roxa)
-      vein: 0.12 + 0.03 * t, vw: 0.035, vh: 0.22 + 0.05 * t, vr: 0.88, vg: 0.06, vb: 0.08, va: 1, vu: 32, vv: 16,   // veios vermelhos subindo
-      ring, ry: 2.15, rr: 0.5 + 0.05 * t, rs: 0.22 + 0.04 * t, gr: 0.14, gg: 0.03, gb: 0.16, ra: 0.8, ru: 96, rv: 48, dvx: 0, dvz: 0 };   // halo de fumaça (Lord)
+      vein: 0.12 + 0.03 * t, vw: 0.05, vh: 0.22 + 0.05 * t, vr: 0.88, vg: 0.06, vb: 0.08, va: 1, vu: 48, vv: 16,   // veios vermelhos subindo
+      ring, ry: 2.15, rr: 0.5 + 0.05 * t, rs: 0.22 + 0.04 * t, gr: 0.07, gg: 0.02, gb: 0.09, ra: 0.75, ru: 16, rv: 16, dvx: 0, dvz: 0 };   // halo de fumaça (Lord)
   }
   return { count: Math.min(120, Math.round((3 + 4 * t) * (L ? 1.2 : 1) * act * f)), life: 1.0 + 0.18 * t, hgt: 0.5 + 0.28 * t, rise: 0.3 + 0.12 * t,
     rad: 0.4 + 0.06 * t, sz: 0.16 + 0.04 * t, grow: 1, swl: 60, a: Math.min(0.5, 0.28 + 0.03 * t),
     cr: 1, cg: 0.97, cb: 0.88,                                                                                  // névoa de luz branca
-    vein: Math.min(0.55, 0.35 + 0.03 * t), vw: 0.05 + 0.01 * t, vh: 0.05 + 0.01 * t, vr: 1, vg: 0.82, vb: 0.3, va: 1, vu: 32, vv: 16,   // pó de luz dourado
+    vein: Math.min(0.55, 0.35 + 0.03 * t), vw: 0.07 + 0.012 * t, vh: 0.07 + 0.012 * t, vr: 1, vg: 0.84, vb: 0.32, va: 1, vu: 16, vv: 0,   // pó de luz dourado
     ring: t >= 4 ? 0.2 : t >= 3 ? 0.1 : 0, ry: 1.0, rr: 0.8 + 0.05 * t, rs: 0.07 + 0.01 * t, gr: 1, gg: 0.88, gb: 0.45, ra: 1, ru: 32, rv: 16, dvx: 0, dvz: 0 };   // anel de luz
 }
 function raceSmoke(p, d, now, hot) {
@@ -125,8 +125,8 @@ function raceSmoke(p, d, now, hot) {
   const c = ctx(p, 1); if (c.k <= 0) return true;
   c.pid = p.id;
   let fly = false; try { fly = !p.isOnGround || (p.getProperty("etheria:fly") ?? 0) > 0; } catch { /* ignore */ }
-  const V = auraVars(k, hot ? 1.6 : fly ? 1.35 : 1, AFX[c.lv] ?? c.k);
-  const n = liveBudget(c, now, V.count, V.life * 1.25, 2); if (!n) return true;
+  const V = auraVars(k, hot ? 1.6 : fly ? 1.2 : 0.7, AFX[c.lv] ?? c.k);
+  const n = liveBudget(c, now, V.count, V.life, 1); if (!n) return true;
   V.count = n; emitMany(c, "etheria:aurasmoke", p.location, V);
   return true;
 }

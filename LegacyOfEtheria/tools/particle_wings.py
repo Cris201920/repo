@@ -67,7 +67,7 @@ def texture_light(path):
     GOLD = (255, 206, 92)
     def mix(a, b, t): return tuple(int(a[i] + (b[i] - a[i]) * t) for i in range(3))
     tipcut = [rnd.uniform(0.0, 0.1) for _ in range(16)]
-    for col, maxw, soft, power, rim, glow in ((0, 0.8, 4.0, 0.55, 0.55, 0), (1, 0.95, 1.5, 0.7, 0.35, 1), (2, 0.28, 3.0, 0.5, 1.0, 0), (3, 0.6, 2.0, 1.1, 0.0, 0)):
+    for col, maxw, soft, power, rim, glow in ((0, 0.8, 4.0, 0.55, 0.3, 0), (1, 0.95, 1.5, 0.7, 0.35, 1), (2, 0.28, 3.0, 0.5, 1.0, 0), (3, 0.6, 2.0, 1.1, 0.0, 0)):
         for y in range(H):
             v = (y + 0.5) / H; prof = math.sin(math.pi * v) ** power; hw = maxw * prof
             if hw <= 0.02: continue
@@ -80,7 +80,7 @@ def texture_light(path):
                 if glow: a *= 0.75
                 if a <= 0: continue
                 g = min(1.0, max(0.0, (d / hw - (1 - rim)) / max(rim, 1e-3)) if rim else 0.0)   # borda dourada
-                g = max(g, tip * (0.9 if col == 0 else 0.6)) if col != 3 else 0.0
+                g = max(g, tip * (0.7 if col == 0 else 0.5)) if col != 3 else 0.0
                 c = mix((255, 255, 255), GOLD, g)
                 px[col * 16 + x, y] = c + (min(255, int(255 * a)),)
     im.save(path)
@@ -182,7 +182,7 @@ AURA = {"format_version": "1.10.0", "particle_effect": {
         "minecraft:emitter_rate_instant": {"num_particles": "math.clamp(variable.count, 1, 120)"},
         "minecraft:emitter_lifetime_once": {"active_time": 0.05},
         "minecraft:emitter_shape_point": {"offset": [0, 0, 0]},
-        "minecraft:particle_lifetime_expression": {"max_lifetime": f"variable.life*({VEIN}?0.6:1)*(0.75+0.5*{R2})"},
+        "minecraft:particle_lifetime_expression": {"max_lifetime": "variable.life"},
         "minecraft:particle_motion_parametric": {"relative_position": [
             f"math.cos({ANG})*{RAD}+v.dvx*v.particle_age", AY, f"math.sin({ANG})*{RAD}+v.dvz*v.particle_age"]},
         "minecraft:particle_appearance_billboard": {
@@ -192,9 +192,9 @@ AURA = {"format_version": "1.10.0", "particle_effect": {
             "uv": {"texture_width": 128, "texture_height": 128,
                    "uv": [f"({VEIN}?v.vu:({RING}?v.ru:({R3}<0.5?16:96)))", f"({VEIN}?v.vv:({RING}?v.rv:({R3}<0.5?16:48)))"], "uv_size": [16, 16]}},
         "minecraft:particle_appearance_tinting": {"color": [
-            f"({VEIN}?v.vr:({RING}?v.gr:v.cr+(v.vr-v.cr)*math.pow({R2},8)))", f"({VEIN}?v.vg:({RING}?v.gg:v.cg+(v.vg-v.cg)*math.pow({R2},8)))",
-            f"({VEIN}?v.vb:({RING}?v.gb:v.cb+(v.vb-v.cb)*math.pow({R2},8)))",
-            f"({VEIN}?v.va*math.min(1,v.particle_age*10)*(1-{AGE}):({RING}?v.ra*math.min(1,v.particle_age*6)*(1-{AGE}):v.a*math.min(1,v.particle_age*4)*(1-math.pow({AGE},2))))"]}}}}
+            f"({VEIN}?v.vr:({RING}?v.gr:v.cr+(v.vr-v.cr)*math.pow({R2},12)*0.6))", f"({VEIN}?v.vg:({RING}?v.gg:v.cg+(v.vg-v.cg)*math.pow({R2},12)*0.6))",
+            f"({VEIN}?v.vb:({RING}?v.gb:v.cb+(v.vb-v.cb)*math.pow({R2},12)*0.6))",
+            f"({VEIN}?v.va*math.min(1,v.particle_age*10)*math.max(0,1-{AGE}*(1.2+0.6*{R2})):({RING}?v.ra*math.min(1,v.particle_age*6)*(1-{AGE}):v.a*math.min(1,v.particle_age*4)*(1-math.pow({AGE},2))))"]}}}}
 
 def main():
     tot = 0

@@ -49,14 +49,14 @@ const AST = {
   rest: { lo: 40, hi: 98, sw: 50, amp: 2, hz: 0.3, span: 0.95, n: 16, life: 0.55, ev: 2, smk: 0.4, red: 0.1, blur: 0.04 },
   walk: { lo: 36, hi: 98, sw: 48, amp: 6, hz: 1.0, span: 0.95, n: 18, life: 0.55, ev: 2, smk: 0.6, red: 0.1, blur: 0.04 },
   sneak: { lo: 62, hi: 102, sw: 70, amp: 2, hz: 0.3, span: 0.66, n: 12, life: 0.55, ev: 2, smk: 0.2, red: 0.08, blur: 0 },
-  air: { lo: 4, hi: 88, sw: 24, amp: 24, hz: 1.3, span: 1.05, n: 32, life: 0.36, ev: 1, smk: 1.6, red: 0.1, blur: 0.08 },
-  hover: { lo: -30, hi: 72, sw: 12, amp: 36, hz: 1.1, span: 1.12, n: 46, life: 0.34, ev: 1, smk: 2.6, red: 0.1, blur: 0.1 },
-  rise: { lo: -40, hi: 82, sw: 8, amp: 46, hz: 1.8, span: 1.15, n: 60, life: 0.3, ev: 1, smk: 4, red: 0.12, blur: 0.12 },
-  glide: { lo: -22, hi: 42, sw: 6, amp: 8, hz: 0.5, span: 1.32, n: 52, life: 0.42, ev: 1, smk: 1.6, red: 0.1, blur: 0.1 },
+  air: { lo: 4, hi: 88, sw: 24, amp: 24, hz: 1.3, span: 1.05, n: 32, life: 0.36, ev: 1, smk: 1.6, red: 0.1, blur: 0.04 },
+  hover: { lo: -30, hi: 72, sw: 12, amp: 36, hz: 1.1, span: 1.12, n: 46, life: 0.34, ev: 1, smk: 2.6, red: 0.1, blur: 0.05 },
+  rise: { lo: -40, hi: 82, sw: 8, amp: 46, hz: 1.8, span: 1.15, n: 60, life: 0.3, ev: 1, smk: 4, red: 0.12, blur: 0.06 },
+  glide: { lo: -22, hi: 42, sw: 6, amp: 8, hz: 0.5, span: 1.32, n: 52, life: 0.42, ev: 1, smk: 1.6, red: 0.1, blur: 0.05 },
   dive: { lo: -8, hi: 30, sw: 76, amp: 3, hz: 0.8, span: 0.8, n: 22, life: 0.32, ev: 1, smk: 1, red: 0.08, blur: 0.22 },
 };
 // pares extras (Querubim 2, Serafim 3): par de baixo (mais curto, apontando para baixo) e par de cima (pequeno, junto da cabeça)
-const PAIRS = [null, { dy: -0.32, dlo: -38, dhi: -46, len: 0.62, n: 0.45 }, { dy: 0.16, dlo: 22, dhi: 14, len: 0.5, n: 0.35 }];
+const PAIRS = [null, { dy: -0.32, dlo: -38, dhi: -46, len: 0.62, n: 0.38 }, { dy: 0.16, dlo: 22, dhi: 14, len: 0.5, n: 0.3 }];
 // densidade pelo nível de FX do jogador: alto (e acima) = 100% · médio 55% (menos riscos por chamada) · baixo 25% (metade dos riscos, metade das emissões)
 const FXD = { extreme: 1, ultra: 1, high: 1, medium: 0.55, low: 0.5 };
 const FXEV = { low: 2 };
@@ -89,7 +89,7 @@ const SMOKE = [0.045, 0.035, 0.055];
 // 9.8: anjo - linha branca, ouro nas penas de fora/pontas (vein, mais forte a cada estágio), base dourada, fagulhas douradas, baforadas de luz
 const GOLD = [1.0, 0.76, 0.24], WHITE = [1.0, 0.99, 0.95], LIGHT = [0.98, 0.96, 0.86];
 const mixc = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
-function angelPal(tier) { const g = Math.min(1, 0.35 + 0.12 * tier); return { line: WHITE, vein: mixc(WHITE, GOLD, g), base: [1.0, 0.8, 0.32], glint: [1.0, 0.86, 0.38] }; }
+function angelPal(tier) { const g = Math.min(0.6, 0.12 + 0.07 * tier); return { line: WHITE, vein: mixc(WHITE, GOLD, g), base: [1.0, 0.8, 0.32], glint: [1.0, 0.86, 0.38] }; }
 const palOf = (B) => (B.angel ? angelPal(B.tier) : B.fallen ? COL.fallen : COL.demon);
 const DEG = Math.PI / 180, TAU = Math.PI * 2;
 
@@ -150,7 +150,7 @@ function smoke(c, Bs, B, o, now) {   // baforadas pretas (anjo: de luz branca) +
   if (!count) return 0;
   pwStats.parts += count;
   return emitMany(c, SID, Bs.pos, { ...Bs.v, count, life: o.life, lo: o.lo, dh: o.dh, len: o.len, spd: o.spd, sz: o.sz * B.sc * (B.angel ? 1.25 : 1), spk: o.spk,
-    dvx: -Bs.fx * o.back, dvy: -o.down, dvz: -Bs.fz * o.back, cr: sm[0], cg: sm[1], cb: sm[2], gr: pal.glint[0], gg: pal.glint[1], gb: pal.glint[2], a: B.angel ? 0.5 : 0.88 }) ? 1 : 0;
+    dvx: -Bs.fx * o.back, dvy: -o.down, dvz: -Bs.fz * o.back, cr: sm[0], cg: sm[1], cb: sm[2], gr: pal.glint[0], gg: pal.glint[1], gb: pal.glint[2], a: B.angel ? 0.35 : 0.88 }) ? 1 : 0;
 }
 
 /** Desenha as asas: UMA chamada por par (leque das duas asas, etheria:wingfan / _light) + baforadas a cada 2 emissões.
@@ -161,12 +161,15 @@ export function drawWings(c, B, now) {
   const f = fxd(c), D = dens(B), air = S.ev === 1, take = B.take > 0, pal = palOf(B), A = !!B.angel;
   const amp = S.amp * (take ? 1.25 : 1), ph = (S.hz * 360 * (now / 20) + (B.key % 7) * 51) % 360;
   const Bs = basis(B, S.sw, amp * 0.22 * Math.cos(ph * DEG), S.hi + amp * Math.sin((ph - 32) * DEG));
-  const Lmax = (A ? 1.4 + 0.3 * B.tier : 1.45 + 0.22 * B.tier) * B.sc * S.span * (B.lord ? 1.12 : 1);
+  const Lmax = (A ? 1.35 + 0.2 * B.tier : 1.45 + 0.22 * B.tier) * B.sc * S.span * (B.lord ? 1.12 : 1);
   const want = Math.max(4, Math.min(300, Math.round(2 * S.n * D * f * (take ? 1.2 : 1))));
   let n = 0;
   for (let k = 0; k < (A ? B.pairs ?? 1 : 1); k++) {
-    const P = PAIRS[k], cnt = spend(c, now, P ? Math.max(4, Math.round(want * P.n)) : want, S.life);
-    if (!cnt) break;
+    // pares extras no voo: 1 emissão sim, 1 não, com vida 1,8x (mesma densidade média, metade das chamadas: Serafim ~17 chamadas/s em vez de 25)
+    const P = PAIRS[k], alt = P && air && !take, life = alt ? S.life * 1.8 : S.life;
+    if (alt && B.gen % 2 === 1) continue;
+    const cnt = spend(c, now, P ? Math.max(4, Math.round(want * P.n)) : want, life);
+    if (!cnt) { if (k === 0) break; continue; }
     pwStats.parts += cnt;
     const pos = P ? { x: Bs.pos.x, y: Bs.pos.y + P.dy * B.sc, z: Bs.pos.z } : Bs.pos, lo = S.lo + (P?.dlo ?? 0), hi = S.hi + (P?.dhi ?? 0), lm = Lmax * (P?.len ?? 1);
     const v = A
@@ -174,7 +177,7 @@ export function drawWings(c, B, now) {
       ? { lp: 0.72, len: lm * 0.8, arm: lm * 0.46, w: 0.11 * B.sc * (B.lord ? 1.08 : 1), red: S.red + 0.02 * B.tier, cov: 0.14, blur: S.blur }
       // demônio: 9.8 riscos ~15% mais grossos e mais cobertura curta e grossa no miolo (aspecto de pincel)
       : { lp: 0.58, len: lm * 0.74, arm: lm * 0.42, w: 0.16 * B.sc * (air ? 1 : 1.2) * (B.lord ? 1.12 : 1), red: S.red * (B.lord ? 1.5 : 1), cov: 0.36, blur: S.blur };
-    if (emitMany(c, A ? LID : FID, pos, { ...Bs.v, ...colv(pal), count: cnt, life: S.life, a: 1, lo, dh: hi - lo, amp: amp * (P ? 0.8 : 1), ph, lag: 32, ...v,
+    if (emitMany(c, A ? LID : FID, pos, { ...Bs.v, ...colv(pal), count: cnt, life, a: 1, lo, dh: hi - lo, amp: amp * (P ? 0.8 : 1), ph, lag: 32, ...v,
       dvx: air ? -Bs.fx * 0.35 : 0, dvy: air ? -0.15 : -0.04, dvz: air ? -Bs.fz * 0.35 : 0 })) n++;
   }
   if (!n) return 0;
