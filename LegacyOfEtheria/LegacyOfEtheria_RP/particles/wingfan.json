@@ -1,0 +1,72 @@
+{
+ "format_version": "1.10.0",
+ "particle_effect": {
+  "description": {
+   "identifier": "etheria:wingfan",
+   "basic_render_parameters": {
+    "material": "particles_blend",
+    "texture": "textures/particle/etheria_wingfx"
+   }
+  },
+  "components": {
+   "minecraft:emitter_rate_instant": {
+    "num_particles": "math.clamp(variable.count, 1, 200)"
+   },
+   "minecraft:emitter_lifetime_once": {
+    "active_time": 0.05
+   },
+   "minecraft:emitter_shape_point": {
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "minecraft:particle_lifetime_expression": {
+    "max_lifetime": "variable.life"
+   },
+   "minecraft:particle_motion_parametric": {
+    "relative_position": [
+     "(v.particle_random_3<0.5?v.ox1:v.ox2)+(v.particle_random_3<0.5?v.ax1:v.ax2)*(v.arm*v.particle_random_1*(0.75+0.25*v.particle_random_2))+(math.cos((v.lo+v.dh*v.particle_random_1+v.amp*math.sin(v.ph-v.lag*v.particle_random_1)))*(v.particle_random_3<0.5?v.ux1:v.ux2)+v.tx)*(0.08+(v.len*(1-v.lp+v.lp*math.pow(v.particle_random_1,0.6))*(0.72+0.56*v.particle_random_2)*(v.particle_random_4<v.red?(0.3+0.25*v.particle_random_2):(v.particle_random_4<v.red+v.cov?0.55:1)))*0.5)+v.dvx*v.particle_age",
+     "(v.particle_random_3<0.5?v.ay1:v.ay2)*(v.arm*v.particle_random_1*(0.75+0.25*v.particle_random_2))+math.sin((v.lo+v.dh*v.particle_random_1+v.amp*math.sin(v.ph-v.lag*v.particle_random_1)))*(0.08+(v.len*(1-v.lp+v.lp*math.pow(v.particle_random_1,0.6))*(0.72+0.56*v.particle_random_2)*(v.particle_random_4<v.red?(0.3+0.25*v.particle_random_2):(v.particle_random_4<v.red+v.cov?0.55:1)))*0.5)+v.dvy*v.particle_age",
+     "(v.particle_random_3<0.5?v.oz1:v.oz2)+(v.particle_random_3<0.5?v.az1:v.az2)*(v.arm*v.particle_random_1*(0.75+0.25*v.particle_random_2))+(math.cos((v.lo+v.dh*v.particle_random_1+v.amp*math.sin(v.ph-v.lag*v.particle_random_1)))*(v.particle_random_3<0.5?v.uz1:v.uz2)+v.tz)*(0.08+(v.len*(1-v.lp+v.lp*math.pow(v.particle_random_1,0.6))*(0.72+0.56*v.particle_random_2)*(v.particle_random_4<v.red?(0.3+0.25*v.particle_random_2):(v.particle_random_4<v.red+v.cov?0.55:1)))*0.5)+v.dvz*v.particle_age"
+    ]
+   },
+   "minecraft:particle_appearance_billboard": {
+    "size": [
+     "v.w*(0.6+0.8*(v.particle_random_3<0.5?v.particle_random_3*2:v.particle_random_3*2-1))*(v.particle_random_4<v.red?0.75:(v.particle_random_4>1-v.blur?2.2:(v.particle_random_4<v.red+v.cov?1.8:1)))*(1-0.3*(v.particle_age/v.particle_lifetime))",
+     "(v.len*(1-v.lp+v.lp*math.pow(v.particle_random_1,0.6))*(0.72+0.56*v.particle_random_2)*(v.particle_random_4<v.red?(0.3+0.25*v.particle_random_2):(v.particle_random_4<v.red+v.cov?0.55:1)))*0.5"
+    ],
+    "facing_camera_mode": "lookat_direction",
+    "direction": {
+     "mode": "custom",
+     "custom_direction": [
+      "(math.cos((v.lo+v.dh*v.particle_random_1+v.amp*math.sin(v.ph-v.lag*v.particle_random_1)))*(v.particle_random_3<0.5?v.ux1:v.ux2)+v.tx)",
+      "math.sin((v.lo+v.dh*v.particle_random_1+v.amp*math.sin(v.ph-v.lag*v.particle_random_1)))",
+      "(math.cos((v.lo+v.dh*v.particle_random_1+v.amp*math.sin(v.ph-v.lag*v.particle_random_1)))*(v.particle_random_3<0.5?v.uz1:v.uz2)+v.tz)"
+     ]
+    },
+    "uv": {
+     "texture_width": 64,
+     "texture_height": 64,
+     "uv": [
+      "(v.particle_random_4<v.red?48:(v.particle_random_4>1-v.blur?16:0))",
+      0
+     ],
+     "uv_size": [
+      16,
+      64
+     ]
+    }
+   },
+   "minecraft:particle_appearance_tinting": {
+    "color": [
+     "(v.particle_random_4<v.red?v.br:v.lr+(v.vr-v.lr)*v.particle_random_1*v.particle_random_2)",
+     "(v.particle_random_4<v.red?v.bg:v.lg+(v.vg-v.lg)*v.particle_random_1*v.particle_random_2)",
+     "(v.particle_random_4<v.red?v.bb:v.lb+(v.vb-v.lb)*v.particle_random_1*v.particle_random_2)",
+     "v.a*(v.particle_random_4>1-v.blur?0.4:1)*math.min(1,v.particle_age*14)*(1-math.pow((v.particle_age/v.particle_lifetime),3))"
+    ]
+   }
+  }
+ }
+}

@@ -72,6 +72,14 @@ export function mote(c, pos, o = {}) {
   setv("tu", (o.tile ?? 0) % 8); setv("tv", Math.floor((o.tile ?? 0) / 8));
   try { c.dim.spawnParticle("etheria:mote", pos, MAP); } catch { /* ignore */ }
 }
+// 9.6: UMA chamada que solta MUITAS partículas (emissor com emitter_rate_instant = variable.count e posições por variable.particle_random_*,
+// ex.: etheria:wingfan / etheria:wingsmoke das asas de partículas). Conta 1 no orçamento por tick (é 1 spawnParticle). vars: { nome: número }.
+const BMAP = new MolangVariableMap();
+export function emitMany(c, pid, pos, vars) {
+  if (!canSpawn(c)) return false;
+  for (const k in vars) BMAP.setFloat("variable." + k, vars[k]);
+  try { c.dim.spawnParticle(pid, pos, BMAP); return true; } catch { return false; }
+}
 /** Traço alinhado à direção (raios, cortes, rastros). o.pid troca a partícula (9.5: etheria:wingline, asas de partículas). */
 export function streak(c, a, b, o = {}) {
   if (!canSpawn(c)) return;
