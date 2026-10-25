@@ -14,6 +14,8 @@
 //   branca com pó de luz dourado e anel de luz. Cresce a cada evolução (tierOf: altura, volume, densidade; Lord: coluna alta + halo de fumaça).
 //   1 chamada (etheria:aurasmoke, variable.count partículas) por jogador a cada 10 ticks; fraca em repouso, forte em combate/voo; nível de FX
 //   100/55/25% e o MESMO teto de partículas vivas por jogador das asas (particlewings.liveBudget). Outras raças: aura de sempre.
+// 9.9: AS OUTRAS RAÇAS (data/racepw.js) também: raceAuraKind devolve { kind: "race", race } e a aura sai na paleta da raça (fumaça/luz + traço
+//   que sobe: gotas, folhas, chamas, almas, morcegos, fagulhas; halo nos estágios finais/Lorde), crescendo do fiapo baixo à coluna/halo.
 // Laço único a cada 10 ticks, só para jogadores; partículas pelo orçamento do fxlib (respeita a qualidade escolhida, "desligado" = nada).
 import { world, system, Player } from "@minecraft/server";
 import { getData } from "../core/db.js";
@@ -29,6 +31,8 @@ import { addHudLine } from "./hudhooks.js";
 import { bodyOfStage, tierOf } from "./raceparts.js";
 import { isLordStage } from "../data/races.js";
 import { liveBudget } from "./particlewings.js";
+import { PW_RACES, RACE_PW } from "../data/racepw.js";
+import { lineageOf } from "../data/lineages.js";
 
 export const RANKS = [
   { id: "F", name: "F", col: "§7" }, { id: "E", name: "E", col: "§f" }, { id: "D", name: "D", col: "§a" }, { id: "C", name: "C", col: "§2" },
@@ -100,6 +104,10 @@ export function raceAuraKind(d) {
   if (!d?.raceChosen || !d.raceStage) return null;
   const st = d.raceStage, lord = isLordStage(st) || st === "demon_4", t = Math.max(1, tierOf(d));
   if (ANGEL_BODIES.has(bodyOfStage(st))) return { kind: "light", t, lord };
+  if (PW_RACES.has(d.race)) {   // 9.9: outras raças (Lorde Demônio delas também): aura na paleta da raça; linhagem dracônica fica com a aura de sempre
+    let lin = null; try { lin = lineageOf(d); } catch { /* ignore */ }
+    return lin ? null : { kind: "race", race: d.race, t, lord };
+  }
   if (d.race === "demon" || /^(angel_f|fall_)/.test(st) || lord) return { kind: "dark", t, lord, fallen: d.race === "angel" };
   return null;
 }
@@ -113,6 +121,15 @@ export function auraVars(k, act = 1, f = 1) {
       cr: k.fallen ? 0.06 : 0.05, cg: 0.03, cb: k.fallen ? 0.1 : 0.06,                                     // fumaça preta (caído: mais roxa)
       vein: 0.12 + 0.03 * t, vw: 0.05, vh: 0.22 + 0.05 * t, vr: 0.88, vg: 0.06, vb: 0.08, va: 1, vu: 48, vv: 16,   // veios vermelhos subindo
       ring, ry: 2.15, rr: 0.5 + 0.05 * t, rs: 0.22 + 0.04 * t, gr: 0.07, gg: 0.02, gb: 0.09, ra: 0.75, ru: 16, rv: 16, dvx: 0, dvz: 0 };   // halo de fumaça (Lord)
+  }
+  if (k.kind === "race") {   // 9.9: estágio 1 = fiapos baixos e discretos; finais/Lorde = coluna alta + halo
+    const A = RACE_PW[k.race]?.aura ?? RACE_PW.human.aura;
+    const ring = L ? 0.16 : t >= 4 ? 0.1 : t >= 3 ? 0.05 : 0;
+    return { count: Math.min(120, Math.round((3 + 3.8 * t) * A.cK * (L ? 1.3 : 1) * act * f)), life: 0.85 + 0.18 * t, hgt: (0.2 + 0.27 * t) * A.hK * (L ? 1.2 : 1),
+      rise: (0.25 + 0.13 * t) * A.rK, rad: 0.38 + 0.06 * t, sz: (0.1 + 0.04 * t) * A.szK, grow: 1, swl: A.swl + 5 * t, a: Math.min(A.amax, A.a0 + 0.06 + 0.04 * t),
+      cr: A.smoke[0], cg: A.smoke[1], cb: A.smoke[2],
+      vein: Math.min(0.5, A.vfrac + 0.02 * t), vw: A.vw * (1 + 0.08 * t), vh: A.vh * (1 + 0.08 * t), vr: A.vein[0], vg: A.vein[1], vb: A.vein[2], va: 1, vu: A.vu, vv: A.vv,
+      ring, ry: A.ry, rr: 0.45 + 0.05 * t, rs: 0.1 + 0.025 * t, gr: A.ring[0], gg: A.ring[1], gb: A.ring[2], ra: A.ra, ru: A.ru, rv: A.rv, dvx: 0, dvz: 0 };
   }
   return { count: Math.min(120, Math.round((3 + 4 * t) * (L ? 1.2 : 1) * act * f)), life: 1.0 + 0.18 * t, hgt: 0.5 + 0.28 * t, rise: 0.3 + 0.12 * t,
     rad: 0.4 + 0.06 * t, sz: 0.16 + 0.04 * t, grow: 1, swl: 60, a: Math.min(0.5, 0.28 + 0.03 * t),

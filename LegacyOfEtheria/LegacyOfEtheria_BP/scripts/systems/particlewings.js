@@ -9,12 +9,17 @@
 // por partículas: leque claro (etheria:wingfan_light, branco com bordas/pontas/base douradas, fagulhas douradas e baforadas de luz), mais
 // aberto e elegante, que cresce por estágio (riscos, envergadura e ouro; Querubim 2 pares, Serafim 3 pares). Teto de vivas 700/350/150 ->
 // 1100/560/240 (asas + aura da raça de power.js + mob mais perto; ver LIVE_CAP).
+// 9.9: OUTRAS RAÇAS do jogador (data/racepw.js) no MESMO esquema: leque etheria:wingfan_race (mesmo Molang + "dedos" v.fing; textura branca
+// tingida pela paleta da raça) nas raças/estágios que já tinham asas (wingedStage: corpo com asas, asas do Tensura ou Lorde Demônio); dragão
+// largo com dedos e brasas, morcego pontiagudo com base vermelha, fada em 4 lóbulos com pólen, leque moderado e "aura alada" discreta
+// (humano/slime/goblin, densidade menor). Cresce com o estágio (riscos, envergadura, brilho). Lorde Demônio dessas raças mantém a paleta da raça.
 // Desempenho: 1 laço a cada 3 ticks; sem getEntities (o mob mais perto vem do laço de mobflight.js); no máximo 2 corpos por jogador
 // (ele + 1 mob <= 48 blocos, com 60%/40% da densidade); densidade pelo nível de FX (alto 100%, médio 55%, baixo 25%).
 import { world, system } from "@minecraft/server";
 import { ctx, emitMany } from "./fxlib.js";
 import { getData } from "../core/db.js";
-import { bodyOfStage, tierOf } from "./raceparts.js";
+import { bodyOfStage, tierOf, wingedStage } from "./raceparts.js";
+import { PW_RACES, RACE_PW, PW_SHAPE } from "../data/racepw.js";
 import { isLordStage } from "../data/races.js";
 import { lineageOf } from "../data/lineages.js";
 import { pwNear } from "./mobflight.js";
@@ -24,6 +29,7 @@ const PW_BODY = new Set(["demon", "fallen", "fallen_lord"]);
 const ANGEL_BODY = { angel: 1, angel_arch: 1, angel_cherub: 2, angel_seraph: 3 };   // 9.8: corpo de anjo -> pares de asas de partículas
 const FID = "etheria:wingfan", SID = "etheria:wingsmoke";   // 9.6: 1 chamada = leque inteiro (variable.count riscos) / baforadas + fagulhas
 const LID = "etheria:wingfan_light";                          // 9.8: leque claro dos anjos (mesmo Molang, textura branca/dourada)
+const RID = "etheria:wingfan_race";                           // 9.9: leque das outras raças (mesmo Molang + dedos; textura branca tingida)
 const MOB = { "etheria:fallen_angel": { tier: 5, lord: true, fallen: true, sc: 1.2 }, "etheria:pico": { tier: 4, lord: false, fallen: true, sc: 1.0 },
   "etheria:garasha": { tier: 4, lord: false, fallen: true, sc: 1.0 },
   // 9.8: mobs ANJO (asas brancas/douradas de partículas; halo do modelo preservado)
@@ -90,10 +96,13 @@ const SMOKE = [0.045, 0.035, 0.055];
 const GOLD = [1.0, 0.76, 0.24], WHITE = [1.0, 0.99, 0.95], LIGHT = [0.98, 0.96, 0.86];
 const mixc = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
 function angelPal(tier) { const g = Math.min(0.6, 0.12 + 0.07 * tier); return { line: WHITE, vein: mixc(WHITE, GOLD, g), base: [1.0, 0.8, 0.32], glint: [1.0, 0.86, 0.38] }; }
-const palOf = (B) => (B.angel ? angelPal(B.tier) : B.fallen ? COL.fallen : COL.demon);
+// 9.9: outras raças - pontas (vein) puxam para o brilho (glint) a cada estágio
+function racePal(R, tier) { const g = Math.min(0.45, 0.06 * tier); return { line: R.line, vein: mixc(R.vein, R.glint, g), base: R.base, glint: R.glint }; }
+const palOf = (B) => (B.race ? racePal(RACE_PW[B.race], B.tier) : B.angel ? angelPal(B.tier) : B.fallen ? COL.fallen : COL.demon);
+const fanId = (B) => (B.race ? RID : B.angel ? LID : FID);
 const DEG = Math.PI / 180, TAU = Math.PI * 2;
 
-const info = new Map();   // playerId -> { at, on, tier, lord, fallen }
+const info = new Map();   // playerId -> { at, on, tier, lord, fallen, angel, race }
 const prevSt = new Map(); // id do corpo -> { st, take }
 let loops = 0;
 export const pwStats = { calls: 0, parts: 0, bodies: 0, loops: 0 };   // métrica para o simulador / modo debug
@@ -101,13 +110,18 @@ export const pwStats = { calls: 0, parts: 0, bodies: 0, loops: 0 };   // métric
 function bodyInfo(p, now) {
   let b = info.get(p.id);
   if (b && now - b.at < 100) return b;
-  b = { at: now, on: false, tier: 0, lord: false, fallen: false, angel: false, pairs: 1 };
+  b = { at: now, on: false, tier: 0, lord: false, fallen: false, angel: false, pairs: 1, race: null };
   try {
     const d = getData(p);
     if (d.raceChosen) {
       const body = bodyOfStage(d.raceStage);
       let lin = null; try { lin = lineageOf(d); } catch { /* ignore */ }
-      if (PW_BODY.has(body) && !lin) {
+      if (PW_RACES.has(d.race)) {   // 9.9: outras raças (antes das regras de corpo: o Lorde delas usa o corpo de demônio, mas fica com a paleta da raça)
+        if (!lin && wingedStage(d.raceStage)) {
+          b.on = true; b.race = d.race; b.tier = Math.max(1, tierOf(d)); b.lord = isLordStage(d.raceStage ?? "");
+          b.pairs = PW_SHAPE[RACE_PW[d.race].shape].pairs ?? 1;
+        }
+      } else if (PW_BODY.has(body) && !lin) {
         b.on = true; b.tier = Math.max(1, tierOf(d)); b.fallen = body !== "demon";
         b.lord = isLordStage(d.raceStage ?? "") || d.raceStage === "demon_4" || body === "fallen_lord";
       } else if (ANGEL_BODY[body] && !lin) {   // 9.8: anjo (Lorde de anjo também: mantém a luz da raça, mais denso)
@@ -142,26 +156,27 @@ function basis(B, sw, beat, armDeg = 90) {   // armDeg: ângulo do "braço" da a
     v: { ox1: rx * o, oz1: rz * o, ox2: -rx * o, oz2: -rz * o, ux1, uz1, ux2, uz2, tx, tz,
       ax1: ca * ux1 + tx, ay1: sa, az1: ca * uz1 + tz, ax2: ca * ux2 + tx, ay2: sa, az2: ca * uz2 + tz } };
 }
-const dens = (B) => (B.angel ? 0.6 + 0.14 * B.tier : 0.8 + 0.06 * B.tier) * (B.lord ? 1.15 : 1);   // 9.8: anjo cresce mais por estágio
+const dens = (B) => (B.race ? (0.6 + 0.12 * B.tier) * PW_SHAPE[RACE_PW[B.race].shape].nK : B.angel ? 0.6 + 0.14 * B.tier : 0.8 + 0.06 * B.tier) * (B.lord ? 1.15 : 1);   // 9.8: anjo cresce mais por estágio · 9.9: outras raças pela forma
 const fxd = (c) => (FXD[c.lv] ?? Math.min(1, c.k)) * (c.pwm ?? 1);
 const colv = (pal) => ({ lr: pal.line[0], lg: pal.line[1], lb: pal.line[2], vr: pal.vein[0], vg: pal.vein[1], vb: pal.vein[2], br: pal.base[0], bg: pal.base[1], bb: pal.base[2] });
 function smoke(c, Bs, B, o, now) {   // baforadas pretas (anjo: de luz branca) + fagulhas (1 chamada)
-  const pal = palOf(B), count = spend(c, now, o.count, o.life, 1), sm = B.angel ? LIGHT : SMOKE;
+  const R = B.race ? RACE_PW[B.race] : null, pal = palOf(B), count = spend(c, now, o.count, o.life, 1), sm = R ? R.smoke : B.angel ? LIGHT : SMOKE;
   if (!count) return 0;
   pwStats.parts += count;
   return emitMany(c, SID, Bs.pos, { ...Bs.v, count, life: o.life, lo: o.lo, dh: o.dh, len: o.len, spd: o.spd, sz: o.sz * B.sc * (B.angel ? 1.25 : 1), spk: o.spk,
-    dvx: -Bs.fx * o.back, dvy: -o.down, dvz: -Bs.fz * o.back, cr: sm[0], cg: sm[1], cb: sm[2], gr: pal.glint[0], gg: pal.glint[1], gb: pal.glint[2], a: B.angel ? 0.35 : 0.88 }) ? 1 : 0;
+    dvx: -Bs.fx * o.back, dvy: -o.down, dvz: -Bs.fz * o.back, cr: sm[0], cg: sm[1], cb: sm[2], gr: pal.glint[0], gg: pal.glint[1], gb: pal.glint[2], a: R ? R.sa : B.angel ? 0.35 : 0.88 }) ? 1 : 0;
 }
 
 /** Desenha as asas: UMA chamada por par (leque das duas asas, etheria:wingfan / _light) + baforadas a cada 2 emissões.
  * B = { pos, yaw, tier, lord, fallen, angel, pairs, sc, st, key, gen }. Devolve chamadas. */
 export function drawWings(c, B, now) {
-  const S = (B.angel ? AST : ST)[B.st] ?? (B.angel ? AST : ST).rest;
+  const TB = B.angel || B.race ? AST : ST, S = TB[B.st] ?? TB.rest, H = B.race ? PW_SHAPE[RACE_PW[B.race].shape] : null;
   if (c.k <= 0) return 0;
-  const f = fxd(c), D = dens(B), air = S.ev === 1, take = B.take > 0, pal = palOf(B), A = !!B.angel;
+  const f = fxd(c), D = dens(B), air = S.ev === 1, take = B.take > 0, pal = palOf(B), A = !!B.angel || !!H;
   const amp = S.amp * (take ? 1.25 : 1), ph = (S.hz * 360 * (now / 20) + (B.key % 7) * 51) % 360;
   const Bs = basis(B, S.sw, amp * 0.22 * Math.cos(ph * DEG), S.hi + amp * Math.sin((ph - 32) * DEG));
-  const Lmax = (A ? 1.35 + 0.2 * B.tier : 1.45 + 0.22 * B.tier) * B.sc * S.span * (B.lord ? 1.12 : 1);
+  const Lmax = (H ? (1.25 + 0.17 * B.tier) * H.lenK : A ? 1.35 + 0.2 * B.tier : 1.45 + 0.22 * B.tier) * B.sc * S.span * (B.lord ? 1.12 : 1);
+  const slo = S.lo + (H?.dlo ?? 0), shi = S.hi + (H?.dhi ?? 0);
   const want = Math.max(4, Math.min(300, Math.round(2 * S.n * D * f * (take ? 1.2 : 1))));
   let n = 0;
   for (let k = 0; k < (A ? B.pairs ?? 1 : 1); k++) {
@@ -171,23 +186,27 @@ export function drawWings(c, B, now) {
     const cnt = spend(c, now, P ? Math.max(4, Math.round(want * P.n)) : want, life);
     if (!cnt) { if (k === 0) break; continue; }
     pwStats.parts += cnt;
-    const pos = P ? { x: Bs.pos.x, y: Bs.pos.y + P.dy * B.sc, z: Bs.pos.z } : Bs.pos, lo = S.lo + (P?.dlo ?? 0), hi = S.hi + (P?.dhi ?? 0), lm = Lmax * (P?.len ?? 1);
-    const v = A
+    const pos = P ? { x: Bs.pos.x, y: Bs.pos.y + P.dy * B.sc, z: Bs.pos.z } : Bs.pos, lo = slo + (P?.dlo ?? 0), hi = shi + (P?.dhi ?? 0), lm = Lmax * (P?.len ?? 1);
+    const v = H
+      // 9.9: outras raças - forma da raça (data/racepw.js); "dedos" (fing/fj) só no dragão e no morcego; brilho cresce com o estágio
+      ? { lp: H.lp, len: lm * 0.8, arm: lm * 0.46, w: 0.12 * H.wK * B.sc * (B.lord ? 1.08 : 1), red: H.red + 0.01 * B.tier, cov: H.cov, blur: H.blur, fing: H.fing, fj: H.fj,
+          lag: H.lag, a: H.a * Math.min(1, 0.8 + 0.05 * B.tier) }
+      : A
       // anjo: penas longas e lisas (lp alto, pouca cobertura curta), mais finas; ouro na base cresce com o estágio
       ? { lp: 0.72, len: lm * 0.8, arm: lm * 0.46, w: 0.11 * B.sc * (B.lord ? 1.08 : 1), red: S.red + 0.02 * B.tier, cov: 0.14, blur: S.blur }
       // demônio: 9.8 riscos ~15% mais grossos e mais cobertura curta e grossa no miolo (aspecto de pincel)
       : { lp: 0.58, len: lm * 0.74, arm: lm * 0.42, w: 0.16 * B.sc * (air ? 1 : 1.2) * (B.lord ? 1.12 : 1), red: S.red * (B.lord ? 1.5 : 1), cov: 0.36, blur: S.blur };
-    if (emitMany(c, A ? LID : FID, pos, { ...Bs.v, ...colv(pal), count: cnt, life, a: 1, lo, dh: hi - lo, amp: amp * (P ? 0.8 : 1), ph, lag: 32, ...v,
+    if (emitMany(c, fanId(B), pos, { ...Bs.v, ...colv(pal), count: cnt, life, a: 1, lo, dh: hi - lo, amp: amp * (P ? 0.8 : 1), ph, lag: 32, ...v,
       dvx: air ? -Bs.fx * 0.35 : 0, dvy: air ? -0.15 : -0.04, dvz: air ? -Bs.fz * 0.35 : 0 })) n++;
   }
   if (!n) return 0;
   // baforadas: a cada 2 emissões (dobro da contagem), mais na batida para baixo e na decolagem
   if (B.gen % 2 === 0) {
     const down = air && amp > 10 && Math.sin(ph * DEG) < -0.3;
-    let ns = 2 * S.smk * D * f + (down ? 4 * f : 0) + (take ? 8 * f : 0);
+    let ns = (2 * S.smk * D * f + (down ? 4 * f : 0) + (take ? 8 * f : 0)) * (H ? H.smk : 1);
     ns = Math.floor(ns) + (Math.random() < ns % 1 ? 1 : 0);
-    const spk = A ? 0.25 + 0.06 * B.tier : B.lord ? 0.3 : 0.2;
-    if (ns >= 1) n += smoke(c, Bs, B, { count: Math.min(80, ns), life: 0.8, lo: S.lo, dh: S.hi - S.lo, len: Lmax, spd: 0.6, sz: 0.15, spk, back: air ? 0.6 : 0.1, down: air ? 0.4 : 0.15 }, now);
+    const spk = H ? Math.min(0.85, H.spk + 0.03 * B.tier) : A ? 0.25 + 0.06 * B.tier : B.lord ? 0.3 : 0.2;
+    if (ns >= 1) n += smoke(c, Bs, B, { count: Math.min(80, ns), life: 0.8, lo: slo, dh: shi - slo, len: Lmax, spd: 0.6, sz: 0.15, spk, back: air ? 0.6 : 0.1, down: air ? 0.4 : 0.15 }, now);
   }
   return n;
 }
@@ -195,15 +214,16 @@ export function drawWings(c, B, now) {
 /** Decolagem: explosão de raios pretos/vermelhos saindo das costas + fumaça preta (2 chamadas, uma vez). */
 export function takeoffBurst(c, B, now = system.currentTick) {
   if (c.k <= 0) return 0;
-  const f = fxd(c), pal = palOf(B), Bs = basis(B, 15, 0), g = (B.lord ? 1.15 : 1) * (B.angel ? 0.85 + 0.06 * B.tier : 1), A = !!B.angel;
+  const H = B.race ? PW_SHAPE[RACE_PW[B.race].shape] : null;
+  const f = fxd(c), pal = palOf(B), Bs = basis(B, 15, 0), g = (B.lord ? 1.15 : 1) * (H ? (0.5 + 0.08 * B.tier) * (0.4 + 0.6 * H.nK / 0.62) : B.angel ? 0.85 + 0.06 * B.tier : 1), A = !!B.angel || !!H;
   Bs.pos.y -= 0.08 * B.sc;
   const count = spend(c, now, Math.max(10, Math.min(260, Math.round(150 * f * g))), 0.4);
   if (!count) return 0;
   pwStats.parts += count;
   // anjo: explosão de luz DOURADA (metade dos raios na cor da base dourada) + nuvem de luz com muitas fagulhas douradas
-  let n = emitMany(c, A ? LID : FID, Bs.pos, { ...Bs.v, ...colv(pal), count, life: 0.4, a: 0.95, lo: -90, dh: 360, amp: 0, ph: 0, lag: 0, lp: 0, len: (1.8 + 0.12 * B.tier) * B.sc * g, arm: 0,
-    w: 0.1 * B.sc, red: A ? 0.5 : B.lord ? 0.4 : 0.3, cov: 0.15, blur: A ? 0.25 : 0.15, dvx: 0, dvy: 0, dvz: 0 }) ? 1 : 0;
-  n += smoke(c, Bs, B, { count: Math.max(6, Math.round(50 * f * g)), life: 1.1, lo: -30, dh: 240, len: 0.7 * B.sc, spd: 2.6, sz: 0.3, spk: A ? 0.45 : 0.2, back: 0.3, down: -0.2 }, now);
+  let n = emitMany(c, fanId(B), Bs.pos, { ...Bs.v, ...colv(pal), count, life: 0.4, a: 0.95, lo: -90, dh: 360, amp: 0, ph: 0, lag: 0, lp: 0, len: (1.8 + 0.12 * B.tier) * B.sc * g, arm: 0,
+    w: 0.1 * B.sc, red: H ? 0.35 : A ? 0.5 : B.lord ? 0.4 : 0.3, cov: 0.15, blur: A ? 0.25 : 0.15, fing: 0, fj: 0, dvx: 0, dvy: 0, dvz: 0 }) ? 1 : 0;
+  n += smoke(c, Bs, B, { count: Math.max(6, Math.round(50 * f * g)), life: 1.1, lo: -30, dh: 240, len: 0.7 * B.sc, spd: 2.6, sz: 0.3, spk: H ? H.spk : A ? 0.45 : 0.2, back: 0.3, down: -0.2 }, now);
   return n;
 }
 
@@ -236,9 +256,10 @@ export function particleWingsStep() {
       c.pid = p.id;
       if (b.on) {
         let inv = false; try { inv = !!p.getEffect("invisibility"); } catch { /* ignore */ }
+        if (b.race === "slime") { try { inv = inv || !!p.getProperty("etheria:slime") || (p.getProperty("etheria:mimic") ?? 0) > 0; } catch { /* ignore */ } }   // 9.9: forma slime/Mímico: sem asas
         if (!inv) {
           const B = { id: p.id, key: (p.id.length * 7 + p.id.charCodeAt(p.id.length - 1)) | 0, pos: lead(p), yaw: p.getRotation().y, tier: b.tier, lord: b.lord,
-            fallen: b.fallen, angel: b.angel, pairs: b.pairs, sc: 1, st: stateOf(p, true), gen: loops };
+            fallen: b.fallen, angel: b.angel, race: b.race, pairs: b.pairs, sc: 1, st: stateOf(p, true), gen: loops };
           const k = emit(c, p, B, now, true); pwStats.calls += k; pwStats.bodies++;
         }
       }

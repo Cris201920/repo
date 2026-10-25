@@ -12,6 +12,7 @@ import { inventory } from "../core/utils.js";
 import { RACE_LOOK, STAGE_LOOK } from "../data/racecard.js";
 import { lineageOf, formOfPlayer } from "../data/lineages.js";
 import { RACE_LOOK as TENSURA_LOOK } from "../data/tensura/racelook_tensura.js";
+import { PW_RACES } from "../data/racepw.js";   // 9.9: raças com asas de partículas (a asa do Tensura fica desligada)
 
 export const RACE_PROP = "etheria:race";
 export const LIN_PROP = "etheria:lin", LFORM_PROP = "etheria:lform";
@@ -132,6 +133,7 @@ function applyTensuraLook(player, d, lineageActive) {
   if (!lineageActive && !Object.prototype.hasOwnProperty.call(STAGE_LOOK_MAP, mapKey(d.raceStage))) look = {};
   const hide = lineageActive ? [] : (HIDE[bodyOfStage(d.raceStage)] ?? []);
   if (hide.length) { look = { ...look }; for (const k of hide) look[k] = 0; }
+  if (!lineageActive && PW_RACES.has(d.race) && look.wings) look = { ...look, wings: 0 };   // 9.9: asas desenhadas por partículas (systems/particlewings.js)
   let linId = null; try { linId = lineageActive ? lineageOf(d)?.id : null; } catch { /* ignore */ }
   const bd = lineageActive ? "none" : bodyOfStage(d.raceStage), lordDemon = !lineageActive && (isLordStage(d.raceStage ?? "") || d.raceStage === "demon_4");
   const mt = lineageActive ? (isDragonForm(formOfPlayer(d)) ? 0 : (LIN_TAIL[linId] ?? 2))
@@ -215,7 +217,7 @@ export function startAngelGlide() {
         let body = bodyOfStage(d.raceStage);
         if ((body === "dragonoid" || body === "dragonewt" || body === "dragonewt_w") && lineageOf(d)) body = "none";
         const want = lookOfStage(d.raceStage), hidden = HIDE[body] ?? [];
-        const wingsWant = lineageOf(d) ? 0 : (hidden.includes("wings") ? 0 : (want.wings ?? 0));
+        const wingsWant = lineageOf(d) ? 0 : (hidden.includes("wings") || PW_RACES.has(d.race) ? 0 : (want.wings ?? 0));   // 9.9: partículas
         if (p.getProperty(RACE_PROP) !== body || (p.getProperty("tensura:wings") ?? 0) !== wingsWant || (p.getProperty(RSTYLE_PROP) ?? "none") !== styleOf(d) || (p.getProperty(TIER_PROP) ?? 0) !== tierOf(d)) applyRaceLook(p);
       } catch { /* ignore */ }
     }

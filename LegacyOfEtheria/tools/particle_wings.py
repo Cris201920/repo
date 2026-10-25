@@ -13,6 +13,10 @@ geometrias etheria_race_angel*.geo.json e etheria_mobwing_angel*.geo.json saem (
 etheria:wingfan_light (mesmo Molang do wingfan, textura etheria_wingfx_light.png: pena branca com borda/ponta douradas, brilho, fio dourado, base).
 + etheria:aurasmoke: AURA de fumaça/luz da raça (power.js): fumaça preta/roxa com veios vermelhos (demônio/caído/Lord) ou névoa branca com pó de
 luz dourado e anel de luz (anjo), em UMA chamada (variable.count), crescendo por estágio. wingfan: teto do emissor 200 -> 300 riscos.
+9.9: + ASAS DE PARTÍCULAS DAS OUTRAS RAÇAS (data/racepw.js no BP): saem os cubos de asa de etheria_race_{elf, dragonoid, vampire,
+dragonewt_w}(_lord) (ossos wing* e dwU_/dwD_ do dragonato alado; ossos/animações ficam) e o leque etheria:wingfan_race (mesmo Molang do
+wingfan + "dedos": v.fing > 0 junta as penas em v.fing feixes, espalhados por v.fj; borrões/membrana ficam contínuos), com a textura
+etheria_wingfx_race.png (pena branca lisa com borda levemente cinza, tingida pela paleta da raça no script). Demônio/caído/anjo intactos.
 Uso: python3 tools/particle_wings.py"""
 import json, os, re, math, random
 from PIL import Image, ImageFilter
@@ -20,9 +24,11 @@ from PIL import Image, ImageFilter
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); RP = os.path.join(ROOT, "LegacyOfEtheria_RP")
 MODELS = ["demon", "demon_lord", "fallen", "fallen_dl", "fallen_lord", "fallen_lord_lord",
           # 9.8: anjos (asas brancas/douradas de partículas); a coroa (lord_crown) e o halo não casam com WING e ficam
-          "angel", "angel_lord", "angel_arch", "angel_arch_lord", "angel_cherub", "angel_cherub_lord", "angel_seraph", "angel_seraph_lord"]
+          "angel", "angel_lord", "angel_arch", "angel_arch_lord", "angel_cherub", "angel_cherub_lord", "angel_seraph", "angel_seraph_lord",
+          # 9.9: outras raças (elfo alto = asas de fada; dragonoide/dragonato alado = dragão; vampiro = morcego)
+          "elf", "elf_lord", "dragonoid", "dragonoid_lord", "dragonewt_w", "dragonewt_w_lord", "vampire", "vampire_lord"]
 MOBWING = ["fallen", "angel", "angel_arch"]
-WING = re.compile(r"^(mw_)?(wing|dfw)")
+WING = re.compile(r"^(mw_)?(wing|dfw)|^dw[UD]_")   # 9.9: dwU_/dwD_ = os dois pares do dragonato alado
 
 def strip(path):
     D = json.load(open(path)); n = 0
@@ -59,12 +65,12 @@ def texture(path):
     spindle(3, 0.55, 1.0, 1.8, 1.2)
     im.save(path)
 
-def texture_light(path):
+def texture_light(path, gold=(255, 206, 92)):
     # 9.8: asas de ANJO (etheria_wingfx_light.png, 64x64, as mesmas 4 colunas de 16x64 do wingfx): 0 PENA longa e lisa (miolo branco, borda e
     # pontas douradas, poucas fibras só nas pontas) · 1 brilho macio (borrão de luz: branco no centro, franja dourada) · 2 fio dourado · 3 base
     # (fuso branco, tingido de dourado pelo script). Determinístico (semente fixa).
     W, H = 64, 64; im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); px = im.load(); rnd = random.Random(98)
-    GOLD = (255, 206, 92)
+    GOLD = gold
     def mix(a, b, t): return tuple(int(a[i] + (b[i] - a[i]) * t) for i in range(3))
     tipcut = [rnd.uniform(0.0, 0.1) for _ in range(16)]
     for col, maxw, soft, power, rim, glow in ((0, 0.8, 4.0, 0.55, 0.3, 0), (1, 0.95, 1.5, 0.7, 0.35, 1), (2, 0.28, 3.0, 0.5, 1.0, 0), (3, 0.6, 2.0, 1.1, 0.0, 0)):
@@ -166,6 +172,15 @@ import copy
 FAN_LIGHT = copy.deepcopy(FAN)
 FAN_LIGHT["particle_effect"]["description"] = {"identifier": "etheria:wingfan_light", "basic_render_parameters": {"material": "particles_blend", "texture": "textures/particle/etheria_wingfx_light"}}
 
+# 9.9: leque das OUTRAS RAÇAS: mesmo emissor + "dedos" (ângulo das penas quantizado em v.fing feixes; os borrões ficam contínuos = membrana)
+FR1 = f"((math.floor({R1}*v.fing)+0.5+({R1}*v.fing-math.floor({R1}*v.fing)-0.5)*v.fj)/math.max(v.fing,1))"
+TH_R = f"(v.lo+v.dh*(v.fing>0&&{R4}<1-v.blur?{FR1}:{R1})+v.amp*math.sin(v.ph-v.lag*{R1}))"
+FAN_RACE = json.loads(json.dumps(FAN).replace(TH, TH_R))
+FAN_RACE["particle_effect"]["description"] = {"identifier": "etheria:wingfan_race", "basic_render_parameters": {"material": "particles_blend", "texture": "textures/particle/etheria_wingfx_race"}}
+# degradê base->ponta mais marcado (penas de fora e longas = cor da ponta)
+FAN_RACE["particle_effect"]["components"]["minecraft:particle_appearance_tinting"]["color"][:3] = [
+    f"({R4}<v.red?v.b{c}:v.l{c}+(v.v{c}-v.l{c})*math.min(1,0.6*{R1}+0.55*{R2}))" for c in "rgb"]
+
 # ---------------------------------------------------------------- 9.8: AURA DE FUMAÇA / LUZ DA RAÇA (etheria:aurasmoke, 1 chamada = variable.count)
 # Tipo por particle_random_4: VEIO (r4 < v.vein: traço vertical fino subindo rápido - veio vermelho do demônio / pó de luz do anjo) · ANEL
 # (r4 > 1 - v.ring: em volta do corpo na altura v.ry, raio v.rr, girando - halo de fumaça do Lord / anel de luz do anjo) · FUMAÇA (resto:
@@ -202,12 +217,14 @@ def main():
     for m in MOBWING: tot += strip(os.path.join(RP, f"models/entity/etheria_mobwing_{m}.geo.json"))
     texture(os.path.join(RP, "textures/particle/etheria_wingfx.png"))
     texture_light(os.path.join(RP, "textures/particle/etheria_wingfx_light.png"))
+    texture_light(os.path.join(RP, "textures/particle/etheria_wingfx_race.png"), gold=(196, 196, 204))   # 9.9: branca, borda cinza (tingida pela raça)
+    json.dump(FAN_RACE, open(os.path.join(RP, "particles/wingfan_race.json"), "w"), indent=1)
     json.dump(FAN_LIGHT, open(os.path.join(RP, "particles/wingfan_light.json"), "w"), indent=1)
     json.dump(AURA, open(os.path.join(RP, "particles/aurasmoke.json"), "w"), indent=1)
     json.dump(PARTICLE, open(os.path.join(RP, "particles/wingline.json"), "w"), indent=1)
     json.dump(FAN, open(os.path.join(RP, "particles/wingfan.json"), "w"), indent=1)
     json.dump(SMOKE, open(os.path.join(RP, "particles/wingsmoke.json"), "w"), indent=1)
-    print(f"cubos de asa removidos: {tot}; partículas etheria:wingline / wingfan / wingfan_light / wingsmoke / aurasmoke + texturas etheria_wingfx(_light).png")
+    print(f"cubos de asa removidos: {tot}; partículas etheria:wingline / wingfan / wingfan_light / wingfan_race / wingsmoke / aurasmoke + texturas etheria_wingfx(_light/_race).png")
 
 if __name__ == "__main__":
     main()
