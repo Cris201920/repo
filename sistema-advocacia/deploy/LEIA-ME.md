@@ -11,8 +11,10 @@ e um botão de **enviar arquivo**. A Oracle Cloud está no final como alternativ
 > - **A máquina é grátis** dentro do limite do Google ("Always Free"): 1 máquina *e2-micro*, 30 GB de disco comum e 1 GB de
 >   tráfego de saída por mês, **somente nas regiões** `us-central1` (Iowa), `us-west1` (Oregon) ou `us-east1` (Carolina do Sul).
 >   Regras oficiais: <https://cloud.google.com/free>.
-> - O cartão de crédito é pedido para confirmar a identidade. **Crie um alerta de orçamento** (passo 2) para ser avisada
->   caso apareça qualquer cobrança — o Google pode cobrar centavos pelo endereço IP externo; confira na página de preços.
+> - **Cartão e cobrança:** no cadastro o Google só faz uma verificação (não cobra). Durante o teste (US$ 300 por 90 dias)
+>   **nada é cobrado**. Depois do teste, o endereço IP externo da máquina custa **cerca de US$ 3,60 por mês** (US$ 0,005 por
+>   hora; <https://cloud.google.com/vpc/network-pricing>) — não encontramos isenção desse item no plano gratuito, então
+>   considere "quase grátis", e não zero. **Crie o alerta de orçamento** (passo 2) e confira o relatório de faturamento todo mês.
 > - **A IA não é grátis**: cada uso da API da Anthropic é cobrado (centavos). Sem a chave da IA, o resto funciona.
 > - Nenhuma empresa garante "para sempre". Por isso o sistema faz **backup diário** — baixe uma cópia de vez em quando.
 
@@ -22,8 +24,12 @@ e um botão de **enviar arquivo**. A Oracle Cloud está no final como alternativ
 
 ### 1. Criar a conta
 Acesse <https://cloud.google.com/free>, clique em **Começar gratuitamente**, entre com sua conta Google e cadastre o cartão.
-Você ganha um crédito de teste; **ao fim do teste o Google pede para "ativar a conta completa"** — faça isso para a máquina
-continuar no ar (o que estiver dentro do gratuito continua sem cobrança). Confirme os detalhes na tela do Google.
+Você ganha um crédito de teste e **não é cobrada automaticamente**: só passa a pagar se você clicar em "ativar a conta
+completa". **Se não ativar**, ao fim do teste (90 dias, ou quando o crédito acabar) a máquina é desligada, pode ser recuperada
+em até 30 dias ao ativar, e depois **é apagada junto com os dados** — baixe um backup antes. Para o site continuar no ar,
+ative a conta completa: você paga só o que passar do gratuito (hoje, principalmente o IP externo, ~US$ 3,60/mês).
+Dica: se o banco oferecer **cartão virtual com limite baixo**, use-o para limitar o risco (o Google às vezes recusa cartões pré-pagos).
+Fontes: <https://cloud.google.com/signup-faqs> e <https://docs.cloud.google.com/free/docs/free-cloud-features>.
 
 ### 2. Alerta de gasto (recomendado)
 Menu ☰ → **Faturamento** → **Orçamentos e alertas** → **Criar orçamento**: valor **R$ 10** (ou US$ 2) com alertas em 50% e 100%.
