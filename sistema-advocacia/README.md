@@ -73,6 +73,10 @@ Nome, subtítulo e nome do assistente ficam em `firm.config.json`.
 
 ## Colocando no ar (para ter um link)
 
+**De graça e permanente — máquina virtual gratuita (Oracle/Google) com um comando:** veja [`deploy/LEIA-ME.md`](deploy/LEIA-ME.md).
+O instalador (`deploy/install.sh`) configura Docker, HTTPS automático (Caddy), a chave de criptografia, o firewall e o backup diário.
+A Render (abaixo) é mais simples, mas o disco persistente é pago.
+
 **Caminho mais simples — Render (HTTPS e disco incluídos):**
 1. Crie uma conta em <https://render.com> e conecte o GitHub deste repositório.
 2. *New + → Blueprint* → escolha o repositório e a branch. O arquivo `render.yaml` cria tudo sozinho.
