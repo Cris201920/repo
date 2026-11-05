@@ -1,0 +1,25 @@
+{
+  "name": "sistema-advocacia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema privado de gestão de atendimentos e documentos com assistente de IA para escritório de advocacia",
+  "type": "commonjs",
+  "main": "server/index.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node --test test/api.test.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.5.0",
+    "docx": "^9.15.2",
+    "express": "^4.22.3",
+    "helmet": "^7.2.0",
+    "mammoth": "^1.13.0",
+    "multer": "^2.5.0",
+    "pdfjs-dist": "^4.10.38"
+  }
+}
