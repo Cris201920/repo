@@ -2,8 +2,8 @@
 'use strict';
 function renderLogin(setup = false) {
   const f = S.firma;
-  $('#app').innerHTML = `<div class="login"><form class="login-card" id="lf" autocomplete="on">
-    <img class="logo" src="${esc(S.logo)}" alt="${esc(f.nome)}">
+  $('#app').innerHTML = `<div class="login"><div class="login-tema">${botaoTema()}</div><form class="login-card" id="lf" autocomplete="on">
+    ${logoImg('logo', f.nome)}
     <h2>${setup ? 'Primeiro acesso' : 'Acesso restrito'}</h2>
     <p class="sub">${setup ? 'Crie a conta do administrador do sistema.' : 'Sistema interno do escritório. Entre com seu e-mail e senha.'}</p>
     <div id="le"></div>
@@ -19,6 +19,7 @@ function renderLogin(setup = false) {
     $('#alt').textContent = soSenha ? 'Entrar com e-mail e senha pessoais' : 'Tenho apenas o link e a senha de acesso do escritório';
     $('#senha').labels[0].textContent = soSenha ? 'Senha de acesso do escritório' : 'Senha'; $('.sub').textContent = soSenha ? 'Digite a senha de acesso do escritório.' : 'Sistema interno do escritório. Entre com seu e-mail e senha.'; $('#senha').focus();
   };
+  ligarTema();
   $('#lf').onsubmit = async (e) => {
     e.preventDefault(); $('#lb').disabled = true; $('#le').innerHTML = '';
     try {
@@ -31,7 +32,7 @@ function renderLogin(setup = false) {
 
 // Recarrega o estado público (ex.: se o acesso por senha foi ligado) e mostra o login
 async function mostrarLogin() {
-  try { const st = await api('/auth/status'); S.firma = st.firma; if (st.logo) S.logo = st.logo; S.compartilhado = st.acessoCompartilhado; renderLogin(st.precisaCriarAdmin); }
+  try { const st = await api('/auth/status'); S.firma = st.firma; if (st.logo) S.logo = st.logo; S.logoClaro = st.logoClaro; S.compartilhado = st.acessoCompartilhado; renderLogin(st.precisaCriarAdmin); }
   catch { renderLogin(); }
 }
 
@@ -41,16 +42,18 @@ const NAV = [
 function renderShell() {
   const u = S.usuario, f = S.firma;
   $('#app').innerHTML = `<div class="shell"><aside class="side" id="side">
-      <div class="brand"><img src="${esc(S.logo)}" alt="${esc(f.nome)}"></div>
+      <div class="brand">${logoImg('', f.nome)}</div>
       <nav class="nav">${NAV.map(([h, t, i]) => `<a href="${h}" data-h="${h}">${ico(i)} ${t}</a>`).join('')}
         <a class="ia" href="#/assistente" data-h="#/assistente">${ico('spark')} ${esc(f.assistenteNome || 'Assistente IA')}</a>
         ${u.papel === 'admin' ? `<div class="grp">Administração</div><a href="#/usuarios" data-h="#/usuarios">${ico('shield')} Usuários</a><a href="#/auditoria" data-h="#/auditoria">${ico('log')} Auditoria</a>` : ''}</nav>
       <div class="side-foot">Ambiente privado e criptografado<br>${esc(f.nome)}</div></aside>
     <div class="main"><header class="top"><button class="burger" id="burger" aria-label="Menu">${ico('menu').replace('<svg', '<svg width="24" height="24"')}</button>
       <div class="search">${ico('search')}<input id="gs" type="search" placeholder="Buscar clientes, casos, atendimentos, documentos…" autocomplete="off"><div class="search-res" id="gr" hidden></div></div>
-      <div style="position:relative;margin-left:auto"><button class="userbtn" id="ub"><span class="avatar">${esc(iniciais(u.nome))}</span><span class="small" style="font-weight:600">${esc(primeiroNome(u.nome))}</span></button>
+      <div style="margin-left:auto">${botaoTema()}</div>
+      <div style="position:relative"><button class="userbtn" id="ub"><span class="avatar">${esc(iniciais(u.nome))}</span><span class="small" style="font-weight:600">${esc(primeiroNome(u.nome))}</span></button>
         <div class="menu" id="um" hidden><div class="who"><b>${esc(u.nome)}</b><div class="small muted">${u.compartilhado ? 'Acesso por link e senha' : esc(u.email) + ' · ' + L.papel[u.papel]}</div></div>${u.compartilhado ? '' : '<button id="msenha">Alterar senha</button>'}<button id="msair">Sair</button></div></div></header>
       <main class="content" id="view"></main></div></div>`;
+  ligarTema();
   $('#burger').onclick = () => $('#side').classList.toggle('open');
   $('#ub').onclick = (e) => { e.stopPropagation(); $('#um').hidden = !$('#um').hidden; };
   document.addEventListener('click', (e) => { if (!e.target.closest('#um')) $('#um') && ($('#um').hidden = true); if (!e.target.closest('.search')) $('#gr') && ($('#gr').hidden = true); });
@@ -97,7 +100,7 @@ async function rotear() {
 
 async function iniciar() {
   const st = await api('/auth/status');
-  S.firma = st.firma; if (st.logo) S.logo = st.logo; S.usuario = st.usuario; S.compartilhado = st.acessoCompartilhado;
+  S.firma = st.firma; if (st.logo) S.logo = st.logo; S.logoClaro = st.logoClaro; S.usuario = st.usuario; S.compartilhado = st.acessoCompartilhado;
   document.title = `${S.firma.nome} — Sistema Interno`;
   if (!S.usuario) return renderLogin(st.precisaCriarAdmin);
   renderShell(); await carregarOpcoes().catch(() => {});

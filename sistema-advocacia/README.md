@@ -46,6 +46,9 @@ Crie uma chave em <https://console.anthropic.com/> e coloque em `ANTHROPIC_API_K
 A chave fica **somente no servidor**; o navegador nunca a vê. Sem ela o sistema funciona normalmente,
 só o Assistente fica desativado. O modelo é configurável em `ANTHROPIC_MODEL`.
 
+### Tema (claro / escuro / automático)
+O botão de tema (sol/lua/monitor) fica no topo de todas as telas e também no canto da tela de login. A escolha fica salva no navegador de cada pessoa; “Automático” segue o modo claro/escuro do aparelho. A logo troca sozinha: nome escuro no tema claro e nome claro (`logo-claro.png`) no tema escuro.
+
 ### Logo e identidade
 A logo está em `public/assets/logo.png` (fundo transparente), com o emblema isolado em
 `emblema.png` e o ícone da aba em `favicon.png`. Para trocar, substitua os arquivos mantendo os nomes.

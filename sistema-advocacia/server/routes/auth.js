@@ -9,8 +9,8 @@ const { PUBLIC_DIR } = require('../config');
 
 const r = Router();
 
-function logoUrl() {
-  for (const f of ['logo.png', 'logo.svg', 'logo.webp', 'logo.jpg']) {
+function logoUrl(base = 'logo') {
+  for (const f of ['png', 'svg', 'webp', 'jpg'].map((e) => `${base}.${e}`)) {
     if (fs.existsSync(path.join(PUBLIC_DIR, 'assets', f))) return '/assets/' + f;
   }
   return null;
@@ -20,7 +20,7 @@ function logoUrl() {
 r.get('/status', (req, res) => {
   const n = db.prepare('SELECT COUNT(*) AS n FROM usuarios').get().n;
   const compartilhado = !!db.prepare('SELECT 1 FROM usuarios WHERE compartilhado = 1 AND ativo = 1').get();
-  res.json({ firma, logo: logoUrl(), precisaCriarAdmin: n === 0, acessoCompartilhado: compartilhado, usuario: A.carregarUsuario(req) });
+  res.json({ firma, logo: logoUrl(), logoClaro: logoUrl('logo-claro'), precisaCriarAdmin: n === 0, acessoCompartilhado: compartilhado, usuario: A.carregarUsuario(req) });
 });
 
 // Primeiro acesso: cria o administrador (só funciona enquanto não existe nenhum usuário)
