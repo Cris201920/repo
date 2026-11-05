@@ -42,7 +42,7 @@ const ICON = {
   spark: 'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3zM19 17l.8 2.2L22 20l-2.2.8L19 23l-.8-2.2L16 20l2.2-.8L19 17z',
   plus: 'M12 5v14M5 12h14', shield: 'M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z', menu: 'M4 6h16M4 12h16M4 18h16', upload: 'M12 16V4m0 0l-4 4m4-4l4 4M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3',
   down: 'M12 4v12m0 0l-4-4m4 4l4-4M4 20h16', edit: 'M4 20h4L19 9l-4-4L4 16v4z', trash: 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13', check: 'M5 12l5 5 9-10', eye: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zm10 3a3 3 0 100-6 3 3 0 000 6z',
-  copy: 'M9 9h10v11H9zM5 15V4h10', sun: 'M12 16a4 4 0 100-8 4 4 0 000 8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4', moon: 'M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z', monitor: 'M3 5h18v12H3zM8 21h8M12 17v4', clock: 'M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 2', log: 'M5 4h14v16H5zM8 9h8M8 13h8M8 17h5',
+  folder: 'M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z', copy: 'M9 9h10v11H9zM5 15V4h10', sun: 'M12 16a4 4 0 100-8 4 4 0 000 8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4', moon: 'M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z', monitor: 'M3 5h18v12H3zM8 21h8M12 17v4', clock: 'M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 2', log: 'M5 4h14v16H5zM8 9h8M8 13h8M8 17h5',
 };
 const ico = (n) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ICON[n]}"/></svg>`;
 

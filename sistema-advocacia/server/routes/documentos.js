@@ -16,6 +16,19 @@ const r = Router();
 const PASTA = path.join(DATA_DIR, 'uploads');
 const org = require('../organizar');
 const { CATEGORIAS } = org;
+const { pastaPadraoPara, pastaPorId } = require('./pastas');
+
+// Valida a pasta escolhida no envio. Pasta de cliente só recebe documentos desse cliente
+// (e, se o documento ainda não tem cliente, ele passa a ser desse cliente).
+function resolverPasta(valor, vinc) {
+  const id = id_(valor);
+  if (!id) return null;
+  const p = pastaPorId(id);
+  if (p.cliente_id && vinc.cliente_id && vinc.cliente_id !== p.cliente_id) throw bad('A pasta escolhida pertence a outro cliente.');
+  if (!p.cliente_id && vinc.cliente_id) throw bad('A pasta escolhida é geral; para documentos de clientes use uma pasta do cliente.');
+  if (p.cliente_id && !vinc.cliente_id) vinc.cliente_id = p.cliente_id;
+  return p.id;
+}
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: MAX_UPLOAD, files: 20 } });
 
 function vinculos(b) {
@@ -39,10 +52,10 @@ async function salvarDocumento({ buf, nomeOriginal, titulo, categoria, vinc, usu
   fs.writeFileSync(path.join(PASTA, arquivo), cifrar(buf), { mode: 0o600 });
   const texto = await extrairTexto(buf, ext);
   try {
-    const info = db.prepare(`INSERT INTO documentos (cliente_id, processo_id, atendimento_id, titulo, categoria, nome_original, mime, tamanho, arquivo, sha256, texto, origem, usuario_id, resumo, data_documento, tags, ia_status)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(vinc.cliente_id, vinc.processo_id, vinc.atendimento_id, titulo, categoria, nomeOriginal,
+    const info = db.prepare(`INSERT INTO documentos (cliente_id, processo_id, atendimento_id, titulo, categoria, nome_original, mime, tamanho, arquivo, sha256, texto, origem, usuario_id, resumo, data_documento, tags, ia_status, pasta_id)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(vinc.cliente_id, vinc.processo_id, vinc.atendimento_id, titulo, categoria, nomeOriginal,
       TIPOS[ext], buf.length, arquivo, sha256(buf), texto || null, origem, usuarioId,
-      extra.resumo ?? null, extra.data_documento ?? null, extra.tags ?? null, extra.ia_status ?? null);
+      extra.resumo ?? null, extra.data_documento ?? null, extra.tags ?? null, extra.ia_status ?? null, extra.pasta_id ?? null);
     return Number(info.lastInsertRowid);
   } catch (e) { fs.rmSync(path.join(PASTA, arquivo), { force: true }); throw e; }
 }
@@ -53,11 +66,15 @@ r.get('/', (req, res) => {
   if (req.query.categoria) { where.push('d.categoria = ?'); p.push(String(req.query.categoria)); }
   if (id_(req.query.cliente_id)) { where.push('d.cliente_id = ?'); p.push(id_(req.query.cliente_id)); }
   if (id_(req.query.processo_id)) { where.push('d.processo_id = ?'); p.push(id_(req.query.processo_id)); }
+  if (req.query.sem_cliente === '1') where.push('d.cliente_id IS NULL');
+  if (req.query.pasta_id === '0') where.push('d.pasta_id IS NULL');            // 0 = sem pasta
+  else if (id_(req.query.pasta_id)) { where.push('d.pasta_id = ?'); p.push(id_(req.query.pasta_id)); }
   res.json(db.prepare(`SELECT d.id, d.titulo, d.categoria, d.nome_original, d.mime, d.tamanho, d.origem, d.criado_em,
       d.cliente_id, d.processo_id, d.atendimento_id, c.nome AS cliente, p.titulo AS processo, u.nome AS enviado_por,
-      d.resumo, d.data_documento, d.tags, d.ia_status,
+      d.resumo, d.data_documento, d.tags, d.ia_status, d.pasta_id, pa.nome AS pasta,
       (d.texto IS NOT NULL AND length(d.texto) > 0) AS tem_texto
     FROM documentos d LEFT JOIN clientes c ON c.id = d.cliente_id LEFT JOIN processos p ON p.id = d.processo_id
+    LEFT JOIN pastas pa ON pa.id = d.pasta_id
     LEFT JOIN usuarios u ON u.id = d.usuario_id WHERE ${where.join(' AND ')} ORDER BY d.id DESC LIMIT 500`).all(...p));
 });
 
@@ -81,13 +98,14 @@ r.post('/', upload.array('arquivos', 20), wrap(async (req, res) => {
   if (!req.files?.length) throw bad('Selecione ao menos um arquivo.');
   const categoria = CATEGORIAS.includes(req.body.categoria) ? req.body.categoria : 'outros';
   const vinc = vinculos(req.body);
+  const pasta_id = resolverPasta(req.body.pasta_id, vinc);
   const titulo = txt(req.body.titulo, 200);
   const ids = [];
   if (req.body.juntar_pdf === '1') {
     const buf = await imagensParaPdf(req.files);
     const t = titulo || `Documento escaneado ${new Date().toLocaleDateString('pt-BR')}`;
     const nome = t.replace(/[^\p{L}\p{N} ._-]/gu, '').trim().slice(0, 100) || 'Documento escaneado';
-    const id = await salvarDocumento({ buf, nomeOriginal: `${nome}.pdf`, titulo: t, categoria, vinc, usuarioId: req.usuario.id, origem: 'scanner' });
+    const id = await salvarDocumento({ buf, nomeOriginal: `${nome}.pdf`, titulo: t, categoria, vinc, usuarioId: req.usuario.id, origem: 'scanner', extra: { pasta_id } });
     auditar(req, 'enviar', 'documentos', id, `${nome}.pdf (${req.files.length} páginas)`);
     return res.json({ ids: [id] });
   }
@@ -95,7 +113,7 @@ r.post('/', upload.array('arquivos', 20), wrap(async (req, res) => {
     const nome = Buffer.from(f.originalname, 'latin1').toString('utf8').replace(/[\\/\0]/g, '_').slice(0, 200);
     if (!TIPOS[extensao(nome)]) throw bad(`Tipo de arquivo não permitido: ${nome}`);
     const t = req.files.length === 1 && titulo ? titulo : (titulo ? `${titulo} — ${nome}` : path.basename(nome, extensao(nome)));
-    const id = await salvarDocumento({ buf: f.buffer, nomeOriginal: nome, titulo: t, categoria, vinc, usuarioId: req.usuario.id });
+    const id = await salvarDocumento({ buf: f.buffer, nomeOriginal: nome, titulo: t, categoria, vinc, usuarioId: req.usuario.id, extra: { pasta_id } });
     auditar(req, 'enviar', 'documentos', id, nome);
     ids.push(id);
   }
@@ -111,6 +129,8 @@ r.put('/:id', (req, res) => {
   const categoria = CATEGORIAS.includes(req.body.categoria) ? req.body.categoria : 'outros';
   db.prepare('UPDATE documentos SET titulo=?, categoria=?, cliente_id=?, processo_id=?, atendimento_id=? WHERE id=?')
     .run(titulo, categoria, vinc.cliente_id, vinc.processo_id, vinc.atendimento_id, id);
+  // se o cliente mudou, o documento sai da pasta do cliente anterior
+  db.prepare('UPDATE documentos SET pasta_id = NULL WHERE id = ? AND pasta_id IS NOT NULL AND (SELECT cliente_id FROM pastas WHERE id = documentos.pasta_id) IS NOT documentos.cliente_id').run(id);
   auditar(req, 'editar', 'documentos', id, titulo);
   res.json({ ok: true });
 });
@@ -184,8 +204,11 @@ r.post('/:id/organizar/aplicar', wrap(async (req, res) => {
 
   if (segs.length === 1) {
     const s = segs[0];
-    db.prepare(`UPDATE documentos SET titulo = ?, categoria = ?, cliente_id = ?, processo_id = ?, resumo = ?, data_documento = ?, tags = ?, ia_status = 'aplicado', ia_sugestao = NULL WHERE id = ?`)
-      .run(s.titulo, s.categoria, s.vinc.cliente_id, s.vinc.processo_id, s.resumo, s.data_documento, s.tags, d.id);
+    // mantém a pasta atual se ela for do mesmo cliente; senão, usa a pasta padrão do tipo (se o cliente tiver)
+    const atual = d.pasta_id ? db.prepare('SELECT cliente_id FROM pastas WHERE id = ?').get(d.pasta_id) : null;
+    const pasta = atual && (atual.cliente_id || null) === (s.vinc.cliente_id || null) ? d.pasta_id : pastaPadraoPara(s.vinc.cliente_id, s.categoria);
+    db.prepare(`UPDATE documentos SET titulo = ?, categoria = ?, cliente_id = ?, processo_id = ?, resumo = ?, data_documento = ?, tags = ?, pasta_id = ?, ia_status = 'aplicado', ia_sugestao = NULL WHERE id = ?`)
+      .run(s.titulo, s.categoria, s.vinc.cliente_id, s.vinc.processo_id, s.resumo, s.data_documento, s.tags, pasta, d.id);
     auditar(req, 'organizar_aplicar', 'documentos', d.id, s.titulo);
     return res.json({ ids: [d.id], removido: false });
   }
@@ -209,7 +232,7 @@ r.post('/:id/organizar/aplicar', wrap(async (req, res) => {
     const nome = (s.titulo.replace(/[^\p{L}\p{N} ._-]/gu, '').trim().slice(0, 100) || 'Documento') + '.pdf';
     ids.push(await salvarDocumento({
       buf: Buffer.from(await novo.save()), nomeOriginal: nome, titulo: s.titulo, categoria: s.categoria, vinc: s.vinc, usuarioId: req.usuario.id,
-      origem: 'separado', extra: { resumo: s.resumo, data_documento: s.data_documento, tags: s.tags, ia_status: 'aplicado' },
+      origem: 'separado', extra: { resumo: s.resumo, data_documento: s.data_documento, tags: s.tags, ia_status: 'aplicado', pasta_id: pastaPadraoPara(s.vinc.cliente_id, s.categoria) },
     }));
   }
   // o original só é excluído se TODAS as páginas foram aproveitadas nos novos arquivos

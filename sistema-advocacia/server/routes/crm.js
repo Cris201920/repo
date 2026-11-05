@@ -27,6 +27,12 @@ r.get('/painel', (req, res) => {
       FROM atendimentos a JOIN clientes c ON c.id = a.cliente_id ORDER BY a.data_hora DESC LIMIT 8`).all(),
     documentos: db.prepare(`SELECT d.id, d.titulo, d.categoria, d.criado_em, c.nome AS cliente
       FROM documentos d LEFT JOIN clientes c ON c.id = d.cliente_id ORDER BY d.id DESC LIMIT 6`).all(),
+    pendencias: {
+      abertas: one("SELECT COUNT(*) n FROM pendencias p JOIN clientes c ON c.id = p.cliente_id WHERE p.status = 'pendente' AND c.ativo = 1").n,
+      vencidas: one("SELECT COUNT(*) n FROM pendencias p JOIN clientes c ON c.id = p.cliente_id WHERE p.status = 'pendente' AND c.ativo = 1 AND p.prazo IS NOT NULL AND substr(p.prazo,1,10) < ?", hoje).n,
+      lista: db.prepare(`SELECT p.id, p.titulo, p.tipo, p.prazo, c.nome AS cliente, c.id AS cliente_id FROM pendencias p JOIN clientes c ON c.id = p.cliente_id
+        WHERE p.status = 'pendente' AND c.ativo = 1 ORDER BY (p.prazo IS NULL), p.prazo, p.id LIMIT 8`).all(),
+    },
     hoje,
   });
 });

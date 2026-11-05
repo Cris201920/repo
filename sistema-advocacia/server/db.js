@@ -107,6 +107,54 @@ if (!db.prepare('PRAGMA table_info(usuarios)').all().some((c) => c.name === 'com
   db.exec('ALTER TABLE usuarios ADD COLUMN compartilhado INTEGER NOT NULL DEFAULT 0');
 }
 
+// pastas, observações e pendências (checklist do que falta / já chegou)
+db.exec(`
+CREATE TABLE IF NOT EXISTS pastas (
+  id INTEGER PRIMARY KEY,
+  nome TEXT NOT NULL,
+  parent_id INTEGER REFERENCES pastas(id) ON DELETE CASCADE,
+  cliente_id INTEGER REFERENCES clientes(id) ON DELETE CASCADE,
+  criado_por INTEGER REFERENCES usuarios(id),
+  criado_em TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS notas (
+  id INTEGER PRIMARY KEY,
+  entidade TEXT NOT NULL CHECK (entidade IN ('cliente','processo','documento')),
+  entidade_id INTEGER NOT NULL,
+  texto TEXT NOT NULL,
+  fixada INTEGER NOT NULL DEFAULT 0,
+  usuario_id INTEGER REFERENCES usuarios(id),
+  usuario_nome TEXT,
+  criado_em TEXT NOT NULL DEFAULT (datetime('now')),
+  atualizado_em TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS pendencias (
+  id INTEGER PRIMARY KEY,
+  cliente_id INTEGER NOT NULL REFERENCES clientes(id) ON DELETE CASCADE,
+  processo_id INTEGER REFERENCES processos(id) ON DELETE SET NULL,
+  tipo TEXT NOT NULL DEFAULT 'documento' CHECK (tipo IN ('documento','tarefa')),
+  titulo TEXT NOT NULL,
+  descricao TEXT,
+  categoria TEXT,
+  palavras TEXT,
+  status TEXT NOT NULL DEFAULT 'pendente' CHECK (status IN ('pendente','ok','dispensado')),
+  prazo TEXT,
+  documento_id INTEGER REFERENCES documentos(id) ON DELETE SET NULL,
+  observacao TEXT,
+  responsavel_id INTEGER REFERENCES usuarios(id),
+  usuario_id INTEGER REFERENCES usuarios(id),
+  criado_em TEXT NOT NULL DEFAULT (datetime('now')),
+  atualizado_em TEXT NOT NULL DEFAULT (datetime('now')),
+  concluido_em TEXT
+);
+CREATE INDEX IF NOT EXISTS ix_pasta_cli ON pastas(cliente_id, parent_id);
+CREATE INDEX IF NOT EXISTS ix_nota_ent ON notas(entidade, entidade_id);
+CREATE INDEX IF NOT EXISTS ix_pend_cli ON pendencias(cliente_id, status);
+`);
+if (!db.prepare('PRAGMA table_info(documentos)').all().some((c) => c.name === 'pasta_id')) {
+  db.exec('ALTER TABLE documentos ADD COLUMN pasta_id INTEGER REFERENCES pastas(id) ON DELETE SET NULL');
+}
+
 // migração: organização de documentos por IA (resumo, data, etiquetas e sugestão pendente)
 {
   const colsDoc = db.prepare('PRAGMA table_info(documentos)').all().map((c) => c.name);

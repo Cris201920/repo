@@ -37,7 +37,7 @@ async function mostrarLogin() {
 }
 
 const NAV = [
-  ['#/painel', 'Painel', 'home'], ['#/atendimentos', 'Atendimentos', 'chat'], ['#/clientes', 'Clientes', 'users'], ['#/processos', 'Casos e processos', 'scale'], ['#/documentos', 'Documentos', 'file'],
+  ['#/painel', 'Painel', 'home'], ['#/atendimentos', 'Atendimentos', 'chat'], ['#/clientes', 'Clientes', 'users'], ['#/processos', 'Casos e processos', 'scale'], ['#/pendencias', 'Pendências', 'check'], ['#/documentos', 'Documentos', 'file'],
 ];
 function renderShell() {
   const u = S.usuario, f = S.firma;
@@ -90,6 +90,7 @@ async function rotear() {
       case 'clientes': return id ? await pageCliente(id) : await pageClientes(params);
       case 'processos': return id ? await pageProcesso(id) : await pageProcessos(params);
       case 'documentos': return await pageDocumentos(params);
+      case 'pendencias': return await pagePendencias(params);
       case 'assistente': return await pageAssistente();
       case 'usuarios': return S.usuario.papel === 'admin' ? await pageUsuarios() : (location.hash = '#/painel');
       case 'auditoria': return S.usuario.papel === 'admin' ? await pageAuditoria() : (location.hash = '#/painel');

@@ -27,10 +27,15 @@ async function pagePainel() {
     <div class="card stat"><div class="n">${d.totais.documentos}</div><div class="l">Documentos</div></div>
   </div>
   <div class="grid g2">
+    <div style="display:flex;flex-direction:column;gap:18px">
     <div class="card"><div class="card-h"><h3>Prazos e providências pendentes</h3><a class="small" href="#/atendimentos?pendentes=1">ver todos</a></div>
       ${d.prazos.length ? d.prazos.map((p) => `<div class="list-item"><div class="d"><b>${p.prazo.slice(8, 10)}</b>${['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'][+p.prazo.slice(5, 7) - 1]}</div>
         <div style="flex:1;min-width:0"><a href="#/atendimentos/${p.id}"><b>${esc(p.assunto)}</b></a><div class="small muted">${esc(p.cliente)}${p.providencias ? ' · ' + esc(p.providencias.slice(0, 90)) : ''}</div></div>
         <div>${badgePrazo(p.prazo)}</div><button class="btn sm ghost" data-conc="${p.id}" title="Marcar como concluído">${ico('check')}</button></div>`).join('') : vazio('Nenhum prazo pendente. Ao registrar um atendimento, informe o prazo para que ele apareça aqui.', 'clock')}
+    </div>
+    <div class="card"><div class="card-h"><h3>Pendências — o que falta</h3><span class="badge ${d.pendencias.vencidas ? 'err' : d.pendencias.abertas ? 'warn' : 'ok'}">${d.pendencias.abertas} em aberto${d.pendencias.vencidas ? ` · ${d.pendencias.vencidas} vencida(s)` : ''}</span><a class="small" href="#/pendencias">ver todas</a></div>
+      ${d.pendencias.lista.length ? d.pendencias.lista.map((p) => `<div class="list-item"><div style="flex:1;min-width:0"><a href="#/clientes/${p.cliente_id}"><b>${esc(p.titulo)}</b></a><div class="small muted">${esc(p.cliente)}${p.tipo === 'tarefa' ? ' · tarefa' : ''}</div></div><div>${p.prazo ? badgePrazo(p.prazo) : ''}</div></div>`).join('') : vazio('Nenhuma pendência em aberto. Use “Aplicar modelo” na página de um cliente para criar o checklist.', 'check')}
+    </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:18px">
       <div class="card"><div class="card-h"><h3>Últimos atendimentos</h3><a class="small" href="#/atendimentos">ver todos</a></div>
@@ -148,8 +153,9 @@ function visualizarDoc(id) {
     const corpo = /pdf/.test(d.mime || '') ? `<iframe class="viewer" src="${base}?inline=1" title="${esc(d.titulo)}"></iframe>`
       : /^image\//.test(d.mime || '') ? `<img class="viewer-img" src="${base}?inline=1" alt="${esc(d.titulo)}">`
       : `<div class="empty">${ico('file')}Este formato não tem visualização no navegador. Use “Baixar”.</div>`;
-    modal({ titulo: d.titulo, tamanho: 'lg', corpo, botoes: [{ texto: 'Fechar' }, { texto: 'Baixar', acao: () => { location.href = base; return false; } },
+    const m = modal({ titulo: d.titulo, tamanho: 'lg', corpo: corpo + `<h3 style="margin:18px 0 8px">Observações sobre este documento</h3><div id="notasDoc"></div>`, botoes: [{ texto: 'Fechar' }, { texto: 'Baixar', acao: () => { location.href = base; return false; } },
       { texto: 'Analisar com IA', classe: 'gold', acao: () => { abrirAssistenteCom({ cliente_id: d.cliente_id, processo_id: d.processo_id, documentos_ids: [d.id], prompt: 'Resuma este documento e destaque: partes, objeto, datas e prazos, valores, obrigações, cláusulas ou pontos de risco e inconsistências.' }); } }] });
+    blocoNotas($('#notasDoc', m.el), 'documento', d.id).catch(falha);
   }).catch(falha);
 }
 
@@ -170,7 +176,7 @@ async function abrirUpload(pre = {}, depois) {
       ${campoHTML({ n: 'categoria', label: 'Tipo de documento', tipo: 'select', op: opts(L.categoria), col: 'c-half' }, 'outros')}
       ${campoHTML({ n: 'cliente_id', label: 'Cliente', tipo: 'select', op: opClientes(cl, '— Sem vínculo —'), col: 'c-half' }, pre.cliente_id)}
       ${campoHTML({ n: 'processo_id', label: 'Processo / caso', tipo: 'select', op: await opProc(pre.cliente_id), col: 'c6' }, pre.processo_id)}
-      <input type="hidden" name="atendimento_id" value="${pre.atendimento_id || ''}"></form>
+      <input type="hidden" name="atendimento_id" value="${pre.atendimento_id || ''}"><input type="hidden" name="pasta_id" value="${pre.pasta_id || ''}"></form>
       <p class="note small">Os arquivos são gravados <b>criptografados</b> no servidor e só ficam acessíveis a quem estiver autenticado.</p>`,
     aoAbrir: (ov) => {
       iaConfigurada().then((ok) => { const w = $('#worg', ov); if (w) w.hidden = !ok; });
@@ -191,7 +197,7 @@ async function abrirUpload(pre = {}, depois) {
     botoes: [{ texto: 'Cancelar' }, { texto: 'Enviar', classe: 'gold', acao: async (ov) => {
       if (!arquivos.length) throw new Error('Selecione ao menos um arquivo.');
       const fd = new FormData(), v = lerForm(ov);
-      for (const k of ['titulo', 'categoria', 'cliente_id', 'processo_id', 'atendimento_id']) fd.append(k, v[k] ?? '');
+      for (const k of ['titulo', 'categoria', 'cliente_id', 'processo_id', 'atendimento_id', 'pasta_id']) fd.append(k, v[k] ?? '');
       const juntar = !$('#wj', ov).hidden && $('#juntar', ov).checked;
       let envio = arquivos;
       if (juntar) { fd.append('juntar_pdf', '1'); envio = []; for (const f of arquivos) envio.push(await reduzirImagem(f)); }
@@ -206,16 +212,24 @@ async function pageDocumentos(params) {
   const cl = await listaClientes();
   const f = { q: '', categoria: '', cliente_id: '', ...params };
   let vista = 'lista', ultimos = [];
-  try { vista = localStorage.getItem('docsVista') === 'arvore' ? 'arvore' : 'lista'; } catch { /* sem armazenamento */ }
+  try { const v = localStorage.getItem('docsVista'); vista = v === 'arvore' || v === 'pastas' ? v : 'lista'; } catch { /* sem armazenamento */ }
   view(`<div class="page-h"><div><h1>Documentos</h1><div class="sub">Arquivo digital do escritório — busca também dentro do texto dos documentos</div></div>
     <div class="actions"><button class="btn" id="org" title="A IA identifica o tipo, o cliente e o caso e separa documentos juntos">${ico('spark')} Organizar com IA</button><button class="btn" id="zip" disabled>${ico('down')} Baixar selecionados (ZIP)</button><button class="btn gold" id="novo">${ico('upload')} Enviar / escanear</button></div></div>
     <div class="filters"><input type="search" id="q" placeholder="Buscar por título, arquivo, cliente ou conteúdo…" value="${esc(f.q)}">
       <select id="cat"><option value="">Todos os tipos</option>${opts(L.categoria).map(([k, l]) => `<option value="${k}" ${f.categoria === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
       <select id="cli">${opClientes(cl, 'Todos os clientes').map(([k, l]) => `<option value="${k}" ${String(f.cliente_id) === String(k) ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select>
-      <div class="seg right" role="group" aria-label="Modo de exibição"><button type="button" id="vLista" class="${vista === 'lista' ? 'on' : ''}">Lista</button><button type="button" id="vArvore" class="${vista === 'arvore' ? 'on' : ''}">Por cliente e caso</button></div></div>
+      <div class="seg right" role="group" aria-label="Modo de exibição"><button type="button" id="vLista" class="${vista === 'lista' ? 'on' : ''}">Lista</button><button type="button" id="vArvore" class="${vista === 'arvore' ? 'on' : ''}">Por cliente e caso</button><button type="button" id="vPastas" class="${vista === 'pastas' ? 'on' : ''}">Pastas</button></div></div>
     <div class="card tbl" id="lista"></div>`);
   const carregar = async () => {
     const dados = await api('/documentos' + qs({ q: $('#q').value, categoria: $('#cat').value, cliente_id: $('#cli').value }));
+    ultimos = dados;
+    if (vista === 'pastas') {   // gerenciador de pastas: usa o cliente escolhido no filtro (ou as pastas gerais)
+      const pe = dados.filter((d) => !d.ia_status).length + dados.filter((d) => d.ia_status === 'sugerido').length;
+      $('#org').innerHTML = `${ico('spark')} Organizar com IA${pe ? ` <span class="badge gold">${pe}</span>` : ''}`;
+      $('#lista').classList.remove('tbl'); $('#zip').disabled = true;
+      return painelPastas($('#lista'), { cliente_id: +$('#cli').value || null }, null);
+    }
+    $('#lista').classList.add('tbl');
     $('#lista').innerHTML = vista === 'arvore' ? vistaArvore(dados) : dados.length ? `<table><thead><tr><th style="width:34px"><input type="checkbox" id="todos" aria-label="Selecionar todos"></th><th>Documento</th><th>Tipo</th><th>Cliente / Caso</th><th>Enviado</th><th></th></tr></thead><tbody>${dados.map((d) => `<tr>
       <td><input type="checkbox" class="sel" value="${d.id}" aria-label="Selecionar ${esc(d.titulo)}"></td>
       <td><b>${esc(d.titulo)}</b> ${d.origem === 'ia' ? '<span class="badge gold">IA</span>' : d.origem === 'scanner' ? '<span class="badge info">Escaneado</span>' : ''}<div class="small muted">${esc(d.nome_original)} · ${fBytes(d.tamanho)}${d.data_documento ? ' · doc. de ' + fData(d.data_documento) : ''}</div>
@@ -242,8 +256,8 @@ async function pageDocumentos(params) {
   };
   $('#q').oninput = debounce(carregar); $('#cat').onchange = carregar; $('#cli').onchange = carregar;
   $('#novo').onclick = () => abrirUpload({ cliente_id: $('#cli').value }, carregar);
-  const trocarVista = (v) => { vista = v; try { localStorage.setItem('docsVista', v); } catch { /* ok */ } $('#vLista').classList.toggle('on', v === 'lista'); $('#vArvore').classList.toggle('on', v === 'arvore'); carregar(); };
-  $('#vLista').onclick = () => trocarVista('lista'); $('#vArvore').onclick = () => trocarVista('arvore');
+  const trocarVista = (v) => { vista = v; try { localStorage.setItem('docsVista', v); } catch { /* ok */ } $('#vLista').classList.toggle('on', v === 'lista'); $('#vArvore').classList.toggle('on', v === 'arvore'); $('#vPastas').classList.toggle('on', v === 'pastas'); carregar(); };
+  $('#vLista').onclick = () => trocarVista('lista'); $('#vArvore').onclick = () => trocarVista('arvore'); $('#vPastas').onclick = () => trocarVista('pastas');
   $('#org').onclick = () => {
     const marcados = $$('.sel:checked').map((c) => +c.value);
     const pend = ultimos.filter((d) => !d.ia_status).map((d) => d.id), rev = ultimos.filter((d) => d.ia_status === 'sugerido').map((d) => d.id);
@@ -309,13 +323,17 @@ async function pageCliente(id) {
         <button class="btn" id="ia">${ico('spark')} IA</button><button class="btn" id="ed">${ico('edit')} Editar</button><button class="btn" id="arq">${c.ativo ? 'Arquivar' : 'Reativar'}</button></div></div>
     <div class="grid g2"><div style="display:flex;flex-direction:column;gap:18px">
       <div class="card"><div class="card-h"><h3>Casos e processos</h3></div>${c.processos.length ? `<div class="tbl"><table><tbody>${c.processos.map((p) => `<tr class="click" data-p="${p.id}"><td><b>${esc(p.titulo)}</b><div class="small muted">${esc(p.numero || 'sem número')} ${p.area ? '· ' + esc(p.area) : ''}</div></td><td><span class="badge ${L.statusCor[p.status]}">${L.status[p.status]}</span></td></tr>`).join('')}</tbody></table></div>` : vazio('Nenhum caso cadastrado.', 'scale')}</div>
+      <div class="card" id="cardPend"></div>
       <div class="card"><div class="card-h"><h3>Histórico de atendimentos</h3></div><div class="card-b">${c.atendimentos.length ? `<div class="timeline">${c.atendimentos.map((a) => `<div class="it"><div class="small muted">${fDataHora(a.data_hora)} · ${L.canal[a.canal] || a.canal} ${badgePrazo(a.prazo, a.concluido)}</div><a href="#/atendimentos/${a.id}"><b>${esc(a.assunto)}</b></a>${a.resumo ? `<div class="small muted">${esc(a.resumo.slice(0, 180))}${a.resumo.length > 180 ? '…' : ''}</div>` : ''}</div>`).join('')}</div>` : vazio('Nenhum atendimento registrado.', 'chat')}</div></div></div>
     <div style="display:flex;flex-direction:column;gap:18px">
       <div class="card"><div class="card-h"><h3>Dados cadastrais</h3></div><div class="card-b"><dl class="kv">
         <dt>RG / Inscrição</dt><dd>${esc(c.rg || '—')}</dd><dt>Nascimento</dt><dd>${fData(c.nascimento)}</dd><dt>Estado civil</dt><dd>${esc(c.estado_civil || '—')}</dd><dt>Profissão</dt><dd>${esc(c.profissao || '—')}</dd>
         <dt>E-mail</dt><dd>${esc(c.email || '—')}</dd><dt>Telefone</dt><dd>${esc(c.telefone || '—')}</dd><dt>Endereço</dt><dd>${esc(c.endereco || '—')}</dd><dt>Observações</dt><dd class="pre">${esc(c.observacoes || '—')}</dd></dl></div></div>
-      <div class="card"><div class="card-h"><h3>Documentos</h3>${c.documentos.length ? `<button class="btn sm" id="zipall">${ico('down')} Baixar todos (ZIP)</button>` : ''}</div>${listaDocs(c.documentos)}</div></div></div>`);
-  if ($('#zipall')) $('#zipall').onclick = () => baixarZip(c.documentos.map((d) => d.id));
+      <div class="card"><div class="card-h"><h3>Observações</h3></div><div class="card-b" id="cardNotas"></div></div></div></div>
+    <div class="card" style="margin-top:18px"><div class="card-h"><h3>Pastas e documentos</h3><span class="small muted">${c.documentos.length} documento(s)</span></div><div id="pastasCli"></div></div>`);
+  cardPendencias($('#cardPend'), { cliente_id: c.id }).catch(falha);
+  blocoNotas($('#cardNotas'), 'cliente', c.id).catch(falha);
+  painelPastas($('#pastasCli'), { cliente_id: c.id }, null).catch(falha);
   const rec = () => pageCliente(id);
   $('#at').onclick = () => abrirAtendimento({ cliente_id: c.id }, rec);
   $('#pr').onclick = () => abrirProcesso({ cliente_id: c.id }, rec);
@@ -361,9 +379,13 @@ async function pageProcesso(id) {
       <div class="actions"><button class="btn gold" id="at">${ico('plus')} Atendimento</button><button class="btn" id="up">${ico('upload')} Documento</button><button class="btn" id="ia">${ico('spark')} IA</button><button class="btn" id="ed">${ico('edit')} Editar</button></div></div>
     <div class="grid g2"><div style="display:flex;flex-direction:column;gap:18px">
       <div class="card"><div class="card-h"><h3>Andamento / atendimentos</h3></div><div class="card-b">${p.atendimentos.length ? `<div class="timeline">${p.atendimentos.map((a) => `<div class="it"><div class="small muted">${fDataHora(a.data_hora)} · ${L.canal[a.canal] || a.canal}</div><a href="#/atendimentos/${a.id}"><b>${esc(a.assunto)}</b></a>${a.resumo ? `<div class="small muted">${esc(a.resumo.slice(0, 200))}</div>` : ''}</div>`).join('')}</div>` : vazio('Nenhum atendimento vinculado.', 'chat')}</div></div>
+      <div class="card" id="cardPend"></div>
       <div class="card"><div class="card-h"><h3>Documentos do caso</h3>${p.documentos.length ? `<button class="btn sm" id="zipall">${ico('down')} Baixar todos (ZIP)</button>` : ''}</div>${listaDocs(p.documentos)}</div></div>
-    <div class="card"><div class="card-h"><h3>Dados do caso</h3></div><div class="card-b"><dl class="kv"><dt>Cliente</dt><dd><a href="#/clientes/${p.cliente_id}">${esc(p.cliente)}</a></dd><dt>Área</dt><dd>${esc(p.area || '—')}</dd><dt>Juízo / Órgão</dt><dd>${esc(p.juizo || '—')}</dd>
-      <dt>Parte contrária</dt><dd>${esc(p.parte_contraria || '—')}</dd><dt>Valor da causa</dt><dd>${fMoeda(p.valor_causa)}</dd><dt>Responsável</dt><dd>${esc(p.responsavel || '—')}</dd><dt>Observações</dt><dd class="pre">${esc(p.observacoes || '—')}</dd></dl></div></div></div>`);
+    <div style="display:flex;flex-direction:column;gap:18px"><div class="card"><div class="card-h"><h3>Dados do caso</h3></div><div class="card-b"><dl class="kv"><dt>Cliente</dt><dd><a href="#/clientes/${p.cliente_id}">${esc(p.cliente)}</a></dd><dt>Área</dt><dd>${esc(p.area || '—')}</dd><dt>Juízo / Órgão</dt><dd>${esc(p.juizo || '—')}</dd>
+      <dt>Parte contrária</dt><dd>${esc(p.parte_contraria || '—')}</dd><dt>Valor da causa</dt><dd>${fMoeda(p.valor_causa)}</dd><dt>Responsável</dt><dd>${esc(p.responsavel || '—')}</dd><dt>Observações</dt><dd class="pre">${esc(p.observacoes || '—')}</dd></dl></div></div>
+      <div class="card"><div class="card-h"><h3>Observações do caso</h3></div><div class="card-b" id="cardNotas"></div></div></div></div>`);
+  cardPendencias($('#cardPend'), { cliente_id: p.cliente_id, processo: p }).catch(falha);
+  blocoNotas($('#cardNotas'), 'processo', p.id).catch(falha);
   const rec = () => pageProcesso(id);
   $('#at').onclick = () => abrirAtendimento({ cliente_id: p.cliente_id, processo_id: p.id }, rec);
   $('#up').onclick = () => abrirUpload({ cliente_id: p.cliente_id, processo_id: p.id }, rec);

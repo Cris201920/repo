@@ -280,6 +280,112 @@ test('organizar com IA: PDF com vários documentos é separado; lacunas e sobrep
   assert.equal((await fetch(base + `/api/documentos/${id3}/organizar`, { method: 'POST', headers: H })).status, 401);
 });
 
+test('pastas: subpastas, nomes repetidos, escopo por cliente, mover documentos e excluir sem apagar arquivos', async () => {
+  const c1 = (await call('POST', '/api/clientes', { nome: 'Pastas Um' })).data.id, c2 = (await call('POST', '/api/clientes', { nome: 'Pastas Dois' })).data.id;
+  const raiz = (await call('POST', '/api/pastas', { nome: 'Contratos', cliente_id: c1 })).data.id;
+  const sub = (await call('POST', '/api/pastas', { nome: '2026', cliente_id: c1, parent_id: raiz })).data.id;
+  assert.equal((await call('POST', '/api/pastas', { nome: 'contratos', cliente_id: c1 })).status, 400, 'mesmo nome na mesma pasta');
+  assert.equal((await call('POST', '/api/pastas', { nome: 'Contratos', cliente_id: c2 })).status, 200, 'mesmo nome em outro cliente é permitido');
+  assert.equal((await call('POST', '/api/pastas', { nome: 'x', cliente_id: c2, parent_id: raiz })).status, 400, 'pai de outro cliente');
+  const geral = (await call('POST', '/api/pastas', { nome: 'Modelos de petições' })).data.id;
+  const lista = (await call('GET', `/api/pastas?cliente_id=${c1}`)).data;
+  assert.deepEqual(lista.map((p) => p.nome).sort(), ['2026', 'Contratos']);
+  assert.equal(lista.find((p) => p.id === raiz).n_sub, 1);
+  assert.deepEqual((await call('GET', '/api/pastas?geral=1')).data.map((p) => p.nome), ['Modelos de petições']);
+  // não permite criar ciclo
+  assert.equal((await call('PUT', `/api/pastas/${raiz}`, { nome: 'Contratos', parent_id: sub })).status, 400);
+  assert.equal((await call('PUT', `/api/pastas/${sub}`, { nome: 'Assinados 2026' })).status, 200);
+
+  // envio direto para uma pasta do cliente já vincula o cliente
+  const fd = new FormData(); fd.append('arquivos', new Blob(['contrato x']), 'c.txt'); fd.append('pasta_id', sub);
+  const up = await fetch(base + '/api/documentos', { method: 'POST', headers: { 'X-Requested-With': 'adv', cookie }, body: fd });
+  const did = (await up.json()).ids[0];
+  let d = (await call('GET', `/api/documentos?pasta_id=${sub}`)).data;
+  assert.equal(d.length, 1); assert.equal(d[0].cliente_id, c1); assert.equal(d[0].pasta, 'Assinados 2026');
+  // mover para pasta de outro cliente / geral é recusado; mover para a pasta do mesmo cliente funciona
+  const pc2 = (await call('GET', `/api/pastas?cliente_id=${c2}`)).data[0].id;
+  assert.equal((await call('POST', '/api/pastas/mover-docs', { ids: [did], pasta_id: pc2 })).status, 400);
+  assert.equal((await call('POST', '/api/pastas/mover-docs', { ids: [did], pasta_id: geral })).status, 400);
+  assert.equal((await call('POST', '/api/pastas/mover-docs', { ids: [did], pasta_id: raiz })).status, 200);
+  assert.equal((await call('GET', `/api/documentos?pasta_id=${raiz}`)).data.length, 1);
+  // pastas padrão são idempotentes e a IA usa a pasta do tipo
+  assert.equal((await call('POST', '/api/pastas/padrao', { cliente_id: c2 })).data.criadas, 6);
+  assert.equal((await call('POST', '/api/pastas/padrao', { cliente_id: c2 })).data.criadas, 0);
+  const idDoc = await enviarArquivo('rg.txt', 'RG de pastas dois');
+  respostaOrganizar = { documentos: [seg({ categoria: 'identificacao', titulo: 'RG — Pastas Dois', partes: [{ nome: 'Pastas Dois' }] })] };
+  await call('POST', `/api/documentos/${idDoc}/organizar`);
+  await call('POST', `/api/documentos/${idDoc}/organizar/aplicar`, { segmentos: [{ titulo: 'RG — Pastas Dois', categoria: 'identificacao', cliente_id: c2 }] });
+  assert.equal((await call('GET', `/api/documentos?cliente_id=${c2}`)).data.find((x) => x.id === idDoc).pasta, 'Identificação');
+  // trocar o cliente do documento o tira da pasta do cliente anterior
+  await call('PUT', `/api/documentos/${idDoc}`, { titulo: 'RG', categoria: 'identificacao', cliente_id: c1 });
+  assert.equal((await call('GET', `/api/documentos?cliente_id=${c1}`)).data.find((x) => x.id === idDoc).pasta_id, null);
+  // excluir a pasta mantém os documentos (sem pasta); subpastas vão junto
+  assert.equal((await call('DELETE', `/api/pastas/${raiz}`)).status, 200);
+  d = (await call('GET', '/api/documentos')).data.find((x) => x.id === did);
+  assert.ok(d && d.pasta_id === null, 'documento preservado, sem pasta');
+  assert.equal((await call('GET', `/api/pastas?cliente_id=${c1}`)).data.length, 0);
+});
+
+test('observações: criar, fixar, editar, excluir e permissões do estagiário', async () => {
+  const n1 = (await call('POST', '/api/notas', { entidade: 'cliente', entidade_id: cli, texto: 'Cliente prefere contato à tarde.' })).data.id;
+  const n2 = (await call('POST', '/api/notas', { entidade: 'cliente', entidade_id: cli, texto: 'Combinado: honorários em 3x.', fixada: true })).data.id;
+  let lista = (await call('GET', `/api/notas?entidade=cliente&id=${cli}`)).data;
+  assert.equal(lista[0].id, n2, 'fixadas vêm primeiro'); assert.equal(lista[0].usuario_nome, 'Dra. Teste');
+  assert.equal((await call('POST', '/api/notas', { entidade: 'cliente', entidade_id: 99999, texto: 'x' })).status, 404);
+  assert.equal((await call('POST', '/api/notas', { entidade: 'coisa', entidade_id: 1, texto: 'x' })).status, 400);
+  assert.equal((await call('POST', '/api/notas', { entidade: 'documento', entidade_id: doc, texto: 'Original assinado em cartório.' })).status, 200);
+  assert.equal((await call('PUT', `/api/notas/${n1}`, { texto: 'Prefere contato à tarde (WhatsApp).', fixada: true })).status, 200);
+  // estagiário só altera as próprias
+  const adm = cookie; cookie = '';
+  await call('POST', '/api/auth/login', { email: 'e@b.com', senha: 'OutraSenha456' });
+  assert.equal((await call('PUT', `/api/notas/${n2}`, { texto: 'adulterada' })).status, 403);
+  assert.equal((await call('DELETE', `/api/notas/${n2}`)).status, 403);
+  const meu = (await call('POST', '/api/notas', { entidade: 'processo', entidade_id: proc, texto: 'Anotação do estagiário' })).data.id;
+  assert.equal((await call('DELETE', `/api/notas/${meu}`)).status, 200);
+  cookie = adm;
+  assert.equal((await call('DELETE', `/api/notas/${n1}`)).status, 200);
+  assert.equal((await call('GET', `/api/notas?entidade=cliente&id=${cli}`)).data.length, 1);
+});
+
+test('pendências: modelos sem duplicar, status, conferência automática com documentos e painel', async () => {
+  const c = (await call('POST', '/api/clientes', { nome: 'Checklist Cliente' })).data.id;
+  const modelos = (await call('GET', '/api/pendencias/modelos')).data;
+  assert.ok(modelos.modelos.some((m) => m.chave === 'trabalhista') && modelos.por_area['Trabalhista'].includes('trabalhista'));
+  const a1 = (await call('POST', '/api/pendencias/modelo', { cliente_id: c, modelo: 'basico' })).data;
+  assert.equal(a1.criados, 7); assert.equal((await call('POST', '/api/pendencias/modelo', { cliente_id: c, modelo: 'basico' })).data.criados, 0, 'não duplica');
+  assert.equal((await call('POST', '/api/pendencias/modelo', { cliente_id: c, modelo: 'inexistente' })).status, 400);
+  // item manual com prazo
+  const manual = (await call('POST', '/api/pendencias', { cliente_id: c, titulo: 'Certidão de matrícula atualizada', tipo: 'documento', prazo: '2020-01-01', categoria: 'prova' })).data.id;
+  assert.equal((await call('POST', '/api/pendencias', { cliente_id: c, titulo: '' })).status, 400);
+
+  // documentos do cliente: RG (tipo identificação) e comprovante de residência
+  for (const [nome, titulo, cat] of [['a.txt', 'RG — Checklist Cliente', 'identificacao'], ['b.txt', 'Conta de energia (comprovante de residência)', 'comprovante'], ['c.txt', 'Foto da fachada', 'prova']]) {
+    const i = await enviarArquivo(nome, titulo);
+    await call('PUT', `/api/documentos/${i}`, { titulo, categoria: cat, cliente_id: c });
+  }
+  const conf = (await call('POST', '/api/pendencias/conferir', { cliente_id: c })).data;
+  const nomes = conf.propostas.map((p) => p.pendencia).sort();
+  assert.deepEqual(nomes, ['Comprovante de residência', 'RG ou CNH'], 'só o que realmente casa');
+  assert.ok(conf.propostas.every((p) => p.motivo));
+  // aplica em lote e confere o resumo
+  assert.equal((await call('POST', '/api/pendencias/lote', { itens: conf.propostas.map((p) => ({ id: p.pendencia_id, status: 'ok', documento_id: p.documento_id })) })).status, 200);
+  const todos = (await call('GET', `/api/pendencias?cliente_id=${c}`)).data;
+  assert.equal(todos.filter((p) => p.status === 'ok').length, 2); assert.equal(todos.filter((p) => p.status === 'pendente').length, 6);
+  assert.ok(todos.find((p) => p.titulo === 'RG ou CNH').documento, 'documento vinculado');
+  assert.equal(todos[0].status, 'pendente', 'pendentes primeiro');
+  // dispensar / reabrir; documento de outro cliente é recusado
+  const cpf = todos.find((p) => p.titulo === 'CPF');
+  assert.equal((await call('POST', `/api/pendencias/${cpf.id}/status`, { status: 'dispensado', observacao: 'Consta no RG' })).status, 200);
+  assert.equal((await call('POST', `/api/pendencias/${cpf.id}/status`, { status: 'ok', documento_id: doc })).status, 400, `doc #${doc} é de ${cli}`);
+  assert.equal((await call('POST', `/api/pendencias/${cpf.id}/status`, { status: 'pendente' })).status, 200);
+  assert.equal((await call('GET', `/api/pendencias?cliente_id=${c}&status=pendente`)).data.length, 6, '8 itens - 2 recebidos');
+  // painel: abertas e vencidas
+  const p = (await call('GET', '/api/painel')).data.pendencias;
+  assert.ok(p.abertas >= 6 && p.vencidas >= 1 && p.lista.length > 0);
+  assert.equal(p.lista[0].id, manual, 'a de prazo mais antigo vem primeiro');
+  assert.equal((await call('DELETE', `/api/pendencias/${manual}`)).status, 200);
+});
+
 test('arquivos estáticos públicos não expõem dados e o site não é indexável', async () => {
   const r = await fetch(base + '/');
   assert.equal(r.status, 200); assert.match(r.headers.get('x-robots-tag'), /noindex/);
