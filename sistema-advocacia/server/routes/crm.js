@@ -1,7 +1,16 @@
 const { Router } = require('express');
 const { db } = require('../db');
 const { auditar } = require('../auth');
-const { wrap, bad, notFound, txt, req_, oneOf, id_, dataISO, like } = require('../util');
+const { wrap, bad, notFound, txt, req_, oneOf, id_, dataISO, like, HttpError } = require('../util');
+
+// Edição simultânea: o formulário envia a "versao" que carregou. Se outra pessoa salvou nesse meio tempo,
+// recusamos (409) em vez de sobrescrever em silêncio o que ela alterou. Sem "versao" (integrações) = aceita.
+function checarVersao(enviada, atual) {
+  if (enviada === undefined || enviada === null || enviada === '') return;
+  if (Number(enviada) !== atual) {
+    throw new HttpError(409, 'Este registro foi alterado por outra pessoa depois que você o abriu. Feche esta janela e clique em Editar de novo para ver as mudanças antes de salvar.');
+  }
+}
 
 const r = Router();
 const AREAS = ['Cível', 'Trabalhista', 'Família e Sucessões', 'Previdenciário', 'Consumidor', 'Criminal', 'Tributário', 'Empresarial', 'Imobiliário', 'Administrativo', 'Outra'];
@@ -94,16 +103,18 @@ r.post('/clientes', (req, res) => {
 });
 r.put('/clientes/:id', (req, res) => {
   const id = id_(req.params.id);
-  if (!db.prepare('SELECT 1 FROM clientes WHERE id = ?').get(id)) throw notFound('Cliente');
+  const atual = db.prepare('SELECT versao FROM clientes WHERE id = ?').get(id);
+  if (!atual) throw notFound('Cliente');
+  checarVersao(req.body.versao, atual.versao);
   const c = lerCliente(req.body);
-  db.prepare(`UPDATE clientes SET ${CAMPOS_CLIENTE.map((k) => k + ' = ?').join(', ')}, atualizado_em = datetime('now') WHERE id = ?`)
+  db.prepare(`UPDATE clientes SET ${CAMPOS_CLIENTE.map((k) => k + ' = ?').join(', ')}, atualizado_em = datetime('now'), versao = versao + 1 WHERE id = ?`)
     .run(...CAMPOS_CLIENTE.map((k) => c[k]), id);
   auditar(req, 'editar', 'clientes', id, c.nome);
   res.json({ ok: true });
 });
 r.post('/clientes/:id/ativo', (req, res) => {
   const id = id_(req.params.id), ativo = req.body.ativo ? 1 : 0;
-  db.prepare('UPDATE clientes SET ativo = ? WHERE id = ?').run(ativo, id);
+  db.prepare('UPDATE clientes SET ativo = ?, versao = versao + 1 WHERE id = ?').run(ativo, id);
   auditar(req, ativo ? 'reativar' : 'arquivar', 'clientes', id);
   res.json({ ok: true });
 });
@@ -153,9 +164,11 @@ r.post('/processos', (req, res) => {
 });
 r.put('/processos/:id', (req, res) => {
   const id = id_(req.params.id);
-  if (!db.prepare('SELECT 1 FROM processos WHERE id = ?').get(id)) throw notFound('Processo');
+  const atual = db.prepare('SELECT versao FROM processos WHERE id = ?').get(id);
+  if (!atual) throw notFound('Processo');
+  checarVersao(req.body.versao, atual.versao);
   const p = lerProcesso(req.body);
-  db.prepare(`UPDATE processos SET ${CAMPOS_PROC.map((k) => k + ' = ?').join(', ')}, atualizado_em = datetime('now') WHERE id = ?`).run(...CAMPOS_PROC.map((k) => p[k]), id);
+  db.prepare(`UPDATE processos SET ${CAMPOS_PROC.map((k) => k + ' = ?').join(', ')}, atualizado_em = datetime('now'), versao = versao + 1 WHERE id = ?`).run(...CAMPOS_PROC.map((k) => p[k]), id);
   auditar(req, 'editar', 'processos', id, p.titulo);
   res.json({ ok: true });
 });
@@ -206,15 +219,17 @@ r.post('/atendimentos', (req, res) => {
 });
 r.put('/atendimentos/:id', (req, res) => {
   const id = id_(req.params.id);
-  if (!db.prepare('SELECT 1 FROM atendimentos WHERE id = ?').get(id)) throw notFound('Atendimento');
+  const atual = db.prepare('SELECT versao FROM atendimentos WHERE id = ?').get(id);
+  if (!atual) throw notFound('Atendimento');
+  checarVersao(req.body.versao, atual.versao);
   const a = lerAtendimento(req.body);
-  db.prepare(`UPDATE atendimentos SET ${CAMPOS_AT.map((k) => k + ' = ?').join(', ')}, atualizado_em = datetime('now') WHERE id = ?`).run(...CAMPOS_AT.map((k) => a[k]), id);
+  db.prepare(`UPDATE atendimentos SET ${CAMPOS_AT.map((k) => k + ' = ?').join(', ')}, atualizado_em = datetime('now'), versao = versao + 1 WHERE id = ?`).run(...CAMPOS_AT.map((k) => a[k]), id);
   auditar(req, 'editar', 'atendimentos', id, a.assunto);
   res.json({ ok: true });
 });
 r.post('/atendimentos/:id/concluir', (req, res) => {
   const id = id_(req.params.id);
-  db.prepare("UPDATE atendimentos SET concluido = ?, atualizado_em = datetime('now') WHERE id = ?").run(req.body.concluido ? 1 : 0, id);
+  db.prepare("UPDATE atendimentos SET concluido = ?, atualizado_em = datetime('now'), versao = versao + 1 WHERE id = ?").run(req.body.concluido ? 1 : 0, id);
   auditar(req, req.body.concluido ? 'concluir' : 'reabrir', 'atendimentos', id);
   res.json({ ok: true });
 });

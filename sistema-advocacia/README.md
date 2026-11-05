@@ -61,6 +61,14 @@ Crie uma chave em <https://console.anthropic.com/> e coloque em `ANTHROPIC_API_K
 A chave fica **somente no servidor**; o navegador nunca a vê. Sem ela o sistema funciona normalmente,
 só o Assistente fica desativado. O modelo é configurável em `ANTHROPIC_MODEL`.
 
+### Vários funcionários e aparelhos (sem perder nada)
+Tudo fica guardado **no servidor** (banco + arquivos), nunca no aparelho. Por isso cada funcionário entra de qualquer computador, celular ou tablet e vê exatamente os mesmos dados, e o que um salva aparece para os outros ao abrir ou atualizar a página.
+- **Contas individuais** (recomendado) ou a senha compartilhada do escritório. A mesma conta pode estar aberta em vários aparelhos **ao mesmo tempo**; sair em um aparelho não desconecta os outros.
+- **Edição simultânea protegida:** se dois funcionários abrem o mesmo cliente, caso ou atendimento e um salva antes, o segundo recebe um aviso (“foi alterado por outra pessoa…”) em vez de apagar, sem querer, o que o colega mudou. Marcar uma providência como concluída também conta como alteração.
+- **Sessão:** vale 12 horas **sem uso**; enquanto a pessoa trabalha, ela é renovada automaticamente.
+- **Atualizações do sistema preservam os dados** (banco e documentos criptografados). Ainda assim, mantenha os backups diários e baixe uma cópia de vez em quando.
+- Limites: as mudanças dos colegas aparecem ao atualizar a página (não em tempo real); o tema (claro/escuro) é uma escolha de cada aparelho; um formulário começado e **não salvo** não passa de um aparelho para outro.
+
 ### Tema (claro / escuro / automático)
 O botão de tema (sol/lua/monitor) fica no topo de todas as telas e também no canto da tela de login. A escolha fica salva no navegador de cada pessoa; “Automático” segue o modo claro/escuro do aparelho. A logo troca sozinha: nome escuro no tema claro e nome claro (`logo-claro.png`) no tema escuro.
 

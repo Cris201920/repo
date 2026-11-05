@@ -386,6 +386,68 @@ test('pendências: modelos sem duplicar, status, conferência automática com do
   assert.equal((await call('DELETE', `/api/pendencias/${manual}`)).status, 200);
 });
 
+test('edição simultânea: salvar sobre versão desatualizada é recusado e não apaga o trabalho do colega', async () => {
+  const id = (await call('POST', '/api/clientes', { nome: 'Concorrência Teste', telefone: '111', email: 'a@a.com' })).data.id;
+  const ler = async () => (await call('GET', `/api/clientes/${id}`)).data;
+  const formA = await ler(), formB = await ler();                      // dois funcionários abrem o mesmo cadastro
+  assert.equal(formA.versao, 1);
+  assert.equal((await call('PUT', `/api/clientes/${id}`, { ...formA, telefone: '999' })).status, 200);
+  const rB = await call('PUT', `/api/clientes/${id}`, { ...formB, email: 'novo@b.com' });   // o segundo salva por cima
+  assert.equal(rB.status, 409); assert.match(rB.data.erro, /alterado por outra pessoa/);
+  let atual = await ler();
+  assert.deepEqual([atual.telefone, atual.email, atual.versao], ['999', 'a@a.com', 2], 'nada foi sobrescrito');
+  // reabrindo (versão nova) o segundo funcionário salva, preservando o telefone do primeiro
+  assert.equal((await call('PUT', `/api/clientes/${id}`, { ...atual, email: 'novo@b.com' })).status, 200);
+  atual = await ler(); assert.deepEqual([atual.telefone, atual.email, atual.versao], ['999', 'novo@b.com', 3]);
+  // integrações que não enviam "versao" continuam funcionando
+  assert.equal((await call('PUT', `/api/clientes/${id}`, { nome: 'Concorrência Teste', telefone: '000' })).status, 200);
+
+  // atendimento: concluir a providência em um aparelho também invalida o formulário aberto em outro
+  const at2 = (await call('POST', '/api/atendimentos', { cliente_id: id, data_hora: '2026-11-05T10:00', assunto: 'Concorrência', prazo: '2026-12-01' })).data.id;
+  const f1 = (await call('GET', `/api/atendimentos/${at2}`)).data;
+  await call('POST', `/api/atendimentos/${at2}/concluir`, { concluido: true });
+  assert.equal((await call('PUT', `/api/atendimentos/${at2}`, { ...f1, resumo: 'x' })).status, 409);
+  assert.equal((await call('GET', `/api/atendimentos/${at2}`)).data.concluido, 1, 'a conclusão não foi desfeita');
+  // caso/processo
+  const pr = (await call('POST', '/api/processos', { cliente_id: id, titulo: 'P' })).data.id;
+  const p1 = (await call('GET', `/api/processos/${pr}`)).data;
+  assert.equal((await call('PUT', `/api/processos/${pr}`, { ...p1, titulo: 'P2' })).status, 200);
+  assert.equal((await call('PUT', `/api/processos/${pr}`, { ...p1, titulo: 'P3' })).status, 409);
+  assert.equal((await call('GET', `/api/processos/${pr}`)).data.titulo, 'P2');
+});
+
+test('vários aparelhos: sessões simultâneas independentes e renovadas enquanto há uso', async () => {
+  const { db } = require('../server/db');
+  const crypto = require('node:crypto');
+  const adm = cookie;
+  await call('POST', '/api/admin/usuarios', { nome: 'Multi Aparelho', email: 'multi@b.com', papel: 'advogado', senha: 'MultiSenha789' });
+  const login = async () => { cookie = ''; assert.equal((await call('POST', '/api/auth/login', { email: 'multi@b.com', senha: 'MultiSenha789' })).status, 200); return cookie; };
+  const [c1, c2, c3] = [await login(), await login(), await login()];       // computador, celular, tablet
+  assert.equal(new Set([c1, c2, c3]).size, 3);
+  for (const c of [c1, c2, c3]) { cookie = c; assert.equal((await call('GET', '/api/clientes')).status, 200); }
+  // quem lança um registro num aparelho o vê nos outros
+  cookie = c1; const novo = (await call('POST', '/api/clientes', { nome: 'Visto em todos' })).data.id;
+  cookie = c3; assert.equal((await call('GET', `/api/clientes/${novo}`)).data.nome, 'Visto em todos');
+  // sair em um aparelho não derruba os outros
+  cookie = c1; await call('POST', '/api/auth/logout');
+  cookie = c1; assert.equal((await call('GET', '/api/clientes')).status, 401);
+  for (const c of [c2, c3]) { cookie = c; assert.equal((await call('GET', '/api/clientes')).status, 200); }
+
+  // sessão deslizante: perto de vencer, o uso renova por ~12 h; longe de vencer, não mexe
+  const h = crypto.createHash('sha256').update(c2.split('=')[1]).digest('hex');
+  db.prepare('UPDATE sessoes SET expira_em = ? WHERE token_hash = ?').run(Date.now() + 60_000, h);
+  cookie = c2; const r = await call('GET', '/api/clientes'); assert.equal(r.status, 200);
+  const renovada = db.prepare('SELECT expira_em FROM sessoes WHERE token_hash = ?').get(h).expira_em;
+  assert.ok(renovada - Date.now() > 11 * 3600 * 1000, 'renovada para ~12 h');
+  assert.match(r.r.headers.get('set-cookie') || '', /sid=/, 'cookie renovado no navegador');
+  cookie = c2; await call('GET', '/api/clientes');
+  assert.equal(db.prepare('SELECT expira_em FROM sessoes WHERE token_hash = ?').get(h).expira_em, renovada, 'sem escrita desnecessária');
+  // 12 h sem usar: expira
+  db.prepare('UPDATE sessoes SET expira_em = ? WHERE token_hash = ?').run(Date.now() - 1000, h);
+  cookie = c2; assert.equal((await call('GET', '/api/clientes')).status, 401);
+  cookie = adm;
+});
+
 test('arquivos estáticos públicos não expõem dados e o site não é indexável', async () => {
   const r = await fetch(base + '/');
   assert.equal(r.status, 200); assert.match(r.headers.get('x-robots-tag'), /noindex/);

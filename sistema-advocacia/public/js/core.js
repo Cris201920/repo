@@ -111,6 +111,7 @@ function confirmar(msg, { texto = 'Confirmar', perigo = false, titulo = 'Confirm
 // campo: {n, label, tipo:'text|textarea|select|date|datetime-local|number|email|password|checkbox', op:[[v,l]], req, col:'c1|c2|c3|c6', ph, rows}
 function campoHTML(c, v) {
   const id = 'f_' + c.n, val = v ?? '';
+  if (c.tipo === 'hidden') return `<input type="hidden" id="${id}" name="${c.n}" value="${esc(val)}">`;
   let inp;
   if (c.tipo === 'textarea') inp = `<textarea id="${id}" name="${c.n}" rows="${c.rows || 4}" placeholder="${esc(c.ph || '')}">${esc(val)}</textarea>`;
   else if (c.tipo === 'select') inp = `<select id="${id}" name="${c.n}">${(c.op || []).map(([k, l]) => `<option value="${esc(k)}" ${String(k) === String(val) ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select>`;

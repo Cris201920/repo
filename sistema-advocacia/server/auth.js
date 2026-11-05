@@ -38,7 +38,18 @@ function criarSessao(req, res, usuarioId) {
   const token = crypto.randomBytes(32).toString('hex');
   db.prepare('INSERT INTO sessoes (token_hash, usuario_id, expira_em, ip, agente) VALUES (?,?,?,?,?)')
     .run(sha(token), usuarioId, Date.now() + SESSAO_MS, req.ip, String(req.headers['user-agent'] || '').slice(0, 200));
-  res.cookie(COOKIE, token, { httpOnly: true, sameSite: 'strict', secure: COOKIE_SECURE, maxAge: SESSAO_MS, path: '/' });
+  res.cookie(COOKIE, token, opcoesCookie());
+}
+const opcoesCookie = () => ({ httpOnly: true, sameSite: 'strict', secure: COOKIE_SECURE, maxAge: SESSAO_MS, path: '/' });
+
+// Sessão "deslizante": enquanto a pessoa usa o sistema, o prazo de 12 h é renovado (no máximo a cada 15 min).
+// Assim ninguém é desconectado no meio do trabalho; só expira após 12 h SEM uso.
+function renovarSessao(req, res) {
+  if (!req.tokenAtual || !req.sessaoExpira) return;
+  const agora = Date.now();
+  if (req.sessaoExpira - agora > SESSAO_MS - 15 * 60 * 1000) return;
+  db.prepare('UPDATE sessoes SET expira_em = ? WHERE token_hash = ?').run(agora + SESSAO_MS, sha(req.tokenAtual));
+  res.cookie(COOKIE, req.tokenAtual, opcoesCookie());
 }
 function encerrarSessao(req, res) {
   const t = parseCookies(req)[COOKIE];
@@ -61,6 +72,7 @@ function carregarUsuario(req) {
     return null;
   }
   req.tokenAtual = t;
+  req.sessaoExpira = s.expira_em;
   return { id: s.id, nome: s.nome, email: s.email, papel: s.papel, compartilhado: !!s.compartilhado };
 }
 
@@ -68,6 +80,7 @@ function exigirLogin(req, res, next) {
   const u = carregarUsuario(req);
   if (!u) return res.status(401).json({ erro: 'Sessão expirada. Entre novamente.' });
   req.usuario = u;
+  renovarSessao(req, res);
   next();
 }
 const exigirPapel = (...papeis) => (req, res, next) =>

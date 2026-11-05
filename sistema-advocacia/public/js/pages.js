@@ -63,6 +63,7 @@ const CAMPOS_AT = (cl, procs) => [
   { n: 'providencias', label: 'Providências / próximos passos', tipo: 'textarea', rows: 3, col: 'c6' },
   { n: 'prazo', label: 'Prazo da providência', tipo: 'date', col: 'c2', dica: 'Aparece no painel até ser concluído.' },
   { n: 'concluido', label: 'Providência concluída', tipo: 'checkbox', col: 'c2' },
+  { n: 'versao', tipo: 'hidden' },
 ];
 async function abrirAtendimento(v = {}, depois) {
   const cl = await listaClientes();
@@ -119,7 +120,7 @@ async function pageAtendimento(id) {
         <dt>Cliente</dt><dd><a href="#/clientes/${a.cliente_id}">${esc(a.cliente)}</a></dd>
         <dt>Processo</dt><dd>${a.processo_id ? `<a href="#/processos/${a.processo_id}">${esc(a.processo)}</a>` : '—'}</dd></dl></div></div>
       <div class="card"><div class="card-h"><h3>Documentos deste atendimento</h3><button class="btn sm" id="up">${ico('upload')} Anexar / escanear</button></div>${listaDocs(a.documentos)}</div></div></div>`);
-  $('#ed').onclick = () => abrirAtendimento(a, () => pageAtendimento(id));
+  $('#ed').onclick = async () => { try { abrirAtendimento(await api('/atendimentos/' + id), () => pageAtendimento(id)); } catch (e) { falha(e); } };
   $('#up').onclick = () => abrirUpload({ cliente_id: a.cliente_id, processo_id: a.processo_id, atendimento_id: a.id }, () => pageAtendimento(id));
   $('#conc').onclick = async () => { try { await api(`/atendimentos/${id}/concluir`, { method: 'POST', body: { concluido: !a.concluido } }); pageAtendimento(id); } catch (e) { falha(e); } };
   $('#del').onclick = async () => { if (await confirmar('Excluir este atendimento? Os documentos anexados continuam no cadastro.', { perigo: true, texto: 'Excluir' })) { try { await api('/atendimentos/' + id, { method: 'DELETE' }); location.hash = '#/atendimentos'; } catch (e) { falha(e); } } };
@@ -290,6 +291,7 @@ const CAMPOS_CLI = [
   { n: 'estado_civil', label: 'Estado civil', col: 'c2' }, { n: 'profissao', label: 'Profissão / Ramo', col: 'c2' },
   { n: 'email', label: 'E-mail', tipo: 'email', col: 'c-half' }, { n: 'telefone', label: 'Telefone / WhatsApp', col: 'c-half' },
   { n: 'endereco', label: 'Endereço completo', col: 'c6' }, { n: 'observacoes', label: 'Observações internas', tipo: 'textarea', rows: 3, col: 'c6' },
+  { n: 'versao', tipo: 'hidden' },
 ];
 function abrirCliente(v = {}, depois) {
   const ed = !!v.id;
@@ -338,7 +340,7 @@ async function pageCliente(id) {
   $('#at').onclick = () => abrirAtendimento({ cliente_id: c.id }, rec);
   $('#pr').onclick = () => abrirProcesso({ cliente_id: c.id }, rec);
   $('#up').onclick = () => abrirUpload({ cliente_id: c.id }, rec);
-  $('#ed').onclick = () => abrirCliente(c, rec);
+  $('#ed').onclick = async () => { try { abrirCliente(await api('/clientes/' + id), rec); } catch (e) { falha(e); } };
   $('#ia').onclick = () => abrirAssistenteCom({ cliente_id: c.id });
   $('#arq').onclick = async () => { await api(`/clientes/${id}/ativo`, { method: 'POST', body: { ativo: !c.ativo } }); cache.clientes = null; rec(); };
   $$('tr[data-p]').forEach((tr) => (tr.onclick = () => (location.hash = '#/processos/' + tr.dataset.p)));
@@ -354,7 +356,7 @@ async function abrirProcesso(v = {}, depois) {
       { n: 'numero', label: 'Nº do processo (CNJ)', col: 'c2', ph: '0000000-00.0000.0.00.0000' }, { n: 'area', label: 'Área', tipo: 'select', op: [['', '—'], ...S.opcoes.areas.map((a) => [a, a])], col: 'c2' },
       { n: 'valor_causa', label: 'Valor da causa (R$)', tipo: 'number', col: 'c2' }, { n: 'juizo', label: 'Juízo / Vara / Órgão', col: 'c-half' }, { n: 'parte_contraria', label: 'Parte contrária', col: 'c-half' },
       { n: 'responsavel_id', label: 'Advogado responsável', tipo: 'select', op: [['', '—'], ...S.opcoes.usuarios.map((u) => [u.id, u.nome])], col: 'c-half' },
-      { n: 'observacoes', label: 'Observações', tipo: 'textarea', rows: 3, col: 'c6' }], { status: 'em_andamento', ...v }),
+      { n: 'observacoes', label: 'Observações', tipo: 'textarea', rows: 3, col: 'c6' }, { n: 'versao', tipo: 'hidden' }], { status: 'em_andamento', ...v }),
     botoes: [{ texto: 'Cancelar' }, { texto: 'Salvar', classe: 'gold', acao: async (ov) => { const r = await api(ed ? `/processos/${v.id}` : '/processos', { method: ed ? 'PUT' : 'POST', body: lerForm(ov) }); toast('Caso salvo.'); depois?.(r); } }] });
 }
 async function carregarOpcoes() { if (!S.opcoes) S.opcoes = await api('/opcoes'); return S.opcoes; }
@@ -389,7 +391,7 @@ async function pageProcesso(id) {
   const rec = () => pageProcesso(id);
   $('#at').onclick = () => abrirAtendimento({ cliente_id: p.cliente_id, processo_id: p.id }, rec);
   $('#up').onclick = () => abrirUpload({ cliente_id: p.cliente_id, processo_id: p.id }, rec);
-  $('#ed').onclick = () => abrirProcesso(p, rec);
+  $('#ed').onclick = async () => { try { abrirProcesso(await api('/processos/' + id), rec); } catch (e) { falha(e); } };
   if ($('#zipall')) $('#zipall').onclick = () => baixarZip(p.documentos.map((d) => d.id));
   $('#ia').onclick = () => abrirAssistenteCom({ cliente_id: p.cliente_id, processo_id: p.id });
   ligarAcoesDocs();

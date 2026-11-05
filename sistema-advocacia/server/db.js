@@ -155,6 +155,13 @@ if (!db.prepare('PRAGMA table_info(documentos)').all().some((c) => c.name === 'p
   db.exec('ALTER TABLE documentos ADD COLUMN pasta_id INTEGER REFERENCES pastas(id) ON DELETE SET NULL');
 }
 
+// migração: número de versão para evitar que a edição de um funcionário apague a de outro
+for (const tabela of ['clientes', 'processos', 'atendimentos']) {
+  if (!db.prepare(`PRAGMA table_info(${tabela})`).all().some((c) => c.name === 'versao')) {
+    db.exec(`ALTER TABLE ${tabela} ADD COLUMN versao INTEGER NOT NULL DEFAULT 1`);
+  }
+}
+
 // migração: organização de documentos por IA (resumo, data, etiquetas e sugestão pendente)
 {
   const colsDoc = db.prepare('PRAGMA table_info(documentos)').all().map((c) => c.name);
