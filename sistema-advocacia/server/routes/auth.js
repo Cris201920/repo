@@ -19,7 +19,8 @@ function logoUrl() {
 // Informações públicas mínimas para a tela de login
 r.get('/status', (req, res) => {
   const n = db.prepare('SELECT COUNT(*) AS n FROM usuarios').get().n;
-  res.json({ firma, logo: logoUrl(), precisaCriarAdmin: n === 0, usuario: A.carregarUsuario(req) });
+  const compartilhado = !!db.prepare('SELECT 1 FROM usuarios WHERE compartilhado = 1 AND ativo = 1').get();
+  res.json({ firma, logo: logoUrl(), precisaCriarAdmin: n === 0, acessoCompartilhado: compartilhado, usuario: A.carregarUsuario(req) });
 });
 
 // Primeiro acesso: cria o administrador (só funciona enquanto não existe nenhum usuário)
@@ -40,21 +41,25 @@ r.post('/setup', wrap(async (req, res) => {
 r.post('/login', wrap(async (req, res) => {
   const email = String(req.body.email || '').trim().toLowerCase();
   const senha = String(req.body.senha || '');
-  const chave = `${req.ip}|${email}`;
+  // sem e-mail = "acesso por link e senha" (senha compartilhada do escritório), se estiver ativado
+  const compartilhado = !email;
+  const chave = `${req.ip}|${compartilhado ? '*compartilhado*' : email}`;
   const espera = A.limiteLogin(chave);
   if (espera) return res.status(429).json({ erro: `Muitas tentativas. Aguarde ${Math.ceil(espera / 60)} min.` });
-  const u = db.prepare('SELECT * FROM usuarios WHERE email = ?').get(email);
+  const u = compartilhado
+    ? db.prepare('SELECT * FROM usuarios WHERE compartilhado = 1 AND ativo = 1').get()
+    : db.prepare('SELECT * FROM usuarios WHERE email = ? AND compartilhado = 0').get(email);
   // compara sempre, mesmo sem usuário, para não revelar se o e-mail existe
   const ok = u ? A.conferirSenha(senha, u.senha_hash) : (A.conferirSenha(senha, 'scrypt$00$00'), false);
   if (!ok || !u.ativo) {
     A.falhaLogin(chave);
-    A.auditar({ ...req, usuario: null, ip: req.ip }, 'login_falhou', 'usuarios', u?.id, email);
-    return res.status(401).json({ erro: 'E-mail ou senha incorretos.' });
+    A.auditar({ ...req, usuario: null, ip: req.ip }, 'login_falhou', 'usuarios', u?.id, compartilhado ? 'acesso compartilhado' : email);
+    return res.status(401).json({ erro: compartilhado ? 'Senha de acesso incorreta.' : 'E-mail ou senha incorretos.' });
   }
   A.sucessoLogin(chave);
   req.usuario = { id: u.id, nome: u.nome };
   A.criarSessao(req, res, u.id);
-  A.auditar(req, 'login', 'usuarios', u.id);
+  A.auditar(req, 'login', 'usuarios', u.id, compartilhado ? 'acesso compartilhado' : null);
   res.json({ ok: true });
 }));
 
@@ -67,6 +72,7 @@ r.post('/logout', (req, res) => {
 
 r.post('/senha', A.exigirLogin, wrap(async (req, res) => {
   const u = db.prepare('SELECT * FROM usuarios WHERE id = ?').get(req.usuario.id);
+  if (u.compartilhado) throw bad('A senha do acesso compartilhado só pode ser alterada pelo administrador.');
   if (!A.conferirSenha(String(req.body.atual || ''), u.senha_hash)) throw bad('Senha atual incorreta.');
   if (!A.senhaValida(req.body.nova)) throw bad(A.MSG_SENHA);
   db.prepare('UPDATE usuarios SET senha_hash = ? WHERE id = ?').run(A.hashSenha(req.body.nova), u.id);

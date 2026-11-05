@@ -9,6 +9,8 @@ const { cifrar, decifrar, sha256 } = require('../crypto');
 const { extrairTexto, TIPOS, extensao } = require('../extrair');
 const { auditar } = require('../auth');
 const { wrap, bad, notFound, txt, id_, like } = require('../util');
+const { zipSync } = require('fflate');
+const { PDFDocument } = require('pdf-lib');
 
 const r = Router();
 const PASTA = path.join(DATA_DIR, 'uploads');
@@ -56,12 +58,36 @@ r.get('/', (req, res) => {
     LEFT JOIN usuarios u ON u.id = d.usuario_id WHERE ${where.join(' AND ')} ORDER BY d.id DESC LIMIT 500`).all(...p));
 });
 
+// Junta fotos/imagens (JPEG ou PNG) em um único PDF, uma página por imagem (como um scanner)
+async function imagensParaPdf(files) {
+  const pdf = await PDFDocument.create();
+  for (const f of files) {
+    const ext = extensao(f.originalname);
+    const img = ['.jpg', '.jpeg'].includes(ext) ? await pdf.embedJpg(f.buffer) : ext === '.png' ? await pdf.embedPng(f.buffer) : null;
+    if (!img) throw bad('Para juntar em PDF use imagens JPG ou PNG.');
+    const paisagem = img.width > img.height;
+    const [pw, ph] = paisagem ? [841.89, 595.28] : [595.28, 841.89];   // A4
+    const esc = Math.min(pw / img.width, ph / img.height);
+    const w = img.width * esc, h = img.height * esc;
+    pdf.addPage([pw, ph]).drawImage(img, { x: (pw - w) / 2, y: (ph - h) / 2, width: w, height: h });
+  }
+  return Buffer.from(await pdf.save());
+}
+
 r.post('/', upload.array('arquivos', 20), wrap(async (req, res) => {
   if (!req.files?.length) throw bad('Selecione ao menos um arquivo.');
   const categoria = CATEGORIAS.includes(req.body.categoria) ? req.body.categoria : 'outros';
   const vinc = vinculos(req.body);
   const titulo = txt(req.body.titulo, 200);
   const ids = [];
+  if (req.body.juntar_pdf === '1') {
+    const buf = await imagensParaPdf(req.files);
+    const t = titulo || `Documento escaneado ${new Date().toLocaleDateString('pt-BR')}`;
+    const nome = t.replace(/[^\p{L}\p{N} ._-]/gu, '').trim().slice(0, 100) || 'Documento escaneado';
+    const id = await salvarDocumento({ buf, nomeOriginal: `${nome}.pdf`, titulo: t, categoria, vinc, usuarioId: req.usuario.id, origem: 'scanner' });
+    auditar(req, 'enviar', 'documentos', id, `${nome}.pdf (${req.files.length} páginas)`);
+    return res.json({ ids: [id] });
+  }
   for (const f of req.files) {
     const nome = Buffer.from(f.originalname, 'latin1').toString('utf8').replace(/[\\/\0]/g, '_').slice(0, 200);
     if (!TIPOS[extensao(nome)]) throw bad(`Tipo de arquivo não permitido: ${nome}`);
@@ -85,6 +111,26 @@ r.put('/:id', (req, res) => {
   auditar(req, 'editar', 'documentos', id, titulo);
   res.json({ ok: true });
 });
+
+// Baixa vários documentos de uma vez (ZIP). Corpo: { ids: [1,2,3] }
+const LIMITE_ZIP = 300 * 1024 * 1024;
+r.post('/zip', wrap(async (req, res) => {
+  const ids = [...new Set((Array.isArray(req.body.ids) ? req.body.ids : []).map(id_).filter(Boolean))].slice(0, 300);
+  if (!ids.length) throw bad('Selecione ao menos um documento.');
+  const docs = db.prepare(`SELECT id, titulo, nome_original, arquivo, tamanho FROM documentos WHERE id IN (${ids.map(() => '?').join(',')}) ORDER BY id`).all(...ids);
+  if (!docs.length) throw notFound('Documento');
+  if (docs.reduce((n, d) => n + d.tamanho, 0) > LIMITE_ZIP) throw bad('Os arquivos somam mais de 300 MB. Selecione menos documentos.');
+  const arquivos = {}; const usados = new Set();
+  for (const d of docs) {
+    let nome = d.nome_original.replace(/[\\/:*?"<>|\0]/g, '_');
+    while (usados.has(nome.toLowerCase())) { const e = extensao(nome); nome = `${path.basename(nome, e)} (${d.id})${e}`; }
+    usados.add(nome.toLowerCase());
+    arquivos[nome] = [decifrar(fs.readFileSync(path.join(PASTA, d.arquivo))), { level: 0 }];
+  }
+  auditar(req, 'baixar_zip', 'documentos', null, `${docs.length} arquivos`);
+  res.set({ 'Content-Type': 'application/zip', 'Content-Disposition': `attachment; filename="documentos-${new Date().toISOString().slice(0, 10)}.zip"`, 'Cache-Control': 'private, no-store' });
+  res.send(Buffer.from(zipSync(arquivos)));
+}));
 
 r.get('/:id', (req, res) => {
   const d = db.prepare(`SELECT id, titulo, categoria, nome_original, mime, tamanho, cliente_id, processo_id, atendimento_id FROM documentos WHERE id = ?`).get(id_(req.params.id));

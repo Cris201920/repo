@@ -53,7 +53,7 @@ async function api(url, { method = 'GET', body, form } = {}) {
   else if (body !== undefined) { init.headers['Content-Type'] = 'application/json'; init.body = JSON.stringify(body); }
   let r;
   try { r = await fetch('/api' + url, init); } catch { throw new Error('Sem conexão com o servidor.'); }
-  if (r.status === 401 && !url.startsWith('/auth/')) { S.usuario = null; location.hash = ''; renderLogin(); throw new Error('Sessão expirada. Entre novamente.'); }
+  if (r.status === 401 && !url.startsWith('/auth/')) { S.usuario = null; location.hash = ''; mostrarLogin(); throw new Error('Sessão expirada. Entre novamente.'); }
   const ct = r.headers.get('content-type') || '';
   const data = ct.includes('json') ? await r.json() : null;
   if (!r.ok) throw new Error(data?.erro || `Erro ${r.status}`);

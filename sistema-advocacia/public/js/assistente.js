@@ -95,7 +95,7 @@ function bolha(m, i) {
 }
 function renderMsgs() {
   const el = $('#msgs'); const ms = IA.conv?.mensagens || [];
-  el.innerHTML = ms.length ? ms.map(bolha).join('') : `<div class="ia-hero"><img src="/assets/emblema.png" alt=""><h2>Como posso ajudar?</h2><p>Escolha um cliente, um caso e os documentos à direita, depois use um dos modelos abaixo ou escreva sua solicitação. Ex.: “resuma a sentença anexada e indique o prazo recursal”.</p></div>`;
+  el.innerHTML = ms.length ? ms.map(bolha).join('') : `<div class="ia-hero"><img src="/assets/emblema-escuro.png" alt=""><h2>Como posso ajudar?</h2><p>Escolha um cliente, um caso e os documentos à direita, depois use um dos modelos abaixo ou escreva sua solicitação. Ex.: “resuma a sentença anexada e indique o prazo recursal”.</p></div>`;
   el.scrollTop = el.scrollHeight;
   $$('.msg.assistant [data-a]', el).forEach((b) => (b.onclick = () => acaoMsg(b.dataset.a, ms[+b.closest('.msg').dataset.i])));
 }

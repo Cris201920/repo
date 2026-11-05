@@ -1,0 +1,20 @@
+# Blueprint do Render (https://render.com): cria o site com disco persistente e HTTPS automático.
+# Publicar: no Render, "New +" > "Blueprint" > escolha este repositório (pasta raiz = sistema-advocacia).
+services:
+  - type: web
+    name: advocacia
+    runtime: docker
+    rootDir: sistema-advocacia
+    plan: starter            # disco persistente exige plano pago
+    healthCheckPath: /healthz
+    disk:
+      name: dados
+      mountPath: /data
+      sizeGB: 10
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false          # você informa no painel do Render
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-5-5
+      - key: DATA_KEY
+        generateValue: true  # chave de criptografia dos documentos — ANOTE e guarde uma cópia segura

@@ -102,6 +102,11 @@ CREATE INDEX IF NOT EXISTS ix_doc_proc ON documentos(processo_id);
 CREATE INDEX IF NOT EXISTS ix_msg_conv ON mensagens(conversa_id, id);
 `);
 
+// migração: usuário especial do "acesso por link e senha"
+if (!db.prepare('PRAGMA table_info(usuarios)').all().some((c) => c.name === 'compartilhado')) {
+  db.exec('ALTER TABLE usuarios ADD COLUMN compartilhado INTEGER NOT NULL DEFAULT 0');
+}
+
 function tx(fn) {
   db.exec('BEGIN');
   try { const r = fn(); db.exec('COMMIT'); return r; } catch (e) { db.exec('ROLLBACK'); throw e; }

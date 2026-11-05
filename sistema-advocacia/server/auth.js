@@ -54,14 +54,14 @@ function carregarUsuario(req) {
   const t = parseCookies(req)[COOKIE];
   if (!t) return null;
   const h = sha(t);
-  const s = db.prepare(`SELECT s.expira_em, u.id, u.nome, u.email, u.papel, u.ativo
+  const s = db.prepare(`SELECT s.expira_em, u.id, u.nome, u.email, u.papel, u.ativo, u.compartilhado
     FROM sessoes s JOIN usuarios u ON u.id = s.usuario_id WHERE s.token_hash = ?`).get(h);
   if (!s || s.expira_em < Date.now() || !s.ativo) {
     if (s) db.prepare('DELETE FROM sessoes WHERE token_hash = ?').run(h);
     return null;
   }
   req.tokenAtual = t;
-  return { id: s.id, nome: s.nome, email: s.email, papel: s.papel };
+  return { id: s.id, nome: s.nome, email: s.email, papel: s.papel, compartilhado: !!s.compartilhado };
 }
 
 function exigirLogin(req, res, next) {

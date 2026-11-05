@@ -136,9 +136,66 @@ test('perfis: estagiário não exclui; admin vê auditoria; não remove último 
   assert.equal((await call('PUT', '/api/admin/usuarios/' + me.id, { nome: me.nome, papel: 'advogado', ativo: true })).status, 400);
 });
 
+test('acesso por link e senha: ativar, entrar só com a senha, limites e desativar', async () => {
+  const adm = cookie;
+  assert.equal((await call('GET', '/api/auth/status')).data.acessoCompartilhado, false);
+  const on = await call('POST', '/api/admin/acesso-compartilhado', { ativo: true });
+  assert.match(on.data.senha, /^[a-z2-9]{4}(-[a-z2-9]{4}){3}$/);
+  assert.equal((await call('POST', '/api/admin/acesso-compartilhado', { ativo: true, senha: 'curta1' })).status, 400);
+  // ele não aparece na lista de usuários
+  assert.ok(!(await call('GET', '/api/admin/usuarios')).data.some((u) => u.email.includes('compartilhado')));
+  cookie = '';
+  assert.equal((await call('GET', '/api/auth/status')).data.acessoCompartilhado, true);
+  assert.equal((await call('POST', '/api/auth/login', { email: '', senha: 'senha-errada-123' })).status, 401);
+  assert.equal((await call('POST', '/api/auth/login', { email: '', senha: on.data.senha })).status, 200);
+  assert.equal((await call('GET', '/api/clientes')).status, 200, 'acessa os dados');
+  assert.equal((await call('GET', '/api/admin/usuarios')).status, 403, 'sem acesso à administração');
+  assert.equal((await call('POST', '/api/auth/senha', { atual: on.data.senha, nova: 'NovaSenha12345' })).status, 400, 'não troca a senha por conta própria');
+  const sessao = cookie;
+  // admin gera nova senha: a sessão e a senha antigas deixam de valer
+  cookie = adm;
+  const nova = await call('POST', '/api/admin/acesso-compartilhado', { ativo: true });
+  assert.notEqual(nova.data.senha, on.data.senha);
+  cookie = sessao; assert.equal((await call('GET', '/api/clientes')).status, 401);
+  cookie = ''; assert.equal((await call('POST', '/api/auth/login', { email: '', senha: on.data.senha })).status, 401);
+  assert.equal((await call('POST', '/api/auth/login', { email: '', senha: nova.data.senha })).status, 200);
+  // desativar bloqueia
+  cookie = adm; await call('POST', '/api/admin/acesso-compartilhado', { ativo: false });
+  cookie = ''; assert.equal((await call('POST', '/api/auth/login', { email: '', senha: nova.data.senha })).status, 401);
+  assert.equal((await call('GET', '/api/auth/status')).data.acessoCompartilhado, false);
+  cookie = adm;
+});
+
+test('escanear: fotos viram um único PDF; ZIP em lote devolve os arquivos originais', async () => {
+  const { PDFDocument } = require('pdf-lib');
+  // PNG 1x1 válido
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
+  const fd = new FormData();
+  fd.append('arquivos', new Blob([png], { type: 'image/png' }), 'p1.png'); fd.append('arquivos', new Blob([png], { type: 'image/png' }), 'p2.png');
+  fd.append('juntar_pdf', '1'); fd.append('titulo', 'RG escaneado'); fd.append('cliente_id', cli); fd.append('categoria', 'identificacao');
+  const r = await fetch(base + '/api/documentos', { method: 'POST', headers: { 'X-Requested-With': 'adv', cookie }, body: fd });
+  assert.equal(r.status, 200); const id = (await r.json()).ids[0];
+  const pdf = await PDFDocument.load(await (await fetch(base + `/api/documentos/${id}/arquivo`, { headers: { cookie } })).arrayBuffer());
+  assert.equal(pdf.getPageCount(), 2);
+  assert.equal((await call('GET', '/api/documentos?q=RG')).data.find((d) => d.id === id).origem, 'scanner');
+  // ZIP
+  const z = await fetch(base + '/api/documentos/zip', { method: 'POST', headers: { ...H, cookie }, body: JSON.stringify({ ids: [doc, id] }) });
+  assert.equal(z.status, 200); assert.equal(z.headers.get('content-type'), 'application/zip');
+  const { unzipSync, strFromU8 } = require('fflate');
+  const arq = unzipSync(new Uint8Array(await z.arrayBuffer()));
+  assert.deepEqual(Object.keys(arq).sort(), ['RG escaneado.pdf', 'contrato.txt']);
+  assert.match(strFromU8(arq['contrato.txt']), /CONTRATO DE LOCAÇÃO/);
+  assert.equal((await call('POST', '/api/documentos/zip', { ids: [] })).status, 400);
+  assert.equal((await fetch(base + '/api/documentos/zip', { method: 'POST', headers: H, body: '{"ids":[1]}' })).status, 401);
+  // imagem não suportada para junção
+  const fd2 = new FormData(); fd2.append('arquivos', new Blob(['x']), 'a.pdf'); fd2.append('juntar_pdf', '1');
+  assert.equal((await fetch(base + '/api/documentos', { method: 'POST', headers: { 'X-Requested-With': 'adv', cookie }, body: fd2 })).status, 400);
+});
+
 test('arquivos estáticos públicos não expõem dados e o site não é indexável', async () => {
   const r = await fetch(base + '/');
   assert.equal(r.status, 200); assert.match(r.headers.get('x-robots-tag'), /noindex/);
   assert.equal((await fetch(base + '/data/advocacia.db')).status === 404 || (await fetch(base + '/data/advocacia.db')).headers.get('content-type')?.includes('html'), true);
   assert.equal((await fetch(base + '/assets/logo.png')).status, 200);
+  assert.equal((await fetch(base + '/healthz')).status, 200);
 });

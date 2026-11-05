@@ -32,6 +32,15 @@ npm start                   # http://localhost:3000
 No **primeiro acesso** a tela de login pede para criar a conta do administrador
 (só funciona enquanto não existir nenhum usuário). Depois, crie os demais usuários em *Administração → Usuários*.
 
+### Quem pode entrar
+- **Contas pessoais** (recomendado): cada pessoa com e-mail e senha, criadas em *Administração → Usuários*. Fica registrado quem fez cada ação.
+- **Acesso por link e senha:** em *Administração → Usuários → Acesso por link e senha* o administrador liga uma senha única do escritório. Quem tiver o **link + essa senha** entra (opção “Tenho apenas o link e a senha de acesso” na tela de login), sem conta pessoal. O sistema gera uma senha forte (ou você define a sua), mostra **uma vez** para copiar, e você pode trocar ou desativar quando quiser — trocar derruba todos os acessos por essa senha. Como a senha é compartilhada, o registro de auditoria mostra “Acesso compartilhado” em vez do nome da pessoa.
+
+### Documentos escaneados e arquivos
+- Em qualquer tela de documentos: **Enviar / escanear**. No celular, o botão *Escanear com a câmera* abre a câmera; fotografe cada página e o sistema **junta tudo em um único PDF** (uma página por foto).
+- **Baixar:** cada documento tem o botão de download (arquivo original). Na lista de *Documentos* marque vários e use *Baixar selecionados (ZIP)*; nas páginas de cliente e de caso há *Baixar todos (ZIP)*.
+- PDFs escaneados (imagem) não têm texto pesquisável, mas o **Assistente de IA consegue lê-los** (leitura visual). A busca por conteúdo funciona em PDFs com texto, Word e TXT.
+
 ### Chave da IA
 Crie uma chave em <https://console.anthropic.com/> e coloque em `ANTHROPIC_API_KEY`.
 A chave fica **somente no servidor**; o navegador nunca a vê. Sem ela o sistema funciona normalmente,
@@ -44,7 +53,17 @@ Nome, subtítulo e nome do assistente ficam em `firm.config.json`.
 > A logo foi extraída de uma foto do cartão; para qualidade máxima (impressão, timbrado) use o arquivo
 > vetorial/PNG original do designer no mesmo caminho.
 
-## Colocando no ar (privado)
+## Colocando no ar (para ter um link)
+
+**Caminho mais simples — Render (HTTPS e disco incluídos):**
+1. Crie uma conta em <https://render.com> e conecte o GitHub deste repositório.
+2. *New + → Blueprint* → escolha o repositório e a branch. O arquivo `render.yaml` cria tudo sozinho.
+3. Quando pedir, informe `ANTHROPIC_API_KEY`. Depois do primeiro deploy, abra *Environment* e **anote o valor de `DATA_KEY`** (guarde uma cópia segura).
+4. O Render entrega um link do tipo `https://advocacia-xxxx.onrender.com`. Abra-o e crie o administrador. Dá para ligar um domínio próprio (ex.: `sistema.seudominio.com.br`) em *Settings → Custom Domains*.
+
+> O disco persistente exige plano pago (cerca de US$ 7/mês). Sem disco, banco e arquivos seriam apagados a cada atualização. Qualquer plataforma que rode Docker com volume (Fly.io, Railway, VPS) serve — há um `Dockerfile` pronto.
+
+**Passos genéricos / VPS:**
 
 O sistema precisa de um servidor Node com **disco persistente** (ele guarda um banco SQLite e os arquivos).
 Funciona em uma VPS (Ubuntu + Caddy/nginx), Render, Railway, Fly.io etc.
@@ -58,7 +77,7 @@ Funciona em uma VPS (Ubuntu + Caddy/nginx), Render, Railway, Fly.io etc.
 
 ## Segurança — o que já está implementado
 
-- Login obrigatório em todas as rotas de dados; sessão em cookie `HttpOnly` + `SameSite=Strict` (+ `Secure` em HTTPS), expira em 12 h.
+- Login obrigatório (conta pessoal ou senha de acesso do escritório) em todas as rotas de dados; sessão em cookie `HttpOnly` + `SameSite=Strict` (+ `Secure` em HTTPS), expira em 12 h.
 - Senhas com `scrypt`; mínimo de 10 caracteres com letras e números; bloqueio após 5 tentativas erradas (15 min).
 - Documentos **criptografados em disco** (AES-256-GCM); só são decifrados ao serem baixados por usuário autenticado.
 - Proteção CSRF, cabeçalhos de segurança (CSP, etc.), `noindex` e `robots.txt` bloqueando buscadores.
