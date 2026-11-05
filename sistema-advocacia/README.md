@@ -36,6 +36,16 @@ No **primeiro acesso** a tela de login pede para criar a conta do administrador
 - **Contas pessoais** (recomendado): cada pessoa com e-mail e senha, criadas em *Administração → Usuários*. Fica registrado quem fez cada ação.
 - **Acesso por link e senha:** em *Administração → Usuários → Acesso por link e senha* o administrador liga uma senha única do escritório. Quem tiver o **link + essa senha** entra (opção “Tenho apenas o link e a senha de acesso” na tela de login), sem conta pessoal. O sistema gera uma senha forte (ou você define a sua), mostra **uma vez** para copiar, e você pode trocar ou desativar quando quiser — trocar derruba todos os acessos por essa senha. Como a senha é compartilhada, o registro de auditoria mostra “Acesso compartilhado” em vez do nome da pessoa.
 
+### Organização automática dos documentos (IA)
+Em *Documentos → Organizar com IA* (ou marcando “Organizar com IA depois de enviar” ao enviar/escanear), a IA lê cada arquivo e propõe:
+- **tipo** (procuração, contrato, petição, decisão, documento pessoal, comprovante…), **título**, **resumo**, **data do documento** e etiquetas;
+- **cliente e caso**: a IA só extrai do documento os nomes, CPF/CNPJ e o número do processo; **o próprio servidor cruza** isso com o seu cadastro (CPF/CNPJ e nº do processo = vínculo seguro; nome = “confira”; nomes repetidos = você escolhe). **A lista de clientes não é enviada à IA.**
+- **separação**: um PDF que reúne vários documentos (ex.: RG, CPF e comprovante escaneados juntos) é dividido em arquivos distintos, página a página. Páginas que a IA não identificar viram um documento “não identificado” — nenhuma página se perde, e o original só é excluído se você deixar marcado e todas as páginas tiverem sido aproveitadas.
+- avisa **possíveis duplicados** (mesmo conteúdo já arquivado).
+
+Nada é alterado sem a sua confirmação: as sugestões aparecem numa tela de revisão em que você edita título, tipo, cliente e caso antes de aplicar (e podem ser guardadas para revisar depois). A visão **“Por cliente e caso”** mostra tudo em pastas: Cliente › Caso › Tipo de documento; o grupo “Sem cliente — a organizar” reúne o que ainda não foi classificado.
+Custo: cada arquivo analisado é uma chamada à API; PDFs escaneados (imagem) usam mais. Para reduzir, defina um modelo menor em `ANTHROPIC_MODEL_ORGANIZAR`. Limites: PDFs escaneados de até 100 páginas e 20 MB.
+
 ### Documentos escaneados e arquivos
 - Em qualquer tela de documentos: **Enviar / escanear**. No celular, o botão *Escanear com a câmera* abre a câmera; fotografe cada página e o sistema **junta tudo em um único PDF** (uma página por foto).
 - **Baixar:** cada documento tem o botão de download (arquivo original). Na lista de *Documentos* marque vários e use *Baixar selecionados (ZIP)*; nas páginas de cliente e de caso há *Baixar todos (ZIP)*.

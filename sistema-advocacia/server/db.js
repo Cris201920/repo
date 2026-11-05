@@ -107,6 +107,14 @@ if (!db.prepare('PRAGMA table_info(usuarios)').all().some((c) => c.name === 'com
   db.exec('ALTER TABLE usuarios ADD COLUMN compartilhado INTEGER NOT NULL DEFAULT 0');
 }
 
+// migração: organização de documentos por IA (resumo, data, etiquetas e sugestão pendente)
+{
+  const colsDoc = db.prepare('PRAGMA table_info(documentos)').all().map((c) => c.name);
+  for (const [nome, tipo] of [['resumo', 'TEXT'], ['data_documento', 'TEXT'], ['tags', 'TEXT'], ['ia_status', 'TEXT'], ['ia_sugestao', 'TEXT']]) {
+    if (!colsDoc.includes(nome)) db.exec(`ALTER TABLE documentos ADD COLUMN ${nome} ${tipo}`);
+  }
+}
+
 function tx(fn) {
   db.exec('BEGIN');
   try { const r = fn(); db.exec('COMMIT'); return r; } catch (e) { db.exec('ROLLBACK'); throw e; }

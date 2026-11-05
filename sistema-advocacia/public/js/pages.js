@@ -164,6 +164,7 @@ async function abrirUpload(pre = {}, depois) {
       <div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap"><button type="button" class="btn" id="cam">${ico('eye')} Escanear com a câmera</button><span class="small muted">No celular abre a câmera; fotografe cada página.</span><input type="file" id="camin" accept="image/*" capture="environment" hidden></div>
       <ul class="files" id="fl"></ul>
       <label class="chk" id="wj" hidden style="margin:8px 0"><input type="checkbox" id="juntar" checked> Juntar as imagens em um único PDF (uma página por imagem)</label>
+      <label class="chk" id="worg" hidden style="margin:8px 0">${''}<input type="checkbox" id="orgia" checked> <span>Organizar com IA depois de enviar <span class="muted small">(identifica tipo, cliente e caso e separa documentos que vieram juntos; você revisa antes)</span></span></label>
       <form class="f" onsubmit="return false" style="margin-top:8px">
       ${campoHTML({ n: 'titulo', label: 'Título (opcional)', col: 'c6', ph: 'Se vazio, usa o nome do arquivo' }, '')}
       ${campoHTML({ n: 'categoria', label: 'Tipo de documento', tipo: 'select', op: opts(L.categoria), col: 'c-half' }, 'outros')}
@@ -172,6 +173,7 @@ async function abrirUpload(pre = {}, depois) {
       <input type="hidden" name="atendimento_id" value="${pre.atendimento_id || ''}"></form>
       <p class="note small">Os arquivos são gravados <b>criptografados</b> no servidor e só ficam acessíveis a quem estiver autenticado.</p>`,
     aoAbrir: (ov) => {
+      iaConfigurada().then((ok) => { const w = $('#worg', ov); if (w) w.hidden = !ok; });
       const dz = $('#drop', ov), inp = $('#arq', ov), cin = $('#camin', ov);
       const mostrar = () => {
         $('#fl', ov).innerHTML = arquivos.map((f, i) => `<li><span>${esc(f.name)}</span><span class="muted small">${fBytes(f.size)} <button type="button" class="x" data-rm="${i}" aria-label="Remover" style="font-size:18px">×</button></span></li>`).join('');
@@ -194,31 +196,40 @@ async function abrirUpload(pre = {}, depois) {
       let envio = arquivos;
       if (juntar) { fd.append('juntar_pdf', '1'); envio = []; for (const f of arquivos) envio.push(await reduzirImagem(f)); }
       envio.forEach((f) => fd.append('arquivos', f));
-      await api('/documentos', { method: 'POST', form: fd });
-      toast(juntar ? 'PDF criado e enviado.' : arquivos.length > 1 ? 'Documentos enviados.' : 'Documento enviado.'); depois?.();
+      const resp = await api('/documentos', { method: 'POST', form: fd });
+      toast(juntar ? 'PDF criado e enviado.' : arquivos.length > 1 ? 'Documentos enviados.' : 'Documento enviado.');
+      if (!$('#worg', ov).hidden && $('#orgia', ov).checked) setTimeout(() => organizarDocs(resp.ids, depois), 80); else depois?.();
     } }] });
 }
 
 async function pageDocumentos(params) {
   const cl = await listaClientes();
   const f = { q: '', categoria: '', cliente_id: '', ...params };
+  let vista = 'lista', ultimos = [];
+  try { vista = localStorage.getItem('docsVista') === 'arvore' ? 'arvore' : 'lista'; } catch { /* sem armazenamento */ }
   view(`<div class="page-h"><div><h1>Documentos</h1><div class="sub">Arquivo digital do escritório — busca também dentro do texto dos documentos</div></div>
-    <div class="actions"><button class="btn" id="zip" disabled>${ico('down')} Baixar selecionados (ZIP)</button><button class="btn gold" id="novo">${ico('upload')} Enviar / escanear</button></div></div>
+    <div class="actions"><button class="btn" id="org" title="A IA identifica o tipo, o cliente e o caso e separa documentos juntos">${ico('spark')} Organizar com IA</button><button class="btn" id="zip" disabled>${ico('down')} Baixar selecionados (ZIP)</button><button class="btn gold" id="novo">${ico('upload')} Enviar / escanear</button></div></div>
     <div class="filters"><input type="search" id="q" placeholder="Buscar por título, arquivo, cliente ou conteúdo…" value="${esc(f.q)}">
       <select id="cat"><option value="">Todos os tipos</option>${opts(L.categoria).map(([k, l]) => `<option value="${k}" ${f.categoria === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
-      <select id="cli">${opClientes(cl, 'Todos os clientes').map(([k, l]) => `<option value="${k}" ${String(f.cliente_id) === String(k) ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select></div>
+      <select id="cli">${opClientes(cl, 'Todos os clientes').map(([k, l]) => `<option value="${k}" ${String(f.cliente_id) === String(k) ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select>
+      <div class="seg right" role="group" aria-label="Modo de exibição"><button type="button" id="vLista" class="${vista === 'lista' ? 'on' : ''}">Lista</button><button type="button" id="vArvore" class="${vista === 'arvore' ? 'on' : ''}">Por cliente e caso</button></div></div>
     <div class="card tbl" id="lista"></div>`);
   const carregar = async () => {
     const dados = await api('/documentos' + qs({ q: $('#q').value, categoria: $('#cat').value, cliente_id: $('#cli').value }));
-    $('#lista').innerHTML = dados.length ? `<table><thead><tr><th style="width:34px"><input type="checkbox" id="todos" aria-label="Selecionar todos"></th><th>Documento</th><th>Tipo</th><th>Cliente / Caso</th><th>Enviado</th><th></th></tr></thead><tbody>${dados.map((d) => `<tr>
+    $('#lista').innerHTML = vista === 'arvore' ? vistaArvore(dados) : dados.length ? `<table><thead><tr><th style="width:34px"><input type="checkbox" id="todos" aria-label="Selecionar todos"></th><th>Documento</th><th>Tipo</th><th>Cliente / Caso</th><th>Enviado</th><th></th></tr></thead><tbody>${dados.map((d) => `<tr>
       <td><input type="checkbox" class="sel" value="${d.id}" aria-label="Selecionar ${esc(d.titulo)}"></td>
-      <td><b>${esc(d.titulo)}</b> ${d.origem === 'ia' ? '<span class="badge gold">IA</span>' : d.origem === 'scanner' ? '<span class="badge info">Escaneado</span>' : ''}<div class="small muted">${esc(d.nome_original)} · ${fBytes(d.tamanho)}</div></td>
+      <td><b>${esc(d.titulo)}</b> ${d.origem === 'ia' ? '<span class="badge gold">IA</span>' : d.origem === 'scanner' ? '<span class="badge info">Escaneado</span>' : ''}<div class="small muted">${esc(d.nome_original)} · ${fBytes(d.tamanho)}${d.data_documento ? ' · doc. de ' + fData(d.data_documento) : ''}</div>
+        ${d.resumo ? `<div class="small" style="color:var(--ink-2)">${esc(d.resumo)}</div>` : ''}${d.ia_status === 'sugerido' ? `<button type="button" class="badge gold" style="cursor:pointer" data-rev="${d.id}">Sugestão da IA para revisar</button>` : ''}</td>
       <td><span class="badge">${L.categoria[d.categoria] || d.categoria}</span></td>
       <td>${d.cliente_id ? `<a href="#/clientes/${d.cliente_id}">${esc(d.cliente)}</a>` : '<span class="muted">—</span>'}${d.processo ? `<div class="small muted">${esc(d.processo)}</div>` : ''}</td>
       <td class="small">${fUTC(d.criado_em)}<div class="muted">${esc(d.enviado_por || '')}</div></td>
       <td style="white-space:nowrap;text-align:right"><button class="btn sm ghost" data-ver="${d.id}" title="Visualizar">${ico('eye')}</button><a class="btn sm ghost" href="/api/documentos/${d.id}/arquivo" title="Baixar">${ico('down')}</a>
         <button class="btn sm ghost" data-ia="${d.id}" title="Analisar com IA">${ico('spark')}</button><button class="btn sm ghost" data-ed="${d.id}" title="Editar dados">${ico('edit')}</button><button class="btn sm ghost" data-del="${d.id}" title="Excluir">${ico('trash')}</button></td></tr>`).join('')}</tbody></table>` : vazio('Nenhum documento encontrado.');
     ligarAcoesDocs();
+    ultimos = dados;
+    const pend = dados.filter((d) => !d.ia_status).length, rev = dados.filter((d) => d.ia_status === 'sugerido').length;
+    $('#org').innerHTML = `${ico('spark')} Organizar com IA${pend + rev ? ` <span class="badge gold">${pend + rev}</span>` : ''}`;
+    $$('[data-rev]').forEach((b) => (b.onclick = () => revisarPorIds([+b.dataset.rev], carregar)));
     const marcados = () => $$('.sel:checked').map((c) => +c.value);
     const atualizaZip = () => { const n = marcados().length; $('#zip').disabled = !n; $('#zip').innerHTML = `${ico('down')} Baixar ${n ? n + ' selecionado(s)' : 'selecionados'} (ZIP)`; };
     $$('.sel').forEach((c) => (c.onchange = atualizaZip));
@@ -231,6 +242,20 @@ async function pageDocumentos(params) {
   };
   $('#q').oninput = debounce(carregar); $('#cat').onchange = carregar; $('#cli').onchange = carregar;
   $('#novo').onclick = () => abrirUpload({ cliente_id: $('#cli').value }, carregar);
+  const trocarVista = (v) => { vista = v; try { localStorage.setItem('docsVista', v); } catch { /* ok */ } $('#vLista').classList.toggle('on', v === 'lista'); $('#vArvore').classList.toggle('on', v === 'arvore'); carregar(); };
+  $('#vLista').onclick = () => trocarVista('lista'); $('#vArvore').onclick = () => trocarVista('arvore');
+  $('#org').onclick = () => {
+    const marcados = $$('.sel:checked').map((c) => +c.value);
+    const pend = ultimos.filter((d) => !d.ia_status).map((d) => d.id), rev = ultimos.filter((d) => d.ia_status === 'sugerido').map((d) => d.id);
+    if (!pend.length && !rev.length && !marcados.length) return toast('Todos os documentos desta lista já foram organizados.');
+    const botoes = [{ texto: 'Fechar' }];
+    if (rev.length) botoes.push({ texto: `Revisar sugestões prontas (${rev.length})`, acao: () => { revisarPorIds(rev, carregar); } });
+    if (marcados.length) botoes.push({ texto: `Organizar os ${marcados.length} selecionados`, classe: pend.length ? '' : 'gold', acao: () => { organizarDocs(marcados, carregar); } });
+    if (pend.length) botoes.push({ texto: `Organizar ${pend.length} ainda não organizado(s)`, classe: 'gold', acao: () => { organizarDocs(pend, carregar); } });
+    modal({ titulo: 'Organizar documentos com IA', tamanho: 'sm', botoes,
+      corpo: `<p style="margin-top:0">A IA lê cada arquivo e propõe: <b>tipo</b>, <b>título</b>, <b>resumo</b>, <b>data</b>, <b>cliente</b> e <b>caso</b> (cruzando com o seu cadastro) — e <b>separa em arquivos distintos</b> os PDFs que reúnem vários documentos, como RG, CPF e comprovante escaneados juntos.</p>
+        <p class="note small" style="margin-bottom:0">Você revisa tudo antes de aplicar. O conteúdo dos arquivos analisados é enviado ao provedor de IA; a lista dos seus clientes <b>não</b> é enviada.</p>` });
+  };
   await carregar();
 }
 async function editarDoc(d, depois) {

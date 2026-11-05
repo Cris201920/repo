@@ -17,6 +17,8 @@ module.exports = {
   PORT: Number(process.env.PORT) || 3000,
   DATA_DIR: path.resolve(process.env.DATA_DIR || path.join(__dirname, '..', 'data')),
   MODEL: process.env.ANTHROPIC_MODEL || 'claude-sonnet-5-5',
+  // modelo usado para classificar/organizar documentos (pode ser um modelo menor e mais barato)
+  MODEL_ORGANIZAR: process.env.ANTHROPIC_MODEL_ORGANIZAR || process.env.ANTHROPIC_MODEL || 'claude-sonnet-5-5',
   COOKIE_SECURE: process.env.COOKIE_SECURE === '1',
   TRUST_PROXY: process.env.TRUST_PROXY === '1',
   MAX_UPLOAD: 25 * 1024 * 1024,

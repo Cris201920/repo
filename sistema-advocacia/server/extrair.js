@@ -4,6 +4,22 @@ const path = require('path');
 const MAX_TEXTO = 400_000;
 const MAX_PAGINAS = 400;
 
+// Texto de cada página do PDF (array; páginas sem texto ficam como string vazia)
+async function paginasPdf(buf, max = 300) {
+  const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs');
+  const doc = await pdfjs.getDocument({ data: new Uint8Array(buf), useSystemFonts: true, isEvalSupported: false, verbosity: 0 }).promise;
+  const paginas = [];
+  try {
+    const total = doc.numPages;
+    for (let i = 1; i <= Math.min(total, max); i++) {
+      const c = await (await doc.getPage(i)).getTextContent();
+      paginas.push(c.items.map((it) => it.str + (it.hasEOL ? '\n' : ' ')).join('').replace(/ {2,}/g, ' ').trim());
+    }
+    paginas.total = total;
+  } finally { await doc.destroy(); }
+  return paginas;
+}
+
 async function textoPdf(buf) {
   const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs');
   const doc = await pdfjs.getDocument({ data: new Uint8Array(buf), useSystemFonts: true, isEvalSupported: false, verbosity: 0 }).promise;
@@ -52,4 +68,4 @@ const TIPOS = {
 };
 const extensao = (nome) => path.extname(nome || '').toLowerCase();
 
-module.exports = { extrairTexto, TIPOS, extensao };
+module.exports = { extrairTexto, paginasPdf, TIPOS, extensao };

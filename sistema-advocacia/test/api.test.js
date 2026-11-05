@@ -10,9 +10,15 @@ process.env.DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'adv-test-'));
 process.env.ANTHROPIC_API_KEY = 'chave-de-teste';
 
 let ultimoPedidoIA = null;
+let respostaOrganizar = { documentos: [] };
 const fakeIA = http.createServer((req, res) => {
   let b = ''; req.on('data', (c) => (b += c)); req.on('end', () => {
     ultimoPedidoIA = JSON.parse(b);
+    if (ultimoPedidoIA.tools) { // chamada "organizar documento" (sem streaming, com ferramenta)
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ id: 'm2', type: 'message', role: 'assistant', model: 'x', stop_reason: 'tool_use', usage: { input_tokens: 1, output_tokens: 1 },
+        content: [{ type: 'tool_use', id: 'tu_1', name: 'organizar_documento', input: respostaOrganizar }] }));
+    }
     const ev = (t, d) => `event: ${t}\ndata: ${JSON.stringify({ type: t, ...d })}\n\n`;
     res.writeHead(200, { 'Content-Type': 'text/event-stream' });
     res.write(ev('message_start', { message: { id: 'm1', type: 'message', role: 'assistant', model: 'x', content: [], stop_reason: null, usage: { input_tokens: 1, output_tokens: 1 } } }));
@@ -190,6 +196,88 @@ test('escanear: fotos viram um único PDF; ZIP em lote devolve os arquivos origi
   // imagem não suportada para junção
   const fd2 = new FormData(); fd2.append('arquivos', new Blob(['x']), 'a.pdf'); fd2.append('juntar_pdf', '1');
   assert.equal((await fetch(base + '/api/documentos', { method: 'POST', headers: { 'X-Requested-With': 'adv', cookie }, body: fd2 })).status, 400);
+});
+
+const seg = (o) => ({ pagina_inicial: 1, pagina_final: 1, categoria: 'outros', titulo: 'Doc', resumo: 'r', partes: [], ...o });
+async function enviarArquivo(nome, conteudo, tipo = 'text/plain') {
+  const fd = new FormData(); fd.append('arquivos', new Blob([conteudo], { type: tipo }), nome);
+  const r = await fetch(base + '/api/documentos', { method: 'POST', headers: { 'X-Requested-With': 'adv', cookie }, body: fd });
+  assert.equal(r.status, 200); return (await r.json()).ids[0];
+}
+
+test('organizar com IA: vínculo por CPF/nº do processo/nome, sem enviar a lista de clientes à IA', async () => {
+  await call('POST', '/api/clientes', { nome: 'Zé Reservado Sigiloso', documento: '999.888.777-66' });
+  const p2 = (await call('POST', '/api/processos', { cliente_id: cli, titulo: 'Execução de aluguéis', numero: '5001234-56.2026.8.21.0001' })).data.id;
+  const id = await enviarArquivo('scan001.txt', 'PROCURAÇÃO\nOutorgante: Maria da Silva, CPF 123.456.789-00');
+
+  // por CPF -> alta
+  respostaOrganizar = { documentos: [seg({ categoria: 'procuracao', titulo: 'Procuração — Maria da Silva', data_documento: '2026-03-12', tags: ['locação'], partes: [{ nome: 'Maria da Silva', documento: '123.456.789-00' }] })] };
+  const r = (await call('POST', `/api/documentos/${id}/organizar`)).data;
+  assert.equal(r.segmentos.length, 1);
+  assert.equal(r.segmentos[0].vinculo.cliente_id, cli); assert.equal(r.segmentos[0].vinculo.confianca, 'alta');
+  const enviado = JSON.stringify(ultimoPedidoIA);
+  assert.ok(enviado.includes('PROCURAÇÃO') && !enviado.includes('Zé Reservado') && !enviado.includes('999.888.777'), 'cadastro de outros clientes não vai para a IA');
+  assert.equal(ultimoPedidoIA.tool_choice.name, 'organizar_documento');
+  assert.equal((await call('GET', '/api/documentos')).data.find((d) => d.id === id).ia_status, 'sugerido');
+
+  // por número do processo (formatação diferente) -> alta, já com o caso
+  respostaOrganizar = { documentos: [seg({ categoria: 'decisao', titulo: 'Sentença', numero_processo: '50012345620268210001' })] };
+  const v = (await call('POST', `/api/documentos/${id}/organizar`)).data.segmentos[0].vinculo;
+  assert.equal(v.processo_id, p2); assert.equal(v.cliente_id, cli); assert.equal(v.confianca, 'alta');
+
+  // por nome (sem CPF) -> média; nome ambíguo -> sem vínculo automático e com candidatos
+  respostaOrganizar = { documentos: [seg({ partes: [{ nome: 'MARIA DA SILVA' }] })] };
+  const m = (await call('POST', `/api/documentos/${id}/organizar`)).data.segmentos[0].vinculo;
+  assert.equal(m.cliente_id, cli); assert.equal(m.confianca, 'media');
+  await call('POST', '/api/clientes', { nome: 'João Pereira' }); await call('POST', '/api/clientes', { nome: 'JOAO PEREIRA' });
+  respostaOrganizar = { documentos: [seg({ partes: [{ nome: 'João Pereira' }] })] };
+  const amb = (await call('POST', `/api/documentos/${id}/organizar`)).data.segmentos[0].vinculo;
+  assert.equal(amb.cliente_id, null); assert.ok(amb.candidatos.length >= 2);
+
+  // aplicar: título, tipo, vínculo, resumo, data e etiquetas gravados; busca encontra pelo resumo
+  const ap = await call('POST', `/api/documentos/${id}/organizar/aplicar`, { segmentos: [{ pagina_inicial: 1, pagina_final: 1, titulo: 'Procuração — Maria da Silva', categoria: 'procuracao', cliente_id: cli, processo_id: p2, resumo: 'Outorga poderes para ação de despejo', data_documento: '2026-03-12', tags: ['locação', 'despejo'] }] });
+  assert.equal(ap.status, 200);
+  const d = (await call('GET', '/api/documentos?q=outorga poderes')).data.find((x) => x.id === id);
+  assert.deepEqual([d.titulo, d.categoria, d.cliente_id, d.processo_id, d.data_documento, d.tags, d.ia_status], ['Procuração — Maria da Silva', 'procuracao', cli, p2, '2026-03-12', 'locação, despejo', 'aplicado']);
+  // vínculo incoerente (processo de outro cliente) é recusado
+  const outro = (await call('POST', '/api/clientes', { nome: 'Cliente Avulso' })).data.id;
+  assert.equal((await call('POST', `/api/documentos/${id}/organizar/aplicar`, { segmentos: [{ titulo: 'x', cliente_id: outro, processo_id: p2 }] })).status, 400);
+  // duplicado é sinalizado
+  const id2 = await enviarArquivo('copia.txt', 'PROCURAÇÃO\nOutorgante: Maria da Silva, CPF 123.456.789-00');
+  respostaOrganizar = { documentos: [seg({})] };
+  assert.equal((await call('POST', `/api/documentos/${id2}/organizar`)).data.duplicado.id, id);
+});
+
+test('organizar com IA: PDF com vários documentos é separado; lacunas e sobreposições são corrigidas', async () => {
+  const { PDFDocument } = require('pdf-lib');
+  const src = await PDFDocument.create(); for (let i = 0; i < 3; i++) src.addPage([300, 400]);
+  const id = await enviarArquivo('tudo.pdf', Buffer.from(await src.save()), 'application/pdf');
+  const lerPdf = async (i) => PDFDocument.load(await (await fetch(base + `/api/documentos/${i}/arquivo`, { headers: { cookie } })).arrayBuffer());
+
+  // IA devolve só as páginas 1 e 3 -> a 2 vira "não identificada"; intervalo sobreposto é ajustado
+  respostaOrganizar = { documentos: [seg({ pagina_inicial: 1, pagina_final: 1, categoria: 'identificacao', titulo: 'RG — Maria' }), seg({ pagina_inicial: 3, pagina_final: 3, categoria: 'comprovante', titulo: 'Comprovante de residência' })] };
+  const s = (await call('POST', `/api/documentos/${id}/organizar`)).data;
+  assert.deepEqual(s.segmentos.map((x) => [x.pagina_inicial, x.pagina_final]), [[1, 1], [2, 2], [3, 3]]);
+  assert.match(s.segmentos[1].titulo, /não identificada/);
+  respostaOrganizar = { documentos: [seg({ pagina_inicial: 1, pagina_final: 2, titulo: 'A' }), seg({ pagina_inicial: 2, pagina_final: 3, titulo: 'B' })] };
+  assert.deepEqual((await call('POST', `/api/documentos/${id}/organizar`)).data.segmentos.map((x) => [x.pagina_inicial, x.pagina_final]), [[1, 2], [3, 3]]);
+
+  // aplicar separação (páginas 1-2 e 3) e excluir o original
+  const ap = await call('POST', `/api/documentos/${id}/organizar/aplicar`, { remover_original: true, segmentos: [
+    { pagina_inicial: 1, pagina_final: 2, titulo: 'RG e CPF — Maria', categoria: 'identificacao', cliente_id: cli },
+    { pagina_inicial: 3, pagina_final: 3, titulo: 'Comprovante de residência', categoria: 'comprovante', cliente_id: cli }] });
+  assert.equal(ap.status, 200); assert.equal(ap.data.removido, true); assert.equal(ap.data.ids.length, 2);
+  assert.equal((await lerPdf(ap.data.ids[0])).getPageCount(), 2); assert.equal((await lerPdf(ap.data.ids[1])).getPageCount(), 1);
+  assert.equal((await fetch(base + `/api/documentos/${id}/arquivo`, { headers: { cookie } })).status, 404, 'original removido');
+  const lista = (await call('GET', '/api/documentos')).data;
+  assert.equal(lista.find((d) => d.id === ap.data.ids[0]).origem, 'separado');
+  assert.equal(lista.find((d) => d.id === ap.data.ids[1]).cliente_id, cli);
+
+  // intervalos inválidos / sobrepostos são recusados; sem a IA configurada falha com mensagem clara
+  const id3 = await enviarArquivo('outro.pdf', Buffer.from(await src.save()), 'application/pdf');
+  assert.equal((await call('POST', `/api/documentos/${id3}/organizar/aplicar`, { segmentos: [{ pagina_inicial: 1, pagina_final: 2, titulo: 'A' }, { pagina_inicial: 2, pagina_final: 3, titulo: 'B' }] })).status, 400);
+  assert.equal((await call('POST', `/api/documentos/${id3}/organizar/aplicar`, { segmentos: [{ pagina_inicial: 1, pagina_final: 9, titulo: 'A' }, { pagina_inicial: 10, pagina_final: 11, titulo: 'B' }] })).status, 400);
+  assert.equal((await fetch(base + `/api/documentos/${id3}/organizar`, { method: 'POST', headers: H })).status, 401);
 });
 
 test('arquivos estáticos públicos não expõem dados e o site não é indexável', async () => {
