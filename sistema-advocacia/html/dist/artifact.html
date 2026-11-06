@@ -260,6 +260,16 @@ tr[draggable=true]{cursor:grab}
 @media (max-width:900px){.fm{grid-template-columns:1fr}.fm-tree{border-right:0;border-bottom:1px solid var(--line);border-radius:var(--radius) var(--radius) 0 0;max-height:240px}.pend{flex-wrap:wrap}.pend-a{justify-content:flex-start}}
 .card>.card-h{flex-wrap:wrap;row-gap:8px} .card>.card-h h3{flex:1 1 200px}
 
+/* ---------- Área de cadastro ---------- */
+.cad-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.cad-card{display:flex;gap:14px;align-items:flex-start;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;color:var(--ink);font:inherit;min-width:0;box-shadow:var(--shadow)}
+.cad-card:hover{border-color:var(--gold-dark);background:var(--gold-soft)}
+.cad-card b{display:block;font-size:15px;margin-bottom:2px}
+.cad-card .small{display:block}
+.cad-ic{flex:none;width:38px;height:38px;border-radius:10px;background:var(--gold-soft);color:var(--gold-dark);display:grid;place-items:center}
+.cad-ic svg{width:20px;height:20px}
+.linkbtn-inline{background:none;border:0;color:var(--gold-dark);cursor:pointer;padding:4px 0 0;text-decoration:underline;font-size:12.5px;display:block}
+
 /* tema escuro automático (sistema do aparelho) */
 @media (prefers-color-scheme: dark){
 :root:not([data-theme="light"]){
@@ -2081,7 +2091,7 @@ const Tema = (() => {
 const view = (html) => { $('#view').innerHTML = html; window.scrollTo(0, 0); };
 const vazio = (txt, ic = 'file') => `<div class="empty">${ico(ic)}${esc(txt)}</div>`;
 const cache = { clientes: null };
-async function listaClientes(forcar) { if (!cache.clientes || forcar) cache.clientes = await api('/clientes'); return cache.clientes; }
+async function listaClientes() { cache.clientes = await api('/clientes'); return cache.clientes; }
 const opClientes = (lista, vazioTxt) => [['', vazioTxt || 'Selecione…'], ...lista.map((c) => [c.id, c.nome])];
 const primeiroNome = (n) => { const p = String(n || '').split(/\s+/).filter(Boolean); return (/^(dr|dra|sr|sra|prof|profa)\.?$/i.test(p[0]) && p[1]) ? `${p[0]} ${p[1]}` : p[0] || ''; };
 const iniciais = (n) => String(n || '?').split(/\s+/).filter((x) => x && !/^(dr|dra|sr|sra|prof|profa)\.?$/i.test(x)).slice(0, 2).map((p) => p[0]).join('').toUpperCase();
@@ -2151,10 +2161,13 @@ async function abrirAtendimento(v = {}, depois) {
   modal({ titulo: editando ? 'Editar atendimento' : 'Registrar atendimento', tamanho: 'lg',
     corpo: formHTML(CAMPOS_AT(cl, await opProc(val.cliente_id)), val),
     aoAbrir: (ov) => {
-      $('#f_cliente_id', ov).onchange = async (e) => {
-        const o = await opProc(e.target.value);
-        $('#f_processo_id', ov).innerHTML = o.map(([k, l]) => `<option value="${k}">${esc(l)}</option>`).join('');
-      };
+      const selC = $('#f_cliente_id', ov), selP = $('#f_processo_id', ov);
+      const preencher = (sel, o, valor) => { sel.innerHTML = o.map(([k, l]) => `<option value="${esc(k)}">${esc(l)}</option>`).join(''); if (valor) sel.value = valor; };
+      selC.onchange = async (e) => preencher(selP, await opProc(e.target.value));
+      const atalho = (alvo, texto, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'linkbtn-inline'; b.textContent = texto; b.onclick = fn; alvo.parentElement.append(b); };
+      if (!cl.length) { const n = document.createElement('div'); n.className = 'small muted'; n.textContent = 'Nenhum cliente cadastrado ainda.'; selC.parentElement.append(n); }
+      atalho(selC, '+ Cadastrar novo cliente', () => abrirCliente({}, async (r) => { preencher(selC, opClientes(await listaClientes()), r.id); preencher(selP, await opProc(r.id)); }));
+      atalho(selP, '+ Cadastrar novo caso', () => { if (!selC.value) return toast('Escolha o cliente primeiro.', true); abrirProcesso({ cliente_id: selC.value }, async (r) => preencher(selP, await opProc(selC.value), r.id)); });
     },
     botoes: [{ texto: 'Cancelar' }, { texto: editando ? 'Salvar' : 'Registrar atendimento', classe: 'gold', acao: async (ov) => {
       await api(editando ? `/atendimentos/${v.id}` : '/atendimentos', { method: editando ? 'PUT' : 'POST', body: lerForm(ov) });
@@ -2535,6 +2548,31 @@ function abrirSenha() {
   if (S.usuario.papel !== 'admin') return toast('Só quem administra pode trocar a senha do escritório.', true);
   modal({ titulo: 'Alterar a senha do escritório', tamanho: 'sm', corpo: formHTML([{ n: 'atual', label: 'Senha atual', tipo: 'password', col: 'c6' }, { n: 'nova', label: 'Nova senha', tipo: 'password', col: 'c6', dica: 'Mínimo de 12 caracteres, com letras e números.' }]) + '<p class="note small">Os dados continuam os mesmos; só muda a senha usada para abri-los. Avise a equipe da nova senha.</p>',
     botoes: [{ texto: 'Cancelar' }, { texto: 'Alterar', classe: 'primary', acao: async (ov) => { await api('/auth/senha', { method: 'POST', body: lerForm(ov) }); toast('Senha do escritório alterada.'); } }] });
+}
+
+// ======================= CADASTRO (ponto único para registrar tudo) =======================
+async function pageCadastro() {
+  const [cl, pr] = await Promise.all([api('/clientes'), api('/processos')]);
+  const acoes = [
+    ['cCli', 'users', 'Novo cliente', 'Dados pessoais, documento, contato e endereço'],
+    ['cPro', 'scale', 'Novo caso / processo', 'Número, juízo, parte contrária e responsável'],
+    ['cAte', 'chat', 'Registrar atendimento', 'Consulta, reunião, ligação ou mensagem'],
+    ['cDoc', 'upload', 'Enviar / escanear documentos', 'PDF, imagens, Word e fotos pela câmera'],
+    ['cPen', 'check', 'Nova pendência', 'O que falta de cada cliente, com prazo'],
+  ];
+  view(`<div class="page-h"><div><h1>Cadastro</h1><div class="sub">Registre clientes, casos, atendimentos, documentos e pendências em um só lugar</div></div></div>
+    <div class="cad-grid">${acoes.map(([id, ic, t, d]) => `<button type="button" class="cad-card" id="${id}"><span class="cad-ic">${ico(ic)}</span><span><b>${t}</b><span class="small muted">${d}</span></span></button>`).join('')}</div>
+    <div class="grid g2" style="margin-top:18px">
+      <div class="card"><div class="card-h"><h3>Últimos clientes cadastrados</h3><a class="small" href="#/clientes">ver todos (${cl.length})</a></div>
+        ${cl.length ? [...cl].sort((a, b) => b.id - a.id).slice(0, 6).map((c) => `<div class="list-item"><div style="flex:1;min-width:0"><a href="#/clientes/${c.id}"><b>${esc(c.nome)}</b></a><div class="small muted">${esc(c.documento || 'sem CPF/CNPJ')}${c.telefone ? ' · ' + esc(c.telefone) : ''}</div></div><div class="small muted">${c.n_processos} caso(s)</div></div>`).join('') : vazio('Nenhum cliente cadastrado. Comece por “Novo cliente”.', 'users')}</div>
+      <div class="card"><div class="card-h"><h3>Últimos casos cadastrados</h3><a class="small" href="#/processos">ver todos (${pr.length})</a></div>
+        ${pr.length ? [...pr].sort((a, b) => b.id - a.id).slice(0, 6).map((p) => `<div class="list-item"><div style="flex:1;min-width:0"><a href="#/processos/${p.id}"><b>${esc(p.titulo)}</b></a><div class="small muted">${esc(p.cliente)}${p.numero ? ' · ' + esc(p.numero) : ''}</div></div></div>`).join('') : vazio('Nenhum caso cadastrado.', 'scale')}</div></div>`);
+  const refaz = () => pageCadastro();
+  $('#cCli').onclick = () => abrirCliente({}, (r) => { refaz(); if (r?.id) toast('Cliente cadastrado. Agora você pode registrar o primeiro caso ou atendimento.'); });
+  $('#cPro').onclick = () => abrirProcesso({}, refaz).catch(falha);
+  $('#cAte').onclick = () => abrirAtendimento({}, refaz).catch(falha);
+  $('#cDoc').onclick = () => abrirUpload({}, refaz).catch(falha);
+  $('#cPen').onclick = () => abrirPend({}, refaz).catch(falha);
 }
 
 /* Assistente Jurídico (IA) */
@@ -3167,7 +3205,7 @@ function bloquear() {
 
 // ---------- estrutura ----------
 const NAV = [
-  ['#/painel', 'Painel', 'home'], ['#/atendimentos', 'Atendimentos', 'chat'], ['#/clientes', 'Clientes', 'users'], ['#/processos', 'Casos e processos', 'scale'], ['#/pendencias', 'Pendências', 'check'], ['#/documentos', 'Documentos', 'file'],
+  ['#/painel', 'Painel', 'home'], ['#/cadastro', 'Cadastro', 'plus'], ['#/atendimentos', 'Atendimentos', 'chat'], ['#/clientes', 'Clientes', 'users'], ['#/processos', 'Casos e processos', 'scale'], ['#/pendencias', 'Pendências', 'check'], ['#/documentos', 'Documentos', 'file'],
 ];
 function renderShell() {
   const u = S.usuario, f = S.firma;
@@ -3239,6 +3277,7 @@ async function rotear() {
       case 'documentos': return await pageDocumentos(params);
       case 'pendencias': return await pagePendencias(params);
       case 'assistente': return COM_IA ? await pageAssistente() : (location.hash = '#/painel');
+      case 'cadastro': return await pageCadastro();
       case 'usuarios': return await pageAcesso();
       case 'auditoria': return S.usuario.papel === 'admin' ? await pageAuditoria() : (location.hash = '#/painel');
       default: location.hash = '#/painel';

@@ -66,7 +66,7 @@ function bloquear() {
 
 // ---------- estrutura ----------
 const NAV = [
-  ['#/painel', 'Painel', 'home'], ['#/atendimentos', 'Atendimentos', 'chat'], ['#/clientes', 'Clientes', 'users'], ['#/processos', 'Casos e processos', 'scale'], ['#/pendencias', 'Pendências', 'check'], ['#/documentos', 'Documentos', 'file'],
+  ['#/painel', 'Painel', 'home'], ['#/cadastro', 'Cadastro', 'plus'], ['#/atendimentos', 'Atendimentos', 'chat'], ['#/clientes', 'Clientes', 'users'], ['#/processos', 'Casos e processos', 'scale'], ['#/pendencias', 'Pendências', 'check'], ['#/documentos', 'Documentos', 'file'],
 ];
 function renderShell() {
   const u = S.usuario, f = S.firma;
@@ -138,6 +138,7 @@ async function rotear() {
       case 'documentos': return await pageDocumentos(params);
       case 'pendencias': return await pagePendencias(params);
       case 'assistente': return COM_IA ? await pageAssistente() : (location.hash = '#/painel');
+      case 'cadastro': return await pageCadastro();
       case 'usuarios': return await pageAcesso();
       case 'auditoria': return S.usuario.papel === 'admin' ? await pageAuditoria() : (location.hash = '#/painel');
       default: location.hash = '#/painel';

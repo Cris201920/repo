@@ -3,7 +3,7 @@
 const view = (html) => { $('#view').innerHTML = html; window.scrollTo(0, 0); };
 const vazio = (txt, ic = 'file') => `<div class="empty">${ico(ic)}${esc(txt)}</div>`;
 const cache = { clientes: null };
-async function listaClientes(forcar) { if (!cache.clientes || forcar) cache.clientes = await api('/clientes'); return cache.clientes; }
+async function listaClientes() { cache.clientes = await api('/clientes'); return cache.clientes; }
 const opClientes = (lista, vazioTxt) => [['', vazioTxt || 'Selecione…'], ...lista.map((c) => [c.id, c.nome])];
 const primeiroNome = (n) => { const p = String(n || '').split(/\s+/).filter(Boolean); return (/^(dr|dra|sr|sra|prof|profa)\.?$/i.test(p[0]) && p[1]) ? `${p[0]} ${p[1]}` : p[0] || ''; };
 const iniciais = (n) => String(n || '?').split(/\s+/).filter((x) => x && !/^(dr|dra|sr|sra|prof|profa)\.?$/i.test(x)).slice(0, 2).map((p) => p[0]).join('').toUpperCase();
@@ -73,10 +73,13 @@ async function abrirAtendimento(v = {}, depois) {
   modal({ titulo: editando ? 'Editar atendimento' : 'Registrar atendimento', tamanho: 'lg',
     corpo: formHTML(CAMPOS_AT(cl, await opProc(val.cliente_id)), val),
     aoAbrir: (ov) => {
-      $('#f_cliente_id', ov).onchange = async (e) => {
-        const o = await opProc(e.target.value);
-        $('#f_processo_id', ov).innerHTML = o.map(([k, l]) => `<option value="${k}">${esc(l)}</option>`).join('');
-      };
+      const selC = $('#f_cliente_id', ov), selP = $('#f_processo_id', ov);
+      const preencher = (sel, o, valor) => { sel.innerHTML = o.map(([k, l]) => `<option value="${esc(k)}">${esc(l)}</option>`).join(''); if (valor) sel.value = valor; };
+      selC.onchange = async (e) => preencher(selP, await opProc(e.target.value));
+      const atalho = (alvo, texto, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'linkbtn-inline'; b.textContent = texto; b.onclick = fn; alvo.parentElement.append(b); };
+      if (!cl.length) { const n = document.createElement('div'); n.className = 'small muted'; n.textContent = 'Nenhum cliente cadastrado ainda.'; selC.parentElement.append(n); }
+      atalho(selC, '+ Cadastrar novo cliente', () => abrirCliente({}, async (r) => { preencher(selC, opClientes(await listaClientes()), r.id); preencher(selP, await opProc(r.id)); }));
+      atalho(selP, '+ Cadastrar novo caso', () => { if (!selC.value) return toast('Escolha o cliente primeiro.', true); abrirProcesso({ cliente_id: selC.value }, async (r) => preencher(selP, await opProc(selC.value), r.id)); });
     },
     botoes: [{ texto: 'Cancelar' }, { texto: editando ? 'Salvar' : 'Registrar atendimento', classe: 'gold', acao: async (ov) => {
       await api(editando ? `/atendimentos/${v.id}` : '/atendimentos', { method: editando ? 'PUT' : 'POST', body: lerForm(ov) });
@@ -457,4 +460,29 @@ function abrirSenha() {
   if (S.usuario.papel !== 'admin') return toast('Só quem administra pode trocar a senha do escritório.', true);
   modal({ titulo: 'Alterar a senha do escritório', tamanho: 'sm', corpo: formHTML([{ n: 'atual', label: 'Senha atual', tipo: 'password', col: 'c6' }, { n: 'nova', label: 'Nova senha', tipo: 'password', col: 'c6', dica: 'Mínimo de 12 caracteres, com letras e números.' }]) + '<p class="note small">Os dados continuam os mesmos; só muda a senha usada para abri-los. Avise a equipe da nova senha.</p>',
     botoes: [{ texto: 'Cancelar' }, { texto: 'Alterar', classe: 'primary', acao: async (ov) => { await api('/auth/senha', { method: 'POST', body: lerForm(ov) }); toast('Senha do escritório alterada.'); } }] });
+}
+
+// ======================= CADASTRO (ponto único para registrar tudo) =======================
+async function pageCadastro() {
+  const [cl, pr] = await Promise.all([api('/clientes'), api('/processos')]);
+  const acoes = [
+    ['cCli', 'users', 'Novo cliente', 'Dados pessoais, documento, contato e endereço'],
+    ['cPro', 'scale', 'Novo caso / processo', 'Número, juízo, parte contrária e responsável'],
+    ['cAte', 'chat', 'Registrar atendimento', 'Consulta, reunião, ligação ou mensagem'],
+    ['cDoc', 'upload', 'Enviar / escanear documentos', 'PDF, imagens, Word e fotos pela câmera'],
+    ['cPen', 'check', 'Nova pendência', 'O que falta de cada cliente, com prazo'],
+  ];
+  view(`<div class="page-h"><div><h1>Cadastro</h1><div class="sub">Registre clientes, casos, atendimentos, documentos e pendências em um só lugar</div></div></div>
+    <div class="cad-grid">${acoes.map(([id, ic, t, d]) => `<button type="button" class="cad-card" id="${id}"><span class="cad-ic">${ico(ic)}</span><span><b>${t}</b><span class="small muted">${d}</span></span></button>`).join('')}</div>
+    <div class="grid g2" style="margin-top:18px">
+      <div class="card"><div class="card-h"><h3>Últimos clientes cadastrados</h3><a class="small" href="#/clientes">ver todos (${cl.length})</a></div>
+        ${cl.length ? [...cl].sort((a, b) => b.id - a.id).slice(0, 6).map((c) => `<div class="list-item"><div style="flex:1;min-width:0"><a href="#/clientes/${c.id}"><b>${esc(c.nome)}</b></a><div class="small muted">${esc(c.documento || 'sem CPF/CNPJ')}${c.telefone ? ' · ' + esc(c.telefone) : ''}</div></div><div class="small muted">${c.n_processos} caso(s)</div></div>`).join('') : vazio('Nenhum cliente cadastrado. Comece por “Novo cliente”.', 'users')}</div>
+      <div class="card"><div class="card-h"><h3>Últimos casos cadastrados</h3><a class="small" href="#/processos">ver todos (${pr.length})</a></div>
+        ${pr.length ? [...pr].sort((a, b) => b.id - a.id).slice(0, 6).map((p) => `<div class="list-item"><div style="flex:1;min-width:0"><a href="#/processos/${p.id}"><b>${esc(p.titulo)}</b></a><div class="small muted">${esc(p.cliente)}${p.numero ? ' · ' + esc(p.numero) : ''}</div></div></div>`).join('') : vazio('Nenhum caso cadastrado.', 'scale')}</div></div>`);
+  const refaz = () => pageCadastro();
+  $('#cCli').onclick = () => abrirCliente({}, (r) => { refaz(); if (r?.id) toast('Cliente cadastrado. Agora você pode registrar o primeiro caso ou atendimento.'); });
+  $('#cPro').onclick = () => abrirProcesso({}, refaz).catch(falha);
+  $('#cAte').onclick = () => abrirAtendimento({}, refaz).catch(falha);
+  $('#cDoc').onclick = () => abrirUpload({}, refaz).catch(falha);
+  $('#cPen').onclick = () => abrirPend({}, refaz).catch(falha);
 }

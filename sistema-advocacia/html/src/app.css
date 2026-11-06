@@ -257,3 +257,13 @@ tr[draggable=true]{cursor:grab}
 .nota{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;background:var(--surface-2)} .nota.fix{border-color:var(--gold);background:var(--gold-soft)}
 @media (max-width:900px){.fm{grid-template-columns:1fr}.fm-tree{border-right:0;border-bottom:1px solid var(--line);border-radius:var(--radius) var(--radius) 0 0;max-height:240px}.pend{flex-wrap:wrap}.pend-a{justify-content:flex-start}}
 .card>.card-h{flex-wrap:wrap;row-gap:8px} .card>.card-h h3{flex:1 1 200px}
+
+/* ---------- Área de cadastro ---------- */
+.cad-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.cad-card{display:flex;gap:14px;align-items:flex-start;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;color:var(--ink);font:inherit;min-width:0;box-shadow:var(--shadow)}
+.cad-card:hover{border-color:var(--gold-dark);background:var(--gold-soft)}
+.cad-card b{display:block;font-size:15px;margin-bottom:2px}
+.cad-card .small{display:block}
+.cad-ic{flex:none;width:38px;height:38px;border-radius:10px;background:var(--gold-soft);color:var(--gold-dark);display:grid;place-items:center}
+.cad-ic svg{width:20px;height:20px}
+.linkbtn-inline{background:none;border:0;color:var(--gold-dark);cursor:pointer;padding:4px 0 0;text-decoration:underline;font-size:12.5px;display:block}
