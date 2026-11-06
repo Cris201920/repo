@@ -73,7 +73,7 @@ function renderShell() {
   $('#app').innerHTML = `<div class="shell"><aside class="side" id="side">
       <div class="brand">${logoImg('', f.nome)}</div>
       <nav class="nav">${NAV.map(([h, t, i]) => `<a href="${h}" data-h="${h}">${ico(i)} ${t}</a>`).join('')}
-        <a class="ia" href="#/assistente" data-h="#/assistente">${ico('spark')} ${esc(f.assistenteNome || 'Assistente IA')}</a>
+        ${COM_IA ? `<a class="ia" href="#/assistente" data-h="#/assistente">${ico('spark')} ${esc(f.assistenteNome || 'Assistente IA')}</a>` : ''}
         <div class="grp">Administração</div><a href="#/usuarios" data-h="#/usuarios">${ico('shield')} Acesso e segurança</a>${u.papel === 'admin' ? `<a href="#/auditoria" data-h="#/auditoria">${ico('log')} Auditoria</a>` : ''}</nav>
       <div class="side-foot">Dados criptografados com a senha do escritório<br>${esc(f.nome)}</div></aside>
     <div class="main"><header class="top"><button class="burger" id="burger" aria-label="Menu">${ico('menu').replace('<svg', '<svg width="24" height="24"')}</button>
@@ -137,7 +137,7 @@ async function rotear() {
       case 'processos': return id ? await pageProcesso(id) : await pageProcessos(params);
       case 'documentos': return await pageDocumentos(params);
       case 'pendencias': return await pagePendencias(params);
-      case 'assistente': return await pageAssistente();
+      case 'assistente': return COM_IA ? await pageAssistente() : (location.hash = '#/painel');
       case 'usuarios': return await pageAcesso();
       case 'auditoria': return S.usuario.papel === 'admin' ? await pageAuditoria() : (location.hash = '#/painel');
       default: location.hash = '#/painel';

@@ -1,7 +1,7 @@
 # Versão em HTML único (com senha)
 
 Um só arquivo HTML com **todas** as funções do sistema (clientes, casos, atendimentos, documentos com upload/scanner/ZIP/busca,
-pastas, observações, pendências e modelos, Assistente de IA, organização de documentos por IA, tema, auditoria, cópia de segurança).
+pastas, observações, pendências e modelos, tema, auditoria, cópia de segurança).
 
 ## Como funciona a senha
 A senha do escritório **criptografa os dados no próprio navegador** (PBKDF2 600 mil iterações → chave AES‑256‑GCM).
@@ -22,3 +22,7 @@ Publicação do Artifact: capacidades `db` (regra: `config` só escrita por admi
 
 ## Limites
 Arquivos até 14 MB; texto extraído até 90 mil caracteres por documento; perfis (admin/colaborador) seguem os níveis da plataforma, não há controle fino por usuário.
+
+## IA
+A IA (Assistente e organização de documentos) está **desativada** nesta versão (`COM_IA = false` em `src/ui/core.js`). Para voltar,
+mude para `true`, rode `node build.js` e republique incluindo a capacidade `sample` (`{"images": true}`).

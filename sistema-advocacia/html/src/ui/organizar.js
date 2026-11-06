@@ -27,7 +27,7 @@ function vistaArvore(dados) {
       const porCat = ordemCat.map((cat) => [cat, p.docs.filter((d) => d.categoria === cat)]).filter(([, a]) => a.length);
       return `<div class="tree-p"><div class="tree-t">${ico('scale')} ${esc(p.nome)}</div>${porCat.map(([cat, a]) => `<div class="tree-g"><div class="tree-cat">${L.categoria[cat] || cat} <span class="muted">(${a.length})</span></div>${a.map(item).join('')}</div>`).join('')}</div>`;
     }).join('');
-    return `<details class="tree-c" ${k === 0 ? 'open' : ''}><summary><b>${esc(c.nome)}</b> <span class="badge ${k === 0 ? 'warn' : ''}">${c.docs.length} documento(s)</span>${k ? ` <a class="small" href="#/clientes/${k}">abrir cliente</a>` : ' <span class="small muted">use “Organizar com IA” para classificar</span>'}</summary>${blocos}</details>`;
+    return `<details class="tree-c" ${k === 0 ? 'open' : ''}><summary><b>${esc(c.nome)}</b> <span class="badge ${k === 0 ? 'warn' : ''}">${c.docs.length} documento(s)</span>${k ? ` <a class="small" href="#/clientes/${k}">abrir cliente</a>` : ' <span class="small muted">sem cliente vinculado — edite o documento para vincular</span>'}</summary>${blocos}</details>`;
   }).join('')}</div>`;
 }
 

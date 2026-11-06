@@ -3,6 +3,8 @@
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+/* IA desativada nesta versão: coloque true para voltar a mostrar o Assistente e a organização por IA */
+const COM_IA = false;
 const S = { firma: FIRMA, logo: LOGO.escura, logoClaro: LOGO.clara, usuario: null, opcoes: null };
 
 // ---------- Rótulos ----------
