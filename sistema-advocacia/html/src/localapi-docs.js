@@ -234,5 +234,47 @@ const Arq = {
   }
   async function baixarDoc(id) { const { u8, doc } = await bytesDoc(id, 'baixar'); await Docs.entregar(doc.nome_original, new Blob([u8], { type: doc.mime })); }
 
-  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos });
+  // ---------- restaurar cópia de segurança ----------
+  // Só acrescenta o que ainda não existe (pelo número do registro): nada do que já está no sistema é alterado ou apagado.
+  const COL_RESTAURO = ['clientes', 'processos', 'atendimentos', 'pastas', 'notas', 'pendencias'];
+  const registrosValidos = (l) => (Array.isArray(l) ? l.filter((r) => r && typeof r === 'object' && !Array.isArray(r) && Number.isSafeInteger(r.id) && r.id > 0) : []);
+  function lerCopia(json) {
+    let o; try { o = typeof json === 'string' ? JSON.parse(json) : json; } catch { throw bad('O arquivo dados.json da cópia está corrompido.'); }
+    if (!o || typeof o !== 'object' || !o.dados || typeof o.dados !== 'object') throw bad('Este arquivo não é uma cópia de segurança deste sistema.');
+    const d = {}; for (const c of [...COL_RESTAURO, 'documentos']) d[c] = registrosValidos(o.dados[c]);
+    return { escritorio: String(o.escritorio || ''), exportado_em: String(o.exportado_em || ''), dados: d };
+  }
+  function planoRestauracao(copia) {
+    const plano = {};
+    for (const c of [...COL_RESTAURO, 'documentos']) { const novos = copia.dados[c].filter((r) => !Dados.obter(c, r.id)).length; plano[c] = { total: copia.dados[c].length, novos, existentes: copia.dados[c].length - novos }; }
+    return plano;
+  }
+  async function restaurar(copia, arquivos, { aoAvancar } = {}) {
+    if (sessao.usuario.papel !== 'admin') throw new HttpError(403, 'Só quem administra pode restaurar uma cópia de segurança.');
+    const res = { adicionados: 0, existentes: 0, semArquivo: 0, falhas: 0 };
+    const total = [...COL_RESTAURO, 'documentos'].reduce((n, c) => n + copia.dados[c].length, 0); let feitos = 0;
+    const passo = () => { feitos++; if (aoAvancar) aoAvancar(feitos, total); };
+    for (const c of COL_RESTAURO) for (const r of copia.dados[c]) {
+      if (Dados.obter(c, r.id)) res.existentes++; else { try { await Dados.gravar(c, { ...r }); res.adicionados++; } catch { res.falhas++; } }
+      passo();
+    }
+    const nomes = Object.keys(arquivos || {});
+    for (const d of copia.dados.documentos) {
+      if (Dados.obter('documentos', d.id)) { res.existentes++; passo(); continue; }
+      const nome = nomes.find((n) => n.startsWith(`arquivos/${d.id}-`));
+      if (!nome) { res.semArquivo++; passo(); continue; }
+      let asset_id = null;
+      try {
+        const u8 = arquivos[nome]; asset_id = await Arq.guardar(u8);
+        await Dados.gravar('documentos', { ...d, asset_id, tamanho: u8.length, ia_sugestao: null });
+        try { const t = await Docs.extrairTexto(u8, Docs.ext(d.nome_original || nome)); if (t) await Dados.gravarTexto(d.id, t); } catch { /* sem texto para a busca: segue */ }
+        res.adicionados++;
+      } catch { res.falhas++; if (asset_id) await Arq.apagar(asset_id); }
+      passo();
+    }
+    await auditar('restaurar_copia', 'config', null, `${res.adicionados} registro(s) adicionados; ${res.existentes} já existiam`);
+    return res;
+  }
+
+  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos, lerCopia, planoRestauracao, restaurar });
 })();

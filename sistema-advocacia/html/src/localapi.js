@@ -89,15 +89,21 @@ const LocalAPI = (() => {
       documentos: Dados.lista('documentos').filter((d) => d.cliente_id === c.id).sort(desc('id')).map(({ id, titulo, categoria, nome_original, tamanho, criado_em, processo_id }) => ({ id, titulo, categoria, nome_original, tamanho, criado_em, processo_id })),
     };
   });
+  const soDigitos = (v) => String(v || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
+  function semDuplicado(documento, ignorarId) {                         // mesmo CPF/CNPJ = mesma pessoa: evita cadastro em dobro
+    const d = soDigitos(documento); if (d.length < 11) return;
+    const outro = Dados.lista('clientes').find((c) => c.id !== ignorarId && soDigitos(c.documento) === d);
+    if (outro) throw bad(`Já existe um cliente com este CPF/CNPJ: ${outro.nome}${outro.ativo ? '' : ' (arquivado)'}.`);
+  }
   rota('POST', '/clientes', async ({ body, usuario }) => {
-    const c = lerCliente(body), agora = Dados.agora();
+    const c = lerCliente(body), agora = Dados.agora(); semDuplicado(c.documento, null);
     const reg = { id: Dados.novoId('clientes'), ...c, ativo: 1, versao: 1, criado_por: usuario.id, criado_em: agora, atualizado_em: agora };
     await Dados.gravar('clientes', reg); await auditar('criar', 'clientes', reg.id, c.nome);
     return { id: reg.id };
   });
   rota('PUT', '/clientes/:id', async ({ params, body }) => {
     const atual = ou404('clientes', params.id, 'Cliente'); checarVersao(body.versao, atual.versao);
-    const c = lerCliente(body), mud = mudancas(atual, c);
+    const c = lerCliente(body), mud = mudancas(atual, c); semDuplicado(c.documento, atual.id);
     await Dados.alterar('clientes', atual.id, { ...mud, atualizado_em: Dados.agora(), versao: (atual.versao || 1) + 1 });
     await auditar('editar', 'clientes', atual.id, c.nome); return { ok: true };
   });
@@ -217,6 +223,16 @@ const LocalAPI = (() => {
       },
       hoje,
     };
+  });
+  // Agenda: todos os prazos em aberto (providências de atendimentos + pendências), do mais antigo ao mais distante
+  rota('GET', '/agenda', () => {
+    const ativos = new Set(Dados.lista('clientes').filter((c) => c.ativo).map((c) => c.id));
+    const proc = (id) => (id ? (Dados.obter('processos', id) || {}).titulo || null : null);
+    const itens = [
+      ...Dados.lista('atendimentos').filter((a) => !a.concluido && a.prazo).map((a) => ({ origem: 'atendimento', id: a.id, titulo: a.assunto, detalhe: a.providencias || '', prazo: String(a.prazo).slice(0, 10), cliente_id: a.cliente_id, cliente: cliNome(a.cliente_id), processo: proc(a.processo_id), responsavel: a.usuario_nome || '' })),
+      ...Dados.lista('pendencias').filter((p) => p.status === 'pendente' && p.prazo && ativos.has(p.cliente_id)).map((p) => ({ origem: 'pendencia', id: p.id, titulo: p.titulo, detalhe: p.descricao || p.observacao || '', tipo: p.tipo, prazo: String(p.prazo).slice(0, 10), cliente_id: p.cliente_id, cliente: cliNome(p.cliente_id), processo: proc(p.processo_id), responsavel: p.responsavel || '' })),
+    ].sort((a, b) => a.prazo.localeCompare(b.prazo) || a.id - b.id);
+    return { hoje: hojeISO(), itens, semPrazo: Dados.lista('pendencias').filter((p) => p.status === 'pendente' && !p.prazo && ativos.has(p.cliente_id)).length };
   });
   rota('GET', '/busca', ({ q }) => {
     const t = norm(q.q).trim();

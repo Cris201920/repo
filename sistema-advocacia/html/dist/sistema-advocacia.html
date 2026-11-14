@@ -1296,15 +1296,21 @@ const LocalAPI = (() => {
       documentos: Dados.lista('documentos').filter((d) => d.cliente_id === c.id).sort(desc('id')).map(({ id, titulo, categoria, nome_original, tamanho, criado_em, processo_id }) => ({ id, titulo, categoria, nome_original, tamanho, criado_em, processo_id })),
     };
   });
+  const soDigitos = (v) => String(v || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
+  function semDuplicado(documento, ignorarId) {                         // mesmo CPF/CNPJ = mesma pessoa: evita cadastro em dobro
+    const d = soDigitos(documento); if (d.length < 11) return;
+    const outro = Dados.lista('clientes').find((c) => c.id !== ignorarId && soDigitos(c.documento) === d);
+    if (outro) throw bad(`Já existe um cliente com este CPF/CNPJ: ${outro.nome}${outro.ativo ? '' : ' (arquivado)'}.`);
+  }
   rota('POST', '/clientes', async ({ body, usuario }) => {
-    const c = lerCliente(body), agora = Dados.agora();
+    const c = lerCliente(body), agora = Dados.agora(); semDuplicado(c.documento, null);
     const reg = { id: Dados.novoId('clientes'), ...c, ativo: 1, versao: 1, criado_por: usuario.id, criado_em: agora, atualizado_em: agora };
     await Dados.gravar('clientes', reg); await auditar('criar', 'clientes', reg.id, c.nome);
     return { id: reg.id };
   });
   rota('PUT', '/clientes/:id', async ({ params, body }) => {
     const atual = ou404('clientes', params.id, 'Cliente'); checarVersao(body.versao, atual.versao);
-    const c = lerCliente(body), mud = mudancas(atual, c);
+    const c = lerCliente(body), mud = mudancas(atual, c); semDuplicado(c.documento, atual.id);
     await Dados.alterar('clientes', atual.id, { ...mud, atualizado_em: Dados.agora(), versao: (atual.versao || 1) + 1 });
     await auditar('editar', 'clientes', atual.id, c.nome); return { ok: true };
   });
@@ -1424,6 +1430,16 @@ const LocalAPI = (() => {
       },
       hoje,
     };
+  });
+  // Agenda: todos os prazos em aberto (providências de atendimentos + pendências), do mais antigo ao mais distante
+  rota('GET', '/agenda', () => {
+    const ativos = new Set(Dados.lista('clientes').filter((c) => c.ativo).map((c) => c.id));
+    const proc = (id) => (id ? (Dados.obter('processos', id) || {}).titulo || null : null);
+    const itens = [
+      ...Dados.lista('atendimentos').filter((a) => !a.concluido && a.prazo).map((a) => ({ origem: 'atendimento', id: a.id, titulo: a.assunto, detalhe: a.providencias || '', prazo: String(a.prazo).slice(0, 10), cliente_id: a.cliente_id, cliente: cliNome(a.cliente_id), processo: proc(a.processo_id), responsavel: a.usuario_nome || '' })),
+      ...Dados.lista('pendencias').filter((p) => p.status === 'pendente' && p.prazo && ativos.has(p.cliente_id)).map((p) => ({ origem: 'pendencia', id: p.id, titulo: p.titulo, detalhe: p.descricao || p.observacao || '', tipo: p.tipo, prazo: String(p.prazo).slice(0, 10), cliente_id: p.cliente_id, cliente: cliNome(p.cliente_id), processo: proc(p.processo_id), responsavel: p.responsavel || '' })),
+    ].sort((a, b) => a.prazo.localeCompare(b.prazo) || a.id - b.id);
+    return { hoje: hojeISO(), itens, semPrazo: Dados.lista('pendencias').filter((p) => p.status === 'pendente' && !p.prazo && ativos.has(p.cliente_id)).length };
   });
   rota('GET', '/busca', ({ q }) => {
     const t = norm(q.q).trim();
@@ -1881,7 +1897,49 @@ const Arq = {
   }
   async function baixarDoc(id) { const { u8, doc } = await bytesDoc(id, 'baixar'); await Docs.entregar(doc.nome_original, new Blob([u8], { type: doc.mime })); }
 
-  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos });
+  // ---------- restaurar cópia de segurança ----------
+  // Só acrescenta o que ainda não existe (pelo número do registro): nada do que já está no sistema é alterado ou apagado.
+  const COL_RESTAURO = ['clientes', 'processos', 'atendimentos', 'pastas', 'notas', 'pendencias'];
+  const registrosValidos = (l) => (Array.isArray(l) ? l.filter((r) => r && typeof r === 'object' && !Array.isArray(r) && Number.isSafeInteger(r.id) && r.id > 0) : []);
+  function lerCopia(json) {
+    let o; try { o = typeof json === 'string' ? JSON.parse(json) : json; } catch { throw bad('O arquivo dados.json da cópia está corrompido.'); }
+    if (!o || typeof o !== 'object' || !o.dados || typeof o.dados !== 'object') throw bad('Este arquivo não é uma cópia de segurança deste sistema.');
+    const d = {}; for (const c of [...COL_RESTAURO, 'documentos']) d[c] = registrosValidos(o.dados[c]);
+    return { escritorio: String(o.escritorio || ''), exportado_em: String(o.exportado_em || ''), dados: d };
+  }
+  function planoRestauracao(copia) {
+    const plano = {};
+    for (const c of [...COL_RESTAURO, 'documentos']) { const novos = copia.dados[c].filter((r) => !Dados.obter(c, r.id)).length; plano[c] = { total: copia.dados[c].length, novos, existentes: copia.dados[c].length - novos }; }
+    return plano;
+  }
+  async function restaurar(copia, arquivos, { aoAvancar } = {}) {
+    if (sessao.usuario.papel !== 'admin') throw new HttpError(403, 'Só quem administra pode restaurar uma cópia de segurança.');
+    const res = { adicionados: 0, existentes: 0, semArquivo: 0, falhas: 0 };
+    const total = [...COL_RESTAURO, 'documentos'].reduce((n, c) => n + copia.dados[c].length, 0); let feitos = 0;
+    const passo = () => { feitos++; if (aoAvancar) aoAvancar(feitos, total); };
+    for (const c of COL_RESTAURO) for (const r of copia.dados[c]) {
+      if (Dados.obter(c, r.id)) res.existentes++; else { try { await Dados.gravar(c, { ...r }); res.adicionados++; } catch { res.falhas++; } }
+      passo();
+    }
+    const nomes = Object.keys(arquivos || {});
+    for (const d of copia.dados.documentos) {
+      if (Dados.obter('documentos', d.id)) { res.existentes++; passo(); continue; }
+      const nome = nomes.find((n) => n.startsWith(`arquivos/${d.id}-`));
+      if (!nome) { res.semArquivo++; passo(); continue; }
+      let asset_id = null;
+      try {
+        const u8 = arquivos[nome]; asset_id = await Arq.guardar(u8);
+        await Dados.gravar('documentos', { ...d, asset_id, tamanho: u8.length, ia_sugestao: null });
+        try { const t = await Docs.extrairTexto(u8, Docs.ext(d.nome_original || nome)); if (t) await Dados.gravarTexto(d.id, t); } catch { /* sem texto para a busca: segue */ }
+        res.adicionados++;
+      } catch { res.falhas++; if (asset_id) await Arq.apagar(asset_id); }
+      passo();
+    }
+    await auditar('restaurar_copia', 'config', null, `${res.adicionados} registro(s) adicionados; ${res.existentes} já existiam`);
+    return res;
+  }
+
+  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos, lerCopia, planoRestauracao, restaurar });
 })();
 
 /* Utilitários, API, componentes de interface */
@@ -2082,6 +2140,47 @@ function abrirTema(ancora) {
 // duas versões da logo: nome escuro (tema claro) e nome claro (tema escuro)
 const logoImg = (cls = '', alt = '') => `<img class="${cls} logo-escura" src="${esc(S.logo)}" alt="${esc(alt)}"><img class="${cls} logo-clara" src="${esc(S.logoClaro || S.logo)}" alt="${esc(alt)}">`;
 
+/* Utilitários de cadastro: CPF/CNPJ, telefone e planilhas */
+'use strict';
+
+// ---------- CPF / CNPJ / telefone ----------
+const soDig = (v) => String(v || '').replace(/\D/g, '');
+function cpfValido(d) {
+  if (!/^\d{11}$/.test(d) || /^(\d)\1{10}$/.test(d)) return false;
+  const dv = (n) => { let s = 0; for (let i = 0; i < n; i++) s += +d[i] * (n + 1 - i); const r = (s * 10) % 11; return r === 10 ? 0 : r; };
+  return dv(9) === +d[9] && dv(10) === +d[10];
+}
+function cnpjValido(d) {
+  if (!/^\d{14}$/.test(d) || /^(\d)\1{13}$/.test(d)) return false;
+  const dv = (n) => { const p = n === 12 ? [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2] : [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]; let s = 0; for (let i = 0; i < n; i++) s += +d[i] * p[i]; const r = s % 11; return r < 2 ? 0 : 11 - r; };
+  return dv(12) === +d[12] && dv(13) === +d[13];
+}
+// Devolve { texto, aviso }: formata quando reconhece. CNPJ com letras (formato novo) e documentos estrangeiros ficam como foram digitados.
+function conferirDocumento(v) {
+  const t = String(v || '').trim(); if (!t || /[a-z]/i.test(t)) return { texto: t, aviso: '' };
+  const d = soDig(t);
+  if (d.length === 11) return { texto: d.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'), aviso: cpfValido(d) ? '' : 'Este CPF não confere (dígito verificador). Confira antes de salvar.' };
+  if (d.length === 14) return { texto: d.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5'), aviso: cnpjValido(d) ? '' : 'Este CNPJ não confere (dígito verificador). Confira antes de salvar.' };
+  return { texto: t, aviso: d.length ? 'CPF tem 11 dígitos e CNPJ tem 14. Confira o número.' : '' };
+}
+function fmtTelefone(v) {
+  const t = String(v || '').trim(), d = soDig(t);
+  if (/[a-z+]/i.test(t)) return t;
+  if (d.length === 11) return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+  if (d.length === 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return t;
+}
+
+// ---------- planilha (CSV que o Excel abre direto) ----------
+function csvDe(colunas, linhas) {
+  const cel = (v) => { let t = v == null ? '' : String(v); if (/^[=+\-@\t\r]/.test(t)) t = "'" + t; return /[";\n\r]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
+  return '﻿' + [colunas.map(([, r]) => cel(r)).join(';'), ...linhas.map((l) => colunas.map(([k]) => cel(typeof k === 'function' ? k(l) : l[k])).join(';'))].join('\r\n') + '\r\n';
+}
+async function baixarPlanilha(nome, colunas, linhas) {
+  if (!linhas.length) return toast('Não há nada para exportar com este filtro.', true);
+  try { await Docs.entregar(`${nome}-${hojeISO()}.csv`, new Blob([csvDe(colunas, linhas)], { type: 'text/csv' })); } catch (e) { falha(e); }
+}
+
 /* Tema (claro / escuro / automático). No automático não mexemos em nada: quem decide é o Claude (data-theme) ou o sistema do aparelho (prefers-color-scheme). */
 const Tema = (() => {
   const KEY = 'tema', raiz = document.documentElement; let apliquei = false;
@@ -2117,6 +2216,11 @@ async function pagePainel() {
       <button class="btn" id="aUp">${ico('upload')} Enviar documento</button>
       ${COM_IA ? `<a class="btn" href="#/assistente">${ico('spark')} Assistente IA</a>` : ''}
     </div></div>
+  ${d.totais.clientes === 0 ? `<div class="card" style="margin-bottom:18px"><div class="card-h"><h3>Primeiros passos</h3></div><div class="card-b">
+      <ol style="margin:0;padding-left:20px;line-height:1.7"><li><a href="#/cadastro"><b>Cadastre o primeiro cliente</b></a> e, se houver, o caso dele.</li>
+      <li>Registre os atendimentos e informe o <b>prazo</b> das providências: eles aparecem na <a href="#/agenda">Agenda de prazos</a>.</li>
+      <li>Envie ou escaneie os documentos na página do cliente.</li>
+      <li>De tempos em tempos, baixe uma <a href="#/usuarios"><b>cópia de segurança</b></a>.</li></ol></div></div>` : ''}
   <div class="grid g4" style="margin-bottom:18px">
     <div class="card stat"><div class="n">${d.totais.clientes}</div><div class="l">Clientes ativos</div></div>
     <div class="card stat"><div class="n">${d.totais.processos}</div><div class="l">Casos em curso</div></div>
@@ -2125,7 +2229,7 @@ async function pagePainel() {
   </div>
   <div class="grid g2">
     <div style="display:flex;flex-direction:column;gap:18px">
-    <div class="card"><div class="card-h"><h3>Prazos e providências pendentes</h3><a class="small" href="#/atendimentos?pendentes=1">ver todos</a></div>
+    <div class="card"><div class="card-h"><h3>Prazos e providências pendentes</h3><a class="small" href="#/agenda">abrir agenda</a></div>
       ${d.prazos.length ? d.prazos.map((p) => `<div class="list-item"><div class="d"><b>${p.prazo.slice(8, 10)}</b>${['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'][+p.prazo.slice(5, 7) - 1]}</div>
         <div style="flex:1;min-width:0"><a href="#/atendimentos/${p.id}"><b>${esc(p.assunto)}</b></a><div class="small muted">${esc(p.cliente)}${p.providencias ? ' · ' + esc(p.providencias.slice(0, 90)) : ''}</div></div>
         <div>${badgePrazo(p.prazo)}</div><button class="btn sm ghost" data-conc="${p.id}" title="Marcar como concluído">${ico('check')}</button></div>`).join('') : vazio('Nenhum prazo pendente. Ao registrar um atendimento, informe o prazo para que ele apareça aqui.', 'clock')}
@@ -2187,7 +2291,7 @@ async function abrirAtendimento(v = {}, depois) {
 async function pageAtendimentos(params) {
   const f = { q: '', canal: '', pendentes: '', de: '', ate: '', ...params };
   view(`<div class="page-h"><div><h1>Atendimentos</h1><div class="sub">Registro de todos os contatos e consultas com clientes</div></div>
-    <div class="actions"><button class="btn gold" id="novo">${ico('plus')} Novo atendimento</button></div></div>
+    <div class="actions"><button class="btn" id="csv">${ico('down')} Exportar planilha</button><button class="btn gold" id="novo">${ico('plus')} Novo atendimento</button></div></div>
     <div class="filters"><input type="search" id="q" placeholder="Buscar por cliente, assunto ou conteúdo…" value="${esc(f.q)}">
       <select id="canal"><option value="">Todos os canais</option>${opts(L.canal).map(([k, l]) => `<option value="${k}" ${f.canal === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
       <label class="chk" style="margin:0"><input type="checkbox" id="pend" ${f.pendentes ? 'checked' : ''}> Com prazo pendente</label>
@@ -2203,6 +2307,9 @@ async function pageAtendimentos(params) {
   };
   ['canal', 'pend', 'de', 'ate'].forEach((i) => ($('#' + i).onchange = carregar)); $('#q').oninput = debounce(carregar);
   $('#novo').onclick = () => abrirAtendimento({}, carregar);
+  $('#csv').onclick = async () => baixarPlanilha('atendimentos', [[(a) => fDataHora(a.data_hora), 'Data e hora'], ['cliente', 'Cliente'], ['processo', 'Caso'], ['assunto', 'Assunto'], [(a) => L.canal[a.canal] || a.canal, 'Canal'], ['resumo', 'Registro'], ['providencias', 'Providências'],
+    [(a) => (a.prazo ? fData(a.prazo) : ''), 'Prazo'], [(a) => (a.prazo ? (a.concluido ? 'Concluído' : 'Em aberto') : ''), 'Situação do prazo'], ['atendente', 'Atendido por']],
+    await api('/atendimentos' + qs({ q: $('#q').value, canal: $('#canal').value, pendentes: $('#pend').checked, de: $('#de').value, ate: $('#ate').value })));
   await carregar();
 }
 
@@ -2402,6 +2509,13 @@ const CAMPOS_CLI = [
 function abrirCliente(v = {}, depois) {
   const ed = !!v.id;
   modal({ titulo: ed ? 'Editar cliente' : 'Novo cliente', tamanho: 'lg', corpo: formHTML(CAMPOS_CLI, { tipo: 'PF', ...v }),
+    aoAbrir: (ov) => {
+      const doc = $('#f_documento', ov), fone = $('#f_telefone', ov);
+      const aviso = document.createElement('div'); aviso.className = 'small'; aviso.style.color = 'var(--warn)'; aviso.hidden = true; doc.parentElement.append(aviso);
+      const conferir = () => { const r = conferirDocumento(doc.value); doc.value = r.texto; aviso.textContent = r.aviso; aviso.hidden = !r.aviso; };
+      doc.addEventListener('blur', conferir); if (doc.value) conferir();
+      fone.addEventListener('blur', () => { fone.value = fmtTelefone(fone.value); });
+    },
     botoes: [{ texto: 'Cancelar' }, { texto: ed ? 'Salvar' : 'Cadastrar cliente', classe: 'gold', acao: async (ov) => {
       const r = await api(ed ? `/clientes/${v.id}` : '/clientes', { method: ed ? 'PUT' : 'POST', body: lerForm(ov) });
       cache.clientes = null; toast('Cliente salvo.'); depois?.(r);
@@ -2409,7 +2523,7 @@ function abrirCliente(v = {}, depois) {
 }
 async function pageClientes(params) {
   const f = { q: '', ...params };
-  view(`<div class="page-h"><div><h1>Clientes</h1><div class="sub">Cadastro e histórico de relacionamento</div></div><div class="actions"><button class="btn gold" id="novo">${ico('plus')} Novo cliente</button></div></div>
+  view(`<div class="page-h"><div><h1>Clientes</h1><div class="sub">Cadastro e histórico de relacionamento</div></div><div class="actions"><button class="btn" id="csv">${ico('down')} Exportar planilha</button><button class="btn gold" id="novo">${ico('plus')} Novo cliente</button></div></div>
     <div class="filters"><input type="search" id="q" placeholder="Buscar por nome, CPF/CNPJ, e-mail ou telefone…" value="${esc(f.q)}"><label class="chk" style="margin:0"><input type="checkbox" id="ina"> Mostrar arquivados</label></div>
     <div class="card tbl" id="lista"></div>`);
   const carregar = async () => {
@@ -2421,6 +2535,10 @@ async function pageClientes(params) {
   };
   $('#q').oninput = debounce(carregar); $('#ina').onchange = carregar;
   $('#novo').onclick = () => abrirCliente({}, (r) => (location.hash = '#/clientes/' + r.id));
+  $('#csv').onclick = async () => baixarPlanilha('clientes', [['nome', 'Nome'], [(c) => (c.tipo === 'PJ' ? 'Pessoa jurídica' : 'Pessoa física'), 'Tipo'], ['documento', 'CPF / CNPJ'], ['rg', 'RG / Inscrição'], [(c) => (c.nascimento ? fData(c.nascimento) : ''), 'Nascimento / Fundação'],
+    ['estado_civil', 'Estado civil'], ['profissao', 'Profissão / Ramo'], ['telefone', 'Telefone'], ['email', 'E-mail'], ['endereco', 'Endereço'], ['n_processos', 'Casos'], ['n_atendimentos', 'Atendimentos'],
+    [(c) => (c.ultimo_atendimento ? fData(c.ultimo_atendimento) : ''), 'Último contato'], [(c) => (c.ativo ? 'Ativo' : 'Arquivado'), 'Situação'], ['observacoes', 'Observações']],
+    await api('/clientes' + qs({ q: $('#q').value, inativos: $('#ina').checked })));
   await carregar();
 }
 async function pageCliente(id) {
@@ -2468,7 +2586,7 @@ async function abrirProcesso(v = {}, depois) {
 async function carregarOpcoes() { if (!S.opcoes) S.opcoes = await api('/opcoes'); return S.opcoes; }
 async function pageProcessos(params) {
   const f = { q: '', status: '', ...params };
-  view(`<div class="page-h"><div><h1>Casos e processos</h1><div class="sub">Acompanhamento da carteira do escritório</div></div><div class="actions"><button class="btn gold" id="novo">${ico('plus')} Novo caso</button></div></div>
+  view(`<div class="page-h"><div><h1>Casos e processos</h1><div class="sub">Acompanhamento da carteira do escritório</div></div><div class="actions"><button class="btn" id="csv">${ico('down')} Exportar planilha</button><button class="btn gold" id="novo">${ico('plus')} Novo caso</button></div></div>
     <div class="filters"><input type="search" id="q" placeholder="Buscar por título, número, cliente ou parte contrária…" value="${esc(f.q)}"><select id="st"><option value="">Todas as situações</option>${opts(L.status).map(([k, l]) => `<option value="${k}" ${f.status === k ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
     <div class="card tbl" id="lista"></div>`);
   const carregar = async () => {
@@ -2478,6 +2596,8 @@ async function pageProcessos(params) {
   };
   $('#q').oninput = debounce(carregar); $('#st').onchange = carregar;
   $('#novo').onclick = () => abrirProcesso({}, (r) => (location.hash = '#/processos/' + r.id));
+  $('#csv').onclick = async () => baixarPlanilha('casos', [['titulo', 'Caso'], ['cliente', 'Cliente'], ['numero', 'Nº do processo'], ['area', 'Área'], ['juizo', 'Juízo / Órgão'], ['parte_contraria', 'Parte contrária'], [(p) => L.status[p.status] || p.status, 'Situação'],
+    ['valor_causa', 'Valor da causa'], ['responsavel', 'Responsável'], ['observacoes', 'Observações']], await api('/processos' + qs({ q: $('#q').value, status: $('#st').value })));
   await carregar();
 }
 async function pageProcesso(id) {
@@ -2535,10 +2655,14 @@ async function pageAcesso() {
       <p class="small muted" style="margin-bottom:0">Quem não foi convidado não consegue abrir o sistema — e, mesmo que alguém consiga o link, sem a senha do escritório os dados continuam ilegíveis.</p></div></div>` : ''}
     <div class="card" style="margin-top:18px"><div class="card-h"><h3>Cópia de segurança</h3></div><div class="card-b">
       <p style="margin-top:0">Baixa um arquivo ZIP com todos os dados e documentos. <b>A cópia não é criptografada</b>: guarde em local seguro.</p>
-      <button class="btn" id="bk">${ico('down')} Baixar cópia de segurança</button></div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="bk">${ico('down')} Baixar cópia de segurança</button>${adm ? `<button class="btn" id="rs">${ico('upload')} Restaurar de uma cópia</button><input type="file" id="rsArq" accept=".zip,application/zip" hidden>` : ''}</div>
+      <p class="small muted" style="margin-bottom:0">Restaurar só acrescenta o que estiver faltando; nada do que já existe é alterado.</p></div></div>
+    <div class="card" style="margin-top:18px"><div class="card-h"><h3>Bloqueio automático</h3><span class="badge ok">Ativo</span></div><div class="card-b">
+      <p style="margin:0">Depois de <b>${INATIVIDADE_MIN} minutos sem uso</b>, o sistema volta a pedir a senha do escritório. Ao sair da mesa, use também “Bloquear (sair)” no menu do seu nome.</p></div></div>
     ${COM_IA ? `<div class="card" style="margin-top:18px"><div class="card-h"><h3>Assistente de IA</h3>${iaOk ? '<span class="badge ok">Disponível</span>' : '<span class="badge">Indisponível</span>'}</div><div class="card-b" id="iaCard"></div></div>` : ''}`);
   if ($('#trocar')) $('#trocar').onclick = abrirSenha;
   $('#bk').onclick = async () => { try { toast('Preparando a cópia…'); await exportarCopia(); } catch (e) { falha(e); } };
+  if ($('#rs')) { $('#rs').onclick = () => $('#rsArq').click(); $('#rsArq').onchange = (e) => { const f = e.target.files[0]; e.target.value = ''; if (f) restaurarCopiaUI(f, pageAcesso); }; }
   const box = $('#iaCard');
   if (!box) return;
   if (claude) box.innerHTML = '<p style="margin:0">A IA usa a <b>conta Claude de quem está usando o sistema</b> (sem chave de API e sem custo extra para o escritório além do plano de cada pessoa). Os trechos dos documentos selecionados são enviados ao Claude para gerar a resposta.</p>';
@@ -2582,6 +2706,85 @@ async function pageCadastro() {
   $('#cAte').onclick = () => abrirAtendimento({}, refaz).catch(falha);
   $('#cDoc').onclick = () => abrirUpload({}, refaz).catch(falha);
   $('#cPen').onclick = () => abrirPend({}, refaz).catch(falha);
+}
+
+/* Agenda de prazos e restauração da cópia de segurança */
+'use strict';
+
+const MESES_ABREV = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+
+// ======================= AGENDA DE PRAZOS =======================
+async function pageAgenda() {
+  const d = await api('/agenda');
+  const GRUPOS = [
+    ['vencidos', 'Vencidos', (n) => n < 0, 'err'], ['hoje', 'Hoje', (n) => n === 0, 'warn'], ['semana', 'Próximos 7 dias', (n) => n > 0 && n <= 7, 'info'],
+    ['mes', 'Até 30 dias', (n) => n > 7 && n <= 30, ''], ['depois', 'Mais adiante', (n) => n > 30, ''],
+  ];
+  const itens = d.itens.map((i) => ({ ...i, dias: diasAte(i.prazo) }));
+  const conta = (k) => itens.filter((i) => GRUPOS.find((g) => g[0] === k)[2](i.dias)).length;
+  view(`<div class="page-h"><div><h1>Agenda de prazos</h1><div class="sub">Providências de atendimentos e pendências em aberto, por data</div></div>
+      <div class="actions"><button class="btn" id="agCsv">${ico('down')} Exportar planilha</button><button class="btn gold" id="agNovo">${ico('plus')} Nova pendência</button></div></div>
+    <div class="grid g4" style="margin-bottom:18px">
+      <div class="card stat"><div class="n" style="color:${conta('vencidos') ? 'var(--err)' : 'inherit'}">${conta('vencidos')}</div><div class="l">Vencidos</div></div>
+      <div class="card stat"><div class="n">${conta('hoje')}</div><div class="l">Para hoje</div></div>
+      <div class="card stat"><div class="n">${conta('semana')}</div><div class="l">Próximos 7 dias</div></div>
+      <div class="card stat"><div class="n">${itens.length}</div><div class="l">Prazos em aberto</div></div>
+    </div>
+    <div class="filters"><input type="search" id="agQ" placeholder="Filtrar por cliente, caso ou assunto…">
+      <select id="agTipo"><option value="">Tudo</option><option value="atendimento">Providências de atendimentos</option><option value="pendencia">Pendências</option></select></div>
+    <div id="agLista"></div>
+    ${d.semPrazo ? `<p class="small muted" style="margin-top:14px">Há ${d.semPrazo} pendência(s) em aberto sem data definida. <a href="#/pendencias">Ver pendências</a></p>` : ''}`);
+  const linha = (i) => `<div class="list-item"><div class="d"><b>${i.prazo.slice(8, 10)}</b>${MESES_ABREV[+i.prazo.slice(5, 7) - 1]}${i.prazo.slice(0, 4) !== d.hoje.slice(0, 4) ? ' ' + i.prazo.slice(0, 4) : ''}</div>
+      <div style="flex:1;min-width:0"><a href="${i.origem === 'atendimento' ? '#/atendimentos/' + i.id : '#/clientes/' + i.cliente_id}"><b>${esc(i.titulo)}</b></a>
+        <div class="small muted">${esc(i.cliente)}${i.processo ? ' · ' + esc(i.processo) : ''} · ${i.origem === 'atendimento' ? 'providência de atendimento' : i.tipo === 'tarefa' ? 'tarefa' : 'documento pendente'}${i.responsavel ? ' · ' + esc(i.responsavel) : ''}</div>
+        ${i.detalhe ? `<div class="small muted">${esc(i.detalhe.slice(0, 140))}${i.detalhe.length > 140 ? '…' : ''}</div>` : ''}</div>
+      <div>${badgePrazo(i.prazo)}</div><button class="btn sm ghost" data-ok="${i.origem}:${i.id}" title="Marcar como resolvido">${ico('check')}</button></div>`;
+  const desenhar = () => {
+    const t = norm($('#agQ').value), tipo = $('#agTipo').value;
+    const vis = itens.filter((i) => (!tipo || i.origem === tipo) && (!t || norm([i.titulo, i.cliente, i.processo, i.detalhe, i.responsavel].join(' ')).includes(t)));
+    $('#agLista').innerHTML = vis.length ? GRUPOS.map(([, nome, cabe, cor]) => { const g = vis.filter((i) => cabe(i.dias)); return g.length ? `<div class="card" style="margin-bottom:14px"><div class="card-h"><h3>${nome}</h3><span class="badge ${cor}">${g.length}</span></div>${g.map(linha).join('')}</div>` : ''; }).join('')
+      : `<div class="card">${vazio(itens.length ? 'Nenhum prazo com este filtro.' : 'Nenhum prazo em aberto. Informe o prazo ao registrar um atendimento ou uma pendência para ele aparecer aqui.', 'clock')}</div>`;
+    $$('[data-ok]', $('#agLista')).forEach((b) => (b.onclick = async () => {
+      const [origem, id] = b.dataset.ok.split(':'); b.disabled = true;
+      try {
+        if (origem === 'atendimento') await api(`/atendimentos/${id}/concluir`, { method: 'POST', body: { concluido: true } });
+        else await api(`/pendencias/${id}/status`, { method: 'POST', body: { status: 'ok' } });
+        toast('Marcado como resolvido.'); pageAgenda();
+      } catch (e) { b.disabled = false; falha(e); }
+    }));
+  };
+  $('#agQ').oninput = debounce(desenhar, 150); $('#agTipo').onchange = desenhar;
+  $('#agNovo').onclick = () => abrirPend({}, pageAgenda).catch(falha);
+  $('#agCsv').onclick = () => baixarPlanilha('agenda-de-prazos', [[(i) => fData(i.prazo), 'Prazo'], [(i) => (i.dias < 0 ? 'Vencido' : i.dias === 0 ? 'Hoje' : `em ${i.dias} dia(s)`), 'Situação'], ['titulo', 'Assunto'], ['cliente', 'Cliente'], ['processo', 'Caso'],
+    [(i) => (i.origem === 'atendimento' ? 'Providência de atendimento' : i.tipo === 'tarefa' ? 'Tarefa' : 'Documento pendente'), 'Tipo'], ['responsavel', 'Responsável'], ['detalhe', 'Detalhe']], itens);
+  desenhar();
+}
+const norm = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+// ======================= RESTAURAR CÓPIA DE SEGURANÇA =======================
+const NOMES_COL = { clientes: 'Clientes', processos: 'Casos', atendimentos: 'Atendimentos', documentos: 'Documentos', pastas: 'Pastas', notas: 'Observações', pendencias: 'Pendências' };
+async function restaurarCopiaUI(arquivo, depois) {
+  let zip, copia;
+  try {
+    if (arquivo.size > 600 * 1048576) throw new Error('A cópia tem mais de 600 MB e não pode ser aberta no navegador.');
+    zip = fflate.unzipSync(new Uint8Array(await arquivo.arrayBuffer()));
+    if (!zip['dados.json']) throw new Error('Este arquivo não é uma cópia de segurança deste sistema (falta o dados.json).');
+    copia = LocalAPI.lerCopia(new TextDecoder().decode(zip['dados.json']));
+  } catch (e) { return toast(/invalid zip|unexpected|Invalid/i.test(e.message || '') ? 'Não foi possível abrir o arquivo. Escolha o ZIP baixado em “Baixar cópia de segurança”.' : e.message, true); }
+  const plano = LocalAPI.planoRestauracao(copia), novos = Object.values(plano).reduce((n, p) => n + p.novos, 0);
+  const tabela = `<div class="tbl" style="margin:10px 0"><table><thead><tr><th>Item</th><th>Na cópia</th><th>Serão adicionados</th><th>Já existem</th></tr></thead><tbody>${Object.entries(plano).map(([c, p]) => `<tr><td>${NOMES_COL[c]}</td><td>${p.total}</td><td><b>${p.novos}</b></td><td>${p.existentes}</td></tr>`).join('')}</tbody></table></div>`;
+  modal({ titulo: 'Restaurar cópia de segurança', tamanho: '',
+    corpo: `<p style="margin-top:0">Cópia de <b>${esc(copia.escritorio || 'escritório não informado')}</b>${copia.exportado_em ? `, feita em ${esc(fData(copia.exportado_em.slice(0, 10)))}` : ''}.</p>${tabela}
+      <p class="note small" style="margin-bottom:0">A restauração <b>só acrescenta o que ainda não existe</b>. Nada do que já está no sistema é alterado ou apagado. Os dados entram criptografados com a senha atual do escritório.</p>
+      <div id="rsProg" hidden style="margin-top:12px"><div class="small muted" id="rsMsg">Restaurando…</div><div class="prog"><div id="rsBar" style="width:0"></div></div></div>`,
+    botoes: [{ texto: 'Cancelar' }, ...(novos ? [{ texto: `Restaurar ${novos} registro(s)`, classe: 'gold', acao: async (ov) => {
+      ov.dataset.travar = '1'; $('#rsProg', ov).hidden = false;
+      const r = await LocalAPI.restaurar(copia, zip, { aoAvancar: (f, t) => { ultimaAtividade = Date.now(); $('#rsMsg', ov).textContent = `Restaurando ${f} de ${t}…`; $('#rsBar', ov).style.width = Math.round((f / t) * 100) + '%'; } });
+      cache.clientes = null;
+      toast(`Restauração concluída: ${r.adicionados} adicionado(s), ${r.existentes} já existiam${r.semArquivo ? `, ${r.semArquivo} documento(s) sem arquivo na cópia` : ''}${r.falhas ? `, ${r.falhas} com falha` : ''}.`, !!r.falhas);
+      depois?.();
+    } }] : [])] });
+  if (!novos) toast('Tudo o que está nesta cópia já existe no sistema.');
 }
 
 /* Assistente Jurídico (IA) */
@@ -3200,6 +3403,7 @@ function telaCofre({ modo, meta, mensagem = '' }) {
 }
 
 async function entrar(master) {
+  ultimaAtividade = Date.now();
   await Dados.abrir(master, B, B.usuario.id);
   S.usuario = { id: B.usuario.id, nome: B.usuario.nome, papel: B.podeAdmin ? 'admin' : 'advogado', email: '' };
   LocalAPI.definirUsuario(S.usuario);
@@ -3207,14 +3411,27 @@ async function entrar(master) {
   renderShell(); await carregarOpcoes().catch(() => {});
   if (!location.hash || location.hash === '#') location.hash = '#/painel'; else rotear();
 }
-function bloquear() {
+function bloquear(mensagem) {
+  const aviso = typeof mensagem === 'string' ? mensagem : '';
+  for (const o of $$('.overlay')) o.parentNode.removeChild(o);          // nenhuma janela com dados fica aberta sobre a tela de senha
   guardaSessao.gravar(null); Dados.fechar(); S.usuario = null; S.opcoes = null; cache.clientes = null; location.hash = '';
-  B.obter('config', 'seguranca').then((meta) => telaCofre({ modo: 'abrir', meta })).catch((e) => telaCofre({ modo: 'sem-acesso', mensagem: e.message }));
+  $('#app').innerHTML = '<div class="splash"></div>';
+  B.obter('config', 'seguranca').then((meta) => telaCofre({ modo: 'abrir', meta, mensagem: aviso })).catch((e) => telaCofre({ modo: 'sem-acesso', mensagem: e.message }));
 }
+
+// ---------- bloqueio automático: sem uso por um tempo, volta a pedir a senha ----------
+const INATIVIDADE_MIN = 30;
+let ultimaAtividade = Date.now();
+['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => document.addEventListener(ev, () => { ultimaAtividade = Date.now(); }, { capture: true, passive: true }));
+function conferirInatividade() {
+  if (S.usuario && Date.now() - ultimaAtividade > INATIVIDADE_MIN * 60000) bloquear(`Bloqueado após ${INATIVIDADE_MIN} minutos sem uso. Digite a senha para continuar.`);
+}
+setInterval(conferirInatividade, 20000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) conferirInatividade(); });
 
 // ---------- estrutura ----------
 const NAV = [
-  ['#/painel', 'Painel', 'home'], ['#/cadastro', 'Cadastro', 'plus'], ['#/atendimentos', 'Atendimentos', 'chat'], ['#/clientes', 'Clientes', 'users'], ['#/processos', 'Casos e processos', 'scale'], ['#/pendencias', 'Pendências', 'check'], ['#/documentos', 'Documentos', 'file'],
+  ['#/painel', 'Painel', 'home'], ['#/cadastro', 'Cadastro', 'plus'], ['#/agenda', 'Agenda de prazos', 'clock'],['#/atendimentos', 'Atendimentos', 'chat'], ['#/clientes', 'Clientes', 'users'], ['#/processos', 'Casos e processos', 'scale'], ['#/pendencias', 'Pendências', 'check'], ['#/documentos', 'Documentos', 'file'],
 ];
 function renderShell() {
   const u = S.usuario, f = S.firma;
@@ -3262,7 +3479,7 @@ function aoMudarDados(colecao, info = {}) {
   tAtualiza = setTimeout(() => {
     const h = location.hash || '#/painel', ocupado = $('.overlay') || (document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName) && document.activeElement.closest('#view'));
     if (h.startsWith('#/assistente')) return;
-    if (/^#\/(painel|clientes\/\d|processos\/\d|atendimentos\/\d)/.test(h) && !ocupado) rotear();
+    if (/^#\/(painel|agenda|cadastro|clientes\/\d|processos\/\d|atendimentos\/\d)/.test(h) && !ocupado) rotear();
     else if ($('#novidades')) $('#novidades').hidden = false;
   }, 500);
 }
@@ -3287,6 +3504,7 @@ async function rotear() {
       case 'pendencias': return await pagePendencias(params);
       case 'assistente': return COM_IA ? await pageAssistente() : (location.hash = '#/painel');
       case 'cadastro': return await pageCadastro();
+      case 'agenda': return await pageAgenda();
       case 'usuarios': return await pageAcesso();
       case 'auditoria': return S.usuario.papel === 'admin' ? await pageAuditoria() : (location.hash = '#/painel');
       default: location.hash = '#/painel';

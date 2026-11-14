@@ -52,6 +52,7 @@ function telaCofre({ modo, meta, mensagem = '' }) {
 }
 
 async function entrar(master) {
+  ultimaAtividade = Date.now();
   await Dados.abrir(master, B, B.usuario.id);
   S.usuario = { id: B.usuario.id, nome: B.usuario.nome, papel: B.podeAdmin ? 'admin' : 'advogado', email: '' };
   LocalAPI.definirUsuario(S.usuario);
@@ -59,14 +60,27 @@ async function entrar(master) {
   renderShell(); await carregarOpcoes().catch(() => {});
   if (!location.hash || location.hash === '#') location.hash = '#/painel'; else rotear();
 }
-function bloquear() {
+function bloquear(mensagem) {
+  const aviso = typeof mensagem === 'string' ? mensagem : '';
+  for (const o of $$('.overlay')) o.parentNode.removeChild(o);          // nenhuma janela com dados fica aberta sobre a tela de senha
   guardaSessao.gravar(null); Dados.fechar(); S.usuario = null; S.opcoes = null; cache.clientes = null; location.hash = '';
-  B.obter('config', 'seguranca').then((meta) => telaCofre({ modo: 'abrir', meta })).catch((e) => telaCofre({ modo: 'sem-acesso', mensagem: e.message }));
+  $('#app').innerHTML = '<div class="splash"></div>';
+  B.obter('config', 'seguranca').then((meta) => telaCofre({ modo: 'abrir', meta, mensagem: aviso })).catch((e) => telaCofre({ modo: 'sem-acesso', mensagem: e.message }));
 }
+
+// ---------- bloqueio automático: sem uso por um tempo, volta a pedir a senha ----------
+const INATIVIDADE_MIN = 30;
+let ultimaAtividade = Date.now();
+['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => document.addEventListener(ev, () => { ultimaAtividade = Date.now(); }, { capture: true, passive: true }));
+function conferirInatividade() {
+  if (S.usuario && Date.now() - ultimaAtividade > INATIVIDADE_MIN * 60000) bloquear(`Bloqueado após ${INATIVIDADE_MIN} minutos sem uso. Digite a senha para continuar.`);
+}
+setInterval(conferirInatividade, 20000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) conferirInatividade(); });
 
 // ---------- estrutura ----------
 const NAV = [
-  ['#/painel', 'Painel', 'home'], ['#/cadastro', 'Cadastro', 'plus'], ['#/atendimentos', 'Atendimentos', 'chat'], ['#/clientes', 'Clientes', 'users'], ['#/processos', 'Casos e processos', 'scale'], ['#/pendencias', 'Pendências', 'check'], ['#/documentos', 'Documentos', 'file'],
+  ['#/painel', 'Painel', 'home'], ['#/cadastro', 'Cadastro', 'plus'], ['#/agenda', 'Agenda de prazos', 'clock'],['#/atendimentos', 'Atendimentos', 'chat'], ['#/clientes', 'Clientes', 'users'], ['#/processos', 'Casos e processos', 'scale'], ['#/pendencias', 'Pendências', 'check'], ['#/documentos', 'Documentos', 'file'],
 ];
 function renderShell() {
   const u = S.usuario, f = S.firma;
@@ -114,7 +128,7 @@ function aoMudarDados(colecao, info = {}) {
   tAtualiza = setTimeout(() => {
     const h = location.hash || '#/painel', ocupado = $('.overlay') || (document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName) && document.activeElement.closest('#view'));
     if (h.startsWith('#/assistente')) return;
-    if (/^#\/(painel|clientes\/\d|processos\/\d|atendimentos\/\d)/.test(h) && !ocupado) rotear();
+    if (/^#\/(painel|agenda|cadastro|clientes\/\d|processos\/\d|atendimentos\/\d)/.test(h) && !ocupado) rotear();
     else if ($('#novidades')) $('#novidades').hidden = false;
   }, 500);
 }
@@ -139,6 +153,7 @@ async function rotear() {
       case 'pendencias': return await pagePendencias(params);
       case 'assistente': return COM_IA ? await pageAssistente() : (location.hash = '#/painel');
       case 'cadastro': return await pageCadastro();
+      case 'agenda': return await pageAgenda();
       case 'usuarios': return await pageAcesso();
       case 'auditoria': return S.usuario.papel === 'admin' ? await pageAuditoria() : (location.hash = '#/painel');
       default: location.hash = '#/painel';

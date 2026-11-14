@@ -248,3 +248,58 @@ test('conversas são privadas de cada pessoa; senha do escritório pode ser troc
   const nova = await A.b.obter('config', 'seguranca'); assert.equal(await A.M.Cofre.abrir(nova, 'SenhaDeTeste123'), null); assert.ok(await A.M.Cofre.abrir(nova, 'NovaSenhaSegura2026'));
   const aud = (await A.call('GET', '/admin/auditoria')).data; assert.ok(aud.length >= 1 && aud.some((x) => x.acao === 'senha_alterada' && x.usuario_nome === 'Dra. Ana'));
 });
+
+test('agenda de prazos, CPF/CNPJ em dobro e restauração da cópia de segurança (não sobrescreve, recupera arquivos)', async () => {
+  const fflate = req('fflate');
+  const A = await ambiente();
+  const c1 = (await A.call('POST', '/clientes', { nome: 'Maria da Silva', documento: '111.444.777-35' })).data.id;
+  const dup = await A.call('POST', '/clientes', { nome: 'Maria S.', documento: '11144477735' });
+  assert.equal(dup.status, 400); assert.match(dup.data.erro, /Já existe um cliente com este CPF\/CNPJ: Maria da Silva/);
+  const c2 = (await A.call('POST', '/clientes', { nome: 'João Pereira' })).data.id;
+  assert.equal((await A.call('PUT', '/clientes/' + c2, { nome: 'João Pereira', documento: '111.444.777-35', versao: 1 })).status, 400);
+  const p1 = (await A.call('POST', '/processos', { cliente_id: c1, titulo: 'Ação de alimentos' })).data.id;
+  const at = (await A.call('POST', '/atendimentos', { cliente_id: c1, processo_id: p1, data_hora: '2026-11-05T10:00', assunto: 'Reunião', providencias: 'Protocolar', prazo: '2020-01-10' })).data.id;
+  await A.call('POST', '/atendimentos', { cliente_id: c1, data_hora: '2026-11-05T11:00', assunto: 'Sem prazo' });
+  const pe = (await A.call('POST', '/pendencias', { cliente_id: c2, titulo: 'Trazer RG', prazo: '2099-12-31' })).data.id;
+  await A.call('POST', '/pendencias', { cliente_id: c2, titulo: 'Sem data' });
+  const ag = (await A.call('GET', '/agenda')).data;
+  assert.deepEqual(ag.itens.map((i) => [i.origem, i.titulo, i.prazo, i.cliente]), [['atendimento', 'Reunião', '2020-01-10', 'Maria da Silva'], ['pendencia', 'Trazer RG', '2099-12-31', 'João Pereira']]);
+  assert.equal(ag.itens[0].processo, 'Ação de alimentos'); assert.equal(ag.semPrazo, 1);
+  await A.call('POST', `/atendimentos/${at}/concluir`, { concluido: true }); await A.call('POST', `/pendencias/${pe}/status`, { status: 'ok' });
+  assert.equal((await A.call('GET', '/agenda')).data.itens.length, 0);
+
+  const doc = (await enviar(A.call, 'contrato.txt', 'Contrato de honorários entre Maria da Silva e o escritório, cláusula penal.', { cliente_id: c1 })).data.ids[0];
+  // monta a cópia como a tela faz
+  const dump = {}; for (const n of ['clientes', 'processos', 'atendimentos', 'documentos', 'pastas', 'notas', 'pendencias']) dump[n] = A.M.Dados.lista(n);
+  const arquivos = { 'dados.json': new TextEncoder().encode(JSON.stringify({ escritorio: 'X', exportado_em: 'agora', dados: dump })) };
+  arquivos[`arquivos/${doc}-contrato.txt`] = await A.M.Arq.ler(A.M.Dados.obter('documentos', doc).asset_id);
+  const zip = fflate.unzipSync(fflate.zipSync(arquivos));
+
+  // restaurar por cima do mesmo sistema: nada muda
+  const copia = A.M.LocalAPI.lerCopia(new TextDecoder().decode(zip['dados.json']));
+  assert.equal(A.M.LocalAPI.planoRestauracao(copia).clientes.novos, 0);
+  const r0 = await A.M.LocalAPI.restaurar(copia, zip); assert.equal(r0.adicionados, 0); assert.ok(r0.existentes >= 5);
+
+  // restaurar em um sistema vazio (outra senha): tudo volta, inclusive o arquivo e a busca no texto
+  const B = await ambiente();
+  await B.call('POST', '/clientes', { nome: 'Cliente que já estava lá' });
+  const copiaB = B.M.LocalAPI.lerCopia(new TextDecoder().decode(zip['dados.json']));
+  const plano = B.M.LocalAPI.planoRestauracao(copiaB); assert.equal(plano.clientes.novos, 2); assert.equal(plano.documentos.novos, 1);
+  const passos = []; const r = await B.M.LocalAPI.restaurar(copiaB, zip, { aoAvancar: (f, t) => passos.push([f, t]) });
+  assert.equal(r.falhas, 0); assert.equal(r.semArquivo, 0); assert.deepEqual(passos.at(-1), [passos.length, passos.length]);
+  assert.equal((await B.call('GET', '/clientes')).data.length, 3);
+  assert.equal((await B.call('GET', '/clientes/' + c1)).data.nome, 'Maria da Silva');
+  const bytes = (await B.M.LocalAPI.bytesDoc(doc)).u8; assert.match(new TextDecoder().decode(bytes), /cláusula penal/);
+  assert.equal((await B.call('GET', '/documentos?q=' + encodeURIComponent('cláusula penal'))).data.length, 1);
+  assert.equal((await B.call('GET', '/atendimentos')).data.length, 2);
+
+  // cópia sem o arquivo do documento: o registro não é criado pela metade
+  const C = await ambiente();
+  const semArq = { 'dados.json': zip['dados.json'] };
+  const rc = await C.M.LocalAPI.restaurar(C.M.LocalAPI.lerCopia(new TextDecoder().decode(zip['dados.json'])), semArq);
+  assert.equal(rc.semArquivo, 1); assert.equal((await C.call('GET', '/documentos')).data.length, 0);
+  // arquivo que não é cópia, e quem não administra
+  assert.throws(() => C.M.LocalAPI.lerCopia('{"qualquer":1}'), /não é uma cópia de segurança/); assert.throws(() => C.M.LocalAPI.lerCopia('{{'), /corrompido/);
+  C.M.LocalAPI.definirUsuario({ id: 'u2', nome: 'Colega', papel: 'advogado' });
+  await assert.rejects(C.M.LocalAPI.restaurar(copia, zip), /Só quem administra/);
+});

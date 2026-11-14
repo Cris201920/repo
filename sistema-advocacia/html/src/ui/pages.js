@@ -20,6 +20,11 @@ async function pagePainel() {
       <button class="btn" id="aUp">${ico('upload')} Enviar documento</button>
       ${COM_IA ? `<a class="btn" href="#/assistente">${ico('spark')} Assistente IA</a>` : ''}
     </div></div>
+  ${d.totais.clientes === 0 ? `<div class="card" style="margin-bottom:18px"><div class="card-h"><h3>Primeiros passos</h3></div><div class="card-b">
+      <ol style="margin:0;padding-left:20px;line-height:1.7"><li><a href="#/cadastro"><b>Cadastre o primeiro cliente</b></a> e, se houver, o caso dele.</li>
+      <li>Registre os atendimentos e informe o <b>prazo</b> das providências: eles aparecem na <a href="#/agenda">Agenda de prazos</a>.</li>
+      <li>Envie ou escaneie os documentos na página do cliente.</li>
+      <li>De tempos em tempos, baixe uma <a href="#/usuarios"><b>cópia de segurança</b></a>.</li></ol></div></div>` : ''}
   <div class="grid g4" style="margin-bottom:18px">
     <div class="card stat"><div class="n">${d.totais.clientes}</div><div class="l">Clientes ativos</div></div>
     <div class="card stat"><div class="n">${d.totais.processos}</div><div class="l">Casos em curso</div></div>
@@ -28,7 +33,7 @@ async function pagePainel() {
   </div>
   <div class="grid g2">
     <div style="display:flex;flex-direction:column;gap:18px">
-    <div class="card"><div class="card-h"><h3>Prazos e providências pendentes</h3><a class="small" href="#/atendimentos?pendentes=1">ver todos</a></div>
+    <div class="card"><div class="card-h"><h3>Prazos e providências pendentes</h3><a class="small" href="#/agenda">abrir agenda</a></div>
       ${d.prazos.length ? d.prazos.map((p) => `<div class="list-item"><div class="d"><b>${p.prazo.slice(8, 10)}</b>${['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'][+p.prazo.slice(5, 7) - 1]}</div>
         <div style="flex:1;min-width:0"><a href="#/atendimentos/${p.id}"><b>${esc(p.assunto)}</b></a><div class="small muted">${esc(p.cliente)}${p.providencias ? ' · ' + esc(p.providencias.slice(0, 90)) : ''}</div></div>
         <div>${badgePrazo(p.prazo)}</div><button class="btn sm ghost" data-conc="${p.id}" title="Marcar como concluído">${ico('check')}</button></div>`).join('') : vazio('Nenhum prazo pendente. Ao registrar um atendimento, informe o prazo para que ele apareça aqui.', 'clock')}
@@ -90,7 +95,7 @@ async function abrirAtendimento(v = {}, depois) {
 async function pageAtendimentos(params) {
   const f = { q: '', canal: '', pendentes: '', de: '', ate: '', ...params };
   view(`<div class="page-h"><div><h1>Atendimentos</h1><div class="sub">Registro de todos os contatos e consultas com clientes</div></div>
-    <div class="actions"><button class="btn gold" id="novo">${ico('plus')} Novo atendimento</button></div></div>
+    <div class="actions"><button class="btn" id="csv">${ico('down')} Exportar planilha</button><button class="btn gold" id="novo">${ico('plus')} Novo atendimento</button></div></div>
     <div class="filters"><input type="search" id="q" placeholder="Buscar por cliente, assunto ou conteúdo…" value="${esc(f.q)}">
       <select id="canal"><option value="">Todos os canais</option>${opts(L.canal).map(([k, l]) => `<option value="${k}" ${f.canal === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
       <label class="chk" style="margin:0"><input type="checkbox" id="pend" ${f.pendentes ? 'checked' : ''}> Com prazo pendente</label>
@@ -106,6 +111,9 @@ async function pageAtendimentos(params) {
   };
   ['canal', 'pend', 'de', 'ate'].forEach((i) => ($('#' + i).onchange = carregar)); $('#q').oninput = debounce(carregar);
   $('#novo').onclick = () => abrirAtendimento({}, carregar);
+  $('#csv').onclick = async () => baixarPlanilha('atendimentos', [[(a) => fDataHora(a.data_hora), 'Data e hora'], ['cliente', 'Cliente'], ['processo', 'Caso'], ['assunto', 'Assunto'], [(a) => L.canal[a.canal] || a.canal, 'Canal'], ['resumo', 'Registro'], ['providencias', 'Providências'],
+    [(a) => (a.prazo ? fData(a.prazo) : ''), 'Prazo'], [(a) => (a.prazo ? (a.concluido ? 'Concluído' : 'Em aberto') : ''), 'Situação do prazo'], ['atendente', 'Atendido por']],
+    await api('/atendimentos' + qs({ q: $('#q').value, canal: $('#canal').value, pendentes: $('#pend').checked, de: $('#de').value, ate: $('#ate').value })));
   await carregar();
 }
 
@@ -305,6 +313,13 @@ const CAMPOS_CLI = [
 function abrirCliente(v = {}, depois) {
   const ed = !!v.id;
   modal({ titulo: ed ? 'Editar cliente' : 'Novo cliente', tamanho: 'lg', corpo: formHTML(CAMPOS_CLI, { tipo: 'PF', ...v }),
+    aoAbrir: (ov) => {
+      const doc = $('#f_documento', ov), fone = $('#f_telefone', ov);
+      const aviso = document.createElement('div'); aviso.className = 'small'; aviso.style.color = 'var(--warn)'; aviso.hidden = true; doc.parentElement.append(aviso);
+      const conferir = () => { const r = conferirDocumento(doc.value); doc.value = r.texto; aviso.textContent = r.aviso; aviso.hidden = !r.aviso; };
+      doc.addEventListener('blur', conferir); if (doc.value) conferir();
+      fone.addEventListener('blur', () => { fone.value = fmtTelefone(fone.value); });
+    },
     botoes: [{ texto: 'Cancelar' }, { texto: ed ? 'Salvar' : 'Cadastrar cliente', classe: 'gold', acao: async (ov) => {
       const r = await api(ed ? `/clientes/${v.id}` : '/clientes', { method: ed ? 'PUT' : 'POST', body: lerForm(ov) });
       cache.clientes = null; toast('Cliente salvo.'); depois?.(r);
@@ -312,7 +327,7 @@ function abrirCliente(v = {}, depois) {
 }
 async function pageClientes(params) {
   const f = { q: '', ...params };
-  view(`<div class="page-h"><div><h1>Clientes</h1><div class="sub">Cadastro e histórico de relacionamento</div></div><div class="actions"><button class="btn gold" id="novo">${ico('plus')} Novo cliente</button></div></div>
+  view(`<div class="page-h"><div><h1>Clientes</h1><div class="sub">Cadastro e histórico de relacionamento</div></div><div class="actions"><button class="btn" id="csv">${ico('down')} Exportar planilha</button><button class="btn gold" id="novo">${ico('plus')} Novo cliente</button></div></div>
     <div class="filters"><input type="search" id="q" placeholder="Buscar por nome, CPF/CNPJ, e-mail ou telefone…" value="${esc(f.q)}"><label class="chk" style="margin:0"><input type="checkbox" id="ina"> Mostrar arquivados</label></div>
     <div class="card tbl" id="lista"></div>`);
   const carregar = async () => {
@@ -324,6 +339,10 @@ async function pageClientes(params) {
   };
   $('#q').oninput = debounce(carregar); $('#ina').onchange = carregar;
   $('#novo').onclick = () => abrirCliente({}, (r) => (location.hash = '#/clientes/' + r.id));
+  $('#csv').onclick = async () => baixarPlanilha('clientes', [['nome', 'Nome'], [(c) => (c.tipo === 'PJ' ? 'Pessoa jurídica' : 'Pessoa física'), 'Tipo'], ['documento', 'CPF / CNPJ'], ['rg', 'RG / Inscrição'], [(c) => (c.nascimento ? fData(c.nascimento) : ''), 'Nascimento / Fundação'],
+    ['estado_civil', 'Estado civil'], ['profissao', 'Profissão / Ramo'], ['telefone', 'Telefone'], ['email', 'E-mail'], ['endereco', 'Endereço'], ['n_processos', 'Casos'], ['n_atendimentos', 'Atendimentos'],
+    [(c) => (c.ultimo_atendimento ? fData(c.ultimo_atendimento) : ''), 'Último contato'], [(c) => (c.ativo ? 'Ativo' : 'Arquivado'), 'Situação'], ['observacoes', 'Observações']],
+    await api('/clientes' + qs({ q: $('#q').value, inativos: $('#ina').checked })));
   await carregar();
 }
 async function pageCliente(id) {
@@ -371,7 +390,7 @@ async function abrirProcesso(v = {}, depois) {
 async function carregarOpcoes() { if (!S.opcoes) S.opcoes = await api('/opcoes'); return S.opcoes; }
 async function pageProcessos(params) {
   const f = { q: '', status: '', ...params };
-  view(`<div class="page-h"><div><h1>Casos e processos</h1><div class="sub">Acompanhamento da carteira do escritório</div></div><div class="actions"><button class="btn gold" id="novo">${ico('plus')} Novo caso</button></div></div>
+  view(`<div class="page-h"><div><h1>Casos e processos</h1><div class="sub">Acompanhamento da carteira do escritório</div></div><div class="actions"><button class="btn" id="csv">${ico('down')} Exportar planilha</button><button class="btn gold" id="novo">${ico('plus')} Novo caso</button></div></div>
     <div class="filters"><input type="search" id="q" placeholder="Buscar por título, número, cliente ou parte contrária…" value="${esc(f.q)}"><select id="st"><option value="">Todas as situações</option>${opts(L.status).map(([k, l]) => `<option value="${k}" ${f.status === k ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
     <div class="card tbl" id="lista"></div>`);
   const carregar = async () => {
@@ -381,6 +400,8 @@ async function pageProcessos(params) {
   };
   $('#q').oninput = debounce(carregar); $('#st').onchange = carregar;
   $('#novo').onclick = () => abrirProcesso({}, (r) => (location.hash = '#/processos/' + r.id));
+  $('#csv').onclick = async () => baixarPlanilha('casos', [['titulo', 'Caso'], ['cliente', 'Cliente'], ['numero', 'Nº do processo'], ['area', 'Área'], ['juizo', 'Juízo / Órgão'], ['parte_contraria', 'Parte contrária'], [(p) => L.status[p.status] || p.status, 'Situação'],
+    ['valor_causa', 'Valor da causa'], ['responsavel', 'Responsável'], ['observacoes', 'Observações']], await api('/processos' + qs({ q: $('#q').value, status: $('#st').value })));
   await carregar();
 }
 async function pageProcesso(id) {
@@ -438,10 +459,14 @@ async function pageAcesso() {
       <p class="small muted" style="margin-bottom:0">Quem não foi convidado não consegue abrir o sistema — e, mesmo que alguém consiga o link, sem a senha do escritório os dados continuam ilegíveis.</p></div></div>` : ''}
     <div class="card" style="margin-top:18px"><div class="card-h"><h3>Cópia de segurança</h3></div><div class="card-b">
       <p style="margin-top:0">Baixa um arquivo ZIP com todos os dados e documentos. <b>A cópia não é criptografada</b>: guarde em local seguro.</p>
-      <button class="btn" id="bk">${ico('down')} Baixar cópia de segurança</button></div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="bk">${ico('down')} Baixar cópia de segurança</button>${adm ? `<button class="btn" id="rs">${ico('upload')} Restaurar de uma cópia</button><input type="file" id="rsArq" accept=".zip,application/zip" hidden>` : ''}</div>
+      <p class="small muted" style="margin-bottom:0">Restaurar só acrescenta o que estiver faltando; nada do que já existe é alterado.</p></div></div>
+    <div class="card" style="margin-top:18px"><div class="card-h"><h3>Bloqueio automático</h3><span class="badge ok">Ativo</span></div><div class="card-b">
+      <p style="margin:0">Depois de <b>${INATIVIDADE_MIN} minutos sem uso</b>, o sistema volta a pedir a senha do escritório. Ao sair da mesa, use também “Bloquear (sair)” no menu do seu nome.</p></div></div>
     ${COM_IA ? `<div class="card" style="margin-top:18px"><div class="card-h"><h3>Assistente de IA</h3>${iaOk ? '<span class="badge ok">Disponível</span>' : '<span class="badge">Indisponível</span>'}</div><div class="card-b" id="iaCard"></div></div>` : ''}`);
   if ($('#trocar')) $('#trocar').onclick = abrirSenha;
   $('#bk').onclick = async () => { try { toast('Preparando a cópia…'); await exportarCopia(); } catch (e) { falha(e); } };
+  if ($('#rs')) { $('#rs').onclick = () => $('#rsArq').click(); $('#rsArq').onchange = (e) => { const f = e.target.files[0]; e.target.value = ''; if (f) restaurarCopiaUI(f, pageAcesso); }; }
   const box = $('#iaCard');
   if (!box) return;
   if (claude) box.innerHTML = '<p style="margin:0">A IA usa a <b>conta Claude de quem está usando o sistema</b> (sem chave de API e sem custo extra para o escritório além do plano de cada pessoa). Os trechos dos documentos selecionados são enviados ao Claude para gerar a resposta.</p>';
