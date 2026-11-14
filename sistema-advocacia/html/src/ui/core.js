@@ -71,7 +71,7 @@ const debounce = (fn, ms = 300) => { let t; return (...a) => { clearTimeout(t); 
 // ---------- Toast ----------
 function toast(msg, erro = false) {
   const el = document.createElement('div'); el.className = 'toast' + (erro ? ' err' : ''); el.textContent = msg;
-  $('#toasts').append(el); setTimeout(() => el.remove(), erro ? 6000 : 3500);
+  $('#toasts').append(el); setTimeout(() => { el.classList.add('saindo'); setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 260); }, erro ? 6000 : 3500);
 }
 const falha = (e) => toast(e.message || String(e), true);
 
@@ -81,7 +81,14 @@ function modal({ titulo, corpo, botoes = [], tamanho = '', aoAbrir, aoFechar }) 
   ov.innerHTML = `<div class="modal ${tamanho}"><div class="modal-h"><h2>${esc(titulo)}</h2><button class="x" aria-label="Fechar">×</button></div>
     <div class="modal-b">${corpo}</div>${botoes.length ? '<div class="modal-f"></div>' : ''}</div>`;
   document.body.append(ov);
-  const fechar = () => { ov.remove(); document.removeEventListener('keydown', esc_); aoFechar?.(); };
+  let fechado = false;
+  const fechar = () => {                                               // some com uma animação curta antes de sair da tela
+    if (fechado) return; fechado = true;
+    document.removeEventListener('keydown', esc_); ov.classList.add('saindo');
+    const tirar = () => { if (ov.parentNode) ov.parentNode.removeChild(ov); };
+    if (SEM_MOVIMENTO()) tirar(); else setTimeout(tirar, 170);
+    aoFechar?.();
+  };
   // algo digitado e ainda não salvo? clicar fora não fecha, e o X / Esc perguntam antes (para ninguém perder um registro longo sem querer)
   const sujo = () => botoes.some((b) => b.acao) && [...ov.querySelectorAll('.modal-b input, .modal-b textarea')].some((el) => !['checkbox', 'radio', 'file', 'search', 'hidden'].includes(el.type) && el.value !== el.defaultValue);
   let perguntando = false;
@@ -90,7 +97,7 @@ function modal({ titulo, corpo, botoes = [], tamanho = '', aoAbrir, aoFechar }) 
     if (sujo()) { perguntando = true; const sim = await confirmar('Fechar sem salvar? O que foi digitado será perdido.', { texto: 'Fechar sem salvar', perigo: true, titulo: 'Descartar o que foi digitado' }); perguntando = false; if (!sim) return; }
     fechar();
   };
-  const esc_ = (e) => { if (e.key === 'Escape' && ov === [...document.querySelectorAll('.overlay')].pop()) sair(); };
+  const esc_ = (e) => { if (e.key === 'Escape' && ov === [...document.querySelectorAll('.overlay:not(.saindo)')].pop()) sair(); };
   document.addEventListener('keydown', esc_);
   $('.x', ov).onclick = sair;
   ov.addEventListener('mousedown', (e) => { if (e.target === ov && !ov.dataset.travar && !sujo()) fechar(); });

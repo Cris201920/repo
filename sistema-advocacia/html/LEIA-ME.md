@@ -44,3 +44,7 @@ Arquivos até 14 MB; texto extraído até 90 mil caracteres por documento; perfi
 ## IA
 A IA (Assistente e organização de documentos) está **desativada** nesta versão (`COM_IA = false` em `src/ui/core.js`). Para voltar,
 mude para `true`, rode `node build.js` e republique incluindo a capacidade `sample` (`{"images": true}`).
+
+## Animações
+Ficam em `src/animacoes.css` (movimento e cores) e `src/ui/animacoes.js` (onda no clique, pulso ao digitar, números que contam).
+São desligadas automaticamente para quem ativa "reduzir movimento" no aparelho. Para tirar tudo, remova `animacoes.css` da linha `ler('app.css') + ler('animacoes.css')` em `build.js`.

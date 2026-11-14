@@ -36,7 +36,7 @@ function regrasTopo(css) {
   return out;
 }
 function css() {
-  const base = ler('app.css');
+  const base = ler('app.css') + ler('animacoes.css');
   const sem = base.replace(/\/\*[\s\S]*?\*\//g, '');
   const escuras = regrasTopo(sem).map((r) => r.trim()).filter((r) => r.startsWith(':root[data-theme="dark"]'));
   const espelho = escuras.map((r) => {

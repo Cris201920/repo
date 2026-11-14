@@ -303,6 +303,147 @@ tr[draggable=true]{cursor:grab}
   .page-h .actions{width:100%} .page-h .actions .btn{flex:1 1 auto;justify-content:center}
 }
 
+/* =====================================================================
+   ANIMAÇÕES E JOGO DE CORES
+   Tudo aqui é desligado para quem pede "menos movimento" no aparelho
+   (regra prefers-reduced-motion acima).
+   ===================================================================== */
+:root{
+  --ouro-vivo:linear-gradient(90deg,#8a642a,#d4a95f,#f1d9a0,#c98f5a,#b88a44,#8a642a);
+  --mola:cubic-bezier(.2,.9,.3,1.25); --suave:cubic-bezier(.22,.8,.3,1);
+}
+@keyframes ouroCorre{to{background-position:200% 0}}
+@keyframes surgir{from{opacity:0;transform:translateY(10px)}}
+@keyframes surgirLado{from{opacity:0;transform:translateX(-10px)}}
+@keyframes estalo{from{opacity:0;transform:scale(.94) translateY(-4px)}}
+@keyframes janelaAbre{from{opacity:0;transform:translateY(22px) scale(.96)}}
+@keyframes janelaFecha{to{opacity:0;transform:translateY(14px) scale(.97)}}
+@keyframes veuAbre{from{opacity:0}} @keyframes veuFecha{to{opacity:0}}
+@keyframes avisoEntra{from{opacity:0;transform:translateX(30px) scale(.96)}}
+@keyframes avisoSai{to{opacity:0;transform:translateX(30px)}}
+@keyframes flutuar{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes respirar{0%,100%{filter:drop-shadow(0 0 0 rgba(212,169,95,0)) brightness(1)}50%{filter:drop-shadow(0 0 9px rgba(212,169,95,.55)) brightness(1.08)}}
+@keyframes brilhoPassa{0%,62%{transform:translateX(-160%) skewX(-20deg)}100%{transform:translateX(320%) skewX(-20deg)}}
+@keyframes onda{to{transform:scale(2.6);opacity:0}}
+@keyframes pulsoCampo{0%{box-shadow:0 0 0 0 rgba(212,169,95,.55)}100%{box-shadow:0 0 0 7px rgba(212,169,95,0)}}
+@keyframes aurora{0%{background-position:0% 0%,100% 100%,50% 50%}50%{background-position:60% 40%,30% 70%,50% 50%}100%{background-position:0% 0%,100% 100%,50% 50%}}
+@keyframes girar{to{transform:rotate(360deg)}}
+@keyframes pulsar{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes tremer{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+@keyframes listras{to{background-position:28px 0}}
+
+/* ---------- logo: sempre viva (flutua, respira e recebe um brilho que passa) ---------- */
+.brand{position:relative;overflow:hidden;border-bottom:0;padding-bottom:17px}
+.brand::before{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--ouro-vivo);background-size:200% 100%;animation:ouroCorre 6s linear infinite}
+.brand::after{content:"";position:absolute;top:0;bottom:0;left:0;width:38%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:brilhoPassa 7s ease-in-out infinite;pointer-events:none;mix-blend-mode:soft-light}
+.brand img{animation:flutuar 6s ease-in-out infinite,respirar 6s ease-in-out infinite;transition:transform .5s var(--mola)}
+.brand:hover img{transform:scale(1.04)}
+.login-card img.logo{animation:flutuar 6s ease-in-out infinite,respirar 6s ease-in-out infinite}
+.splash img{animation:pulsar 1.6s ease-in-out infinite,respirar 1.6s ease-in-out infinite}
+.avatar{transition:transform .35s var(--mola),box-shadow .3s} .userbtn:hover .avatar{transform:rotate(-8deg) scale(1.1);box-shadow:0 0 0 2px var(--gold-2)}
+
+/* ---------- tela de senha: fundo que se move e cartão que entra ---------- */
+.login{background-size:160% 160%,160% 160%,auto;animation:aurora 18s ease-in-out infinite}
+.login-card{animation:janelaAbre .6s var(--suave) backwards;position:relative;overflow:hidden;border-top-color:transparent}
+.login-card::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--ouro-vivo);background-size:200% 100%;animation:ouroCorre 5s linear infinite}
+.login-card>*{animation:surgir .5s var(--suave) backwards}
+.login-card>*:nth-child(2){animation-delay:.08s}.login-card>*:nth-child(3){animation-delay:.14s}.login-card>*:nth-child(4){animation-delay:.2s}.login-card>*:nth-child(5){animation-delay:.26s}.login-card>*:nth-child(n+6){animation-delay:.32s}
+.login-card .err-msg{animation:tremer .4s}
+
+/* ---------- troca de página: o conteúdo entra em cascata ---------- */
+#view.entrando>*{animation:surgir .42s var(--suave) backwards}
+#view.entrando>*:nth-child(2){animation-delay:.05s}#view.entrando>*:nth-child(3){animation-delay:.1s}#view.entrando>*:nth-child(4){animation-delay:.15s}#view.entrando>*:nth-child(n+5){animation-delay:.2s}
+#view.entrando .grid>*{animation:surgir .45s var(--suave) backwards}
+#view.entrando .grid>*:nth-child(2){animation-delay:.07s}#view.entrando .grid>*:nth-child(3){animation-delay:.14s}#view.entrando .grid>*:nth-child(4){animation-delay:.21s}
+#view.entrando .cad-card{animation:surgir .45s var(--suave) backwards}
+#view.entrando .cad-card:nth-child(2){animation-delay:.06s}#view.entrando .cad-card:nth-child(3){animation-delay:.12s}#view.entrando .cad-card:nth-child(4){animation-delay:.18s}#view.entrando .cad-card:nth-child(5){animation-delay:.24s}
+.page-h h1{position:relative;padding-bottom:6px}
+.page-h h1::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:56px;border-radius:3px;background:var(--ouro-vivo);background-size:200% 100%;animation:ouroCorre 5s linear infinite,surgirLado .6s var(--suave) backwards}
+
+/* ---------- linhas de listas e tabelas aparecem uma a uma ---------- */
+.list-item,tbody tr,.pend,.timeline .it,.nota,.tree-c{animation:surgir .26s var(--suave) backwards}
+.list-item:nth-child(2),tbody tr:nth-child(2),.pend:nth-child(2),.timeline .it:nth-child(2){animation-delay:.03s}
+.list-item:nth-child(3),tbody tr:nth-child(3),.pend:nth-child(3),.timeline .it:nth-child(3){animation-delay:.06s}
+.list-item:nth-child(4),tbody tr:nth-child(4),.pend:nth-child(4),.timeline .it:nth-child(4){animation-delay:.09s}
+.list-item:nth-child(5),tbody tr:nth-child(5),.pend:nth-child(5){animation-delay:.12s}
+.list-item:nth-child(n+6),tbody tr:nth-child(n+6),.pend:nth-child(n+6){animation-delay:.15s}
+.list-item,td{transition:background-color .18s,padding-left .2s var(--suave)}
+.list-item:hover{background:var(--row-hover);padding-left:22px}
+tr.click td:first-child{transition:box-shadow .2s,background-color .18s} tr.click:hover td:first-child{box-shadow:inset 3px 0 0 var(--gold)}
+.empty svg{animation:flutuar 4s ease-in-out infinite}
+details[open]>*:not(summary){animation:surgir .28s var(--suave) backwards}
+.timeline .it::before{transition:transform .25s var(--mola),background-color .2s} .timeline .it:hover::before{transform:scale(1.35);background:var(--gold)}
+
+/* ---------- cartões ---------- */
+.card{transition:box-shadow .25s,transform .25s var(--suave),border-color .25s}
+.card:hover{box-shadow:0 2px 4px rgba(17,22,31,.07),0 12px 30px rgba(17,22,31,.10)}
+.stat{transition:transform .3s var(--mola),box-shadow .25s} .stat:hover{transform:translateY(-4px)}
+.stat::after{background:linear-gradient(180deg,#8a642a,#d4a95f,#f1d9a0,#b88a44,#8a642a);background-size:100% 300%;animation:ouroSobe 4s linear infinite;transition:width .25s var(--suave)}
+@keyframes ouroSobe{to{background-position:0 300%}}
+.stat:hover::after{width:6px}
+.stat .n{transition:color .25s} .stat:hover .n{color:var(--gold-dark)}
+.cad-card{transition:transform .3s var(--mola),box-shadow .25s,border-color .25s,background-color .25s;position:relative;overflow:hidden}
+.cad-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(138,100,42,.18)}
+.cad-ic{transition:transform .4s var(--mola),background-color .25s,color .25s} .cad-card:hover .cad-ic{transform:rotate(-8deg) scale(1.15);background:var(--gold);color:#fff}
+
+/* ---------- botões: sobem ao passar o mouse, afundam ao clicar, onda no clique ---------- */
+.btn,.tema-btn,.userbtn,.cad-card,.nav a{position:relative;overflow:hidden}
+.btn{transition:transform .2s var(--mola),box-shadow .2s,background-color .2s,border-color .2s,filter .2s,color .2s}
+.btn:not([disabled]):hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(17,22,31,.14)}
+.btn:not([disabled]):active{transform:translateY(0) scale(.96);box-shadow:none;transition-duration:.06s}
+.btn svg{transition:transform .3s var(--mola)} .btn:not([disabled]):hover svg{transform:scale(1.2) rotate(-6deg)}
+.btn.gold{background:linear-gradient(100deg,#b88a44,#d4a95f,#f1d9a0,#d4a95f,#b88a44);background-size:220% 100%;animation:ouroCorre 7s linear infinite}
+.btn.gold:not([disabled]):hover{box-shadow:0 8px 22px rgba(184,138,68,.45);animation-duration:1.8s}
+.btn.danger:not([disabled]):hover svg{animation:tremer .4s}
+.onda{position:absolute;border-radius:50%;background:currentColor;opacity:.28;transform:scale(0);animation:onda .6s ease-out forwards;pointer-events:none}
+.btn.gold .onda,.btn.primary .onda{background:#fff;opacity:.45}
+.tema-btn{transition:transform .25s var(--mola),background-color .2s,color .2s,border-color .2s} .tema-btn:hover{transform:scale(1.08);border-color:var(--gold)} .tema-btn svg{transition:transform .5s var(--mola)} .tema-btn:hover svg{transform:rotate(30deg) scale(1.1)} .tema-btn:active{transform:scale(.92)}
+.userbtn{transition:border-color .2s,box-shadow .2s,transform .2s var(--mola)} .userbtn:hover{border-color:var(--gold);box-shadow:0 4px 14px rgba(184,138,68,.2)} .userbtn:active{transform:scale(.97)}
+.burger{transition:transform .25s var(--mola)} .burger:active{transform:scale(.85) rotate(90deg)}
+a{transition:color .15s}
+
+/* ---------- menu lateral ---------- */
+.nav a{transition:background-color .2s,color .2s,transform .22s var(--suave),box-shadow .25s}
+.nav a:hover{transform:translateX(4px)}
+.nav a svg{transition:transform .35s var(--mola),color .2s,opacity .2s} .nav a:hover svg{transform:scale(1.25) rotate(-8deg);color:var(--gold-2);opacity:1}
+.nav a.on{background:linear-gradient(90deg,rgba(184,138,68,.30),rgba(241,217,160,.10),rgba(184,138,68,.05),rgba(184,138,68,.30));background-size:200% 100%;animation:ouroCorre 8s linear infinite}
+.nav a.on svg{animation:pulsar 2.4s ease-in-out infinite}
+.nav a{animation:surgirLado .35s var(--suave) backwards}
+.nav a:nth-child(2){animation-delay:.03s}.nav a:nth-child(3){animation-delay:.06s}.nav a:nth-child(4){animation-delay:.09s}.nav a:nth-child(5){animation-delay:.12s}.nav a:nth-child(6){animation-delay:.15s}.nav a:nth-child(7){animation-delay:.18s}.nav a:nth-child(n+8){animation-delay:.21s}
+.side{transition:transform .32s var(--suave),box-shadow .3s} .side.open{box-shadow:0 0 60px rgba(0,0,0,.55)}
+.top{transition:box-shadow .25s}
+
+/* ---------- campos: foco, digitação e marcação ---------- */
+input,select,textarea{transition:border-color .2s,box-shadow .25s,background-color .2s;caret-color:var(--gold)}
+input:hover:not(:focus):not([type=checkbox]):not([type=file]),select:hover:not(:focus),textarea:hover:not(:focus){border-color:var(--gold-2)}
+.digitando{animation:pulsoCampo .45s ease-out}
+.f>div>label,.login-card label{transition:color .2s,transform .2s var(--suave);transform-origin:left}
+.f>div:focus-within>label,.login-card div:focus-within>label{color:var(--gold-dark);transform:translateX(3px)}
+input[type=checkbox]{accent-color:var(--gold);transition:transform .2s var(--mola)} input[type=checkbox]:active{transform:scale(.8)} input[type=checkbox]:checked{animation:pulsar .3s}
+.search input[type=search]{transition:border-color .2s,box-shadow .25s,background-color .2s} .search:focus-within svg{color:var(--gold);animation:pulsar .5s}
+.search svg{transition:color .2s}
+.drop{transition:border-color .2s,background-color .2s,transform .25s var(--mola)} .drop:hover{transform:scale(1.01)} .drop svg{animation:flutuar 3s ease-in-out infinite}
+
+/* ---------- janelas, menus e avisos: abrem e fecham com movimento ---------- */
+.overlay{animation:veuAbre .22s ease-out;backdrop-filter:blur(3px)}
+.overlay .modal{animation:janelaAbre .34s var(--mola) backwards}
+.overlay.saindo{animation:veuFecha .18s ease-in forwards;pointer-events:none}
+.overlay.saindo .modal{animation:janelaFecha .18s ease-in forwards}
+.modal .x{transition:transform .3s var(--mola),color .2s} .modal .x:hover{transform:rotate(90deg) scale(1.2);color:var(--err)}
+.modal .err-msg{animation:tremer .4s}
+.menu,.search-res,.tema-pop{animation:estalo .2s var(--mola) backwards;transform-origin:top right}
+.menu button,.search-res a{transition:background-color .15s,padding-left .2s var(--suave)} .menu button:hover,.search-res a:hover{padding-left:18px}
+.toast{animation:avisoEntra .38s var(--mola) backwards;position:relative;overflow:hidden}
+.toast::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--ouro-vivo);background-size:200% 100%;transform-origin:left;animation:ouroCorre 3s linear infinite,tempoAviso 3.5s linear forwards}
+.toast.err::after{background:#e0645a;animation:tempoAviso 6s linear forwards}
+@keyframes tempoAviso{to{transform:scaleX(0)}}
+.toast.saindo{animation:avisoSai .25s ease-in forwards}
+.badge{animation:estalo .3s var(--mola) backwards;transition:transform .2s var(--mola)} .badge:hover{transform:scale(1.06)}
+.badge.err{animation:estalo .3s var(--mola) backwards,pulsar 2s ease-in-out .4s infinite}
+.prog>div{background:repeating-linear-gradient(-45deg,var(--gold) 0 10px,var(--gold-2) 10px 20px);background-size:28px 100%;animation:listras .7s linear infinite;transition:width .4s var(--suave)}
+#novidades{animation:estalo .3s var(--mola) backwards,pulsar 1.8s ease-in-out .5s infinite}
+.login-tema{z-index:5}
+
 /* tema escuro automático (sistema do aparelho) */
 @media (prefers-color-scheme: dark){
 :root:not([data-theme="light"]){
@@ -2120,7 +2261,7 @@ const debounce = (fn, ms = 300) => { let t; return (...a) => { clearTimeout(t); 
 // ---------- Toast ----------
 function toast(msg, erro = false) {
   const el = document.createElement('div'); el.className = 'toast' + (erro ? ' err' : ''); el.textContent = msg;
-  $('#toasts').append(el); setTimeout(() => el.remove(), erro ? 6000 : 3500);
+  $('#toasts').append(el); setTimeout(() => { el.classList.add('saindo'); setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 260); }, erro ? 6000 : 3500);
 }
 const falha = (e) => toast(e.message || String(e), true);
 
@@ -2130,7 +2271,14 @@ function modal({ titulo, corpo, botoes = [], tamanho = '', aoAbrir, aoFechar }) 
   ov.innerHTML = `<div class="modal ${tamanho}"><div class="modal-h"><h2>${esc(titulo)}</h2><button class="x" aria-label="Fechar">×</button></div>
     <div class="modal-b">${corpo}</div>${botoes.length ? '<div class="modal-f"></div>' : ''}</div>`;
   document.body.append(ov);
-  const fechar = () => { ov.remove(); document.removeEventListener('keydown', esc_); aoFechar?.(); };
+  let fechado = false;
+  const fechar = () => {                                               // some com uma animação curta antes de sair da tela
+    if (fechado) return; fechado = true;
+    document.removeEventListener('keydown', esc_); ov.classList.add('saindo');
+    const tirar = () => { if (ov.parentNode) ov.parentNode.removeChild(ov); };
+    if (SEM_MOVIMENTO()) tirar(); else setTimeout(tirar, 170);
+    aoFechar?.();
+  };
   // algo digitado e ainda não salvo? clicar fora não fecha, e o X / Esc perguntam antes (para ninguém perder um registro longo sem querer)
   const sujo = () => botoes.some((b) => b.acao) && [...ov.querySelectorAll('.modal-b input, .modal-b textarea')].some((el) => !['checkbox', 'radio', 'file', 'search', 'hidden'].includes(el.type) && el.value !== el.defaultValue);
   let perguntando = false;
@@ -2139,7 +2287,7 @@ function modal({ titulo, corpo, botoes = [], tamanho = '', aoAbrir, aoFechar }) 
     if (sujo()) { perguntando = true; const sim = await confirmar('Fechar sem salvar? O que foi digitado será perdido.', { texto: 'Fechar sem salvar', perigo: true, titulo: 'Descartar o que foi digitado' }); perguntando = false; if (!sim) return; }
     fechar();
   };
-  const esc_ = (e) => { if (e.key === 'Escape' && ov === [...document.querySelectorAll('.overlay')].pop()) sair(); };
+  const esc_ = (e) => { if (e.key === 'Escape' && ov === [...document.querySelectorAll('.overlay:not(.saindo)')].pop()) sair(); };
   document.addEventListener('keydown', esc_);
   $('.x', ov).onclick = sair;
   ov.addEventListener('mousedown', (e) => { if (e.target === ov && !ov.dataset.travar && !sujo()) fechar(); });
@@ -2269,6 +2417,45 @@ function rotularTabelas() {
 let rotPendente = false;
 new MutationObserver(() => { if (!rotPendente) { rotPendente = true; requestAnimationFrame(() => { rotPendente = false; rotularTabelas(); }); } }).observe(document.documentElement, { childList: true, subtree: true });
 
+/* Animações que precisam de script: onda no clique, pulso ao digitar e números que contam */
+'use strict';
+
+const SEM_MOVIMENTO = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; } };
+
+// onda que nasce no ponto do clique
+document.addEventListener('pointerdown', (e) => {
+  if (SEM_MOVIMENTO()) return;
+  const alvo = e.target.closest && e.target.closest('.btn, .nav a, .cad-card, .tema-btn, .userbtn');
+  if (!alvo || alvo.disabled) return;
+  const r = alvo.getBoundingClientRect(), t = Math.max(r.width, r.height), o = document.createElement('span');
+  o.className = 'onda'; o.style.width = o.style.height = t + 'px'; o.style.left = e.clientX - r.left - t / 2 + 'px'; o.style.top = e.clientY - r.top - t / 2 + 'px';
+  alvo.append(o); setTimeout(() => { if (o.parentNode) o.parentNode.removeChild(o); }, 650);
+}, { passive: true });
+
+// pulso dourado no campo enquanto a pessoa digita
+document.addEventListener('input', (e) => {
+  const c = e.target; if (SEM_MOVIMENTO() || !c.matches || !c.matches('input:not([type=checkbox]):not([type=radio]):not([type=file]), textarea')) return;
+  c.classList.remove('digitando'); void c.offsetWidth; c.classList.add('digitando');
+  clearTimeout(c._tDig); c._tDig = setTimeout(() => c.classList.remove('digitando'), 460);
+}, true);
+
+// números dos cartões contam de zero até o valor
+function contarNumeros(raiz) {
+  if (SEM_MOVIMENTO()) return;
+  for (const el of raiz.querySelectorAll('.stat .n')) {
+    const alvo = Number(el.textContent.trim()); if (!Number.isInteger(alvo) || alvo <= 0 || alvo > 100000) continue;
+    const ini = performance.now(), dur = 700;
+    const passo = (agora) => { const k = Math.min(1, (agora - ini) / dur); el.textContent = String(Math.round(alvo * (1 - Math.pow(1 - k, 3)))); if (k < 1 && el.isConnected) requestAnimationFrame(passo); else el.textContent = String(alvo); };
+    el.textContent = '0'; requestAnimationFrame(passo);
+  }
+}
+// entrada da página: reinicia a cascata a cada troca de tela
+function animarEntrada() {
+  const v = document.getElementById('view'); if (!v) return;
+  v.classList.remove('entrando'); void v.offsetWidth; v.classList.add('entrando');
+  contarNumeros(v);
+}
+
 /* Utilitários de cadastro: CPF/CNPJ, telefone e planilhas */
 'use strict';
 
@@ -2336,7 +2523,7 @@ const Tema = (() => {
 
 /* Páginas: painel, atendimentos, clientes, processos, documentos, usuários, auditoria */
 'use strict';
-const view = (html) => { $('#view').innerHTML = html; window.scrollTo(0, 0); };
+const view = (html) => { $('#view').innerHTML = html; window.scrollTo(0, 0); animarEntrada(); };
 const vazio = (txt, ic = 'file') => `<div class="empty">${ico(ic)}${esc(txt)}</div>`;
 const cache = { clientes: null };
 async function listaClientes() { cache.clientes = await api('/clientes'); return cache.clientes; }

@@ -1,6 +1,6 @@
 /* Páginas: painel, atendimentos, clientes, processos, documentos, usuários, auditoria */
 'use strict';
-const view = (html) => { $('#view').innerHTML = html; window.scrollTo(0, 0); };
+const view = (html) => { $('#view').innerHTML = html; window.scrollTo(0, 0); animarEntrada(); };
 const vazio = (txt, ic = 'file') => `<div class="empty">${ico(ic)}${esc(txt)}</div>`;
 const cache = { clientes: null };
 async function listaClientes() { cache.clientes = await api('/clientes'); return cache.clientes; }
