@@ -82,10 +82,18 @@ function modal({ titulo, corpo, botoes = [], tamanho = '', aoAbrir, aoFechar }) 
     <div class="modal-b">${corpo}</div>${botoes.length ? '<div class="modal-f"></div>' : ''}</div>`;
   document.body.append(ov);
   const fechar = () => { ov.remove(); document.removeEventListener('keydown', esc_); aoFechar?.(); };
-  const esc_ = (e) => { if (e.key === 'Escape' && ov === [...document.querySelectorAll('.overlay')].pop()) fechar(); };
+  // algo digitado e ainda não salvo? clicar fora não fecha, e o X / Esc perguntam antes (para ninguém perder um registro longo sem querer)
+  const sujo = () => botoes.some((b) => b.acao) && [...ov.querySelectorAll('.modal-b input, .modal-b textarea')].some((el) => !['checkbox', 'radio', 'file', 'search', 'hidden'].includes(el.type) && el.value !== el.defaultValue);
+  let perguntando = false;
+  const sair = async () => {
+    if (perguntando) return;
+    if (sujo()) { perguntando = true; const sim = await confirmar('Fechar sem salvar? O que foi digitado será perdido.', { texto: 'Fechar sem salvar', perigo: true, titulo: 'Descartar o que foi digitado' }); perguntando = false; if (!sim) return; }
+    fechar();
+  };
+  const esc_ = (e) => { if (e.key === 'Escape' && ov === [...document.querySelectorAll('.overlay')].pop()) sair(); };
   document.addEventListener('keydown', esc_);
-  $('.x', ov).onclick = fechar;
-  ov.addEventListener('mousedown', (e) => { if (e.target === ov && !ov.dataset.travar) fechar(); });
+  $('.x', ov).onclick = sair;
+  ov.addEventListener('mousedown', (e) => { if (e.target === ov && !ov.dataset.travar && !sujo()) fechar(); });
   const rod = $('.modal-f', ov);
   for (const b of botoes) {
     const el = document.createElement('button'); el.type = 'button'; el.className = 'btn ' + (b.classe || ''); el.textContent = b.texto;
@@ -195,3 +203,19 @@ function abrirTema(ancora) {
 }
 // duas versões da logo: nome escuro (tema claro) e nome claro (tema escuro)
 const logoImg = (cls = '', alt = '') => `<img class="${cls} logo-escura" src="${esc(S.logo)}" alt="${esc(alt)}"><img class="${cls} logo-clara" src="${esc(S.logoClaro || S.logo)}" alt="${esc(alt)}">`;
+
+// ---------- tabelas no celular: cada linha vira um cartão, com o nome da coluna antes do valor ----------
+function rotularTabelas() {
+  for (const t of document.querySelectorAll('.tbl table:not([data-rot])')) {
+    t.dataset.rot = '1';
+    const ths = [...t.querySelectorAll('thead th')].map((th) => th.textContent.trim());
+    if (!ths.length) continue;
+    const principal = ths.findIndex((x) => x);
+    for (const tr of t.querySelectorAll('tbody tr')) [...tr.children].forEach((td, i) => {
+      if (i === principal) td.dataset.princ = '1'; else if (ths[i]) td.dataset.th = ths[i]; else if (!td.querySelector('input[type=checkbox]')) td.dataset.acoes = '1';
+      if (/^[—-]?$/.test(td.textContent.trim()) && !td.querySelector('button, a, input, svg')) td.dataset.vazio = '1';
+    });
+  }
+}
+let rotPendente = false;
+new MutationObserver(() => { if (!rotPendente) { rotPendente = true; requestAnimationFrame(() => { rotPendente = false; rotularTabelas(); }); } }).observe(document.documentElement, { childList: true, subtree: true });

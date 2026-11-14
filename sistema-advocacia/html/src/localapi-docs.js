@@ -234,6 +234,47 @@ const Arq = {
   }
   async function baixarDoc(id) { const { u8, doc } = await bytesDoc(id, 'baixar'); await Docs.entregar(doc.nome_original, new Blob([u8], { type: doc.mime })); }
 
+  // ---------- ficha do cliente em Word ----------
+  function fichaMarkdown(id) {
+    const c = ou404('clientes', id, 'Cliente');
+    const limpo = (v) => String(v == null ? '' : v).replace(/\*\*/g, '').replace(/\s*\n\s*/g, ' / ').trim();
+    const br = (iso) => { const s = String(iso || '').slice(0, 10); return /^\d{4}-\d{2}-\d{2}$/.test(s) ? s.split('-').reverse().join('/') : ''; };
+    const campo = (r, v) => (limpo(v) ? `- **${r}:** ${limpo(v)}` : null);
+    const procs = Dados.lista('processos').filter((p) => p.cliente_id === c.id).sort(desc('id'));
+    const ats = Dados.lista('atendimentos').filter((a) => a.cliente_id === c.id).sort(desc('data_hora'));
+    const pends = Dados.lista('pendencias').filter((p) => p.cliente_id === c.id && p.status === 'pendente');
+    const docs = Dados.lista('documentos').filter((d) => d.cliente_id === c.id).sort(desc('id'));
+    const notas = Dados.lista('notas').filter((n) => n.entidade === 'cliente' && n.entidade_id === c.id).sort((a, b) => (b.fixada - a.fixada) || (b.id - a.id));
+    const L = [`# Ficha do cliente`, `## ${limpo(c.nome)}`,
+      campo('Tipo', c.tipo === 'PJ' ? 'Pessoa jurídica' : 'Pessoa física'), campo('CPF / CNPJ', c.documento), campo('RG / Inscrição', c.rg), campo(c.tipo === 'PJ' ? 'Fundação' : 'Nascimento', br(c.nascimento)),
+      campo('Estado civil', c.estado_civil), campo('Profissão / Ramo', c.profissao), campo('Telefone', c.telefone), campo('E-mail', c.email), campo('Endereço', c.endereco), campo('Observações internas', c.observacoes),
+      campo('Situação', c.ativo ? 'Ativo' : 'Arquivado')];
+    L.push(`## Casos e processos (${procs.length})`);
+    if (!procs.length) L.push('- Nenhum caso cadastrado.');
+    for (const p of procs) L.push(`- **${limpo(p.titulo)}**${p.numero ? ' — nº ' + limpo(p.numero) : ''}${p.area ? ' — ' + limpo(p.area) : ''}${p.juizo ? ' — ' + limpo(p.juizo) : ''}${p.parte_contraria ? ' — parte contrária: ' + limpo(p.parte_contraria) : ''}${p.responsavel ? ' — responsável: ' + limpo(p.responsavel) : ''}`);
+    L.push(`## Pendências em aberto (${pends.length})`);
+    if (!pends.length) L.push('- Nenhuma pendência em aberto.');
+    for (const p of pends) L.push(`- ${limpo(p.titulo)}${p.prazo ? ' — prazo: ' + br(p.prazo) : ''}${p.tipo === 'tarefa' ? ' (tarefa)' : ''}`);
+    L.push(`## Histórico de atendimentos (${ats.length})`);
+    if (!ats.length) L.push('- Nenhum atendimento registrado.');
+    for (const a of ats.slice(0, 200)) {
+      L.push(`### ${br(a.data_hora)} — ${limpo(a.assunto)}`);
+      if (limpo(a.resumo)) L.push(limpo(a.resumo));
+      if (limpo(a.providencias)) L.push(`- **Providências:** ${limpo(a.providencias)}${a.prazo ? ` (prazo: ${br(a.prazo)}${a.concluido ? ', concluído' : ''})` : ''}`);
+    }
+    L.push(`## Documentos arquivados (${docs.length})`);
+    if (!docs.length) L.push('- Nenhum documento.');
+    for (const d of docs.slice(0, 300)) L.push(`- ${limpo(d.titulo)} (${limpo(d.nome_original)}) — ${br(d.criado_em)}`);
+    if (notas.length) { L.push(`## Observações (${notas.length})`); for (const n of notas.slice(0, 100)) L.push(`- ${br(n.criado_em)} — ${limpo(n.usuario_nome || '')}: ${limpo(n.texto)}`); }
+    return { nome: c.nome, markdown: L.filter((x) => x != null).join('\n') };
+  }
+  async function fichaBlob(id) {
+    const f = fichaMarkdown(id);
+    await auditar('exportar_ficha', 'clientes', id_(id), f.nome);
+    return { nome: `Ficha - ${nomeSeguro(f.nome, 'cliente')}.docx`, blob: new Blob([Docs.gerarDocx(f.markdown, { escritorio: FIRMA.nome, rodape: `Ficha emitida em ${hojeBR()} — documento interno, protegido por sigilo profissional` })], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }) };
+  }
+  const hojeBR = () => { const d = new Date(); return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`; };
+
   // ---------- restaurar cópia de segurança ----------
   // Só acrescenta o que ainda não existe (pelo número do registro): nada do que já está no sistema é alterado ou apagado.
   const COL_RESTAURO = ['clientes', 'processos', 'atendimentos', 'pastas', 'notas', 'pendencias'];
@@ -276,5 +317,5 @@ const Arq = {
     return res;
   }
 
-  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos, lerCopia, planoRestauracao, restaurar });
+  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos, lerCopia, planoRestauracao, restaurar, fichaMarkdown, fichaBlob });
 })();

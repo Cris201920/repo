@@ -270,6 +270,39 @@ tr[draggable=true]{cursor:grab}
 .cad-ic svg{width:20px;height:20px}
 .linkbtn-inline{background:none;border:0;color:var(--gold-dark);cursor:pointer;padding:4px 0 0;text-decoration:underline;font-size:12.5px;display:block}
 
+/* ---------- ajustes gerais ---------- */
+.kv{margin:0}
+.filtro-data{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--ink-2)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* ---------- celular ---------- */
+@media (max-width:700px){
+  /* pendências: título ocupa a linha toda e os botões vão para baixo */
+  .pend{flex-wrap:wrap}
+  .pend-t{flex:1 1 calc(100% - 40px)}
+  .pend-a{flex:1 1 100%;justify-content:flex-start;padding-left:30px}
+  /* listas: cada linha da tabela vira um cartão */
+  .tbl:not(.fixa){overflow-x:visible}
+  .tbl:not(.fixa) table,.tbl:not(.fixa) tbody{display:block;width:100%}
+  .tbl:not(.fixa) thead{display:none}
+  .tbl:not(.fixa) tr{display:block;padding:12px 14px;border-bottom:1px solid var(--line);overflow:hidden}
+  .tbl:not(.fixa) tr:last-child{border-bottom:0}
+  .tbl:not(.fixa) td{display:block;padding:1px 0;border:0;text-align:left!important;white-space:normal!important;overflow-wrap:anywhere}
+  .tbl:not(.fixa) td[data-princ]{font-size:15px;margin-bottom:2px}
+  .tbl:not(.fixa) td[data-th]::before{content:attr(data-th) ": ";color:var(--ink-3);font-size:12px}
+  .tbl:not(.fixa) td[data-th]>div{display:inline}
+  .tbl:not(.fixa) td[data-th]>div:empty{display:none}
+  .tbl:not(.fixa) td[data-th]>div:not(:empty)::before{content:" · "}
+  .tbl:not(.fixa) td[data-vazio]{display:none}
+  .tbl:not(.fixa) td[data-acoes]{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .tbl:not(.fixa) td:has(>input[type=checkbox]){float:left;margin:2px 10px 0 0}
+  .tbl:not(.fixa) tr.click:hover td{background:none}
+  .tbl:not(.fixa) tr.click:active{background:var(--row-hover)}
+  .filters input[type=search]{min-width:0;max-width:none;flex:1 1 100%}
+  .filtro-data{flex:1 1 140px} .filtro-data input{flex:1;min-width:0}
+  .page-h .actions{width:100%} .page-h .actions .btn{flex:1 1 auto;justify-content:center}
+}
+
 /* tema escuro automático (sistema do aparelho) */
 @media (prefers-color-scheme: dark){
 :root:not([data-theme="light"]){
@@ -689,7 +722,7 @@ function criarBackendLocal({ memoria = false, banco = 'advocacia-local' } = {}) 
 const Dados = (() => {
   const COLECOES = ['clientes', 'processos', 'atendimentos', 'documentos', 'pastas', 'notas', 'pendencias', 'auditoria'];
   const PRIV = 'conversas';
-  const novoEstado = () => ({ master: null, b: null, uid: null, privado: null, cache: {}, brutos: {}, ouvintes: new Set(), unsubs: [], filas: new Map(), textos: null, ultima: 0 });
+  const novoEstado = () => ({ master: null, b: null, uid: null, privado: null, cache: {}, brutos: {}, ouvintes: new Set(), unsubs: [], filas: new Map(), textos: null, ultima: 0, locais: {}, vez: {} });
   let st = novoEstado();
 
   const caminho = (nome) => (nome === PRIV ? st.privado : nome);       // null = sem identidade: conversas só em memória
@@ -721,16 +754,35 @@ const Dados = (() => {
   };
   const emitir = (nome) => st.ouvintes.forEach((f) => { try { f(nome, { propria: Date.now() - st.ultima < 3000 }); } catch { /* ouvinte com erro não derruba os outros */ } });
 
-  async function aplicar(nome, docs) {
-    const mapa = st.cache[nome], brutos = st.brutos[nome], vistos = new Set();
+  // Registros gravados aqui e ainda não confirmados pelo banco: uma atualização atrasada (tirada antes da gravação) não pode apagá-los da tela.
+  const guardar = (nome, id) => { if (caminho(nome)) (st.locais[nome] || (st.locais[nome] = new Map())).set(id, true); };
+  const liberar = (nome, id) => { if (st.locais[nome]) st.locais[nome].delete(id); };
+  const guardado = (nome, id) => !!(st.locais[nome] && st.locais[nome].has(id));
+
+  async function aplicar(nome, docs, e = st) {
+    const mapa = e.cache[nome], brutos = e.brutos[nome], vistos = new Set();
     for (const d of docs) {
       vistos.add(d.id);
+      if (e.locais[nome]) e.locais[nome].delete(d.id);                 // o banco já conhece este registro
       const s = JSON.stringify(d.data);
       if (brutos.get(d.id) === s) continue;                            // não mudou: não decifra de novo
-      brutos.set(d.id, s);
-      const reg = await decReg(d.data); reg.id = idNum(nome, d.id); mapa.set(d.id, reg);
+      const reg = await decReg(d.data); reg.id = idNum(nome, d.id);
+      brutos.set(d.id, s); mapa.set(d.id, reg);
     }
-    for (const id of [...mapa.keys()]) if (!vistos.has(id)) { mapa.delete(id); brutos.delete(id); }
+    for (const id of [...mapa.keys()]) if (!vistos.has(id) && !(e.locais[nome] && e.locais[nome].has(id))) { mapa.delete(id); brutos.delete(id); }
+  }
+  // as atualizações de uma mesma coleção são aplicadas uma de cada vez, na ordem em que chegam (uma antiga nunca passa por cima de uma nova)
+  function enfileirar(nome, docs) {
+    const e = st, p = (e.vez[nome] || Promise.resolve()).catch(() => {}).then(() => (e === st ? aplicar(nome, docs, e) : null));
+    e.vez[nome] = p; return p;
+  }
+  // se a confirmação não chegar, confere direto no banco (cobre atualização perdida ou registro apagado por outra pessoa nesse intervalo)
+  function conferirDepois(nome, id) {
+    const e = st, t = setTimeout(async () => {
+      if (e !== st || !guardado(nome, id)) return;
+      try { const docs = await e.b.listar(caminho(nome)); if (e !== st) return; liberar(nome, id); await enfileirar(nome, docs); emitir(nome); } catch { /* tenta de novo na próxima gravação */ }
+    }, 6000);
+    if (t && t.unref) t.unref();
   }
 
   async function abrir(master, backend, uid) {
@@ -743,7 +795,7 @@ const Dados = (() => {
       let primeiro = true;
       const limite = setTimeout(() => { if (primeiro) { primeiro = false; falha(new Error('Não foi possível alcançar o banco de dados. Verifique a conexão e tente de novo.')); } }, 15000);
       const un = backend.assinar(c, async (docs) => {
-        try { await aplicar(nome, docs); } catch (e) { if (primeiro) { primeiro = false; clearTimeout(limite); falha(e); } return; }
+        try { await enfileirar(nome, docs); } catch (e) { if (primeiro) { primeiro = false; clearTimeout(limite); falha(e); } return; }
         if (primeiro) { primeiro = false; clearTimeout(limite); ok(); } else emitir(nome);
       }, (e) => { if (primeiro) { primeiro = false; clearTimeout(limite); falha(new Error(e && e.message ? e.message : 'Falha ao ler os dados.')); } });
       st.unsubs.push(un);
@@ -754,27 +806,35 @@ const Dados = (() => {
   const lista = (nome) => [...(st.cache[nome] || new Map()).values()];
   const obter = (nome, id) => (st.cache[nome] || new Map()).get(docId(nome, id)) || null;
 
+  // Se a gravação falhar (sem permissão, sem conexão), a tela volta ao que estava: nada aparece como salvo sem estar.
   async function gravar(nome, reg) {
-    const id = docId(nome, reg.id); st.ultima = Date.now();
-    st.cache[nome].set(id, { ...reg });
-    return serial(nome + '/' + id, async () => {
-      const c = caminho(nome); if (!c) return;
-      await st.b.definir(c, id, await encReg(reg));
-    });
+    const e = st, id = docId(nome, reg.id), mapa = e.cache[nome], antes = mapa.get(id), copia = { ...reg }; e.ultima = Date.now();
+    mapa.set(id, copia); guardar(nome, id);
+    try {
+      await serial(nome + '/' + id, async () => { const c = caminho(nome); if (!c) return; await e.b.definir(c, id, await encReg(reg)); });
+    } catch (er) {
+      if (mapa.get(id) === copia) { if (antes) mapa.set(id, antes); else mapa.delete(id); }
+      if (e.locais[nome]) e.locais[nome].delete(id);
+      throw er;
+    }
+    if (e === st && guardado(nome, id)) conferirDepois(nome, id);
   }
   async function alterar(nome, idReg, campos) {
-    const id = docId(nome, idReg), atual = st.cache[nome].get(id); st.ultima = Date.now();
+    const e = st, id = docId(nome, idReg), mapa = e.cache[nome], atual = mapa.get(id); e.ultima = Date.now();
     if (!atual) throw new Error('O registro não existe mais.');
-    const novo = { ...atual, ...campos }; st.cache[nome].set(id, novo);
-    return serial(nome + '/' + id, async () => {
-      const c = caminho(nome); if (!c) return;
-      try { await st.b.atualizar(c, id, await encReg(campos)); }
-      catch (e) { if (e && e.code === 'invalid_argument') await st.b.definir(c, id, await encReg(novo)); else throw e; }   // alguém apagou: recria
-    });
+    const novo = { ...atual, ...campos }; mapa.set(id, novo);
+    try {
+      await serial(nome + '/' + id, async () => {
+        const c = caminho(nome); if (!c) return;
+        try { await e.b.atualizar(c, id, await encReg(campos)); }
+        catch (er) { if (er && er.code === 'invalid_argument') await e.b.definir(c, id, await encReg(novo)); else throw er; }   // alguém apagou: recria
+      });
+    } catch (er) { if (mapa.get(id) === novo) mapa.set(id, atual); throw er; }
   }
   async function remover(nome, idReg) {
-    const id = docId(nome, idReg); st.cache[nome].delete(id); st.ultima = Date.now();
-    return serial(nome + '/' + id, async () => { const c = caminho(nome); if (c) await st.b.remover(c, id); });
+    const e = st, id = docId(nome, idReg), mapa = e.cache[nome], antes = mapa.get(id); mapa.delete(id); liberar(nome, id); e.ultima = Date.now();
+    try { await serial(nome + '/' + id, async () => { const c = caminho(nome); if (c) await e.b.remover(c, id); }); }
+    catch (er) { if (antes && !mapa.has(id)) mapa.set(id, antes); throw er; }
   }
 
   // textos extraídos dos documentos (busca e IA): ficam em coleção própria para não pesar na abertura
@@ -1419,9 +1479,22 @@ const LocalAPI = (() => {
         abertas: pend.length, vencidas: pend.filter((p) => p.prazo && String(p.prazo).slice(0, 10) < hoje).length,
         lista: pend.sort(ordemPend).slice(0, 8).map((p) => ({ id: p.id, titulo: p.titulo, tipo: p.tipo, prazo: p.prazo, cliente: cliNome(p.cliente_id), cliente_id: p.cliente_id })),
       },
+      aniversarios: aniversariantes(30),
       hoje,
     };
   });
+  // Clientes (pessoa física, ativos) que fazem aniversário nos próximos dias
+  function aniversariantes(dias) {
+    const h = new Date(hojeISO() + 'T00:00'), ano = h.getFullYear(), l = [];
+    for (const c of Dados.lista('clientes')) {
+      if (!c.ativo || c.tipo === 'PJ' || !/^\d{4}-\d{2}-\d{2}/.test(String(c.nascimento || ''))) continue;
+      const [a, m, d] = String(c.nascimento).slice(0, 10).split('-').map(Number);
+      let prox = new Date(ano, m - 1, d); if (prox < h) prox = new Date(ano + 1, m - 1, d);
+      const em = Math.round((prox - h) / 864e5);
+      if (em <= dias) l.push({ id: c.id, nome: c.nome, telefone: c.telefone || '', dia: `${pad(d)}/${pad(m)}`, em, idade: prox.getFullYear() - a });
+    }
+    return l.sort((x, y) => x.em - y.em || x.nome.localeCompare(y.nome)).slice(0, 12);
+  }
   // Agenda: todos os prazos em aberto (providências de atendimentos + pendências), do mais antigo ao mais distante
   rota('GET', '/agenda', () => {
     const ativos = new Set(Dados.lista('clientes').filter((c) => c.ativo).map((c) => c.id));
@@ -1888,6 +1961,47 @@ const Arq = {
   }
   async function baixarDoc(id) { const { u8, doc } = await bytesDoc(id, 'baixar'); await Docs.entregar(doc.nome_original, new Blob([u8], { type: doc.mime })); }
 
+  // ---------- ficha do cliente em Word ----------
+  function fichaMarkdown(id) {
+    const c = ou404('clientes', id, 'Cliente');
+    const limpo = (v) => String(v == null ? '' : v).replace(/\*\*/g, '').replace(/\s*\n\s*/g, ' / ').trim();
+    const br = (iso) => { const s = String(iso || '').slice(0, 10); return /^\d{4}-\d{2}-\d{2}$/.test(s) ? s.split('-').reverse().join('/') : ''; };
+    const campo = (r, v) => (limpo(v) ? `- **${r}:** ${limpo(v)}` : null);
+    const procs = Dados.lista('processos').filter((p) => p.cliente_id === c.id).sort(desc('id'));
+    const ats = Dados.lista('atendimentos').filter((a) => a.cliente_id === c.id).sort(desc('data_hora'));
+    const pends = Dados.lista('pendencias').filter((p) => p.cliente_id === c.id && p.status === 'pendente');
+    const docs = Dados.lista('documentos').filter((d) => d.cliente_id === c.id).sort(desc('id'));
+    const notas = Dados.lista('notas').filter((n) => n.entidade === 'cliente' && n.entidade_id === c.id).sort((a, b) => (b.fixada - a.fixada) || (b.id - a.id));
+    const L = [`# Ficha do cliente`, `## ${limpo(c.nome)}`,
+      campo('Tipo', c.tipo === 'PJ' ? 'Pessoa jurídica' : 'Pessoa física'), campo('CPF / CNPJ', c.documento), campo('RG / Inscrição', c.rg), campo(c.tipo === 'PJ' ? 'Fundação' : 'Nascimento', br(c.nascimento)),
+      campo('Estado civil', c.estado_civil), campo('Profissão / Ramo', c.profissao), campo('Telefone', c.telefone), campo('E-mail', c.email), campo('Endereço', c.endereco), campo('Observações internas', c.observacoes),
+      campo('Situação', c.ativo ? 'Ativo' : 'Arquivado')];
+    L.push(`## Casos e processos (${procs.length})`);
+    if (!procs.length) L.push('- Nenhum caso cadastrado.');
+    for (const p of procs) L.push(`- **${limpo(p.titulo)}**${p.numero ? ' — nº ' + limpo(p.numero) : ''}${p.area ? ' — ' + limpo(p.area) : ''}${p.juizo ? ' — ' + limpo(p.juizo) : ''}${p.parte_contraria ? ' — parte contrária: ' + limpo(p.parte_contraria) : ''}${p.responsavel ? ' — responsável: ' + limpo(p.responsavel) : ''}`);
+    L.push(`## Pendências em aberto (${pends.length})`);
+    if (!pends.length) L.push('- Nenhuma pendência em aberto.');
+    for (const p of pends) L.push(`- ${limpo(p.titulo)}${p.prazo ? ' — prazo: ' + br(p.prazo) : ''}${p.tipo === 'tarefa' ? ' (tarefa)' : ''}`);
+    L.push(`## Histórico de atendimentos (${ats.length})`);
+    if (!ats.length) L.push('- Nenhum atendimento registrado.');
+    for (const a of ats.slice(0, 200)) {
+      L.push(`### ${br(a.data_hora)} — ${limpo(a.assunto)}`);
+      if (limpo(a.resumo)) L.push(limpo(a.resumo));
+      if (limpo(a.providencias)) L.push(`- **Providências:** ${limpo(a.providencias)}${a.prazo ? ` (prazo: ${br(a.prazo)}${a.concluido ? ', concluído' : ''})` : ''}`);
+    }
+    L.push(`## Documentos arquivados (${docs.length})`);
+    if (!docs.length) L.push('- Nenhum documento.');
+    for (const d of docs.slice(0, 300)) L.push(`- ${limpo(d.titulo)} (${limpo(d.nome_original)}) — ${br(d.criado_em)}`);
+    if (notas.length) { L.push(`## Observações (${notas.length})`); for (const n of notas.slice(0, 100)) L.push(`- ${br(n.criado_em)} — ${limpo(n.usuario_nome || '')}: ${limpo(n.texto)}`); }
+    return { nome: c.nome, markdown: L.filter((x) => x != null).join('\n') };
+  }
+  async function fichaBlob(id) {
+    const f = fichaMarkdown(id);
+    await auditar('exportar_ficha', 'clientes', id_(id), f.nome);
+    return { nome: `Ficha - ${nomeSeguro(f.nome, 'cliente')}.docx`, blob: new Blob([Docs.gerarDocx(f.markdown, { escritorio: FIRMA.nome, rodape: `Ficha emitida em ${hojeBR()} — documento interno, protegido por sigilo profissional` })], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }) };
+  }
+  const hojeBR = () => { const d = new Date(); return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`; };
+
   // ---------- restaurar cópia de segurança ----------
   // Só acrescenta o que ainda não existe (pelo número do registro): nada do que já está no sistema é alterado ou apagado.
   const COL_RESTAURO = ['clientes', 'processos', 'atendimentos', 'pastas', 'notas', 'pendencias'];
@@ -1930,7 +2044,7 @@ const Arq = {
     return res;
   }
 
-  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos, lerCopia, planoRestauracao, restaurar });
+  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos, lerCopia, planoRestauracao, restaurar, fichaMarkdown, fichaBlob });
 })();
 
 /* Utilitários, API, componentes de interface */
@@ -2017,10 +2131,18 @@ function modal({ titulo, corpo, botoes = [], tamanho = '', aoAbrir, aoFechar }) 
     <div class="modal-b">${corpo}</div>${botoes.length ? '<div class="modal-f"></div>' : ''}</div>`;
   document.body.append(ov);
   const fechar = () => { ov.remove(); document.removeEventListener('keydown', esc_); aoFechar?.(); };
-  const esc_ = (e) => { if (e.key === 'Escape' && ov === [...document.querySelectorAll('.overlay')].pop()) fechar(); };
+  // algo digitado e ainda não salvo? clicar fora não fecha, e o X / Esc perguntam antes (para ninguém perder um registro longo sem querer)
+  const sujo = () => botoes.some((b) => b.acao) && [...ov.querySelectorAll('.modal-b input, .modal-b textarea')].some((el) => !['checkbox', 'radio', 'file', 'search', 'hidden'].includes(el.type) && el.value !== el.defaultValue);
+  let perguntando = false;
+  const sair = async () => {
+    if (perguntando) return;
+    if (sujo()) { perguntando = true; const sim = await confirmar('Fechar sem salvar? O que foi digitado será perdido.', { texto: 'Fechar sem salvar', perigo: true, titulo: 'Descartar o que foi digitado' }); perguntando = false; if (!sim) return; }
+    fechar();
+  };
+  const esc_ = (e) => { if (e.key === 'Escape' && ov === [...document.querySelectorAll('.overlay')].pop()) sair(); };
   document.addEventListener('keydown', esc_);
-  $('.x', ov).onclick = fechar;
-  ov.addEventListener('mousedown', (e) => { if (e.target === ov && !ov.dataset.travar) fechar(); });
+  $('.x', ov).onclick = sair;
+  ov.addEventListener('mousedown', (e) => { if (e.target === ov && !ov.dataset.travar && !sujo()) fechar(); });
   const rod = $('.modal-f', ov);
   for (const b of botoes) {
     const el = document.createElement('button'); el.type = 'button'; el.className = 'btn ' + (b.classe || ''); el.textContent = b.texto;
@@ -2131,6 +2253,22 @@ function abrirTema(ancora) {
 // duas versões da logo: nome escuro (tema claro) e nome claro (tema escuro)
 const logoImg = (cls = '', alt = '') => `<img class="${cls} logo-escura" src="${esc(S.logo)}" alt="${esc(alt)}"><img class="${cls} logo-clara" src="${esc(S.logoClaro || S.logo)}" alt="${esc(alt)}">`;
 
+// ---------- tabelas no celular: cada linha vira um cartão, com o nome da coluna antes do valor ----------
+function rotularTabelas() {
+  for (const t of document.querySelectorAll('.tbl table:not([data-rot])')) {
+    t.dataset.rot = '1';
+    const ths = [...t.querySelectorAll('thead th')].map((th) => th.textContent.trim());
+    if (!ths.length) continue;
+    const principal = ths.findIndex((x) => x);
+    for (const tr of t.querySelectorAll('tbody tr')) [...tr.children].forEach((td, i) => {
+      if (i === principal) td.dataset.princ = '1'; else if (ths[i]) td.dataset.th = ths[i]; else if (!td.querySelector('input[type=checkbox]')) td.dataset.acoes = '1';
+      if (/^[—-]?$/.test(td.textContent.trim()) && !td.querySelector('button, a, input, svg')) td.dataset.vazio = '1';
+    });
+  }
+}
+let rotPendente = false;
+new MutationObserver(() => { if (!rotPendente) { rotPendente = true; requestAnimationFrame(() => { rotPendente = false; rotularTabelas(); }); } }).observe(document.documentElement, { childList: true, subtree: true });
+
 /* Utilitários de cadastro: CPF/CNPJ, telefone e planilhas */
 'use strict';
 
@@ -2170,6 +2308,17 @@ function csvDe(colunas, linhas) {
 async function baixarPlanilha(nome, colunas, linhas) {
   if (!linhas.length) return toast('Não há nada para exportar com este filtro.', true);
   try { await Docs.entregar(`${nome}-${hojeISO()}.csv`, new Blob([csvDe(colunas, linhas)], { type: 'text/csv' })); } catch (e) { falha(e); }
+}
+
+// ---------- idade e WhatsApp ----------
+function idadeDe(iso) {
+  const [a, m, d] = String(iso).slice(0, 10).split('-').map(Number), h = new Date();
+  return h.getFullYear() - a - (h.getMonth() + 1 < m || (h.getMonth() + 1 === m && h.getDate() < d) ? 1 : 0);
+}
+// link que abre a conversa no WhatsApp (só para números brasileiros com DDD)
+function linkWhats(telefone) {
+  const d = soDig(telefone); if (/[a-z+]/i.test(String(telefone || '')) || (d.length !== 10 && d.length !== 11)) return '';
+  return ` <a class="small" href="https://wa.me/55${d}" target="_blank" rel="noopener noreferrer">WhatsApp</a>`;
 }
 
 /* Tema (claro / escuro / automático). No automático não mexemos em nada: quem decide é o Claude (data-theme) ou o sistema do aparelho (prefers-color-scheme). */
@@ -2233,6 +2382,9 @@ async function pagePainel() {
       <div class="card"><div class="card-h"><h3>Últimos atendimentos</h3><a class="small" href="#/atendimentos">ver todos</a></div>
         ${d.atendimentos.length ? d.atendimentos.map((a) => `<div class="list-item"><div style="flex:1;min-width:0"><a href="#/atendimentos/${a.id}"><b>${esc(a.assunto)}</b></a><div class="small muted">${esc(a.cliente)} · ${L.canal[a.canal] || a.canal}</div></div><div class="small muted">${fData(a.data_hora)}</div></div>`).join('') : vazio('Nenhum atendimento registrado ainda.', 'chat')}
       </div>
+      ${d.aniversarios.length ? `<div class="card"><div class="card-h"><h3>Aniversariantes</h3><span class="small muted">próximos 30 dias</span></div>
+        ${d.aniversarios.map((n) => `<div class="list-item"><div class="d"><b>${n.dia.slice(0, 2)}</b>${MESES_ABREV[+n.dia.slice(3, 5) - 1]}</div><div style="flex:1;min-width:0"><a href="#/clientes/${n.id}"><b>${esc(n.nome)}</b></a><div class="small muted">${n.idade} anos${n.telefone ? ' · ' + esc(n.telefone) : ''}${linkWhats(n.telefone)}</div></div><div><span class="badge ${n.em === 0 ? 'gold' : 'info'}">${n.em === 0 ? 'Hoje' : n.em === 1 ? 'Amanhã' : `em ${n.em} dias`}</span></div></div>`).join('')}
+      </div>` : ''}
       <div class="card"><div class="card-h"><h3>Documentos recentes</h3><a class="small" href="#/documentos">ver todos</a></div>
         ${d.documentos.length ? d.documentos.map((x) => `<div class="list-item"><div style="flex:1;min-width:0"><b>${esc(x.titulo)}</b><div class="small muted">${esc(x.cliente || 'Sem cliente')} · ${L.categoria[x.categoria] || x.categoria}</div></div><div class="small muted">${fUTC(x.criado_em).slice(0, 10)}</div></div>`).join('') : vazio('Nenhum documento enviado ainda.')}
       </div>
@@ -2286,7 +2438,7 @@ async function pageAtendimentos(params) {
     <div class="filters"><input type="search" id="q" placeholder="Buscar por cliente, assunto ou conteúdo…" value="${esc(f.q)}">
       <select id="canal"><option value="">Todos os canais</option>${opts(L.canal).map(([k, l]) => `<option value="${k}" ${f.canal === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
       <label class="chk" style="margin:0"><input type="checkbox" id="pend" ${f.pendentes ? 'checked' : ''}> Com prazo pendente</label>
-      <input type="date" id="de" value="${esc(f.de)}" title="De"><input type="date" id="ate" value="${esc(f.ate)}" title="Até"></div>
+      <label class="filtro-data">De <input type="date" id="de" value="${esc(f.de)}"></label><label class="filtro-data">Até <input type="date" id="ate" value="${esc(f.ate)}"></label></div>
     <div class="card tbl" id="lista"></div>`);
   const carregar = async () => {
     const dados = await api('/atendimentos' + qs({ q: $('#q').value, canal: $('#canal').value, pendentes: $('#pend').checked, de: $('#de').value, ate: $('#ate').value }));
@@ -2306,7 +2458,7 @@ async function pageAtendimentos(params) {
 
 async function pageAtendimento(id) {
   const a = await api('/atendimentos/' + id);
-  view(`<div class="crumb"><a href="#/atendimentos">Atendimentos</a> › #${a.id}</div>
+  view(`<div class="crumb"><a href="#/atendimentos">Atendimentos</a> › ${esc(a.assunto)}</div>
     <div class="page-h"><div><h1>${esc(a.assunto)}</h1><div class="sub">${fDataHora(a.data_hora)} · ${L.canal[a.canal] || a.canal} · atendido por ${esc(a.atendente || '—')}</div></div>
       <div class="actions">${COM_IA ? `<button class="btn gold" id="ia">${ico('spark')} Resumir / gerar ata com IA</button>` : ''}<button class="btn" id="ed">${ico('edit')} Editar</button>
         <button class="btn" id="conc">${ico('check')} ${a.concluido ? 'Reabrir' : 'Concluir providência'}</button><button class="btn danger" id="del">${ico('trash')}</button></div></div>
@@ -2537,15 +2689,15 @@ async function pageCliente(id) {
   view(`<div class="crumb"><a href="#/clientes">Clientes</a> › ${esc(c.nome)}</div>
     <div class="page-h"><div><h1>${esc(c.nome)}</h1><div class="sub">${c.tipo === 'PJ' ? 'Pessoa jurídica' : 'Pessoa física'}${c.documento ? ' · ' + esc(c.documento) : ''} ${c.ativo ? '' : '· <span class="badge">Arquivado</span>'}</div></div>
       <div class="actions"><button class="btn gold" id="at">${ico('plus')} Atendimento</button><button class="btn" id="pr">${ico('scale')} Novo caso</button><button class="btn" id="up">${ico('upload')} Documento</button>
-        ${COM_IA ? `<button class="btn" id="ia">${ico('spark')} IA</button>` : ''}<button class="btn" id="ed">${ico('edit')} Editar</button><button class="btn" id="arq">${c.ativo ? 'Arquivar' : 'Reativar'}</button></div></div>
+        ${COM_IA ? `<button class="btn" id="ia">${ico('spark')} IA</button>` : ''}<button class="btn" id="ficha" title="Baixa um documento do Word com os dados, casos, pendências e o histórico do cliente">${ico('down')} Ficha (Word)</button><button class="btn" id="ed">${ico('edit')} Editar</button><button class="btn" id="arq">${c.ativo ? 'Arquivar' : 'Reativar'}</button></div></div>
     <div class="grid g2"><div style="display:flex;flex-direction:column;gap:18px">
       <div class="card"><div class="card-h"><h3>Casos e processos</h3></div>${c.processos.length ? `<div class="tbl"><table><tbody>${c.processos.map((p) => `<tr class="click" data-p="${p.id}"><td><b>${esc(p.titulo)}</b><div class="small muted">${esc(p.numero || 'sem número')} ${p.area ? '· ' + esc(p.area) : ''}</div></td><td><span class="badge ${L.statusCor[p.status]}">${L.status[p.status]}</span></td></tr>`).join('')}</tbody></table></div>` : vazio('Nenhum caso cadastrado.', 'scale')}</div>
       <div class="card" id="cardPend"></div>
       <div class="card"><div class="card-h"><h3>Histórico de atendimentos</h3></div><div class="card-b">${c.atendimentos.length ? `<div class="timeline">${c.atendimentos.map((a) => `<div class="it"><div class="small muted">${fDataHora(a.data_hora)} · ${L.canal[a.canal] || a.canal} ${badgePrazo(a.prazo, a.concluido)}</div><a href="#/atendimentos/${a.id}"><b>${esc(a.assunto)}</b></a>${a.resumo ? `<div class="small muted">${esc(a.resumo.slice(0, 180))}${a.resumo.length > 180 ? '…' : ''}</div>` : ''}</div>`).join('')}</div>` : vazio('Nenhum atendimento registrado.', 'chat')}</div></div></div>
     <div style="display:flex;flex-direction:column;gap:18px">
       <div class="card"><div class="card-h"><h3>Dados cadastrais</h3></div><div class="card-b"><dl class="kv">
-        <dt>RG / Inscrição</dt><dd>${esc(c.rg || '—')}</dd><dt>Nascimento</dt><dd>${fData(c.nascimento)}</dd><dt>Estado civil</dt><dd>${esc(c.estado_civil || '—')}</dd><dt>Profissão</dt><dd>${esc(c.profissao || '—')}</dd>
-        <dt>E-mail</dt><dd>${esc(c.email || '—')}</dd><dt>Telefone</dt><dd>${esc(c.telefone || '—')}</dd><dt>Endereço</dt><dd>${esc(c.endereco || '—')}</dd><dt>Observações</dt><dd class="pre">${esc(c.observacoes || '—')}</dd></dl></div></div>
+        <dt>RG / Inscrição</dt><dd>${esc(c.rg || '—')}</dd><dt>${c.tipo === 'PJ' ? 'Fundação' : 'Nascimento'}</dt><dd>${fData(c.nascimento)}${c.nascimento && c.tipo !== 'PJ' ? ` <span class="small muted">(${idadeDe(c.nascimento)} anos)</span>` : ''}</dd><dt>Estado civil</dt><dd>${esc(c.estado_civil || '—')}</dd><dt>Profissão</dt><dd>${esc(c.profissao || '—')}</dd>
+        <dt>E-mail</dt><dd>${esc(c.email || '—')}</dd><dt>Telefone</dt><dd>${esc(c.telefone || '—')}${linkWhats(c.telefone)}</dd><dt>Endereço</dt><dd>${esc(c.endereco || '—')}</dd><dt>Observações</dt><dd class="pre">${esc(c.observacoes || '—')}</dd></dl></div></div>
       <div class="card"><div class="card-h"><h3>Observações</h3></div><div class="card-b" id="cardNotas"></div></div></div></div>
     <div class="card" style="margin-top:18px"><div class="card-h"><h3>Pastas e documentos</h3><span class="small muted">${c.documentos.length} documento(s)</span></div><div id="pastasCli"></div></div>`);
   cardPendencias($('#cardPend'), { cliente_id: c.id }).catch(falha);
@@ -2557,6 +2709,7 @@ async function pageCliente(id) {
   $('#up').onclick = () => abrirUpload({ cliente_id: c.id }, rec);
   $('#ed').onclick = async () => { try { abrirCliente(await api('/clientes/' + id), rec); } catch (e) { falha(e); } };
   if (COM_IA) $('#ia').onclick = () => abrirAssistenteCom({ cliente_id: c.id });
+  $('#ficha').onclick = async () => { const b = $('#ficha'); b.disabled = true; try { const f = await LocalAPI.fichaBlob(c.id); await Docs.entregar(f.nome, f.blob); } catch (e) { falha(e); } finally { b.disabled = false; } };
   $('#arq').onclick = async () => { await api(`/clientes/${id}/ativo`, { method: 'POST', body: { ativo: !c.ativo } }); cache.clientes = null; rec(); };
   $$('tr[data-p]').forEach((tr) => (tr.onclick = () => (location.hash = '#/processos/' + tr.dataset.p)));
   ligarAcoesDocs();
@@ -2763,7 +2916,7 @@ async function restaurarCopiaUI(arquivo, depois) {
     copia = LocalAPI.lerCopia(new TextDecoder().decode(zip['dados.json']));
   } catch (e) { return toast(/invalid zip|unexpected|Invalid/i.test(e.message || '') ? 'Não foi possível abrir o arquivo. Escolha o ZIP baixado em “Baixar cópia de segurança”.' : e.message, true); }
   const plano = LocalAPI.planoRestauracao(copia), novos = Object.values(plano).reduce((n, p) => n + p.novos, 0);
-  const tabela = `<div class="tbl" style="margin:10px 0"><table><thead><tr><th>Item</th><th>Na cópia</th><th>Serão adicionados</th><th>Já existem</th></tr></thead><tbody>${Object.entries(plano).map(([c, p]) => `<tr><td>${NOMES_COL[c]}</td><td>${p.total}</td><td><b>${p.novos}</b></td><td>${p.existentes}</td></tr>`).join('')}</tbody></table></div>`;
+  const tabela = `<div class="tbl fixa" style="margin:10px 0"><table><thead><tr><th>Item</th><th>Na cópia</th><th>Serão adicionados</th><th>Já existem</th></tr></thead><tbody>${Object.entries(plano).map(([c, p]) => `<tr><td>${NOMES_COL[c]}</td><td>${p.total}</td><td><b>${p.novos}</b></td><td>${p.existentes}</td></tr>`).join('')}</tbody></table></div>`;
   modal({ titulo: 'Restaurar cópia de segurança', tamanho: '',
     corpo: `<p style="margin-top:0">Cópia de <b>${esc(copia.escritorio || 'escritório não informado')}</b>${copia.exportado_em ? `, feita em ${esc(fData(copia.exportado_em.slice(0, 10)))}` : ''}.</p>${tabela}
       <p class="note small" style="margin-bottom:0">A restauração <b>só acrescenta o que ainda não existe</b>. Nada do que já está no sistema é alterado ou apagado. Os dados entram criptografados com a senha atual do escritório.</p>

@@ -267,3 +267,36 @@ tr[draggable=true]{cursor:grab}
 .cad-ic{flex:none;width:38px;height:38px;border-radius:10px;background:var(--gold-soft);color:var(--gold-dark);display:grid;place-items:center}
 .cad-ic svg{width:20px;height:20px}
 .linkbtn-inline{background:none;border:0;color:var(--gold-dark);cursor:pointer;padding:4px 0 0;text-decoration:underline;font-size:12.5px;display:block}
+
+/* ---------- ajustes gerais ---------- */
+.kv{margin:0}
+.filtro-data{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--ink-2)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* ---------- celular ---------- */
+@media (max-width:700px){
+  /* pendências: título ocupa a linha toda e os botões vão para baixo */
+  .pend{flex-wrap:wrap}
+  .pend-t{flex:1 1 calc(100% - 40px)}
+  .pend-a{flex:1 1 100%;justify-content:flex-start;padding-left:30px}
+  /* listas: cada linha da tabela vira um cartão */
+  .tbl:not(.fixa){overflow-x:visible}
+  .tbl:not(.fixa) table,.tbl:not(.fixa) tbody{display:block;width:100%}
+  .tbl:not(.fixa) thead{display:none}
+  .tbl:not(.fixa) tr{display:block;padding:12px 14px;border-bottom:1px solid var(--line);overflow:hidden}
+  .tbl:not(.fixa) tr:last-child{border-bottom:0}
+  .tbl:not(.fixa) td{display:block;padding:1px 0;border:0;text-align:left!important;white-space:normal!important;overflow-wrap:anywhere}
+  .tbl:not(.fixa) td[data-princ]{font-size:15px;margin-bottom:2px}
+  .tbl:not(.fixa) td[data-th]::before{content:attr(data-th) ": ";color:var(--ink-3);font-size:12px}
+  .tbl:not(.fixa) td[data-th]>div{display:inline}
+  .tbl:not(.fixa) td[data-th]>div:empty{display:none}
+  .tbl:not(.fixa) td[data-th]>div:not(:empty)::before{content:" · "}
+  .tbl:not(.fixa) td[data-vazio]{display:none}
+  .tbl:not(.fixa) td[data-acoes]{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .tbl:not(.fixa) td:has(>input[type=checkbox]){float:left;margin:2px 10px 0 0}
+  .tbl:not(.fixa) tr.click:hover td{background:none}
+  .tbl:not(.fixa) tr.click:active{background:var(--row-hover)}
+  .filters input[type=search]{min-width:0;max-width:none;flex:1 1 100%}
+  .filtro-data{flex:1 1 140px} .filtro-data input{flex:1;min-width:0}
+  .page-h .actions{width:100%} .page-h .actions .btn{flex:1 1 auto;justify-content:center}
+}

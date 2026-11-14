@@ -46,6 +46,9 @@ async function pagePainel() {
       <div class="card"><div class="card-h"><h3>Últimos atendimentos</h3><a class="small" href="#/atendimentos">ver todos</a></div>
         ${d.atendimentos.length ? d.atendimentos.map((a) => `<div class="list-item"><div style="flex:1;min-width:0"><a href="#/atendimentos/${a.id}"><b>${esc(a.assunto)}</b></a><div class="small muted">${esc(a.cliente)} · ${L.canal[a.canal] || a.canal}</div></div><div class="small muted">${fData(a.data_hora)}</div></div>`).join('') : vazio('Nenhum atendimento registrado ainda.', 'chat')}
       </div>
+      ${d.aniversarios.length ? `<div class="card"><div class="card-h"><h3>Aniversariantes</h3><span class="small muted">próximos 30 dias</span></div>
+        ${d.aniversarios.map((n) => `<div class="list-item"><div class="d"><b>${n.dia.slice(0, 2)}</b>${MESES_ABREV[+n.dia.slice(3, 5) - 1]}</div><div style="flex:1;min-width:0"><a href="#/clientes/${n.id}"><b>${esc(n.nome)}</b></a><div class="small muted">${n.idade} anos${n.telefone ? ' · ' + esc(n.telefone) : ''}${linkWhats(n.telefone)}</div></div><div><span class="badge ${n.em === 0 ? 'gold' : 'info'}">${n.em === 0 ? 'Hoje' : n.em === 1 ? 'Amanhã' : `em ${n.em} dias`}</span></div></div>`).join('')}
+      </div>` : ''}
       <div class="card"><div class="card-h"><h3>Documentos recentes</h3><a class="small" href="#/documentos">ver todos</a></div>
         ${d.documentos.length ? d.documentos.map((x) => `<div class="list-item"><div style="flex:1;min-width:0"><b>${esc(x.titulo)}</b><div class="small muted">${esc(x.cliente || 'Sem cliente')} · ${L.categoria[x.categoria] || x.categoria}</div></div><div class="small muted">${fUTC(x.criado_em).slice(0, 10)}</div></div>`).join('') : vazio('Nenhum documento enviado ainda.')}
       </div>
@@ -99,7 +102,7 @@ async function pageAtendimentos(params) {
     <div class="filters"><input type="search" id="q" placeholder="Buscar por cliente, assunto ou conteúdo…" value="${esc(f.q)}">
       <select id="canal"><option value="">Todos os canais</option>${opts(L.canal).map(([k, l]) => `<option value="${k}" ${f.canal === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
       <label class="chk" style="margin:0"><input type="checkbox" id="pend" ${f.pendentes ? 'checked' : ''}> Com prazo pendente</label>
-      <input type="date" id="de" value="${esc(f.de)}" title="De"><input type="date" id="ate" value="${esc(f.ate)}" title="Até"></div>
+      <label class="filtro-data">De <input type="date" id="de" value="${esc(f.de)}"></label><label class="filtro-data">Até <input type="date" id="ate" value="${esc(f.ate)}"></label></div>
     <div class="card tbl" id="lista"></div>`);
   const carregar = async () => {
     const dados = await api('/atendimentos' + qs({ q: $('#q').value, canal: $('#canal').value, pendentes: $('#pend').checked, de: $('#de').value, ate: $('#ate').value }));
@@ -119,7 +122,7 @@ async function pageAtendimentos(params) {
 
 async function pageAtendimento(id) {
   const a = await api('/atendimentos/' + id);
-  view(`<div class="crumb"><a href="#/atendimentos">Atendimentos</a> › #${a.id}</div>
+  view(`<div class="crumb"><a href="#/atendimentos">Atendimentos</a> › ${esc(a.assunto)}</div>
     <div class="page-h"><div><h1>${esc(a.assunto)}</h1><div class="sub">${fDataHora(a.data_hora)} · ${L.canal[a.canal] || a.canal} · atendido por ${esc(a.atendente || '—')}</div></div>
       <div class="actions">${COM_IA ? `<button class="btn gold" id="ia">${ico('spark')} Resumir / gerar ata com IA</button>` : ''}<button class="btn" id="ed">${ico('edit')} Editar</button>
         <button class="btn" id="conc">${ico('check')} ${a.concluido ? 'Reabrir' : 'Concluir providência'}</button><button class="btn danger" id="del">${ico('trash')}</button></div></div>
@@ -350,15 +353,15 @@ async function pageCliente(id) {
   view(`<div class="crumb"><a href="#/clientes">Clientes</a> › ${esc(c.nome)}</div>
     <div class="page-h"><div><h1>${esc(c.nome)}</h1><div class="sub">${c.tipo === 'PJ' ? 'Pessoa jurídica' : 'Pessoa física'}${c.documento ? ' · ' + esc(c.documento) : ''} ${c.ativo ? '' : '· <span class="badge">Arquivado</span>'}</div></div>
       <div class="actions"><button class="btn gold" id="at">${ico('plus')} Atendimento</button><button class="btn" id="pr">${ico('scale')} Novo caso</button><button class="btn" id="up">${ico('upload')} Documento</button>
-        ${COM_IA ? `<button class="btn" id="ia">${ico('spark')} IA</button>` : ''}<button class="btn" id="ed">${ico('edit')} Editar</button><button class="btn" id="arq">${c.ativo ? 'Arquivar' : 'Reativar'}</button></div></div>
+        ${COM_IA ? `<button class="btn" id="ia">${ico('spark')} IA</button>` : ''}<button class="btn" id="ficha" title="Baixa um documento do Word com os dados, casos, pendências e o histórico do cliente">${ico('down')} Ficha (Word)</button><button class="btn" id="ed">${ico('edit')} Editar</button><button class="btn" id="arq">${c.ativo ? 'Arquivar' : 'Reativar'}</button></div></div>
     <div class="grid g2"><div style="display:flex;flex-direction:column;gap:18px">
       <div class="card"><div class="card-h"><h3>Casos e processos</h3></div>${c.processos.length ? `<div class="tbl"><table><tbody>${c.processos.map((p) => `<tr class="click" data-p="${p.id}"><td><b>${esc(p.titulo)}</b><div class="small muted">${esc(p.numero || 'sem número')} ${p.area ? '· ' + esc(p.area) : ''}</div></td><td><span class="badge ${L.statusCor[p.status]}">${L.status[p.status]}</span></td></tr>`).join('')}</tbody></table></div>` : vazio('Nenhum caso cadastrado.', 'scale')}</div>
       <div class="card" id="cardPend"></div>
       <div class="card"><div class="card-h"><h3>Histórico de atendimentos</h3></div><div class="card-b">${c.atendimentos.length ? `<div class="timeline">${c.atendimentos.map((a) => `<div class="it"><div class="small muted">${fDataHora(a.data_hora)} · ${L.canal[a.canal] || a.canal} ${badgePrazo(a.prazo, a.concluido)}</div><a href="#/atendimentos/${a.id}"><b>${esc(a.assunto)}</b></a>${a.resumo ? `<div class="small muted">${esc(a.resumo.slice(0, 180))}${a.resumo.length > 180 ? '…' : ''}</div>` : ''}</div>`).join('')}</div>` : vazio('Nenhum atendimento registrado.', 'chat')}</div></div></div>
     <div style="display:flex;flex-direction:column;gap:18px">
       <div class="card"><div class="card-h"><h3>Dados cadastrais</h3></div><div class="card-b"><dl class="kv">
-        <dt>RG / Inscrição</dt><dd>${esc(c.rg || '—')}</dd><dt>Nascimento</dt><dd>${fData(c.nascimento)}</dd><dt>Estado civil</dt><dd>${esc(c.estado_civil || '—')}</dd><dt>Profissão</dt><dd>${esc(c.profissao || '—')}</dd>
-        <dt>E-mail</dt><dd>${esc(c.email || '—')}</dd><dt>Telefone</dt><dd>${esc(c.telefone || '—')}</dd><dt>Endereço</dt><dd>${esc(c.endereco || '—')}</dd><dt>Observações</dt><dd class="pre">${esc(c.observacoes || '—')}</dd></dl></div></div>
+        <dt>RG / Inscrição</dt><dd>${esc(c.rg || '—')}</dd><dt>${c.tipo === 'PJ' ? 'Fundação' : 'Nascimento'}</dt><dd>${fData(c.nascimento)}${c.nascimento && c.tipo !== 'PJ' ? ` <span class="small muted">(${idadeDe(c.nascimento)} anos)</span>` : ''}</dd><dt>Estado civil</dt><dd>${esc(c.estado_civil || '—')}</dd><dt>Profissão</dt><dd>${esc(c.profissao || '—')}</dd>
+        <dt>E-mail</dt><dd>${esc(c.email || '—')}</dd><dt>Telefone</dt><dd>${esc(c.telefone || '—')}${linkWhats(c.telefone)}</dd><dt>Endereço</dt><dd>${esc(c.endereco || '—')}</dd><dt>Observações</dt><dd class="pre">${esc(c.observacoes || '—')}</dd></dl></div></div>
       <div class="card"><div class="card-h"><h3>Observações</h3></div><div class="card-b" id="cardNotas"></div></div></div></div>
     <div class="card" style="margin-top:18px"><div class="card-h"><h3>Pastas e documentos</h3><span class="small muted">${c.documentos.length} documento(s)</span></div><div id="pastasCli"></div></div>`);
   cardPendencias($('#cardPend'), { cliente_id: c.id }).catch(falha);
@@ -370,6 +373,7 @@ async function pageCliente(id) {
   $('#up').onclick = () => abrirUpload({ cliente_id: c.id }, rec);
   $('#ed').onclick = async () => { try { abrirCliente(await api('/clientes/' + id), rec); } catch (e) { falha(e); } };
   if (COM_IA) $('#ia').onclick = () => abrirAssistenteCom({ cliente_id: c.id });
+  $('#ficha').onclick = async () => { const b = $('#ficha'); b.disabled = true; try { const f = await LocalAPI.fichaBlob(c.id); await Docs.entregar(f.nome, f.blob); } catch (e) { falha(e); } finally { b.disabled = false; } };
   $('#arq').onclick = async () => { await api(`/clientes/${id}/ativo`, { method: 'POST', body: { ativo: !c.ativo } }); cache.clientes = null; rec(); };
   $$('tr[data-p]').forEach((tr) => (tr.onclick = () => (location.hash = '#/processos/' + tr.dataset.p)));
   ligarAcoesDocs();

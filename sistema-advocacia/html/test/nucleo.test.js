@@ -303,3 +303,72 @@ test('agenda de prazos, CPF/CNPJ em dobro e restauração da cópia de seguranç
   C.M.LocalAPI.definirUsuario({ id: 'u2', nome: 'Colega', papel: 'advogado' });
   await assert.rejects(C.M.LocalAPI.restaurar(copia, zip), /Só quem administra/);
 });
+
+test('ficha do cliente em Word (conteúdo e arquivo válido) e aniversariantes no painel', async () => {
+  const fflate = req('fflate');
+  const A = await ambiente();
+  const hoje = new Date(), dd = (d) => `${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const em = (n) => { const d = new Date(hoje); d.setDate(d.getDate() + n); return d; };
+  const c1 = (await A.call('POST', '/clientes', { nome: 'Maria da Silva', documento: '111.444.777-35', nascimento: '1980-' + dd(em(3)), telefone: '(51) 99999-0000', observacoes: 'Linha 1\nLinha **2**' })).data.id;
+  await A.call('POST', '/clientes', { nome: 'Fez ontem', nascimento: '1990-' + dd(em(-1)) });
+  await A.call('POST', '/clientes', { nome: 'Empresa Ltda', tipo: 'PJ', nascimento: '2001-' + dd(em(2)) });
+  await A.call('POST', '/clientes', { nome: 'Hoje Mesmo', nascimento: '2000-' + dd(em(0)) });
+  const an = (await A.call('GET', '/painel')).data.aniversarios;
+  assert.deepEqual(an.map((x) => [x.nome, x.em]), [['Hoje Mesmo', 0], ['Maria da Silva', 3]]);
+  assert.equal(an[1].idade, em(3).getFullYear() - 1980); assert.equal(an[0].dia, dd(em(0)).split('-').reverse().join('/'));
+
+  const p = (await A.call('POST', '/processos', { cliente_id: c1, titulo: 'Ação de alimentos', numero: '5001234-56.2026.8.21.0001', parte_contraria: 'Carlos' })).data.id;
+  await A.call('POST', '/atendimentos', { cliente_id: c1, processo_id: p, data_hora: '2026-11-05T10:00', assunto: 'Consulta inicial', resumo: 'Relato do cliente.', providencias: 'Protocolar', prazo: '2026-12-01' });
+  await A.call('POST', '/pendencias', { cliente_id: c1, titulo: 'Trazer RG', prazo: '2026-11-30' });
+  await A.call('POST', '/notas', { entidade: 'cliente', entidade_id: c1, texto: 'Prefere WhatsApp' });
+  await enviar(A.call, 'procuracao.txt', 'Procuração', { cliente_id: c1 });
+  const md = A.M.LocalAPI.fichaMarkdown(c1).markdown;
+  for (const t of ['# Ficha do cliente', '## Maria da Silva', '**CPF / CNPJ:** 111.444.777-35', '**Observações internas:** Linha 1 / Linha 2', 'Ação de alimentos** — nº 5001234-56.2026.8.21.0001', 'parte contrária: Carlos',
+    '- Trazer RG — prazo: 30/11/2026', '### 05/11/2026 — Consulta inicial', '**Providências:** Protocolar (prazo: 01/12/2026)', 'procuracao (procuracao.txt)', 'Dra. Ana: Prefere WhatsApp']) assert.ok(md.includes(t), 'falta na ficha: ' + t + '\n' + md);
+  const f = await A.M.LocalAPI.fichaBlob(c1);
+  assert.equal(f.nome, 'Ficha - Maria da Silva.docx');
+  const zip = fflate.unzipSync(new Uint8Array(await f.blob.arrayBuffer())), doc = new TextDecoder().decode(zip['word/document.xml']);
+  assert.ok(doc.includes('Maria da Silva') && doc.includes('Consulta inicial')); assert.ok(new TextDecoder().decode(zip['word/footer1.xml']).includes('sigilo profissional'));
+  assert.equal((await A.call('GET', '/admin/auditoria')).data.filter((x) => x.acao === 'exportar_ficha').length, 1);
+  await assert.rejects(A.M.LocalAPI.fichaBlob(999), /não encontrad/i);
+});
+
+test('camada de dados: atualização atrasada não apaga o que acabou de ser salvo; falha na gravação desfaz na tela', async () => {
+  const M = await carregar();
+  const real = M.criarBackendLocal({ memoria: true }); await real.iniciar();
+  const cbs = {}; let falhar = null;
+  // backend "lento": as atualizações só chegam quando o teste entrega, e as gravações podem falhar
+  const b = Object.create(real);
+  b.assinar = (c, cb) => { cbs[c] = cb; queueMicrotask(async () => cb(await real.listar(c))); return () => {}; };
+  for (const m of ['definir', 'atualizar', 'remover']) b[m] = async (...a) => { if (falhar) { const e = new Error(falhar); e.code = 'permission_denied'; throw e; } return real[m](...a); };
+  const { master } = await M.Cofre.criar('SenhaDeTeste123', 1000);
+  await M.Dados.abrir(master, b, 'u1');
+  const D = M.Dados, nomes = () => D.lista('clientes').map((c) => c.nome).sort();
+
+  await D.gravar('clientes', { id: 1, nome: 'Ana' });
+  const antigo = await real.listar('clientes');                       // fotografia tirada antes do próximo registro
+  await D.gravar('clientes', { id: 2, nome: 'Bia' });
+  await cbs.clientes(antigo);                                          // chega atrasada, sem a Bia
+  assert.deepEqual(nomes(), ['Ana', 'Bia'], 'o registro novo não pode sumir com uma atualização atrasada');
+  await cbs.clientes(await real.listar('clientes'));                  // confirmação
+  assert.deepEqual(nomes(), ['Ana', 'Bia']);
+  // depois de confirmado, se outra pessoa apagar, some normalmente
+  await real.remover('clientes', '2'); await cbs.clientes(await real.listar('clientes'));
+  assert.deepEqual(nomes(), ['Ana']);
+
+  // duas atualizações quase juntas: a mais nova vale, mesmo que a antiga demore mais para ser decifrada
+  await real.definir('clientes', '3', { nome: await M.Cofre.campo(master, 'Caio') }); const s1 = await real.listar('clientes');
+  await real.definir('clientes', '4', { nome: await M.Cofre.campo(master, 'Duda') }); const s2 = await real.listar('clientes');
+  await Promise.all([cbs.clientes(s1), cbs.clientes(s2)]);
+  assert.deepEqual(nomes(), ['Ana', 'Caio', 'Duda']);
+
+  // gravação recusada: nada fica na tela como se tivesse sido salvo
+  falhar = 'Sem permissão para gravar.';
+  await assert.rejects(D.gravar('clientes', { id: 5, nome: 'Fantasma' }), /Sem permissão/); assert.equal(D.obter('clientes', 5), null);
+  await assert.rejects(D.alterar('clientes', 1, { nome: 'Ana alterada' }), /Sem permissão/); assert.equal(D.obter('clientes', 1).nome, 'Ana');
+  await assert.rejects(D.remover('clientes', 1), /Sem permissão/); assert.equal(D.obter('clientes', 1).nome, 'Ana');
+  falhar = null;
+  await D.alterar('clientes', 1, { nome: 'Ana Souza' }); assert.equal(D.obter('clientes', 1).nome, 'Ana Souza');
+  await D.remover('clientes', 1); await cbs.clientes(antigo.filter((d) => d.id === '1').concat(await real.listar('clientes')));   // atualização atrasada ainda com a Ana
+  assert.equal(D.obter('clientes', 1), null, 'o que foi excluído não volta com uma atualização atrasada');
+});

@@ -221,9 +221,22 @@ const LocalAPI = (() => {
         abertas: pend.length, vencidas: pend.filter((p) => p.prazo && String(p.prazo).slice(0, 10) < hoje).length,
         lista: pend.sort(ordemPend).slice(0, 8).map((p) => ({ id: p.id, titulo: p.titulo, tipo: p.tipo, prazo: p.prazo, cliente: cliNome(p.cliente_id), cliente_id: p.cliente_id })),
       },
+      aniversarios: aniversariantes(30),
       hoje,
     };
   });
+  // Clientes (pessoa física, ativos) que fazem aniversário nos próximos dias
+  function aniversariantes(dias) {
+    const h = new Date(hojeISO() + 'T00:00'), ano = h.getFullYear(), l = [];
+    for (const c of Dados.lista('clientes')) {
+      if (!c.ativo || c.tipo === 'PJ' || !/^\d{4}-\d{2}-\d{2}/.test(String(c.nascimento || ''))) continue;
+      const [a, m, d] = String(c.nascimento).slice(0, 10).split('-').map(Number);
+      let prox = new Date(ano, m - 1, d); if (prox < h) prox = new Date(ano + 1, m - 1, d);
+      const em = Math.round((prox - h) / 864e5);
+      if (em <= dias) l.push({ id: c.id, nome: c.nome, telefone: c.telefone || '', dia: `${pad(d)}/${pad(m)}`, em, idade: prox.getFullYear() - a });
+    }
+    return l.sort((x, y) => x.em - y.em || x.nome.localeCompare(y.nome)).slice(0, 12);
+  }
   // Agenda: todos os prazos em aberto (providências de atendimentos + pendências), do mais antigo ao mais distante
   rota('GET', '/agenda', () => {
     const ativos = new Set(Dados.lista('clientes').filter((c) => c.ativo).map((c) => c.id));

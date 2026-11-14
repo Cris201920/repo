@@ -62,7 +62,7 @@ async function restaurarCopiaUI(arquivo, depois) {
     copia = LocalAPI.lerCopia(new TextDecoder().decode(zip['dados.json']));
   } catch (e) { return toast(/invalid zip|unexpected|Invalid/i.test(e.message || '') ? 'Não foi possível abrir o arquivo. Escolha o ZIP baixado em “Baixar cópia de segurança”.' : e.message, true); }
   const plano = LocalAPI.planoRestauracao(copia), novos = Object.values(plano).reduce((n, p) => n + p.novos, 0);
-  const tabela = `<div class="tbl" style="margin:10px 0"><table><thead><tr><th>Item</th><th>Na cópia</th><th>Serão adicionados</th><th>Já existem</th></tr></thead><tbody>${Object.entries(plano).map(([c, p]) => `<tr><td>${NOMES_COL[c]}</td><td>${p.total}</td><td><b>${p.novos}</b></td><td>${p.existentes}</td></tr>`).join('')}</tbody></table></div>`;
+  const tabela = `<div class="tbl fixa" style="margin:10px 0"><table><thead><tr><th>Item</th><th>Na cópia</th><th>Serão adicionados</th><th>Já existem</th></tr></thead><tbody>${Object.entries(plano).map(([c, p]) => `<tr><td>${NOMES_COL[c]}</td><td>${p.total}</td><td><b>${p.novos}</b></td><td>${p.existentes}</td></tr>`).join('')}</tbody></table></div>`;
   modal({ titulo: 'Restaurar cópia de segurança', tamanho: '',
     corpo: `<p style="margin-top:0">Cópia de <b>${esc(copia.escritorio || 'escritório não informado')}</b>${copia.exportado_em ? `, feita em ${esc(fData(copia.exportado_em.slice(0, 10)))}` : ''}.</p>${tabela}
       <p class="note small" style="margin-bottom:0">A restauração <b>só acrescenta o que ainda não existe</b>. Nada do que já está no sistema é alterado ou apagado. Os dados entram criptografados com a senha atual do escritório.</p>

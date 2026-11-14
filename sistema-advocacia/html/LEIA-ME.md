@@ -8,7 +8,14 @@ Um só arquivo HTML com o sistema do escritório:
 - **Pendências**: o que falta de cada cliente, com modelos por tipo de ação e "conferir documentos".
 - **Planilhas**: exportar clientes, casos, atendimentos e agenda em CSV (abre no Excel).
 - **Segurança**: senha do escritório com criptografia, bloqueio automático após 30 minutos sem uso, auditoria, cópia de segurança e restauração.
-- Tema claro, escuro ou automático; funciona no computador e no celular.
+- **Ficha do cliente em Word**: dados, casos, pendências, histórico de atendimentos, documentos e observações em um arquivo `.docx`.
+- **Painel**: prazos, pendências, últimos atendimentos e aniversariantes dos próximos 30 dias; link para abrir a conversa no WhatsApp.
+- Tema claro, escuro ou automático; no celular as listas viram cartões.
+
+## Proteções contra perda de dados
+- Uma janela com texto digitado não fecha ao clicar fora; o X e o Esc perguntam antes de descartar.
+- Se a gravação falhar (sem permissão ou sem conexão), a tela volta ao que estava e mostra o erro: nada aparece como salvo sem estar.
+- Uma atualização atrasada do banco não apaga da tela o que acabou de ser salvo (`src/dados.js`).
 
 ## Como funciona a senha
 A senha do escritório **criptografa os dados no próprio navegador** (PBKDF2 600 mil iterações → chave AES‑256‑GCM).

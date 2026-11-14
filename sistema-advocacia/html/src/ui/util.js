@@ -38,3 +38,14 @@ async function baixarPlanilha(nome, colunas, linhas) {
   if (!linhas.length) return toast('Não há nada para exportar com este filtro.', true);
   try { await Docs.entregar(`${nome}-${hojeISO()}.csv`, new Blob([csvDe(colunas, linhas)], { type: 'text/csv' })); } catch (e) { falha(e); }
 }
+
+// ---------- idade e WhatsApp ----------
+function idadeDe(iso) {
+  const [a, m, d] = String(iso).slice(0, 10).split('-').map(Number), h = new Date();
+  return h.getFullYear() - a - (h.getMonth() + 1 < m || (h.getMonth() + 1 === m && h.getDate() < d) ? 1 : 0);
+}
+// link que abre a conversa no WhatsApp (só para números brasileiros com DDD)
+function linkWhats(telefone) {
+  const d = soDig(telefone); if (/[a-z+]/i.test(String(telefone || '')) || (d.length !== 10 && d.length !== 11)) return '';
+  return ` <a class="small" href="https://wa.me/55${d}" target="_blank" rel="noopener noreferrer">WhatsApp</a>`;
+}

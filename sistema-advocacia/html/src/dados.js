@@ -2,7 +2,7 @@
 const Dados = (() => {
   const COLECOES = ['clientes', 'processos', 'atendimentos', 'documentos', 'pastas', 'notas', 'pendencias', 'auditoria'];
   const PRIV = 'conversas';
-  const novoEstado = () => ({ master: null, b: null, uid: null, privado: null, cache: {}, brutos: {}, ouvintes: new Set(), unsubs: [], filas: new Map(), textos: null, ultima: 0 });
+  const novoEstado = () => ({ master: null, b: null, uid: null, privado: null, cache: {}, brutos: {}, ouvintes: new Set(), unsubs: [], filas: new Map(), textos: null, ultima: 0, locais: {}, vez: {} });
   let st = novoEstado();
 
   const caminho = (nome) => (nome === PRIV ? st.privado : nome);       // null = sem identidade: conversas só em memória
@@ -34,16 +34,35 @@ const Dados = (() => {
   };
   const emitir = (nome) => st.ouvintes.forEach((f) => { try { f(nome, { propria: Date.now() - st.ultima < 3000 }); } catch { /* ouvinte com erro não derruba os outros */ } });
 
-  async function aplicar(nome, docs) {
-    const mapa = st.cache[nome], brutos = st.brutos[nome], vistos = new Set();
+  // Registros gravados aqui e ainda não confirmados pelo banco: uma atualização atrasada (tirada antes da gravação) não pode apagá-los da tela.
+  const guardar = (nome, id) => { if (caminho(nome)) (st.locais[nome] || (st.locais[nome] = new Map())).set(id, true); };
+  const liberar = (nome, id) => { if (st.locais[nome]) st.locais[nome].delete(id); };
+  const guardado = (nome, id) => !!(st.locais[nome] && st.locais[nome].has(id));
+
+  async function aplicar(nome, docs, e = st) {
+    const mapa = e.cache[nome], brutos = e.brutos[nome], vistos = new Set();
     for (const d of docs) {
       vistos.add(d.id);
+      if (e.locais[nome]) e.locais[nome].delete(d.id);                 // o banco já conhece este registro
       const s = JSON.stringify(d.data);
       if (brutos.get(d.id) === s) continue;                            // não mudou: não decifra de novo
-      brutos.set(d.id, s);
-      const reg = await decReg(d.data); reg.id = idNum(nome, d.id); mapa.set(d.id, reg);
+      const reg = await decReg(d.data); reg.id = idNum(nome, d.id);
+      brutos.set(d.id, s); mapa.set(d.id, reg);
     }
-    for (const id of [...mapa.keys()]) if (!vistos.has(id)) { mapa.delete(id); brutos.delete(id); }
+    for (const id of [...mapa.keys()]) if (!vistos.has(id) && !(e.locais[nome] && e.locais[nome].has(id))) { mapa.delete(id); brutos.delete(id); }
+  }
+  // as atualizações de uma mesma coleção são aplicadas uma de cada vez, na ordem em que chegam (uma antiga nunca passa por cima de uma nova)
+  function enfileirar(nome, docs) {
+    const e = st, p = (e.vez[nome] || Promise.resolve()).catch(() => {}).then(() => (e === st ? aplicar(nome, docs, e) : null));
+    e.vez[nome] = p; return p;
+  }
+  // se a confirmação não chegar, confere direto no banco (cobre atualização perdida ou registro apagado por outra pessoa nesse intervalo)
+  function conferirDepois(nome, id) {
+    const e = st, t = setTimeout(async () => {
+      if (e !== st || !guardado(nome, id)) return;
+      try { const docs = await e.b.listar(caminho(nome)); if (e !== st) return; liberar(nome, id); await enfileirar(nome, docs); emitir(nome); } catch { /* tenta de novo na próxima gravação */ }
+    }, 6000);
+    if (t && t.unref) t.unref();
   }
 
   async function abrir(master, backend, uid) {
@@ -56,7 +75,7 @@ const Dados = (() => {
       let primeiro = true;
       const limite = setTimeout(() => { if (primeiro) { primeiro = false; falha(new Error('Não foi possível alcançar o banco de dados. Verifique a conexão e tente de novo.')); } }, 15000);
       const un = backend.assinar(c, async (docs) => {
-        try { await aplicar(nome, docs); } catch (e) { if (primeiro) { primeiro = false; clearTimeout(limite); falha(e); } return; }
+        try { await enfileirar(nome, docs); } catch (e) { if (primeiro) { primeiro = false; clearTimeout(limite); falha(e); } return; }
         if (primeiro) { primeiro = false; clearTimeout(limite); ok(); } else emitir(nome);
       }, (e) => { if (primeiro) { primeiro = false; clearTimeout(limite); falha(new Error(e && e.message ? e.message : 'Falha ao ler os dados.')); } });
       st.unsubs.push(un);
@@ -67,27 +86,35 @@ const Dados = (() => {
   const lista = (nome) => [...(st.cache[nome] || new Map()).values()];
   const obter = (nome, id) => (st.cache[nome] || new Map()).get(docId(nome, id)) || null;
 
+  // Se a gravação falhar (sem permissão, sem conexão), a tela volta ao que estava: nada aparece como salvo sem estar.
   async function gravar(nome, reg) {
-    const id = docId(nome, reg.id); st.ultima = Date.now();
-    st.cache[nome].set(id, { ...reg });
-    return serial(nome + '/' + id, async () => {
-      const c = caminho(nome); if (!c) return;
-      await st.b.definir(c, id, await encReg(reg));
-    });
+    const e = st, id = docId(nome, reg.id), mapa = e.cache[nome], antes = mapa.get(id), copia = { ...reg }; e.ultima = Date.now();
+    mapa.set(id, copia); guardar(nome, id);
+    try {
+      await serial(nome + '/' + id, async () => { const c = caminho(nome); if (!c) return; await e.b.definir(c, id, await encReg(reg)); });
+    } catch (er) {
+      if (mapa.get(id) === copia) { if (antes) mapa.set(id, antes); else mapa.delete(id); }
+      if (e.locais[nome]) e.locais[nome].delete(id);
+      throw er;
+    }
+    if (e === st && guardado(nome, id)) conferirDepois(nome, id);
   }
   async function alterar(nome, idReg, campos) {
-    const id = docId(nome, idReg), atual = st.cache[nome].get(id); st.ultima = Date.now();
+    const e = st, id = docId(nome, idReg), mapa = e.cache[nome], atual = mapa.get(id); e.ultima = Date.now();
     if (!atual) throw new Error('O registro não existe mais.');
-    const novo = { ...atual, ...campos }; st.cache[nome].set(id, novo);
-    return serial(nome + '/' + id, async () => {
-      const c = caminho(nome); if (!c) return;
-      try { await st.b.atualizar(c, id, await encReg(campos)); }
-      catch (e) { if (e && e.code === 'invalid_argument') await st.b.definir(c, id, await encReg(novo)); else throw e; }   // alguém apagou: recria
-    });
+    const novo = { ...atual, ...campos }; mapa.set(id, novo);
+    try {
+      await serial(nome + '/' + id, async () => {
+        const c = caminho(nome); if (!c) return;
+        try { await e.b.atualizar(c, id, await encReg(campos)); }
+        catch (er) { if (er && er.code === 'invalid_argument') await e.b.definir(c, id, await encReg(novo)); else throw er; }   // alguém apagou: recria
+      });
+    } catch (er) { if (mapa.get(id) === novo) mapa.set(id, atual); throw er; }
   }
   async function remover(nome, idReg) {
-    const id = docId(nome, idReg); st.cache[nome].delete(id); st.ultima = Date.now();
-    return serial(nome + '/' + id, async () => { const c = caminho(nome); if (c) await st.b.remover(c, id); });
+    const e = st, id = docId(nome, idReg), mapa = e.cache[nome], antes = mapa.get(id); mapa.delete(id); liberar(nome, id); e.ultima = Date.now();
+    try { await serial(nome + '/' + id, async () => { const c = caminho(nome); if (c) await e.b.remover(c, id); }); }
+    catch (er) { if (antes && !mapa.has(id)) mapa.set(id, antes); throw er; }
   }
 
   // textos extraídos dos documentos (busca e IA): ficam em coleção própria para não pesar na abertura
