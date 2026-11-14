@@ -5,7 +5,7 @@
    (regra prefers-reduced-motion acima).
    ===================================================================== */
 :root{
-  --ouro-vivo:linear-gradient(90deg,#8a642a,#d4a95f,#f1d9a0,#c98f5a,#b88a44,#8a642a);
+  --ouro-vivo:linear-gradient(90deg,var(--pc),var(--pb),var(--px),var(--pb),var(--pa),var(--pc));
   --mola:cubic-bezier(.2,.9,.3,1.25); --suave:cubic-bezier(.22,.8,.3,1);
 }
 @keyframes ouroCorre{to{background-position:200% 0}}
@@ -18,10 +18,10 @@
 @keyframes avisoEntra{from{opacity:0;transform:translateX(30px) scale(.96)}}
 @keyframes avisoSai{to{opacity:0;transform:translateX(30px)}}
 @keyframes flutuar{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-@keyframes respirar{0%,100%{filter:drop-shadow(0 0 0 rgba(212,169,95,0)) brightness(1)}50%{filter:drop-shadow(0 0 9px rgba(212,169,95,.55)) brightness(1.08)}}
+@keyframes respirar{0%,100%{filter:drop-shadow(0 0 0 color-mix(in srgb,var(--pb) 0%,transparent)) brightness(1)}50%{filter:drop-shadow(0 0 9px color-mix(in srgb,var(--pb) 55%,transparent)) brightness(1.08)}}
 @keyframes brilhoPassa{0%,62%{transform:translateX(-160%) skewX(-20deg)}100%{transform:translateX(320%) skewX(-20deg)}}
 @keyframes onda{to{transform:scale(2.6);opacity:0}}
-@keyframes pulsoCampo{0%{box-shadow:0 0 0 0 rgba(212,169,95,.55)}100%{box-shadow:0 0 0 7px rgba(212,169,95,0)}}
+@keyframes pulsoCampo{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--pb) 55%,transparent)}100%{box-shadow:0 0 0 7px color-mix(in srgb,var(--pb) 0%,transparent)}}
 @keyframes aurora{0%{background-position:0% 0%,100% 100%,50% 50%}50%{background-position:60% 40%,30% 70%,50% 50%}100%{background-position:0% 0%,100% 100%,50% 50%}}
 @keyframes girar{to{transform:rotate(360deg)}}
 @keyframes pulsar{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
@@ -74,12 +74,12 @@ details[open]>*:not(summary){animation:surgir .28s var(--suave) backwards}
 .card{transition:box-shadow .25s,transform .25s var(--suave),border-color .25s}
 .card:hover{box-shadow:0 2px 4px rgba(17,22,31,.07),0 12px 30px rgba(17,22,31,.10)}
 .stat{transition:transform .3s var(--mola),box-shadow .25s} .stat:hover{transform:translateY(-4px)}
-.stat::after{background:linear-gradient(180deg,#8a642a,#d4a95f,#f1d9a0,#b88a44,#8a642a);background-size:100% 300%;animation:ouroSobe 4s linear infinite;transition:width .25s var(--suave)}
+.stat::after{background:linear-gradient(180deg,var(--pc),var(--pb),var(--px),var(--pa),var(--pc));background-size:100% 300%;animation:ouroSobe 4s linear infinite;transition:width .25s var(--suave)}
 @keyframes ouroSobe{to{background-position:0 300%}}
 .stat:hover::after{width:6px}
 .stat .n{transition:color .25s} .stat:hover .n{color:var(--gold-dark)}
 .cad-card{transition:transform .3s var(--mola),box-shadow .25s,border-color .25s,background-color .25s;position:relative;overflow:hidden}
-.cad-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(138,100,42,.18)}
+.cad-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px color-mix(in srgb,var(--pc) 18%,transparent)}
 .cad-ic{transition:transform .4s var(--mola),background-color .25s,color .25s} .cad-card:hover .cad-ic{transform:rotate(-8deg) scale(1.15);background:var(--gold);color:#fff}
 
 /* ---------- botões: sobem ao passar o mouse, afundam ao clicar, onda no clique ---------- */
@@ -88,13 +88,13 @@ details[open]>*:not(summary){animation:surgir .28s var(--suave) backwards}
 .btn:not([disabled]):hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(17,22,31,.14)}
 .btn:not([disabled]):active{transform:translateY(0) scale(.96);box-shadow:none;transition-duration:.06s}
 .btn svg{transition:transform .3s var(--mola)} .btn:not([disabled]):hover svg{transform:scale(1.2) rotate(-6deg)}
-.btn.gold{background:linear-gradient(100deg,#b88a44,#d4a95f,#f1d9a0,#d4a95f,#b88a44);background-size:220% 100%;animation:ouroCorre 7s linear infinite}
-.btn.gold:not([disabled]):hover{box-shadow:0 8px 22px rgba(184,138,68,.45);animation-duration:1.8s}
+.btn.gold{background:linear-gradient(100deg,var(--pa),var(--pb),color-mix(in srgb,var(--pb) 75%,#fff),var(--pb),var(--pa));background-size:220% 100%;animation:ouroCorre 7s linear infinite}
+.btn.gold:not([disabled]):hover{box-shadow:0 8px 22px color-mix(in srgb,var(--pa) 45%,transparent);animation-duration:1.8s}
 .btn.danger:not([disabled]):hover svg{animation:tremer .4s}
 .onda{position:absolute;border-radius:50%;background:currentColor;opacity:.28;transform:scale(0);animation:onda .6s ease-out forwards;pointer-events:none}
 .btn.gold .onda,.btn.primary .onda{background:#fff;opacity:.45}
 .tema-btn{transition:transform .25s var(--mola),background-color .2s,color .2s,border-color .2s} .tema-btn:hover{transform:scale(1.08);border-color:var(--gold)} .tema-btn svg{transition:transform .5s var(--mola)} .tema-btn:hover svg{transform:rotate(30deg) scale(1.1)} .tema-btn:active{transform:scale(.92)}
-.userbtn{transition:border-color .2s,box-shadow .2s,transform .2s var(--mola)} .userbtn:hover{border-color:var(--gold);box-shadow:0 4px 14px rgba(184,138,68,.2)} .userbtn:active{transform:scale(.97)}
+.userbtn{transition:border-color .2s,box-shadow .2s,transform .2s var(--mola)} .userbtn:hover{border-color:var(--gold);box-shadow:0 4px 14px color-mix(in srgb,var(--pa) 20%,transparent)} .userbtn:active{transform:scale(.97)}
 .burger{transition:transform .25s var(--mola)} .burger:active{transform:scale(.85) rotate(90deg)}
 a{transition:color .15s}
 
@@ -102,7 +102,7 @@ a{transition:color .15s}
 .nav a{transition:background-color .2s,color .2s,transform .22s var(--suave),box-shadow .25s}
 .nav a:hover{transform:translateX(4px)}
 .nav a svg{transition:transform .35s var(--mola),color .2s,opacity .2s} .nav a:hover svg{transform:scale(1.25) rotate(-8deg);color:var(--gold-2);opacity:1}
-.nav a.on{background:linear-gradient(90deg,rgba(184,138,68,.30),rgba(241,217,160,.10),rgba(184,138,68,.05),rgba(184,138,68,.30));background-size:200% 100%;animation:ouroCorre 8s linear infinite}
+.nav a.on{background:linear-gradient(90deg,color-mix(in srgb,var(--pa) 30%,transparent),rgba(241,217,160,.10),color-mix(in srgb,var(--pa) 5%,transparent),color-mix(in srgb,var(--pa) 30%,transparent));background-size:200% 100%;animation:ouroCorre 8s linear infinite}
 .nav a.on svg{animation:pulsar 2.4s ease-in-out infinite}
 .nav a{animation:surgirLado .35s var(--suave) backwards}
 .nav a:nth-child(2){animation-delay:.03s}.nav a:nth-child(3){animation-delay:.06s}.nav a:nth-child(4){animation-delay:.09s}.nav a:nth-child(5){animation-delay:.12s}.nav a:nth-child(6){animation-delay:.15s}.nav a:nth-child(7){animation-delay:.18s}.nav a:nth-child(n+8){animation-delay:.21s}
@@ -139,3 +139,5 @@ input[type=checkbox]{accent-color:var(--gold);transition:transform .2s var(--mol
 .prog>div{background:repeating-linear-gradient(-45deg,var(--gold) 0 10px,var(--gold-2) 10px 20px);background-size:28px 100%;animation:listras .7s linear infinite;transition:width .4s var(--suave)}
 #novidades{animation:estalo .3s var(--mola) backwards,pulsar 1.8s ease-in-out .5s infinite}
 .login-tema{z-index:5}
+.tema-pop .paletas button{transition:transform .2s var(--mola),box-shadow .2s}
+:root.trocando-cor *{transition:background-color .45s,border-color .45s,color .45s,box-shadow .45s!important}

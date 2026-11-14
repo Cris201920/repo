@@ -48,3 +48,7 @@ mude para `true`, rode `node build.js` e republique incluindo a capacidade `samp
 ## Animações
 Ficam em `src/animacoes.css` (movimento e cores) e `src/ui/animacoes.js` (onda no clique, pulso ao digitar, números que contam).
 São desligadas automaticamente para quem ativa "reduzir movimento" no aparelho. Para tirar tudo, remova `animacoes.css` da linha `ler('app.css') + ler('animacoes.css')` em `build.js`.
+
+## Paletas de cores
+Seis paletas (Ouro, Vinho, Esmeralda, Safira, Ametista, Cobre) no botão "Tema e cores", valem nos temas claro e escuro.
+A escolha é de cada pessoa e fica guardada no aparelho. As cores estão no fim de `src/app.css` (`:root[data-paleta="…"]`) e a lista em `src/ui/tema.js`.

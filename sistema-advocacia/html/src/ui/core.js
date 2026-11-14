@@ -185,14 +185,15 @@ async function baixarBlob(url, body, nome) {
 // ---------- Seletor de tema ----------
 const TEMAS = [['claro', 'Claro', 'sun'], ['escuro', 'Escuro', 'moon'], ['auto', 'Automático (do aparelho)', 'monitor']];
 const iconeTema = () => (TEMAS.find((t) => t[0] === Tema.pref()) || TEMAS[2])[2];
-const botaoTema = () => `<button type="button" class="tema-btn" aria-label="Escolher tema" aria-haspopup="menu" title="Tema">${ico(iconeTema())}</button>`;
+const botaoTema = () => `<button type="button" class="tema-btn" aria-label="Tema e cores" aria-haspopup="menu" title="Tema e cores">${ico(iconeTema())}</button>`;
 function ligarTema() { $$('.tema-btn').forEach((b) => (b.onclick = (e) => { e.stopPropagation(); abrirTema(b); })); }
 function fecharTema() { document.querySelectorAll('.tema-pop').forEach((p) => p.parentNode.removeChild(p)); }
 function abrirTema(ancora) {
   if ($('.tema-pop')) { fecharTema(); return; }
   const pop = document.createElement('div'); pop.className = 'tema-pop'; pop.setAttribute('role', 'menu');
   const atual = Tema.pref();
-  pop.innerHTML = '<h4>Tema</h4>' + TEMAS.map(([v, l, i]) => `<button type="button" role="menuitemradio" aria-checked="${v === atual}" data-v="${v}">${ico(i)} ${l}<span class="ck">${ico('check')}</span></button>`).join('');
+  pop.innerHTML = '<h4>Tema</h4>' + TEMAS.map(([v, l, i]) => `<button type="button" role="menuitemradio" aria-checked="${v === atual}" data-v="${v}">${ico(i)} ${l}<span class="ck">${ico('check')}</span></button>`).join('')
+    + '<h4>Cores</h4><div class="paletas" role="group" aria-label="Paleta de cores">' + Tema.PALETAS.map(([v, l, cor]) => `<button type="button" role="menuitemradio" aria-checked="${v === Tema.paleta()}" data-p="${v}" title="${l}" aria-label="${l}" style="background:${cor}">${ico('check')}</button>`).join('') + '</div>';
   document.body.append(pop);
   const r = ancora.getBoundingClientRect();
   pop.style.top = r.bottom + 8 + 'px';
@@ -201,7 +202,8 @@ function abrirTema(ancora) {
   const fora = (e) => { if (!pop.contains(e.target) && !ancora.contains(e.target)) fechar(); };
   const tecla = (e) => { if (e.key === 'Escape') { fechar(); ancora.focus(); } };
   document.addEventListener('mousedown', fora, true); document.addEventListener('keydown', tecla, true);
-  $$('button', pop).forEach((b) => (b.onclick = () => {
+  $$('button[data-p]', pop).forEach((b) => (b.onclick = () => { Tema.setPaleta(b.dataset.p); $$('button[data-p]', pop).forEach((x) => x.setAttribute('aria-checked', String(x === b))); }));
+  $$('button[data-v]', pop).forEach((b) => (b.onclick = () => {
     Tema.set(b.dataset.v);
     $$('.tema-btn').forEach((x) => (x.innerHTML = ico(iconeTema())));
     fechar(); toast('Tema: ' + TEMAS.find((t) => t[0] === b.dataset.v)[1].replace(' (do aparelho)', '') + '.');
