@@ -142,22 +142,32 @@ const Docs = (() => {
 
   // ---------- entrega de arquivos ao usuário ----------
   const PERMITIDAS = new Set(['gif', 'png', 'jpg', 'jpeg', 'webp', 'mp4', 'webm', 'mov', 'txt', 'json', 'md', 'docx', 'pptx', 'epub', 'csv', 'ttf', 'html', 'svg', 'pdf', 'xlsx', 'zip', 'fig']);
-  async function entregar(nome, dados) {
-    const b = Dados.backend;
+  const MSG_DOWNLOAD = {
+    rejected_extension: 'Este tipo de arquivo não pode ser baixado diretamente aqui.', extension_not_enabled: 'Este formato de arquivo está indisponível neste ambiente.',
+    too_large: 'O arquivo é grande demais para ser salvo de uma vez. Selecione menos itens e tente de novo.', rate_limited: 'Já há uma confirmação de download aberta. Responda a ela (ou aguarde um instante) e tente de novo.',
+    bad_request: 'O arquivo está vazio ou com nome inválido e não pôde ser salvo.', unavailable: 'Downloads não estão disponíveis neste ambiente.', not_granted: 'Downloads não estão liberados para esta página.',
+    capability_disabled: 'Downloads não estão disponíveis neste ambiente.', capability_removed: 'Downloads não estão disponíveis neste ambiente.', transform_error: 'O arquivo está vazio ou com nome inválido e não pôde ser salvo.',
+  };
+  const nomeArquivo = (n) => String(n || 'arquivo').replace(/[\\/:*?"<>|\u0000-\u001f]/g, '_').replace(/\s+/g, ' ').trim().replace(/^\.+/, '').slice(0, 150) || 'arquivo';
+  // Devolve true se o arquivo foi salvo e false se a pessoa recusou (recusar não é erro).
+  async function entregar(nomeBruto, dados) {
+    const b = Dados.backend, nome = nomeArquivo(nomeBruto);
     if (!b.downloadsOk) throw new Error('Este ambiente não permite baixar arquivos.');
+    const tamanho = dados instanceof Blob ? dados.size : dados && dados.length != null ? dados.length : String(dados || '').length;
+    if (!tamanho) throw new Error('O arquivo está vazio e não pôde ser baixado.');
     const e = ext(nome).slice(1);
     try {
       // a plataforma só aceita algumas extensões: as demais vão dentro de um ZIP
       if (b.tipo === 'claude' && !PERMITIDAS.has(e)) {
         const u8 = dados instanceof Blob ? new Uint8Array(await dados.arrayBuffer()) : dados instanceof Uint8Array ? dados : new TextEncoder().encode(String(dados));
-        return await b.salvar(nome + '.zip', new Blob([zipar({ [nome]: u8 })]));
-      }
-      return await b.salvar(nome, dados instanceof Uint8Array ? new Blob([dados]) : dados);
+        await b.salvar(nome + '.zip', new Blob([zipar({ [nome]: u8 })]));
+      } else await b.salvar(nome, dados instanceof Uint8Array ? new Blob([dados]) : dados);
+      return true;
     } catch (er) {
-      if (er && er.code === 'declined') return;                          // a pessoa recusou: não é erro
-      throw er instanceof Error ? er : new Error(er && er.message ? er.message : 'Não foi possível salvar o arquivo' + (er && er.code ? ` (${er.code})` : '') + '.');
+      if (er && er.code === 'declined') return false;                     // a pessoa recusou: não é erro
+      throw new Error((er && MSG_DOWNLOAD[er.code]) || (er instanceof Error && er.message) || 'Não foi possível salvar o arquivo' + (er && er.code ? ` (${er.code})` : '') + '.');
     }
   }
 
-  return { CATEGORIAS, TIPOS, MAX_UPLOAD, MAX_TEXTO, ext, para8, paginasPdf, extrairTexto, paginasComoImagens, mostrarPdf, contarPaginas, imagensParaPdf, extrairPaginas, carregarPdf, zipar, gerarDocx, entregar };
+  return { CATEGORIAS, TIPOS, MAX_UPLOAD, MAX_TEXTO, ext, para8, paginasPdf, extrairTexto, paginasComoImagens, mostrarPdf, contarPaginas, imagensParaPdf, extrairPaginas, carregarPdf, zipar, gerarDocx, entregar, nomeArquivo };
 })();

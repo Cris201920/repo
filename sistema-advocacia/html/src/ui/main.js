@@ -165,7 +165,7 @@ async function rotear() {
 document.addEventListener('click', (e) => {
   const a = e.target.closest && e.target.closest('a[href^="/api/documentos/"]'); if (!a) return;
   e.preventDefault(); const id = +/\/documentos\/(\d+)\//.exec(a.getAttribute('href'))[1];
-  LocalAPI.baixarDoc(id).catch(falha);
+  LocalAPI.baixarDoc(id).then((ok) => ok && toast('Arquivo salvo.')).catch(falha);
 });
 
 // ---------- início ----------

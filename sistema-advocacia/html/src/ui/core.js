@@ -179,7 +179,7 @@ function md(src) {
 // ---------- Download de arquivo gerado ----------
 async function baixarBlob(url, body, nome) {
   const blob = await LocalAPI.blob(url, body);
-  await Docs.entregar(nome, blob);            // a plataforma pede a confirmação da pessoa antes de salvar
+  if (await Docs.entregar(nome, blob)) toast('Arquivo salvo.');            // a plataforma pede a confirmação da pessoa antes de salvar
 }
 
 // ---------- Seletor de tema ----------

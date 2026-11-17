@@ -31,12 +31,12 @@ function fmtTelefone(v) {
 
 // ---------- planilha (CSV que o Excel abre direto) ----------
 function csvDe(colunas, linhas) {
-  const cel = (v) => { let t = v == null ? '' : String(v); if (/^[=+\-@\t\r]/.test(t)) t = "'" + t; return /[";\n\r]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
+  const cel = (v) => { let t = v == null ? '' : String(v); if (/^([=@\t\r]|[+-]\s*[^\d\s.,()+-])/.test(t)) t = "'" + t; return /[";\n\r]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
   return '﻿' + [colunas.map(([, r]) => cel(r)).join(';'), ...linhas.map((l) => colunas.map(([k]) => cel(typeof k === 'function' ? k(l) : l[k])).join(';'))].join('\r\n') + '\r\n';
 }
 async function baixarPlanilha(nome, colunas, linhas) {
   if (!linhas.length) return toast('Não há nada para exportar com este filtro.', true);
-  try { await Docs.entregar(`${nome}-${hojeISO()}.csv`, new Blob([csvDe(colunas, linhas)], { type: 'text/csv' })); } catch (e) { falha(e); }
+  try { if (await Docs.entregar(`${nome}-${hojeISO()}.csv`, new Blob([csvDe(colunas, linhas)], { type: 'text/csv' }))) toast(`Planilha salva (${linhas.length} linha(s)).`); } catch (e) { falha(e); }
 }
 
 // ---------- idade e WhatsApp ----------

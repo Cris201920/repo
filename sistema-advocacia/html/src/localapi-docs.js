@@ -232,7 +232,7 @@ const Arq = {
   async function bytesDoc(id, acao = 'visualizar') {
     const d = docOu404(id), u8 = await Arq.ler(d.asset_id); await auditar(acao, 'documentos', d.id, d.nome_original); return { u8, doc: d };
   }
-  async function baixarDoc(id) { const { u8, doc } = await bytesDoc(id, 'baixar'); await Docs.entregar(doc.nome_original, new Blob([u8], { type: doc.mime })); }
+  async function baixarDoc(id) { const { u8, doc } = await bytesDoc(id, 'baixar'); return Docs.entregar(doc.nome_original, new Blob([u8], { type: doc.mime })); }
 
   // ---------- ficha do cliente em Word ----------
   function fichaMarkdown(id) {

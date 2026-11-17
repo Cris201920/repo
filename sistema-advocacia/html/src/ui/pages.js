@@ -170,7 +170,7 @@ function visualizarDoc(id) {
       : /^text\//.test(mime) || /\.(txt|csv|md)$/i.test(d.nome_original || '') ? `<pre class="viewer-txt" id="vtxt" style="white-space:pre-wrap;max-height:70vh;overflow:auto"></pre>`
       : `<div class="empty">${ico('file')}Este formato não tem visualização no navegador. Use “Baixar”.</div>`;
     let url = null;
-    const m = modal({ titulo: d.titulo, tamanho: 'lg', corpo: corpo + `<h3 style="margin:18px 0 8px">Observações sobre este documento</h3><div id="notasDoc"></div>`, botoes: [{ texto: 'Fechar' }, { texto: 'Baixar', acao: () => { LocalAPI.baixarDoc(id).catch(falha); return false; } },
+    const m = modal({ titulo: d.titulo, tamanho: 'lg', corpo: corpo + `<h3 style="margin:18px 0 8px">Observações sobre este documento</h3><div id="notasDoc"></div>`, botoes: [{ texto: 'Fechar' }, { texto: 'Baixar', acao: () => { LocalAPI.baixarDoc(id).then((ok) => ok && toast('Arquivo salvo.')).catch(falha); return false; } },
       ...(COM_IA ? [{ texto: 'Analisar com IA', classe: 'gold', acao: () => { abrirAssistenteCom({ cliente_id: d.cliente_id, processo_id: d.processo_id, documentos_ids: [d.id], prompt: 'Resuma este documento e destaque: partes, objeto, datas e prazos, valores, obrigações, cláusulas ou pontos de risco e inconsistências.' }); } }] : [])] });
     if ($('#vpdf', m.el)) Docs.mostrarPdf(u8, $('#vpdf', m.el)).catch((e) => { $('#vpdf', m.el).innerHTML = `<div class="empty">Não foi possível exibir o PDF aqui. Use “Baixar”.</div>`; });
     if ($('#vimg', m.el)) { url = URL.createObjectURL(new Blob([u8], { type: mime })); $('#vimg', m.el).src = url; }
@@ -373,7 +373,7 @@ async function pageCliente(id) {
   $('#up').onclick = () => abrirUpload({ cliente_id: c.id }, rec);
   $('#ed').onclick = async () => { try { abrirCliente(await api('/clientes/' + id), rec); } catch (e) { falha(e); } };
   if (COM_IA) $('#ia').onclick = () => abrirAssistenteCom({ cliente_id: c.id });
-  $('#ficha').onclick = async () => { const b = $('#ficha'); b.disabled = true; try { const f = await LocalAPI.fichaBlob(c.id); await Docs.entregar(f.nome, f.blob); } catch (e) { falha(e); } finally { b.disabled = false; } };
+  $('#ficha').onclick = async () => { const b = $('#ficha'); b.disabled = true; try { const f = await LocalAPI.fichaBlob(c.id); if (await Docs.entregar(f.nome, f.blob)) toast('Ficha salva.'); } catch (e) { falha(e); } finally { b.disabled = false; } };
   $('#arq').onclick = async () => { await api(`/clientes/${id}/ativo`, { method: 'POST', body: { ativo: !c.ativo } }); cache.clientes = null; rec(); };
   $$('tr[data-p]').forEach((tr) => (tr.onclick = () => (location.hash = '#/processos/' + tr.dataset.p)));
   ligarAcoesDocs();
@@ -432,20 +432,27 @@ async function pageProcesso(id) {
 }
 
 // ======================= ACESSO E SEGURANÇA / AUDITORIA / SENHA =======================
-async function exportarCopia() {
-  const dump = {}, arquivos = {};
-  for (const n of ['clientes', 'processos', 'atendimentos', 'documentos', 'pastas', 'notas', 'pendencias', 'auditoria', 'conversas']) dump[n] = Dados.lista(n);
-  const usados = new Set();
+async function exportarCopia(aoAvancar) {
+  const dump = {}, arquivos = {}, faltando = [];
+  for (const n of ['clientes', 'processos', 'atendimentos', 'documentos', 'pastas', 'notas', 'pendencias', 'auditoria']) dump[n] = Dados.lista(n);
+  const usados = new Set(); let feitos = 0;
   for (const d of dump.documentos) {
     try {
-      let nome = `arquivos/${d.id}-${String(d.nome_original || 'arquivo').replace(/[\\/:*?"<>|\0]/g, '_')}`;
-      while (usados.has(nome)) nome += '_';
-      usados.add(nome); arquivos[nome] = await Arq.ler(d.asset_id);
-    } catch { /* arquivo ausente: segue */ }
+      let nome = `arquivos/${d.id}-${Docs.nomeArquivo(d.nome_original)}`;
+      while (usados.has(nome.toLowerCase())) nome += '_';
+      const u8 = await Arq.ler(d.asset_id); usados.add(nome.toLowerCase()); arquivos[nome] = u8;
+    } catch { faltando.push(`${d.titulo || d.nome_original || d.id} (${d.nome_original || 'sem nome'})`); }       // o arquivo sumiu do armazenamento
+    if (aoAvancar) aoAvancar(++feitos, dump.documentos.length);
   }
-  arquivos['dados.json'] = new TextEncoder().encode(JSON.stringify({ escritorio: S.firma.nome, exportado_em: new Date().toISOString(), dados: dump }, null, 1));
-  arquivos['LEIA-ME.txt'] = new TextEncoder().encode('Cópia de segurança do sistema do escritório.\nATENÇÃO: este arquivo NÃO está criptografado e contém dados sigilosos de clientes. Guarde em local seguro e apague quando não precisar mais.\n');
-  await Docs.entregar(`copia-${S.firma.nome.replace(/\s+/g, '_')}-${new Date().toISOString().slice(0, 10)}.zip`, new Blob([Docs.zipar(arquivos)], { type: 'application/zip' }));
+  const quando = new Date().toISOString();
+  arquivos['dados.json'] = new TextEncoder().encode(JSON.stringify({ escritorio: S.firma.nome, exportado_em: quando, dados: dump }, null, 1));
+  arquivos['LEIA-ME.txt'] = new TextEncoder().encode(['Cópia de segurança do sistema do escritório.', `Gerada em ${quando.slice(0, 10)} · ${dump.clientes.length} cliente(s), ${dump.processos.length} caso(s), ${dump.atendimentos.length} atendimento(s), ${dump.documentos.length - faltando.length} arquivo(s).`,
+    'ATENÇÃO: este arquivo NÃO está criptografado e contém dados sigilosos de clientes. Guarde em local seguro e apague quando não precisar mais.', 'Para restaurar: Acesso e segurança > Restaurar de uma cópia.',
+    ...(faltando.length ? ['', `ARQUIVOS QUE NÃO FORAM INCLUÍDOS (${faltando.length}) porque não foram encontrados no armazenamento:`, ...faltando.map((f) => '- ' + f)] : [])].join('\r\n'));
+  const nome = `copia-${Docs.nomeArquivo(S.firma.nome).replace(/\s+/g, '_')}-${quando.slice(0, 10)}.zip`;
+  const salvo = await Docs.entregar(nome, new Blob([Docs.zipar(arquivos)], { type: 'application/zip' }));
+  if (salvo) await LocalAPI.auditar('exportar_copia', 'config', null, `${dump.documentos.length - faltando.length} arquivo(s)${faltando.length ? `, ${faltando.length} não encontrado(s)` : ''}`);
+  return { salvo, faltando };
 }
 
 async function pageAcesso() {
@@ -469,7 +476,13 @@ async function pageAcesso() {
       <p style="margin:0">Depois de <b>${INATIVIDADE_MIN} minutos sem uso</b>, o sistema volta a pedir a senha do escritório. Ao sair da mesa, use também “Bloquear (sair)” no menu do seu nome.</p></div></div>
     ${COM_IA ? `<div class="card" style="margin-top:18px"><div class="card-h"><h3>Assistente de IA</h3>${iaOk ? '<span class="badge ok">Disponível</span>' : '<span class="badge">Indisponível</span>'}</div><div class="card-b" id="iaCard"></div></div>` : ''}`);
   if ($('#trocar')) $('#trocar').onclick = abrirSenha;
-  $('#bk').onclick = async () => { try { toast('Preparando a cópia…'); await exportarCopia(); } catch (e) { falha(e); } };
+  $('#bk').onclick = async () => {
+    const b = $('#bk'), rot = b.innerHTML; b.disabled = true;
+    try {
+      const r = await exportarCopia((f, t) => { b.textContent = `Preparando… ${f} de ${t}`; });
+      if (r.salvo) toast(r.faltando.length ? `Cópia salva, mas ${r.faltando.length} arquivo(s) não foram encontrados (veja o LEIA-ME.txt dentro do ZIP).` : 'Cópia de segurança salva.', !!r.faltando.length);
+    } catch (e) { falha(e); } finally { b.disabled = false; b.innerHTML = rot; }
+  };
   if ($('#rs')) { $('#rs').onclick = () => $('#rsArq').click(); $('#rsArq').onchange = (e) => { const f = e.target.files[0]; e.target.value = ''; if (f) restaurarCopiaUI(f, pageAcesso); }; }
   const box = $('#iaCard');
   if (!box) return;
