@@ -11,48 +11,37 @@ const guardaSessao = {
 function telaCofre({ modo, meta, mensagem = '' }) {
   const f = S.firma;
   const criar = modo === 'criar', aguardar = modo === 'aguardar', semAcesso = modo === 'sem-acesso';
-  const titulo = criar ? 'Crie a senha do escritório' : aguardar ? 'Senha ainda não criada' : semAcesso ? 'Sem acesso aos dados' : 'Acesso restrito';
-  const sub = criar ? 'Esta senha protege TODOS os dados do escritório com criptografia no seu navegador. Combine-a com a equipe.'
-    : aguardar ? 'O administrador do escritório ainda não criou a senha. Peça a ele para abrir este endereço primeiro.'
+  const titulo = criar ? 'Primeiro acesso' : aguardar ? 'Sistema ainda não iniciado' : semAcesso ? 'Sem acesso aos dados' : 'Acesso restrito';
+  const sub = criar ? 'Os dados do escritório serão protegidos com a senha padrão. Depois disso, todos entram com ela.'
+    : aguardar ? 'O administrador do escritório ainda não iniciou o sistema. Peça a ele para abrir este endereço primeiro.'
       : semAcesso ? 'Abra esta página pelo Claude, logado na sua conta, e peça ao administrador para convidar você como Editor.'
-        : 'Sistema interno do escritório. Digite a senha do escritório.';
+        : 'Sistema interno do escritório. Digite a senha.';
   $('#app').innerHTML = `<div class="login"><div class="login-tema">${botaoTema()}</div><form class="login-card" id="lf" autocomplete="off">
     ${logoImg('logo', f.nome)}
     <h2>${titulo}</h2><p class="sub">${sub}</p><div id="le">${mensagem ? `<div class="err-msg">${esc(mensagem)}</div>` : ''}</div>
-    ${aguardar || semAcesso ? '' : `<div style="margin-bottom:12px"><label for="senha">${criar ? 'Nova senha do escritório' : 'Senha do escritório'}</label><input id="senha" type="password" required autocomplete="${criar ? 'new-password' : 'current-password'}">
-      ${criar ? '<div class="small" style="color:var(--ink-3);margin-top:4px">Mínimo de 12 caracteres, com letras e números — de preferência uma frase longa.</div>' : ''}</div>`}
-    ${criar ? `<div style="margin-bottom:12px"><label for="senha2">Repita a senha</label><input id="senha2" type="password" required autocomplete="new-password"><button type="button" class="linkbtn-inline" id="padrao">Usar a senha padrão (ADV2027)</button><div class="small" id="avisoPadrao" style="color:var(--warn)" hidden>Senha curta e previsível: protege menos. Quem conseguir copiar os dados armazenados pode tentar adivinhá-la com programas.</div></div>
-      <label class="chk small" style="margin-bottom:14px;align-items:flex-start"><input type="checkbox" id="ciente" style="margin-top:3px"> <span>Entendo que <b>se esta senha e a chave de recuperação (que será mostrada a seguir) forem perdidas, ninguém consegue recuperar os dados</b> (nem o Claude nem eu). Vou guardá-las em local seguro.</span></label>` : ''}
+    ${modo === 'abrir' ? '<div style="margin-bottom:12px"><label for="senha">Senha</label><input id="senha" type="password" required autocomplete="current-password"></div>' : ''}
     ${aguardar || semAcesso ? '' : `<label class="chk small" style="margin-bottom:14px"><input type="checkbox" id="lembrar" checked> Manter aberto enquanto esta aba estiver aberta</label>
-      <button class="btn gold" style="width:100%;justify-content:center;padding:11px" id="lb">${criar ? 'Criar senha e entrar' : 'Entrar'}</button>`}
-    ${modo === 'abrir' ? '<button type="button" class="linkbtn" id="esqueci">Esqueci a senha</button>' : ''}
+      <button class="btn gold" style="width:100%;justify-content:center;padding:11px" id="lb">${criar ? 'Iniciar o sistema' : 'Entrar'}</button>`}
     <div class="login-foot">Conteúdo protegido por sigilo profissional · ${esc(f.nome)}</div></form></div>`;
   ligarTema();
-  if ($('#padrao')) { const av = () => { $('#avisoPadrao').hidden = $('#senha').value !== Cofre.SENHA_PADRAO; }; $('#padrao').onclick = () => { $('#senha').value = $('#senha2').value = Cofre.SENHA_PADRAO; av(); }; $('#senha').addEventListener('input', av); }
-  if ($('#esqueci')) $('#esqueci').onclick = () => esqueciASenha(meta);
-  if (!$('#senha')) return;
-  $('#senha').focus();
+  if (!$('#lb')) return;
+  if ($('#senha')) $('#senha').focus();
   $('#lf').onsubmit = async (e) => {
-    e.preventDefault(); const bt = $('#lb'), erro = (m) => { $('#le').innerHTML = `<div class="err-msg">${esc(m)}</div>`; bt.disabled = false; bt.textContent = criar ? 'Criar senha e entrar' : 'Entrar'; };
+    e.preventDefault(); const bt = $('#lb'), erro = (m) => { $('#le').innerHTML = `<div class="err-msg">${esc(m)}</div>`; bt.disabled = false; bt.textContent = criar ? 'Iniciar o sistema' : 'Entrar'; };
     bt.disabled = true; bt.textContent = 'Verificando…'; $('#le').innerHTML = '';
     try {
-      const senha = $('#senha').value; let master, chaveNova = null;
+      let master;
       if (criar) {
-        const msg = Cofre.avaliarSenha(senha); if (msg) return erro(msg);
-        if (senha !== $('#senha2').value) return erro('As duas senhas não são iguais.');
-        if (!$('#ciente').checked) return erro('Marque que entendeu que, sem a senha e a chave de recuperação, os dados não podem ser recuperados.');
-        if (await B.obter('config', 'seguranca')) return erro('Outra pessoa acabou de criar a senha. Recarregue a página e entre com ela.');
-        const c = await Cofre.criar(senha); master = c.master;
-        chaveNova = senha === Cofre.SENHA_PADRAO ? Cofre.SENHA_PADRAO : Cofre.gerarChaveRecuperacao();   // com a senha padrão, a chave também é a padrão
-        await B.definir('config', 'seguranca', await Cofre.comRecuperacao(c.meta, master, chaveNova));
+        if (await B.obter('config', 'seguranca')) return erro('Outra pessoa acabou de iniciar o sistema. Recarregue a página e entre com a senha.');
+        const c = await Cofre.criar(Cofre.SENHA_PADRAO); master = c.master;
+        await B.definir('config', 'seguranca', c.meta);
       } else {
-        master = await Cofre.abrir(meta, senha);
+        master = await Cofre.abrir(meta, $('#senha').value);
         if (!master) return erro('Senha incorreta.');
       }
       if ($('#lembrar').checked) guardaSessao.gravar(await Cofre.exportar(master)); else guardaSessao.gravar(null);
       await entrar(master);
-      if (chaveNova) mostrarChaveRecuperacao(chaveNova, true);
-    } catch (err) { erro(err && err.code === 'invalid_argument' ? 'Sem permissão para criar a senha: só o dono ou um Editor pode.' : (err.message || 'Falha ao entrar.')); }
+    } catch (err) { erro(err && err.code === 'invalid_argument' ? 'Sem permissão para iniciar o sistema: só o dono ou um Editor pode.' : (err.message || 'Falha ao entrar.')); }
   };
 }
 
@@ -100,14 +89,13 @@ function renderShell() {
       <button class="btn sm gold" id="novidades" hidden>↻ Há novidades de colegas — atualizar</button>
       <div style="margin-left:auto">${botaoTema()}</div>
       <div style="position:relative"><button class="userbtn" id="ub"><span class="avatar">${esc(iniciais(u.nome))}</span><span class="small" style="font-weight:600">${esc(primeiroNome(u.nome))}</span></button>
-        <div class="menu" id="um" hidden><div class="who"><b>${esc(u.nome)}</b><div class="small muted">${B.tipo === 'claude' ? (u.papel === 'admin' ? 'Editor / dono' : 'Colaborador') : 'Neste aparelho'}</div></div>${u.papel === 'admin' ? '<button id="msenha">Alterar senha do escritório</button>' : ''}<button id="msair">Bloquear (sair)</button></div></div></header>
+        <div class="menu" id="um" hidden><div class="who"><b>${esc(u.nome)}</b><div class="small muted">${B.tipo === 'claude' ? (u.papel === 'admin' ? 'Editor / dono' : 'Colaborador') : 'Neste aparelho'}</div></div><button id="msair">Bloquear (sair)</button></div></div></header>
       ${B.podeGravar === false ? '<div class="note" style="margin:12px 28px 0">Você está com acesso <b>somente leitura</b>: peça ao dono para convidar você como Editor para poder lançar dados.</div>' : ''}
       <main class="content" id="view"></main></div></div>`;
   ligarTema();
   $('#burger').onclick = () => $('#side').classList.toggle('open');
   $('#ub').onclick = (e) => { e.stopPropagation(); $('#um').hidden = !$('#um').hidden; };
   document.addEventListener('click', (e) => { if (!e.target.closest('#um')) $('#um') && ($('#um').hidden = true); if (!e.target.closest('.search')) $('#gr') && ($('#gr').hidden = true); });
-  if ($('#msenha')) $('#msenha').onclick = () => { $('#um').hidden = true; abrirSenha(); };
   $('#msair').onclick = bloquear;
   $('#novidades').onclick = () => { $('#novidades').hidden = true; rotear(); };
   const buscar = debounce(async () => {
@@ -192,42 +180,3 @@ async function iniciar() {
 }
 window.addEventListener('hashchange', rotear);
 iniciar().catch((e) => { $('#app').innerHTML = `<div class="login"><div class="login-card"><h2>Não foi possível carregar</h2><p class="sub">${esc(e.message)}</p></div></div>`; });
-
-
-// ---------- esqueci a senha ----------
-function esqueciASenha(meta) {
-  if (!meta || !meta.rec) {
-    return modal({ titulo: 'Esqueci a senha', tamanho: 'sm', corpo: `<p style="margin-top:0">Este sistema <b>não consegue recuperar a senha</b>: ela protege os dados com criptografia, e nem o Claude nem quem o criou tem como abri-los sem ela.</p>
-      <p><b>O que você pode fazer:</b></p><ol style="padding-left:20px;line-height:1.6;margin-top:0"><li>Procurar a senha onde ela foi anotada ou com quem a criou (a pessoa que publicou o sistema).</li><li>Se o sistema foi criado antes da <b>chave de recuperação</b> existir e alguém ainda está com ele aberto neste navegador, entre em <i>Acesso e segurança</i> e gere uma chave agora.</li><li>Tendo um arquivo de <b>cópia de segurança</b>, os dados podem ser restaurados em um sistema novo.</li></ol>`, botoes: [{ texto: 'Entendi' }] });
-  }
-  modal({ titulo: 'Esqueci a senha', tamanho: 'sm', corpo: `<p style="margin-top:0">Digite a <b>chave de recuperação</b> (a que foi mostrada quando a senha foi criada) e escolha uma nova senha. Os dados continuam os mesmos.</p>
-    <form class="f" id="fr" onsubmit="return false"><div class="c6"><label for="rc">Chave de recuperação</label><input id="rc" type="text" autocomplete="off" spellcheck="false" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX" style="font-family:ui-monospace,Menlo,Consolas,monospace;text-transform:uppercase"></div>
-    <div class="c6"><label for="rn">Nova senha do escritório</label><input id="rn" type="password" autocomplete="new-password"><div class="small muted">Mínimo de 12 caracteres, com letras e números.</div></div>
-    <div class="c6"><label for="rn2">Repita a nova senha</label><input id="rn2" type="password" autocomplete="new-password"></div></form>`,
-    botoes: [{ texto: 'Cancelar' }, { texto: 'Criar nova senha', classe: 'gold', acao: async (ov) => {
-      const chave = $('#rc', ov).value, nova = $('#rn', ov).value;
-      const msg = Cofre.avaliarSenha(nova); if (msg) throw new Error(msg);
-      if (nova !== $('#rn2', ov).value) throw new Error('As duas senhas não são iguais.');
-      const master = await Cofre.abrirComRecuperacao(meta, chave); if (!master) throw new Error('Chave de recuperação incorreta. Confira os caracteres e os hifens.');
-      let novo; try { novo = await Cofre.trocarSenha(master, nova, undefined, meta); await B.definir('config', 'seguranca', novo); } catch (e) { throw new Error(e && e.code === 'invalid_argument' ? 'Sem permissão para trocar a senha: só o dono ou um Editor pode.' : (e.message || 'Não foi possível gravar a nova senha.')); }
-      guardaSessao.gravar(null);
-      ov.parentNode && ov.parentNode.removeChild(ov);
-      await entrar(master); toast('Nova senha criada. Você já está dentro.');
-      return false;
-    } }] });
-}
-
-// ---------- mostrar a chave de recuperação (uma única vez) ----------
-function mostrarChaveRecuperacao(chave, primeira = false) {
-  const m = modal({ titulo: 'Guarde a chave de recuperação', tamanho: 'sm',
-    corpo: `<p style="margin-top:0">${primeira ? 'A senha foi criada. ' : ''}Se um dia a senha do escritório for esquecida, <b>esta chave</b> permite criar uma nova <b>sem perder nenhum dado</b>. Ela <b>não será mostrada de novo</b>.</p>
-      <div style="background:var(--gold-soft);border-radius:8px;padding:14px;text-align:center;font:600 18px/1.4 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;user-select:all;word-break:break-all">${esc(chave)}</div>
-      <p class="note small">Anote no papel e guarde em local seguro, <b>separado da senha</b> (por exemplo, no cofre do escritório). Quem tiver esta chave consegue abrir os dados.</p>
-      <label class="chk"><input type="checkbox" id="anotei"> Já guardei a chave em local seguro</label>`,
-    botoes: [{ texto: 'Copiar chave', acao: async () => { try { await copiarTexto(chave); toast('Chave copiada.'); } catch { toast('Não foi possível copiar: selecione o texto e copie.', true); } return false; } },
-      { texto: 'Baixar (.txt)', acao: async () => { try { await Docs.entregar('chave-de-recuperacao.txt', `Chave de recuperação - ${S.firma.nome}\r\n\r\n${chave}\r\n\r\nGuarde em local seguro, separado da senha. Quem tiver esta chave consegue abrir os dados.\r\n`); } catch (e) { falha(e); } return false; } },
-      { texto: 'Concluir', classe: 'gold', acao: async (ov) => { if (!$('#anotei', ov).checked) throw new Error('Marque que guardou a chave antes de concluir.'); } }] });
-  m.el.dataset.travar = '1';
-  const x = $('.x', m.el); if (x) x.hidden = true;
-  return m;
-}
