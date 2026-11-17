@@ -695,7 +695,34 @@ const Cofre = (() => {
     } catch { return null; }
   }
   const exportar = async (master) => b64(new Uint8Array(await subtle.exportKey('raw', master)));
-  const trocarSenha = (master, novaSenha, iter = ITER) => montarMeta(master, novaSenha, iter);
+  // trocar a senha mantém a chave de recuperação (se houver) do cadastro anterior
+  async function trocarSenha(master, novaSenha, iter = ITER, metaAntiga = null) {
+    const m = await montarMeta(master, novaSenha, iter);
+    if (metaAntiga && metaAntiga.rec) m.rec = metaAntiga.rec;
+    return m;
+  }
+
+  // ---- chave de recuperação: uma segunda "senha", longa e sorteada, que também abre a chave mestra (guardada no papel pelo escritório)
+  const ALFABETO = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';                  // sem 0/O/1/I para não confundir ao copiar à mão
+  function gerarChaveRecuperacao() {
+    const r = crypto.getRandomValues(new Uint8Array(24)); let s = '';
+    for (let i = 0; i < 24; i++) s += ALFABETO[r[i] % ALFABETO.length] + (i % 4 === 3 && i < 23 ? '-' : '');
+    return s;
+  }
+  const limparChave = (k) => String(k || '').toUpperCase().replace(/[^A-Z2-9]/g, '').replace(/[OIL01]/g, '');
+  async function comRecuperacao(meta, master, chave) {
+    const salt = crypto.getRandomValues(new Uint8Array(16)), iter = 100000, kek = await chaveDaSenha(limparChave(chave), salt, iter);
+    const raw = new Uint8Array(await subtle.exportKey('raw', master));
+    return { ...meta, rec: { salt: b64(salt), iter, wrapped: b64(await cifrarBytes(kek, raw)) } };
+  }
+  async function abrirComRecuperacao(meta, chave) {
+    try {
+      if (!meta || !meta.rec) return null;
+      const kek = await chaveDaSenha(limparChave(chave), unb64(meta.rec.salt), meta.rec.iter);
+      const m = await importar(await decifrarBytes(kek, unb64(meta.rec.wrapped)));
+      return td.decode(await decifrarBytes(m, unb64(meta.ver))) === 'advocacia-ok' ? m : null;
+    } catch { return null; }
+  }
 
   // um campo = um valor JSON cifrado ("iv+texto" em base64). Campos separados permitem gravar só o que mudou.
   async function campo(master, valor) { return b64(await cifrarBytes(master, te.encode(JSON.stringify(valor === undefined ? null : valor)))); }
@@ -713,7 +740,7 @@ const Cofre = (() => {
     if (/^(.)\1+$/.test(s) || /^(1234|abcd|senha|password|qwer)/i.test(s)) return 'Essa senha é fácil demais de adivinhar.';
     return null;
   }
-  return { criar, abrir, abrirComChaveSalva, exportar, trocarSenha, campo, lerCampo, bytes, lerBytes, sha256, b64, unb64, avaliarSenha, ITER };
+  return { criar, abrir, abrirComChaveSalva, exportar, trocarSenha, gerarChaveRecuperacao, comRecuperacao, abrirComRecuperacao, campo, lerCampo, bytes, lerBytes, sha256, b64, unb64, avaliarSenha, ITER };
 })();
 
 /* Backends: onde os dados (já cifrados) ficam guardados.
@@ -1884,8 +1911,18 @@ const LocalAPI = (() => {
     const erro = Cofre.avaliarSenha(body.nova); if (erro) throw bad(erro);
     const meta = await Dados.backend.obter('config', 'seguranca');
     if (!meta || !(await Cofre.abrir(meta, String(body.atual || '')))) throw bad('Senha atual incorreta.');
-    await Dados.backend.definir('config', 'seguranca', await Cofre.trocarSenha(Dados.master, String(body.nova)));
+    await Dados.backend.definir('config', 'seguranca', await Cofre.trocarSenha(Dados.master, String(body.nova), undefined, meta));
     await auditar('senha_alterada', 'config', null, 'Senha do escritório alterada'); return { ok: true };
+  });
+  // chave de recuperação: gera (ou troca) a chave que permite criar uma nova senha se a atual for esquecida
+  rota('GET', '/auth/recuperacao', async () => { const meta = await Dados.backend.obter('config', 'seguranca'); return { ativa: !!(meta && meta.rec) }; });
+  rota('POST', '/auth/recuperacao', async ({ body, usuario }) => {
+    if (usuario.papel !== 'admin') throw new HttpError(403, 'Só quem administra pode gerar a chave de recuperação.');
+    const meta = await Dados.backend.obter('config', 'seguranca');
+    if (!meta || !(await Cofre.abrir(meta, String(body.atual || '')))) throw bad('Senha atual incorreta.');
+    const chave = Cofre.gerarChaveRecuperacao();
+    await Dados.backend.definir('config', 'seguranca', await Cofre.comRecuperacao(meta, Dados.master, chave));
+    await auditar('chave_recuperacao', 'config', null, meta.rec ? 'Chave de recuperação substituída' : 'Chave de recuperação criada'); return { chave };
   });
   rota('GET', '/admin/auditoria', () => Dados.lista('auditoria').sort(desc('id')).slice(0, 300).map((a) => ({ ...a, ip: '' })));
 
@@ -2313,7 +2350,7 @@ function modal({ titulo, corpo, botoes = [], tamanho = '', aoAbrir, aoFechar }) 
     if (sujo()) { perguntando = true; const sim = await confirmar('Fechar sem salvar? O que foi digitado será perdido.', { texto: 'Fechar sem salvar', perigo: true, titulo: 'Descartar o que foi digitado' }); perguntando = false; if (!sim) return; }
     fechar();
   };
-  const esc_ = (e) => { if (e.key === 'Escape' && ov === [...document.querySelectorAll('.overlay:not(.saindo)')].pop()) sair(); };
+  const esc_ = (e) => { if (e.key === 'Escape' && !ov.dataset.travar && ov === [...document.querySelectorAll('.overlay:not(.saindo)')].pop()) sair(); };
   document.addEventListener('keydown', esc_);
   $('.x', ov).onclick = sair;
   ov.addEventListener('mousedown', (e) => { if (e.target === ov && !ov.dataset.travar && !sujo()) fechar(); });
@@ -3016,13 +3053,17 @@ async function pageAcesso() {
   view(`<div class="page-h"><div><h1>Acesso e segurança</h1><div class="sub">Como a equipe entra e como os dados são protegidos</div></div></div>
     <div class="card"><div class="card-h"><h3>Senha do escritório</h3><span class="badge ok">Criptografia ativa</span></div><div class="card-b">
       <p style="margin-top:0">Todos os dados (clientes, atendimentos, documentos, notas) são <b>criptografados neste aparelho</b> com a senha do escritório antes de serem guardados. Quem não souber a senha — inclusive quem tiver acesso ao armazenamento — vê apenas texto ilegível.</p>
-      <p class="note small"><b>Atenção:</b> a senha <b>não pode ser recuperada</b>. Se for esquecida, os dados ficam inacessíveis. Faça cópias de segurança periódicas (abaixo) e guarde a senha em local seguro. Trocar a senha não apaga nada, mas quem já tiver copiado os dados antes continua com a cópia.</p>
+      <p class="note small"><b>Atenção:</b> a senha <b>não pode ser recuperada pelo sistema</b>. Se for esquecida, só a <b>chave de recuperação</b> (abaixo) devolve o acesso; sem ela, os dados ficam inacessíveis. Faça cópias de segurança periódicas (abaixo) e guarde a senha em local seguro. Trocar a senha não apaga nada, mas quem já tiver copiado os dados antes continua com a cópia.</p>
       ${adm ? '<button class="btn gold" id="trocar">Alterar senha do escritório</button>' : '<p class="small muted">Só quem administra pode trocar a senha.</p>'}</div></div>
     ${claude ? `<div class="card" style="margin-top:18px"><div class="card-h"><h3>Como dar acesso à equipe</h3></div><div class="card-b">
       <ol style="margin-top:0;padding-left:20px;line-height:1.6"><li>Cada pessoa precisa de uma conta no Claude (claude.ai).</li>
       <li>Quem publicou este sistema abre o menu <b>Compartilhar</b> da página e convida o e-mail de cada colaborador como <b>Editor</b> (só Editores conseguem gravar).</li>
       <li>A pessoa abre o link, informa a <b>senha do escritório</b> e pronto: tudo é sincronizado entre os aparelhos.</li></ol>
       <p class="small muted" style="margin-bottom:0">Quem não foi convidado não consegue abrir o sistema — e, mesmo que alguém consiga o link, sem a senha do escritório os dados continuam ilegíveis.</p></div></div>` : ''}
+    ${adm ? `<div class="card" style="margin-top:18px"><div class="card-h"><h3>Chave de recuperação</h3><span class="badge" id="recBadge">…</span></div><div class="card-b">
+      <p style="margin-top:0">Se a senha do escritório for esquecida, a tela de senha tem a opção <b>“Esqueci a senha”</b>, que aceita esta chave e permite criar uma nova senha <b>sem perder os dados</b>.</p>
+      <p class="small muted">Gerar uma nova chave invalida a anterior. A chave aparece uma única vez: anote e guarde separada da senha.</p>
+      <button class="btn" id="recGerar">Gerar chave de recuperação</button></div></div>` : ''}
     <div class="card" style="margin-top:18px"><div class="card-h"><h3>Cópia de segurança</h3></div><div class="card-b">
       <p style="margin-top:0">Baixa um arquivo ZIP com todos os dados e documentos. <b>A cópia não é criptografada</b>: guarde em local seguro.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="bk">${ico('down')} Baixar cópia de segurança</button>${adm ? `<button class="btn" id="rs">${ico('upload')} Restaurar de uma cópia</button><input type="file" id="rsArq" accept=".zip,application/zip" hidden>` : ''}</div>
@@ -3031,6 +3072,11 @@ async function pageAcesso() {
       <p style="margin:0">Depois de <b>${INATIVIDADE_MIN} minutos sem uso</b>, o sistema volta a pedir a senha do escritório. Ao sair da mesa, use também “Bloquear (sair)” no menu do seu nome.</p></div></div>
     ${COM_IA ? `<div class="card" style="margin-top:18px"><div class="card-h"><h3>Assistente de IA</h3>${iaOk ? '<span class="badge ok">Disponível</span>' : '<span class="badge">Indisponível</span>'}</div><div class="card-b" id="iaCard"></div></div>` : ''}`);
   if ($('#trocar')) $('#trocar').onclick = abrirSenha;
+  if ($('#recGerar')) {
+    api('/auth/recuperacao').then((r) => { const b = $('#recBadge'); if (!b) return; b.textContent = r.ativa ? 'Ativa' : 'Não configurada'; b.className = 'badge ' + (r.ativa ? 'ok' : 'warn'); if (r.ativa) $('#recGerar').textContent = 'Gerar nova chave'; }).catch(() => {});
+    $('#recGerar').onclick = () => modal({ titulo: 'Gerar chave de recuperação', tamanho: 'sm', corpo: formHTML([{ n: 'atual', label: 'Confirme com a senha atual do escritório', tipo: 'password', col: 'c6' }]) + '<p class="note small">Se já existia uma chave, ela deixa de valer.</p>',
+      botoes: [{ texto: 'Cancelar' }, { texto: 'Gerar', classe: 'gold', acao: async (ov) => { const r = await api('/auth/recuperacao', { method: 'POST', body: lerForm(ov) }); setTimeout(() => { mostrarChaveRecuperacao(r.chave); pageAcesso(); }, 250); } }] });
+  }
   $('#bk').onclick = async () => {
     const b = $('#bk'), rot = b.innerHTML; b.disabled = true;
     try {
@@ -3749,31 +3795,35 @@ function telaCofre({ modo, meta, mensagem = '' }) {
     ${aguardar || semAcesso ? '' : `<div style="margin-bottom:12px"><label for="senha">${criar ? 'Nova senha do escritório' : 'Senha do escritório'}</label><input id="senha" type="password" required autocomplete="${criar ? 'new-password' : 'current-password'}">
       ${criar ? '<div class="small" style="color:var(--ink-3);margin-top:4px">Mínimo de 12 caracteres, com letras e números — de preferência uma frase longa.</div>' : ''}</div>`}
     ${criar ? `<div style="margin-bottom:12px"><label for="senha2">Repita a senha</label><input id="senha2" type="password" required autocomplete="new-password"></div>
-      <label class="chk small" style="margin-bottom:14px;align-items:flex-start"><input type="checkbox" id="ciente" style="margin-top:3px"> <span>Entendo que <b>se esta senha for perdida, ninguém consegue recuperar os dados</b> (nem o Claude nem eu). Vou guardá-la em local seguro.</span></label>` : ''}
+      <label class="chk small" style="margin-bottom:14px;align-items:flex-start"><input type="checkbox" id="ciente" style="margin-top:3px"> <span>Entendo que <b>se esta senha e a chave de recuperação (que será mostrada a seguir) forem perdidas, ninguém consegue recuperar os dados</b> (nem o Claude nem eu). Vou guardá-las em local seguro.</span></label>` : ''}
     ${aguardar || semAcesso ? '' : `<label class="chk small" style="margin-bottom:14px"><input type="checkbox" id="lembrar" checked> Manter aberto enquanto esta aba estiver aberta</label>
       <button class="btn gold" style="width:100%;justify-content:center;padding:11px" id="lb">${criar ? 'Criar senha e entrar' : 'Entrar'}</button>`}
+    ${modo === 'abrir' ? '<button type="button" class="linkbtn" id="esqueci">Esqueci a senha</button>' : ''}
     <div class="login-foot">Conteúdo protegido por sigilo profissional · ${esc(f.nome)}</div></form></div>`;
   ligarTema();
+  if ($('#esqueci')) $('#esqueci').onclick = () => esqueciASenha(meta);
   if (!$('#senha')) return;
   $('#senha').focus();
   $('#lf').onsubmit = async (e) => {
     e.preventDefault(); const bt = $('#lb'), erro = (m) => { $('#le').innerHTML = `<div class="err-msg">${esc(m)}</div>`; bt.disabled = false; bt.textContent = criar ? 'Criar senha e entrar' : 'Entrar'; };
     bt.disabled = true; bt.textContent = 'Verificando…'; $('#le').innerHTML = '';
     try {
-      const senha = $('#senha').value; let master;
+      const senha = $('#senha').value; let master, chaveNova = null;
       if (criar) {
         const msg = Cofre.avaliarSenha(senha); if (msg) return erro(msg);
         if (senha !== $('#senha2').value) return erro('As duas senhas não são iguais.');
-        if (!$('#ciente').checked) return erro('Marque que entendeu que a senha não pode ser recuperada.');
+        if (!$('#ciente').checked) return erro('Marque que entendeu que, sem a senha e a chave de recuperação, os dados não podem ser recuperados.');
         if (await B.obter('config', 'seguranca')) return erro('Outra pessoa acabou de criar a senha. Recarregue a página e entre com ela.');
         const c = await Cofre.criar(senha); master = c.master;
-        await B.definir('config', 'seguranca', c.meta);
+        chaveNova = Cofre.gerarChaveRecuperacao();                       // vem junto com a senha: o escritório guarda a chave no papel
+        await B.definir('config', 'seguranca', await Cofre.comRecuperacao(c.meta, master, chaveNova));
       } else {
         master = await Cofre.abrir(meta, senha);
         if (!master) return erro('Senha incorreta.');
       }
       if ($('#lembrar').checked) guardaSessao.gravar(await Cofre.exportar(master)); else guardaSessao.gravar(null);
       await entrar(master);
+      if (chaveNova) mostrarChaveRecuperacao(chaveNova, true);
     } catch (err) { erro(err && err.code === 'invalid_argument' ? 'Sem permissão para criar a senha: só o dono ou um Editor pode.' : (err.message || 'Falha ao entrar.')); }
   };
 }
@@ -3914,5 +3964,44 @@ async function iniciar() {
 }
 window.addEventListener('hashchange', rotear);
 iniciar().catch((e) => { $('#app').innerHTML = `<div class="login"><div class="login-card"><h2>Não foi possível carregar</h2><p class="sub">${esc(e.message)}</p></div></div>`; });
+
+
+// ---------- esqueci a senha ----------
+function esqueciASenha(meta) {
+  if (!meta || !meta.rec) {
+    return modal({ titulo: 'Esqueci a senha', tamanho: 'sm', corpo: `<p style="margin-top:0">Este sistema <b>não consegue recuperar a senha</b>: ela protege os dados com criptografia, e nem o Claude nem quem o criou tem como abri-los sem ela.</p>
+      <p><b>O que você pode fazer:</b></p><ol style="padding-left:20px;line-height:1.6;margin-top:0"><li>Procurar a senha onde ela foi anotada ou com quem a criou (a pessoa que publicou o sistema).</li><li>Se o sistema foi criado antes da <b>chave de recuperação</b> existir e alguém ainda está com ele aberto neste navegador, entre em <i>Acesso e segurança</i> e gere uma chave agora.</li><li>Tendo um arquivo de <b>cópia de segurança</b>, os dados podem ser restaurados em um sistema novo.</li></ol>`, botoes: [{ texto: 'Entendi' }] });
+  }
+  modal({ titulo: 'Esqueci a senha', tamanho: 'sm', corpo: `<p style="margin-top:0">Digite a <b>chave de recuperação</b> (a que foi mostrada quando a senha foi criada) e escolha uma nova senha. Os dados continuam os mesmos.</p>
+    <form class="f" id="fr" onsubmit="return false"><div class="c6"><label for="rc">Chave de recuperação</label><input id="rc" type="text" autocomplete="off" spellcheck="false" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX" style="font-family:ui-monospace,Menlo,Consolas,monospace;text-transform:uppercase"></div>
+    <div class="c6"><label for="rn">Nova senha do escritório</label><input id="rn" type="password" autocomplete="new-password"><div class="small muted">Mínimo de 12 caracteres, com letras e números.</div></div>
+    <div class="c6"><label for="rn2">Repita a nova senha</label><input id="rn2" type="password" autocomplete="new-password"></div></form>`,
+    botoes: [{ texto: 'Cancelar' }, { texto: 'Criar nova senha', classe: 'gold', acao: async (ov) => {
+      const chave = $('#rc', ov).value, nova = $('#rn', ov).value;
+      const msg = Cofre.avaliarSenha(nova); if (msg) throw new Error(msg);
+      if (nova !== $('#rn2', ov).value) throw new Error('As duas senhas não são iguais.');
+      const master = await Cofre.abrirComRecuperacao(meta, chave); if (!master) throw new Error('Chave de recuperação incorreta. Confira os caracteres e os hifens.');
+      let novo; try { novo = await Cofre.trocarSenha(master, nova, undefined, meta); await B.definir('config', 'seguranca', novo); } catch (e) { throw new Error(e && e.code === 'invalid_argument' ? 'Sem permissão para trocar a senha: só o dono ou um Editor pode.' : (e.message || 'Não foi possível gravar a nova senha.')); }
+      guardaSessao.gravar(null);
+      ov.parentNode && ov.parentNode.removeChild(ov);
+      await entrar(master); toast('Nova senha criada. Você já está dentro.');
+      return false;
+    } }] });
+}
+
+// ---------- mostrar a chave de recuperação (uma única vez) ----------
+function mostrarChaveRecuperacao(chave, primeira = false) {
+  const m = modal({ titulo: 'Guarde a chave de recuperação', tamanho: 'sm',
+    corpo: `<p style="margin-top:0">${primeira ? 'A senha foi criada. ' : ''}Se um dia a senha do escritório for esquecida, <b>esta chave</b> permite criar uma nova <b>sem perder nenhum dado</b>. Ela <b>não será mostrada de novo</b>.</p>
+      <div style="background:var(--gold-soft);border-radius:8px;padding:14px;text-align:center;font:600 18px/1.4 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;user-select:all;word-break:break-all">${esc(chave)}</div>
+      <p class="note small">Anote no papel e guarde em local seguro, <b>separado da senha</b> (por exemplo, no cofre do escritório). Quem tiver esta chave consegue abrir os dados.</p>
+      <label class="chk"><input type="checkbox" id="anotei"> Já guardei a chave em local seguro</label>`,
+    botoes: [{ texto: 'Copiar chave', acao: async () => { try { await copiarTexto(chave); toast('Chave copiada.'); } catch { toast('Não foi possível copiar: selecione o texto e copie.', true); } return false; } },
+      { texto: 'Baixar (.txt)', acao: async () => { try { await Docs.entregar('chave-de-recuperacao.txt', `Chave de recuperação - ${S.firma.nome}\r\n\r\n${chave}\r\n\r\nGuarde em local seguro, separado da senha. Quem tiver esta chave consegue abrir os dados.\r\n`); } catch (e) { falha(e); } return false; } },
+      { texto: 'Concluir', classe: 'gold', acao: async (ov) => { if (!$('#anotei', ov).checked) throw new Error('Marque que guardou a chave antes de concluir.'); } }] });
+  m.el.dataset.travar = '1';
+  const x = $('.x', m.el); if (x) x.hidden = true;
+  return m;
+}
 
 </script>

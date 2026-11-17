@@ -459,8 +459,18 @@ const LocalAPI = (() => {
     const erro = Cofre.avaliarSenha(body.nova); if (erro) throw bad(erro);
     const meta = await Dados.backend.obter('config', 'seguranca');
     if (!meta || !(await Cofre.abrir(meta, String(body.atual || '')))) throw bad('Senha atual incorreta.');
-    await Dados.backend.definir('config', 'seguranca', await Cofre.trocarSenha(Dados.master, String(body.nova)));
+    await Dados.backend.definir('config', 'seguranca', await Cofre.trocarSenha(Dados.master, String(body.nova), undefined, meta));
     await auditar('senha_alterada', 'config', null, 'Senha do escritório alterada'); return { ok: true };
+  });
+  // chave de recuperação: gera (ou troca) a chave que permite criar uma nova senha se a atual for esquecida
+  rota('GET', '/auth/recuperacao', async () => { const meta = await Dados.backend.obter('config', 'seguranca'); return { ativa: !!(meta && meta.rec) }; });
+  rota('POST', '/auth/recuperacao', async ({ body, usuario }) => {
+    if (usuario.papel !== 'admin') throw new HttpError(403, 'Só quem administra pode gerar a chave de recuperação.');
+    const meta = await Dados.backend.obter('config', 'seguranca');
+    if (!meta || !(await Cofre.abrir(meta, String(body.atual || '')))) throw bad('Senha atual incorreta.');
+    const chave = Cofre.gerarChaveRecuperacao();
+    await Dados.backend.definir('config', 'seguranca', await Cofre.comRecuperacao(meta, Dados.master, chave));
+    await auditar('chave_recuperacao', 'config', null, meta.rec ? 'Chave de recuperação substituída' : 'Chave de recuperação criada'); return { chave };
   });
   rota('GET', '/admin/auditoria', () => Dados.lista('auditoria').sort(desc('id')).slice(0, 300).map((a) => ({ ...a, ip: '' })));
 

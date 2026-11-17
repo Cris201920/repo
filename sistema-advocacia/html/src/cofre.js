@@ -55,7 +55,34 @@ const Cofre = (() => {
     } catch { return null; }
   }
   const exportar = async (master) => b64(new Uint8Array(await subtle.exportKey('raw', master)));
-  const trocarSenha = (master, novaSenha, iter = ITER) => montarMeta(master, novaSenha, iter);
+  // trocar a senha mantém a chave de recuperação (se houver) do cadastro anterior
+  async function trocarSenha(master, novaSenha, iter = ITER, metaAntiga = null) {
+    const m = await montarMeta(master, novaSenha, iter);
+    if (metaAntiga && metaAntiga.rec) m.rec = metaAntiga.rec;
+    return m;
+  }
+
+  // ---- chave de recuperação: uma segunda "senha", longa e sorteada, que também abre a chave mestra (guardada no papel pelo escritório)
+  const ALFABETO = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';                  // sem 0/O/1/I para não confundir ao copiar à mão
+  function gerarChaveRecuperacao() {
+    const r = crypto.getRandomValues(new Uint8Array(24)); let s = '';
+    for (let i = 0; i < 24; i++) s += ALFABETO[r[i] % ALFABETO.length] + (i % 4 === 3 && i < 23 ? '-' : '');
+    return s;
+  }
+  const limparChave = (k) => String(k || '').toUpperCase().replace(/[^A-Z2-9]/g, '').replace(/[OIL01]/g, '');
+  async function comRecuperacao(meta, master, chave) {
+    const salt = crypto.getRandomValues(new Uint8Array(16)), iter = 100000, kek = await chaveDaSenha(limparChave(chave), salt, iter);
+    const raw = new Uint8Array(await subtle.exportKey('raw', master));
+    return { ...meta, rec: { salt: b64(salt), iter, wrapped: b64(await cifrarBytes(kek, raw)) } };
+  }
+  async function abrirComRecuperacao(meta, chave) {
+    try {
+      if (!meta || !meta.rec) return null;
+      const kek = await chaveDaSenha(limparChave(chave), unb64(meta.rec.salt), meta.rec.iter);
+      const m = await importar(await decifrarBytes(kek, unb64(meta.rec.wrapped)));
+      return td.decode(await decifrarBytes(m, unb64(meta.ver))) === 'advocacia-ok' ? m : null;
+    } catch { return null; }
+  }
 
   // um campo = um valor JSON cifrado ("iv+texto" em base64). Campos separados permitem gravar só o que mudou.
   async function campo(master, valor) { return b64(await cifrarBytes(master, te.encode(JSON.stringify(valor === undefined ? null : valor)))); }
@@ -73,5 +100,5 @@ const Cofre = (() => {
     if (/^(.)\1+$/.test(s) || /^(1234|abcd|senha|password|qwer)/i.test(s)) return 'Essa senha é fácil demais de adivinhar.';
     return null;
   }
-  return { criar, abrir, abrirComChaveSalva, exportar, trocarSenha, campo, lerCampo, bytes, lerBytes, sha256, b64, unb64, avaliarSenha, ITER };
+  return { criar, abrir, abrirComChaveSalva, exportar, trocarSenha, gerarChaveRecuperacao, comRecuperacao, abrirComRecuperacao, campo, lerCampo, bytes, lerBytes, sha256, b64, unb64, avaliarSenha, ITER };
 })();

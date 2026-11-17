@@ -22,6 +22,12 @@ A senha do escritório **criptografa os dados no próprio navegador** (PBKDF2 60
 O armazenamento só guarda texto cifrado. **Se a senha for perdida, ninguém recupera os dados**: faça cópias de segurança
 (menu *Acesso e segurança*).
 
+## Esqueci a senha
+Ao criar a senha, o sistema mostra uma **chave de recuperação** (24 caracteres) uma única vez. Ela guarda a mesma chave mestra por outro caminho:
+na tela de senha, **Esqueci a senha** aceita essa chave e permite criar uma nova senha **sem perder dados**.
+Em *Acesso e segurança* (só quem administra) dá para gerar uma nova chave (a anterior deixa de valer; exige a senha atual).
+Sistemas criados antes dessa função não têm chave: quem ainda consegue entrar gera uma em *Acesso e segurança*. Sem senha e sem chave, nada recupera os dados.
+
 ## Cópia de segurança e restauração
 - *Baixar cópia de segurança* gera um ZIP com `dados.json` e a pasta `arquivos/`. **A cópia não é criptografada.**
 - *Restaurar de uma cópia* (só quem administra) lê esse ZIP e **acrescenta apenas o que ainda não existe**; nada do que já está no sistema é alterado ou apagado. Serve para recuperar dados e para levar o sistema de um aparelho para outro.

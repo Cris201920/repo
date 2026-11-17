@@ -97,7 +97,7 @@ function modal({ titulo, corpo, botoes = [], tamanho = '', aoAbrir, aoFechar }) 
     if (sujo()) { perguntando = true; const sim = await confirmar('Fechar sem salvar? O que foi digitado será perdido.', { texto: 'Fechar sem salvar', perigo: true, titulo: 'Descartar o que foi digitado' }); perguntando = false; if (!sim) return; }
     fechar();
   };
-  const esc_ = (e) => { if (e.key === 'Escape' && ov === [...document.querySelectorAll('.overlay:not(.saindo)')].pop()) sair(); };
+  const esc_ = (e) => { if (e.key === 'Escape' && !ov.dataset.travar && ov === [...document.querySelectorAll('.overlay:not(.saindo)')].pop()) sair(); };
   document.addEventListener('keydown', esc_);
   $('.x', ov).onclick = sair;
   ov.addEventListener('mousedown', (e) => { if (e.target === ov && !ov.dataset.travar && !sujo()) fechar(); });

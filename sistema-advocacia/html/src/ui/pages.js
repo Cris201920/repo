@@ -461,13 +461,17 @@ async function pageAcesso() {
   view(`<div class="page-h"><div><h1>Acesso e segurança</h1><div class="sub">Como a equipe entra e como os dados são protegidos</div></div></div>
     <div class="card"><div class="card-h"><h3>Senha do escritório</h3><span class="badge ok">Criptografia ativa</span></div><div class="card-b">
       <p style="margin-top:0">Todos os dados (clientes, atendimentos, documentos, notas) são <b>criptografados neste aparelho</b> com a senha do escritório antes de serem guardados. Quem não souber a senha — inclusive quem tiver acesso ao armazenamento — vê apenas texto ilegível.</p>
-      <p class="note small"><b>Atenção:</b> a senha <b>não pode ser recuperada</b>. Se for esquecida, os dados ficam inacessíveis. Faça cópias de segurança periódicas (abaixo) e guarde a senha em local seguro. Trocar a senha não apaga nada, mas quem já tiver copiado os dados antes continua com a cópia.</p>
+      <p class="note small"><b>Atenção:</b> a senha <b>não pode ser recuperada pelo sistema</b>. Se for esquecida, só a <b>chave de recuperação</b> (abaixo) devolve o acesso; sem ela, os dados ficam inacessíveis. Faça cópias de segurança periódicas (abaixo) e guarde a senha em local seguro. Trocar a senha não apaga nada, mas quem já tiver copiado os dados antes continua com a cópia.</p>
       ${adm ? '<button class="btn gold" id="trocar">Alterar senha do escritório</button>' : '<p class="small muted">Só quem administra pode trocar a senha.</p>'}</div></div>
     ${claude ? `<div class="card" style="margin-top:18px"><div class="card-h"><h3>Como dar acesso à equipe</h3></div><div class="card-b">
       <ol style="margin-top:0;padding-left:20px;line-height:1.6"><li>Cada pessoa precisa de uma conta no Claude (claude.ai).</li>
       <li>Quem publicou este sistema abre o menu <b>Compartilhar</b> da página e convida o e-mail de cada colaborador como <b>Editor</b> (só Editores conseguem gravar).</li>
       <li>A pessoa abre o link, informa a <b>senha do escritório</b> e pronto: tudo é sincronizado entre os aparelhos.</li></ol>
       <p class="small muted" style="margin-bottom:0">Quem não foi convidado não consegue abrir o sistema — e, mesmo que alguém consiga o link, sem a senha do escritório os dados continuam ilegíveis.</p></div></div>` : ''}
+    ${adm ? `<div class="card" style="margin-top:18px"><div class="card-h"><h3>Chave de recuperação</h3><span class="badge" id="recBadge">…</span></div><div class="card-b">
+      <p style="margin-top:0">Se a senha do escritório for esquecida, a tela de senha tem a opção <b>“Esqueci a senha”</b>, que aceita esta chave e permite criar uma nova senha <b>sem perder os dados</b>.</p>
+      <p class="small muted">Gerar uma nova chave invalida a anterior. A chave aparece uma única vez: anote e guarde separada da senha.</p>
+      <button class="btn" id="recGerar">Gerar chave de recuperação</button></div></div>` : ''}
     <div class="card" style="margin-top:18px"><div class="card-h"><h3>Cópia de segurança</h3></div><div class="card-b">
       <p style="margin-top:0">Baixa um arquivo ZIP com todos os dados e documentos. <b>A cópia não é criptografada</b>: guarde em local seguro.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="bk">${ico('down')} Baixar cópia de segurança</button>${adm ? `<button class="btn" id="rs">${ico('upload')} Restaurar de uma cópia</button><input type="file" id="rsArq" accept=".zip,application/zip" hidden>` : ''}</div>
@@ -476,6 +480,11 @@ async function pageAcesso() {
       <p style="margin:0">Depois de <b>${INATIVIDADE_MIN} minutos sem uso</b>, o sistema volta a pedir a senha do escritório. Ao sair da mesa, use também “Bloquear (sair)” no menu do seu nome.</p></div></div>
     ${COM_IA ? `<div class="card" style="margin-top:18px"><div class="card-h"><h3>Assistente de IA</h3>${iaOk ? '<span class="badge ok">Disponível</span>' : '<span class="badge">Indisponível</span>'}</div><div class="card-b" id="iaCard"></div></div>` : ''}`);
   if ($('#trocar')) $('#trocar').onclick = abrirSenha;
+  if ($('#recGerar')) {
+    api('/auth/recuperacao').then((r) => { const b = $('#recBadge'); if (!b) return; b.textContent = r.ativa ? 'Ativa' : 'Não configurada'; b.className = 'badge ' + (r.ativa ? 'ok' : 'warn'); if (r.ativa) $('#recGerar').textContent = 'Gerar nova chave'; }).catch(() => {});
+    $('#recGerar').onclick = () => modal({ titulo: 'Gerar chave de recuperação', tamanho: 'sm', corpo: formHTML([{ n: 'atual', label: 'Confirme com a senha atual do escritório', tipo: 'password', col: 'c6' }]) + '<p class="note small">Se já existia uma chave, ela deixa de valer.</p>',
+      botoes: [{ texto: 'Cancelar' }, { texto: 'Gerar', classe: 'gold', acao: async (ov) => { const r = await api('/auth/recuperacao', { method: 'POST', body: lerForm(ov) }); setTimeout(() => { mostrarChaveRecuperacao(r.chave); pageAcesso(); }, 250); } }] });
+  }
   $('#bk').onclick = async () => {
     const b = $('#bk'), rot = b.innerHTML; b.disabled = true;
     try {

@@ -372,3 +372,35 @@ test('camada de dados: atualização atrasada não apaga o que acabou de ser sal
   await D.remover('clientes', 1); await cbs.clientes(antigo.filter((d) => d.id === '1').concat(await real.listar('clientes')));   // atualização atrasada ainda com a Ana
   assert.equal(D.obter('clientes', 1), null, 'o que foi excluído não volta com uma atualização atrasada');
 });
+
+test('chave de recuperação: abre sem a senha, troca de senha mantém a chave, chave errada/ausente não abre', async () => {
+  const { Cofre } = await carregar();
+  const { master, meta } = await Cofre.criar('FraseLongaSegura2026', 1000);
+  assert.equal(await Cofre.abrirComRecuperacao(meta, 'QUALQUER'), null, 'sem chave configurada não abre');
+  const chave = Cofre.gerarChaveRecuperacao(); assert.match(chave, /^([A-HJ-NP-Z2-9]{4}-){5}[A-HJ-NP-Z2-9]{4}$/);
+  assert.notEqual(chave, Cofre.gerarChaveRecuperacao());
+  const comRec = await Cofre.comRecuperacao(meta, master, chave);
+  assert.ok(await Cofre.abrir(comRec, 'FraseLongaSegura2026'), 'a senha continua abrindo');
+  const viaChave = await Cofre.abrirComRecuperacao(comRec, chave); assert.ok(viaChave);
+  assert.deepEqual(await Cofre.lerCampo(viaChave, await Cofre.campo(master, { x: 1 })), { x: 1 }, 'é a mesma chave mestra');
+  assert.ok(await Cofre.abrirComRecuperacao(comRec, chave.toLowerCase().replace(/-/g, ' ')), 'minúsculas e espaços no lugar dos hifens também valem');
+  assert.equal(await Cofre.abrirComRecuperacao(comRec, 'AAAA-AAAA-AAAA-AAAA-AAAA-AAAA'), null);
+  // esqueceu a senha: cria outra com a chave; a chave segue valendo e a senha antiga deixa de valer
+  const novo = await Cofre.trocarSenha(viaChave, 'SenhaNovaDepois2027', 1000, comRec);
+  assert.equal(await Cofre.abrir(novo, 'FraseLongaSegura2026'), null); assert.ok(await Cofre.abrir(novo, 'SenhaNovaDepois2027')); assert.ok(await Cofre.abrirComRecuperacao(novo, chave));
+  assert.ok(!JSON.stringify(comRec).includes(chave));
+
+  // pela API: só o administrador gera, exige a senha atual, grava e audita; trocar a senha preserva a chave
+  const A = await ambiente();
+  await A.b.definir('config', 'seguranca', A.meta);                       // o cadastro de segurança deste ambiente (senha SenhaDeTeste123)
+  assert.equal((await A.call('GET', '/auth/recuperacao')).data.ativa, false);
+  assert.equal((await A.call('POST', '/auth/recuperacao', { atual: 'errada-errada-1' })).status, 400);
+  const g = await A.call('POST', '/auth/recuperacao', { atual: 'SenhaDeTeste123' }); assert.equal(g.status, 200); assert.match(g.data.chave, /^([A-HJ-NP-Z2-9]{4}-){5}[A-HJ-NP-Z2-9]{4}$/);
+  assert.equal((await A.call('GET', '/auth/recuperacao')).data.ativa, true);
+  const salvo = await A.b.obter('config', 'seguranca'); assert.ok(await A.M.Cofre.abrirComRecuperacao(salvo, g.data.chave), 'a chave devolvida abre o cadastro gravado');
+  assert.ok(salvo.rec && !JSON.stringify(salvo).includes(g.data.chave));
+  assert.equal((await A.call('POST', '/auth/senha', { atual: 'SenhaDeTeste123', nova: 'OutraSenhaNova2027' })).status, 200);
+  assert.ok((await A.b.obter('config', 'seguranca')).rec, 'trocar a senha mantém a chave de recuperação');
+  A.M.LocalAPI.definirUsuario({ id: 'u2', nome: 'Colega', papel: 'advogado' });
+  assert.equal((await A.call('POST', '/auth/recuperacao', { atual: 'OutraSenhaNova2027' })).status, 403);
+});
