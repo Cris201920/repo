@@ -58,3 +58,7 @@ São desligadas automaticamente para quem ativa "reduzir movimento" no aparelho.
 ## Paletas de cores
 Seis paletas (Ouro, Vinho, Esmeralda, Safira, Ametista, Cobre) no botão "Tema e cores", valem nos temas claro e escuro.
 A escolha é de cada pessoa e fica guardada no aparelho. As cores estão no fim de `src/app.css` (`:root[data-paleta="…"]`) e a lista em `src/ui/tema.js`.
+
+## Senha padrão
+A senha `ADV2027` é aceita como exceção à regra dos 12 caracteres (botão "Usar a senha padrão" na criação). Com ela, a chave de recuperação também é `ADV2027`.
+É fácil de lembrar, porém curta e previsível: quem conseguir copiar os dados armazenados pode tentar adivinhá-la. Para trocar a regra, veja `avaliarSenha` em `src/cofre.js`.

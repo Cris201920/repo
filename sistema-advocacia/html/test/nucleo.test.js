@@ -404,3 +404,13 @@ test('chave de recuperação: abre sem a senha, troca de senha mantém a chave, 
   A.M.LocalAPI.definirUsuario({ id: 'u2', nome: 'Colega', papel: 'advogado' });
   assert.equal((await A.call('POST', '/auth/recuperacao', { atual: 'OutraSenhaNova2027' })).status, 403);
 });
+
+test('senha padrão ADV2027 é aceita (única exceção à regra dos 12 caracteres) e a chave de recuperação aceita qualquer texto', async () => {
+  const { Cofre } = await carregar();
+  assert.equal(Cofre.avaliarSenha('ADV2027'), null); assert.ok(Cofre.avaliarSenha('adv2027')); assert.ok(Cofre.avaliarSenha('ADV2028')); assert.ok(Cofre.avaliarSenha('curta1'));
+  const { master, meta } = await Cofre.criar('ADV2027', 1000);
+  assert.ok(await Cofre.abrir(meta, 'ADV2027'));
+  const rec = await Cofre.comRecuperacao(meta, master, 'ADV2027');
+  assert.ok(await Cofre.abrirComRecuperacao(rec, 'ADV2027')); assert.ok(await Cofre.abrirComRecuperacao(rec, 'adv 2027'));
+  assert.equal(await Cofre.abrirComRecuperacao(rec, 'ADV2028'), null);
+});

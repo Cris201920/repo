@@ -643,7 +643,7 @@ return { MODELOS, POR_AREA, melhorDocumento, norm };
 const Cofre = (() => {
   const te = new TextEncoder(), td = new TextDecoder();
   const subtle = globalThis.crypto && globalThis.crypto.subtle;
-  const ITER = 600000;
+  const ITER = 600000, SENHA_PADRAO = 'ADV2027';
 
   function b64(buf) {
     const a = buf instanceof Uint8Array ? buf : new Uint8Array(buf);
@@ -709,7 +709,7 @@ const Cofre = (() => {
     for (let i = 0; i < 24; i++) s += ALFABETO[r[i] % ALFABETO.length] + (i % 4 === 3 && i < 23 ? '-' : '');
     return s;
   }
-  const limparChave = (k) => String(k || '').toUpperCase().replace(/[^A-Z2-9]/g, '').replace(/[OIL01]/g, '');
+  const limparChave = (k) => String(k || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
   async function comRecuperacao(meta, master, chave) {
     const salt = crypto.getRandomValues(new Uint8Array(16)), iter = 100000, kek = await chaveDaSenha(limparChave(chave), salt, iter);
     const raw = new Uint8Array(await subtle.exportKey('raw', master));
@@ -735,12 +735,13 @@ const Cofre = (() => {
   // exigência mínima para a senha do escritório
   function avaliarSenha(s) {
     s = String(s || '');
+    if (s === SENHA_PADRAO) return null;                           // senha padrão do escritório (escolha do cliente; mais fácil de lembrar, porém mais fraca)
     if (s.length < 12) return 'Use ao menos 12 caracteres (de preferência uma frase longa).';
     if (!/[A-Za-zÀ-ÿ]/.test(s) || !/\d/.test(s)) return 'Misture letras e números.';
     if (/^(.)\1+$/.test(s) || /^(1234|abcd|senha|password|qwer)/i.test(s)) return 'Essa senha é fácil demais de adivinhar.';
     return null;
   }
-  return { criar, abrir, abrirComChaveSalva, exportar, trocarSenha, gerarChaveRecuperacao, comRecuperacao, abrirComRecuperacao, campo, lerCampo, bytes, lerBytes, sha256, b64, unb64, avaliarSenha, ITER };
+  return { criar, abrir, abrirComChaveSalva, exportar, trocarSenha, gerarChaveRecuperacao, comRecuperacao, abrirComRecuperacao, campo, lerCampo, bytes, lerBytes, sha256, b64, unb64, avaliarSenha, SENHA_PADRAO, ITER };
 })();
 
 /* Backends: onde os dados (já cifrados) ficam guardados.
@@ -3794,13 +3795,14 @@ function telaCofre({ modo, meta, mensagem = '' }) {
     <h2>${titulo}</h2><p class="sub">${sub}</p><div id="le">${mensagem ? `<div class="err-msg">${esc(mensagem)}</div>` : ''}</div>
     ${aguardar || semAcesso ? '' : `<div style="margin-bottom:12px"><label for="senha">${criar ? 'Nova senha do escritório' : 'Senha do escritório'}</label><input id="senha" type="password" required autocomplete="${criar ? 'new-password' : 'current-password'}">
       ${criar ? '<div class="small" style="color:var(--ink-3);margin-top:4px">Mínimo de 12 caracteres, com letras e números — de preferência uma frase longa.</div>' : ''}</div>`}
-    ${criar ? `<div style="margin-bottom:12px"><label for="senha2">Repita a senha</label><input id="senha2" type="password" required autocomplete="new-password"></div>
+    ${criar ? `<div style="margin-bottom:12px"><label for="senha2">Repita a senha</label><input id="senha2" type="password" required autocomplete="new-password"><button type="button" class="linkbtn-inline" id="padrao">Usar a senha padrão (ADV2027)</button><div class="small" id="avisoPadrao" style="color:var(--warn)" hidden>Senha curta e previsível: protege menos. Quem conseguir copiar os dados armazenados pode tentar adivinhá-la com programas.</div></div>
       <label class="chk small" style="margin-bottom:14px;align-items:flex-start"><input type="checkbox" id="ciente" style="margin-top:3px"> <span>Entendo que <b>se esta senha e a chave de recuperação (que será mostrada a seguir) forem perdidas, ninguém consegue recuperar os dados</b> (nem o Claude nem eu). Vou guardá-las em local seguro.</span></label>` : ''}
     ${aguardar || semAcesso ? '' : `<label class="chk small" style="margin-bottom:14px"><input type="checkbox" id="lembrar" checked> Manter aberto enquanto esta aba estiver aberta</label>
       <button class="btn gold" style="width:100%;justify-content:center;padding:11px" id="lb">${criar ? 'Criar senha e entrar' : 'Entrar'}</button>`}
     ${modo === 'abrir' ? '<button type="button" class="linkbtn" id="esqueci">Esqueci a senha</button>' : ''}
     <div class="login-foot">Conteúdo protegido por sigilo profissional · ${esc(f.nome)}</div></form></div>`;
   ligarTema();
+  if ($('#padrao')) { const av = () => { $('#avisoPadrao').hidden = $('#senha').value !== Cofre.SENHA_PADRAO; }; $('#padrao').onclick = () => { $('#senha').value = $('#senha2').value = Cofre.SENHA_PADRAO; av(); }; $('#senha').addEventListener('input', av); }
   if ($('#esqueci')) $('#esqueci').onclick = () => esqueciASenha(meta);
   if (!$('#senha')) return;
   $('#senha').focus();
@@ -3815,7 +3817,7 @@ function telaCofre({ modo, meta, mensagem = '' }) {
         if (!$('#ciente').checked) return erro('Marque que entendeu que, sem a senha e a chave de recuperação, os dados não podem ser recuperados.');
         if (await B.obter('config', 'seguranca')) return erro('Outra pessoa acabou de criar a senha. Recarregue a página e entre com ela.');
         const c = await Cofre.criar(senha); master = c.master;
-        chaveNova = Cofre.gerarChaveRecuperacao();                       // vem junto com a senha: o escritório guarda a chave no papel
+        chaveNova = senha === Cofre.SENHA_PADRAO ? Cofre.SENHA_PADRAO : Cofre.gerarChaveRecuperacao();   // com a senha padrão, a chave também é a padrão
         await B.definir('config', 'seguranca', await Cofre.comRecuperacao(c.meta, master, chaveNova));
       } else {
         master = await Cofre.abrir(meta, senha);

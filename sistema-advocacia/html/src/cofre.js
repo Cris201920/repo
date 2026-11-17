@@ -3,7 +3,7 @@
 const Cofre = (() => {
   const te = new TextEncoder(), td = new TextDecoder();
   const subtle = globalThis.crypto && globalThis.crypto.subtle;
-  const ITER = 600000;
+  const ITER = 600000, SENHA_PADRAO = 'ADV2027';
 
   function b64(buf) {
     const a = buf instanceof Uint8Array ? buf : new Uint8Array(buf);
@@ -69,7 +69,7 @@ const Cofre = (() => {
     for (let i = 0; i < 24; i++) s += ALFABETO[r[i] % ALFABETO.length] + (i % 4 === 3 && i < 23 ? '-' : '');
     return s;
   }
-  const limparChave = (k) => String(k || '').toUpperCase().replace(/[^A-Z2-9]/g, '').replace(/[OIL01]/g, '');
+  const limparChave = (k) => String(k || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
   async function comRecuperacao(meta, master, chave) {
     const salt = crypto.getRandomValues(new Uint8Array(16)), iter = 100000, kek = await chaveDaSenha(limparChave(chave), salt, iter);
     const raw = new Uint8Array(await subtle.exportKey('raw', master));
@@ -95,10 +95,11 @@ const Cofre = (() => {
   // exigência mínima para a senha do escritório
   function avaliarSenha(s) {
     s = String(s || '');
+    if (s === SENHA_PADRAO) return null;                           // senha padrão do escritório (escolha do cliente; mais fácil de lembrar, porém mais fraca)
     if (s.length < 12) return 'Use ao menos 12 caracteres (de preferência uma frase longa).';
     if (!/[A-Za-zÀ-ÿ]/.test(s) || !/\d/.test(s)) return 'Misture letras e números.';
     if (/^(.)\1+$/.test(s) || /^(1234|abcd|senha|password|qwer)/i.test(s)) return 'Essa senha é fácil demais de adivinhar.';
     return null;
   }
-  return { criar, abrir, abrirComChaveSalva, exportar, trocarSenha, gerarChaveRecuperacao, comRecuperacao, abrirComRecuperacao, campo, lerCampo, bytes, lerBytes, sha256, b64, unb64, avaliarSenha, ITER };
+  return { criar, abrir, abrirComChaveSalva, exportar, trocarSenha, gerarChaveRecuperacao, comRecuperacao, abrirComRecuperacao, campo, lerCampo, bytes, lerBytes, sha256, b64, unb64, avaliarSenha, SENHA_PADRAO, ITER };
 })();
