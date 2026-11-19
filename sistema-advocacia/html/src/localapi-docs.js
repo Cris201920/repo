@@ -234,6 +234,31 @@ const Arq = {
   }
   async function baixarDoc(id) { const { u8, doc } = await bytesDoc(id, 'baixar'); return Docs.entregar(doc.nome_original, new Blob([u8], { type: doc.mime })); }
 
+  // ---------- minutas (procuração, contrato, declaração, recibo) ----------
+  function montarMinuta(b) {
+    const cliente = ou404('clientes', b.cliente_id, 'Cliente'), pid = id_(b.processo_id);
+    const processo = pid ? ou404('processos', pid, 'Caso') : null;
+    if (processo && processo.cliente_id !== cliente.id) throw bad('O caso não pertence a este cliente.');
+    if (!Minutas.MODELOS[b.modelo]) throw bad('Escolha o modelo de documento.');
+    const v = {}; for (const [k, val] of Object.entries(b.valores || {})) v[txt(k, 30)] = txt(val, 200);
+    const m = Minutas.MODELOS[b.modelo]; for (const c of m.campos) if (c.req && !v[c.n]) throw bad(`Informe: ${c.rot.replace(/ \(.*\)/, '')}.`);
+    const adv = { nome: txt(b.advogado, 120), oab: txt(b.oab, 40), endereco: txt(b.endereco_escritorio, 200) || FIRMA.enderecoCabecalho || '' };
+    const r = Minutas.montar(b.modelo, { cliente, processo, advogado: adv, valores: v, cidade: txt(b.cidade, 80) });
+    return { ...r, cliente, processo };
+  }
+  async function minutaBlob(b) {
+    const r = montarMinuta(b);
+    const blob = new Blob([Docs.gerarDocx(r.markdown, { escritorio: FIRMA.nome, rodape: `${r.nome} — ${r.cliente.nome}` })], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    await auditar('gerar_minuta', 'clientes', r.cliente.id, r.nome);
+    return { nome: `${nomeSeguro(r.nome.replace(/ \(.*\)/, ''), 'Documento')} - ${nomeSeguro(r.cliente.nome, 'cliente')}.docx`, blob, faltando: r.faltando };
+  }
+  rota('POST', '/minutas/previa', ({ body }) => { const r = montarMinuta(body); return { faltando: r.faltando, nome: r.nome }; });
+  rota('POST', '/minutas/salvar', async ({ body }) => {
+    const { nome, blob, faltando, ...r } = { ...(await minutaBlob(body)) }, m = montarMinuta(body), vinc = vinculos({ cliente_id: m.cliente.id, processo_id: m.processo && m.processo.id });
+    const id = await criarDocumento({ u8: new Uint8Array(await blob.arrayBuffer()), nomeOriginal: nome, titulo: `${m.nome.replace(/ \(.*\)/, '')} — ${m.cliente.nome}`, categoria: m.categoria, vinc, pasta_id: pastaPadraoPara(m.cliente.id, m.categoria) || null, origem: 'minuta' });
+    return { id, faltando };
+  });
+
   // ---------- ficha do cliente em Word ----------
   function fichaMarkdown(id) {
     const c = ou404('clientes', id, 'Cliente');
@@ -317,5 +342,5 @@ const Arq = {
     return res;
   }
 
-  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos, lerCopia, planoRestauracao, restaurar, fichaMarkdown, fichaBlob });
+  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos, lerCopia, planoRestauracao, restaurar, fichaMarkdown, fichaBlob, minutaBlob });
 })();

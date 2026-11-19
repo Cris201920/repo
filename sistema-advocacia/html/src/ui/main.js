@@ -85,7 +85,7 @@ function renderShell() {
         <div class="grp">Administração</div><a href="#/usuarios" data-h="#/usuarios">${ico('shield')} Acesso e segurança</a>${u.papel === 'admin' ? `<a href="#/auditoria" data-h="#/auditoria">${ico('log')} Auditoria</a>` : ''}</nav>
       <div class="side-foot">Dados criptografados com a senha do escritório<br>${esc(f.nome)}</div></aside>
     <div class="main"><header class="top"><button class="burger" id="burger" aria-label="Menu">${ico('menu').replace('<svg', '<svg width="24" height="24"')}</button>
-      <div class="search">${ico('search')}<input id="gs" type="search" placeholder="Buscar clientes, casos, atendimentos, documentos…" autocomplete="off"><div class="search-res" id="gr" hidden></div></div>
+      <div class="search">${ico('search')}<input id="gs" type="search" placeholder="Buscar clientes, casos, documentos…  (Ctrl+K)" autocomplete="off"><div class="search-res" id="gr" hidden></div></div>
       <button class="btn sm gold" id="novidades" hidden>↻ Há novidades de colegas — atualizar</button>
       <div style="margin-left:auto">${botaoTema()}</div>
       <div style="position:relative"><button class="userbtn" id="ub"><span class="avatar">${esc(iniciais(u.nome))}</span><span class="small" style="font-weight:600">${esc(primeiroNome(u.nome))}</span></button>

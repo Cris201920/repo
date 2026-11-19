@@ -317,6 +317,20 @@ tr[draggable=true]{cursor:grab}
 .tema-pop .paletas button[aria-checked=true]{box-shadow:0 0 0 2px var(--ink)} .tema-pop .paletas button[aria-checked=true] svg{visibility:visible}
 .tema-pop .paletas button:hover{transform:scale(1.15)}
 
+/* ---------- busca rápida (Ctrl+K) ---------- */
+.overlay.paleta{align-items:start;padding-top:12vh}
+.paleta-box{width:100%;max-width:640px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.45);overflow:hidden;animation:janelaAbre .26s var(--mola) backwards}
+.paleta-in{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.paleta-in svg{width:18px;height:18px;color:var(--gold);flex:none}
+.paleta-in input{flex:1;border:0!important;box-shadow:none!important;background:transparent!important;font-size:16px;padding:2px 0;outline:0}
+kbd{font:600 11px/1 var(--sans);background:var(--surface-2);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:3px 6px;color:var(--ink-3)}
+.paleta-res{max-height:52vh;overflow:auto;padding:6px}
+.paleta-it{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:9px;cursor:pointer}
+.paleta-it svg{width:18px;height:18px;flex:none;color:var(--ink-3)}
+.paleta-it.on{background:var(--gold-soft)} .paleta-it.on svg{color:var(--gold-dark)}
+.paleta-rod{display:flex;gap:16px;padding:9px 16px;border-top:1px solid var(--line);background:var(--surface-2);font-size:12px;color:var(--ink-3)} .paleta-rod kbd{margin-right:3px}
+@media (max-width:700px){.overlay.paleta{padding:10px;padding-top:8vh}.paleta-rod{display:none}}
+
 /* =====================================================================
    ANIMAÇÕES E JOGO DE CORES
    Tudo aqui é desligado para quem pede "menos movimento" no aparelho
@@ -1222,6 +1236,134 @@ const Docs = (() => {
   }
 
   return { CATEGORIAS, TIPOS, MAX_UPLOAD, MAX_TEXTO, ext, para8, paginasPdf, extrairTexto, paginasComoImagens, mostrarPdf, contarPaginas, imagensParaPdf, extrairPaginas, carregarPdf, zipar, gerarDocx, entregar, nomeArquivo };
+})();
+
+/* Minutas: procuração, contrato de honorários, declaração de hipossuficiência e recibo, preenchidos com os dados do cliente.
+   O que não estiver cadastrado sai como [PREENCHER: …] (destacado em amarelo no Word) e é listado antes de gerar. */
+const Minutas = (() => {
+  const MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+  const dataExtenso = (d = new Date()) => `${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`;
+
+  // ---------- valores em reais por extenso ----------
+  const U = ['zero', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove', 'dez', 'onze', 'doze', 'treze', 'quatorze', 'quinze', 'dezesseis', 'dezessete', 'dezoito', 'dezenove'];
+  const D = ['', '', 'vinte', 'trinta', 'quarenta', 'cinquenta', 'sessenta', 'setenta', 'oitenta', 'noventa'];
+  const C = ['', 'cento', 'duzentos', 'trezentos', 'quatrocentos', 'quinhentos', 'seiscentos', 'setecentos', 'oitocentos', 'novecentos'];
+  function ate999(n) {
+    if (n === 0) return ''; if (n === 100) return 'cem';
+    const c = Math.floor(n / 100), r = n % 100, p = [];
+    if (c) p.push(C[c]);
+    if (r) p.push(r < 20 ? U[r] : D[Math.floor(r / 10)] + (r % 10 ? ' e ' + U[r % 10] : ''));
+    return p.join(' e ');
+  }
+  function inteiroExtenso(n) {
+    if (n === 0) return 'zero';
+    const g = [[1e9, 'bilhão', 'bilhões'], [1e6, 'milhão', 'milhões'], [1e3, 'mil', 'mil']], partes = [];
+    for (const [v, s, p] of g) { const q = Math.floor(n / v); if (q) { partes.push(v === 1e3 && q === 1 ? 'mil' : `${ate999(q)} ${q === 1 ? s : p}`); n -= q * v; } }
+    if (n) partes.push(ate999(n));
+    // "e" antes do último grupo quando ele é menor que 100 ou múltiplo de 100 (ex.: mil e quinhentos; dois mil e cem)
+    if (partes.length > 1) { const ult = partes.pop(), nUlt = ult.split(' ').length; partes.push((nUlt <= 3 && !/^(cento|duzentos|trezentos|quatrocentos|quinhentos|seiscentos|setecentos|oitocentos|novecentos) /.test(ult) ? 'e ' : '') + ult); }
+    return partes.join(' ').replace(/ de$/, '');
+  }
+  function reaisExtenso(valor) {
+    const cent = Math.round(Number(valor) * 100); if (!Number.isFinite(cent) || cent < 0 || cent > 1e13) return '';
+    const r = Math.floor(cent / 100), c = cent % 100, grande = r >= 1e6 && r % 1e6 === 0;
+    const reais = r ? `${inteiroExtenso(r)}${grande ? ' de' : ''} ${r === 1 ? 'real' : 'reais'}` : '';
+    const cents = c ? `${inteiroExtenso(c)} ${c === 1 ? 'centavo' : 'centavos'}` : '';
+    return [reais, cents].filter(Boolean).join(' e ') || 'zero reais';
+  }
+  // aceita "1.500,00", "1500.5", "R$ 2.000"
+  function lerValor(t) {
+    let s = String(t == null ? '' : t).replace(/[^\d.,]/g, ''); if (!s) return null;
+    if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.'); else if ((s.match(/\./g) || []).length > 1 || /\.\d{3}$/.test(s)) s = s.replace(/\./g, '');
+    const n = Number(s); return Number.isFinite(n) && n > 0 ? n : null;
+  }
+  const brl = (n) => 'R$ ' + Number(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  // ---------- dados das partes ----------
+  const falta = (rotulo, falt) => { falt.push(rotulo); return `[PREENCHER: ${rotulo}]`; };
+  function qualificacao(c, falt) {
+    const pj = c.tipo === 'PJ', doc = String(c.documento || '').trim();
+    const gen = (m, f) => m;                                                 // o cadastro não guarda gênero: usa o masculino genérico
+    if (pj) return `**${c.nome}**, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº ${doc || falta('CNPJ', falt)}, com sede em ${c.endereco || falta('endereço da sede', falt)}`;
+    return `**${c.nome}**, ${gen('brasileiro', 'brasileira')}, ${c.estado_civil || falta('estado civil', falt)}, ${c.profissao || falta('profissão', falt)}, portador(a) do RG nº ${c.rg || falta('RG', falt)} e inscrito(a) no CPF sob o nº ${doc || falta('CPF', falt)}, residente e domiciliado(a) em ${c.endereco || falta('endereço', falt)}`;
+  }
+  function qualificacaoAdvogado(a, falt) {
+    return `**${a.nome || falta('nome do(a) advogado(a)', falt)}**, advogado(a) inscrito(a) na OAB sob o nº ${a.oab || falta('número da OAB', falt)}, com escritório profissional em ${a.endereco || falta('endereço do escritório', falt)}`;
+  }
+
+  const MODELOS = {
+    procuracao: { nome: 'Procuração (ad judicia et extra)', categoria: 'procuracao', campos: [],
+      texto: ({ c, p, a, falt, ctx }) => [
+        '# PROCURAÇÃO',
+        `**OUTORGANTE:** ${qualificacao(c, falt)}.`,
+        `**OUTORGADO(A):** ${qualificacaoAdvogado(a, falt)}.`,
+        `**PODERES:** pelo presente instrumento particular de procuração, o(a) outorgante nomeia e constitui o(a) outorgado(a) seu(sua) procurador(a), conferindo-lhe os poderes da cláusula *ad judicia et extra*, para o foro em geral, em qualquer juízo, instância ou tribunal, podendo propor ações e defender o(a) outorgante nas ações contra ele(a) propostas, acompanhá-las até o final, bem como praticar todos os atos necessários ao bom e fiel cumprimento deste mandato.`,
+        `Ficam conferidos, ainda, poderes especiais para receber citação, confessar, reconhecer a procedência do pedido, transigir, desistir, renunciar ao direito sobre o qual se funda a ação, receber e dar quitação, firmar compromisso, assinar declaração de hipossuficiência econômica e requerer a gratuidade da justiça, levantar alvarás e valores, podendo ainda substabelecer esta a outrem, com ou sem reserva de poderes.`,
+        ...(p ? [`**FINALIDADE:** ${p.titulo}${p.numero ? `, processo nº ${p.numero}` : ''}.`] : []),
+        `${ctx.cidade}, ${ctx.data}.`, '', '______________________________________', c.nome, ...(c.documento ? [`${c.tipo === 'PJ' ? 'CNPJ' : 'CPF'}: ${c.documento}`] : []),
+      ] },
+
+    contrato: { nome: 'Contrato de honorários advocatícios', categoria: 'contrato',
+      campos: [{ n: 'valor', rot: 'Valor dos honorários (R$)', ph: 'Ex.: 3.000,00', req: true }, { n: 'parcelas', rot: 'Número de parcelas', ph: 'Ex.: 3 (vazio = à vista)' }, { n: 'vencimento', rot: 'Dia do vencimento', ph: 'Ex.: 10' }, { n: 'exito', rot: 'Honorários de êxito (%)', ph: 'Ex.: 20 (opcional)' }],
+      texto: ({ c, p, a, falt, ctx, v }) => {
+        const valor = lerValor(v.valor), n = Math.max(1, parseInt(v.parcelas, 10) || 1), exito = lerValor(v.exito);
+        if (!valor) falta('valor dos honorários', falt);
+        const forma = !valor ? '[PREENCHER: forma de pagamento]' : n === 1 ? 'à vista, na data da assinatura deste contrato' : `em ${n} (${inteiroExtenso(n)}) parcelas mensais e sucessivas de ${brl(valor / n)}, com vencimento todo dia ${v.vencimento || '[PREENCHER: dia do vencimento]'}, a primeira na assinatura deste contrato`;
+        return [
+          '# CONTRATO DE PRESTAÇÃO DE SERVIÇOS ADVOCATÍCIOS',
+          `**CONTRATANTE:** ${qualificacao(c, falt)}.`,
+          `**CONTRATADO(A):** ${qualificacaoAdvogado(a, falt)}.`,
+          'As partes acima qualificadas ajustam o presente contrato, que se regerá pelas cláusulas seguintes e pelo Estatuto da Advocacia e da OAB (Lei nº 8.906/1994) e pelo Código de Ética e Disciplina da OAB.',
+          '## CLÁUSULA 1ª — DO OBJETO',
+          `O(A) contratado(a) prestará serviços advocatícios ao(à) contratante ${p ? `no caso **${p.titulo}**${p.numero ? ` (processo nº ${p.numero})` : ''}${p.juizo ? `, perante ${p.juizo}` : ''}` : 'em [PREENCHER: descrição do serviço contratado]'}, compreendendo o acompanhamento e a prática dos atos necessários à defesa dos interesses do(a) contratante até a decisão final na instância contratada.`,
+          '## CLÁUSULA 2ª — DOS HONORÁRIOS',
+          `Pelos serviços, o(a) contratante pagará ao(à) contratado(a) honorários no valor de **${valor ? `${brl(valor)} (${reaisExtenso(valor)})` : '[PREENCHER: valor]'}**, ${forma}.`,
+          ...(exito ? [`Além disso, em caso de êxito, serão devidos honorários de **${exito.toLocaleString('pt-BR')}% (${inteiroExtenso(Math.round(exito))} por cento)** sobre o proveito econômico obtido, pagos quando do recebimento dos valores.`] : []),
+          'Os honorários de sucumbência pertencem ao(à) advogado(a), nos termos do art. 23 da Lei nº 8.906/1994, e não se confundem com os honorários contratuais.',
+          '## CLÁUSULA 3ª — DAS DESPESAS',
+          'Custas processuais, taxas, emolumentos, diligências, perícias, cópias, deslocamentos e demais despesas necessárias ao andamento do serviço correrão por conta do(a) contratante, que as antecipará ou reembolsará mediante comprovação.',
+          '## CLÁUSULA 4ª — DAS OBRIGAÇÕES',
+          'O(A) contratante se compromete a fornecer, com veracidade e no prazo solicitado, todas as informações e documentos necessários, bem como a comparecer quando convocado(a). O(A) contratado(a) se compromete a atuar com diligência e zelo, mantendo o(a) contratante informado(a) sobre o andamento do caso e guardando sigilo profissional.',
+          'O(A) contratado(a) não garante resultado, por se tratar de obrigação de meio, e não de fim.',
+          '## CLÁUSULA 5ª — DA RESCISÃO',
+          'O contrato poderá ser rescindido por qualquer das partes, mediante comunicação por escrito. Em caso de rescisão, serão devidos os honorários proporcionais ao serviço já prestado, observado o disposto no Código de Ética e Disciplina da OAB.',
+          '## CLÁUSULA 6ª — DO FORO',
+          `Fica eleito o foro da comarca de ${ctx.cidade} para dirimir quaisquer dúvidas oriundas deste contrato.`,
+          'E, por estarem justas e contratadas, as partes assinam o presente instrumento em duas vias de igual teor.',
+          `${ctx.cidade}, ${ctx.data}.`, '', '______________________________________', `CONTRATANTE: ${c.nome}`, '', '______________________________________', `CONTRATADO(A): ${a.nome || '[PREENCHER: nome do(a) advogado(a)]'}`,
+        ];
+      } },
+
+    hipossuficiencia: { nome: 'Declaração de hipossuficiência econômica', categoria: 'procuracao', campos: [],
+      texto: ({ c, p, falt, ctx }) => [
+        '# DECLARAÇÃO DE HIPOSSUFICIÊNCIA ECONÔMICA',
+        `${qualificacao(c, falt)}, **DECLARA**, para os fins de concessão dos benefícios da gratuidade da justiça, nos termos do art. 98 e seguintes do Código de Processo Civil e do art. 5º, inciso LXXIV, da Constituição Federal, que **não possui condições de arcar com as custas processuais e os honorários advocatícios sem prejuízo do próprio sustento e de sua família**.`,
+        `${p ? `A presente declaração destina-se ao processo **${p.titulo}**${p.numero ? ` (nº ${p.numero})` : ''}. ` : ''}Declara, ainda, estar ciente de que a afirmação falsa sujeita o declarante às penalidades da lei.`,
+        `${ctx.cidade}, ${ctx.data}.`, '', '______________________________________', c.nome, ...(c.documento ? [`${c.tipo === 'PJ' ? 'CNPJ' : 'CPF'}: ${c.documento}`] : []),
+      ] },
+
+    recibo: { nome: 'Recibo de honorários', categoria: 'comprovante',
+      campos: [{ n: 'valor', rot: 'Valor recebido (R$)', ph: 'Ex.: 1.000,00', req: true }, { n: 'referente', rot: 'Referente a', ph: 'Ex.: 1ª parcela dos honorários', req: false }, { n: 'forma', rot: 'Forma de pagamento', ph: 'Ex.: PIX, dinheiro, transferência' }],
+      texto: ({ c, p, a, falt, ctx, v }) => {
+        const valor = lerValor(v.valor); if (!valor) falta('valor recebido', falt);
+        return [
+          '# RECIBO',
+          `**Valor: ${valor ? brl(valor) : '[PREENCHER: valor]'}**`,
+          `${qualificacaoAdvogado(a, falt)}, **RECEBEU** de ${qualificacao(c, falt)}, a quantia de **${valor ? `${brl(valor)} (${reaisExtenso(valor)})` : '[PREENCHER: valor]'}**${v.forma ? `, por meio de ${v.forma}` : ''}, referente a ${v.referente || (p ? `honorários advocatícios do caso ${p.titulo}` : 'honorários advocatícios')}, dando por isso plena e geral quitação do valor recebido.`,
+          `${ctx.cidade}, ${ctx.data}.`, '', '______________________________________', a.nome || '[PREENCHER: nome do(a) advogado(a)]', ...(a.oab ? [`OAB ${a.oab}`] : []),
+        ];
+      } },
+  };
+
+  // Devolve { markdown, faltando[], nome }
+  function montar(chave, { cliente, processo = null, advogado = {}, valores = {}, cidade = '', data = null }) {
+    const m = MODELOS[chave]; if (!m) throw new Error('Modelo de documento desconhecido.');
+    const falt = [], ctx = { cidade: cidade || '[PREENCHER: cidade]', data: data || dataExtenso() };
+    if (!cidade) falt.push('cidade');
+    const linhas = m.texto({ c: cliente, p: processo, a: advogado, falt, ctx, v: valores });
+    return { markdown: linhas.join('\n'), faltando: [...new Set(falt)], nome: m.nome, categoria: m.categoria };
+  }
+  return { MODELOS, montar, reaisExtenso, inteiroExtenso, lerValor, dataExtenso };
 })();
 
 /* IA: assistente de conversa e análise de documentos, usando a IA da própria plataforma (ou a chave da pessoa no modo avulso). */
@@ -2166,6 +2308,31 @@ const Arq = {
   }
   async function baixarDoc(id) { const { u8, doc } = await bytesDoc(id, 'baixar'); return Docs.entregar(doc.nome_original, new Blob([u8], { type: doc.mime })); }
 
+  // ---------- minutas (procuração, contrato, declaração, recibo) ----------
+  function montarMinuta(b) {
+    const cliente = ou404('clientes', b.cliente_id, 'Cliente'), pid = id_(b.processo_id);
+    const processo = pid ? ou404('processos', pid, 'Caso') : null;
+    if (processo && processo.cliente_id !== cliente.id) throw bad('O caso não pertence a este cliente.');
+    if (!Minutas.MODELOS[b.modelo]) throw bad('Escolha o modelo de documento.');
+    const v = {}; for (const [k, val] of Object.entries(b.valores || {})) v[txt(k, 30)] = txt(val, 200);
+    const m = Minutas.MODELOS[b.modelo]; for (const c of m.campos) if (c.req && !v[c.n]) throw bad(`Informe: ${c.rot.replace(/ \(.*\)/, '')}.`);
+    const adv = { nome: txt(b.advogado, 120), oab: txt(b.oab, 40), endereco: txt(b.endereco_escritorio, 200) || FIRMA.enderecoCabecalho || '' };
+    const r = Minutas.montar(b.modelo, { cliente, processo, advogado: adv, valores: v, cidade: txt(b.cidade, 80) });
+    return { ...r, cliente, processo };
+  }
+  async function minutaBlob(b) {
+    const r = montarMinuta(b);
+    const blob = new Blob([Docs.gerarDocx(r.markdown, { escritorio: FIRMA.nome, rodape: `${r.nome} — ${r.cliente.nome}` })], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    await auditar('gerar_minuta', 'clientes', r.cliente.id, r.nome);
+    return { nome: `${nomeSeguro(r.nome.replace(/ \(.*\)/, ''), 'Documento')} - ${nomeSeguro(r.cliente.nome, 'cliente')}.docx`, blob, faltando: r.faltando };
+  }
+  rota('POST', '/minutas/previa', ({ body }) => { const r = montarMinuta(body); return { faltando: r.faltando, nome: r.nome }; });
+  rota('POST', '/minutas/salvar', async ({ body }) => {
+    const { nome, blob, faltando, ...r } = { ...(await minutaBlob(body)) }, m = montarMinuta(body), vinc = vinculos({ cliente_id: m.cliente.id, processo_id: m.processo && m.processo.id });
+    const id = await criarDocumento({ u8: new Uint8Array(await blob.arrayBuffer()), nomeOriginal: nome, titulo: `${m.nome.replace(/ \(.*\)/, '')} — ${m.cliente.nome}`, categoria: m.categoria, vinc, pasta_id: pastaPadraoPara(m.cliente.id, m.categoria) || null, origem: 'minuta' });
+    return { id, faltando };
+  });
+
   // ---------- ficha do cliente em Word ----------
   function fichaMarkdown(id) {
     const c = ou404('clientes', id, 'Cliente');
@@ -2249,7 +2416,7 @@ const Arq = {
     return res;
   }
 
-  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos, lerCopia, planoRestauracao, restaurar, fichaMarkdown, fichaBlob });
+  Object.assign(LocalAPI, { blob, zipBlob, docxBlob, enviarMensagem, bytesDoc, baixarDoc, criarDocumento, vinculos, lerCopia, planoRestauracao, restaurar, fichaMarkdown, fichaBlob, minutaBlob });
 })();
 
 /* Utilitários, API, componentes de interface */
@@ -2946,7 +3113,7 @@ async function pageCliente(id) {
   view(`<div class="crumb"><a href="#/clientes">Clientes</a> › ${esc(c.nome)}</div>
     <div class="page-h"><div><h1>${esc(c.nome)}</h1><div class="sub">${c.tipo === 'PJ' ? 'Pessoa jurídica' : 'Pessoa física'}${c.documento ? ' · ' + esc(c.documento) : ''} ${c.ativo ? '' : '· <span class="badge">Arquivado</span>'}</div></div>
       <div class="actions"><button class="btn gold" id="at">${ico('plus')} Atendimento</button><button class="btn" id="pr">${ico('scale')} Novo caso</button><button class="btn" id="up">${ico('upload')} Documento</button>
-        ${COM_IA ? `<button class="btn" id="ia">${ico('spark')} IA</button>` : ''}<button class="btn" id="ficha" title="Baixa um documento do Word com os dados, casos, pendências e o histórico do cliente">${ico('down')} Ficha (Word)</button><button class="btn" id="ed">${ico('edit')} Editar</button><button class="btn" id="arq">${c.ativo ? 'Arquivar' : 'Reativar'}</button></div></div>
+        ${COM_IA ? `<button class="btn" id="ia">${ico('spark')} IA</button>` : ''}<button class="btn" id="minuta" title="Procuração, contrato de honorários, declaração de hipossuficiência e recibo, já preenchidos com os dados do cliente">${ico('file')} Gerar documento</button><button class="btn" id="ficha" title="Baixa um documento do Word com os dados, casos, pendências e o histórico do cliente">${ico('down')} Ficha (Word)</button><button class="btn" id="ed">${ico('edit')} Editar</button><button class="btn" id="arq">${c.ativo ? 'Arquivar' : 'Reativar'}</button></div></div>
     <div class="grid g2"><div style="display:flex;flex-direction:column;gap:18px">
       <div class="card"><div class="card-h"><h3>Casos e processos</h3></div>${c.processos.length ? `<div class="tbl"><table><tbody>${c.processos.map((p) => `<tr class="click" data-p="${p.id}"><td><b>${esc(p.titulo)}</b><div class="small muted">${esc(p.numero || 'sem número')} ${p.area ? '· ' + esc(p.area) : ''}</div></td><td><span class="badge ${L.statusCor[p.status]}">${L.status[p.status]}</span></td></tr>`).join('')}</tbody></table></div>` : vazio('Nenhum caso cadastrado.', 'scale')}</div>
       <div class="card" id="cardPend"></div>
@@ -2966,6 +3133,7 @@ async function pageCliente(id) {
   $('#up').onclick = () => abrirUpload({ cliente_id: c.id }, rec);
   $('#ed').onclick = async () => { try { abrirCliente(await api('/clientes/' + id), rec); } catch (e) { falha(e); } };
   if (COM_IA) $('#ia').onclick = () => abrirAssistenteCom({ cliente_id: c.id });
+  $('#minuta').onclick = () => abrirMinuta(c, c.processos).catch(falha);
   $('#ficha').onclick = async () => { const b = $('#ficha'); b.disabled = true; try { const f = await LocalAPI.fichaBlob(c.id); if (await Docs.entregar(f.nome, f.blob)) toast('Ficha salva.'); } catch (e) { falha(e); } finally { b.disabled = false; } };
   $('#arq').onclick = async () => { await api(`/clientes/${id}/ativo`, { method: 'POST', body: { ativo: !c.ativo } }); cache.clientes = null; rec(); };
   $$('tr[data-p]').forEach((tr) => (tr.onclick = () => (location.hash = '#/processos/' + tr.dataset.p)));
@@ -3194,6 +3362,110 @@ async function restaurarCopiaUI(arquivo, depois) {
     } }] : [])] });
   if (!novos) toast('Tudo o que está nesta cópia já existe no sistema.');
 }
+
+/* Recursos de escritório: gerar minutas (procuração, contrato, declaração, recibo) e busca rápida (Ctrl+K) */
+'use strict';
+
+// ======================= MINUTAS =======================
+const lerPref = (k, pad = {}) => { try { return { ...pad, ...JSON.parse(localStorage.getItem(k) || '{}') }; } catch { return pad; } };
+const gravarPref = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* sem armazenamento */ } };
+
+async function abrirMinuta(cliente, processos = [], inicial = {}) {
+  const pref = lerPref('dadosAdvogado', { advogado: '', oab: '', endereco_escritorio: S.firma.enderecoCabecalho || '', cidade: '' });
+  const procSel = inicial.processo_id || (processos.length === 1 ? processos[0].id : '');
+  const opModelos = Object.entries(Minutas.MODELOS).map(([k, m]) => `<option value="${k}" ${k === (inicial.modelo || 'procuracao') ? 'selected' : ''}>${esc(m.nome)}</option>`).join('');
+  const campo = (n, rot, v, ph = '', extra = '') => `<div class="c-half"><label for="mn_${n}">${esc(rot)}</label><input id="mn_${n}" name="${n}" type="text" value="${esc(v || '')}" placeholder="${esc(ph)}" ${extra}></div>`;
+  const m = modal({ titulo: `Gerar documento — ${cliente.nome}`, tamanho: 'lg',
+    corpo: `<form class="f" onsubmit="return false" id="mnForm">
+      <div class="c-half"><label for="mn_modelo">Documento</label><select id="mn_modelo" name="modelo">${opModelos}</select></div>
+      <div class="c-half"><label for="mn_processo_id">Caso (opcional)</label><select id="mn_processo_id" name="processo_id"><option value="">— Nenhum —</option>${processos.map((p) => `<option value="${p.id}" ${String(p.id) === String(procSel) ? 'selected' : ''}>${esc(p.titulo)}</option>`).join('')}</select></div>
+      <div id="mnCampos" class="c6" style="display:contents"></div>
+      ${campo('advogado', 'Advogado(a) responsável', pref.advogado, 'Nome completo')}${campo('oab', 'OAB', pref.oab, 'Ex.: RS 12345')}
+      ${campo('endereco_escritorio', 'Endereço do escritório', pref.endereco_escritorio, 'Rua, nº, cidade/UF')}${campo('cidade', 'Cidade (local da assinatura)', pref.cidade, 'Ex.: Porto Alegre')}
+    </form>
+    <div id="mnAviso" class="note small" style="margin-top:12px" hidden></div>
+    <p class="small muted" style="margin-bottom:0">O documento sai em Word, com os dados do cadastro do cliente. Revise o texto antes de usar: o que faltar fica destacado em amarelo como <b>[PREENCHER]</b>.</p>`,
+    botoes: [{ texto: 'Cancelar' },
+      { texto: 'Salvar nos documentos do cliente', acao: async (ov) => { const b = corpoMinuta(ov, cliente); salvarPref(b); const r = await api('/minutas/salvar', { method: 'POST', body: b }); toast(r.faltando.length ? 'Documento salvo, com campos a preencher.' : 'Documento salvo nos documentos do cliente.'); } },
+      { texto: 'Baixar (Word)', classe: 'gold', acao: async (ov) => { const b = corpoMinuta(ov, cliente); salvarPref(b); const f = await LocalAPI.minutaBlob(b); if (await Docs.entregar(f.nome, f.blob)) toast('Documento salvo.'); return false; } }] });
+  const ov = m.el;
+  const salvarPref = (b) => gravarPref('dadosAdvogado', { advogado: b.advogado, oab: b.oab, endereco_escritorio: b.endereco_escritorio, cidade: b.cidade });
+  const desenharCampos = () => {
+    const mod = Minutas.MODELOS[$('#mn_modelo', ov).value];
+    $('#mnCampos', ov).innerHTML = mod.campos.map((c) => campo('v_' + c.n, c.rot + (c.req ? ' *' : ''), (inicial.valores || {})[c.n] || '', c.ph)).join('');
+    verFaltas();
+  };
+  let seq = 0;
+  const verFaltas = debounce(async () => {
+    const eu = ++seq, aviso = $('#mnAviso', ov); if (!aviso) return;
+    try {
+      const r = await api('/minutas/previa', { method: 'POST', body: corpoMinuta(ov, cliente, true) });
+      if (eu !== seq || !$('#mnAviso', ov)) return;
+      aviso.hidden = !r.faltando.length; aviso.innerHTML = r.faltando.length ? `<b>Faltam dados:</b> ${r.faltando.map(esc).join(', ')}. ${r.faltando.some((x) => ['CPF', 'CNPJ', 'RG', 'endereço', 'estado civil', 'profissão'].includes(x)) ? `<a href="#/clientes/${cliente.id}" id="mnEd">Completar o cadastro do cliente</a>` : ''}` : '';
+    } catch (e) { if (eu === seq && $('#mnAviso', ov)) { aviso.hidden = false; aviso.textContent = e.message; } }
+  }, 250);
+  $('#mn_modelo', ov).onchange = desenharCampos; ov.addEventListener('input', verFaltas); ov.addEventListener('change', verFaltas);
+  desenharCampos();
+}
+function corpoMinuta(ov, cliente, leve = false) {
+  const b = lerForm(ov), valores = {};
+  for (const k of Object.keys(b)) if (k.startsWith('v_')) { valores[k.slice(2)] = b[k]; delete b[k]; }
+  if (leve) for (const c of Minutas.MODELOS[b.modelo].campos) if (c.req && !valores[c.n]) valores[c.n] = '0';   // na prévia, o valor em branco não deve esconder as outras faltas
+  return { ...b, cliente_id: cliente.id, valores };
+}
+
+// ======================= BUSCA RÁPIDA (Ctrl+K) =======================
+const ACOES_RAPIDAS = () => [
+  ['Painel', () => (location.hash = '#/painel'), 'home', 'início'], ['Cadastro', () => (location.hash = '#/cadastro'), 'plus', 'novo cadastrar'], ['Agenda de prazos', () => (location.hash = '#/agenda'), 'clock', 'prazos'],
+  ['Atendimentos', () => (location.hash = '#/atendimentos'), 'chat', ''], ['Clientes', () => (location.hash = '#/clientes'), 'users', ''], ['Casos e processos', () => (location.hash = '#/processos'), 'scale', 'processos'],
+  ['Pendências', () => (location.hash = '#/pendencias'), 'check', 'o que falta'], ['Documentos', () => (location.hash = '#/documentos'), 'file', 'arquivos'], ['Acesso e segurança', () => (location.hash = '#/usuarios'), 'shield', 'cópia de segurança backup'],
+  ['Novo atendimento', () => abrirAtendimento({}, () => rotear()).catch(falha), 'chat', 'registrar'], ['Novo cliente', () => abrirCliente({}, (r) => { location.hash = '#/clientes/' + r.id; }), 'users', 'cadastrar'],
+  ['Novo caso', () => abrirProcesso({}, (r) => { location.hash = '#/processos/' + r.id; }).catch(falha), 'scale', 'processo'], ['Enviar documentos', () => abrirUpload({}, () => rotear()).catch(falha), 'upload', 'escanear'],
+  ['Nova pendência', () => abrirPend({}, () => rotear()).catch(falha), 'check', ''], ['Bloquear o sistema', () => bloquear(), 'shield', 'sair trancar'],
+];
+function abrirPaleta() {
+  if (!S.usuario || $('.paleta')) return;
+  const ov = document.createElement('div'); ov.className = 'overlay paleta'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-label', 'Busca rápida');
+  ov.innerHTML = `<div class="paleta-box"><div class="paleta-in">${ico('search')}<input id="pq" type="text" autocomplete="off" spellcheck="false" placeholder="Ir para… ou buscar clientes, casos, documentos" aria-label="Busca rápida"><kbd>Esc</kbd></div><div class="paleta-res" id="pr" role="listbox"></div><div class="paleta-rod"><span><kbd>↑</kbd><kbd>↓</kbd> navegar</span><span><kbd>Enter</kbd> abrir</span></div></div>`;
+  document.body.append(ov);
+  const entrada = $('#pq', ov), lista = $('#pr', ov); let itens = [], sel = 0, seq = 0;
+  const fechar = () => { document.removeEventListener('keydown', tecla, true); ov.classList.add('saindo'); setTimeout(() => { if (ov.parentNode) ov.parentNode.removeChild(ov); }, SEM_MOVIMENTO() ? 0 : 150); };
+  const abrir = (i) => { const it = itens[i]; if (!it) return; fechar(); setTimeout(() => it.acao(), 30); };
+  const desenhar = () => {
+    lista.innerHTML = itens.length ? itens.map((it, i) => `<div class="paleta-it${i === sel ? ' on' : ''}" role="option" data-i="${i}">${ico(it.icone)}<div style="flex:1;min-width:0"><b>${esc(it.titulo)}</b>${it.sub ? `<div class="small muted">${esc(it.sub)}</div>` : ''}</div><span class="badge">${esc(it.tipo)}</span></div>`).join('') : '<div class="empty small">Nada encontrado.</div>';
+    $$('.paleta-it', lista).forEach((el) => { el.onmouseenter = () => { sel = +el.dataset.i; $$('.paleta-it', lista).forEach((x, k) => x.classList.toggle('on', k === sel)); }; el.onclick = () => abrir(+el.dataset.i); });
+    const on = $('.paleta-it.on', lista); if (on) on.scrollIntoView({ block: 'nearest' });
+  };
+  const montar = async () => {
+    const q = entrada.value.trim(), t = norm(q), eu = ++seq;
+    const acoes = ACOES_RAPIDAS().filter(([n, , , kw]) => !t || norm(n + ' ' + kw).includes(t)).slice(0, t ? 6 : 15).map(([n, f, i]) => ({ titulo: n, tipo: /^Novo|^Nova|^Enviar|^Bloquear/.test(n) ? 'Ação' : 'Ir para', icone: i, acao: f }));
+    itens = acoes; sel = 0; desenhar();
+    if (q.length < 2) return;
+    try {
+      const r = await api('/busca' + qs({ q }));
+      if (eu !== seq) return;
+      const achados = [
+        ...r.clientes.map((x) => ({ titulo: x.nome, sub: x.documento || '', tipo: 'Cliente', icone: 'users', acao: () => (location.hash = '#/clientes/' + x.id) })),
+        ...r.processos.map((x) => ({ titulo: x.titulo, sub: [x.cliente, x.numero].filter(Boolean).join(' · '), tipo: 'Caso', icone: 'scale', acao: () => (location.hash = '#/processos/' + x.id) })),
+        ...r.atendimentos.map((x) => ({ titulo: x.assunto, sub: `${x.cliente || ''} · ${fData(x.data_hora)}`, tipo: 'Atendimento', icone: 'chat', acao: () => (location.hash = '#/atendimentos/' + x.id) })),
+        ...r.documentos.map((x) => ({ titulo: x.titulo, sub: x.nome_original, tipo: 'Documento', icone: 'file', acao: () => (location.hash = '#/documentos?q=' + encodeURIComponent(q)) })),
+      ];
+      itens = [...achados, ...acoes]; sel = 0; desenhar();
+    } catch { /* mantém as ações */ }
+  };
+  const tecla = (e) => {
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); fechar(); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(itens.length - 1, sel + 1); desenhar(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(0, sel - 1); desenhar(); }
+    else if (e.key === 'Enter') { e.preventDefault(); abrir(sel); }
+  };
+  document.addEventListener('keydown', tecla, true);
+  ov.addEventListener('mousedown', (e) => { if (e.target === ov) fechar(); });
+  entrada.addEventListener('input', debounce(montar, 120)); montar(); entrada.focus();
+}
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'k') { e.preventDefault(); abrirPaleta(); }
+});
 
 /* Assistente Jurídico (IA) */
 'use strict';
@@ -3844,7 +4116,7 @@ function renderShell() {
         <div class="grp">Administração</div><a href="#/usuarios" data-h="#/usuarios">${ico('shield')} Acesso e segurança</a>${u.papel === 'admin' ? `<a href="#/auditoria" data-h="#/auditoria">${ico('log')} Auditoria</a>` : ''}</nav>
       <div class="side-foot">Dados criptografados com a senha do escritório<br>${esc(f.nome)}</div></aside>
     <div class="main"><header class="top"><button class="burger" id="burger" aria-label="Menu">${ico('menu').replace('<svg', '<svg width="24" height="24"')}</button>
-      <div class="search">${ico('search')}<input id="gs" type="search" placeholder="Buscar clientes, casos, atendimentos, documentos…" autocomplete="off"><div class="search-res" id="gr" hidden></div></div>
+      <div class="search">${ico('search')}<input id="gs" type="search" placeholder="Buscar clientes, casos, documentos…  (Ctrl+K)" autocomplete="off"><div class="search-res" id="gr" hidden></div></div>
       <button class="btn sm gold" id="novidades" hidden>↻ Há novidades de colegas — atualizar</button>
       <div style="margin-left:auto">${botaoTema()}</div>
       <div style="position:relative"><button class="userbtn" id="ub"><span class="avatar">${esc(iniciais(u.nome))}</span><span class="small" style="font-weight:600">${esc(primeiroNome(u.nome))}</span></button>

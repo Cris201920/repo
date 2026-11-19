@@ -353,7 +353,7 @@ async function pageCliente(id) {
   view(`<div class="crumb"><a href="#/clientes">Clientes</a> › ${esc(c.nome)}</div>
     <div class="page-h"><div><h1>${esc(c.nome)}</h1><div class="sub">${c.tipo === 'PJ' ? 'Pessoa jurídica' : 'Pessoa física'}${c.documento ? ' · ' + esc(c.documento) : ''} ${c.ativo ? '' : '· <span class="badge">Arquivado</span>'}</div></div>
       <div class="actions"><button class="btn gold" id="at">${ico('plus')} Atendimento</button><button class="btn" id="pr">${ico('scale')} Novo caso</button><button class="btn" id="up">${ico('upload')} Documento</button>
-        ${COM_IA ? `<button class="btn" id="ia">${ico('spark')} IA</button>` : ''}<button class="btn" id="ficha" title="Baixa um documento do Word com os dados, casos, pendências e o histórico do cliente">${ico('down')} Ficha (Word)</button><button class="btn" id="ed">${ico('edit')} Editar</button><button class="btn" id="arq">${c.ativo ? 'Arquivar' : 'Reativar'}</button></div></div>
+        ${COM_IA ? `<button class="btn" id="ia">${ico('spark')} IA</button>` : ''}<button class="btn" id="minuta" title="Procuração, contrato de honorários, declaração de hipossuficiência e recibo, já preenchidos com os dados do cliente">${ico('file')} Gerar documento</button><button class="btn" id="ficha" title="Baixa um documento do Word com os dados, casos, pendências e o histórico do cliente">${ico('down')} Ficha (Word)</button><button class="btn" id="ed">${ico('edit')} Editar</button><button class="btn" id="arq">${c.ativo ? 'Arquivar' : 'Reativar'}</button></div></div>
     <div class="grid g2"><div style="display:flex;flex-direction:column;gap:18px">
       <div class="card"><div class="card-h"><h3>Casos e processos</h3></div>${c.processos.length ? `<div class="tbl"><table><tbody>${c.processos.map((p) => `<tr class="click" data-p="${p.id}"><td><b>${esc(p.titulo)}</b><div class="small muted">${esc(p.numero || 'sem número')} ${p.area ? '· ' + esc(p.area) : ''}</div></td><td><span class="badge ${L.statusCor[p.status]}">${L.status[p.status]}</span></td></tr>`).join('')}</tbody></table></div>` : vazio('Nenhum caso cadastrado.', 'scale')}</div>
       <div class="card" id="cardPend"></div>
@@ -373,6 +373,7 @@ async function pageCliente(id) {
   $('#up').onclick = () => abrirUpload({ cliente_id: c.id }, rec);
   $('#ed').onclick = async () => { try { abrirCliente(await api('/clientes/' + id), rec); } catch (e) { falha(e); } };
   if (COM_IA) $('#ia').onclick = () => abrirAssistenteCom({ cliente_id: c.id });
+  $('#minuta').onclick = () => abrirMinuta(c, c.processos).catch(falha);
   $('#ficha').onclick = async () => { const b = $('#ficha'); b.disabled = true; try { const f = await LocalAPI.fichaBlob(c.id); if (await Docs.entregar(f.nome, f.blob)) toast('Ficha salva.'); } catch (e) { falha(e); } finally { b.disabled = false; } };
   $('#arq').onclick = async () => { await api(`/clientes/${id}/ativo`, { method: 'POST', body: { ativo: !c.ativo } }); cache.clientes = null; rec(); };
   $$('tr[data-p]').forEach((tr) => (tr.onclick = () => (location.hash = '#/processos/' + tr.dataset.p)));

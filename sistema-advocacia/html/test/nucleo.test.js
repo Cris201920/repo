@@ -13,7 +13,7 @@ async function carregar() {
   pdfjs = pdfjs || await import(path.join(RAIZ, 'node_modules', 'pdfjs-dist', 'legacy', 'build', 'pdf.mjs'));
   const mammoth = req('mammoth');
   const mammothShim = { extractRawText: ({ arrayBuffer }) => mammoth.extractRawText({ buffer: Buffer.from(arrayBuffer) }) };
-  const fn = new Function('FIRMA', 'PDFLib', 'fflate', 'pdfjsLib', 'mammoth', nucleo() + '\nreturn { Cofre, Dados, Docs, IA, LocalAPI, Arq, criarBackendLocal, Modelos, jsonTolerante };');
+  const fn = new Function('FIRMA', 'PDFLib', 'fflate', 'pdfjsLib', 'mammoth', nucleo() + '\nreturn { Cofre, Dados, Docs, IA, LocalAPI, Arq, criarBackendLocal, Modelos, Minutas, jsonTolerante };');
   return fn({ nome: 'Escritório Teste', assistenteNome: 'Assistente Jurídico' }, req('pdf-lib'), req('fflate'), pdfjs, mammothShim);
 }
 async function ambiente({ backend, master, meta, uid = 'u1', nome = 'Dra. Ana' } = {}) {
@@ -413,4 +413,44 @@ test('senha padrão ADV2027 é aceita (única exceção à regra dos 12 caracter
   const rec = await Cofre.comRecuperacao(meta, master, 'ADV2027');
   assert.ok(await Cofre.abrirComRecuperacao(rec, 'ADV2027')); assert.ok(await Cofre.abrirComRecuperacao(rec, 'adv 2027'));
   assert.equal(await Cofre.abrirComRecuperacao(rec, 'ADV2028'), null);
+});
+
+test('minutas: valor por extenso, dados do cliente, pendências destacadas e salvamento nos documentos', async () => {
+  const fflate = req('fflate');
+  const A = await ambiente(); const { Minutas } = A.M;
+  const ext = (v) => Minutas.reaisExtenso(v);
+  assert.equal(ext(1), 'um real'); assert.equal(ext(1500), 'mil e quinhentos reais'); assert.equal(ext(2000), 'dois mil reais'); assert.equal(ext(2100), 'dois mil e cem reais'); assert.equal(ext(2150.5), 'dois mil cento e cinquenta reais e cinquenta centavos');
+  assert.equal(ext(100), 'cem reais'); assert.equal(ext(101), 'cento e um reais'); assert.equal(ext(0.01), 'um centavo'); assert.equal(ext(1000000), 'um milhão de reais'); assert.equal(ext(3250000.75), 'três milhões duzentos e cinquenta mil reais e setenta e cinco centavos');
+  assert.equal(Minutas.lerValor('R$ 1.500,00'), 1500); assert.equal(Minutas.lerValor('3000'), 3000); assert.equal(Minutas.lerValor('2.000'), 2000); assert.equal(Minutas.lerValor('abc'), null);
+
+  const c = (await A.call('POST', '/clientes', { nome: 'Maria da Silva', documento: '111.444.777-35', rg: '1234567890', estado_civil: 'casada', profissao: 'professora', endereco: 'Rua das Acácias, 120, Porto Alegre/RS' })).data.id;
+  const c2 = (await A.call('POST', '/clientes', { nome: 'João Pereira' })).data.id;
+  const p = (await A.call('POST', '/processos', { cliente_id: c, titulo: 'Ação de alimentos', numero: '5001234-56.2026.8.21.0001', juizo: '2ª Vara de Família' })).data.id;
+  const base = { cliente_id: c, processo_id: p, advogado: 'Dra. Ana Forgiarini', oab: 'RS 12345', endereco_escritorio: 'Av. Central, 10', cidade: 'Porto Alegre' };
+
+  const proc = A.M.Minutas.montar('procuracao', { cliente: A.M.Dados.obter('clientes', c), processo: A.M.Dados.obter('processos', p), advogado: { nome: 'Dra. Ana', oab: 'RS 12345', endereco: 'Av. Central, 10' }, cidade: 'Porto Alegre' });
+  for (const t of ['# PROCURAÇÃO', '**Maria da Silva**', 'casada, professora', 'RG nº 1234567890', 'CPF sob o nº 111.444.777-35', 'ad judicia et extra', 'processo nº 5001234-56.2026.8.21.0001', 'Porto Alegre,']) assert.ok(proc.markdown.includes(t), 'falta: ' + t);
+  assert.deepEqual(proc.faltando, []);
+
+  const prev = (await A.call('POST', '/minutas/previa', { ...base, cliente_id: c2, processo_id: '', modelo: 'procuracao' })).data;
+  assert.ok(['estado civil', 'profissão', 'RG', 'CPF', 'endereço'].every((x) => prev.faltando.includes(x)), 'cliente incompleto lista o que falta: ' + prev.faltando);
+  assert.equal((await A.call('POST', '/minutas/previa', { ...base, modelo: 'contrato' })).status, 400, 'contrato exige o valor');
+  assert.equal((await A.call('POST', '/minutas/previa', { ...base, modelo: 'inexistente' })).status, 400);
+  assert.equal((await A.call('POST', '/minutas/previa', { ...base, cliente_id: c2, modelo: 'procuracao' })).status, 400, 'o caso precisa ser do cliente');
+
+  const contrato = { ...base, modelo: 'contrato', valores: { valor: '3.000,00', parcelas: '3', vencimento: '10', exito: '20' } };
+  const f = await A.M.LocalAPI.minutaBlob(contrato);
+  assert.match(f.nome, /^Contrato de honorários advocatícios - Maria da Silva\.docx$/); assert.deepEqual(f.faltando, []);
+  const zip = fflate.unzipSync(new Uint8Array(await f.blob.arrayBuffer())), xml = new TextDecoder().decode(zip['word/document.xml']);
+  for (const t of ['R$ 3.000,00', 'três mil reais', 'em 3 (três) parcelas', 'R$ 1.000,00', 'todo dia 10', '20% (vinte por cento)', 'Lei nº 8.906/1994', 'comarca de Porto Alegre']) assert.ok(xml.includes(t), 'falta no contrato: ' + t);
+  assert.ok(new TextDecoder().decode(zip['word/footer1.xml']).includes('Maria da Silva') && !new TextDecoder().decode(zip['word/footer1.xml']).includes('IA'));
+  const vazio = A.M.Minutas.montar('contrato', { cliente: A.M.Dados.obter('clientes', c), valores: {}, advogado: {} });
+  assert.ok(vazio.markdown.includes('[PREENCHER: valor]') && vazio.faltando.includes('número da OAB'));
+
+  const rec = await A.M.LocalAPI.minutaBlob({ ...base, modelo: 'recibo', valores: { valor: '1.000,00', referente: '1ª parcela', forma: 'PIX' } });
+  assert.ok(new TextDecoder().decode(fflate.unzipSync(new Uint8Array(await rec.blob.arrayBuffer()))['word/document.xml']).includes('mil reais'));
+
+  const s = (await A.call('POST', '/minutas/salvar', contrato)).data;
+  const doc = A.M.Dados.obter('documentos', s.id); assert.equal(doc.cliente_id, c); assert.equal(doc.processo_id, p); assert.equal(doc.categoria, 'contrato'); assert.equal(doc.origem, 'minuta');
+  assert.ok((await A.call('GET', '/admin/auditoria')).data.some((x) => x.acao === 'gerar_minuta'));
 });

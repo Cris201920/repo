@@ -7,7 +7,7 @@ function modelos() {            // modelos.js era um módulo do servidor: aqui v
   const s = ler('modelos.js').replace(/module\.exports\s*=\s*\{[^}]*\};?\s*$/m, '');
   return `const Modelos = (() => {\n${s}\nreturn { MODELOS, POR_AREA, melhorDocumento, norm };\n})();\n`;
 }
-const NUCLEO = ['cofre.js', 'backend.js', 'dados.js', 'docs.js', 'ia.js', 'localapi.js', 'localapi-docs.js'];
+const NUCLEO = ['cofre.js', 'backend.js', 'dados.js', 'docs.js', 'minutas.js', 'ia.js', 'localapi.js', 'localapi-docs.js'];
 const nucleo = () => modelos() + NUCLEO.map(ler).join('\n');
-const UI = ['ui/core.js', 'ui/animacoes.js', 'ui/util.js', 'ui/tema.js', 'ui/pages.js', 'ui/agenda.js', 'ui/assistente.js', 'ui/organizar.js', 'ui/pastas.js', 'ui/pendencias.js', 'ui/main.js'];
+const UI = ['ui/core.js', 'ui/animacoes.js', 'ui/util.js', 'ui/tema.js', 'ui/pages.js', 'ui/agenda.js', 'ui/profissional.js', 'ui/assistente.js', 'ui/organizar.js', 'ui/pastas.js', 'ui/pendencias.js', 'ui/main.js'];
 module.exports = { nucleo, ler, SRC, UI };

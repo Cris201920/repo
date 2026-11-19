@@ -6,6 +6,8 @@ Um só arquivo HTML com o sistema do escritório:
 - **Agenda de prazos**: providências de atendimentos e pendências em aberto, agrupadas em vencidos, hoje, 7 dias, 30 dias e adiante.
 - **Documentos**: envio, escanear pela câmera, juntar imagens em PDF, busca no texto, visualizador, ZIP, pastas e observações.
 - **Pendências**: o que falta de cada cliente, com modelos por tipo de ação e "conferir documentos".
+- **Gerar documentos (Word)**: na ficha do cliente, *Gerar documento* cria procuração (ad judicia et extra), contrato de honorários (valor, parcelas, êxito, valor por extenso), declaração de hipossuficiência e recibo, com os dados do cadastro e do caso. O que faltar sai como `[PREENCHER: …]` destacado em amarelo, e a tela avisa antes. Dá para baixar ou salvar nos documentos do cliente. Os textos ficam em `src/minutas.js` e devem ser revisados pelo advogado.
+- **Busca rápida (Ctrl+K)**: vai para qualquer tela, abre ações (novo atendimento, novo cliente…) e busca clientes, casos, atendimentos e documentos.
 - **Planilhas**: exportar clientes, casos, atendimentos e agenda em CSV (abre no Excel).
 - **Segurança**: senha do escritório com criptografia, bloqueio automático após 30 minutos sem uso, auditoria, cópia de segurança e restauração.
 - **Ficha do cliente em Word**: dados, casos, pendências, histórico de atendimentos, documentos e observações em um arquivo `.docx`.
